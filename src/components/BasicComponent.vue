@@ -1,8 +1,5 @@
 <template>
-  <div
-    id="app"
-    class="container_12"
-  />
+  <div />
 </template>
 
 <script>
