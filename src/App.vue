@@ -2,12 +2,35 @@
   <div
     id="app"
     class="container_12"
-  />
+  >
+    <header-container />
+    <main-layout v-if="isWalletConnected" />
+    <access-wallet-layout v-else />
+  </div>
 </template>
 
 <script>
-export default {};
+import { mapState } from 'vuex';
+
+import HeaderContainer from '@/containers/HeaderContainer.vue';
+import AccessWalletLayout from '@/layouts/AccessWalletLayout.vue';
+import MainLayout from '@/layouts/MainLayout.vue';
+import AccessWalletLayoutVue from './layouts/AccessWalletLayout.vue';
+
+export default {
+  components: {
+    'header-container': HeaderContainer,
+    'access-wallet-layout': AccessWalletLayout,
+    'main-layout': MainLayout,
+  },
+  computed: mapState([
+    'isWalletConnected',
+  ]),
+};
 </script>
 
 <style>
+#app {
+  height: 100%;
+}
 </style>
