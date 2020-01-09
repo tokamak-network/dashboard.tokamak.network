@@ -1,7 +1,7 @@
 <template>
-  <div>
-    <menu-container class="grid_3" />
-    <div class="grid_9">
+  <div class="main-layout">
+    <menu-container />
+    <div class="content-container">
       <dashboard-header-container />
       <router-view />
     </div>
@@ -21,4 +21,14 @@ export default {
 </script>
 
 <style>
+.main-layout {
+  width: 100%;
+  display: flex;
+}
+
+.content-container {
+  width: 100%;
+  padding-left: 32px;
+  padding-right: 32px;
+}
 </style>

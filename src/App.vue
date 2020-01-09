@@ -1,11 +1,12 @@
 <template>
   <div
     id="app"
-    class="container_12"
   >
     <header-container />
-    <main-layout v-if="isWalletConnected" />
-    <access-wallet-layout v-else />
+    <div class="container_12">
+      <main-layout v-if="isWalletConnected" />
+      <access-wallet-layout v-else />
+    </div>
   </div>
 </template>
 
@@ -30,6 +31,10 @@ export default {
 </script>
 
 <style>
+body {
+  background: #f6f8f9;
+}
+
 #app {
   height: 100%;
 }
