@@ -23,12 +23,11 @@ export default {
 <style>
 .main-layout {
   width: 100%;
+  height: 100%;
   display: flex;
 }
 
 .content-container {
   width: 100%;
-  padding-left: 32px;
-  padding-right: 32px;
 }
 </style>
