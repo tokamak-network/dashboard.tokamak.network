@@ -86,7 +86,6 @@ export default {
   font-size: 15px;
   font-weight: 500;
   font-stretch: normal;
-  margin-bottom: 2px;
   font-style: normal;
   letter-spacing: normal;
   text-align: left;
