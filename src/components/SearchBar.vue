@@ -1,8 +1,9 @@
 <template>
-  <div>
+  <div class="search-bar-container">
     <input
+      class="search-bar"
       type="text"
-      placeholder="Search"
+      placeholder="검색"
     >
   </div>
 </template>
@@ -12,12 +13,27 @@ export default {};
 </script>
 
 <style>
-input {
+.search-bar-container {
   width: 100%;
-  height: 30px;
+}
+
+.search-bar {
+  width: 100%;
+  height: 40px;
+  font-size: 14px;
   border-radius: 7px;
   border: solid 0.7px #ced6d9;
   background-color: #ffffff;
+  background-image: url("../assets/images/Search.svg");
+  background-position: right;
+  background-position-x: 98%;
+  background-repeat: no-repeat;
+  background-size: 16px 16px
+}
+
+input[type="text"] {
+    box-sizing: border-box;
+    padding-left: 16px;
 }
 
 input::placeholder {
