@@ -16,10 +16,10 @@
         :key="index"
       >
         <td
-          v-for="column in columns"
-          :key="column.title"
+          v-for="(value, key) in data"
+          :key="key"
         >
-          {{ data }}
+          {{ value }}
         </td>
       </tr>
     </tbody>
@@ -28,72 +28,63 @@
 
 <script>
 export default {
-  data () {
-    return {
-      columns: ['NO', 'ADDRESS', 'NAME', 'RECENT COMMIT TIMESTAMP', 'COMMISSION RATE'],
-      datas: [
-        {
-          title: 'test1',
-        },
-        {
-          title: 'test2',
-        },
-        {
-          title: 'test3',
-        },
-        {
-          title: 'test4',
-        },
-        {
-          title: 'test5',
-        },
-      ],
-    };
+  props: {
+    columns: {
+      type: Array,
+      default: () => [],
+    },
+    datas: {
+      type: Array,
+      default: () => [],
+    },
   },
 };
 </script>
 
 <style>
 table {
-  border: 1px solid #ddd;
-  border-radius: 6px;
-  border-spacing: 0px;
-  table-layout: auto;
   width: 100%;
+  table-layout: auto;
+  border: 1px solid #ddd;
+  border-spacing: 0px;
+  /* border-radius: 7px; */
 }
 
 table td {
-  border-top: 1px solid #ddd;
+  /* border-top: 1px solid #ddd; */
   text-align: center;
 }
 
-/* table td,
-table th {
-  padding: 10px;
-} */
-
 th {
-  height: 40px;
-  font-size: 9px;
+  font-size: 8px;
+  height: 21px;
+  /* border-top-left-radius: 7px;
+  border-top-right-radius: 7px; */
+  color: #7e8d93;
   font-weight: 300;
-  font-stretch: normal;
-  font-style: normal;
-  line-height: 1.89;
-  letter-spacing: normal;
-  text-align: center;
-  color: #005fa9;
   background: #f8f8f8;
+  border-bottom: 1px solid #ddd;
 }
 
 td {
   height: 36px;
-  font-family: Roboto;
-  font-size: 10px;
+  font-size: 13px;
   font-weight: 300;
-  font-stretch: normal;
-  font-style: normal;
-  letter-spacing: normal;
-  text-align: center;
   color: #586064;
+}
+
+tbody {
+  background: #ffffff;
+  display: block;
+  /* border-bottom-left-radius: 7px;
+  border-bottom-right-radius: 7px; */
+  min-height: 240px;
+  max-height: 240px;
+  overflow-y: scroll;
+}
+thead, tbody tr {
+  display: table;
+  width: 100%;
+  table-layout: fixed;
 }
 </style>
