@@ -1,7 +1,7 @@
 <template>
   <div>
     <search-bar />
-    <standard-table />
+    <standard-table style="margin-top: 8px;" />
   </div>
 </template>
 

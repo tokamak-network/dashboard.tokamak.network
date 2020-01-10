@@ -94,7 +94,6 @@ export default {
 
 .wallet-header-title {
   padding-top: 5px;
-  font-family: Roboto;
   font-size: 24px;
   color: #124b71;
   padding-left: 9.2px;
@@ -102,7 +101,6 @@ export default {
 
 .wallet-title {
   padding-top: 4px;
-  font-family: Roboto;
   font-size: 16px;
   font-weight: 300;
   font-stretch: normal;

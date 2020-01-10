@@ -61,13 +61,14 @@ export default {
 .dashboard-header-container {
   width: 100%;
   display: flex;
+  padding-bottom: 16px;
 }
 
 .wallet-info-container {
   width: 33.3%;
   display: flex;
   align-items: center;
-  height: 71px;
+  height: 74px;
   border-radius: 6px;
   border: solid 0.7px #ced6d9;
   background-color: #ffffff;
@@ -82,19 +83,18 @@ export default {
 }
 
 .wallet-info-title {
-  font-family: Roboto;
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 500;
   font-stretch: normal;
   font-style: normal;
   letter-spacing: normal;
   text-align: left;
+  margin-bottom: 4px;
   color: #124b71;
 }
 
 .wallet-info-content {
-  font-family: Roboto;
-  font-size: 12.5px;
+  font-size: 11.5px;
   line-height: 1.08;
   letter-spacing: 0.2px;
   text-align: left;

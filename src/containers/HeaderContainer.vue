@@ -22,6 +22,7 @@
           href="http://your_url_here.html"
         >GUIDE</a>
         <a
+          style="margin-right: 32px;"
           class="header-link"
           target="_blank"
           rel="noopener noreferrer"
@@ -49,19 +50,17 @@ export default {};
 }
 
 .header-logo {
-  width: 100%;
+  width: 80%;
 }
 
 .header-link-container {
   width: 400px;
   display: flex;
-  flex-direction: row-reverse;
   align-items: center;
   justify-content: space-between;
 }
 
 .header-link {
-  font-family: Roboto;
   font-size: 15px;
   font-weight: 500;
   font-stretch: normal;
