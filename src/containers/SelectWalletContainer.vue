@@ -6,10 +6,8 @@
       </div>
     </div>
     <div
-      v-for="(wallet, index) in wallets"
-      :key="index"
       class="wallet-container"
-      @click="accessWallet(wallet)"
+      @click="accessWallet('Metamask')"
     >
       <img
         class="wallet-image"
@@ -18,7 +16,49 @@
         height="23"
       >
       <div class="wallet-title">
-        {{ wallet }}
+        MetaMask
+      </div>
+    </div>
+    <div
+      class="wallet-container"
+      @click="accessWallet('LedgerNano')"
+    >
+      <img
+        class="wallet-image"
+        src="@/assets/images/LedgerNano.jpeg"
+        width="25"
+        height="23"
+      >
+      <div class="wallet-title">
+        Ledger Nano (준비중)
+      </div>
+    </div>
+    <div
+      class="wallet-container"
+      @click="accessWallet('Trezor')"
+    >
+      <img
+        class="wallet-image"
+        src="@/assets/images/Trezor.png"
+        width="25"
+        height="25"
+      >
+      <div class="wallet-title">
+        Trezor (준비중)
+      </div>
+    </div>
+    <div
+      class="wallet-container"
+      @click="accessWallet('CoinbaseWallet')"
+    >
+      <img
+        class="wallet-image"
+        src="@/assets/images/CoinbaseWallet.jpeg"
+        width="25"
+        height="25"
+      >
+      <div class="wallet-title">
+        Coinbase Wallet (준비중)
       </div>
     </div>
   </div>
@@ -28,11 +68,6 @@
 import mm from '@/helpers/wallets/metamask';
 
 export default {
-  data () {
-    return {
-      wallets: ['Metamask', 2, 3],
-    };
-  },
   methods: {
     async accessWallet (wallet) {
       switch (wallet) {
@@ -45,6 +80,7 @@ export default {
       }
 
       default:
+        alert('해당 지갑은 준비중에 있습니다.');
         break;
       }
     },
@@ -60,7 +96,7 @@ export default {
 }
 
 .wallet-header-container {
-  width: 360px;
+  width: 320px;
   display: flex;
   align-items: center;
   height: 36px;
@@ -69,16 +105,20 @@ export default {
 .wallet-container {
   display: flex;
   align-items: center;
-  width: 360px;
+  width: 320px;
   height: 54px;
   border-radius: 3px;
   box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.06);
   background-color: #ffffff;
   margin-top: 9px;
+  border: solid 0.7px #ffffff;
 }
 
 .wallet-container:hover {
   cursor: pointer;
+  background-color: #f7f8f9;
+  border-radius: 3px;
+  border: solid 0.7px #ced6d9;
 }
 
 .wallet-image {
