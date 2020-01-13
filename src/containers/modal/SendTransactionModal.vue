@@ -75,7 +75,7 @@ export default {
 
 .modal-close-button:hover {
   cursor: pointer;
-    -webkit-filter: opacity(.4);
+  -webkit-filter: opacity(.4);
   filter: opacity(.4);
 }
 

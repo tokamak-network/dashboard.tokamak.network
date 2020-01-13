@@ -81,6 +81,8 @@ export default {
 }
 
 .menu-title-container {
+  margin-left: 1px;
+  margin-right: 1px;
   display: flex;
   align-items: center;
   padding: 10px;
@@ -107,6 +109,8 @@ export default {
 }
 
 .sub-menu-title-container {
+  margin-left: 1px;
+  margin-right: 1px;
   padding: 10px;
   padding-left: 36px;
   text-decoration: none;

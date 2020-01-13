@@ -21,36 +21,66 @@
         >
       </div>
       <div class="corporate-channel">
-        <img
-          class="filter-grey channel-image"
-          src="@/assets/images/Linkedin.png"
-          width="28x;"
-          height="28px;"
+        <a
+          href="https://www.linkedin.com/company/onther-tech/"
+          target="_blank"
+          rel="noopener noreferrer"
         >
-        <img
-          class="filter-grey channel-image"
-          src="@/assets/images/Twitter.png"
-          width="28x;"
-          height="28px;"
+          <img
+            class="filter-grey channel-image"
+            src="@/assets/images/Linkedin.png"
+            width="28x;"
+            height="28px;"
+          >
+        </a>
+        <a
+          href="https://twitter.com/ontherInc/"
+          target="_blank"
+          rel="noopener noreferrer"
         >
-        <img
-          class="filter-grey channel-image"
-          src="@/assets/images/Youtube.png"
-          width="28x;"
-          height="28px;"
+          <img
+            class="filter-grey channel-image"
+            src="@/assets/images/Twitter.png"
+            width="28x;"
+            height="28px;"
+          >
+        </a>
+        <a
+          href="https://www.youtube.com/channel/UCF6vtIKF_0QQVRG983czVEQ/"
+          target="_blank"
+          rel="noopener noreferrer"
         >
-        <img
-          class="filter-grey channel-image"
-          src="@/assets/images/Facebook.png"
-          width="28x;"
-          height="28px;"
+          <img
+            class="filter-grey channel-image"
+            src="@/assets/images/Youtube.png"
+            width="28x;"
+            height="28px;"
+          >
+        </a>
+        <a
+          href="https://www.facebook.com/OntherInc/ㅛ"
+          target="_blank"
+          rel="noopener noreferrer"
         >
-        <img
-          class="filter-grey channel-image"
-          src="@/assets/images/Github.png"
-          width="28x;"
-          height="28px;"
+          <img
+            class="filter-grey channel-image"
+            src="@/assets/images/Facebook.png"
+            width="28x;"
+            height="28px;"
+          >
+        </a>
+        <a
+          href="https://github.com/Onther-Tech/"
+          target="_blank"
+          rel="noopener noreferrer"
         >
+          <img
+            class="filter-grey channel-image"
+            src="@/assets/images/Github.png"
+            width="28x;"
+            height="28px;"
+          >
+        </a>
       </div>
     </div>
   </div>
@@ -126,5 +156,7 @@ export default {};
 
 .channel-image:hover {
   cursor: pointer;
+  -webkit-filter: invert(30%) grayscale(100%) brightness(70%) contrast(4);
+  filter: invert(30%) grayscale(100%) brightness(70%) contrast(4);
 }
 </style>
