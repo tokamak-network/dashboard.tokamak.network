@@ -8,7 +8,7 @@
         10 ANSON ROAD #23-140 INTERNATIONAL PLAZA SINGAPORE
       </div>
     </div>
-    <div style="width: 100px;" />
+    <div style="width: 140px;" />
     <div>
       <div class="corporate-mail">
         info.onther.io
@@ -78,7 +78,7 @@ export default {};
 .corporate-name {
   opacity: 1;
   font-family: Roboto;
-  font-size: 20px;
+  font-size: 19px;
   font-weight: bold;
   font-stretch: normal;
   font-style: normal;

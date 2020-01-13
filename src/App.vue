@@ -3,10 +3,13 @@
     id="app"
   >
     <header-container />
-    <div class="container_12">
+    <div
+      class="container_12 main-container"
+    >
       <main-layout v-if="isWalletConnected" />
       <access-wallet-layout v-else />
     </div>
+    <footer-container />
   </div>
 </template>
 
@@ -14,6 +17,7 @@
 import { mapState } from 'vuex';
 
 import HeaderContainer from '@/containers/HeaderContainer.vue';
+import FooterContainer from '@/containers/FooterContainer.vue';
 import AccessWalletLayout from '@/layouts/AccessWalletLayout.vue';
 import MainLayout from '@/layouts/MainLayout.vue';
 import AccessWalletLayoutVue from './layouts/AccessWalletLayout.vue';
@@ -21,6 +25,7 @@ import AccessWalletLayoutVue from './layouts/AccessWalletLayout.vue';
 export default {
   components: {
     'header-container': HeaderContainer,
+    'footer-container': FooterContainer,
     'access-wallet-layout': AccessWalletLayout,
     'main-layout': MainLayout,
   },
@@ -31,11 +36,23 @@ export default {
 </script>
 
 <style>
-body {
+* {
+  margin: 0;
+}
+
+html, body {
   background: #f6f8f9;
+  position: relative;
+  margin: 0;
+  min-height: 100%;
+}
+
+.main-container {
+  margin: 0 auto;
+  padding-bottom: 100px;
 }
 
 #app {
-  height: 100%;
+  min-height: 100vh;
 }
 </style>
