@@ -5,6 +5,7 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
+    isModalShowed: false,
     isWalletConnected: false,
     account: '',
     networkId: '',
@@ -23,6 +24,9 @@ export default new Vuex.Store({
     SET_BALANCE: (state, balance) => {
       state.balance = balance;
     },
+    SHOW_MODAL: (state, isModalShowed) => {
+      state.isModalShowed = isModalShowed;
+    },
   },
   actions: {
     setWalletInfo ({ commit }, walletInfo) {
@@ -34,6 +38,12 @@ export default new Vuex.Store({
       commit('SET_NETWORK_ID', networkId);
       commit('SET_BALANCE', balance);
       commit('SET_WALLET_CONNECTION_STATE', true);
+    },
+    showModal ( { commit }) {
+      commit('SHOW_MODAL', true);
+    },
+    closeModal ( { commit }) {
+      commit('SHOW_MODAL', false);
     },
   },
   modules: {

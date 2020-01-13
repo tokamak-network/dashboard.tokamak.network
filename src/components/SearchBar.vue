@@ -32,8 +32,8 @@ export default {};
 }
 
 input[type="text"] {
-    box-sizing: border-box;
-    padding-left: 16px;
+  box-sizing: border-box;
+  padding-left: 16px;
 }
 
 input::placeholder {

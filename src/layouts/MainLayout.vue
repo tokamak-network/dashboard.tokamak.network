@@ -4,18 +4,34 @@
     <div class="content-container">
       <dashboard-header-container />
       <router-view />
+      <send-transaction-modal
+        v-if="isModalShowed"
+        @modalClosed="closeModal"
+      />
     </div>
   </div>
 </template>
 
 <script>
+import { mapState } from 'vuex';
+
 import DashboardHeaderContainer from '@/containers/DashboardHeaderContainer.vue';
 import MenuContainer from '@/containers/MenuContainer.vue';
+import SendTransactionModal from '@/containers/modal/SendTransactionModal.vue';
 
 export default {
   components: {
     'menu-container': MenuContainer,
     'dashboard-header-container': DashboardHeaderContainer,
+    'send-transaction-modal': SendTransactionModal,
+  },
+  computed: mapState([
+    'isModalShowed',
+  ]),
+  methods: {
+    closeModal () {
+      this.$store.dispatch('closeModal');
+    },
   },
 };
 </script>
