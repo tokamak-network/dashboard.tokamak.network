@@ -1,11 +1,6 @@
 <template>
   <div class="select-wallet-container">
     <div class="wallet-header-container">
-      <img
-        src="@/assets/images/Wallet.svg"
-        width="32.5"
-        height="32.5"
-      >
       <div class="wallet-header-title">
         Sellect Wallet
       </div>
@@ -59,32 +54,31 @@ export default {
 
 <style>
 .select-wallet-container {
-  background: #ffffff;
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 390px;
-  padding-top: 30px;
-  padding-bottom: 30px;
-  border-radius: 6px;
 }
 
 .wallet-header-container {
+  width: 360px;
   display: flex;
   align-items: center;
   height: 36px;
-  padding-bottom: 11px;
 }
 
 .wallet-container {
   display: flex;
   align-items: center;
-  width: 317px;
-  height: 46px;
-  border-radius: 6px;
-  border: solid 0.7px #ced6d9;
+  width: 360px;
+  height: 54px;
+  border-radius: 3px;
+  box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.06);
   background-color: #ffffff;
-  margin-top: 16px;
+  margin-top: 9px;
+}
+
+.wallet-container:hover {
+  cursor: pointer;
 }
 
 .wallet-image {
@@ -93,19 +87,26 @@ export default {
 }
 
 .wallet-header-title {
-  padding-top: 5px;
-  font-size: 24px;
-  color: #124b71;
-  padding-left: 9.2px;
+  font-family: OpenSans;
+  font-size: 21px;
+  font-weight: 600;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.33;
+  letter-spacing: normal;
+  text-align: left;
+  color: #b2b7b9;
 }
 
 .wallet-title {
   padding-top: 4px;
-  font-size: 16px;
-  font-weight: 300;
+  object-fit: contain;
+  font-family: Roboto;
+  font-size: 14px;
+  font-weight: normal;
   font-stretch: normal;
   font-style: normal;
-  line-height: 1.19;
+  line-height: 1.14;
   letter-spacing: normal;
   text-align: left;
   color: #5c5c5c;

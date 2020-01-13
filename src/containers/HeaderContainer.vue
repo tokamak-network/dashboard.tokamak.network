@@ -3,9 +3,10 @@
     <div class="container_12 header-content-container">
       <div class="header-logo">
         <img
-          src="@/assets/images/Tokamak.jpg"
-          width="313"
-          height="31"
+          style="margin-top: 8px;"
+          src="@/assets/images/Tokamak.png"
+          width="258"
+          height="25"
         >
       </div>
       <div class="header-link-container">
@@ -61,13 +62,14 @@ export default {};
 }
 
 .header-link {
+  text-decoration: none;
   font-size: 15px;
-  font-weight: 500;
+  font-weight: normal;
   font-stretch: normal;
   font-style: normal;
-  line-height: 1.2;
+  line-height: 1.19;
   letter-spacing: normal;
   text-align: left;
-  color: #707070;
+  color: #7e8d93;
 }
 </style>

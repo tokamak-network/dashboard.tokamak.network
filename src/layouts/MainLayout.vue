@@ -24,10 +24,14 @@ export default {
 .main-layout {
   width: 100%;
   height: 100%;
+  padding-top: 16px;
   display: flex;
 }
 
 .content-container {
+  padding-left: 16px;
+  padding-right: 16px;
   width: 100%;
+  position: relative;
 }
 </style>
