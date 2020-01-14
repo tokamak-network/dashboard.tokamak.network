@@ -75,6 +75,7 @@ export default {
         const walletInfo = await mm.accessMetamaskWallet();
         if (walletInfo.isConnected) {
           this.$store.dispatch('setWalletInfo', walletInfo);
+          this.$router.replace('/dashboard');
         }
         return;
       }

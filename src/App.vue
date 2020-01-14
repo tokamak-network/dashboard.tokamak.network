@@ -32,6 +32,11 @@ export default {
   computed: mapState([
     'isWalletConnected',
   ]),
+  created () {
+    if (!this.isWalletConnected && this.$route.path !== '/') {
+      this.$router.replace('/');
+    }
+  },
 };
 </script>
 
@@ -47,12 +52,12 @@ html, body {
   min-height: 100%;
 }
 
+#app {
+  min-height: 100vh;
+}
+
 .main-container {
   margin: 0 auto;
   padding-bottom: 100px;
-}
-
-#app {
-  min-height: 100vh;
 }
 </style>

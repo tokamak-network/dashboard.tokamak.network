@@ -31,14 +31,6 @@ export default {
   components: {
     'select-wallet-container': SelectWalletContainer,
   },
-  methods: {
-    async accessMetaMaskWallet () {
-      const walletInfo = await mm.accessMetamaskWallet();
-      if (walletInfo.isConnected) {
-        this.$store.dispatch('setWalletInfo', walletInfo);
-      }
-    },
-  },
 };
 </script>
 
