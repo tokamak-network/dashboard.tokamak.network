@@ -63,7 +63,7 @@
 export default {
   methods: {
     clickMenu (path) {
-      this.$router.push(path);
+      this.$router.push(`/${path}`);
     },
   },
 };

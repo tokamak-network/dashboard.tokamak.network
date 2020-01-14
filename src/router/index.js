@@ -1,12 +1,12 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-import store from '@/store';
 
 Vue.use(VueRouter);
 
 import DashboardLayout from '@/layouts/DashboardLayout.vue';
 import OperatorListLayout from '@/layouts/OperatorListLayout.vue';
 import StakeInfoLayout from '@/layouts/StakeInfoLayout.vue';
+import OperatorInfoLayout from '@/layouts/OperatorInfoLayout.vue';
 
 const routes = [
   {
@@ -16,6 +16,10 @@ const routes = [
   {
     path: '/operators',
     component: OperatorListLayout,
+  },
+  {
+    path: '/operators/:name',
+    component: OperatorInfoLayout,
   },
   {
     path: '/staking',
