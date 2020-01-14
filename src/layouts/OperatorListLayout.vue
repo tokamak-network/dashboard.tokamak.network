@@ -1,18 +1,22 @@
 <template>
   <div>
-    <search-bar />
+    <search-bar
+      @changedValue="searchOperatorByName"
+    />
     <div class="operator-list-layout">
       <standard-table
         :columns="['ADDRESS', 'NAME', 'COMMIT TIMESTAMP', 'COMMISSION RATE']"
-        :datas="datas"
         :clickable="true"
-        @clickTableData="clickOperatorInfo"
+        :datas="searching ? operatorListBySearching : operatorList"
+        @clickedTableData="clickOperatorInfo"
       />
     </div>
   </div>
 </template>
 
 <script>
+import { mapState } from 'vuex';
+
 import StandardTable from '@/components/StandardTable.vue';
 import SearchBar from '@/components/SearchBar.vue';
 
@@ -23,19 +27,24 @@ export default {
   },
   data () {
     return {
-      datas: [
-        {
-          '1': 1000,
-          '2': 20000,
-          '3': 3000,
-          '4': 4000,
-        },
-      ],
+      searching: false,
+      operatorListBySearching: [],
     };
   },
+  computed: mapState([
+    'operatorList',
+  ]),
   methods: {
     clickOperatorInfo (data) {
       this.$router.push('/operators/onther');
+    },
+    searchOperatorByName (name) {
+      if (name === '') {
+        this.searching = false;
+      } else {
+        this.searching = true;
+        this.operatorListBySearching = this.operatorList.filter(operator => operator.name.includes(name));
+      }
     },
   },
 };

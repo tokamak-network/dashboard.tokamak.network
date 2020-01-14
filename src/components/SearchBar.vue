@@ -3,13 +3,25 @@
     <input
       class="search-bar"
       type="text"
-      placeholder="검색"
+      placeholder="이름 검색"
+      @input="onChange($event.target.value)"
     >
   </div>
 </template>
 
 <script>
-export default {};
+import { mapState } from 'vuex';
+
+export default {
+  computed: mapState([
+    'operatorList',
+  ]),
+  methods: {
+    onChange (value) {
+      this.$emit('changedValue', value);
+    },
+  },
+};
 </script>
 
 <style>
