@@ -6,6 +6,23 @@
         style="margin-right: 8px;"
       >
         <div class="dashboard-title-container">
+          <div class="dashboard-title">
+            Operator List
+          </div>
+          <div
+            class="dashboard-more-button"
+            @click="$router.push('/operators')"
+          >
+            More
+          </div>
+        </div>
+        <operator-list style="margin-right: 1px;" />
+      </div>
+      <div
+        class="dashboard-container"
+        style="margin-left: 8px;"
+      >
+        <div class="dashboard-title-container">
           <div
             class="dashboard-title"
           >
@@ -21,23 +38,6 @@
         <div class="stake-infos-container">
           <stake-info />
         </div>
-      </div>
-      <div
-        class="dashboard-container"
-        style="margin-left: 8px;"
-      >
-        <div class="dashboard-title-container">
-          <div class="dashboard-title">
-            Operator List
-          </div>
-          <div
-            class="dashboard-more-button"
-            @click="$router.push('/operators')"
-          >
-            More
-          </div>
-        </div>
-        <operator-list style="margin-right: 1px;" />
       </div>
     </div>
     <div
@@ -116,7 +116,7 @@ export default {
 .dashboard-more-button {
   letter-spacing: 0.7px;
   padding-right: 16px;
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 300;
   font-stretch: normal;
   font-style: normal;

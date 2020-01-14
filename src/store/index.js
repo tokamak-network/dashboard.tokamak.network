@@ -3,6 +3,27 @@ import Vuex from 'vuex';
 
 Vue.use(Vuex);
 
+const initialState = function () {
+  return {
+    modalType: '',
+    isModalShowed: false,
+    isWalletConnected: false,
+    account: '',
+    networkId: '',
+    balance: '',
+    operatorList: [
+      {
+        'address': '1000',
+        'name': '20000',
+        'commitTimestamp': '3000',
+        'commissionRate': '4000',
+      },
+    ],
+    myStakeInfoList: [],
+    historyList: [],
+  };
+};
+
 export default new Vuex.Store({
   state: {
     modalType: '',
@@ -11,6 +32,16 @@ export default new Vuex.Store({
     account: '',
     networkId: '',
     balance: '',
+    operatorList: [
+      {
+        'address': '1000',
+        'name': '20000',
+        'commitTimestamp': '3000',
+        'commissionRate': '4000',
+      },
+    ],
+    myStakeInfoList: [],
+    historyList: [],
   },
   mutations: {
     SET_WALLET_CONNECTION_STATE: (state, isWalletConnected) => {
@@ -31,6 +62,12 @@ export default new Vuex.Store({
     SET_MODAL_TYPE: (state, type) => {
       state.modalType = type;
     },
+    SET_INITIAL_STATE: (state) => {
+      const s = initialState();
+      Object.keys(s).forEach((key) => {
+        state[key] = s[key];
+      });
+    },
   },
   actions: {
     setWalletInfo ({ commit }, walletInfo) {
@@ -49,6 +86,9 @@ export default new Vuex.Store({
     },
     closeModal ( { commit }) {
       commit('SHOW_MODAL', false);
+    },
+    logout ({ commit }) {
+      commit('SET_INITIAL_STATE');
     },
   },
   modules: {

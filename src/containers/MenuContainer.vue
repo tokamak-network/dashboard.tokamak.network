@@ -56,6 +56,12 @@
         History
       </div>
     </div>
+    <div
+      class="menu-logout-container"
+      @click="logout"
+    >
+      Logout
+    </div>
   </div>
 </template>
 
@@ -67,6 +73,10 @@ export default {
         return;
       }
       this.$router.push(`/${path}`);
+    },
+    logout () {
+      this.$store.dispatch('logout');
+      this.$router.replace('/');
     },
   },
 };
@@ -102,8 +112,19 @@ export default {
   color: #c4c4c4;
 }
 
-.menu-title-container svg {
-  fill: red;
+.menu-logout-container {
+  border-top: 0.7px solid rgb(238, 236, 236);
+  margin-top: 16px;
+  display: flex;
+  align-items: center;
+  font-size: 13px;
+  color: #c4c4c4;
+  padding: 14px;
+  padding-left: 20px;
+}
+
+.menu-logout-container:hover {
+  cursor: pointer;
 }
 
 .menu-image {
