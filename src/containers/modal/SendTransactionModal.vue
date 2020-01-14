@@ -28,18 +28,21 @@
               <div
                 style="display: flex; align-items: center;"
               >
-                <input class="token-amount-input">
+                <input
+                  ref="amount"
+                  class="token-amount-input"
+                >
                 <span class="modal-token-unit">TON</span>
                 <div class="modal-set-max-button">
                   SET MAX
                 </div>
               </div>
               <div class="modal-available-to-claim">
-                available to claims: 100 TON
+                available to {{ modalType }}: 100 TON
               </div>
               <div class="modal-delegate-button-container">
                 <div class="modal-delegate-button">
-                  Delegate
+                  {{ modalType }}
                 </div>
               </div>
             </div>
@@ -51,7 +54,15 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
+
 export default {
+  computed: mapState([
+    'modalType',
+  ]),
+  mounted () {
+    this.$refs.amount.focus();
+  },
   methods: {
     closeModal () {
       this.$store.dispatch('closeModal');
@@ -140,6 +151,7 @@ export default {
 }
 
 .modal-delegate-button {
+  text-transform: capitalize;
   margin-top: 16px;
   display: flex;
   justify-content: center;
