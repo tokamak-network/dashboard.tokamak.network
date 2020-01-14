@@ -14,6 +14,8 @@
       <tr
         v-for="(data, index) in datas"
         :key="index"
+        :class="{ 'table-clickable': clickable }"
+        @click="clickTableData(data)"
       >
         <td
           v-for="(value, key) in data"
@@ -37,15 +39,30 @@ export default {
       type: Array,
       default: () => [],
     },
+    clickable: {
+      type: Boolean,
+      default: false,
+    },
+  },
+  methods: {
+    clickTableData (data) {
+      this.$emit('clickTableData', data);
+    },
   },
 };
 </script>
 
 <style>
+.table-clickable:hover {
+  cursor: pointer;
+  background: #f8f8f8;
+}
+
 table {
   width: 100%;
   table-layout: auto;
-  border: 1px solid #ddd;
+  border-top: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
   border-spacing: 0px;
   /* border-radius: 7px; */
 }
@@ -82,6 +99,7 @@ tbody {
   max-height: 240px;
   overflow-y: scroll;
 }
+
 thead, tbody tr {
   display: table;
   width: 100%;

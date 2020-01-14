@@ -1,11 +1,14 @@
 <template>
   <div>
     <search-bar />
-    <standard-table
-      style="margin-top: 8px;"
-      :columns="['ADDRESS', 'NAME', 'COMMIT TIMESTAMP', 'COMMISSION RATE']"
-      :datas="datas"
-    />
+    <div class="operator-list-layout">
+      <standard-table
+        :columns="['ADDRESS', 'NAME', 'COMMIT TIMESTAMP', 'COMMISSION RATE']"
+        :datas="datas"
+        :clickable="true"
+        @clickTableData="clickOperatorInfo"
+      />
+    </div>
   </div>
 </template>
 
@@ -30,8 +33,20 @@ export default {
       ],
     };
   },
+  methods: {
+    clickOperatorInfo (data) {
+      this.$router.push('/operators/onther');
+    },
+  },
 };
 </script>
 
 <style>
+.operator-list-layout {
+  margin-top: 8px;
+  margin-bottom: -19.5px;
+  border-left: solid 0.7px #ced6d9;
+  border-right: solid 0.7px #ced6d9;
+  background-color: #ffffff;
+}
 </style>
