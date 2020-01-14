@@ -7,6 +7,7 @@ import DashboardLayout from '@/layouts/DashboardLayout.vue';
 import OperatorListLayout from '@/layouts/OperatorListLayout.vue';
 import StakeInfoLayout from '@/layouts/StakeInfoLayout.vue';
 import OperatorInfoLayout from '@/layouts/OperatorInfoLayout.vue';
+import HistoryLayout from '@/layouts/HistoryLayout.vue';
 
 const routes = [
   {
@@ -24,6 +25,10 @@ const routes = [
   {
     path: '/staking',
     component: StakeInfoLayout,
+  },
+  {
+    path: '/history',
+    component: HistoryLayout,
   },
 ];
 

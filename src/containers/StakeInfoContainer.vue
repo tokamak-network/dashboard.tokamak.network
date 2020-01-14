@@ -5,7 +5,9 @@
     >
       <img
         class="operator-image"
-        src="@/assets/images/Operator.svg"
+        src="@/assets/images/Operator.png"
+        width="60"
+        height="60"
       >
       <div class="operator-name">
         TOKAMAK NETWORK
@@ -16,7 +18,10 @@
       <div class="staking-amount-unit">
         TON
       </div>
-      <div class="claim-button">
+      <div
+        class="claim-button"
+        @click="showModal('claim')"
+      >
         Claim
       </div>
     </div>
@@ -41,10 +46,16 @@
         </div>
       </div>
       <div class="delegate-button-container">
-        <div class="delegate-button">
+        <div
+          class="delegate-button"
+          @click="showModal('delegate')"
+        >
           Delegate
         </div>
-        <div class="undelegate-button">
+        <div
+          class="undelegate-button"
+          @click="showModal('undelegate')"
+        >
           Undelegate
         </div>
       </div>
@@ -53,7 +64,13 @@
 </template>
 
 <script>
-export default {};
+export default {
+  methods: {
+    showModal (type) {
+      this.$store.dispatch('showModal', type);
+    },
+  },
+};
 </script>
 
 <style>
@@ -62,6 +79,7 @@ export default {};
   border-radius: 6px;
   border: solid 0.7px #ced6d9;
   background-color: #ffffff;
+  margin-top: 8px;
 }
 
 .operator-image {
@@ -78,7 +96,6 @@ export default {};
 .operator-name {
   width: 100%;
   margin-left: 20px;
-  font-family: Roboto;
   font-size: 15px;
   font-weight: bold;
   font-stretch: normal;
@@ -89,7 +106,6 @@ export default {};
 }
 
 .staking-amount {
-  font-family: Roboto;
   padding-top: 4px;
   font-size: 18px;
   font-weight: 500;
@@ -103,7 +119,6 @@ export default {};
 .staking-amount-unit {
   margin-left: 4px;
   padding-top: 4px;
-  font-family: Roboto;
   font-size: 18px;
   font-weight: 300;
   font-stretch: normal;
@@ -119,11 +134,9 @@ export default {};
   width: 121px;
   height: 27px;
   line-height: 27px;
-  padding-top: 3px;
   border-radius: 7px;
   box-shadow: 0 3px 14px 0 rgba(0, 0, 0, 0.03);
   border: solid 1px #dce2e5;
-  font-family: Roboto;
   font-size: 12px;
   font-weight: 500;
   font-stretch: normal;
@@ -131,6 +144,12 @@ export default {};
   letter-spacing: normal;
   text-align: center;
   color: #124b71;
+}
+
+.claim-button:hover {
+  cursor: pointer;
+  -webkit-filter: opacity(.7);
+  filter: opacity(.7);
 }
 
 .division-line {
@@ -152,7 +171,6 @@ export default {};
 }
 
 .operator-address {
-  font-family: Roboto;
   font-size: 11px;
   font-weight: normal;
   font-stretch: normal;
@@ -164,7 +182,6 @@ export default {};
 }
 
 .block-number {
-  font-family: Roboto;
   font-size: 11px;
   font-weight: 500;
   font-stretch: normal;
@@ -177,7 +194,6 @@ export default {};
 }
 
 .last-commit {
-  font-family: Roboto;
   font-size: 11px;
   font-weight: 500;
   font-stretch: normal;
@@ -189,7 +205,6 @@ export default {};
 }
 
 .uncommitted-rewards {
-  font-family: Roboto;
   font-size: 10px;
   font-weight: 300;
   font-stretch: normal;
@@ -214,7 +229,6 @@ export default {};
   box-shadow: 0 3px 14px 0 rgba(0, 0, 0, 0.03);
   border: solid 1px #dce2e5;
   background-color: #73a9c1;
-  font-family: Roboto;
   font-size: 12px;
   font-weight: 500;
   font-stretch: normal;
@@ -232,7 +246,6 @@ export default {};
   box-shadow: 0 3px 14px 0 rgba(0, 0, 0, 0.03);
   border: solid 1px #dce2e5;
   background-color: #ef8f78;
-  font-family: Roboto;
   font-size: 12px;
   font-weight: 500;
   font-stretch: normal;
@@ -241,5 +254,17 @@ export default {};
   color: #ffffff;
   text-align: center;
   margin-right: 20px;
+}
+
+.delegate-button:hover {
+  cursor: pointer;
+  -webkit-filter: opacity(.8);
+  filter: opacity(.8);
+}
+
+.undelegate-button:hover {
+  cursor: pointer;
+  -webkit-filter: opacity(.8);
+  filter: opacity(.8);
 }
 </style>
