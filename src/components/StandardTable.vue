@@ -46,7 +46,7 @@ export default {
   },
   methods: {
     clickTableData (data) {
-      this.$emit('clickTableData', data);
+      this.$emit('clickedTableData', data);
     },
   },
 };

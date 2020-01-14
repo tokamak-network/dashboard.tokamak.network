@@ -3,7 +3,7 @@
     <standard-table
       :columns="['ADDRESS', 'NAME']"
       :clickable="true"
-      @clickTableData="clickOperatorInfo"
+      @clickedTableData="clickOperatorInfo"
     />
   </div>
 </template>
