@@ -22,6 +22,18 @@
       </div>
       <div class="corporate-channel">
         <a
+          href="https://medium.com/onther-tech/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <img
+            class="filter-grey channel-image"
+            src="@/assets/images/Medium.png"
+            width="28x;"
+            height="28px;"
+          >
+        </a>
+        <a
           href="https://www.linkedin.com/company/onther-tech/"
           target="_blank"
           rel="noopener noreferrer"
