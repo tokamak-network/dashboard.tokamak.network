@@ -32,6 +32,7 @@
                   ref="amount"
                   v-model="amount"
                   class="token-amount-input"
+                  @keypress="isNumber"
                 >
                 <span class="modal-token-unit">TON</span>
                 <div
@@ -44,8 +45,8 @@
               <div class="modal-available-to-claim">
                 available to {{ modalType }}: {{ availableAmount }} TON
               </div>
-              <div class="modal-delegate-button-container">
-                <div class="modal-delegate-button">
+              <div class="modal-button-container">
+                <div class="modal-send-transaction-button">
                   {{ modalType }}
                 </div>
               </div>
@@ -79,6 +80,15 @@ export default {
     },
     clickSetMaxButton () {
       this.amount = this.availableAmount;
+    },
+    isNumber: function (evt) {
+      evt = (evt) ? evt : window.event;
+      const charCode = (evt.which) ? evt.which : evt.keyCode;
+      if ((charCode > 31 && (charCode < 48 || charCode > 57)) && charCode !== 46) {
+        evt.preventDefault();
+      } else {
+        return true;
+      }
     },
   },
 };
@@ -163,7 +173,7 @@ export default {
   background-color: rgba(247, 115, 104, .8);
 }
 
-.modal-delegate-button {
+.modal-send-transaction-button {
   text-transform: capitalize;
   margin-top: 16px;
   display: flex;
@@ -183,12 +193,12 @@ export default {
   color: rgb(227, 233, 235);
 }
 
-.modal-delegate-button:hover {
+.modal-send-transaction-button:hover {
   cursor: pointer;
   background-color: rgba(0, 90, 167, .8);
 }
 
-.modal-delegate-button-container {
+.modal-button-container {
   width: 100%;
   display:flex;
   justify-content: center;
