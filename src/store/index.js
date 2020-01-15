@@ -8,6 +8,7 @@ const initialState = function () {
     modalType: '',
     isModalShowed: false,
     isWalletConnected: false,
+    web3: null,
     account: '',
     networkId: '',
     balance: '',
@@ -21,11 +22,13 @@ const initialState = function () {
     ],
     myStakeInfoList: [],
     historyList: [],
+    sample: [],
   };
 };
 
 export default new Vuex.Store({
   state: {
+    web3: null,
     modalType: '',
     isModalShowed: false,
     isWalletConnected: false,
@@ -46,6 +49,9 @@ export default new Vuex.Store({
   mutations: {
     SET_WALLET_CONNECTION_STATE: (state, isWalletConnected) => {
       state.isWalletConnected = isWalletConnected;
+    },
+    SET_WEB3: (state, web3) => {
+      state.web3 = web3;
     },
     SET_ACCOUNT: (state, account) => {
       state.account = account;
@@ -71,10 +77,12 @@ export default new Vuex.Store({
   },
   actions: {
     setWalletInfo ({ commit }, walletInfo) {
+      const web3 = walletInfo.web3;
       const account = walletInfo.account;
       const networkId = walletInfo.networkId;
       const balance = walletInfo.balance;
 
+      commit('SET_WEB3', web3);
       commit('SET_ACCOUNT', account);
       commit('SET_NETWORK_ID', networkId);
       commit('SET_BALANCE', balance);
