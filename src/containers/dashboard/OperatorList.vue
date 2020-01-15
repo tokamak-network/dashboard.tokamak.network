@@ -1,6 +1,11 @@
 <template>
   <div>
-    <loading-spinner v-if="isLoading" />
+    <div
+      v-if="isLoading"
+      class="loading-container-in-dashboard"
+    >
+      <loading-spinner />
+    </div>
     <standard-table
       v-else
       :columns="['ADDRESS', 'NAME']"
@@ -28,6 +33,7 @@ export default {
   },
   async beforeCreate () {
     const res = await api.sample();
+    await new Promise(r => setTimeout(r, 2500));
     this.isLoading = false;
   },
   methods: {

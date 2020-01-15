@@ -32,8 +32,7 @@ export default {
 <style>
 .history-layout {
   margin-bottom: -19.5px;
-  border-left: solid 0.7px #ced6d9;
-  border-right: solid 0.7px #ced6d9;
+  border: solid 1px #ced6d9;
   background-color: #ffffff;
 }
 </style>

@@ -16,7 +16,7 @@
             More
           </div>
         </div>
-        <operator-list style="margin-right: 1px;" />
+        <operator-list style="margin-right: 1px; height: 284px;" />
       </div>
       <div
         class="dashboard-container"
@@ -55,7 +55,7 @@
           More
         </div>
       </div>
-      <staking-history style="margin-right: 1px;" />
+      <staking-history style="margin-right: 1px; height: 284px;" />
     </div>
   </div>
 </template>
@@ -80,9 +80,11 @@ export default {
 }
 
 .dashboard-container {
+  display: flex;
+  flex-direction: column;
   width: 100%;
   border-radius: 6px;
-  border: solid 0.7px #ced6d9;
+  border: solid 1px #ced6d9;
   background-color: #ffffff;
 }
 
@@ -90,6 +92,7 @@ export default {
   display: flex;
   height: 48.5px;
   align-items: center;
+  border-bottom: 1px solid #ddd;
 }
 
 .dashboard-title {
@@ -107,10 +110,8 @@ export default {
 }
 
 .stake-infos-container {
-  height: 265.5px;
+  height: 284px;
   overflow-y: scroll;
-  border-bottom: solid 1px #ced6d9;
-  border-top: solid 0.5px #dce2e5;
 }
 
 .dashboard-more-button {

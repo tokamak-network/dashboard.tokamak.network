@@ -18,6 +18,10 @@
       <div class="wallet-title">
         MetaMask
       </div>
+      <loading-spinner
+        v-if="waitingForMetaMaskAccess"
+        style="margin-right: 16px;"
+      />
     </div>
     <div
       class="wallet-container"
@@ -67,15 +71,27 @@
 <script>
 import mm from '@/helpers/wallets/metamask';
 
+import LoadingSpinner from '@/components/LoadingSpinner.vue';
+
 export default {
+  components: {
+    'loading-spinner': LoadingSpinner,
+  },
+  data () {
+    return {
+      waitingForMetaMaskAccess: false,
+    };
+  },
   methods: {
     async accessWallet (wallet) {
       switch (wallet) {
       case 'Metamask': {
+        this.waitingForMetaMaskAccess = true;
         const walletInfo = await mm.accessMetamaskWallet();
         if (walletInfo.isConnected) {
           this.$store.dispatch('setWalletInfo', walletInfo);
           this.$router.replace('/dashboard');
+          this.waitingForMetaMaskAccess = false;
         } else {
           alert('MetaMask(메타마스크) 지갑 설치 후 이용가능합니다.');
         }
@@ -142,6 +158,7 @@ export default {
 }
 
 .wallet-title {
+  flex: 1;
   padding-top: 4px;
   object-fit: contain;
   font-family: Roboto;

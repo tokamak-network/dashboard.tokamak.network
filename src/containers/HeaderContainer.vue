@@ -67,11 +67,10 @@ export default {};
 
 .header-link {
   text-decoration: none;
-  font-size: 15px;
+  font-size: 14px;
   font-weight: normal;
   font-stretch: normal;
   font-style: normal;
-  line-height: 1.19;
   letter-spacing: normal;
   text-align: left;
   color: #7e8d93;

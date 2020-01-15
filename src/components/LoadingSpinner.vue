@@ -10,12 +10,9 @@ export default {};
 
 <style>
 .loading-spinner-container {
-  border-top: 1px solid #ddd;
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 100%;
-  height: 240px;
 }
 
 .loading-spinner {

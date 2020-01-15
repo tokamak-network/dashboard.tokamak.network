@@ -61,8 +61,6 @@ export default {
 table {
   width: 100%;
   table-layout: auto;
-  border-top: 1px solid #ddd;
-  border-bottom: 1px solid #ddd;
   border-spacing: 0px;
   /* border-radius: 7px; */
 }
