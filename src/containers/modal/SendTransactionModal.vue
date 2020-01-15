@@ -30,15 +30,19 @@
               >
                 <input
                   ref="amount"
+                  v-model="amount"
                   class="token-amount-input"
                 >
                 <span class="modal-token-unit">TON</span>
-                <div class="modal-set-max-button">
+                <div
+                  class="modal-set-max-button"
+                  @click="clickSetMaxButton"
+                >
                   SET MAX
                 </div>
               </div>
               <div class="modal-available-to-claim">
-                available to {{ modalType }}: 100 TON
+                available to {{ modalType }}: {{ availableAmount }} TON
               </div>
               <div class="modal-delegate-button-container">
                 <div class="modal-delegate-button">
@@ -57,6 +61,12 @@
 import { mapState } from 'vuex';
 
 export default {
+  data () {
+    return {
+      amount: '',
+      availableAmount: '1000',
+    };
+  },
   computed: mapState([
     'modalType',
   ]),
@@ -66,6 +76,9 @@ export default {
   methods: {
     closeModal () {
       this.$store.dispatch('closeModal');
+    },
+    clickSetMaxButton () {
+      this.amount = this.availableAmount;
     },
   },
 };
