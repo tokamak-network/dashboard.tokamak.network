@@ -21,8 +21,8 @@
       @click="clickMenu('operators')"
     >
       <img
-        class="menu-image menu-button-clicked"
-        :class="{ 'menu-button-selected': $route.path === '/dashboard'}"
+        class="menu-image"
+        :class="{ 'menu-button-selected': $route.path !== '/dashboard'}"
         src="@/assets/images/StakingMenu.png"
         width="13"
         height="13"
@@ -125,9 +125,12 @@ export default {
 
 .menu-logout-container:hover {
   cursor: pointer;
+  color: #3e3e3e;
 }
 
 .menu-image {
+  -webkit-filter: grayscale(100%) brightness(110%) contrast(0.9);
+  filter: grayscale(100%) brightness(110%) contrast(0.9);
   margin-left: 5px;
   margin-right: 10px;
 }
@@ -154,12 +157,26 @@ export default {
   cursor: pointer;
 }
 
+.menu-title-container:hover {
+  color: #3e3e3e;
+}
+
+.menu-title-container:hover .menu-image {
+  -webkit-filter: invert(30%) grayscale(100%) brightness(70%) contrast(4);
+  filter: invert(30%) grayscale(100%) brightness(70%) contrast(4);
+}
+
+.sub-menu-title:hover {
+  color: #3e3e3e;
+}
+
 .menu-selected {
   background: #f7f8f9;
   color: #3e3e3e;
 }
 
 .menu-button-selected {
-  filter: invert(75%);
+  -webkit-filter: invert(30%) grayscale(100%) brightness(70%) contrast(4);
+  filter: invert(30%) grayscale(100%) brightness(70%) contrast(4);
 }
 </style>

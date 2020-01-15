@@ -61,6 +61,10 @@ export default {};
   justify-content: space-between;
 }
 
+.header-link:hover {
+  color: #141414b0;
+}
+
 .header-link {
   text-decoration: none;
   font-size: 15px;
