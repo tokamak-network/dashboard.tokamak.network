@@ -26,7 +26,6 @@ export default {
   },
   async beforeCreate () {
     const res = await api.sample();
-    console.log(res);
     this.isLoading = false;
   },
 };

@@ -76,6 +76,8 @@ export default {
         if (walletInfo.isConnected) {
           this.$store.dispatch('setWalletInfo', walletInfo);
           this.$router.replace('/dashboard');
+        } else {
+          alert('MetaMask(메타마스크) 지갑 설치 후 이용가능합니다.');
         }
         return;
       }
