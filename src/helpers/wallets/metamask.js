@@ -14,10 +14,14 @@ const accessMetamaskWallet = async function () {
     };
   }
 
-  const metamaskAccount = await _getMetamaskAccount();
-  const networkId = await _getNetworkId();
-  const balance = await _getTokenBalance(metamaskAccount);
+  const provider = window.ethereum;
+  const web3 = new Web3(provider);
+
+  const metamaskAccount = await _getMetamaskAccount(web3);
+  const networkId = await _getNetworkId(web3);
+  const balance = await _getTokenBalance(web3, metamaskAccount);
   return {
+    web3,
     isConnected: true,
     account: metamaskAccount,
     networkId: networkId.toString(),
@@ -25,26 +29,17 @@ const accessMetamaskWallet = async function () {
   };
 };
 
-async function _getMetamaskAccount () {
-  const provider = window.ethereum;
-  const web3 = new Web3(provider);
-
+async function _getMetamaskAccount (web3) {
   const metamaskAccount = (await web3.eth.getAccounts())[0];
   return metamaskAccount;
 }
 
-async function _getNetworkId () {
-  const provider = window.ethereum;
-  const web3 = new Web3(provider);
-
+async function _getNetworkId (web3) {
   const networkId = (await web3.eth.net.getId());
   return networkId;
 }
 
-async function _getTokenBalance (account) {
-  const provider = window.ethereum;
-  const web3 = new Web3(provider);
-
+async function _getTokenBalance (web3, account) {
   const balanceOfABI = [
     // balanceOf
     {
