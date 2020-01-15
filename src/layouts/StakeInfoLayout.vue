@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="stake-info-layout">
     <div
       v-for="(operator, index) in operators"
       :key="index"
@@ -18,11 +18,14 @@ export default {
   },
   data () {
     return {
-      operators: [1, 2, 3, 4],
+      operators: [1],
     };
   },
 };
 </script>
 
 <style>
+.stake-info-layout {
+  margin-top: -8px;
+}
 </style>

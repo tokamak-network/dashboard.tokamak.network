@@ -1,31 +1,54 @@
 <template>
-  <div class="stake-info">
-    <img
-      src="@/assets/images/Operator.png"
-      width="36"
-      height="36"
-    >
-    <div class="staking-operator-name">
-      Onther Operator
-    </div>
-    <div style="flex: 1" />
-    <div class="staking-token-amount">
-      1000
-    </div>
-    <div class="staking-token-unit">
-      TON
-    </div>
+  <div>
+    <loading-spinner v-if="isLoading" />
     <div
-      class="staking-claim-button"
-      @click="showModal"
+      v-else
+      class="stake-info"
     >
-      CLAIM
+      <img
+        src="@/assets/images/Operator.png"
+        width="36"
+        height="36"
+      >
+      <div class="staking-operator-name">
+        Onther Operator
+      </div>
+      <div style="flex: 1" />
+      <div class="staking-token-amount">
+        1000
+      </div>
+      <div class="staking-token-unit">
+        TON
+      </div>
+      <div
+        class="staking-claim-button"
+        @click="showModal"
+      >
+        CLAIM
+      </div>
+      <!-- TODO: make component -->
     </div>
   </div>
 </template>
 
 <script>
+import api from '@/api/index.js';
+
+import LoadingSpinner from '@/components/LoadingSpinner.vue';
+
 export default {
+  components: {
+    'loading-spinner': LoadingSpinner,
+  },
+  data () {
+    return {
+      isLoading: true,
+    };
+  },
+  async beforeCreate () {
+    const res = await api.sample();
+    this.isLoading = false;
+  },
   methods: {
     showModal () {
       this.$store.dispatch('showModal', 'claim');
@@ -91,7 +114,6 @@ export default {
 }
 
 .staking-claim-button:hover {
-  cursor: pointer;
   cursor: pointer;
   background-color: #f7f8f9;
 }

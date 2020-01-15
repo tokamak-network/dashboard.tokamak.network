@@ -43,6 +43,7 @@ export default {
 
 .into-image {
   margin-bottom: 20px;
+  margin-left: 48px;
 }
 
 .intro-title {

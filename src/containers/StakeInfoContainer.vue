@@ -85,6 +85,7 @@ export default {
 .operator-image {
   margin-left: 20px;
 }
+
 .operator-info-container {
   width: 100%;
   display: flex;

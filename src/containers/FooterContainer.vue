@@ -112,7 +112,8 @@ export default {};
   right: 0;
   bottom: 0;
   left: 0;
-  padding: 1rem;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
   background-color: #f6f8f9;
   text-align: center;
 }
