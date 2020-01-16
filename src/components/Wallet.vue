@@ -1,0 +1,85 @@
+<template>
+  <div class="wallet">
+    <img
+      class="wallet-image"
+      src="@/assets/images/Metamask.jpg"
+      width="25"
+      height="23"
+    >
+    <div class="wallet-title">
+      {{ title }}
+    </div>
+    <loading-spinner v-if="loading" />
+  </div>
+</template>
+
+<script>
+import { mapState } from 'vuex';
+
+import LoadingSpinner from '@/components/LoadingSpinner.vue';
+
+export default {
+  components: {
+    'loading-spinner': LoadingSpinner,
+  },
+  props: {
+    image: {
+      type: String,
+      default: '',
+    },
+    title: {
+      type: String,
+      default: '',
+    },
+    loading: {
+      type: Boolean,
+      default: false,
+    },
+  },
+  computed: mapState([
+    'isWalletConnected',
+  ]),
+};
+</script>
+
+<style scoped>
+.wallet {
+  display: flex;
+  align-items: center;
+  width: 320px;
+  height: 54px;
+  border-radius: 3px;
+  box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.06);
+  background-color: #ffffff;
+  margin-top: 9px;
+  border: solid 0.7px #ffffff;
+  padding-right: 16px;
+}
+
+.wallet:hover {
+  cursor: pointer;
+  background-color: #f7f8f9;
+  border-radius: 3px;
+  border: solid 0.7px #ced6d9;
+}
+
+.wallet-image {
+  padding-left: 19px;
+  padding-right: 23px;
+}
+
+.wallet-title {
+  flex: 1;
+  padding-top: 4px;
+  object-fit: contain;
+  font-family: Roboto;
+  font-size: 14px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.14;
+  letter-spacing: normal;
+  text-align: left;
+  color: #5c5c5c;
+}
+</style>
