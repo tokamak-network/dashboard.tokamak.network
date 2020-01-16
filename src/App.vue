@@ -3,11 +3,9 @@
     id="app"
   >
     <header-container />
-    <div
-      class="container_12 main-container"
-    >
-      <main-layout v-if="isWalletConnected" />
-      <access-wallet-layout v-else />
+    <div class="container_12 main-container">
+      <access-wallet-layout v-if="!isWalletConnected" />
+      <main-layout v-else />
     </div>
     <footer-container />
   </div>

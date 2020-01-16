@@ -1,9 +1,9 @@
 <template>
   <div class="header-container">
-    <div class="container_12 header-content-container">
-      <div class="header-logo">
+    <div class="header-contents-container">
+      <div class="header-logo-container">
         <img
-          style="margin-top: 8px;"
+          class="header-logo"
           src="@/assets/images/Tokamak.png"
           width="258"
           height="25"
@@ -38,24 +38,33 @@
 export default {};
 </script>
 
-<style>
+<style scoped>
 .header-container {
   width: 100%;
+  height: 60px;
   background: #ffffff;
+  display: flex;
+  justify-content: center;
 }
 
-.header-content-container {
-  display: flex;
-  height: 60px;
+.header-contents-container {
+  width: 960px;
+  height: 100%;
   align-items: center;
+  display: flex;
+}
+
+.header-logo-container {
+  flex: 1;
 }
 
 .header-logo {
-  width: 80%;
+  margin-top: 7px;
+  padding-left: 16px;
 }
 
 .header-link-container {
-  width: 400px;
+  width: 340px;
   display: flex;
   align-items: center;
   justify-content: space-between;

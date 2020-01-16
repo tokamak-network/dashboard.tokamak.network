@@ -1,9 +1,7 @@
 <template>
   <div class="select-wallet-container">
-    <div class="wallet-header-container">
-      <div class="wallet-header-title">
-        Sellect Wallet
-      </div>
+    <div class="wallet-header-title">
+      Sellect Wallet
     </div>
     <div
       class="wallet-container"
@@ -111,14 +109,19 @@ export default {
 .select-wallet-container {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  padding-left: 32px;
 }
 
-.wallet-header-container {
-  width: 320px;
-  display: flex;
-  align-items: center;
-  height: 36px;
+.wallet-header-title {
+  font-family: OpenSeas;
+  font-size: 20px;
+  padding-left: 8px;
+  padding-bottom: 2px;
+  font-weight: 400;
+  font-stretch: normal;
+  font-style: normal;
+  text-align: left;
+  color: #b2b7b9;
 }
 
 .wallet-container {
@@ -143,18 +146,6 @@ export default {
 .wallet-image {
   padding-left: 19px;
   padding-right: 23px;
-}
-
-.wallet-header-title {
-  font-family: OpenSans;
-  font-size: 21px;
-  font-weight: 600;
-  font-stretch: normal;
-  font-style: normal;
-  line-height: 1.33;
-  letter-spacing: normal;
-  text-align: left;
-  color: #b2b7b9;
 }
 
 .wallet-title {

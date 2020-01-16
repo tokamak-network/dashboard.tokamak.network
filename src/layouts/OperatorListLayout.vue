@@ -53,7 +53,6 @@ export default {
 <style>
 .operator-list-layout {
   margin-top: 8px;
-  margin-bottom: -19.5px;
   border: solid 1px #ced6d9;
   background-color: #ffffff;
 }
