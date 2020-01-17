@@ -1,8 +1,6 @@
 <template>
   <div class="stake-info-container">
-    <div
-      class="operator-info-container"
-    >
+    <div class="operator-info-container">
       <img
         class="operator-image"
         src="@/assets/images/Operator.png"
@@ -73,7 +71,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .stake-info-container {
   width: 100%;
   border-radius: 6px;

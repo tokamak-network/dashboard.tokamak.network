@@ -1,8 +1,8 @@
 <template>
   <div class="main-layout">
     <menu-container />
-    <div class="content-container">
-      <dashboard-header-container />
+    <div class="main-container">
+      <wallet-info-container />
       <router-view />
       <send-transaction-modal
         v-if="isModalShowed"
@@ -15,14 +15,14 @@
 <script>
 import { mapState } from 'vuex';
 
-import DashboardHeaderContainer from '@/containers/DashboardHeaderContainer.vue';
+import WalletInfoContainer from '@/containers/WalletInfoContainer.vue';
 import MenuContainer from '@/containers/MenuContainer.vue';
 import SendTransactionModal from '@/containers/modal/SendTransactionModal.vue';
 
 export default {
   components: {
     'menu-container': MenuContainer,
-    'dashboard-header-container': DashboardHeaderContainer,
+    'wallet-info-container': WalletInfoContainer,
     'send-transaction-modal': SendTransactionModal,
   },
   computed: mapState([
@@ -44,7 +44,7 @@ export default {
   display: flex;
 }
 
-.content-container {
+.main-container {
   padding-left: 16px;
   padding-right: 16px;
   width: 100%;

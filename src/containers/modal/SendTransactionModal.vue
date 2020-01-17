@@ -106,7 +106,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .modal-close-container {
   display: flex;
   flex-direction: row-reverse;

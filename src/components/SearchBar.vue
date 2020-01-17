@@ -13,18 +13,15 @@
 import { mapState } from 'vuex';
 
 export default {
-  computed: mapState([
-    'operatorList',
-  ]),
   methods: {
     onChange (value) {
-      this.$emit('changedValue', value);
+      this.$emit('valueChanged', value);
     },
   },
 };
 </script>
 
-<style>
+<style scoped>
 .search-bar-container {
   width: 100%;
 }
@@ -40,15 +37,12 @@ export default {
   background-position: right;
   background-position-x: 98%;
   background-repeat: no-repeat;
-  background-size: 16px 16px
-}
-
-input[type="text"] {
+  background-size: 16px 16px;
   box-sizing: border-box;
   padding-left: 16px;
 }
 
-input::placeholder {
+.search-bar::placeholder {
   color: #aaaaaa;
 }
 </style>

@@ -10,7 +10,8 @@
       v-else
       :columns="['ADDRESS', 'NAME']"
       :clickable="true"
-      @clickedTableData="clickOperatorInfo"
+      :datas="operatorList"
+      @tableDataClicked="clickOperatorInfo"
     />
   </div>
 </template>

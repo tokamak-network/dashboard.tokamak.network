@@ -1,14 +1,14 @@
 <template>
   <div>
     <search-bar
-      @changedValue="searchOperatorByName"
+      @valueChanged="searchOperatorByName"
     />
     <div class="operator-list-layout">
       <standard-table
         :columns="['ADDRESS', 'NAME', 'COMMIT TIMESTAMP', 'COMMISSION RATE']"
         :clickable="true"
         :datas="searching ? operatorListBySearching : operatorList"
-        @clickedTableData="clickOperatorInfo"
+        @tableDataClicked="clickOperatorInfo"
       />
     </div>
   </div>

@@ -1,35 +1,40 @@
 <template>
-  <div>
-    <div
-      class="stake-info"
+  <div class="simple-stake-info-container">
+    <img
+      src="@/assets/images/Operator.png"
+      width="36"
+      height="36"
     >
-      <img
-        src="@/assets/images/Operator.png"
-        width="36"
-        height="36"
-      >
-      <div class="staking-operator-name">
-        Onther Operator
-      </div>
-      <div style="flex: 1" />
-      <div class="staking-token-amount">
-        1000
-      </div>
-      <div class="staking-token-unit">
-        TON
-      </div>
-      <div
-        class="staking-claim-button"
-        @click="showModal"
-      >
-        CLAIM
-      </div>
+    <div class="simple-stake-info-operator">
+      {{ operator }}
+    </div>
+    <div class="simple-stake-info-amount">
+      {{ amount }}
+    </div>
+    <div class="simple-stake-info-unit">
+      TON
+    </div>
+    <div
+      class="simple-stake-info-button"
+      @click="showModal"
+    >
+      CLAIM
     </div>
   </div>
 </template>
 
 <script>
 export default {
+  props: {
+    operator: {
+      type: String,
+      default: 'Onther',
+    },
+    amount: {
+      type: String,
+      default: '0',
+    },
+  },
   methods: {
     showModal () {
       this.$store.dispatch('showModal', 'claim');
@@ -38,8 +43,8 @@ export default {
 };
 </script>
 
-<style>
-.stake-info {
+<style scoped>
+.simple-stake-info-container {
   height: 50px;
   padding-left: 16px;
   padding-right: 20px;
@@ -47,7 +52,8 @@ export default {
   align-items: center;
 }
 
-.staking-operator-name {
+.simple-stake-info-operator {
+  flex: 1;
   font-family: Roboto;
   font-size: 12px;
   font-weight: normal;
@@ -59,7 +65,7 @@ export default {
   margin-left: 8px;
 }
 
-.staking-token-amount {
+.simple-stake-info-amount {
   font-size: 14px;
   padding-bottom: 2px;
   font-weight: 500;
@@ -68,7 +74,7 @@ export default {
   margin-right: 2px;
 }
 
-.staking-token-unit {
+.simple-stake-info-unit {
   font-size: 10px;
   font-weight: 300;
   text-align: left;
@@ -76,7 +82,7 @@ export default {
   margin-right: 6px;
 }
 
-.staking-claim-button {
+.simple-stake-info-button {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -94,7 +100,7 @@ export default {
   color: #586064;
 }
 
-.staking-claim-button:hover {
+.simple-stake-info-button:hover {
   cursor: pointer;
   background-color: #f7f8f9;
 }

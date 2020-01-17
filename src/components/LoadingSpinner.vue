@@ -8,7 +8,7 @@
 export default {};
 </script>
 
-<style>
+<style scpoed>
 .loading-spinner-container {
   display: flex;
   justify-content: center;

@@ -3,7 +3,7 @@
     id="app"
   >
     <header-container />
-    <div class="container_12 main-container">
+    <div class="container_12">
       <access-wallet-layout v-if="!isWalletConnected" />
       <main-layout v-else />
     </div>
@@ -52,10 +52,5 @@ html, body {
 
 #app {
   min-height: 100vh;
-}
-
-.main-container {
-  margin: 0 auto;
-  padding-bottom: 100px;
 }
 </style>

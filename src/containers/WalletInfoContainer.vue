@@ -1,6 +1,6 @@
 <template>
-  <div class="dashboard-header-container">
-    <div class="wallet-info-container">
+  <div class="wallet-info-container">
+    <div class="wallet-info">
       <img
         class="wallet-info-image"
         :src="require(`@/assets/images/Account.svg`)"
@@ -9,12 +9,12 @@
         <div class="wallet-info-title">
           Account
         </div>
-        <div class="wallet-info-content">
+        <div class="wallet-info-contents">
           {{ account }}
         </div>
       </div>
     </div>
-    <div class="wallet-info-container">
+    <div class="wallet-info">
       <img
         class="wallet-info-image"
         :src="require(`@/assets/images/Balance.svg`)"
@@ -23,12 +23,12 @@
         <div class="wallet-info-title">
           Balance
         </div>
-        <div class="wallet-info-content">
+        <div class="wallet-info-contents">
           {{ balance }}
         </div>
       </div>
     </div>
-    <div class="wallet-info-container">
+    <div class="wallet-info">
       <img
         class="wallet-info-image"
         :src="require(`@/assets/images/Network.svg`)"
@@ -37,7 +37,7 @@
         <div class="wallet-info-title">
           Network
         </div>
-        <div class="wallet-info-content">
+        <div class="wallet-info-contents">
           {{ networkId }}
         </div>
       </div>
@@ -57,14 +57,14 @@ export default {
 };
 </script>
 
-<style>
-.dashboard-header-container {
+<style scoped>
+.wallet-info-container {
   width: 100%;
   display: flex;
   padding-bottom: 16px;
 }
 
-.wallet-info-container {
+.wallet-info {
   width: 33.3%;
   display: flex;
   align-items: center;
@@ -74,11 +74,11 @@ export default {
   background-color: #ffffff;
 }
 
-.wallet-info-container:first-child {
+.wallet-info:first-child {
   margin-right: 8px;
 }
 
-.wallet-info-container:last-child {
+.wallet-info:last-child {
   margin-left: 8px;
 }
 
@@ -93,7 +93,7 @@ export default {
   color: #124b71;
 }
 
-.wallet-info-content {
+.wallet-info-contents {
   font-size: 11.5px;
   line-height: 1.08;
   letter-spacing: 0.2px;

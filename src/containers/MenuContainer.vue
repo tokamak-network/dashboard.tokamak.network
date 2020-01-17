@@ -82,7 +82,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .menu-container {
   padding-top: 24px;
   padding-bottom: 24px;
