@@ -1,4 +1,5 @@
 import { shallowMount } from '@vue/test-utils';
+
 import Wallet from '@/components/Wallet.vue';
 import LoadingSpinner from '@/components/LoadingSpinner.vue';
 
