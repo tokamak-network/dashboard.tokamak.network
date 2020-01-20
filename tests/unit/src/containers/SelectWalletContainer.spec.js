@@ -8,14 +8,14 @@ describe('SelectWalletContainer.vue', () => {
     wrapper = shallowMount(SelectWalletContainer);
   });
 
-  it('should set `connecting` to true on wallet click', async () => {
+  it('should set "connecting" to true on wallet click', async () => {
     const walletContainer = wrapper.find('.wallet-container');
 
     walletContainer.trigger('click');
     expect(wrapper.vm.$data.connecting).toEqual(true);
   });
 
-  it('should set `connecting` to false after success accessing wallet', async () => {
+  it('should set "connecting" to false after success accessing wallet', async () => {
     const walletContainer = wrapper.find('.wallet-container');
 
     walletContainer.trigger('click');
