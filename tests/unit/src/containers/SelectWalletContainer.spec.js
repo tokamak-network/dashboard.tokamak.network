@@ -1,4 +1,5 @@
 import { shallowMount } from '@vue/test-utils';
+
 import SelectWalletContainer from '@/containers/SelectWalletContainer.vue';
 
 describe('SelectWalletContainer.vue', () => {
