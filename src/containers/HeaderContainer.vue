@@ -1,6 +1,6 @@
 <template>
   <div class="header-container">
-    <div class="header-contents-container">
+    <div class="header">
       <div class="header-logo-container">
         <img
           class="header-logo"
@@ -47,7 +47,7 @@ export default {};
   justify-content: center;
 }
 
-.header-contents-container {
+.header {
   width: 960px;
   height: 100%;
   align-items: center;

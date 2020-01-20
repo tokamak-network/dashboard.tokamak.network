@@ -5,7 +5,7 @@
     />
     <div class="operator-list-layout">
       <standard-table
-        :columns="['ADDRESS', 'NAME', 'COMMIT TIMESTAMP', 'COMMISSION RATE']"
+        :columns="columns"
         :clickable="true"
         :datas="searching ? operatorListBySearching : operatorList"
         @tableDataClicked="clickOperatorInfo"
@@ -20,6 +20,25 @@ import { mapState } from 'vuex';
 import StandardTable from '@/components/StandardTable.vue';
 import SearchBar from '@/components/SearchBar.vue';
 
+const columns = [
+  {
+    name: 'ADDRESS',
+    key: 'address',
+  },
+  {
+    name: 'NAME',
+    key: 'name',
+  },
+  {
+    name: 'COMMIT TIMESTAMP',
+    key: 'timestamp',
+  },
+  {
+    name: 'COMMISSION RATE',
+    key: 'commission',
+  },
+];
+
 export default {
   components: {
     'standard-table': StandardTable,
@@ -27,6 +46,7 @@ export default {
   },
   data () {
     return {
+      columns: [],
       searching: false,
       operatorListBySearching: [],
     };
@@ -34,6 +54,9 @@ export default {
   computed: mapState([
     'operatorList',
   ]),
+  beforeMount () {
+    this.columns = columns;
+  },
   methods: {
     clickOperatorInfo (data) {
       this.$router.push('/operators/onther');

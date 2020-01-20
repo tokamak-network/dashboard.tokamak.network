@@ -9,7 +9,7 @@
         <div class="wallet-info-title">
           Account
         </div>
-        <div class="wallet-info-contents">
+        <div class="wallet-info-content">
           {{ account }}
         </div>
       </div>
@@ -23,7 +23,7 @@
         <div class="wallet-info-title">
           Balance
         </div>
-        <div class="wallet-info-contents">
+        <div class="wallet-info-content">
           {{ balance }}
         </div>
       </div>
@@ -37,7 +37,7 @@
         <div class="wallet-info-title">
           Network
         </div>
-        <div class="wallet-info-contents">
+        <div class="wallet-info-content">
           {{ networkId }}
         </div>
       </div>
@@ -93,7 +93,7 @@ export default {
   color: #124b71;
 }
 
-.wallet-info-contents {
+.wallet-info-content {
   font-size: 11.5px;
   line-height: 1.08;
   letter-spacing: 0.2px;

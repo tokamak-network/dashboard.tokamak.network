@@ -14,6 +14,10 @@ export default {
     'introduction': Introduction,
     'select-wallet-container': SelectWalletContainer,
   },
+  mounted () {
+    // TODO: optimization
+    this.$store.dispatch('logout');
+  },
 };
 </script>
 

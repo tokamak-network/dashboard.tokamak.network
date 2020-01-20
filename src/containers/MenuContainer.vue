@@ -15,7 +15,6 @@
       Dashboard
     </div>
     <div
-      style="margin-top: 16px;"
       class="menu-title-container"
       :class="{ 'menu-selected': $route.path !== '/dashboard'}"
       @click="clickMenu('operators')"
@@ -84,7 +83,7 @@ export default {
 
 <style scoped>
 .menu-container {
-  padding-top: 24px;
+  padding-top: 8px;
   padding-bottom: 24px;
   background: #ffffff;
   width: 260px;
@@ -96,6 +95,7 @@ export default {
 .menu-title-container {
   margin-left: 1px;
   margin-right: 1px;
+  margin-top: 16px;
   display: flex;
   align-items: center;
   padding: 10px;
@@ -151,14 +151,11 @@ export default {
 
 .menu-title-container:hover {
   cursor: pointer;
+  color: #3e3e3e;
 }
 
 .sub-menu-title-container:hover {
   cursor: pointer;
-}
-
-.menu-title-container:hover {
-  color: #3e3e3e;
 }
 
 .menu-title-container:hover .menu-image {

@@ -9,7 +9,7 @@
       <br>
       Plasma Chain Building Protocol
     </div>
-    <div class="introduction-contents">
+    <div class="introduction-content">
       Tokamak Network is a platform that assures decentralized and secure
       property same as Ethereum Main chain while supporting high level of
       scalability and extendability. Each Dapp is built easily for specific purpose
@@ -43,7 +43,7 @@ export default {};
   color: #176ea8;
 }
 
-.introduction-contents {
+.introduction-content {
   margin-top: 8px;
   font-size: 16px;
   font-weight: 300;

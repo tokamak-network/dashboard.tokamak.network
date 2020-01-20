@@ -1,27 +1,25 @@
 <template>
   <table>
     <thead>
-      <tr>
-        <th
-          v-for="(column, index) in columns"
-          :key="index"
-        >
-          {{ column }}
-        </th>
-      </tr>
+      <th
+        v-for="column in columns"
+        :key="column.name"
+      >
+        {{ column.name }}
+      </th>
     </thead>
     <tbody>
       <tr
-        v-for="(data, index) in datas"
-        :key="index"
+        v-for="data in datas"
+        :key="data.key"
         :class="{ 'table-clickable': clickable }"
         @click="clickTableData(data)"
       >
         <td
-          v-for="(value, key) in data"
-          :key="key"
+          v-for="column in columns"
+          :key="column.name"
         >
-          {{ value }}
+          {{ data[column.key] }}
         </td>
       </tr>
     </tbody>
