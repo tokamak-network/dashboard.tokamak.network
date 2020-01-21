@@ -50,7 +50,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .table-clickable:hover {
   cursor: pointer;
   background: #f8f8f8;

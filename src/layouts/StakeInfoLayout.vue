@@ -24,7 +24,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .stake-info-layout {
   margin-top: -8px;
 }

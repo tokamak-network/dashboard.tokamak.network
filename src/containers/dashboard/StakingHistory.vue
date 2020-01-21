@@ -37,11 +37,5 @@ export default {
 };
 </script>
 
-<style>
-.loading-container-in-dashboard {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 284px;
-}
+<style scoped>
 </style>

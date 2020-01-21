@@ -29,9 +29,8 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .history-layout {
-  margin-bottom: -19.5px;
   border: solid 1px #ced6d9;
   background-color: #ffffff;
 }

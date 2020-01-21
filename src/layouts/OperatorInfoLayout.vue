@@ -106,7 +106,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .operator-info-layout {
   border-radius: 6px;
   border: solid 0.7px #ced6d9;

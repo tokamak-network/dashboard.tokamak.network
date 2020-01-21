@@ -73,7 +73,7 @@ export default {
 };
 </script>
 
-<style>
+ <style scoped>
 .operator-list-layout {
   margin-top: 8px;
   border: solid 1px #ced6d9;
