@@ -54,6 +54,10 @@ export default {
   computed: mapState([
     'operatorList',
   ]),
+  async beforeCreate () {
+    await this.$store.dispatch('checkAndGetData', 'operator');
+    await new Promise(r => setTimeout(r, 2500));
+  },
   beforeMount () {
     this.columns = columns;
   },

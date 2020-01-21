@@ -1,7 +1,9 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-
 Vue.use(Vuex);
+
+import api from '@/api/index.js';
+import _ from 'lodash';
 
 const initialState = {
   modalType: '',
@@ -11,49 +13,35 @@ const initialState = {
   account: '',
   networkId: '',
   balance: '',
-  operatorList: [
-    {
-      'address': '1000',
-      'name': '2000',
-      'timestamp': '3000',
-      'commission': '4000',
-    },
-  ],
-  myStakeInfoList: [],
-  historyList: [],
+  operatorList: null,
+  myStakeInfoList: null,
+  historyList: null,
 };
 
 const getInitialState = () => initialState;
 
-export default new Vuex.Store({
-  state: {
-    web3: null,
-    modalType: '',
-    isModalShowed: false,
-    isWalletConnected: false,
-    account: '',
-    networkId: '',
-    balance: '',
-    operatorList: [
-      {
-        'address': '1000',
-        'name': '20000',
-        'timestamp': '3000',
-        'commission': '4000',
-      },
-    ],
-    myStakeInfoList: [],
-    historyList: [],
-  },
-  mutations: {
-    SET_WALLET_CONNECTION_STATE: (state, isWalletConnected) => {
-      state.isWalletConnected = isWalletConnected;
+const sampleData = {
+  operatorList: [
+    {
+      address: '0xdead',
+      name: 'beef',
+      timestamp: '10 minutes ago',
+      commission: '2.5%',
     },
+  ],
+};
+
+export default new Vuex.Store({
+  state: _.cloneDeep(initialState),
+  mutations: {
     SET_INITIAL_STATE: (state) => {
       const initialState = getInitialState();
       Object.keys(initialState).forEach((key) => {
         state[key] = initialState[key];
       });
+    },
+    SET_WALLET_CONNECTION_STATE: (state, isWalletConnected) => {
+      state.isWalletConnected = isWalletConnected;
     },
     SET_WEB3: (state, web3) => {
       state.web3 = web3;
@@ -73,30 +61,56 @@ export default new Vuex.Store({
     SET_MODAL_TYPE: (state, type) => {
       state.modalType = type;
     },
+    SET_OPERATOR_LIST: (state, operatorList) => {
+      state.operatorList = operatorList;
+    },
+    SET_MY_STAKE_INFO_LIST: (state, infoList) => {
+      state.myStakeInfoList = infoList;
+    },
+    SET_HISTORY_LIST: (state, historyList) => {
+      state.historyList = historyList;
+    },
   },
   actions: {
-    setWalletInfo ({ commit }, walletInfo) {
+    setWalletInfo (context, walletInfo) {
       const web3 = walletInfo.web3;
       const account = walletInfo.account;
       const networkId = walletInfo.networkId;
       const balance = walletInfo.balance;
 
-      commit('SET_WEB3', web3);
-      commit('SET_ACCOUNT', account);
-      commit('SET_NETWORK_ID', networkId);
-      commit('SET_BALANCE', balance);
-      commit('SET_WALLET_CONNECTION_STATE', true);
+      context.commit('SET_WEB3', web3);
+      context.commit('SET_ACCOUNT', account);
+      context.commit('SET_NETWORK_ID', networkId);
+      context.commit('SET_BALANCE', balance);
+      context.commit('SET_WALLET_CONNECTION_STATE', true);
     },
-    logout ({ commit }) {
-      commit('SET_INITIAL_STATE');
+    logout (context) {
+      context.commit('SET_INITIAL_STATE');
     },
-    showModal ( { commit }, modalType) {
-      commit('SET_MODAL_TYPE', modalType);
-      commit('SHOW_MODAL', true);
+    showModal (context, modalType) {
+      context.commit('SET_MODAL_TYPE', modalType);
+      context.commit('SHOW_MODAL', true);
     },
-    closeModal ( { commit }) {
-      commit('SET_MODAL_TYPE', '');
-      commit('SHOW_MODAL', false);
+    closeModal (context) {
+      context.commit('SET_MODAL_TYPE', '');
+      context.commit('SHOW_MODAL', false);
+    },
+    async checkAndGetData (context, type) {
+      switch (type) {
+      case 'operator':
+        if (_.isNull(context.state.operatorList)) {
+          await api.sample();
+          context.commit('SET_OPERATOR_LIST', sampleData.operatorList);
+        }
+        break;
+      case 'stakeInfo':
+        break;
+      case 'history':
+        break;
+
+      default:
+        break;
+      }
     },
   },
 });
