@@ -58,9 +58,7 @@ async function _getTokenBalance (web3, account) {
       'type':'function',
     },
   ];
-  const address = '0x514910771AF9Ca656af840dff83E8264EcF986CA';
-  const contract = new web3.eth.Contract(balanceOfABI, address);
-
+  const contract = new web3.eth.Contract(balanceOfABI, process.env.VUE_APP_TOKEN_CONTRACT);
   const balance = await contract.methods.balanceOf(account).call();
   // const decimals = await contract.methods.decimals().call();
   // return balance.div(10**decimals);
