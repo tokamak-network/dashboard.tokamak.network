@@ -109,6 +109,11 @@ html, body {
 }
 
 /* GLOBAL CONTAINER */
+.table-container {
+  min-height: 264px;
+  max-height: 264px;
+}
+
 .loading-container-in-dashboard {
   display: flex;
   justify-content: center;

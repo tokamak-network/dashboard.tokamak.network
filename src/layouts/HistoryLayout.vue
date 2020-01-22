@@ -1,7 +1,7 @@
 <template>
-  <div class="history-layout">
+  <div class="history-layout table-container">
     <standard-table
-      :columns="['ADDRESS', 'NAME', 'COMMIT TIMESTAMP', 'COMMISSION RATE']"
+      :rounded="true"
       :datas="datas"
     />
   </div>

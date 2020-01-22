@@ -4,11 +4,14 @@
       <th
         v-for="column in columns"
         :key="column.name"
+        :class="{ 'round': rounded }"
       >
         {{ column.name }}
       </th>
     </thead>
-    <tbody>
+    <tbody
+      :class="{ 'round': rounded }"
+    >
       <tr
         v-for="data in datas"
         :key="data.key"
@@ -41,6 +44,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    rounded: {
+      type: Boolean,
+      default: false,
+    },
   },
   methods: {
     clickTableData (data) {
@@ -60,23 +67,31 @@ table {
   width: 100%;
   table-layout: auto;
   border-spacing: 0px;
-  /* border-radius: 7px; */
+}
+
+table.round {
+  border-radius: 6px;
 }
 
 table td {
-  /* border-top: 1px solid #ddd; */
   text-align: center;
 }
 
 th {
   font-size: 8px;
   height: 21px;
-  /* border-top-left-radius: 7px;
-  border-top-right-radius: 7px; */
   color: #7e8d93;
   font-weight: 300;
   background: #f8f8f8;
   border-bottom: 1px solid #ddd;
+}
+
+th.round:first-child {
+  border-top-left-radius: 7px;
+}
+
+th.round:last-child {
+  border-top-right-radius: 7px;
 }
 
 td {
@@ -89,11 +104,14 @@ td {
 tbody {
   background: #ffffff;
   display: block;
-  /* border-bottom-left-radius: 7px;
-  border-bottom-right-radius: 7px; */
   min-height: 240px;
   max-height: 240px;
   overflow-y: scroll;
+}
+
+tbody.round {
+  border-bottom-left-radius: 6px;
+  border-bottom-right-radius: 6px;
 }
 
 thead, tbody tr {

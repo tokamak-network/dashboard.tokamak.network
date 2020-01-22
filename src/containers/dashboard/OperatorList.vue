@@ -1,18 +1,20 @@
 <template>
-  <div>
+  <div class="table-container">
     <div
       v-if="isLoading"
       class="loading-container-in-dashboard"
     >
       <loading-spinner />
     </div>
-    <standard-table
-      v-else
-      :columns="columns"
-      :clickable="true"
-      :datas="operatorList"
-      @tableDataClicked="clickOperatorInfo"
-    />
+    <div v-else>
+      <standard-table
+        :columns="columns"
+        :clickable="true"
+        :rounded="true"
+        :datas="operatorList"
+        @tableDataClicked="clickOperatorInfo"
+      />
+    </div>
   </div>
 </template>
 

@@ -1,15 +1,18 @@
 <template>
-  <div>
+  <div class="table-container">
     <div
       v-if="isLoading"
       class="loading-container-in-dashboard"
     >
       <loading-spinner />
     </div>
-    <standard-table
-      v-else
+    <div v-else>
+      <standard-table
+        :rounded="true"
       :columns="['TYPE', 'AMOUNT', 'TRANSACTION', 'TIMESTAMP']"
     />
+  </div>
+    </div>
   </div>
 </template>
 

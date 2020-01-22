@@ -3,8 +3,10 @@
     <search-bar
       @valueChanged="searchOperatorByName"
     />
-    <div class="operator-list-layout">
+
+    <div class="operator-list-layout table-container">
       <standard-table
+        :rounded="true"
         :columns="columns"
         :clickable="true"
         :datas="searching ? operatorListBySearching : operatorList"
@@ -82,5 +84,6 @@ export default {
   margin-top: 8px;
   border: solid 1px #ced6d9;
   background-color: #ffffff;
+  border-radius: 6px;
 }
 </style>
