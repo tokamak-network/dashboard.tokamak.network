@@ -3,7 +3,7 @@
     <input
       type="checkbox"
       :checked="checked"
-      @click="onClick"
+      @click="checkBeforeToggle"
     >
     <span class="slider round" />
   </label>
@@ -16,15 +16,17 @@ export default {
       type: Boolean,
       default: false,
     },
-    func: {
+    checkFn: {
       type: Function,
       default: () => {},
     },
   },
   methods: {
-    onClick (e) {
-      this.func();
-      e.preventDefault();
+    checkBeforeToggle (e) {
+      if(!this.checkFn()) {
+        e.preventDefault();
+      }
+      // TODO: add condition
     },
   },
 };
