@@ -3,7 +3,7 @@
     <div class="dashboard-layout">
       <div
         class="dashboard-container"
-        style="margin-right: 8px;"
+        style="margin-right: 4px;"
       >
         <div class="dashboard-title-container">
           <div class="dashboard-title">
@@ -16,16 +16,14 @@
             More
           </div>
         </div>
-        <operator-list style="margin-right: 1px; height: 284px;" />
+        <operator-list />
       </div>
       <div
         class="dashboard-container"
-        style="margin-left: 8px;"
+        style="margin-left: 4px;"
       >
         <div class="dashboard-title-container">
-          <div
-            class="dashboard-title"
-          >
+          <div class="dashboard-title">
             My Stake
           </div>
           <div
@@ -42,7 +40,7 @@
     </div>
     <div
       class="dashboard-container"
-      style="margin-top: 16px;"
+      style="margin-top: 8px;"
     >
       <div class="dashboard-title-container">
         <div class="dashboard-title">
@@ -55,7 +53,7 @@
           More
         </div>
       </div>
-      <staking-history style="margin-right: 1px; height: 284px;" />
+      <staking-history />
     </div>
   </div>
 </template>
@@ -110,7 +108,7 @@ export default {
 }
 
 .stake-infos-container {
-  height: 284px;
+  height: 262px;
   overflow-y: scroll;
 }
 
