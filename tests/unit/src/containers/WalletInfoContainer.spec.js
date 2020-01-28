@@ -28,10 +28,17 @@ describe('WalletInfoContainer.vue', () => {
   });
 
   it('should render correct store data', () => {
-    const contents = wrapper.findAll('.wallet-info-content');
+    const account = wrapper.find('.account');
+    expect(account.text()).toBe(state.account);
 
-    expect(contents.wrappers[0].text()).toBe(state.account);
-    expect(contents.wrappers[1].text()).toBe(state.balance);
-    expect(contents.wrappers[2].text()).toBe(state.networkId);
+    const networkId = wrapper.find('.network-id');
+    expect(networkId.text()).toBe(state.networkId);
+
+    // TODO: balance -> ton, wton
+    const tonBalance = wrapper.find('.ton-balance');
+    expect(tonBalance.text()).toBe(state.balance);
+
+    const wtonBalance = wrapper.find('.wton-balance');
+    expect(wtonBalance.text()).toBe(state.balance);
   });
 });

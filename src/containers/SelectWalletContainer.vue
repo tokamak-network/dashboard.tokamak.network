@@ -3,14 +3,16 @@
     <div class="wallet-header-title">
       Sellect Wallet
     </div>
-    <div
-      class="wallet-container"
-      @click="connectMetaMaskWallet"
-    >
+
+    <div class="wallet-container">
+      <wallet
+        :title="'개발용'"
+        :image="'Metamask.jpg'"
+      />
       <wallet
         :title="'MetaMask'"
         :image="'Metamask.jpg'"
-        :loading="connecting"
+        :connect="connectMetaMaskWallet"
       />
     </div>
   </div>
@@ -32,14 +34,10 @@ export default {
   },
   methods: {
     async connectMetaMaskWallet () {
-      if (!this.connecting) {
-        this.connecting = true;
-        const walletInfo = await mm.accessMetamaskWallet();
-        if (walletInfo.isConnected) {
-          this.$store.dispatch('setWalletInfo', walletInfo);
-          this.$router.replace('/dashboard');
-        }
-        this.connecting = false;
+      const walletInfo = await mm.accessMetamaskWallet();
+      if (walletInfo.isConnected) {
+        this.$store.dispatch('setWalletInfo', walletInfo);
+        this.$router.replace('/dashboard');
       }
     },
   },

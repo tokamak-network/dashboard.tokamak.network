@@ -16,6 +16,7 @@ describe('OperatorListLayout.vue', () => {
 
     actions = {
       logout: jest.fn(),
+      checkAndGetData: jest.fn(),
     };
     store = new Vuex.Store({
       actions,

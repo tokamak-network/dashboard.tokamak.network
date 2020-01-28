@@ -22,10 +22,5 @@ describe('Wallet.vue', () => {
     expect(walletTitle.text()).toBe(title);
   });
 
-  it('should render correct loading state', async () => {
-    wrapper.setProps({ loading: true });
-
-    const loadingSpinner = wrapper.find(LoadingSpinner);
-    expect(loadingSpinner.exists()).toBeTruthy();
-  });
+  // TODO: add tests
 });

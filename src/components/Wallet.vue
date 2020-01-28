@@ -1,5 +1,8 @@
 <template>
-  <div class="wallet">
+  <div
+    class="wallet"
+    @click="connectWallet"
+  >
     <img
       class="wallet-image"
       src="@/assets/images/Metamask.jpg"
@@ -31,14 +34,27 @@ export default {
       type: String,
       default: '',
     },
-    loading: {
-      type: Boolean,
-      default: false,
+    connect: {
+      type: Function,
+      default: () => {},
     },
+  },
+  data () {
+    return {
+      loading: false,
+    };
   },
   computed: mapState([
     'isWalletConnected',
   ]),
+  methods: {
+    async connectWallet () {
+      this.loading = true;
+      this.connect();
+      await new Promise(r => setTimeout(r, 2500));
+      this.loading = false;
+    },
+  },
 };
 </script>
 
