@@ -24,7 +24,6 @@ class Currency {
 
   toFixed (shift = 0) {
     if (shift === 'wei') shift = 18;
-    if (shift === 'ray') shift = 27;
     if (shift === 'rad') shift = 45;
 
     // always round down so that we never attempt to spend more than we have
@@ -45,11 +44,3 @@ export function createCurrency (symbol) {
 
   return creatorFn;
 }
-
-// function makeShiftedCreatorFn (creatorFn, symbol, shift) {
-//   const fn = amount => creatorFn(amount, shift);
-//   // these two properties are used by getCurrency
-//   fn.symbol = symbol;
-//   fn.shift = shift;
-//   return fn;
-// }

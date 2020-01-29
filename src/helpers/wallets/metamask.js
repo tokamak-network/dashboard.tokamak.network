@@ -1,4 +1,8 @@
 import Web3 from 'web3';
+import Contract from '../Contract';
+import getWeb3 from '../getWeb3';
+
+const instance = getWeb3.instance;
 
 const accessMetamaskWallet = async function () {
   if (window.ethereum) {
@@ -15,13 +19,14 @@ const accessMetamaskWallet = async function () {
   }
 
   const provider = window.ethereum;
-  const web3 = new Web3(provider);
+  instance.web3 = new Web3(provider);
 
-  const metamaskAccount = await _getMetamaskAccount(web3);
-  const networkId = await _getNetworkId(web3);
-  const balance = await _getTokenBalance(web3, metamaskAccount);
+  const metamaskAccount = await _getMetamaskAccount();
+  const networkId = await _getNetworkId();
+  const balance = await _getTokenBalance(metamaskAccount);
+
   return {
-    web3,
+    web3: instance.web3,
     isConnected: true,
     account: metamaskAccount,
     networkId: networkId.toString(),
@@ -29,18 +34,20 @@ const accessMetamaskWallet = async function () {
   };
 };
 
-async function _getMetamaskAccount (web3) {
+async function _getMetamaskAccount () {
+  const web3 = instance.web3;
   const metamaskAccount = (await web3.eth.getAccounts())[0];
   return metamaskAccount;
 }
 
-async function _getNetworkId (web3) {
+async function _getNetworkId () {
+  const web3 = instance.web3;
   const networkId = (await web3.eth.net.getId());
   return networkId;
 }
 
-async function _getTokenBalance (web3, account) {
-  const balanceOfABI = [
+async function _getTokenBalance (account) {
+  const abi = [
     // balanceOf
     {
       'constant':true,
@@ -58,8 +65,8 @@ async function _getTokenBalance (web3, account) {
       'type':'function',
     },
   ];
-  const contract = new web3.eth.Contract(balanceOfABI, process.env.VUE_APP_TOKEN_CONTRACT);
-  const balance = await contract.methods.balanceOf(account).call();
+  const contract = new Contract(abi, process.env.VUE_APP_TOKEN_CONTRACT);
+  const balance = await contract.staticCall('balanceOf', [ account ]);
   // const decimals = await contract.methods.decimals().call();
   // return balance.div(10**decimals);
   return balance;
