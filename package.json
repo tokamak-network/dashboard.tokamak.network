@@ -10,8 +10,12 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "@ledgerhq/hw-app-eth": "^5.6.0",
+    "@ledgerhq/hw-transport-u2f": "^5.6.0",
     "axios": "^0.19.1",
+    "bignumber.js": "^9.0.0",
     "core-js": "^3.4.4",
+    "ethereumjs-tx": "^2.1.2",
     "lodash": "^4.17.15",
     "vue": "^2.6.10",
     "vue-router": "^3.1.3",
