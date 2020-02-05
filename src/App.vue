@@ -4,7 +4,7 @@
   >
     <header-container />
     <div class="container_12">
-      <access-wallet-layout v-if="!isWalletConnected" />
+      <access-wallet-layout v-if="$route.path === '/'" />
       <main-layout v-else />
     </div>
     <footer-container />
@@ -13,6 +13,7 @@
 
 <script>
 import { mapState } from 'vuex';
+import { isNull } from 'lodash';
 
 import HeaderContainer from '@/containers/HeaderContainer.vue';
 import FooterContainer from '@/containers/FooterContainer.vue';
@@ -28,10 +29,10 @@ export default {
     'main-layout': MainLayout,
   },
   computed: mapState([
-    'isWalletConnected',
+    'web3',
   ]),
   created () {
-    if (!this.isWalletConnected && this.$route.path !== '/') {
+    if (isNull(this.web3) && this.$route.path !== '/') {
       this.$router.replace('/');
     }
   },

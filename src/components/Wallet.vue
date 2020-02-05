@@ -45,13 +45,12 @@ export default {
     };
   },
   computed: mapState([
-    'isWalletConnected',
+    'web3',
   ]),
   methods: {
     async connectWallet () {
       this.loading = true;
-      this.connect();
-      await new Promise(r => setTimeout(r, 2500));
+      await this.connect();
       this.loading = false;
     },
   },

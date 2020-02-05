@@ -12,14 +12,14 @@
       <wallet
         :title="'MetaMask'"
         :image="'Metamask.jpg'"
-        :connect="connectMetaMaskWallet"
+        :connect="metamask"
       />
     </div>
   </div>
 </template>
 
 <script>
-import mm from '@/helpers/wallets/metamask';
+import Web3 from 'web3';
 
 import Wallet from '@/components/Wallet.vue';
 
@@ -27,18 +27,19 @@ export default {
   components: {
     'wallet': Wallet,
   },
-  data () {
-    return {
-      connecting: false,
-    };
-  },
   methods: {
-    async connectMetaMaskWallet () {
-      const walletInfo = await mm.accessMetamaskWallet();
-      if (walletInfo.isConnected) {
-        this.$store.dispatch('setWalletInfo', walletInfo);
-        this.$router.replace('/dashboard');
+    async metamask () {
+      if (window.ethereum) {
+        await window.ethereum.enable();
+      } else {
+        //
       }
+
+      const provider = window.ethereum;
+      await this.$store.dispatch('connect', new Web3(provider));
+      await this.$store.dispatch('set');
+
+      this.$router.replace('/dashboard');
     },
   },
 };
