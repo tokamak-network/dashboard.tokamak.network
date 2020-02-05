@@ -1,29 +1,16 @@
 # dashboard.tokamak.network
 
-## Project setup
-```
-npm install
-```
-
-### Compiles and hot-reloads for development
-```
-npm run serve
+## Setup
+```bash
+$ git checkout develop
+$ npm install
 ```
 
-### Compiles and minifies for production
-```
-npm run build
-```
+## Run
+```bash
+# run file server
+$ npm run server
 
-### Run your unit tests
+# run vue app
+$ npm run serve
 ```
-npm run test:unit
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
