@@ -18,7 +18,7 @@
       </div>
       <div
         class="claim-button"
-        @click="showModal('claim')"
+        @click="claim"
       >
         Claim
       </div>
@@ -46,13 +46,23 @@
       <div class="delegate-button-container">
         <div
           class="delegate-button"
-          @click="showModal('delegate')"
+          @click="showModal(
+            'delegate',
+            wtonBalance.toFixed('ray'),
+            async (amount) =>
+              DepositManager.deposit(operator.rootchain, amount, { from: user })
+          )"
         >
           Delegate
         </div>
         <div
           class="undelegate-button"
-          @click="showModal('undelegate')"
+          @click="showModal(
+            'undelegate',
+            operator.userStake.toFixed('ray'),
+            async (amount) =>
+              DepositManager.requestWithdrawal(operator.rootchain, amount, { from: user })
+          )"
         >
           Undelegate
         </div>
@@ -62,6 +72,8 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
+
 export default {
   props: {
     operator: {
@@ -69,9 +81,23 @@ export default {
       default: () => {},
     },
   },
+  computed: {
+    ...mapState([
+      'user',
+      'wtonBalance',
+      'DepositManager',
+    ]),
+  },
   methods: {
-    showModal (type) {
-      this.$store.dispatch('showModal', type);
+    showModal (type, availableAmount, func) {
+      // TODO: optimization
+      this.$store.dispatch('showModal', {
+        type,
+        availableAmount,
+        func,
+      });
+    },
+    async claim () {
     },
   },
 };

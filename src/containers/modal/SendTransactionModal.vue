@@ -34,23 +34,23 @@
                   class="token-amount-input"
                   @keypress="isNumber"
                 >
-                <span class="modal-token-unit">TON</span>
+                <span class="modal-token-unit">WTON</span>
                 <div
                   class="modal-set-max-button"
-                  @click="clickSetMaxButton"
+                  @click="setMax"
                 >
                   SET MAX
                 </div>
               </div>
               <div class="modal-available-to-claim">
-                available to {{ modalType }}: {{ availableAmount }} TON
+                available to {{ modalData.type }}: {{ modalData.availableAmount }} WTON
               </div>
               <div class="modal-button-container">
                 <div
                   class="modal-send-transaction-button"
-                  @click="clickSendTransactionButton"
+                  @click="send"
                 >
-                  {{ modalType }}
+                  {{ modalData.type }}
                 </div>
               </div>
             </div>
@@ -69,13 +69,13 @@ export default {
   data () {
     return {
       amount: '',
-      availableAmount: '1000',
     };
   },
   computed: mapState([
-    'modalType',
+    'modalData',
     'user',
     'web3',
+    'sendFunc',
   ]),
   mounted () {
     this.$refs.amount.focus();
@@ -84,15 +84,14 @@ export default {
     closeModal () {
       this.$store.dispatch('closeModal');
     },
-    clickSetMaxButton () {
-      this.amount = this.availableAmount;
+    setMax () {
+      this.amount = this.modalData.availableAmount;
     },
-    async clickSendTransactionButton () {
-      const receipt = await this.web3.eth.sendTransaction({
-        from: this.user,
-        to: '0x11f4d0A3c12e86B4b5F39B213F7E19D048276DAe',
-        value: '1000000000000000',
-      });
+    async send () {
+      await this.modalData.func(this.amount);
+      this.closeModal();
+
+      this.$store.dispatch('set');
     },
     isNumber: function (evt) {
       evt = (evt) ? evt : window.event;
@@ -127,7 +126,7 @@ export default {
 }
 
 .modal-token-unit {
-  margin-left: -48px;
+  margin-left: -58px;
   margin-right: 20px;
   font-size: 12px;
   font-weight: 500;

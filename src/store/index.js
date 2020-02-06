@@ -31,7 +31,7 @@ import CustomIncrementCoinage from '@/contracts/ABI/CustomIncrementCoinage.json'
 const CustomIncrementCoinageABI = CustomIncrementCoinage.abi;
 
 const initialState = {
-  modalType: '',
+  modalData: null,
   isModalShowed: false,
 
   web3: null,
@@ -64,6 +64,12 @@ export default new Vuex.Store({
         state[key] = initialState[key];
       });
     },
+    SHOW_MODAL: (state, isModalShowed) => {
+      state.isModalShowed = isModalShowed;
+    },
+    SET_MODAL_DATA: (state, data) => {
+      state.modalData = data;
+    },
     SET_WEB3: (state, web3) => {
       state.web3 = web3;
     },
@@ -72,12 +78,6 @@ export default new Vuex.Store({
     },
     SET_NETWORK_ID: (state, networkId) => {
       state.networkId = networkId;
-    },
-    SHOW_MODAL: (state, isModalShowed) => {
-      state.isModalShowed = isModalShowed;
-    },
-    SET_MODAL_TYPE: (state, type) => {
-      state.modalType = type;
     },
     SET_TON_BALANCE: (state, balance) => {
       state.tonBalance = balance;
@@ -102,12 +102,12 @@ export default new Vuex.Store({
     },
   },
   actions: {
-    showModal (context, modalType) {
-      context.commit('SET_MODAL_TYPE', modalType);
+    showModal (context, data) {
+      context.commit('SET_MODAL_DATA', data);
       context.commit('SHOW_MODAL', true);
     },
     closeModal (context) {
-      context.commit('SET_MODAL_TYPE', '');
+      context.commit('SET_MODAL_DATA', null);
       context.commit('SHOW_MODAL', false);
     },
     logout (context) {

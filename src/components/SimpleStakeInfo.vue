@@ -16,7 +16,7 @@
     </div>
     <div
       class="simple-stake-info-button"
-      @click="showModal"
+      @click="claim"
     >
       CLAIM
     </div>
@@ -32,8 +32,7 @@ export default {
     },
   },
   methods: {
-    showModal () {
-      this.$store.dispatch('showModal', 'claim');
+    async claim () {
     },
   },
 };

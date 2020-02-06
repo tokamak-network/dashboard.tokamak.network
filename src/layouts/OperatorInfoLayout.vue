@@ -31,13 +31,23 @@
       <div class="delegate-button-container">
         <div
           class="delegate-button"
-          @click="showModal('delegate')"
+          @click="showModal(
+            'delegate',
+            wtonBalance.toFixed('ray'),
+            async (amount) =>
+              DepositManager.deposit(operator.rootchain, amount, { from: user })
+          )"
         >
           Delegate
         </div>
         <div
           class="undelegate-button"
-          @click="showModal('undelegate')"
+          @click="showModal(
+            'undelegate',
+            operator.userStake.toFixed('ray'),
+            async (amount) =>
+              DepositManager.requestWithdrawal(operator.rootchain, amount, { from: user })
+          )"
         >
           Undelegate
         </div>
@@ -93,7 +103,10 @@ export default {
   computed: {
     ...mapState([
       'web3',
+      'user',
       'operators',
+      'wtonBalance',
+      'DepositManager',
     ]),
   },
   async created () {
@@ -103,8 +116,13 @@ export default {
     this.blockTimestamp = (await this.web3.eth.getBlock('latest')).timestamp;
   },
   methods: {
-    showModal (type) {
-      this.$store.dispatch('showModal', type);
+    showModal (type, availableAmount, func) {
+      // TODO: optimization
+      this.$store.dispatch('showModal', {
+        type,
+        availableAmount,
+        func,
+      });
     },
   },
 };
