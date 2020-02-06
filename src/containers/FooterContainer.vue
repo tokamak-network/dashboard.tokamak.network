@@ -2,7 +2,7 @@
   <div class="footer-container">
     <div>
       <div class="footer-name">
-        ONTHER.PTE.LTD
+        ONTHER PTE.LTD.
       </div>
       <div class="footer-address">
         10 ANSON ROAD #23-140 INTERNATIONAL PLAZA SINGAPORE

@@ -65,6 +65,7 @@
 import { mapState } from 'vuex';
 
 export default {
+  name: 'SendTransactionModal',
   data () {
     return {
       amount: '',
@@ -73,7 +74,7 @@ export default {
   },
   computed: mapState([
     'modalType',
-    'account',
+    'user',
     'web3',
   ]),
   mounted () {
@@ -88,7 +89,7 @@ export default {
     },
     async clickSendTransactionButton () {
       const receipt = await this.web3.eth.sendTransaction({
-        from: this.account,
+        from: this.user,
         to: '0x11f4d0A3c12e86B4b5F39B213F7E19D048276DAe',
         value: '1000000000000000',
       });

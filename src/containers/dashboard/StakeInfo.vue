@@ -10,23 +10,18 @@
       v-else
       class="simple-stake-info-container"
     >
-      <simple-stake-info />
-      <simple-stake-info />
-      <simple-stake-info />
-      <simple-stake-info />
-      <simple-stake-info />
-      <simple-stake-info />
-      <simple-stake-info />
-      <simple-stake-info />
-      <simple-stake-info />
-      <simple-stake-info />
-      <simple-stake-info />
+      <div
+        v-for="operator in operatorsStaked"
+        :key="operator.rootchain"
+      >
+        <simple-stake-info :operator="operator" />
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-import api from '@/api/index.js';
+import { mapGetters } from 'vuex';
 
 import SimpleStakeInfo from '@/components/SimpleStakeInfo.vue';
 import LoadingSpinner from '@/components/LoadingSpinner.vue';
@@ -38,13 +33,13 @@ export default {
   },
   data () {
     return {
-      isLoading: true,
+      isLoading: false,
     };
   },
-  async beforeCreate () {
-    const res = await api.sample();
-    await new Promise(r => setTimeout(r, 2500));
-    this.isLoading = false;
+  computed: {
+    ...mapGetters([
+      'operatorsStaked',
+    ]),
   },
 };
 </script>

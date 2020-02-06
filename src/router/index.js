@@ -19,7 +19,7 @@ const routes = [
     component: OperatorListLayout,
   },
   {
-    path: '/operators/:name',
+    path: '/operators/:address',
     component: OperatorInfoLayout,
   },
   {

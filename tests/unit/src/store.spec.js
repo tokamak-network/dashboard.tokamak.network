@@ -12,14 +12,12 @@ test('setWalletInfo', () => {
   expect(store.state.account).toBe('');
   expect(store.state.networkId).toBe('');
   expect(store.state.balance).toBe('');
-  expect(store.state.isWalletConnected).toBe(false);
 
   store.dispatch('setWalletInfo', walletInfo);
   expect(store.state.web3).toBe(walletInfo.web3);
   expect(store.state.account).toBe(walletInfo.account);
   expect(store.state.networkId).toBe(walletInfo.networkId);
   expect(store.state.balance).toBe(walletInfo.balance);
-  expect(store.state.isWalletConnected).toBe(true);
 });
 
 test('showModal', () => {

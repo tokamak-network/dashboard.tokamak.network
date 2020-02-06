@@ -42,7 +42,7 @@ export default {
   height: 100%;
   padding-top: 16px;
   display: flex;
-  padding-bottom: 6rem;
+  padding-bottom: 140px;
 }
 
 .main-container {

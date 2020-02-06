@@ -1,25 +1,27 @@
 <template>
   <div class="stake-info-layout">
     <div
-      v-for="(operator, index) in operators"
-      :key="index"
+      v-for="operator in operatorsStaked"
+      :key="operator.rootchain"
     >
-      <stake-info-container />
+      <stake-info-container :operator="operator" />
     </div>
   </div>
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+
 import StakeInfoContainer from '@/containers/StakeInfoContainer.vue';
 
 export default {
   components: {
     'stake-info-container': StakeInfoContainer,
   },
-  data () {
-    return {
-      operators: [1],
-    };
+  computed: {
+    ...mapGetters([
+      'operatorsStaked',
+    ]),
   },
 };
 </script>

@@ -6,10 +6,10 @@
       height="36"
     >
     <div class="simple-stake-info-operator">
-      {{ operator }}
+      {{ operator.name }}
     </div>
     <div class="simple-stake-info-amount">
-      {{ amount }}
+      {{ operator.userClaim.toNumber() }}
     </div>
     <div class="simple-stake-info-unit">
       TON
@@ -27,12 +27,8 @@
 export default {
   props: {
     operator: {
-      type: String,
-      default: 'Onther',
-    },
-    amount: {
-      type: String,
-      default: '0',
+      type: Object,
+      default: () => {},
     },
   },
   methods: {

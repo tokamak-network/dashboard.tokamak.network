@@ -9,14 +9,14 @@
       >
       <div style="flex: 1;">
         <div class="operator-name-label">
-          Onther
+          {{ operator.name }}
         </div>
         <div style="display: flex; margin-top: 16px;">
           <div class="operator-info-label">
-            Describe
+            Operator
           </div>
           <div class="operator-info-content">
-            Onther Operator On...
+            {{ operator.address }}
           </div>
         </div>
         <div style="display: flex;">
@@ -24,7 +24,7 @@
             Website
           </div>
           <div class="operator-info-content">
-            www.tokamak.network
+            {{ operator.website }}
           </div>
         </div>
       </div>
@@ -49,7 +49,7 @@
           Total stake
         </div>
         <div class="operator-info-detailed-content">
-          2.22%
+          {{ operator.totalStake.toNumber() }}
         </div>
       </div>
       <div class="operator-info-detailed">
@@ -57,15 +57,7 @@
           Self stake
         </div>
         <div class="operator-info-detailed-content">
-          2.22%
-        </div>
-      </div>
-      <div class="operator-info-detailed">
-        <div class="operator-info-detailed-label">
-          Reward
-        </div>
-        <div class="operator-info-detailed-content">
-          2.22%
+          {{ operator.operatorStake.toNumber() }}
         </div>
       </div>
       <div class="operator-info-detailed">
@@ -73,15 +65,7 @@
           Commit count
         </div>
         <div class="operator-info-detailed-content">
-          2.22%
-        </div>
-      </div>
-      <div class="operator-info-detailed">
-        <div class="operator-info-detailed-label">
-          Avg commit time
-        </div>
-        <div class="operator-info-detailed-content">
-          2.22%
+          {{ operator.commitCount }}
         </div>
       </div>
       <div class="operator-info-detailed">
@@ -89,7 +73,7 @@
           Duration
         </div>
         <div class="operator-info-detailed-content">
-          2.22%
+          {{ blockTimestamp - operator.duration }}
         </div>
       </div>
     </div>
@@ -97,7 +81,27 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
+
 export default {
+  data () {
+    return {
+      operator: {},
+      blockTimestamp: 0,
+    };
+  },
+  computed: {
+    ...mapState([
+      'web3',
+      'operators',
+    ]),
+  },
+  async created () {
+    const address = this.$route.params.address;
+    this.operator = this.operators.find(operator => operator.address.toLowerCase() === address);
+
+    this.blockTimestamp = (await this.web3.eth.getBlock('latest')).timestamp;
+  },
   methods: {
     showModal (type) {
       this.$store.dispatch('showModal', type);

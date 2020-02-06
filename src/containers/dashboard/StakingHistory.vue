@@ -9,18 +9,30 @@
     <div v-else>
       <standard-table
         :rounded="true"
-      :columns="['TYPE', 'AMOUNT', 'TRANSACTION', 'TIMESTAMP']"
-    />
-  </div>
+        :columns="columns"
+        :datas="operatorList"
+      />
     </div>
   </div>
 </template>
 
 <script>
 import api from '@/api/index.js';
+import { mapState } from 'vuex';
 
 import StandardTable from '@/components/StandardTable.vue';
 import LoadingSpinner from '@/components/LoadingSpinner.vue';
+
+const columns = [
+  {
+    name: 'ADDRESS',
+    key: 'address',
+  },
+  {
+    name: 'NAME',
+    key: 'name',
+  },
+];
 
 export default {
   components: {
@@ -32,10 +44,16 @@ export default {
       isLoading: true,
     };
   },
+  computed: mapState([
+    'operatorList',
+  ]),
   async beforeCreate () {
     const res = await api.sample();
     await new Promise(r => setTimeout(r, 2500));
     this.isLoading = false;
+  },
+  beforeMount () {
+    this.columns = columns;
   },
 };
 </script>

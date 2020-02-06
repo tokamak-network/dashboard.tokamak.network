@@ -3,7 +3,7 @@
     <input
       class="search-bar"
       type="text"
-      placeholder="이름 검색"
+      placeholder="검색"
       @input="onChange($event.target.value)"
     >
   </div>

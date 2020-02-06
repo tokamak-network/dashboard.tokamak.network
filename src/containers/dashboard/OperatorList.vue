@@ -8,11 +8,21 @@
     </div>
     <div v-else>
       <standard-table
-        :columns="columns"
+        :type="'operator'"
+        :columns="[
+          {
+            name: 'OPERATOR',
+            key: 'name',
+          },
+          {
+            name: 'TOTAL STAKE',
+            key: 'totalStake',
+          },
+        ]"
+        :datas="operators"
         :clickable="true"
         :rounded="true"
-        :datas="operatorList"
-        @tableDataClicked="clickOperatorInfo"
+        @tableDataClicked="viewOperator"
       />
     </div>
   </div>
@@ -25,17 +35,6 @@ import { mapState } from 'vuex';
 import StandardTable from '@/components/StandardTable.vue';
 import LoadingSpinner from '@/components/LoadingSpinner.vue';
 
-const columns = [
-  {
-    name: 'ADDRESS',
-    key: 'address',
-  },
-  {
-    name: 'NAME',
-    key: 'name',
-  },
-];
-
 export default {
   components: {
     'standard-table': StandardTable,
@@ -43,24 +42,20 @@ export default {
   },
   data () {
     return {
-      isLoading: true,
+      isLoading: false,
     };
   },
-  computed: mapState([
-    'operatorList',
-  ]),
-  async beforeCreate () {
-    this.isLoading = true;
-    await this.$store.dispatch('checkAndGetData', 'operator');
-    // await new Promise(r => setTimeout(r, 2500));
-    this.isLoading = false;
+  computed: {
+    ...mapState([
+      'operators',
+    ]),
   },
-  beforeMount () {
-    this.columns = columns;
+  async beforeCreate () {
   },
   methods: {
-    clickOperatorInfo (data) {
-      this.$router.push('/operators/onther');
+    viewOperator (operator) {
+      const address = operator.address;
+      this.$router.push(`/operators/${address.toLowerCase()}`);
     },
   },
 };

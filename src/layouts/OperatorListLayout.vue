@@ -6,11 +6,29 @@
 
     <div class="operator-list-layout table-container">
       <standard-table
+        :type="'operator'"
+        :columns="[
+          {
+            name: 'OPERATOR',
+            key: 'name',
+          },
+          {
+            name: 'ADDRESS',
+            key: 'address',
+          },
+          {
+            name: 'COMMIT TIMESTAMP',
+            key: 'recentCommitTimestamp',
+          },
+          {
+            name: 'TOTAL STAKE',
+            key: 'totalStake',
+          },
+        ]"
+        :datas="searching ? operatorsBySearching : operators"
         :rounded="true"
-        :columns="columns"
         :clickable="true"
-        :datas="searching ? operatorListBySearching : operatorList"
-        @tableDataClicked="clickOperatorInfo"
+        @tableDataClicked="viewOperator"
       />
     </div>
   </div>
@@ -22,25 +40,6 @@ import { mapState } from 'vuex';
 import StandardTable from '@/components/StandardTable.vue';
 import SearchBar from '@/components/SearchBar.vue';
 
-const columns = [
-  {
-    name: 'ADDRESS',
-    key: 'address',
-  },
-  {
-    name: 'NAME',
-    key: 'name',
-  },
-  {
-    name: 'COMMIT TIMESTAMP',
-    key: 'timestamp',
-  },
-  {
-    name: 'COMMISSION RATE',
-    key: 'commission',
-  },
-];
-
 export default {
   components: {
     'standard-table': StandardTable,
@@ -50,36 +49,35 @@ export default {
     return {
       columns: [],
       searching: false,
-      operatorListBySearching: [],
+      operatorsBySearching: [],
     };
   },
   computed: mapState([
-    'operatorList',
+    'operators',
   ]),
   async beforeCreate () {
-    await this.$store.dispatch('checkAndGetData', 'operator');
+    // await this.$store.dispatch('checkAndGetData', 'operator');
     await new Promise(r => setTimeout(r, 2500));
   },
-  beforeMount () {
-    this.columns = columns;
-  },
   methods: {
-    clickOperatorInfo (data) {
-      this.$router.push('/operators/onther');
+    viewOperator (operator) {
+      const address = operator.address;
+      this.$router.push(`/operators/${address.toLowerCase()}`);
     },
     searchOperatorByName (name) {
       if (name === '') {
         this.searching = false;
       } else {
         this.searching = true;
-        this.operatorListBySearching = this.operatorList.filter(operator => operator.name.includes(name));
+        // TODO: modify logic
+        this.operatorsBySearching = this.operators.filter(operator => operator.name.includes(name));
       }
     },
   },
 };
 </script>
 
- <style scoped>
+<style scoped>
 .operator-list-layout {
   margin-top: 8px;
   border: solid 1px #ced6d9;

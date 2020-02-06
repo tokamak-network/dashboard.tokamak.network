@@ -8,13 +8,13 @@
         height="60"
       >
       <div class="operator-name">
-        TOKAMAK NETWORK
+        {{ operator.name }}
       </div>
       <div class="staking-amount">
-        1000
+        {{ operator.userClaim.toNumber() }}
       </div>
       <div class="staking-amount-unit">
-        TON
+        WTON
       </div>
       <div
         class="claim-button"
@@ -29,7 +29,7 @@
     >
       <div class="operator-detailed-info">
         <div class="operator-address">
-          0x005BcC8EFd30Df0044AC0787268513ACe542afaA
+          {{ operator.address | addressSlicer }}
         </div>
         <div style="display: flex;">
           <div class="block-number">
@@ -63,6 +63,12 @@
 
 <script>
 export default {
+  props: {
+    operator: {
+      type: Object,
+      default: () => {},
+    },
+  },
   methods: {
     showModal (type) {
       this.$store.dispatch('showModal', type);
