@@ -3,7 +3,7 @@
     <input
       type="checkbox"
       :checked="checked"
-      @click="checkBeforeToggle"
+      @click="toggle"
     >
     <span class="slider round" />
   </label>
@@ -16,17 +16,21 @@ export default {
       type: Boolean,
       default: false,
     },
-    checkFn: {
+    check: {
       type: Function,
-      default: () => {},
+      default: async () => {},
+    },
+    uncheck: {
+      type: Function,
+      default: async () => {},
     },
   },
   methods: {
-    checkBeforeToggle (e) {
-      if(!this.checkFn()) {
-        e.preventDefault();
-      }
-      // TODO: add condition
+    async toggle (e) {
+      if (this.checked) await this.uncheck();
+      else await this.check();
+
+      await this.$store.dispatch('set');
     },
   },
 };

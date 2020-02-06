@@ -10,8 +10,8 @@
           <div class="wallet-info-title">
             Account
           </div>
-          <div class="wallet-info-content">
-            {{ account }}
+          <div class="wallet-info-content account">
+            {{ user }}
           </div>
         </div>
       </div>
@@ -24,7 +24,7 @@
           <div class="wallet-info-title">
             Network
           </div>
-          <div class="wallet-info-content">
+          <div class="wallet-info-content network-id">
             {{ networkId }}
           </div>
         </div>
@@ -57,13 +57,14 @@
         <div class="wallet-content">
           TON
         </div>
-        <div class="wallet-content">
-          {{ balance }}
+        <div class="wallet-content ton-balance">
+          {{ tonBalance.toNumber() }}, {{ tonAllowance.toNumber() }}
         </div>
         <div class="wallet-content">
           <toggle-switch
             :checked="tonUnlocked"
-            :func="tonUnlocked ? lockTON : unlockTON"
+            :check="unlockTON"
+            :uncheck="lockTON"
           />
         </div>
       </div>
@@ -71,13 +72,14 @@
         <div class="wallet-content">
           WTON
         </div>
-        <div class="wallet-content">
-          {{ balance }}
+        <div class="wallet-content wton-balance">
+          {{ wtonBalance.toNumber() }}, {{ wtonAllowance.toNumber() }}
         </div>
         <div class="wallet-content">
           <toggle-switch
             :checked="wtonUnlocked"
-            :func="wtonUnlocked ? lockWTON : unlockWTON"
+            :check="unlockWTON"
+            :uncheck="lockWTON"
           />
         </div>
       </div>
@@ -96,31 +98,68 @@ export default {
   },
   data () {
     return {
-      tonUnlocked: true,
-      wtonUnlocked: false,
+      tonLocked: false,
+      wtonLocked: false,
+
+      lockTON: () => {},
+      unlockTON: () => {},
+      lockWTON: () => {},
+      unlockWTON: () => {},
     };
   },
   computed: mapState([
-    'account',
+    'user',
     'networkId',
-    'balance',
+    'TON',
+    'WTON',
+    'DepositManager',
+    'tonBalance',
+    'wtonBalance',
+    'tonAllowance',
+    'wtonAllowance',
   ]),
-  beforeCreate () {
-    // TODO: check if ton and wton is unlocked.
-  },
-  methods: {
-    lockTON () {
-      alert('1');
-    },
-    unlockTON () {
-      alert('2');
-    },
-    lockWTON () {
-      alert('3');
-    },
-    unlockWTON () {
-      alert('4');
-    },
+  created () {
+    this.tonUnlocked =
+      parseInt(this.tonAllowance.toNumber()) >= parseInt(this.tonBalance.toNumber()) ||
+      parseInt(this.tonBalance.toNumber()) === 0;
+    this.wtonUnlocked =
+      parseInt(this.wtonAllowance.toNumber()) >= parseInt(this.wtonBalance.toNumber()) ||
+      parseInt(this.wtonBalance.toNumber()) === 0;
+
+    this.lockTON = async () => {
+      const tx = await this.TON.approve(this.DepositManager.address, 0, { from: this.user });
+      console.log(`
+      call lockTON func
+
+      result: ${tx}
+      `);
+    };
+    this.unlockTON = async () => {
+      const tx =
+        await this.TON.approve(this.DepositManager.address, this.tonBalance.toFixed('wei'), { from: this.user });
+      console.log(`
+      call unlockTON func
+
+      result: ${tx}
+      `);
+    };
+    this.lockWTON = async () => {
+      const tx = await this.WTON.approve(this.DepositManager.address, 0, { from: this.user });
+      console.log(`
+      call lockWTON func
+
+      result: ${tx}
+      `);
+    };
+    this.unlockWTON = async () => {
+      const tx =
+        await this.WTON.approve(this.DepositManager.address, this.wtonBalance.toFixed('ray'), { from: this.user });
+      console.log(`
+      call unlockWTON func
+
+      result: ${tx}
+      `);
+    };
   },
 };
 </script>
@@ -201,7 +240,7 @@ export default {
   margin-bottom: 2px;
   width: 33.3%;
   text-align: center;
-  font-size: 13px;
+  font-size: 12px;
 }
 
 .wallet-info-title {
