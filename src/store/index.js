@@ -6,6 +6,10 @@ import axios from 'axios';
 import _ from 'lodash';
 
 import { createTruffleContract } from '@/helpers/Contract';
+import { createCurrency } from '@makerdao/currency';
+
+const _TON = createCurrency('TON');
+const _WTON = createCurrency('WTON');
 
 import TON from '@/contracts/ABI/TON.json';
 import WTON from '@/contracts/ABI/WTON.json';
@@ -39,7 +43,6 @@ const initialState = {
   wtonAllowance: '',
   historyList: null,
 
-  // managers
   TON: null,
   WTON: null,
   DepositManager: null,
@@ -91,22 +94,11 @@ export default new Vuex.Store({
     SET_MANAGERS: (state, managers) => {
       for (const [name, contract] of Object.entries(managers)) {
         state[name] = contract;
-
-        console.log(`
-        name:     ${name}
-        contract: ${contract}
-        `);
       }
     },
     SET_OPERATORS: (state, operators) => {
       if (operators) state.operators = operators;
       else state.operators = [];
-
-      operators.map(operator => {
-        console.log(`
-        operators: ${operator}
-        `);
-      });
     },
   },
   actions: {
@@ -149,8 +141,7 @@ export default new Vuex.Store({
             address:  ${address}
             abi:      ${abi}
             contract: ${managers[name]}
-            `
-            );
+            `);
           }
           context.commit('SET_MANAGERS', managers);
 
@@ -158,6 +149,7 @@ export default new Vuex.Store({
           const DepositManager = context.state.DepositManager;
           const SeigManager = context.state.SeigManager;
 
+          let count = 0;
           const operatorsFromRootchain = rootchains.map(async address => {
             const rootchain = await createTruffleContract(RootChainABI, address);
             const forkNumber = await rootchain.currentFork();
@@ -195,43 +187,45 @@ export default new Vuex.Store({
               return timestamp;
             };
 
-            const totalStake = (await getTotalStake()).toString();
-            const operatorStake = (await getStake(operator)).toString();
             const recentCommitTimestamp = await getRecentCommitTimeStamp();
             const commitCount = (await rootchain.lastEpoch(forkNumber)).toString();
             const duration = (await rootchain.getEpoch(0, 0)).timestamp;
 
-            // TODO: @makerdao/currency
-            const userStake = (await getStake(user)).toString();
-            const userClaim = (await SeigManager.stakeOf(address, user)).toString();
+            const totalStake = _WTON.ray((await getTotalStake()).toString());
+            const operatorStake = _WTON.ray((await getStake(operator)).toString());
+            const userStake = _WTON.ray((await getStake(user)).toString());
+            const userClaim = _WTON.ray((await SeigManager.stakeOf(address, user)).toString());
 
+            count++;
             return {
+              name : `TOKAMAK_OPERATOR_${count}`,
+              website : `www.tokamak${count}.network`,
+              address: operator,     // operator address
               rootchain: address,    // rootchain address
-              operator,
-              totalStake,
-              operatorStake,
               recentCommitTimestamp,
               commitCount,
               duration,             // web3.getBlock('latest').timestamp - duration.
+              totalStake,
+              operatorStake,
               userStake,
               userClaim,
             };
           });
           context.commit('SET_OPERATORS', await Promise.all(operatorsFromRootchain));
 
-          // TODO: use @makerdao/currency
           const TON = context.state.TON;
-          context.commit('SET_TON_BALANCE', await TON.balanceOf(user));
-          context.commit('SET_TON_ALLOWANCE', await TON.allowance(user, DepositManager.address));
+          context.commit('SET_TON_BALANCE', _TON.wei((await TON.balanceOf(user)).toString()));
+          context.commit('SET_TON_ALLOWANCE', _TON.wei((await TON.allowance(user, DepositManager.address)).toString()));
 
           const WTON = context.state.WTON;
-          context.commit('SET_WTON_BALANCE', await WTON.balanceOf(user));
-          context.commit('SET_WTON_ALLOWANCE', await WTON.allowance(user, DepositManager.address));
+          context.commit('SET_WTON_BALANCE', _WTON.ray((await WTON.balanceOf(user)).toString()));
+          context.commit('SET_WTON_ALLOWANCE',
+            _WTON.ray((await WTON.allowance(user, DepositManager.address)).toString()));
         });
     },
   },
   getters: {
-    myStakes: state => {
+    operatorsStaked: state => {
       return state.operators.filter(operator => parseInt(operator.userStake) > 0);
     },
   },
