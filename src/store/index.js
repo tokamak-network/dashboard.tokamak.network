@@ -154,12 +154,12 @@ export default new Vuex.Store({
             const rootchain = await createTruffleContract(RootChainABI, address);
             const forkNumber = await rootchain.currentFork();
             const operator = await rootchain.operator();
-            const coinage =
+            const Coinage =
                 await createTruffleContract(CustomIncrementCoinageABI, (await SeigManager.coinages(address)));
 
             const getTotalStake = async () => {
               const totTotalSupplyAtCommit = await SeigManager.totTotalSupplyAtCommit(address);
-              const totalCoinageBalance = await coinage.totalSupply();
+              const totalCoinageBalance = await Coinage.totalSupply();
 
               return totTotalSupplyAtCommit.add(totalCoinageBalance);
             };
@@ -169,7 +169,7 @@ export default new Vuex.Store({
               const accUnstaked = await DepositManager.accUnstaked(address, account);
               const stake = accStaked.sub(accUnstaked);
 
-              const coinageBalance = await coinage.balanceOf(account);
+              const coinageBalance = await Coinage.balanceOf(account);
 
               return stake.add(coinageBalance);
             };

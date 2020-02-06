@@ -58,7 +58,7 @@
           TON
         </div>
         <div class="wallet-content ton-balance">
-          {{ tonBalance.toNumber() }}, {{ tonAllowance.toNumber() }}
+          {{ tonBalance.toNumber() }}
         </div>
         <div class="wallet-content">
           <toggle-switch
@@ -73,7 +73,7 @@
           WTON
         </div>
         <div class="wallet-content wton-balance">
-          {{ wtonBalance.toNumber() }}, {{ wtonAllowance.toNumber() }}
+          {{ wtonBalance.toNumber() }}
         </div>
         <div class="wallet-content">
           <toggle-switch
