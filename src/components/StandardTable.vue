@@ -14,7 +14,7 @@
     >
       <tr
         v-for="data in datas"
-        :key="data.key"
+        :key="getKey(data)"
         :class="{ 'table-clickable': clickable }"
         @click="clickTableData(data)"
       >
@@ -22,7 +22,7 @@
           v-for="column in columns"
           :key="column.name"
         >
-          {{ data[column.key] }}
+          {{ filtered(column.key, data[column.key]) }}
         </td>
       </tr>
     </tbody>
@@ -32,6 +32,10 @@
 <script>
 export default {
   props: {
+    type: {
+      type: String,
+      default: '',
+    },
     columns: {
       type: Array,
       default: () => [],
@@ -52,6 +56,27 @@ export default {
   methods: {
     clickTableData (data) {
       this.$emit('tableDataClicked', data);
+    },
+    getKey (data) {
+      switch (this.type) {
+      case 'operator':
+        return data.operator;
+      }
+    },
+    filtered (key, data) {
+      console.log(`
+      key:  ${key}
+      data: ${data}
+      `);
+
+      switch (this.type) {
+      case 'operator':
+        if (key === 'address' || key === 'rootchain') return this.$options.filters.addressSlicer(data);
+        else return data;
+
+      default:
+        return data;
+      }
     },
   },
 };
