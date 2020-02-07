@@ -62,7 +62,7 @@
         </div>
         <div class="wallet-content">
           <toggle-switch
-            :checked="tonUnlocked"
+            :checked="isTONUnlocked()"
             :check="unlockTON"
             :uncheck="lockTON"
           />
@@ -77,7 +77,7 @@
         </div>
         <div class="wallet-content">
           <toggle-switch
-            :checked="wtonUnlocked"
+            :checked="isWTONUnlocked()"
             :check="unlockWTON"
             :uncheck="lockWTON"
           />
@@ -119,13 +119,6 @@ export default {
     'wtonAllowance',
   ]),
   created () {
-    this.tonUnlocked =
-      parseInt(this.tonAllowance.toNumber()) >= parseInt(this.tonBalance.toNumber()) ||
-      parseInt(this.tonBalance.toNumber()) === 0;
-    this.wtonUnlocked =
-      parseInt(this.wtonAllowance.toNumber()) >= parseInt(this.wtonBalance.toNumber()) ||
-      parseInt(this.wtonBalance.toNumber()) === 0;
-
     this.lockTON = async () => {
       const tx = await this.TON.approve(this.DepositManager.address, 0, { from: this.user });
       console.log(`
@@ -160,6 +153,22 @@ export default {
       result: ${tx}
       `);
     };
+  },
+  methods: {
+    isTONUnlocked () {
+      const tonBalance = this.tonBalance.toNumber();
+      const tonAllowance = this.tonAllowance.toNumber();
+
+      if (tonBalance === 0 || tonAllowance === 0) return false;
+      return tonAllowance >= tonBalance;
+    },
+    isWTONUnlocked () {
+      const wtonBalance = this.wtonBalance.toNumber();
+      const wtonAllowance = this.wtonAllowance.toNumber();
+
+      if (wtonBalance === 0 || wtonAllowance === 0) return false;
+      return wtonAllowance >= wtonBalance;
+    },
   },
 };
 </script>
