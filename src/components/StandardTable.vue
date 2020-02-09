@@ -64,14 +64,10 @@ export default {
       }
     },
     filtered (key, data) {
-      console.log(`
-      key:  ${key}
-      data: ${data}
-      `);
-
       switch (this.type) {
       case 'operator':
         if (key === 'address' || key === 'rootchain') return this.$options.filters.addressSlicer(data);
+        else if (key === 'totalStake') return data.toString();
         else return data;
 
       default:
