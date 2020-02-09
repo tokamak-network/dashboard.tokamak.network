@@ -63,6 +63,9 @@
 
 <script>
 import { mapState } from 'vuex';
+import { createCurrency } from '@makerdao/currency';
+
+const _WTON = createCurrency('WTON');
 
 export default {
   name: 'SendTransactionModal',
@@ -88,10 +91,15 @@ export default {
       this.amount = this.modalData.availableAmount;
     },
     async send () {
-      await this.modalData.func(this.amount);
-      this.closeModal();
+      const amount = _WTON(this.amount).toFixed('ray');
+      const depositFunc = this.modalData.func;
 
-      this.$store.dispatch('set');
+      this.$bus.$emit('txSended', {
+        request: 'delegate',
+        txSender: async () => await depositFunc(amount),
+      });
+
+      this.closeModal();
     },
     isNumber: function (evt) {
       evt = (evt) ? evt : window.event;

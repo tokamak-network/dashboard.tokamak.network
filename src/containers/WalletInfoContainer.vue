@@ -36,9 +36,20 @@
           class="wallet-info-image"
           :src="require(`@/assets/images/Balance.svg`)"
         >
-        <div>
-          <div class="wallet-info-title">
+        <div style="display: flex;">
+          <div
+            class="wallet-info-title"
+            style="margin-right: 200px;"
+          >
             Assets
+          </div>
+          <div>
+            <div @click="toTON">
+              swap to TON
+            </div>
+            <div @click="toWTON">
+              swap from TON
+            </div>
           </div>
         </div>
       </div>
@@ -119,40 +130,13 @@ export default {
     'wtonAllowance',
   ]),
   created () {
-    this.lockTON = async () => {
-      const tx = await this.TON.approve(this.DepositManager.address, 0, { from: this.user });
-      console.log(`
-      call lockTON func
+    this.lockTON = async () => await this.TON.approve(this.DepositManager.address, 0, { from: this.user });
+    this.lockWTON = async () => await this.WTON.approve(this.DepositManager.address, 0, { from: this.user });
 
-      result: ${tx}
-      `);
-    };
-    this.unlockTON = async () => {
-      const tx =
-        await this.TON.approve(this.DepositManager.address, this.tonBalance.toFixed('wei'), { from: this.user });
-      console.log(`
-      call unlockTON func
-
-      result: ${tx}
-      `);
-    };
-    this.lockWTON = async () => {
-      const tx = await this.WTON.approve(this.DepositManager.address, 0, { from: this.user });
-      console.log(`
-      call lockWTON func
-
-      result: ${tx}
-      `);
-    };
-    this.unlockWTON = async () => {
-      const tx =
-        await this.WTON.approve(this.DepositManager.address, this.wtonBalance.toFixed('ray'), { from: this.user });
-      console.log(`
-      call unlockWTON func
-
-      result: ${tx}
-      `);
-    };
+    this.unlockTON =
+      async () => this.TON.approve(this.DepositManager.address, this.tonBalance.toFixed('wei'), { from: this.user });
+    this.unlockWTON = async () =>
+      await this.WTON.approve(this.DepositManager.address, this.wtonBalance.toFixed('ray'), { from: this.user });
   },
   methods: {
     isTONUnlocked () {
@@ -168,6 +152,24 @@ export default {
 
       if (wtonBalance === 0 || wtonAllowance === 0) return false;
       return wtonAllowance >= wtonBalance;
+    },
+    toTON () {
+      if (!this.$store.state.isTxProcessing) {
+        this.$bus.$emit('txSended', {
+          request: 'swapToTON',
+          txSender: async () => await this.WTON.swapToTON(this.wtonBalance.toFixed('ray'), { from: this.user }),
+        });
+      }
+    },
+    async toWTON () {
+      // TODO: fix
+      await this.TON.approve(this.WTON.address, this.tonBalance.toFixed('wei'), { from: this.user });
+      if (!this.$store.state.isTxProcessing) {
+        this.$bus.$emit('txSended', {
+          request: 'swapFromTON',
+          txSender: async () => await this.WTON.swapFromTON(this.tonBalance.toFixed('wei'), { from: this.user }),
+        });
+      }
     },
   },
 };

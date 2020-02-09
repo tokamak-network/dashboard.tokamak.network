@@ -48,9 +48,8 @@
           class="delegate-button"
           @click="showModal(
             'delegate',
-            wtonBalance.toFixed('ray'),
-            async (amount) =>
-              DepositManager.deposit(operator.rootchain, amount, { from: user })
+            wtonBalance.toNumber(),
+            (amount) => DepositManager.deposit(operator.rootchain, amount, { from: user })
           )"
         >
           Delegate
@@ -59,8 +58,8 @@
           class="undelegate-button"
           @click="showModal(
             'undelegate',
-            operator.userStake.toFixed('ray'),
-            async (amount) =>
+            operator.userStake.toNumber(),
+            (amount) =>
               DepositManager.requestWithdrawal(operator.rootchain, amount, { from: user })
           )"
         >
@@ -91,6 +90,15 @@ export default {
   methods: {
     showModal (type, availableAmount, func) {
       // TODO: optimization
+      if (type === 'delegate') {
+        this.$store.dispatch('showModal', {
+          type,
+          availableAmount,
+          func: async (amount) => {
+            await this.DepositManager.deposit(this.operator.rootchain, availableAmount, { from: this.user });
+          },
+        });
+      }
       this.$store.dispatch('showModal', {
         type,
         availableAmount,

@@ -8,6 +8,7 @@ import '@/assets/css/960.css';
 import '@/assets/css/text.css';
 import * as filters from '@/filters';
 
+Vue.prototype.$bus = new Vue();
 Vue.config.productionTip = false;
 
 Object.keys(filters).forEach(key => {

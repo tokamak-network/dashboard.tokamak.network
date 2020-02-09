@@ -5,11 +5,16 @@
       :checked="checked"
       @click="toggle"
     >
-    <span class="slider round" />
+    <span
+      class="round slider"
+      :class="{ 'not-allowed-slider': isTxProcessing }"
+    />
   </label>
 </template>
 
 <script>
+import { mapState } from 'vuex';
+
 export default {
   props: {
     checked: {
@@ -25,12 +30,28 @@ export default {
       default: async () => {},
     },
   },
+  computed: {
+    ...mapState([
+      'isTxProcessing',
+    ]),
+  },
   methods: {
-    async toggle (e) {
-      if (this.checked) await this.uncheck();
-      else await this.check();
-
-      await this.$store.dispatch('set');
+    toggle (evt) {
+      if (!this.isTxProcessing) {
+        if (this.checked) {
+          this.$bus.$emit('txSended', {
+            request: 'unlock',
+            txSender: this.uncheck,
+          });
+        }
+        else {
+          this.$bus.$emit('txSended', {
+            request: 'lock',
+            txSender: this.check,
+          });
+        }
+      }
+      evt.preventDefault();
     },
   },
 };
@@ -53,6 +74,18 @@ export default {
 .slider {
   position: absolute;
   cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.not-allowed-slider {
+  position: absolute;
+  cursor: not-allowed;
   top: 0;
   left: 0;
   right: 0;

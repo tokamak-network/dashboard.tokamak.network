@@ -9,14 +9,14 @@
       >
       <div style="flex: 1;">
         <div class="operator-name-label">
-          {{ operator.name }}
+          {{ operatorByAddress($route.params.address).name }}
         </div>
         <div style="display: flex; margin-top: 16px;">
           <div class="operator-info-label">
             Operator
           </div>
           <div class="operator-info-content">
-            {{ operator.address }}
+            {{ operatorByAddress($route.params.address).address }}
           </div>
         </div>
         <div style="display: flex;">
@@ -24,7 +24,7 @@
             Website
           </div>
           <div class="operator-info-content">
-            {{ operator.website }}
+            {{ operatorByAddress($route.params.address).website }}
           </div>
         </div>
       </div>
@@ -33,9 +33,9 @@
           class="delegate-button"
           @click="showModal(
             'delegate',
-            wtonBalance.toFixed('ray'),
+            wtonBalance.toNumber(),
             async (amount) =>
-              DepositManager.deposit(operator.rootchain, amount, { from: user })
+              DepositManager.deposit(operatorByAddress($route.params.address).rootchain, amount, { from: user })
           )"
         >
           Delegate
@@ -44,9 +44,10 @@
           class="undelegate-button"
           @click="showModal(
             'undelegate',
-            operator.userStake.toFixed('ray'),
+            operatorByAddress($route.params.address).userStake.toNumber(),
             async (amount) =>
-              DepositManager.requestWithdrawal(operator.rootchain, amount, { from: user })
+              DepositManager.requestWithdrawal(
+                operatorByAddress($route.params.address).rootchain, amount, { from: user })
           )"
         >
           Undelegate
@@ -59,15 +60,15 @@
           Total stake
         </div>
         <div class="operator-info-detailed-content">
-          {{ operator.totalStake.toNumber() }}
+          {{ operatorByAddress($route.params.address).totalStake.toString(0) }}
         </div>
       </div>
       <div class="operator-info-detailed">
         <div class="operator-info-detailed-label">
-          Self stake
+          Operator stake
         </div>
         <div class="operator-info-detailed-content">
-          {{ operator.operatorStake.toNumber() }}
+          {{ operatorByAddress($route.params.address).operatorStake.toString(0) }}
         </div>
       </div>
       <div class="operator-info-detailed">
@@ -75,7 +76,7 @@
           Commit count
         </div>
         <div class="operator-info-detailed-content">
-          {{ operator.commitCount }}
+          {{ operatorByAddress($route.params.address).commitCount }}
         </div>
       </div>
       <div class="operator-info-detailed">
@@ -83,7 +84,7 @@
           Duration
         </div>
         <div class="operator-info-detailed-content">
-          {{ blockTimestamp - operator.duration }}
+          {{ operatorByAddress($route.params.address).duration }}
         </div>
       </div>
     </div>
@@ -91,15 +92,9 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapState, mapGetters } from 'vuex';
 
 export default {
-  data () {
-    return {
-      operator: {},
-      blockTimestamp: 0,
-    };
-  },
   computed: {
     ...mapState([
       'web3',
@@ -108,20 +103,20 @@ export default {
       'wtonBalance',
       'DepositManager',
     ]),
-  },
-  async created () {
-    const address = this.$route.params.address;
-    this.operator = this.operators.find(operator => operator.address.toLowerCase() === address);
-
-    this.blockTimestamp = (await this.web3.eth.getBlock('latest')).timestamp;
+    ...mapGetters([
+      'operatorByAddress',
+    ]),
   },
   methods: {
-    showModal (type, availableAmount, func) {
-      // TODO: optimization
+    showModal (type, availableAmount) {
+      const depositFunc =
+        async (amount) => await this.DepositManager.deposit(
+          this.operatorByAddress(this.$route.params.address).rootchain, amount, { from: this.user });
+
       this.$store.dispatch('showModal', {
         type,
         availableAmount,
-        func,
+        func: depositFunc,
       });
     },
   },
