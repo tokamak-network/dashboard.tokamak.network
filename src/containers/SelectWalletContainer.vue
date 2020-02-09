@@ -31,9 +31,17 @@ export default {
     async metamask () {
       if (window.ethereum) {
         await window.ethereum.enable();
+
+        window.ethereum.on('networkChanged', async (netId) => {
+          this.$store.dispatch('logout');
+        });
+        window.ethereum.on('accountsChanged', async (account) => {
+          this.$store.dispatch('logout');
+        });
       } else {
         //
       }
+
 
       const provider = window.ethereum;
       await this.$store.dispatch('connect', new Web3(provider));
