@@ -2,6 +2,8 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 Vue.use(Vuex);
 
+import router from '@/router';
+
 import axios from 'axios';
 import _ from 'lodash';
 
@@ -33,14 +35,15 @@ const CustomIncrementCoinageABI = CustomIncrementCoinage.abi;
 const initialState = {
   modalData: null,
   isModalShowed: false,
+  isTxProcessing: false,
 
   web3: null,
   user: '',
   networkId: '',
-  tonBalance: '',
-  wtonBalance: '',
-  tonAllowance: '',
-  wtonAllowance: '',
+  tonBalance: _TON('0'),
+  wtonBalance: _WTON('0'),
+  tonAllowance: _TON('0'),
+  wtonAllowance: _WTON('0'),
   historyList: null,
 
   TON: null,
@@ -63,6 +66,9 @@ export default new Vuex.Store({
       Object.keys(initialState).forEach(key => {
         state[key] = initialState[key];
       });
+    },
+    IS_TX_PROCESSING: (state, isTxProcessing) => {
+      state.isTxProcessing = isTxProcessing;
     },
     SHOW_MODAL: (state, isModalShowed) => {
       state.isModalShowed = isModalShowed;
@@ -102,6 +108,10 @@ export default new Vuex.Store({
     },
   },
   actions: {
+    processTx (context, status) {
+      if (status === 'sended') context.commit('IS_TX_PROCESSING', true);
+      else if (status === 'mined' || status === 'failed') context.commit('IS_TX_PROCESSING', false);
+    },
     showModal (context, data) {
       context.commit('SET_MODAL_DATA', data);
       context.commit('SHOW_MODAL', true);
@@ -112,6 +122,8 @@ export default new Vuex.Store({
     },
     logout (context) {
       context.commit('SET_INITIAL_STATE');
+      // TODO: fixed NavigationDuplicated error
+      router.push('/');
     },
     async connect (context, web3) {
       const user = (await web3.eth.getAccounts())[0];
@@ -124,12 +136,13 @@ export default new Vuex.Store({
     async set (context) {
       return axios.get('http://localhost:9000/')
         .then(async res => {
+          const web3 = context.state.web3;
           const managers = res.data.managers;
           const rootchains = res.data.rootchains;
 
           console.log(`
-          managers  : ${managers}
-          rootchains: ${rootchains}
+managers  : ${managers}
+rootchains: ${rootchains}
           `);
 
           for (const [name, address] of Object.entries(managers)) {
@@ -137,10 +150,10 @@ export default new Vuex.Store({
             managers[name] = await createTruffleContract(abi, address);
 
             console.log(`
-            name:     ${name}
-            address:  ${address}
-            abi:      ${abi}
-            contract: ${managers[name]}
+name:     ${name}
+address:  ${address}
+abi:      ${abi}
+contract: ${managers[name]}
             `);
           }
           context.commit('SET_MANAGERS', managers);
@@ -151,9 +164,9 @@ export default new Vuex.Store({
 
           let count = 0;
           const operatorsFromRootchain = rootchains.map(async address => {
-            const rootchain = await createTruffleContract(RootChainABI, address);
-            const forkNumber = await rootchain.currentFork();
-            const operator = await rootchain.operator();
+            const RootChain = await createTruffleContract(RootChainABI, address);
+            const forkNumber = await RootChain.currentFork();
+            const operator = await RootChain.operator();
             const Coinage =
                 await createTruffleContract(CustomIncrementCoinageABI, (await SeigManager.coinages(address)));
 
@@ -167,47 +180,63 @@ export default new Vuex.Store({
             const getStake = async (account) => {
               const accStaked = await DepositManager.accStaked(address, account);
               const accUnstaked = await DepositManager.accUnstaked(address, account);
-              const stake = accStaked.sub(accUnstaked);
+              return accStaked.sub(accUnstaked);
+            };
 
+            const getReward = async (account) => {
+              const stake = await getStake(account);
               const coinageBalance = await Coinage.balanceOf(account);
 
-              return stake.add(coinageBalance);
+              return coinageBalance.sub(stake);
             };
 
             const getRecentCommitTimeStamp = async () => {
-              const fork = await rootchain.forks(forkNumber);
+              const fork = await RootChain.forks(forkNumber);
               const epochNumber = fork.lastFinalizedEpoch;
               const blockNumber = fork.lastFinalizedBlock;
 
-              const epoch = await rootchain.getEpoch(forkNumber, epochNumber);
+              const epoch = await RootChain.getEpoch(forkNumber, epochNumber);
               const timestamp
                               = epoch.isRequest ?
                                 epoch.NRE.submittedAt :
-                                (await rootchain.getBlock(forkNumber, blockNumber)).timestamp;
+                                (await RootChain.getBlock(forkNumber, blockNumber)).timestamp;
               return timestamp;
             };
 
             const recentCommitTimestamp = await getRecentCommitTimeStamp();
-            const commitCount = (await rootchain.lastEpoch(forkNumber)).toString();
-            const duration = (await rootchain.getEpoch(0, 0)).timestamp;
+            const commitCount = await RootChain.lastEpoch(forkNumber);
+            const duration
+              = (await web3.eth.getBlock('latest')).timestamp - (await RootChain.getEpoch(0, 0)).timestamp;
 
             const totalStake = _WTON.ray((await getTotalStake()).toString());
             const operatorStake = _WTON.ray((await getStake(operator)).toString());
             const userStake = _WTON.ray((await getStake(user)).toString());
+
+            console.log(`
+totalStake: ${totalStake}
+userStake : ${userStake}
+`);
+
+            // const totalReward = _WTON.ray((await Coinage.totalSupply()).toString());
+            // const operatorStake = _WTON.ray((await getStake(operator)).toString());
+            // const userStake = _WTON.ray((await getStake(user)).toString());
+
+            const userReward = _WTON.ray((await getReward(user)).toString());
             const userClaim = _WTON.ray((await SeigManager.stakeOf(address, user)).toString());
 
             count++;
             return {
               name : `TOKAMAK_OPERATOR_${count}`,
               website : `www.tokamak${count}.network`,
-              address: operator,     // operator address
-              rootchain: address,    // rootchain address
+              address: operator,                        // operator address
+              rootchain: address,                       // rootchain address
               recentCommitTimestamp,
               commitCount,
-              duration,             // web3.getBlock('latest').timestamp - duration.
+              duration,
               totalStake,
               operatorStake,
               userStake,
+              userReward,
               userClaim,
             };
           });
@@ -226,7 +255,12 @@ export default new Vuex.Store({
   },
   getters: {
     operatorsStaked: state => {
-      return state.operators.filter(operator => parseInt(operator.userStake) > 0);
+      if (state.operators && state.operators.length > 0)
+        return state.operators.filter(operator => parseInt(operator.userStake) > 0);
+      else return [];
+    },
+    operatorByAddress: (state) => (address) => {
+      return state.operators.find(operator => operator.address.toLowerCase() === address);
     },
   },
 });
