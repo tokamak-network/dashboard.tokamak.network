@@ -84,7 +84,7 @@
           Duration
         </div>
         <div class="operator-info-detailed-content">
-          {{ operatorByAddress($route.params.address).duration }}
+          {{ operatorByAddress($route.params.address).duration | fromNow }}
         </div>
       </div>
     </div>
