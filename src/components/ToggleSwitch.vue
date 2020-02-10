@@ -40,13 +40,13 @@ export default {
       if (!this.isTxProcessing) {
         if (this.checked) {
           this.$bus.$emit('txSended', {
-            request: 'unlock',
+            request: 'lock',
             txSender: this.uncheck,
           });
         }
         else {
           this.$bus.$emit('txSended', {
-            request: 'lock',
+            request: 'unlock',
             txSender: this.check,
           });
         }

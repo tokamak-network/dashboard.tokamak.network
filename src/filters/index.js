@@ -1,6 +1,6 @@
 import moment from 'moment';
 
-export function addressSlicer (address = '') {
+export function hexSlicer (address = '') {
   if (address.length < 11) {
     return address;
   }

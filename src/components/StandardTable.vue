@@ -66,9 +66,13 @@ export default {
     filtered (key, data) {
       switch (this.type) {
       case 'operator':
-        if (key === 'address' || key === 'rootchain') return this.$options.filters.addressSlicer(data);
+        if (key === 'address' || key === 'rootchain') return this.$options.filters.hexSlicer(data);
         else if (key === 'totalStake') return data.toString();
         else if (key === 'recentCommitTimestamp') return this.$options.filters.fromNow(data);
+        else return data;
+
+      case 'history':
+        if (key === 'transactionHash') return this.$options.filters.hexSlicer(data);
         else return data;
 
       default:

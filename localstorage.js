@@ -7,7 +7,7 @@ function addHistory (user, history) {
   let userHistory = getHistory(user);
   if (!userHistory) userHistory = [];
 
-  userHistory.add(history);
+  userHistory.push(history);
   localStorage.setItem(`user-${user}-history`, JSON.stringify(userHistory));
 
   return userHistory;
