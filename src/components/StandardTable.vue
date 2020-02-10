@@ -68,6 +68,7 @@ export default {
       case 'operator':
         if (key === 'address' || key === 'rootchain') return this.$options.filters.addressSlicer(data);
         else if (key === 'totalStake') return data.toString();
+        else if (key === 'recentCommitTimestamp') return this.$options.filters.fromNow(data);
         else return data;
 
       default:

@@ -223,6 +223,8 @@ userStake : ${userStake}
 
             const userReward = _WTON.ray((await getReward(user)).toString());
             const userClaim = _WTON.ray((await SeigManager.stakeOf(address, user)).toString());
+            const userUncomittedStakeOf
+              = _WTON.ray((await SeigManager.uncomittedStakeOf(address, operator)).toString());
 
             count++;
             return {
@@ -238,6 +240,7 @@ userStake : ${userStake}
               userStake,
               userReward,
               userClaim,
+              userUncomittedStakeOf,
             };
           });
           context.commit('SET_OPERATORS', await Promise.all(operatorsFromRootchain));

@@ -29,18 +29,15 @@
     >
       <div class="operator-detailed-info">
         <div class="operator-address">
-          {{ operator.address | addressSlicer }}
+          Operator: {{ operator.address }}
         </div>
         <div style="display: flex;">
-          <div class="block-number">
-            Block #1222
-          </div>
           <div class="last-commit">
-            Last commit: 10 minutes ago
+            Last commit: {{ operator.recentCommitTimestamp | fromNow }}
           </div>
         </div>
         <div class="uncommitted-rewards">
-          Uncommitted rewards : 100 TON
+          Uncommitted rewards : {{ operator.userUncomittedStakeOf.toString(0) }}
         </div>
       </div>
       <div class="delegate-button-container">
