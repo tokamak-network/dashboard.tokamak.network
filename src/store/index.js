@@ -122,8 +122,6 @@ export default new Vuex.Store({
     },
     logout (context) {
       context.commit('SET_INITIAL_STATE');
-      // TODO: fixed NavigationDuplicated error
-      router.push('/');
     },
     async connect (context, web3) {
       const user = (await web3.eth.getAccounts())[0];

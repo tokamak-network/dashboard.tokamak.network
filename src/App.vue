@@ -4,7 +4,7 @@
   >
     <header-container />
     <div class="container_12">
-      <access-wallet-layout v-if="$route.path === '/'" />
+      <access-wallet-layout v-if="$route.path === '/' || web3 === null" />
       <main-layout v-else />
     </div>
     <footer-container />
