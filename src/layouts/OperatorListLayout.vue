@@ -55,10 +55,6 @@ export default {
   computed: mapState([
     'operators',
   ]),
-  async beforeCreate () {
-    // await this.$store.dispatch('checkAndGetData', 'operator');
-    await new Promise(r => setTimeout(r, 2500));
-  },
   methods: {
     viewOperator (operator) {
       const address = operator.address;
@@ -70,7 +66,8 @@ export default {
       } else {
         this.searching = true;
         // TODO: modify logic
-        this.operatorsBySearching = this.operators.filter(operator => operator.name.includes(name));
+        this.operatorsBySearching =
+          this.operators.filter(operator => operator.name.toLowerCase().includes(name.toLowerCase()));
       }
     },
   },
