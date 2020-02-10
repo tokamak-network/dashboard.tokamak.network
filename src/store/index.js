@@ -2,9 +2,7 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 Vue.use(Vuex);
 
-import router from '@/router';
-
-import axios from 'axios';
+import { getState, getHistory } from '@/api';
 import _ from 'lodash';
 
 import { createTruffleContract } from '@/helpers/Contract';
@@ -54,6 +52,7 @@ const initialState = {
 
   operators: null,
   myStakes: null,
+  userHistory: null,
 };
 
 const getInitialState = () => initialState;
@@ -106,6 +105,9 @@ export default new Vuex.Store({
       if (operators) state.operators = operators;
       else state.operators = [];
     },
+    SET_USER_HISTORY: (state, userHistory) => {
+      state.userHistory = userHistory;
+    },
   },
   actions: {
     processTx (context, status) {
@@ -132,126 +134,139 @@ export default new Vuex.Store({
       context.commit('SET_NETWORK_ID', networkId);
     },
     async set (context) {
-      return axios.get('http://localhost:9000/')
-        .then(async res => {
-          const web3 = context.state.web3;
-          const managers = res.data.managers;
-          const rootchains = res.data.rootchains;
+      return getState()
+        .then(async state => {
+          const managers = state.managers;
+          const rootchains = state.rootchains;
 
-          console.log(`
-managers  : ${managers}
-rootchains: ${rootchains}
-          `);
+          await context.dispatch('setManagers', managers);
+          await context.dispatch('setOperatorFromRootchains', rootchains);
+          await context.dispatch('setUserBalanceAndAllowance');
+          await context.dispatch('setUserHistory');
+        });
+    },
+    async setManagers (context, managers) {
+      for (const [name, address] of Object.entries(managers)) {
+        const abi = managerABIs[`${name}ABI`];
+        managers[name] = await createTruffleContract(abi, address);
 
-          for (const [name, address] of Object.entries(managers)) {
-            const abi = managerABIs[`${name}ABI`];
-            managers[name] = await createTruffleContract(abi, address);
-
-            console.log(`
+        console.log(`
 name:     ${name}
 address:  ${address}
 abi:      ${abi}
 contract: ${managers[name]}
-            `);
-          }
-          context.commit('SET_MANAGERS', managers);
+        `);
+      }
+      context.commit('SET_MANAGERS', managers);
+    },
+    async setOperatorFromRootchains (context, rootchains) {
+      const web3 = context.state.web3;
+      const user = context.state.user;
+      const DepositManager = context.state.DepositManager;
+      const SeigManager = context.state.SeigManager;
 
-          const user = context.state.user;
-          const DepositManager = context.state.DepositManager;
-          const SeigManager = context.state.SeigManager;
+      let count = 0;
+      const operatorsFromRootchain = rootchains.map(async rootchain => {
+        const RootChain = await createTruffleContract(RootChainABI, rootchain);
+        const forkNumber = await RootChain.currentFork();
+        const operator = await RootChain.operator();
+        const Coinage =
+            await createTruffleContract(CustomIncrementCoinageABI, (await SeigManager.coinages(rootchain)));
 
-          let count = 0;
-          const operatorsFromRootchain = rootchains.map(async address => {
-            const RootChain = await createTruffleContract(RootChainABI, address);
-            const forkNumber = await RootChain.currentFork();
-            const operator = await RootChain.operator();
-            const Coinage =
-                await createTruffleContract(CustomIncrementCoinageABI, (await SeigManager.coinages(address)));
+        const getTotalStake = async () => {
+          const totTotalSupplyAtCommit = await SeigManager.totTotalSupplyAtCommit(rootchain);
+          const totalCoinageBalance = await Coinage.totalSupply();
 
-            const getTotalStake = async () => {
-              const totTotalSupplyAtCommit = await SeigManager.totTotalSupplyAtCommit(address);
-              const totalCoinageBalance = await Coinage.totalSupply();
+          return totTotalSupplyAtCommit.add(totalCoinageBalance);
+        };
 
-              return totTotalSupplyAtCommit.add(totalCoinageBalance);
-            };
+        const getStake = async (account) => {
+          const accStaked = await DepositManager.accStaked(rootchain, account);
+          const accUnstaked = await DepositManager.accUnstaked(rootchain, account);
+          return accStaked.sub(accUnstaked);
+        };
 
-            const getStake = async (account) => {
-              const accStaked = await DepositManager.accStaked(address, account);
-              const accUnstaked = await DepositManager.accUnstaked(address, account);
-              return accStaked.sub(accUnstaked);
-            };
+        const getReward = async (account) => {
+          const stake = await getStake(account);
+          const coinageBalance = await Coinage.balanceOf(account);
 
-            const getReward = async (account) => {
-              const stake = await getStake(account);
-              const coinageBalance = await Coinage.balanceOf(account);
+          return coinageBalance.sub(stake);
+        };
 
-              return coinageBalance.sub(stake);
-            };
+        const getRecentCommitTimeStamp = async () => {
+          const fork = await RootChain.forks(forkNumber);
+          const epochNumber = fork.lastFinalizedEpoch;
+          const blockNumber = fork.lastFinalizedBlock;
 
-            const getRecentCommitTimeStamp = async () => {
-              const fork = await RootChain.forks(forkNumber);
-              const epochNumber = fork.lastFinalizedEpoch;
-              const blockNumber = fork.lastFinalizedBlock;
+          const epoch = await RootChain.getEpoch(forkNumber, epochNumber);
+          const timestamp
+                          = epoch.isRequest ?
+                            epoch.NRE.submittedAt :
+                            (await RootChain.getBlock(forkNumber, blockNumber)).timestamp;
+          return timestamp;
+        };
 
-              const epoch = await RootChain.getEpoch(forkNumber, epochNumber);
-              const timestamp
-                              = epoch.isRequest ?
-                                epoch.NRE.submittedAt :
-                                (await RootChain.getBlock(forkNumber, blockNumber)).timestamp;
-              return timestamp;
-            };
+        const recentCommitTimestamp = await getRecentCommitTimeStamp();
+        const commitCount = await RootChain.lastEpoch(forkNumber);
+        const duration
+          = (await web3.eth.getBlock('latest')).timestamp - (await RootChain.getEpoch(0, 0)).timestamp;
 
-            const recentCommitTimestamp = await getRecentCommitTimeStamp();
-            const commitCount = await RootChain.lastEpoch(forkNumber);
-            const duration
-              = (await web3.eth.getBlock('latest')).timestamp - (await RootChain.getEpoch(0, 0)).timestamp;
+        const totalStake = _WTON.ray((await getTotalStake()).toString());
+        const operatorStake = _WTON.ray((await getStake(operator)).toString());
+        const userStake = _WTON.ray((await getStake(user)).toString());
 
-            const totalStake = _WTON.ray((await getTotalStake()).toString());
-            const operatorStake = _WTON.ray((await getStake(operator)).toString());
-            const userStake = _WTON.ray((await getStake(user)).toString());
-
-            console.log(`
+        console.log(`
 totalStake: ${totalStake}
 userStake : ${userStake}
 `);
 
-            // const totalReward = _WTON.ray((await Coinage.totalSupply()).toString());
-            // const operatorStake = _WTON.ray((await getStake(operator)).toString());
-            // const userStake = _WTON.ray((await getStake(user)).toString());
+        // const totalReward = _WTON.ray((await Coinage.totalSupply()).toString());
+        // const operatorStake = _WTON.ray((await getStake(operator)).toString());
+        // const userStake = _WTON.ray((await getStake(user)).toString());
 
-            const userReward = _WTON.ray((await getReward(user)).toString());
-            const userClaim = _WTON.ray((await SeigManager.stakeOf(address, user)).toString());
-            const userUncomittedStakeOf
-              = _WTON.ray((await SeigManager.uncomittedStakeOf(address, operator)).toString());
+        const userReward = _WTON.ray((await getReward(user)).toString());
+        const userClaim = _WTON.ray((await SeigManager.stakeOf(rootchain, user)).toString());
+        const userUncomittedStakeOf
+          = _WTON.ray((await SeigManager.uncomittedStakeOf(rootchain, operator)).toString());
 
-            count++;
-            return {
-              name : `TOKAMAK_OPERATOR_${count}`,
-              website : `www.tokamak${count}.network`,
-              address: operator,                        // operator address
-              rootchain: address,                       // rootchain address
-              recentCommitTimestamp,
-              commitCount,
-              duration,
-              totalStake,
-              operatorStake,
-              userStake,
-              userReward,
-              userClaim,
-              userUncomittedStakeOf,
-            };
-          });
-          context.commit('SET_OPERATORS', await Promise.all(operatorsFromRootchain));
+        count++;
+        return {
+          name : `TOKAMAK_OPERATOR_${count}`,
+          website : `www.tokamak${count}.network`,
+          address: operator,                        // operator address
+          rootchain,                                // rootchain address
+          recentCommitTimestamp,
+          commitCount,
+          duration,
+          totalStake,
+          operatorStake,
+          userStake,
+          userReward,
+          userClaim,
+          userUncomittedStakeOf,
+        };
+      });
 
-          const TON = context.state.TON;
-          context.commit('SET_TON_BALANCE', _TON.wei((await TON.balanceOf(user)).toString()));
-          context.commit('SET_TON_ALLOWANCE', _TON.wei((await TON.allowance(user, DepositManager.address)).toString()));
+      context.commit('SET_OPERATORS', await Promise.all(operatorsFromRootchain));
+    },
+    async setUserBalanceAndAllowance (context) {
+      const user = context.state.user;
 
-          const WTON = context.state.WTON;
-          context.commit('SET_WTON_BALANCE', _WTON.ray((await WTON.balanceOf(user)).toString()));
-          context.commit('SET_WTON_ALLOWANCE',
-            _WTON.ray((await WTON.allowance(user, DepositManager.address)).toString()));
-        });
+      const TON = context.state.TON;
+      const WTON = context.state.WTON;
+      const DepositManager = context.state.DepositManager;
+
+      context.commit('SET_TON_BALANCE', _TON.wei((await TON.balanceOf(user)).toString()));
+      context.commit('SET_TON_ALLOWANCE', _TON.wei((await TON.allowance(user, DepositManager.address)).toString()));
+      context.commit('SET_WTON_BALANCE', _WTON.ray((await WTON.balanceOf(user)).toString()));
+      context.commit('SET_WTON_ALLOWANCE',
+        _WTON.ray((await WTON.allowance(user, DepositManager.address)).toString()));
+    },
+    async setUserHistory (context) {
+      const user = context.state.user;
+      const userHistory = await getHistory(user);
+
+      context.commit('SET_USER_HISTORY', userHistory);
     },
   },
   getters: {

@@ -1,17 +1,27 @@
 import axios from 'axios';
 
 function createInstance () {
-  return axios.create ({});
+  return axios.create({
+    baseURL: 'http://127.0.0.1:9000',
+  });
 }
 
 const instance = createInstance();
 
-async function sample () {
-  return (await instance.get('https://jsonplaceholder.typicode.com/todos/1')).data;
+// TODO: make router.
+export async function getState () {
+  const res = await instance.get('/');
+  return res.data;
 }
 
-const api = {
-  sample,
-};
+export async function getHistory (user) {
+  const res = await instance.get(`/history/${user}`);
+  return res.data.history;
+}
 
-export default api;
+export async function addHistory (user, history) {
+  const res = await instance.post(`/history/${user}`, {
+    history,
+  });
+  return res.data.history;
+}
