@@ -130,7 +130,7 @@ export default {
     'wtonAllowance',
   ]),
   created () {
-    this.lockTON = async () => await this.TON.approve(this.DepositManager.address, 0, { from: this.user });
+    this.lockTON = async () => await this.TON.approve(this.WTON.address, 0, { from: this.user });
     this.lockWTON = async () => await this.WTON.approve(this.DepositManager.address, 0, { from: this.user });
 
     this.unlockTON =
@@ -162,8 +162,6 @@ export default {
       }
     },
     async toWTON () {
-      // TODO: fix
-      await this.TON.approve(this.WTON.address, this.tonBalance.toFixed('wei'), { from: this.user });
       if (!this.$store.state.isTxProcessing) {
         this.$bus.$emit('txSended', {
           request: 'swapFromTON',
