@@ -3,12 +3,7 @@
     <div class="wallet-header-title">
       Sellect Wallet
     </div>
-
     <div class="wallet-container">
-      <wallet
-        :title="'개발용'"
-        :image="'Metamask.jpg'"
-      />
       <wallet
         :title="'MetaMask'"
         :image="'Metamask.jpg'"
@@ -41,7 +36,6 @@ export default {
       } else {
         //
       }
-
 
       const provider = window.ethereum;
       await this.$store.dispatch('connect', new Web3(provider));

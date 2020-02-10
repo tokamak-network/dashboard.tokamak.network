@@ -1,6 +1,7 @@
 <template>
   <div
     class="wallet"
+    :class="{ 'not-allowed': loading }"
     @click="connectWallet"
   >
     <img
@@ -49,6 +50,8 @@ export default {
   ]),
   methods: {
     async connectWallet () {
+      if (this.loading) return;
+
       this.loading = true;
       await this.connect();
       this.loading = false;
@@ -76,6 +79,10 @@ export default {
   background-color: #f7f8f9;
   border-radius: 3px;
   border: solid 0.7px #ced6d9;
+}
+
+.not-allowed:hover {
+  cursor: not-allowed;
 }
 
 .wallet-image {
