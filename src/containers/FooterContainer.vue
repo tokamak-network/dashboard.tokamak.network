@@ -10,9 +10,10 @@
     </div>
     <div>
       <div class="footer-mail-container">
-        <div class="footer-mail">
-          info.onther.io
-        </div>
+        <a
+          class="footer-mail"
+          href="mailto:info@onther.io"
+        >info@onther.io</a>
         <img
           class="filter-grey"
           src="@/assets/images/Mail.png"
