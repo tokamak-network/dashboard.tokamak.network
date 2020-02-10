@@ -22,6 +22,9 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
+import { addHistory } from '@/api';
+
 export default {
   data () {
     return {
@@ -30,6 +33,11 @@ export default {
       request: '',
       message: '처리 중',
     };
+  },
+  computed: {
+    ...mapState([
+      'user',
+    ]),
   },
   async created () {
     this.$bus.$on('txSended', async (t) => {
@@ -44,6 +52,14 @@ export default {
 
         this.message = '완료';
         this.txHash = receipt.transactionHash;
+
+        const history = {
+          request: t.request,
+          status: receipt.status ? 'success' : 'failed',
+          transactionHash: receipt.transactionHash,
+          blockNumber: receipt.blockNumber,
+        };
+        await addHistory(this.user, history);
 
         await this.$store.dispatch('set');
         await this.$store.dispatch('processTx', 'mined');
