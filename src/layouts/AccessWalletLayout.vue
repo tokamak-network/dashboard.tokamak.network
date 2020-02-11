@@ -14,7 +14,7 @@ export default {
     'introduction': Introduction,
     'select-wallet-container': SelectWalletContainer,
   },
-  mounted () {
+  created () {
     // TODO: optimization
     this.$store.dispatch('logout');
   },

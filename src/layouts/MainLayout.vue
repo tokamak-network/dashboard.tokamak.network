@@ -38,16 +38,15 @@ export default {
 
 <style scoped>
 .main-layout {
+  display: flex;
   width: 100%;
   height: 100%;
   padding-top: 16px;
-  display: flex;
   padding-bottom: 140px;
 }
 
 .main-container {
   padding-left: 16px;
-  padding-right: 16px;
   width: 100%;
   position: relative;
 }

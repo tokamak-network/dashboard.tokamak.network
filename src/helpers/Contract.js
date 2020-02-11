@@ -7,8 +7,5 @@ export async function createTruffleContract (abi, address) {
   const contract = TruffleContract({ abi });
   contract.setProvider(web3.currentProvider);
 
-  console.log(`web3:     ${web3}`);
-  console.log(`contract: ${contract}`);
-  console.log(`address:  ${address}`);
   return await contract.at(address);
 }

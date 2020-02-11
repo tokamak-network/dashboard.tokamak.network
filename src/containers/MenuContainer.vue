@@ -61,18 +61,11 @@
     >
       Logout
     </div>
-    <div style="padding-left: 8px; padding-right: 8px;">
-      <tx-processor />
-    </div>
   </div>
 </template>
 
 <script>
-import TxProcessor from '@/components/TxProcessor.vue';
 export default {
-  components: {
-    'tx-processor': TxProcessor,
-  },
   methods: {
     clickMenu (path) {
       if (`/${path}` === this.$route.path) {
