@@ -29,28 +29,19 @@
         </div>
       </div>
       <div class="delegate-button-container">
-        <div
-          class="delegate-button"
-          @click="showModal(
-            'delegate',
-            wtonBalance.toNumber(),
-            async (amount) =>
-              DepositManager.deposit(operatorByAddress($route.params.address).rootchain, amount, { from: user })
-          )"
-        >
-          Delegate
+        <div class="delegate-button">
+          <standard-button
+            :label="'Delegate'"
+            :func="delegate()"
+            :disable="isTxProcessing('delegate')"
+          />
         </div>
-        <div
-          class="undelegate-button"
-          @click="showModal(
-            'undelegate',
-            operatorByAddress($route.params.address).userStake.toNumber(),
-            async (amount) =>
-              DepositManager.requestWithdrawal(
-                operatorByAddress($route.params.address).rootchain, amount, { from: user })
-          )"
-        >
-          Undelegate
+        <div class="undelegate-button">
+          <standard-button
+            :label="'Undelegate'"
+            :func="undelegate()"
+            :disable="isTxProcessing('undelegate')"
+          />
         </div>
       </div>
     </div>
@@ -94,7 +85,12 @@
 <script>
 import { mapState, mapGetters } from 'vuex';
 
+import StandardButton from '@/components/StandardButton.vue';
+
 export default {
+  components: {
+    'standard-button': StandardButton,
+  },
   computed: {
     ...mapState([
       'web3',
@@ -105,19 +101,35 @@ export default {
     ]),
     ...mapGetters([
       'operatorByAddress',
+      'isTxProcessing',
     ]),
   },
   methods: {
-    showModal (type, availableAmount) {
-      const depositFunc =
-        async (amount) => await this.DepositManager.deposit(
-          this.operatorByAddress(this.$route.params.address).rootchain, amount, { from: this.user });
+    delegate (type, availableAmount) {
+      return () => {
+        const type = 'delegate';
+        const availableAmount = this.wtonBalance.toNumber();
+        const delegateFunc =
+          async (amount) => await this.DepositManager.deposit(
+            this.operatorByAddress(this.$route.params.address).rootchain, amount, { from: this.user });
 
-      this.$store.dispatch('showModal', {
-        type,
-        availableAmount,
-        func: depositFunc,
-      });
+        this.$store.dispatch('showModal', {
+          type,
+          availableAmount,
+          func: delegateFunc,
+        });
+      };
+    },
+    undelegate (type, availableAmount) {
+      return () => {
+        const type = 'undelegate';
+        const availableAmount = this.operatorByAddress(this.$route.params.address).userStake.toNumber();
+
+        this.$store.dispatch('showModal', {
+          type,
+          availableAmount,
+        });
+      };
     },
   },
 };

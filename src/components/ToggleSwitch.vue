@@ -7,13 +7,13 @@
     >
     <span
       class="round slider"
-      :class="{ 'not-allowed-slider': isTxProcessing }"
+      :class="{ 'disable': disable }"
     />
   </label>
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapGetters } from 'vuex';
 
 export default {
   props: {
@@ -23,34 +23,23 @@ export default {
     },
     check: {
       type: Function,
-      default: async () => {},
+      default: () => {},
     },
     uncheck: {
       type: Function,
-      default: async () => {},
+      default: () => {},
     },
-  },
-  computed: {
-    ...mapState([
-      'isTxProcessing',
-    ]),
+    disable: {
+      type: Boolean,
+      default: false,
+    },
   },
   methods: {
     toggle (evt) {
-      if (!this.isTxProcessing) {
-        if (this.checked) {
-          this.$bus.$emit('txSended', {
-            request: 'lock',
-            txSender: this.uncheck,
-          });
-        }
-        else {
-          this.$bus.$emit('txSended', {
-            request: 'unlock',
-            txSender: this.check,
-          });
-        }
-      }
+      if (!this.disable)
+        if (this.checked) this.uncheck();
+        else this.check();
+
       evt.preventDefault();
     },
   },
@@ -83,7 +72,7 @@ export default {
   transition: .4s;
 }
 
-.not-allowed-slider {
+.disable {
   position: absolute;
   cursor: not-allowed;
   top: 0;

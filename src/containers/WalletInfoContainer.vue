@@ -76,6 +76,7 @@
             :checked="isTONUnlocked()"
             :check="unlockTON"
             :uncheck="lockTON"
+            :disable="isTxProcessing('TON lock') || isTxProcessing('TON unlock')"
           />
         </div>
       </div>
@@ -91,6 +92,7 @@
             :checked="isWTONUnlocked()"
             :check="unlockWTON"
             :uncheck="lockWTON"
+            :disable="isTxProcessing('WTON lock') || isTxProcessing('WTON unlock')"
           />
         </div>
       </div>
@@ -99,7 +101,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapState, mapGetters } from 'vuex';
 
 import ToggleSwitch from '@/components/ToggleSwitch.vue';
 
@@ -118,25 +120,54 @@ export default {
       unlockWTON: () => {},
     };
   },
-  computed: mapState([
-    'user',
-    'networkId',
-    'TON',
-    'WTON',
-    'DepositManager',
-    'tonBalance',
-    'wtonBalance',
-    'tonAllowance',
-    'wtonAllowance',
-  ]),
+  computed: {
+    ...mapState([
+      'user',
+      'networkId',
+      'TON',
+      'WTON',
+      'DepositManager',
+      'tonBalance',
+      'wtonBalance',
+      'tonAllowance',
+      'wtonAllowance',
+    ]),
+    ...mapGetters([
+      'isTxProcessing',
+    ]),
+  },
   created () {
-    this.lockTON = async () => await this.TON.approve(this.WTON.address, 0, { from: this.user });
-    this.lockWTON = async () => await this.WTON.approve(this.DepositManager.address, 0, { from: this.user });
+    this.lockTON = () => {
+      const tx = async () => await this.TON.approve(this.WTON.address, 0, { from: this.user });
+      this.$bus.$emit('txSended', {
+        request: 'TON lock',
+        txSender: tx,
+      });
+    };
+    this.lockWTON = () => {
+      const tx = async () => await this.WTON.approve(this.DepositManager.address, 0, { from: this.user });
+      this.$bus.$emit('txSended', {
+        request: 'WTON lock',
+        txSender: tx,
+      });
+    };
 
-    this.unlockTON =
-      async () => this.TON.approve(this.DepositManager.address, this.tonBalance.toFixed('wei'), { from: this.user });
-    this.unlockWTON = async () =>
-      await this.WTON.approve(this.DepositManager.address, this.wtonBalance.toFixed('ray'), { from: this.user });
+    this.unlockTON = () => {
+      const tx = async () =>
+        await this.TON.approve(this.WTON.address, this.tonBalance.toFixed('wei'), { from: this.user });
+      this.$bus.$emit('txSended', {
+        request: 'TON unlock',
+        txSender: tx,
+      });
+    };
+    this.unlockWTON = () => {
+      const tx = async () =>
+        await this.WTON.approve(this.DepositManager.address, this.wtonBalance.toFixed('ray'), { from: this.user });
+      this.$bus.$emit('txSended', {
+        request: 'WTON unlock',
+        txSender: tx,
+      });
+    };
   },
   methods: {
     isTONUnlocked () {
