@@ -1,22 +1,12 @@
 <template>
   <div>
     <div
-      v-if="opened"
-      class="container"
+      v-for="request in txsPending"
+      :key="request"
     >
-      <div
-        class="close-container"
-      >
-        <img
-          class="close-button"
-          src="@/assets/images/Close.png"
-          width="12"
-          height="12"
-        >
+      <div class="tx-processor">
+        {{ request }} 요청(transaction)을 처리하고 있습니다.
       </div>
-      {{ txHash }}
-      {{ request }}
-      {{ message }}
     </div>
   </div>
 </template>
@@ -26,50 +16,36 @@ import { mapState } from 'vuex';
 import { addHistory } from '@/api';
 
 export default {
-  data () {
-    return {
-      opened: false,
-      txHash: '',
-      request: '',
-      message: '처리 중',
-    };
-  },
   computed: {
     ...mapState([
       'user',
+      'txsPending',
     ]),
   },
   async created () {
     this.$bus.$on('txSended', async (t) => {
-      await this.$store.dispatch('processTx', 'sended');
-
-      this.request = t.request;
-      this.opened = true;
+      const request = t.request;
+      const sendTx = t.txSender;
+      await this.$store.dispatch('addPendingTx', request);
 
       let receipt;
       try {
-        receipt = (await t.txSender()).receipt;
-
-        this.message = '완료';
-        this.txHash = receipt.transactionHash;
-
+        receipt = (await sendTx()).receipt;
         const history = {
-          request: t.request,
+          request,
           status: receipt.status ? 'success' : 'failed',
           transactionHash: receipt.transactionHash,
           blockNumber: receipt.blockNumber,
         };
         await addHistory(this.user, history);
-
         await this.$store.dispatch('set');
-        await this.$store.dispatch('processTx', 'mined');
+        alert(`${request} 트랜잭션 처리가 완료되었습니다.`);
       } catch (e) {
         if (e.message.includes('User denied transaction signature')) {
-          alert('트랜잭션 서명을 거부했습니다.');
+          alert(`${request} 트랜잭션 서명을 거부했습니다.`);
         }
-        await this.$store.dispatch('processTx', 'failed');
       } finally {
-        this.opened = false;
+        await this.$store.dispatch('deletePendingTx', request);
       }
     });
   },
@@ -80,22 +56,16 @@ export default {
 </script>
 
 <style scoped>
-.container {
-  display: inherit;
-  background: tomato;
-  width: 100%;
-  height: 165px;
-}
-
-.modal-close-container {
+.tx-processor {
   display: flex;
-  flex-direction: row-reverse;
-  margin-top: -26px;
-  margin-right: -40px;
-  margin-bottom: 10px;
-}
-
-.modal-close-button {
-  padding: 12px;
+  justify-content: center;
+  flex-direction: column;
+  border-radius: 7px;
+  border: solid 0.7px #ced6d9;
+  background: red; height: 36px; background: #5ba7d8;
+  color: white;
+  padding-left: 16px;
+  margin-top: 8px;
+  margin-bottom: -8px;
 }
 </style>

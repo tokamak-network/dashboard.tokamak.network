@@ -5,7 +5,10 @@
     <header-container />
     <div class="container_12">
       <access-wallet-layout v-if="$route.path === '/' || web3 === null" />
-      <main-layout v-else />
+      <div v-else>
+        <tx-processor />
+        <main-layout />
+      </div>
     </div>
     <footer-container />
   </div>
@@ -15,6 +18,7 @@
 import { mapState } from 'vuex';
 import { isNull } from 'lodash';
 
+import TxProcessor from '@/components/TxProcessor.vue';
 import HeaderContainer from '@/containers/HeaderContainer.vue';
 import FooterContainer from '@/containers/FooterContainer.vue';
 import AccessWalletLayout from '@/layouts/AccessWalletLayout.vue';
@@ -27,6 +31,7 @@ export default {
     'footer-container': FooterContainer,
     'access-wallet-layout': AccessWalletLayout,
     'main-layout': MainLayout,
+    'tx-processor': TxProcessor,
   },
   computed: mapState([
     'web3',
@@ -98,13 +103,11 @@ html, body {
 }
 
 .delegate-button:hover {
-  cursor: pointer;
   -webkit-filter: opacity(.8);
   filter: opacity(.8);
 }
 
 .undelegate-button:hover {
-  cursor: pointer;
   -webkit-filter: opacity(.8);
   filter: opacity(.8);
 }

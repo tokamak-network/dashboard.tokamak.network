@@ -34,6 +34,7 @@ const initialState = {
   modalData: null,
   isModalShowed: false,
   isTxProcessing: false,
+  txsPending: [],
 
   web3: null,
   user: '',
@@ -66,8 +67,11 @@ export default new Vuex.Store({
         state[key] = initialState[key];
       });
     },
-    IS_TX_PROCESSING: (state, isTxProcessing) => {
-      state.isTxProcessing = isTxProcessing;
+    ADD_PENDING_TX: (state, request) => {
+      state.txsPending.push(request);
+    },
+    DELETE_PENDING_TX: (state, request) => {
+      state.txsPending.splice(state.txsPending.indexOf(request), 1);
     },
     SHOW_MODAL: (state, isModalShowed) => {
       state.isModalShowed = isModalShowed;
@@ -110,9 +114,12 @@ export default new Vuex.Store({
     },
   },
   actions: {
-    processTx (context, status) {
-      if (status === 'sended') context.commit('IS_TX_PROCESSING', true);
-      else if (status === 'mined' || status === 'failed') context.commit('IS_TX_PROCESSING', false);
+    addPendingTx (context, request) {
+      const txsPending = context.state.txsPending;
+      if (!txsPending.find(r => r === request)) context.commit('ADD_PENDING_TX', request);
+    },
+    deletePendingTx (context, request) {
+      context.commit('DELETE_PENDING_TX', request);
     },
     showModal (context, data) {
       context.commit('SET_MODAL_DATA', data);
@@ -277,6 +284,9 @@ userStake : ${userStake}
     },
     operatorByAddress: (state) => (address) => {
       return state.operators.find(operator => operator.address.toLowerCase() === address);
+    },
+    isTxProcessing: (state) => (type) => {
+      return state.txsPending.includes(type);
     },
   },
 });
