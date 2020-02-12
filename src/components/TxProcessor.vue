@@ -23,14 +23,24 @@ export default {
     ]),
   },
   async created () {
-    this.$bus.$on('txSended', async (t) => {
-      const request = t.request;
-      const sendTx = t.txSender;
+    this.$bus.$on('txSended', async (tx) => {
+      await this.process(tx);
+    });
+  },
+  beforeDestroy () {
+    this.$bus.$off('txSended', () => {});
+  },
+  methods: {
+    async process (tx) {
+      const request = tx.request;
+      const func = tx.txSender;
       await this.$store.dispatch('addPendingTx', request);
 
       let receipt;
       try {
-        receipt = (await sendTx()).receipt;
+        receipt = (await func()).receipt;
+        console.log('tx mined');
+
         const history = {
           request,
           status: receipt.status ? 'success' : 'failed',
@@ -47,10 +57,7 @@ export default {
       } finally {
         await this.$store.dispatch('deletePendingTx', request);
       }
-    });
-  },
-  beforeDestroy () {
-    this.$bus.$off('txSended', () => {});
+    },
   },
 };
 </script>

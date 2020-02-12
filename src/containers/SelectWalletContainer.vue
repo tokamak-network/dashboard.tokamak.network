@@ -63,7 +63,7 @@ export default {
         throw new Error('No web3 provider detected');
       }
 
-      this.$store.dispatch('signIn', new Web3(provider));
+      await this.$store.dispatch('signIn', new Web3(provider));
       this.$router.replace('/dashboard');
     },
   },
