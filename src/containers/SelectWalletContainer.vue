@@ -7,7 +7,7 @@
       <wallet
         :title="'MetaMask'"
         :image="'Metamask.jpg'"
-        :connect="metamask"
+        :connect="useMetamask"
       />
     </div>
   </div>
@@ -23,25 +23,43 @@ export default {
     'wallet': Wallet,
   },
   methods: {
-    async metamask () {
-      if (window.ethereum) {
-        await window.ethereum.enable();
+    async useMetamask () {
+      try {
+        await this.metamask();
 
-        window.ethereum.on('networkChanged', async (netId) => {
+        window.ethereum.autoRefreshOnNetworkChange = false;
+        window.ethereum.on('chainIdChanged', async (chainId) => {
+          switch (parseInt(chainId)) {
+          case 1: console.log('changed to mainnet'); break;
+          default: console.log('changed to testnet'); break;
+          }
           this.$store.dispatch('logout');
         });
-        window.ethereum.on('accountsChanged', async (account) => {
-          this.$store.dispatch('logout');
-        });
+      } catch (e) {
+        alert(e.message);
+        this.$store.dispatch('logout');
+      }
+    },
+    async metamask () {
+      let provider;
+      if (typeof window.ethereum !== 'undefined') {
+        try {
+          await window.ethereum.enable();
+          provider = window.ethereum;
+        } catch (e) {
+          if (e.stack.includes('Error: User denied account authorization')) {
+            throw new Error('User denied account authorization');
+          } else {
+            throw new Error(e.message);
+          }
+        }
+      } else if (window.web3) {
+        provider = window.web3.currentProvider;
       } else {
-        //
+        throw new Error('No web3 provider detected');
       }
 
-      const provider = window.ethereum;
-      await this.$store.dispatch('connect', new Web3(provider));
-      await this.$store.dispatch('set');
-
-      this.$router.replace('/dashboard');
+      this.$store.dispatch('signIn', new Web3(provider));
     },
   },
 };

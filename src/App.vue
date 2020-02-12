@@ -3,11 +3,17 @@
     id="app"
   >
     <header-container />
-    <div class="container_12">
-      <access-wallet-layout v-if="$route.path === '/' || web3 === null" />
-      <div v-else>
-        <tx-processor />
-        <main-layout />
+    <div class="body-container">
+      <loading-spinner v-if="loading" />
+      <div
+        v-else
+        class="container_12"
+      >
+        <access-wallet-layout v-if="$route.path === '/' || web3 === null" />
+        <div v-else>
+          <tx-processor />
+          <main-layout />
+        </div>
       </div>
     </div>
     <footer-container />
@@ -18,6 +24,7 @@
 import { mapState } from 'vuex';
 import { isNull } from 'lodash';
 
+import LoadingSpinner from '@/components/LoadingSpinner.vue';
 import TxProcessor from '@/components/TxProcessor.vue';
 import HeaderContainer from '@/containers/HeaderContainer.vue';
 import FooterContainer from '@/containers/FooterContainer.vue';
@@ -27,6 +34,7 @@ import AccessWalletLayoutVue from './layouts/AccessWalletLayout.vue';
 
 export default {
   components: {
+    'loading-spinner': LoadingSpinner,
     'header-container': HeaderContainer,
     'footer-container': FooterContainer,
     'access-wallet-layout': AccessWalletLayout,
@@ -35,6 +43,7 @@ export default {
   },
   computed: mapState([
     'web3',
+    'loading',
   ]),
   created () {
     if (isNull(this.web3) && this.$route.path !== '/') {
@@ -57,7 +66,14 @@ html, body {
 }
 
 #app {
+  display: flex;
+  flex-direction: column;
   min-height: 100vh;
+}
+
+.body-container {
+  display: flex;
+  flex: 1;
 }
 
 /* GLOBAL CSS */

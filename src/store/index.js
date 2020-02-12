@@ -31,6 +31,8 @@ import CustomIncrementCoinage from '@/contracts/ABI/CustomIncrementCoinage.json'
 const CustomIncrementCoinageABI = CustomIncrementCoinage.abi;
 
 const initialState = {
+  loading: false,
+
   modalData: null,
   isModalShowed: false,
   isTxProcessing: false,
@@ -66,6 +68,9 @@ export default new Vuex.Store({
       Object.keys(initialState).forEach(key => {
         state[key] = initialState[key];
       });
+    },
+    IS_LOADING: (state, isLoading) => {
+      state.loading = isLoading;
     },
     ADD_PENDING_TX: (state, request) => {
       state.txsPending.push(request);
@@ -132,13 +137,21 @@ export default new Vuex.Store({
     logout (context) {
       context.commit('SET_INITIAL_STATE');
     },
-    async connect (context, web3) {
+    async signIn (context, web3) {
+      context.commit('IS_LOADING', true);
+
       const user = (await web3.eth.getAccounts())[0];
+      // TODO: to change chainId?
       const networkId = (await web3.eth.net.getId());
 
       context.commit('SET_WEB3', web3);
       context.commit('SET_USER', user);
       context.commit('SET_NETWORK_ID', networkId);
+      console.log('connected');
+
+      await context.dispatch('set');
+
+      context.commit('IS_LOADING', false);
     },
     async set (context) {
       return getState()
@@ -150,19 +163,13 @@ export default new Vuex.Store({
           await context.dispatch('setOperatorFromRootchains', rootchains);
           await context.dispatch('setUserBalanceAndAllowance');
           await context.dispatch('setUserHistory');
+          console.log('set');
         });
     },
     async setManagers (context, managers) {
       for (const [name, address] of Object.entries(managers)) {
         const abi = managerABIs[`${name}ABI`];
         managers[name] = await createTruffleContract(abi, address);
-
-        console.log(`
-name:     ${name}
-address:  ${address}
-abi:      ${abi}
-contract: ${managers[name]}
-        `);
       }
       context.commit('SET_MANAGERS', managers);
     },
@@ -175,10 +182,11 @@ contract: ${managers[name]}
       let count = 0;
       const operatorsFromRootchain = rootchains.map(async rootchain => {
         const RootChain = await createTruffleContract(RootChainABI, rootchain);
-        const forkNumber = await RootChain.currentFork();
-        const operator = await RootChain.operator();
         const Coinage =
             await createTruffleContract(CustomIncrementCoinageABI, (await SeigManager.coinages(rootchain)));
+
+        const forkNumber = await RootChain.currentFork();
+        const operator = await RootChain.operator();
 
         const getTotalStake = async () => {
           const totTotalSupplyAtCommit = await SeigManager.totTotalSupplyAtCommit(rootchain);
@@ -222,19 +230,15 @@ contract: ${managers[name]}
         const operatorStake = _WTON.ray((await getStake(operator)).toString());
         const userStake = _WTON.ray((await getStake(user)).toString());
 
-        console.log(`
-totalStake: ${totalStake}
-userStake : ${userStake}
-`);
-
         // const totalReward = _WTON.ray((await Coinage.totalSupply()).toString());
         // const operatorStake = _WTON.ray((await getStake(operator)).toString());
         // const userStake = _WTON.ray((await getStake(user)).toString());
 
         const userReward = _WTON.ray((await getReward(user)).toString());
         const userClaim = _WTON.ray((await SeigManager.stakeOf(rootchain, user)).toString());
-        const userUncomittedStakeOf
-          = _WTON.ray((await SeigManager.uncomittedStakeOf(rootchain, operator)).toString());
+        // TODO: fix `Returned values aren't valid, did it run Out of Gas?` error
+        // const userUncomittedStakeOf
+        //   = _WTON.ray((await SeigManager.uncomittedStakeOf(rootchain, operator)).toString());
 
         count++;
         return {
@@ -250,7 +254,7 @@ userStake : ${userStake}
           userStake,
           userReward,
           userClaim,
-          userUncomittedStakeOf,
+          // userUncomittedStakeOf,
         };
       });
 
