@@ -141,7 +141,6 @@ export default new Vuex.Store({
       context.commit('IS_LOADING', true);
 
       const user = (await web3.eth.getAccounts())[0];
-      // TODO: to change chainId?
       const networkId = (await web3.eth.net.getId());
 
       context.commit('SET_WEB3', web3);
@@ -268,7 +267,7 @@ export default new Vuex.Store({
       const DepositManager = context.state.DepositManager;
 
       context.commit('SET_TON_BALANCE', _TON.wei((await TON.balanceOf(user)).toString()));
-      context.commit('SET_TON_ALLOWANCE', _TON.wei((await TON.allowance(user, DepositManager.address)).toString()));
+      context.commit('SET_TON_ALLOWANCE', _TON.wei((await TON.allowance(user, WTON.address)).toString()));
       context.commit('SET_WTON_BALANCE', _WTON.ray((await WTON.balanceOf(user)).toString()));
       context.commit('SET_WTON_ALLOWANCE',
         _WTON.ray((await WTON.allowance(user, DepositManager.address)).toString()));

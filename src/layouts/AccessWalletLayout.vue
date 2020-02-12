@@ -14,9 +14,6 @@ export default {
     'introduction': Introduction,
     'select-wallet-container': SelectWalletContainer,
   },
-  created () {
-    this.$store.dispatch('logout');
-  },
 };
 </script>
 

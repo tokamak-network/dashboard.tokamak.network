@@ -35,6 +35,10 @@ export default {
           }
           this.$store.dispatch('logout');
         });
+        window.ethereum.on('accountsChanged', async (chainId) => {
+          console.log('changed to account');
+          this.$store.dispatch('logout');
+        });
       } catch (e) {
         alert(e.message);
         this.$store.dispatch('logout');
@@ -60,6 +64,7 @@ export default {
       }
 
       this.$store.dispatch('signIn', new Web3(provider));
+      this.$router.replace('/dashboard');
     },
   },
 };
