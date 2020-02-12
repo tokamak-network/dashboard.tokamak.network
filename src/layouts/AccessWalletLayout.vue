@@ -15,7 +15,6 @@ export default {
     'select-wallet-container': SelectWalletContainer,
   },
   created () {
-    // TODO: optimization
     this.$store.dispatch('logout');
   },
 };

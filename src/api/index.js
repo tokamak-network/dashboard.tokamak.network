@@ -8,7 +8,6 @@ function createInstance () {
 
 const instance = createInstance();
 
-// TODO: make router.
 export async function getState () {
   const res = await instance.get('/');
   return res.data;

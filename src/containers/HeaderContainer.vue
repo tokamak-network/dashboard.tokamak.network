@@ -5,8 +5,8 @@
         <img
           class="header-logo"
           src="@/assets/images/Tokamak.png"
-          width="258"
-          height="25"
+          width="230"
+          height="23"
         >
       </div>
       <div class="header-link-container">

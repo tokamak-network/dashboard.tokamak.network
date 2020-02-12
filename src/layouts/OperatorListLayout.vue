@@ -25,7 +25,7 @@
             key: 'totalStake',
           },
         ]"
-        :datas="searching ? operatorsBySearching : operators"
+        :datas="searching ? operatorsByName : operators"
         :rounded="true"
         :clickable="true"
         @tableDataClicked="viewOperator"
@@ -65,8 +65,7 @@ export default {
         this.searching = false;
       } else {
         this.searching = true;
-        // TODO: modify logic
-        this.operatorsBySearching =
+        this.operatorsByName =
           this.operators.filter(operator => operator.name.toLowerCase().includes(name.toLowerCase()));
       }
     },

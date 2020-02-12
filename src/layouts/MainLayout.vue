@@ -42,7 +42,7 @@ export default {
   width: 100%;
   height: 100%;
   padding-top: 16px;
-  padding-bottom: 140px;
+  padding-bottom: 2rem;
 }
 
 .main-container {

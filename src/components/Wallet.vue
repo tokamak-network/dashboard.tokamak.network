@@ -13,19 +13,13 @@
     <div class="wallet-title">
       {{ title }}
     </div>
-    <loading-spinner v-if="loading" />
   </div>
 </template>
 
 <script>
 import { mapState } from 'vuex';
 
-import LoadingSpinner from '@/components/LoadingSpinner.vue';
-
 export default {
-  components: {
-    'loading-spinner': LoadingSpinner,
-  },
   props: {
     image: {
       type: String,
