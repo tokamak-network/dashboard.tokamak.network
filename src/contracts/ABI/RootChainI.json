@@ -68,15 +68,15 @@
       "type": "function"
     }
   ],
-  "metadata": "{\"compiler\":{\"version\":\"0.5.12+commit.7709ece9\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"constant\":true,\"inputs\":[],\"name\":\"currentFork\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"isRootChain\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"forkNumber\",\"type\":\"uint256\"}],\"name\":\"lastEpoch\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"operator\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"}],\"devdoc\":{\"methods\":{}},\"userdoc\":{\"methods\":{}}},\"settings\":{\"compilationTarget\":{\"/Users/pjh/workspace/go/src/github.com/Onther-Tech/plasma-evm/contracts/plasma/plasma-evm-cotracts/contracts/RootChainI.sol\":\"RootChainI\"},\"evmVersion\":\"petersburg\",\"libraries\":{},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"/Users/pjh/workspace/go/src/github.com/Onther-Tech/plasma-evm/contracts/plasma/plasma-evm-cotracts/contracts/RootChainI.sol\":{\"keccak256\":\"0x664e699d6afd7a839f5fae13a661b3446aeb655b0e1df5cf11f1d5fe849aae18\",\"urls\":[\"bzz-raw://c6e912566cd48ac2a5355eed0c1a26cbdd49bb50f2e32e0e45d9d3804709b359\",\"dweb:/ipfs/QmZP9RsBZSmsvJYAqtfP2G51iUyuLoXieJQA3YFZLdPayZ\"]}},\"version\":1}",
+  "metadata": "{\"compiler\":{\"version\":\"0.5.12+commit.7709ece9\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"constant\":true,\"inputs\":[],\"name\":\"currentFork\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"isRootChain\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"forkNumber\",\"type\":\"uint256\"}],\"name\":\"lastEpoch\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"operator\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"}],\"devdoc\":{\"methods\":{}},\"userdoc\":{\"methods\":{}}},\"settings\":{\"compilationTarget\":{\"/Users/thomashin/Workspace/plasma-evm-contracts/contracts/RootChainI.sol\":\"RootChainI\"},\"evmVersion\":\"petersburg\",\"libraries\":{},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"/Users/thomashin/Workspace/plasma-evm-contracts/contracts/RootChainI.sol\":{\"keccak256\":\"0x664e699d6afd7a839f5fae13a661b3446aeb655b0e1df5cf11f1d5fe849aae18\",\"urls\":[\"bzz-raw://c6e912566cd48ac2a5355eed0c1a26cbdd49bb50f2e32e0e45d9d3804709b359\",\"dweb:/ipfs/QmZP9RsBZSmsvJYAqtfP2G51iUyuLoXieJQA3YFZLdPayZ\"]}},\"version\":1}",
   "bytecode": "0x",
   "deployedBytecode": "0x",
   "sourceMap": "",
   "deployedSourceMap": "",
   "source": "pragma solidity ^0.5.12;\n\ninterface RootChainI {\n  function operator() external view returns (address);\n  function isRootChain() external view returns (bool);\n  function currentFork() external view returns (uint);\n  function lastEpoch(uint forkNumber) external view returns (uint);\n}",
-  "sourcePath": "/Users/pjh/workspace/go/src/github.com/Onther-Tech/plasma-evm/contracts/plasma/plasma-evm-cotracts/contracts/RootChainI.sol",
+  "sourcePath": "/Users/thomashin/Workspace/plasma-evm-contracts/contracts/RootChainI.sol",
   "ast": {
-    "absolutePath": "/Users/pjh/workspace/go/src/github.com/Onther-Tech/plasma-evm/contracts/plasma/plasma-evm-cotracts/contracts/RootChainI.sol",
+    "absolutePath": "/Users/thomashin/Workspace/plasma-evm-contracts/contracts/RootChainI.sol",
     "exportedSymbols": {
       "RootChainI": [
         3062
@@ -361,7 +361,7 @@
     "src": "0:283:6"
   },
   "legacyAST": {
-    "absolutePath": "/Users/pjh/workspace/go/src/github.com/Onther-Tech/plasma-evm/contracts/plasma/plasma-evm-cotracts/contracts/RootChainI.sol",
+    "absolutePath": "/Users/thomashin/Workspace/plasma-evm-contracts/contracts/RootChainI.sol",
     "exportedSymbols": {
       "RootChainI": [
         3062
@@ -651,7 +651,7 @@
   },
   "networks": {},
   "schemaVersion": "3.0.23",
-  "updatedAt": "2020-02-13T05:01:23.662Z",
+  "updatedAt": "2020-02-13T12:53:41.843Z",
   "devdoc": {
     "methods": {}
   },

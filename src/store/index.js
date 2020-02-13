@@ -265,6 +265,10 @@ export default new Vuex.Store({
         };
 
         console.log({
+          WITHDRAWAL_DELAY: (await DepositManager.WITHDRAWAL_DELAY()).toString(),
+          numRequests: (await DepositManager.numRequests(rootchain, user)).toString(),
+          numPendingRequests: (await DepositManager.numPendingRequests(rootchain, user)).toString(),
+
           totalDeposit: wtonWrapper(totalDeposit).toString(),
           operatorDeposit: wtonWrapper(operatorDeposit).toString(),
           userDeposit: wtonWrapper(userDeposit).toString(),

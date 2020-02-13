@@ -72,25 +72,25 @@
       "type": "function"
     }
   ],
-  "metadata": "{\"compiler\":{\"version\":\"0.5.12+commit.7709ece9\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"constant\":true,\"inputs\":[],\"name\":\"hash\",\"outputs\":[{\"internalType\":\"bytes32\",\"name\":\"\",\"type\":\"bytes32\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"internalType\":\"uint64\",\"name\":\"nonce\",\"type\":\"uint64\"},{\"internalType\":\"uint256\",\"name\":\"gasPrice\",\"type\":\"uint256\"},{\"internalType\":\"uint64\",\"name\":\"gasLimit\",\"type\":\"uint64\"},{\"internalType\":\"address\",\"name\":\"to\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"value\",\"type\":\"uint256\"},{\"internalType\":\"bytes\",\"name\":\"data\",\"type\":\"bytes\"},{\"internalType\":\"uint256\",\"name\":\"v\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"r\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"s\",\"type\":\"uint256\"}],\"name\":\"setHash\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"methods\":{}},\"userdoc\":{\"methods\":{}}},\"settings\":{\"compilationTarget\":{\"/Users/pjh/workspace/go/src/github.com/Onther-Tech/plasma-evm/contracts/plasma/plasma-evm-cotracts/contracts/mock/TransactionMock.sol\":\"TransactionMock\"},\"evmVersion\":\"petersburg\",\"libraries\":{},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"/Users/pjh/workspace/go/src/github.com/Onther-Tech/plasma-evm/contracts/plasma/plasma-evm-cotracts/contracts/RequestableI.sol\":{\"keccak256\":\"0x3fb4d0c8ae1d979d3a01b967118745221b6f3d713651d396a0b76762cbf32860\",\"urls\":[\"bzz-raw://609d18fff0ca18ffd0a57b2c61ba1eea56eb710dd016a63ea9074cbb6ba4be44\",\"dweb:/ipfs/Qmf3r6dM79QNhYN9L4SJ8g47QXQkTwW3V8Z6tQinfrVZwm\"]},\"/Users/pjh/workspace/go/src/github.com/Onther-Tech/plasma-evm/contracts/plasma/plasma-evm-cotracts/contracts/lib/BMT.sol\":{\"keccak256\":\"0xb38c47e185c29f4edd3b69235836d772e724230c6a473adcfbc7467e1d7e23e0\",\"urls\":[\"bzz-raw://9e80937c9467940e6e678461687b4d939c5eb8dc5de0402ca047b11a755b0281\",\"dweb:/ipfs/QmdSxjMdnFP222QdSFqQwoaAztFMK1irJd4yyMsQFrnKSN\"]},\"/Users/pjh/workspace/go/src/github.com/Onther-Tech/plasma-evm/contracts/plasma/plasma-evm-cotracts/contracts/lib/Data.sol\":{\"keccak256\":\"0x8dee29a267fd16dd567cd666c1b735de8e564c5601bed92996ebc6bada92cfb0\",\"urls\":[\"bzz-raw://3903878fdbfa42b1a9c19376b45b467ab718acc37ae49ee7cb2c36889a9fa6c5\",\"dweb:/ipfs/QmYgxCjRhqkbSXZgt1Eqh2KYyWjiYquphowE2oP6zuQzGD\"]},\"/Users/pjh/workspace/go/src/github.com/Onther-Tech/plasma-evm/contracts/plasma/plasma-evm-cotracts/contracts/lib/Math.sol\":{\"keccak256\":\"0xbe5574b1d3e3f5179d4fdf27265270b36df00dd0aaed46b1f77e06b14c49eaa8\",\"urls\":[\"bzz-raw://4f4c6f2ff3e24bac90caeb1a888f0e34d91e433d6d56c83e4cd0467254c6c67f\",\"dweb:/ipfs/QmSC84TJd5NemXV2uHvo16694Ao57uou8ZvdTAnN6JSm1X\"]},\"/Users/pjh/workspace/go/src/github.com/Onther-Tech/plasma-evm/contracts/plasma/plasma-evm-cotracts/contracts/lib/RLP.sol\":{\"keccak256\":\"0x9ac5456084be0245e138d3746aa8a5196da272208e8b0466593cc07e91a3ce97\",\"urls\":[\"bzz-raw://d53f7ea9260a7078d55cdeaec57be0e810210aed6fa1dc9da04ece0b573cd624\",\"dweb:/ipfs/QmUNbVeaZYMAYNfCjg2ptG7n4Z6tPYNCRZA5k8c3uTDZtN\"]},\"/Users/pjh/workspace/go/src/github.com/Onther-Tech/plasma-evm/contracts/plasma/plasma-evm-cotracts/contracts/lib/RLPEncode.sol\":{\"keccak256\":\"0x581ea54832bb8afd6c95ae70060e92e2818d01db036f96acb08c8ef55f7e4882\",\"urls\":[\"bzz-raw://9b245abae2cf5ad0ec9b66e8af0ffb6567bdea6de5ea2665d5b2a8dcfb49ebb3\",\"dweb:/ipfs/QmcQGJwrqxAp7rH8MsC2QtAkj19f9Xc5CjN6fh6VAoLXjR\"]},\"/Users/pjh/workspace/go/src/github.com/Onther-Tech/plasma-evm/contracts/plasma/plasma-evm-cotracts/contracts/lib/SafeMath.sol\":{\"keccak256\":\"0xf46cbd8fb1c5f0bcf57f6a27e5ec1263d383c413673b37876dc7e8360233a70b\",\"urls\":[\"bzz-raw://3d937d7ac3bd2681e2655829faedc31fbcee53c9d1726755fc13cd041b5ce361\",\"dweb:/ipfs/QmZGATD813dDuH1VNsyEPwTKtp7KUySQK4jw9Cw8kChCA6\"]},\"/Users/pjh/workspace/go/src/github.com/Onther-Tech/plasma-evm/contracts/plasma/plasma-evm-cotracts/contracts/mock/TransactionMock.sol\":{\"keccak256\":\"0x81f44fe0be248c015949e8218126dbac4d6f2adb64bf07d49527fb2a1bf44685\",\"urls\":[\"bzz-raw://8194f978abef9df4db9548f48799f17a57c9251db905121cfdec692518b5a051\",\"dweb:/ipfs/QmQ36XCtqS9iN4SUjmy2hwvYvcH7fMCyfpymTjTpbNrCnE\"]}},\"version\":1}",
-  "bytecode": "0x608060405234801561001057600080fd5b50610184806100206000396000f3fe608060405234801561001057600080fd5b50600436106100365760003560e01c806309bd5a601461003b578063adc957d614610055575b600080fd5b61004361013e565b60408051918252519081900360200190f35b61013c600480360361012081101561006c57600080fd5b67ffffffffffffffff82358116926020810135926040820135909216916001600160a01b036060830135169160808101359181019060c0810160a08201356401000000008111156100bc57600080fd5b8201836020820111156100ce57600080fd5b803590602001918460018302840111640100000000831117156100f057600080fd5b91908080601f0160208091040260200160405190810160405280939291908181526020018383808284376000920191909152509295505082359350505060208101359060400135610144565b005b60005481565b50505050505050505056fea265627a7a72315820dca62524b9ccaf2d084261ad367020bf338530da122ac5588124a43ba1df238b64736f6c634300050c0032",
-  "deployedBytecode": "0x608060405234801561001057600080fd5b50600436106100365760003560e01c806309bd5a601461003b578063adc957d614610055575b600080fd5b61004361013e565b60408051918252519081900360200190f35b61013c600480360361012081101561006c57600080fd5b67ffffffffffffffff82358116926020810135926040820135909216916001600160a01b036060830135169160808101359181019060c0810160a08201356401000000008111156100bc57600080fd5b8201836020820111156100ce57600080fd5b803590602001918460018302840111640100000000831117156100f057600080fd5b91908080601f0160208091040260200160405190810160405280939291908181526020018383808284376000920191909152509295505082359350505060208101359060400135610144565b005b60005481565b50505050505050505056fea265627a7a72315820dca62524b9ccaf2d084261ad367020bf338530da122ac5588124a43ba1df238b64736f6c634300050c0032",
-  "sourceMap": "53:809:26:-;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;53:809:26;;;;;;;",
-  "deployedSourceMap": "53:809:26:-;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;53:809:26;;;;;;;;;;;;;;;;;;;;;;;;109:19;;;:::i;:::-;;;;;;;;;;;;;;;;133:273;;;;;;13:3:-1;8;5:12;2:2;;;30:1;27;20:12;2:2;133:273:26;;;;;;;;;;;;;;;;;;;-1:-1:-1;;;;;133:273:26;;;;;;;;;;;;;;;;;;;;;21:11:-1;5:28;;2:2;;;46:1;43;36:12;2:2;133:273:26;;35:9:-1;28:4;12:14;8:25;5:40;2:2;;;58:1;55;48:12;2:2;133:273:26;;;;;;100:9:-1;95:1;81:12;77:20;67:8;63:35;60:50;39:11;25:12;22:29;11:107;8:2;;;131:1;128;121:12;8:2;133:273:26;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;30:3:-1;22:6;14;1:33;99:1;81:16;;74:27;;;;-1:-1;133:273:26;;-1:-1:-1;;133:273:26;;;-1:-1:-1;;;133:273:26;;;;;;;;;:::i;:::-;;109:19;;;;:::o;133:273::-;;;;;;;;;;:::o",
+  "metadata": "{\"compiler\":{\"version\":\"0.5.12+commit.7709ece9\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"constant\":true,\"inputs\":[],\"name\":\"hash\",\"outputs\":[{\"internalType\":\"bytes32\",\"name\":\"\",\"type\":\"bytes32\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"internalType\":\"uint64\",\"name\":\"nonce\",\"type\":\"uint64\"},{\"internalType\":\"uint256\",\"name\":\"gasPrice\",\"type\":\"uint256\"},{\"internalType\":\"uint64\",\"name\":\"gasLimit\",\"type\":\"uint64\"},{\"internalType\":\"address\",\"name\":\"to\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"value\",\"type\":\"uint256\"},{\"internalType\":\"bytes\",\"name\":\"data\",\"type\":\"bytes\"},{\"internalType\":\"uint256\",\"name\":\"v\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"r\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"s\",\"type\":\"uint256\"}],\"name\":\"setHash\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"methods\":{}},\"userdoc\":{\"methods\":{}}},\"settings\":{\"compilationTarget\":{\"/Users/thomashin/Workspace/plasma-evm-contracts/contracts/mock/TransactionMock.sol\":\"TransactionMock\"},\"evmVersion\":\"petersburg\",\"libraries\":{},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"/Users/thomashin/Workspace/plasma-evm-contracts/contracts/RequestableI.sol\":{\"keccak256\":\"0x3fb4d0c8ae1d979d3a01b967118745221b6f3d713651d396a0b76762cbf32860\",\"urls\":[\"bzz-raw://609d18fff0ca18ffd0a57b2c61ba1eea56eb710dd016a63ea9074cbb6ba4be44\",\"dweb:/ipfs/Qmf3r6dM79QNhYN9L4SJ8g47QXQkTwW3V8Z6tQinfrVZwm\"]},\"/Users/thomashin/Workspace/plasma-evm-contracts/contracts/lib/BMT.sol\":{\"keccak256\":\"0xb38c47e185c29f4edd3b69235836d772e724230c6a473adcfbc7467e1d7e23e0\",\"urls\":[\"bzz-raw://9e80937c9467940e6e678461687b4d939c5eb8dc5de0402ca047b11a755b0281\",\"dweb:/ipfs/QmdSxjMdnFP222QdSFqQwoaAztFMK1irJd4yyMsQFrnKSN\"]},\"/Users/thomashin/Workspace/plasma-evm-contracts/contracts/lib/Data.sol\":{\"keccak256\":\"0x8dee29a267fd16dd567cd666c1b735de8e564c5601bed92996ebc6bada92cfb0\",\"urls\":[\"bzz-raw://3903878fdbfa42b1a9c19376b45b467ab718acc37ae49ee7cb2c36889a9fa6c5\",\"dweb:/ipfs/QmYgxCjRhqkbSXZgt1Eqh2KYyWjiYquphowE2oP6zuQzGD\"]},\"/Users/thomashin/Workspace/plasma-evm-contracts/contracts/lib/Math.sol\":{\"keccak256\":\"0xbe5574b1d3e3f5179d4fdf27265270b36df00dd0aaed46b1f77e06b14c49eaa8\",\"urls\":[\"bzz-raw://4f4c6f2ff3e24bac90caeb1a888f0e34d91e433d6d56c83e4cd0467254c6c67f\",\"dweb:/ipfs/QmSC84TJd5NemXV2uHvo16694Ao57uou8ZvdTAnN6JSm1X\"]},\"/Users/thomashin/Workspace/plasma-evm-contracts/contracts/lib/RLP.sol\":{\"keccak256\":\"0x9ac5456084be0245e138d3746aa8a5196da272208e8b0466593cc07e91a3ce97\",\"urls\":[\"bzz-raw://d53f7ea9260a7078d55cdeaec57be0e810210aed6fa1dc9da04ece0b573cd624\",\"dweb:/ipfs/QmUNbVeaZYMAYNfCjg2ptG7n4Z6tPYNCRZA5k8c3uTDZtN\"]},\"/Users/thomashin/Workspace/plasma-evm-contracts/contracts/lib/RLPEncode.sol\":{\"keccak256\":\"0x581ea54832bb8afd6c95ae70060e92e2818d01db036f96acb08c8ef55f7e4882\",\"urls\":[\"bzz-raw://9b245abae2cf5ad0ec9b66e8af0ffb6567bdea6de5ea2665d5b2a8dcfb49ebb3\",\"dweb:/ipfs/QmcQGJwrqxAp7rH8MsC2QtAkj19f9Xc5CjN6fh6VAoLXjR\"]},\"/Users/thomashin/Workspace/plasma-evm-contracts/contracts/lib/SafeMath.sol\":{\"keccak256\":\"0xf46cbd8fb1c5f0bcf57f6a27e5ec1263d383c413673b37876dc7e8360233a70b\",\"urls\":[\"bzz-raw://3d937d7ac3bd2681e2655829faedc31fbcee53c9d1726755fc13cd041b5ce361\",\"dweb:/ipfs/QmZGATD813dDuH1VNsyEPwTKtp7KUySQK4jw9Cw8kChCA6\"]},\"/Users/thomashin/Workspace/plasma-evm-contracts/contracts/mock/TransactionMock.sol\":{\"keccak256\":\"0x81f44fe0be248c015949e8218126dbac4d6f2adb64bf07d49527fb2a1bf44685\",\"urls\":[\"bzz-raw://8194f978abef9df4db9548f48799f17a57c9251db905121cfdec692518b5a051\",\"dweb:/ipfs/QmQ36XCtqS9iN4SUjmy2hwvYvcH7fMCyfpymTjTpbNrCnE\"]}},\"version\":1}",
+  "bytecode": "0x608060405234801561001057600080fd5b50610184806100206000396000f3fe608060405234801561001057600080fd5b50600436106100365760003560e01c806309bd5a601461003b578063adc957d614610055575b600080fd5b61004361013e565b60408051918252519081900360200190f35b61013c600480360361012081101561006c57600080fd5b67ffffffffffffffff82358116926020810135926040820135909216916001600160a01b036060830135169160808101359181019060c0810160a08201356401000000008111156100bc57600080fd5b8201836020820111156100ce57600080fd5b803590602001918460018302840111640100000000831117156100f057600080fd5b91908080601f0160208091040260200160405190810160405280939291908181526020018383808284376000920191909152509295505082359350505060208101359060400135610144565b005b60005481565b50505050505050505056fea265627a7a72315820d3f86bf297d3de692802adb4545ef0ef7cb7037a88d1553bb4a250512ef409b264736f6c634300050c0032",
+  "deployedBytecode": "0x608060405234801561001057600080fd5b50600436106100365760003560e01c806309bd5a601461003b578063adc957d614610055575b600080fd5b61004361013e565b60408051918252519081900360200190f35b61013c600480360361012081101561006c57600080fd5b67ffffffffffffffff82358116926020810135926040820135909216916001600160a01b036060830135169160808101359181019060c0810160a08201356401000000008111156100bc57600080fd5b8201836020820111156100ce57600080fd5b803590602001918460018302840111640100000000831117156100f057600080fd5b91908080601f0160208091040260200160405190810160405280939291908181526020018383808284376000920191909152509295505082359350505060208101359060400135610144565b005b60005481565b50505050505050505056fea265627a7a72315820d3f86bf297d3de692802adb4545ef0ef7cb7037a88d1553bb4a250512ef409b264736f6c634300050c0032",
+  "sourceMap": "53:809:23:-;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;53:809:23;;;;;;;",
+  "deployedSourceMap": "53:809:23:-;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;53:809:23;;;;;;;;;;;;;;;;;;;;;;;;109:19;;;:::i;:::-;;;;;;;;;;;;;;;;133:273;;;;;;13:3:-1;8;5:12;2:2;;;30:1;27;20:12;2:2;133:273:23;;;;;;;;;;;;;;;;;;;-1:-1:-1;;;;;133:273:23;;;;;;;;;;;;;;;;;;;;;21:11:-1;5:28;;2:2;;;46:1;43;36:12;2:2;133:273:23;;35:9:-1;28:4;12:14;8:25;5:40;2:2;;;58:1;55;48:12;2:2;133:273:23;;;;;;100:9:-1;95:1;81:12;77:20;67:8;63:35;60:50;39:11;25:12;22:29;11:107;8:2;;;131:1;128;121:12;8:2;133:273:23;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;30:3:-1;22:6;14;1:33;99:1;81:16;;74:27;;;;-1:-1;133:273:23;;-1:-1:-1;;133:273:23;;;-1:-1:-1;;;133:273:23;;;;;;;;;:::i;:::-;;109:19;;;;:::o;133:273::-;;;;;;;;;;:::o",
   "source": "pragma solidity ^0.5.12;\n\nimport \"../lib/Data.sol\";\n\ncontract TransactionMock {\n  using Data for Data.TX;\n\n  bytes32 public hash;\n\n  function setHash(\n    uint64 nonce,\n    uint256 gasPrice,\n    uint64 gasLimit,\n    address to,\n    uint256 value,\n    bytes memory data,\n    uint256 v,\n    uint256 r,\n    uint256 s\n  ) public {\n    // hash = getHash(nonce, gasPrice, gasLimit, to, value, data, v, r, s);\n  }\n\n  // function getHash(\n  //   uint64 nonce,\n  //   uint256 gasPrice,\n  //   uint64 gasLimit,\n  //   address to,\n  //   uint256 value,\n  //   bytes data,\n  //   uint256 v,\n  //   uint256 r,\n  //   uint256 s\n  // )\n  //   public\n  //   pure\n  //   returns (bytes32)\n  // {\n  //   return Data.toTX(\n  //     nonce,\n  //     gasPrice,\n  //     gasLimit,\n  //     to,\n  //     value,\n  //     data,\n  //     v,\n  //     r,\n  //     s\n  //   ).hash();\n  // }\n}\n",
-  "sourcePath": "/Users/pjh/workspace/go/src/github.com/Onther-Tech/plasma-evm/contracts/plasma/plasma-evm-cotracts/contracts/mock/TransactionMock.sol",
+  "sourcePath": "/Users/thomashin/Workspace/plasma-evm-contracts/contracts/mock/TransactionMock.sol",
   "ast": {
-    "absolutePath": "/Users/pjh/workspace/go/src/github.com/Onther-Tech/plasma-evm/contracts/plasma/plasma-evm-cotracts/contracts/mock/TransactionMock.sol",
+    "absolutePath": "/Users/thomashin/Workspace/plasma-evm-contracts/contracts/mock/TransactionMock.sol",
     "exportedSymbols": {
       "TransactionMock": [
-        9228
+        9053
       ]
     },
-    "id": 9229,
+    "id": 9054,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 9199,
+        "id": 9024,
         "literals": [
           "solidity",
           "^",
@@ -98,16 +98,16 @@
           ".12"
         ],
         "nodeType": "PragmaDirective",
-        "src": "0:24:26"
+        "src": "0:24:23"
       },
       {
-        "absolutePath": "/Users/pjh/workspace/go/src/github.com/Onther-Tech/plasma-evm/contracts/plasma/plasma-evm-cotracts/contracts/lib/Data.sol",
+        "absolutePath": "/Users/thomashin/Workspace/plasma-evm-contracts/contracts/lib/Data.sol",
         "file": "../lib/Data.sol",
-        "id": 9200,
+        "id": 9025,
         "nodeType": "ImportDirective",
-        "scope": 9229,
-        "sourceUnit": 7603,
-        "src": "26:25:26",
+        "scope": 9054,
+        "sourceUnit": 7428,
+        "src": "26:25:23",
         "symbolAliases": [],
         "unitAlias": ""
       },
@@ -117,49 +117,49 @@
         "contractKind": "contract",
         "documentation": null,
         "fullyImplemented": true,
-        "id": 9228,
+        "id": 9053,
         "linearizedBaseContracts": [
-          9228
+          9053
         ],
         "name": "TransactionMock",
         "nodeType": "ContractDefinition",
         "nodes": [
           {
-            "id": 9203,
+            "id": 9028,
             "libraryName": {
               "contractScope": null,
-              "id": 9201,
+              "id": 9026,
               "name": "Data",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 7602,
-              "src": "88:4:26",
+              "referencedDeclaration": 7427,
+              "src": "88:4:23",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_Data_$7602",
+                "typeIdentifier": "t_contract$_Data_$7427",
                 "typeString": "library Data"
               }
             },
             "nodeType": "UsingForDirective",
-            "src": "82:23:26",
+            "src": "82:23:23",
             "typeName": {
               "contractScope": null,
-              "id": 9202,
+              "id": 9027,
               "name": "Data.TX",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 7250,
-              "src": "97:7:26",
+              "referencedDeclaration": 7075,
+              "src": "97:7:23",
               "typeDescriptions": {
-                "typeIdentifier": "t_struct$_TX_$7250_storage_ptr",
+                "typeIdentifier": "t_struct$_TX_$7075_storage_ptr",
                 "typeString": "struct Data.TX"
               }
             }
           },
           {
             "constant": false,
-            "id": 9205,
+            "id": 9030,
             "name": "hash",
             "nodeType": "VariableDeclaration",
-            "scope": 9228,
-            "src": "109:19:26",
+            "scope": 9053,
+            "src": "109:19:23",
             "stateVariable": true,
             "storageLocation": "default",
             "typeDescriptions": {
@@ -167,10 +167,10 @@
               "typeString": "bytes32"
             },
             "typeName": {
-              "id": 9204,
+              "id": 9029,
               "name": "bytes32",
               "nodeType": "ElementaryTypeName",
-              "src": "109:7:26",
+              "src": "109:7:23",
               "typeDescriptions": {
                 "typeIdentifier": "t_bytes32",
                 "typeString": "bytes32"
@@ -181,29 +181,29 @@
           },
           {
             "body": {
-              "id": 9226,
+              "id": 9051,
               "nodeType": "Block",
-              "src": "325:81:26",
+              "src": "325:81:23",
               "statements": []
             },
             "documentation": null,
-            "id": 9227,
+            "id": 9052,
             "implemented": true,
             "kind": "function",
             "modifiers": [],
             "name": "setHash",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 9224,
+              "id": 9049,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 9207,
+                  "id": 9032,
                   "name": "nonce",
                   "nodeType": "VariableDeclaration",
-                  "scope": 9227,
-                  "src": "155:12:26",
+                  "scope": 9052,
+                  "src": "155:12:23",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -211,10 +211,10 @@
                     "typeString": "uint64"
                   },
                   "typeName": {
-                    "id": 9206,
+                    "id": 9031,
                     "name": "uint64",
                     "nodeType": "ElementaryTypeName",
-                    "src": "155:6:26",
+                    "src": "155:6:23",
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint64",
                       "typeString": "uint64"
@@ -225,11 +225,11 @@
                 },
                 {
                   "constant": false,
-                  "id": 9209,
+                  "id": 9034,
                   "name": "gasPrice",
                   "nodeType": "VariableDeclaration",
-                  "scope": 9227,
-                  "src": "173:16:26",
+                  "scope": 9052,
+                  "src": "173:16:23",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -237,10 +237,10 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 9208,
+                    "id": 9033,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
-                    "src": "173:7:26",
+                    "src": "173:7:23",
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint256",
                       "typeString": "uint256"
@@ -251,11 +251,11 @@
                 },
                 {
                   "constant": false,
-                  "id": 9211,
+                  "id": 9036,
                   "name": "gasLimit",
                   "nodeType": "VariableDeclaration",
-                  "scope": 9227,
-                  "src": "195:15:26",
+                  "scope": 9052,
+                  "src": "195:15:23",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -263,10 +263,10 @@
                     "typeString": "uint64"
                   },
                   "typeName": {
-                    "id": 9210,
+                    "id": 9035,
                     "name": "uint64",
                     "nodeType": "ElementaryTypeName",
-                    "src": "195:6:26",
+                    "src": "195:6:23",
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint64",
                       "typeString": "uint64"
@@ -277,11 +277,11 @@
                 },
                 {
                   "constant": false,
-                  "id": 9213,
+                  "id": 9038,
                   "name": "to",
                   "nodeType": "VariableDeclaration",
-                  "scope": 9227,
-                  "src": "216:10:26",
+                  "scope": 9052,
+                  "src": "216:10:23",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -289,10 +289,10 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 9212,
+                    "id": 9037,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
-                    "src": "216:7:26",
+                    "src": "216:7:23",
                     "stateMutability": "nonpayable",
                     "typeDescriptions": {
                       "typeIdentifier": "t_address",
@@ -304,11 +304,11 @@
                 },
                 {
                   "constant": false,
-                  "id": 9215,
+                  "id": 9040,
                   "name": "value",
                   "nodeType": "VariableDeclaration",
-                  "scope": 9227,
-                  "src": "232:13:26",
+                  "scope": 9052,
+                  "src": "232:13:23",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -316,10 +316,10 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 9214,
+                    "id": 9039,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
-                    "src": "232:7:26",
+                    "src": "232:7:23",
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint256",
                       "typeString": "uint256"
@@ -330,11 +330,11 @@
                 },
                 {
                   "constant": false,
-                  "id": 9217,
+                  "id": 9042,
                   "name": "data",
                   "nodeType": "VariableDeclaration",
-                  "scope": 9227,
-                  "src": "251:17:26",
+                  "scope": 9052,
+                  "src": "251:17:23",
                   "stateVariable": false,
                   "storageLocation": "memory",
                   "typeDescriptions": {
@@ -342,10 +342,10 @@
                     "typeString": "bytes"
                   },
                   "typeName": {
-                    "id": 9216,
+                    "id": 9041,
                     "name": "bytes",
                     "nodeType": "ElementaryTypeName",
-                    "src": "251:5:26",
+                    "src": "251:5:23",
                     "typeDescriptions": {
                       "typeIdentifier": "t_bytes_storage_ptr",
                       "typeString": "bytes"
@@ -356,11 +356,11 @@
                 },
                 {
                   "constant": false,
-                  "id": 9219,
+                  "id": 9044,
                   "name": "v",
                   "nodeType": "VariableDeclaration",
-                  "scope": 9227,
-                  "src": "274:9:26",
+                  "scope": 9052,
+                  "src": "274:9:23",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -368,10 +368,10 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 9218,
+                    "id": 9043,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
-                    "src": "274:7:26",
+                    "src": "274:7:23",
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint256",
                       "typeString": "uint256"
@@ -382,11 +382,11 @@
                 },
                 {
                   "constant": false,
-                  "id": 9221,
+                  "id": 9046,
                   "name": "r",
                   "nodeType": "VariableDeclaration",
-                  "scope": 9227,
-                  "src": "289:9:26",
+                  "scope": 9052,
+                  "src": "289:9:23",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -394,10 +394,10 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 9220,
+                    "id": 9045,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
-                    "src": "289:7:26",
+                    "src": "289:7:23",
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint256",
                       "typeString": "uint256"
@@ -408,11 +408,11 @@
                 },
                 {
                   "constant": false,
-                  "id": 9223,
+                  "id": 9048,
                   "name": "s",
                   "nodeType": "VariableDeclaration",
-                  "scope": 9227,
-                  "src": "304:9:26",
+                  "scope": 9052,
+                  "src": "304:9:23",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -420,10 +420,10 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 9222,
+                    "id": 9047,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
-                    "src": "304:7:26",
+                    "src": "304:7:23",
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint256",
                       "typeString": "uint256"
@@ -433,39 +433,39 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "149:168:26"
+              "src": "149:168:23"
             },
             "returnParameters": {
-              "id": 9225,
+              "id": 9050,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "325:0:26"
+              "src": "325:0:23"
             },
-            "scope": 9228,
-            "src": "133:273:26",
+            "scope": 9053,
+            "src": "133:273:23",
             "stateMutability": "nonpayable",
             "superFunction": null,
             "visibility": "public"
           }
         ],
-        "scope": 9229,
-        "src": "53:809:26"
+        "scope": 9054,
+        "src": "53:809:23"
       }
     ],
-    "src": "0:863:26"
+    "src": "0:863:23"
   },
   "legacyAST": {
-    "absolutePath": "/Users/pjh/workspace/go/src/github.com/Onther-Tech/plasma-evm/contracts/plasma/plasma-evm-cotracts/contracts/mock/TransactionMock.sol",
+    "absolutePath": "/Users/thomashin/Workspace/plasma-evm-contracts/contracts/mock/TransactionMock.sol",
     "exportedSymbols": {
       "TransactionMock": [
-        9228
+        9053
       ]
     },
-    "id": 9229,
+    "id": 9054,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 9199,
+        "id": 9024,
         "literals": [
           "solidity",
           "^",
@@ -473,16 +473,16 @@
           ".12"
         ],
         "nodeType": "PragmaDirective",
-        "src": "0:24:26"
+        "src": "0:24:23"
       },
       {
-        "absolutePath": "/Users/pjh/workspace/go/src/github.com/Onther-Tech/plasma-evm/contracts/plasma/plasma-evm-cotracts/contracts/lib/Data.sol",
+        "absolutePath": "/Users/thomashin/Workspace/plasma-evm-contracts/contracts/lib/Data.sol",
         "file": "../lib/Data.sol",
-        "id": 9200,
+        "id": 9025,
         "nodeType": "ImportDirective",
-        "scope": 9229,
-        "sourceUnit": 7603,
-        "src": "26:25:26",
+        "scope": 9054,
+        "sourceUnit": 7428,
+        "src": "26:25:23",
         "symbolAliases": [],
         "unitAlias": ""
       },
@@ -492,49 +492,49 @@
         "contractKind": "contract",
         "documentation": null,
         "fullyImplemented": true,
-        "id": 9228,
+        "id": 9053,
         "linearizedBaseContracts": [
-          9228
+          9053
         ],
         "name": "TransactionMock",
         "nodeType": "ContractDefinition",
         "nodes": [
           {
-            "id": 9203,
+            "id": 9028,
             "libraryName": {
               "contractScope": null,
-              "id": 9201,
+              "id": 9026,
               "name": "Data",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 7602,
-              "src": "88:4:26",
+              "referencedDeclaration": 7427,
+              "src": "88:4:23",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_Data_$7602",
+                "typeIdentifier": "t_contract$_Data_$7427",
                 "typeString": "library Data"
               }
             },
             "nodeType": "UsingForDirective",
-            "src": "82:23:26",
+            "src": "82:23:23",
             "typeName": {
               "contractScope": null,
-              "id": 9202,
+              "id": 9027,
               "name": "Data.TX",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 7250,
-              "src": "97:7:26",
+              "referencedDeclaration": 7075,
+              "src": "97:7:23",
               "typeDescriptions": {
-                "typeIdentifier": "t_struct$_TX_$7250_storage_ptr",
+                "typeIdentifier": "t_struct$_TX_$7075_storage_ptr",
                 "typeString": "struct Data.TX"
               }
             }
           },
           {
             "constant": false,
-            "id": 9205,
+            "id": 9030,
             "name": "hash",
             "nodeType": "VariableDeclaration",
-            "scope": 9228,
-            "src": "109:19:26",
+            "scope": 9053,
+            "src": "109:19:23",
             "stateVariable": true,
             "storageLocation": "default",
             "typeDescriptions": {
@@ -542,10 +542,10 @@
               "typeString": "bytes32"
             },
             "typeName": {
-              "id": 9204,
+              "id": 9029,
               "name": "bytes32",
               "nodeType": "ElementaryTypeName",
-              "src": "109:7:26",
+              "src": "109:7:23",
               "typeDescriptions": {
                 "typeIdentifier": "t_bytes32",
                 "typeString": "bytes32"
@@ -556,29 +556,29 @@
           },
           {
             "body": {
-              "id": 9226,
+              "id": 9051,
               "nodeType": "Block",
-              "src": "325:81:26",
+              "src": "325:81:23",
               "statements": []
             },
             "documentation": null,
-            "id": 9227,
+            "id": 9052,
             "implemented": true,
             "kind": "function",
             "modifiers": [],
             "name": "setHash",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 9224,
+              "id": 9049,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 9207,
+                  "id": 9032,
                   "name": "nonce",
                   "nodeType": "VariableDeclaration",
-                  "scope": 9227,
-                  "src": "155:12:26",
+                  "scope": 9052,
+                  "src": "155:12:23",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -586,10 +586,10 @@
                     "typeString": "uint64"
                   },
                   "typeName": {
-                    "id": 9206,
+                    "id": 9031,
                     "name": "uint64",
                     "nodeType": "ElementaryTypeName",
-                    "src": "155:6:26",
+                    "src": "155:6:23",
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint64",
                       "typeString": "uint64"
@@ -600,11 +600,11 @@
                 },
                 {
                   "constant": false,
-                  "id": 9209,
+                  "id": 9034,
                   "name": "gasPrice",
                   "nodeType": "VariableDeclaration",
-                  "scope": 9227,
-                  "src": "173:16:26",
+                  "scope": 9052,
+                  "src": "173:16:23",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -612,10 +612,10 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 9208,
+                    "id": 9033,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
-                    "src": "173:7:26",
+                    "src": "173:7:23",
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint256",
                       "typeString": "uint256"
@@ -626,11 +626,11 @@
                 },
                 {
                   "constant": false,
-                  "id": 9211,
+                  "id": 9036,
                   "name": "gasLimit",
                   "nodeType": "VariableDeclaration",
-                  "scope": 9227,
-                  "src": "195:15:26",
+                  "scope": 9052,
+                  "src": "195:15:23",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -638,10 +638,10 @@
                     "typeString": "uint64"
                   },
                   "typeName": {
-                    "id": 9210,
+                    "id": 9035,
                     "name": "uint64",
                     "nodeType": "ElementaryTypeName",
-                    "src": "195:6:26",
+                    "src": "195:6:23",
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint64",
                       "typeString": "uint64"
@@ -652,11 +652,11 @@
                 },
                 {
                   "constant": false,
-                  "id": 9213,
+                  "id": 9038,
                   "name": "to",
                   "nodeType": "VariableDeclaration",
-                  "scope": 9227,
-                  "src": "216:10:26",
+                  "scope": 9052,
+                  "src": "216:10:23",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -664,10 +664,10 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 9212,
+                    "id": 9037,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
-                    "src": "216:7:26",
+                    "src": "216:7:23",
                     "stateMutability": "nonpayable",
                     "typeDescriptions": {
                       "typeIdentifier": "t_address",
@@ -679,11 +679,11 @@
                 },
                 {
                   "constant": false,
-                  "id": 9215,
+                  "id": 9040,
                   "name": "value",
                   "nodeType": "VariableDeclaration",
-                  "scope": 9227,
-                  "src": "232:13:26",
+                  "scope": 9052,
+                  "src": "232:13:23",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -691,10 +691,10 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 9214,
+                    "id": 9039,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
-                    "src": "232:7:26",
+                    "src": "232:7:23",
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint256",
                       "typeString": "uint256"
@@ -705,11 +705,11 @@
                 },
                 {
                   "constant": false,
-                  "id": 9217,
+                  "id": 9042,
                   "name": "data",
                   "nodeType": "VariableDeclaration",
-                  "scope": 9227,
-                  "src": "251:17:26",
+                  "scope": 9052,
+                  "src": "251:17:23",
                   "stateVariable": false,
                   "storageLocation": "memory",
                   "typeDescriptions": {
@@ -717,10 +717,10 @@
                     "typeString": "bytes"
                   },
                   "typeName": {
-                    "id": 9216,
+                    "id": 9041,
                     "name": "bytes",
                     "nodeType": "ElementaryTypeName",
-                    "src": "251:5:26",
+                    "src": "251:5:23",
                     "typeDescriptions": {
                       "typeIdentifier": "t_bytes_storage_ptr",
                       "typeString": "bytes"
@@ -731,11 +731,11 @@
                 },
                 {
                   "constant": false,
-                  "id": 9219,
+                  "id": 9044,
                   "name": "v",
                   "nodeType": "VariableDeclaration",
-                  "scope": 9227,
-                  "src": "274:9:26",
+                  "scope": 9052,
+                  "src": "274:9:23",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -743,10 +743,10 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 9218,
+                    "id": 9043,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
-                    "src": "274:7:26",
+                    "src": "274:7:23",
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint256",
                       "typeString": "uint256"
@@ -757,11 +757,11 @@
                 },
                 {
                   "constant": false,
-                  "id": 9221,
+                  "id": 9046,
                   "name": "r",
                   "nodeType": "VariableDeclaration",
-                  "scope": 9227,
-                  "src": "289:9:26",
+                  "scope": 9052,
+                  "src": "289:9:23",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -769,10 +769,10 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 9220,
+                    "id": 9045,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
-                    "src": "289:7:26",
+                    "src": "289:7:23",
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint256",
                       "typeString": "uint256"
@@ -783,11 +783,11 @@
                 },
                 {
                   "constant": false,
-                  "id": 9223,
+                  "id": 9048,
                   "name": "s",
                   "nodeType": "VariableDeclaration",
-                  "scope": 9227,
-                  "src": "304:9:26",
+                  "scope": 9052,
+                  "src": "304:9:23",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -795,10 +795,10 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 9222,
+                    "id": 9047,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
-                    "src": "304:7:26",
+                    "src": "304:7:23",
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint256",
                       "typeString": "uint256"
@@ -808,26 +808,26 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "149:168:26"
+              "src": "149:168:23"
             },
             "returnParameters": {
-              "id": 9225,
+              "id": 9050,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "325:0:26"
+              "src": "325:0:23"
             },
-            "scope": 9228,
-            "src": "133:273:26",
+            "scope": 9053,
+            "src": "133:273:23",
             "stateMutability": "nonpayable",
             "superFunction": null,
             "visibility": "public"
           }
         ],
-        "scope": 9229,
-        "src": "53:809:26"
+        "scope": 9054,
+        "src": "53:809:23"
       }
     ],
-    "src": "0:863:26"
+    "src": "0:863:23"
   },
   "compiler": {
     "name": "solc",
@@ -835,7 +835,7 @@
   },
   "networks": {},
   "schemaVersion": "3.0.23",
-  "updatedAt": "2020-02-13T05:01:23.999Z",
+  "updatedAt": "2020-02-13T12:53:41.965Z",
   "devdoc": {
     "methods": {}
   },

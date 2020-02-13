@@ -80,25 +80,25 @@
       "type": "function"
     }
   ],
-  "metadata": "{\"compiler\":{\"version\":\"0.5.12+commit.7709ece9\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"},{\"constant\":true,\"inputs\":[],\"name\":\"INTERFACE_ID_ON_APPROVE\",\"outputs\":[{\"internalType\":\"bytes4\",\"name\":\"\",\"type\":\"bytes4\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"internalType\":\"address\",\"name\":\"owner\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"spender\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"},{\"internalType\":\"bytes\",\"name\":\"data\",\"type\":\"bytes\"}],\"name\":\"onApprove\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"internalType\":\"bytes4\",\"name\":\"interfaceId\",\"type\":\"bytes4\"}],\"name\":\"supportsInterface\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"}],\"devdoc\":{\"methods\":{\"supportsInterface(bytes4)\":{\"details\":\"See {IERC165-supportsInterface}.     * Time complexity O(1), guaranteed to always use less than 30 000 gas.\"}}},\"userdoc\":{\"methods\":{}}},\"settings\":{\"compilationTarget\":{\"/Users/pjh/workspace/go/src/github.com/Onther-Tech/plasma-evm/contracts/plasma/plasma-evm-cotracts/contracts/stake/tokens/OnApprove.sol\":\"OnApprove\"},\"evmVersion\":\"petersburg\",\"libraries\":{},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"/Users/pjh/workspace/go/src/github.com/Onther-Tech/plasma-evm/contracts/plasma/plasma-evm-cotracts/contracts/stake/tokens/OnApprove.sol\":{\"keccak256\":\"0xf2d47f88f6f8c33cd876da208740c9c8383158e364c15a1128834952d9dc07e8\",\"urls\":[\"bzz-raw://da7768ec51d4d92c5f8c59b61c2fdae8af17d51995987a9a9db5dc206d66c22b\",\"dweb:/ipfs/QmevpJs1KEy26XdX71D3wvxGxAkvTTYaWPxbNucfPLo9iK\"]},\"/Users/pjh/workspace/go/src/github.com/Onther-Tech/plasma-evm/contracts/plasma/plasma-evm-cotracts/contracts/stake/tokens/OnApproveConstant.sol\":{\"keccak256\":\"0xd9cf91173fb575b54ed54874ec055168b7be861210893fcdc66c87f766e57ba8\",\"urls\":[\"bzz-raw://4f0f91bd9143cc52bbddbb2e23be9fcb8157fdae88675016b1c401a1486aa8d6\",\"dweb:/ipfs/Qma4BHMycMgnXLNP6YAZvwziHVCcDJi6zgbwcLsp89b8zT\"]},\"/Users/pjh/workspace/go/src/github.com/Onther-Tech/plasma-evm/contracts/plasma/plasma-evm-cotracts/node_modules/openzeppelin-solidity/contracts/introspection/ERC165.sol\":{\"keccak256\":\"0x01aedbf24e121a744262e04c7815b2a4c8ce604dee4829c5cff00943a594ccf3\",\"urls\":[\"bzz-raw://999ab32a6498d8ad8db61d47c3774aae2ff919acceebe2aeb50879bef62642c3\",\"dweb:/ipfs/QmephAYF5hoymu9qCFK6mURM2kZJCxU4ntUb4KTf1miVPT\"]},\"/Users/pjh/workspace/go/src/github.com/Onther-Tech/plasma-evm/contracts/plasma/plasma-evm-cotracts/node_modules/openzeppelin-solidity/contracts/introspection/IERC165.sol\":{\"keccak256\":\"0xe0ed10f53955c35eecb02724538650a155aa940be3f0a54cd3bde6c6b0c6e48c\",\"urls\":[\"bzz-raw://7dcfda88e3225987245908c3296f3559752647036804325ebfaa9fd1545161c3\",\"dweb:/ipfs/QmXxx5rHfLL57zdgyyyG9MMv4XGN7bpVSc2MuDcaCgto6u\"]}},\"version\":1}",
+  "metadata": "{\"compiler\":{\"version\":\"0.5.12+commit.7709ece9\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"},{\"constant\":true,\"inputs\":[],\"name\":\"INTERFACE_ID_ON_APPROVE\",\"outputs\":[{\"internalType\":\"bytes4\",\"name\":\"\",\"type\":\"bytes4\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"internalType\":\"address\",\"name\":\"owner\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"spender\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"},{\"internalType\":\"bytes\",\"name\":\"data\",\"type\":\"bytes\"}],\"name\":\"onApprove\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"internalType\":\"bytes4\",\"name\":\"interfaceId\",\"type\":\"bytes4\"}],\"name\":\"supportsInterface\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"}],\"devdoc\":{\"methods\":{\"supportsInterface(bytes4)\":{\"details\":\"See {IERC165-supportsInterface}.     * Time complexity O(1), guaranteed to always use less than 30 000 gas.\"}}},\"userdoc\":{\"methods\":{}}},\"settings\":{\"compilationTarget\":{\"/Users/thomashin/Workspace/plasma-evm-contracts/contracts/stake/tokens/OnApprove.sol\":\"OnApprove\"},\"evmVersion\":\"petersburg\",\"libraries\":{},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"/Users/thomashin/Workspace/plasma-evm-contracts/contracts/stake/tokens/OnApprove.sol\":{\"keccak256\":\"0xf2d47f88f6f8c33cd876da208740c9c8383158e364c15a1128834952d9dc07e8\",\"urls\":[\"bzz-raw://da7768ec51d4d92c5f8c59b61c2fdae8af17d51995987a9a9db5dc206d66c22b\",\"dweb:/ipfs/QmevpJs1KEy26XdX71D3wvxGxAkvTTYaWPxbNucfPLo9iK\"]},\"/Users/thomashin/Workspace/plasma-evm-contracts/contracts/stake/tokens/OnApproveConstant.sol\":{\"keccak256\":\"0xd9cf91173fb575b54ed54874ec055168b7be861210893fcdc66c87f766e57ba8\",\"urls\":[\"bzz-raw://4f0f91bd9143cc52bbddbb2e23be9fcb8157fdae88675016b1c401a1486aa8d6\",\"dweb:/ipfs/Qma4BHMycMgnXLNP6YAZvwziHVCcDJi6zgbwcLsp89b8zT\"]},\"/Users/thomashin/Workspace/plasma-evm-contracts/node_modules/openzeppelin-solidity/contracts/introspection/ERC165.sol\":{\"keccak256\":\"0x01aedbf24e121a744262e04c7815b2a4c8ce604dee4829c5cff00943a594ccf3\",\"urls\":[\"bzz-raw://999ab32a6498d8ad8db61d47c3774aae2ff919acceebe2aeb50879bef62642c3\",\"dweb:/ipfs/QmephAYF5hoymu9qCFK6mURM2kZJCxU4ntUb4KTf1miVPT\"]},\"/Users/thomashin/Workspace/plasma-evm-contracts/node_modules/openzeppelin-solidity/contracts/introspection/IERC165.sol\":{\"keccak256\":\"0xe0ed10f53955c35eecb02724538650a155aa940be3f0a54cd3bde6c6b0c6e48c\",\"urls\":[\"bzz-raw://7dcfda88e3225987245908c3296f3559752647036804325ebfaa9fd1545161c3\",\"dweb:/ipfs/QmXxx5rHfLL57zdgyyyG9MMv4XGN7bpVSc2MuDcaCgto6u\"]}},\"version\":1}",
   "bytecode": "0x",
   "deployedBytecode": "0x",
   "sourceMap": "",
   "deployedSourceMap": "",
   "source": "pragma solidity ^0.5.12;\n\nimport { ERC165 } from \"../../../node_modules/openzeppelin-solidity/contracts/introspection/ERC165.sol\";\nimport { OnApproveConstant } from \"./OnApproveConstant.sol\";\n\n\ncontract OnApprove is OnApproveConstant, ERC165 {\n  constructor() public {\n    _registerInterface(INTERFACE_ID_ON_APPROVE);\n  }\n\n  function onApprove(address owner, address spender, uint256 amount, bytes calldata data) external returns (bool);\n}",
-  "sourcePath": "/Users/pjh/workspace/go/src/github.com/Onther-Tech/plasma-evm/contracts/plasma/plasma-evm-cotracts/contracts/stake/tokens/OnApprove.sol",
+  "sourcePath": "/Users/thomashin/Workspace/plasma-evm-contracts/contracts/stake/tokens/OnApprove.sol",
   "ast": {
-    "absolutePath": "/Users/pjh/workspace/go/src/github.com/Onther-Tech/plasma-evm/contracts/plasma/plasma-evm-cotracts/contracts/stake/tokens/OnApprove.sol",
+    "absolutePath": "/Users/thomashin/Workspace/plasma-evm-contracts/contracts/stake/tokens/OnApprove.sol",
     "exportedSymbols": {
       "OnApprove": [
-        11943
+        11828
       ]
     },
-    "id": 11944,
+    "id": 11829,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 11913,
+        "id": 11798,
         "literals": [
           "solidity",
           "^",
@@ -106,35 +106,35 @@
           ".12"
         ],
         "nodeType": "PragmaDirective",
-        "src": "0:24:37"
+        "src": "0:24:34"
       },
       {
-        "absolutePath": "/Users/pjh/workspace/go/src/github.com/Onther-Tech/plasma-evm/contracts/plasma/plasma-evm-cotracts/node_modules/openzeppelin-solidity/contracts/introspection/ERC165.sol",
+        "absolutePath": "/Users/thomashin/Workspace/plasma-evm-contracts/node_modules/openzeppelin-solidity/contracts/introspection/ERC165.sol",
         "file": "../../../node_modules/openzeppelin-solidity/contracts/introspection/ERC165.sol",
-        "id": 11915,
+        "id": 11800,
         "nodeType": "ImportDirective",
-        "scope": 11944,
-        "sourceUnit": 18383,
-        "src": "26:104:37",
+        "scope": 11829,
+        "sourceUnit": 18249,
+        "src": "26:104:34",
         "symbolAliases": [
           {
-            "foreign": 11914,
+            "foreign": 11799,
             "local": null
           }
         ],
         "unitAlias": ""
       },
       {
-        "absolutePath": "/Users/pjh/workspace/go/src/github.com/Onther-Tech/plasma-evm/contracts/plasma/plasma-evm-cotracts/contracts/stake/tokens/OnApproveConstant.sol",
+        "absolutePath": "/Users/thomashin/Workspace/plasma-evm-contracts/contracts/stake/tokens/OnApproveConstant.sol",
         "file": "./OnApproveConstant.sol",
-        "id": 11917,
+        "id": 11802,
         "nodeType": "ImportDirective",
-        "scope": 11944,
-        "sourceUnit": 11954,
-        "src": "131:60:37",
+        "scope": 11829,
+        "sourceUnit": 11839,
+        "src": "131:60:34",
         "symbolAliases": [
           {
-            "foreign": 11916,
+            "foreign": 11801,
             "local": null
           }
         ],
@@ -146,62 +146,62 @@
             "arguments": null,
             "baseName": {
               "contractScope": null,
-              "id": 11918,
+              "id": 11803,
               "name": "OnApproveConstant",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 11953,
-              "src": "216:17:37",
+              "referencedDeclaration": 11838,
+              "src": "216:17:34",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_OnApproveConstant_$11953",
+                "typeIdentifier": "t_contract$_OnApproveConstant_$11838",
                 "typeString": "contract OnApproveConstant"
               }
             },
-            "id": 11919,
+            "id": 11804,
             "nodeType": "InheritanceSpecifier",
-            "src": "216:17:37"
+            "src": "216:17:34"
           },
           {
             "arguments": null,
             "baseName": {
               "contractScope": null,
-              "id": 11920,
+              "id": 11805,
               "name": "ERC165",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 18382,
-              "src": "235:6:37",
+              "referencedDeclaration": 18248,
+              "src": "235:6:34",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_ERC165_$18382",
+                "typeIdentifier": "t_contract$_ERC165_$18248",
                 "typeString": "contract ERC165"
               }
             },
-            "id": 11921,
+            "id": 11806,
             "nodeType": "InheritanceSpecifier",
-            "src": "235:6:37"
+            "src": "235:6:34"
           }
         ],
         "contractDependencies": [
-          11953,
-          18382,
-          18558
+          11838,
+          18248,
+          18424
         ],
         "contractKind": "contract",
         "documentation": null,
         "fullyImplemented": false,
-        "id": 11943,
+        "id": 11828,
         "linearizedBaseContracts": [
-          11943,
-          18382,
-          18558,
-          11953
+          11828,
+          18248,
+          18424,
+          11838
         ],
         "name": "OnApprove",
         "nodeType": "ContractDefinition",
         "nodes": [
           {
             "body": {
-              "id": 11928,
+              "id": 11813,
               "nodeType": "Block",
-              "src": "267:54:37",
+              "src": "267:54:34",
               "statements": [
                 {
                   "expression": {
@@ -209,12 +209,12 @@
                     "arguments": [
                       {
                         "argumentTypes": null,
-                        "id": 11925,
+                        "id": 11810,
                         "name": "INTERFACE_ID_ON_APPROVE",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 11952,
-                        "src": "292:23:37",
+                        "referencedDeclaration": 11837,
+                        "src": "292:23:34",
                         "typeDescriptions": {
                           "typeIdentifier": "t_bytes4",
                           "typeString": "bytes4"
@@ -228,18 +228,18 @@
                           "typeString": "bytes4"
                         }
                       ],
-                      "id": 11924,
+                      "id": 11809,
                       "name": "_registerInterface",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 18381,
-                      "src": "273:18:37",
+                      "referencedDeclaration": 18247,
+                      "src": "273:18:34",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_internal_nonpayable$_t_bytes4_$returns$__$",
                         "typeString": "function (bytes4)"
                       }
                     },
-                    "id": 11926,
+                    "id": 11811,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -247,39 +247,39 @@
                     "lValueRequested": false,
                     "names": [],
                     "nodeType": "FunctionCall",
-                    "src": "273:43:37",
+                    "src": "273:43:34",
                     "typeDescriptions": {
                       "typeIdentifier": "t_tuple$__$",
                       "typeString": "tuple()"
                     }
                   },
-                  "id": 11927,
+                  "id": 11812,
                   "nodeType": "ExpressionStatement",
-                  "src": "273:43:37"
+                  "src": "273:43:34"
                 }
               ]
             },
             "documentation": null,
-            "id": 11929,
+            "id": 11814,
             "implemented": true,
             "kind": "constructor",
             "modifiers": [],
             "name": "",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 11922,
+              "id": 11807,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "257:2:37"
+              "src": "257:2:34"
             },
             "returnParameters": {
-              "id": 11923,
+              "id": 11808,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "267:0:37"
+              "src": "267:0:34"
             },
-            "scope": 11943,
-            "src": "246:75:37",
+            "scope": 11828,
+            "src": "246:75:34",
             "stateMutability": "nonpayable",
             "superFunction": null,
             "visibility": "public"
@@ -287,23 +287,23 @@
           {
             "body": null,
             "documentation": null,
-            "id": 11942,
+            "id": 11827,
             "implemented": false,
             "kind": "function",
             "modifiers": [],
             "name": "onApprove",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 11938,
+              "id": 11823,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 11931,
+                  "id": 11816,
                   "name": "owner",
                   "nodeType": "VariableDeclaration",
-                  "scope": 11942,
-                  "src": "344:13:37",
+                  "scope": 11827,
+                  "src": "344:13:34",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -311,10 +311,10 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 11930,
+                    "id": 11815,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
-                    "src": "344:7:37",
+                    "src": "344:7:34",
                     "stateMutability": "nonpayable",
                     "typeDescriptions": {
                       "typeIdentifier": "t_address",
@@ -326,11 +326,11 @@
                 },
                 {
                   "constant": false,
-                  "id": 11933,
+                  "id": 11818,
                   "name": "spender",
                   "nodeType": "VariableDeclaration",
-                  "scope": 11942,
-                  "src": "359:15:37",
+                  "scope": 11827,
+                  "src": "359:15:34",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -338,10 +338,10 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 11932,
+                    "id": 11817,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
-                    "src": "359:7:37",
+                    "src": "359:7:34",
                     "stateMutability": "nonpayable",
                     "typeDescriptions": {
                       "typeIdentifier": "t_address",
@@ -353,11 +353,11 @@
                 },
                 {
                   "constant": false,
-                  "id": 11935,
+                  "id": 11820,
                   "name": "amount",
                   "nodeType": "VariableDeclaration",
-                  "scope": 11942,
-                  "src": "376:14:37",
+                  "scope": 11827,
+                  "src": "376:14:34",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -365,10 +365,10 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 11934,
+                    "id": 11819,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
-                    "src": "376:7:37",
+                    "src": "376:7:34",
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint256",
                       "typeString": "uint256"
@@ -379,11 +379,11 @@
                 },
                 {
                   "constant": false,
-                  "id": 11937,
+                  "id": 11822,
                   "name": "data",
                   "nodeType": "VariableDeclaration",
-                  "scope": 11942,
-                  "src": "392:19:37",
+                  "scope": 11827,
+                  "src": "392:19:34",
                   "stateVariable": false,
                   "storageLocation": "calldata",
                   "typeDescriptions": {
@@ -391,10 +391,10 @@
                     "typeString": "bytes"
                   },
                   "typeName": {
-                    "id": 11936,
+                    "id": 11821,
                     "name": "bytes",
                     "nodeType": "ElementaryTypeName",
-                    "src": "392:5:37",
+                    "src": "392:5:34",
                     "typeDescriptions": {
                       "typeIdentifier": "t_bytes_storage_ptr",
                       "typeString": "bytes"
@@ -404,19 +404,19 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "343:69:37"
+              "src": "343:69:34"
             },
             "returnParameters": {
-              "id": 11941,
+              "id": 11826,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 11940,
+                  "id": 11825,
                   "name": "",
                   "nodeType": "VariableDeclaration",
-                  "scope": 11942,
-                  "src": "431:4:37",
+                  "scope": 11827,
+                  "src": "431:4:34",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -424,10 +424,10 @@
                     "typeString": "bool"
                   },
                   "typeName": {
-                    "id": 11939,
+                    "id": 11824,
                     "name": "bool",
                     "nodeType": "ElementaryTypeName",
-                    "src": "431:4:37",
+                    "src": "431:4:34",
                     "typeDescriptions": {
                       "typeIdentifier": "t_bool",
                       "typeString": "bool"
@@ -437,33 +437,33 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "430:6:37"
+              "src": "430:6:34"
             },
-            "scope": 11943,
-            "src": "325:112:37",
+            "scope": 11828,
+            "src": "325:112:34",
             "stateMutability": "nonpayable",
             "superFunction": null,
             "visibility": "external"
           }
         ],
-        "scope": 11944,
-        "src": "194:245:37"
+        "scope": 11829,
+        "src": "194:245:34"
       }
     ],
-    "src": "0:439:37"
+    "src": "0:439:34"
   },
   "legacyAST": {
-    "absolutePath": "/Users/pjh/workspace/go/src/github.com/Onther-Tech/plasma-evm/contracts/plasma/plasma-evm-cotracts/contracts/stake/tokens/OnApprove.sol",
+    "absolutePath": "/Users/thomashin/Workspace/plasma-evm-contracts/contracts/stake/tokens/OnApprove.sol",
     "exportedSymbols": {
       "OnApprove": [
-        11943
+        11828
       ]
     },
-    "id": 11944,
+    "id": 11829,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 11913,
+        "id": 11798,
         "literals": [
           "solidity",
           "^",
@@ -471,35 +471,35 @@
           ".12"
         ],
         "nodeType": "PragmaDirective",
-        "src": "0:24:37"
+        "src": "0:24:34"
       },
       {
-        "absolutePath": "/Users/pjh/workspace/go/src/github.com/Onther-Tech/plasma-evm/contracts/plasma/plasma-evm-cotracts/node_modules/openzeppelin-solidity/contracts/introspection/ERC165.sol",
+        "absolutePath": "/Users/thomashin/Workspace/plasma-evm-contracts/node_modules/openzeppelin-solidity/contracts/introspection/ERC165.sol",
         "file": "../../../node_modules/openzeppelin-solidity/contracts/introspection/ERC165.sol",
-        "id": 11915,
+        "id": 11800,
         "nodeType": "ImportDirective",
-        "scope": 11944,
-        "sourceUnit": 18383,
-        "src": "26:104:37",
+        "scope": 11829,
+        "sourceUnit": 18249,
+        "src": "26:104:34",
         "symbolAliases": [
           {
-            "foreign": 11914,
+            "foreign": 11799,
             "local": null
           }
         ],
         "unitAlias": ""
       },
       {
-        "absolutePath": "/Users/pjh/workspace/go/src/github.com/Onther-Tech/plasma-evm/contracts/plasma/plasma-evm-cotracts/contracts/stake/tokens/OnApproveConstant.sol",
+        "absolutePath": "/Users/thomashin/Workspace/plasma-evm-contracts/contracts/stake/tokens/OnApproveConstant.sol",
         "file": "./OnApproveConstant.sol",
-        "id": 11917,
+        "id": 11802,
         "nodeType": "ImportDirective",
-        "scope": 11944,
-        "sourceUnit": 11954,
-        "src": "131:60:37",
+        "scope": 11829,
+        "sourceUnit": 11839,
+        "src": "131:60:34",
         "symbolAliases": [
           {
-            "foreign": 11916,
+            "foreign": 11801,
             "local": null
           }
         ],
@@ -511,62 +511,62 @@
             "arguments": null,
             "baseName": {
               "contractScope": null,
-              "id": 11918,
+              "id": 11803,
               "name": "OnApproveConstant",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 11953,
-              "src": "216:17:37",
+              "referencedDeclaration": 11838,
+              "src": "216:17:34",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_OnApproveConstant_$11953",
+                "typeIdentifier": "t_contract$_OnApproveConstant_$11838",
                 "typeString": "contract OnApproveConstant"
               }
             },
-            "id": 11919,
+            "id": 11804,
             "nodeType": "InheritanceSpecifier",
-            "src": "216:17:37"
+            "src": "216:17:34"
           },
           {
             "arguments": null,
             "baseName": {
               "contractScope": null,
-              "id": 11920,
+              "id": 11805,
               "name": "ERC165",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 18382,
-              "src": "235:6:37",
+              "referencedDeclaration": 18248,
+              "src": "235:6:34",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_ERC165_$18382",
+                "typeIdentifier": "t_contract$_ERC165_$18248",
                 "typeString": "contract ERC165"
               }
             },
-            "id": 11921,
+            "id": 11806,
             "nodeType": "InheritanceSpecifier",
-            "src": "235:6:37"
+            "src": "235:6:34"
           }
         ],
         "contractDependencies": [
-          11953,
-          18382,
-          18558
+          11838,
+          18248,
+          18424
         ],
         "contractKind": "contract",
         "documentation": null,
         "fullyImplemented": false,
-        "id": 11943,
+        "id": 11828,
         "linearizedBaseContracts": [
-          11943,
-          18382,
-          18558,
-          11953
+          11828,
+          18248,
+          18424,
+          11838
         ],
         "name": "OnApprove",
         "nodeType": "ContractDefinition",
         "nodes": [
           {
             "body": {
-              "id": 11928,
+              "id": 11813,
               "nodeType": "Block",
-              "src": "267:54:37",
+              "src": "267:54:34",
               "statements": [
                 {
                   "expression": {
@@ -574,12 +574,12 @@
                     "arguments": [
                       {
                         "argumentTypes": null,
-                        "id": 11925,
+                        "id": 11810,
                         "name": "INTERFACE_ID_ON_APPROVE",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 11952,
-                        "src": "292:23:37",
+                        "referencedDeclaration": 11837,
+                        "src": "292:23:34",
                         "typeDescriptions": {
                           "typeIdentifier": "t_bytes4",
                           "typeString": "bytes4"
@@ -593,18 +593,18 @@
                           "typeString": "bytes4"
                         }
                       ],
-                      "id": 11924,
+                      "id": 11809,
                       "name": "_registerInterface",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 18381,
-                      "src": "273:18:37",
+                      "referencedDeclaration": 18247,
+                      "src": "273:18:34",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_internal_nonpayable$_t_bytes4_$returns$__$",
                         "typeString": "function (bytes4)"
                       }
                     },
-                    "id": 11926,
+                    "id": 11811,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -612,39 +612,39 @@
                     "lValueRequested": false,
                     "names": [],
                     "nodeType": "FunctionCall",
-                    "src": "273:43:37",
+                    "src": "273:43:34",
                     "typeDescriptions": {
                       "typeIdentifier": "t_tuple$__$",
                       "typeString": "tuple()"
                     }
                   },
-                  "id": 11927,
+                  "id": 11812,
                   "nodeType": "ExpressionStatement",
-                  "src": "273:43:37"
+                  "src": "273:43:34"
                 }
               ]
             },
             "documentation": null,
-            "id": 11929,
+            "id": 11814,
             "implemented": true,
             "kind": "constructor",
             "modifiers": [],
             "name": "",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 11922,
+              "id": 11807,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "257:2:37"
+              "src": "257:2:34"
             },
             "returnParameters": {
-              "id": 11923,
+              "id": 11808,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "267:0:37"
+              "src": "267:0:34"
             },
-            "scope": 11943,
-            "src": "246:75:37",
+            "scope": 11828,
+            "src": "246:75:34",
             "stateMutability": "nonpayable",
             "superFunction": null,
             "visibility": "public"
@@ -652,23 +652,23 @@
           {
             "body": null,
             "documentation": null,
-            "id": 11942,
+            "id": 11827,
             "implemented": false,
             "kind": "function",
             "modifiers": [],
             "name": "onApprove",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 11938,
+              "id": 11823,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 11931,
+                  "id": 11816,
                   "name": "owner",
                   "nodeType": "VariableDeclaration",
-                  "scope": 11942,
-                  "src": "344:13:37",
+                  "scope": 11827,
+                  "src": "344:13:34",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -676,10 +676,10 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 11930,
+                    "id": 11815,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
-                    "src": "344:7:37",
+                    "src": "344:7:34",
                     "stateMutability": "nonpayable",
                     "typeDescriptions": {
                       "typeIdentifier": "t_address",
@@ -691,11 +691,11 @@
                 },
                 {
                   "constant": false,
-                  "id": 11933,
+                  "id": 11818,
                   "name": "spender",
                   "nodeType": "VariableDeclaration",
-                  "scope": 11942,
-                  "src": "359:15:37",
+                  "scope": 11827,
+                  "src": "359:15:34",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -703,10 +703,10 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 11932,
+                    "id": 11817,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
-                    "src": "359:7:37",
+                    "src": "359:7:34",
                     "stateMutability": "nonpayable",
                     "typeDescriptions": {
                       "typeIdentifier": "t_address",
@@ -718,11 +718,11 @@
                 },
                 {
                   "constant": false,
-                  "id": 11935,
+                  "id": 11820,
                   "name": "amount",
                   "nodeType": "VariableDeclaration",
-                  "scope": 11942,
-                  "src": "376:14:37",
+                  "scope": 11827,
+                  "src": "376:14:34",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -730,10 +730,10 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 11934,
+                    "id": 11819,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
-                    "src": "376:7:37",
+                    "src": "376:7:34",
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint256",
                       "typeString": "uint256"
@@ -744,11 +744,11 @@
                 },
                 {
                   "constant": false,
-                  "id": 11937,
+                  "id": 11822,
                   "name": "data",
                   "nodeType": "VariableDeclaration",
-                  "scope": 11942,
-                  "src": "392:19:37",
+                  "scope": 11827,
+                  "src": "392:19:34",
                   "stateVariable": false,
                   "storageLocation": "calldata",
                   "typeDescriptions": {
@@ -756,10 +756,10 @@
                     "typeString": "bytes"
                   },
                   "typeName": {
-                    "id": 11936,
+                    "id": 11821,
                     "name": "bytes",
                     "nodeType": "ElementaryTypeName",
-                    "src": "392:5:37",
+                    "src": "392:5:34",
                     "typeDescriptions": {
                       "typeIdentifier": "t_bytes_storage_ptr",
                       "typeString": "bytes"
@@ -769,19 +769,19 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "343:69:37"
+              "src": "343:69:34"
             },
             "returnParameters": {
-              "id": 11941,
+              "id": 11826,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 11940,
+                  "id": 11825,
                   "name": "",
                   "nodeType": "VariableDeclaration",
-                  "scope": 11942,
-                  "src": "431:4:37",
+                  "scope": 11827,
+                  "src": "431:4:34",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -789,10 +789,10 @@
                     "typeString": "bool"
                   },
                   "typeName": {
-                    "id": 11939,
+                    "id": 11824,
                     "name": "bool",
                     "nodeType": "ElementaryTypeName",
-                    "src": "431:4:37",
+                    "src": "431:4:34",
                     "typeDescriptions": {
                       "typeIdentifier": "t_bool",
                       "typeString": "bool"
@@ -802,20 +802,20 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "430:6:37"
+              "src": "430:6:34"
             },
-            "scope": 11943,
-            "src": "325:112:37",
+            "scope": 11828,
+            "src": "325:112:34",
             "stateMutability": "nonpayable",
             "superFunction": null,
             "visibility": "external"
           }
         ],
-        "scope": 11944,
-        "src": "194:245:37"
+        "scope": 11829,
+        "src": "194:245:34"
       }
     ],
-    "src": "0:439:37"
+    "src": "0:439:34"
   },
   "compiler": {
     "name": "solc",
@@ -823,7 +823,7 @@
   },
   "networks": {},
   "schemaVersion": "3.0.23",
-  "updatedAt": "2020-02-13T05:01:24.040Z",
+  "updatedAt": "2020-02-13T12:53:42.008Z",
   "devdoc": {
     "methods": {
       "supportsInterface(bytes4)": {

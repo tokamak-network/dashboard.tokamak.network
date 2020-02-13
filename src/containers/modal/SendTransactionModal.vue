@@ -96,7 +96,7 @@ export default {
 
       this.$bus.$emit('txSended', {
         request: 'delegate',
-        txSender: async () => await depositFunc(amount),
+        txSender: async () => await depositFunc(),
       });
 
       this.closeModal();

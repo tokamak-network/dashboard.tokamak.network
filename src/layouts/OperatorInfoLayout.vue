@@ -124,10 +124,24 @@ export default {
       return () => {
         const type = 'undelegate';
         const availableAmount = this.operatorByAddress(this.$route.params.address).userStake.toNumber();
+        const requestWithdrawalFunc =
+          async (amount) => await this.DepositManager.requestWithdrawal(
+            this.operatorByAddress(this.$route.params.address).rootchain,
+            amount,
+            { from: this.user }
+          );
+        const processRequestFunc =
+          async () => await this.DepositManager.processRequest(
+            this.operatorByAddress(this.$route.params.address).rootchain,
+            true,
+            { from: this.user }
+          );
 
         this.$store.dispatch('showModal', {
           type,
           availableAmount,
+          // func: requestWithdrawalFunc,
+          func: processRequestFunc,
         });
       };
     },

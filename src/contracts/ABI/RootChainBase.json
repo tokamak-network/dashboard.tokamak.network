@@ -1273,15 +1273,15 @@
       "type": "function"
     }
   ],
-  "metadata": "{\"compiler\":{\"version\":\"0.5.12+commit.7709ece9\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"forkNumber\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"blockNumber\",\"type\":\"uint256\"}],\"name\":\"BlockFinalized\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"fork\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"epochNumber\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"blockNumber\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"bool\",\"name\":\"isRequest\",\"type\":\"bool\"},{\"indexed\":false,\"internalType\":\"bool\",\"name\":\"userActivated\",\"type\":\"bool\"}],\"name\":\"BlockSubmitted\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"requestId\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"address\",\"name\":\"requestor\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"address\",\"name\":\"to\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"bytes\",\"name\":\"trieKey\",\"type\":\"bytes\"},{\"indexed\":false,\"internalType\":\"bytes32\",\"name\":\"trieValue\",\"type\":\"bytes32\"}],\"name\":\"ERUCreated\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"forkNumber\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"epochNumber\",\"type\":\"uint256\"}],\"name\":\"EpochFilled\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"forkNumber\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"epochNumber\",\"type\":\"uint256\"}],\"name\":\"EpochFilling\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"forkNumber\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"epochNumber\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"startBlockNumber\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"endBlockNumber\",\"type\":\"uint256\"}],\"name\":\"EpochFinalized\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"forkNumber\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"epochNumber\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"startBlockNumber\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"endBlockNumber\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"requestStart\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"requestEnd\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"bool\",\"name\":\"epochIsEmpty\",\"type\":\"bool\"},{\"indexed\":false,\"internalType\":\"bool\",\"name\":\"isRequest\",\"type\":\"bool\"},{\"indexed\":false,\"internalType\":\"bool\",\"name\":\"userActivated\",\"type\":\"bool\"},{\"indexed\":false,\"internalType\":\"bool\",\"name\":\"rebase\",\"type\":\"bool\"}],\"name\":\"EpochPrepared\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"forkNumber\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"epochNumber\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"startBlockNumber\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"endBlockNumber\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"requestStart\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"requestEnd\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"bool\",\"name\":\"epochIsEmpty\",\"type\":\"bool\"},{\"indexed\":false,\"internalType\":\"bool\",\"name\":\"isRequest\",\"type\":\"bool\"},{\"indexed\":false,\"internalType\":\"bool\",\"name\":\"userActivated\",\"type\":\"bool\"}],\"name\":\"EpochRebased\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"newFork\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"epochNumber\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"forkedBlockNumber\",\"type\":\"uint256\"}],\"name\":\"Forked\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"address\",\"name\":\"_newOperator\",\"type\":\"address\"}],\"name\":\"OperatorChanged\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"requestId\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"bool\",\"name\":\"userActivated\",\"type\":\"bool\"}],\"name\":\"RequestApplied\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"requestId\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"bool\",\"name\":\"userActivated\",\"type\":\"bool\"}],\"name\":\"RequestChallenged\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"requestId\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"address\",\"name\":\"requestor\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"address\",\"name\":\"to\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"weiAmount\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"bytes32\",\"name\":\"trieKey\",\"type\":\"bytes32\"},{\"indexed\":false,\"internalType\":\"bytes\",\"name\":\"trieValue\",\"type\":\"bytes\"},{\"indexed\":false,\"internalType\":\"bool\",\"name\":\"isExit\",\"type\":\"bool\"},{\"indexed\":false,\"internalType\":\"bool\",\"name\":\"userActivated\",\"type\":\"bool\"}],\"name\":\"RequestCreated\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"requestId\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"bool\",\"name\":\"userActivated\",\"type\":\"bool\"}],\"name\":\"RequestFinalized\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"address\",\"name\":\"contractInRootchain\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"address\",\"name\":\"contractInChildchain\",\"type\":\"address\"}],\"name\":\"RequestableContractMapped\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"bool\",\"name\":\"userActivated\",\"type\":\"bool\"}],\"name\":\"SessionTimeout\",\"type\":\"event\"},{\"constant\":true,\"inputs\":[],\"name\":\"COST_ERO\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"COST_ERU\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"COST_NRB\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"COST_ORB\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"COST_URB\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"COST_URB_PREPARE\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CP_COMPUTATION\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CP_EXIT\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CP_WITHHOLDING\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"EROIdToFinalize\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"name\":\"EROs\",\"outputs\":[{\"internalType\":\"uint64\",\"name\":\"timestamp\",\"type\":\"uint64\"},{\"internalType\":\"bool\",\"name\":\"isExit\",\"type\":\"bool\"},{\"internalType\":\"bool\",\"name\":\"isTransfer\",\"type\":\"bool\"},{\"internalType\":\"bool\",\"name\":\"finalized\",\"type\":\"bool\"},{\"internalType\":\"bool\",\"name\":\"challenged\",\"type\":\"bool\"},{\"internalType\":\"uint128\",\"name\":\"value\",\"type\":\"uint128\"},{\"internalType\":\"address payable\",\"name\":\"requestor\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"to\",\"type\":\"address\"},{\"internalType\":\"bytes32\",\"name\":\"trieKey\",\"type\":\"bytes32\"},{\"internalType\":\"bytes32\",\"name\":\"hash\",\"type\":\"bytes32\"},{\"internalType\":\"bytes\",\"name\":\"trieValue\",\"type\":\"bytes\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"ERUIdToFinalize\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"name\":\"ERUs\",\"outputs\":[{\"internalType\":\"uint64\",\"name\":\"timestamp\",\"type\":\"uint64\"},{\"internalType\":\"bool\",\"name\":\"isExit\",\"type\":\"bool\"},{\"internalType\":\"bool\",\"name\":\"isTransfer\",\"type\":\"bool\"},{\"internalType\":\"bool\",\"name\":\"finalized\",\"type\":\"bool\"},{\"internalType\":\"bool\",\"name\":\"challenged\",\"type\":\"bool\"},{\"internalType\":\"uint128\",\"name\":\"value\",\"type\":\"uint128\"},{\"internalType\":\"address payable\",\"name\":\"requestor\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"to\",\"type\":\"address\"},{\"internalType\":\"bytes32\",\"name\":\"trieKey\",\"type\":\"bytes32\"},{\"internalType\":\"bytes32\",\"name\":\"hash\",\"type\":\"bytes32\"},{\"internalType\":\"bytes\",\"name\":\"trieValue\",\"type\":\"bytes\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"NRELength\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"NULL_ADDRESS\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"name\":\"ORBs\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"submitted\",\"type\":\"bool\"},{\"internalType\":\"uint64\",\"name\":\"numEnter\",\"type\":\"uint64\"},{\"internalType\":\"uint64\",\"name\":\"epochNumber\",\"type\":\"uint64\"},{\"internalType\":\"uint64\",\"name\":\"requestStart\",\"type\":\"uint64\"},{\"internalType\":\"uint64\",\"name\":\"requestEnd\",\"type\":\"uint64\"},{\"internalType\":\"address\",\"name\":\"trie\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"PREPARE_TIMEOUT\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"REQUEST_GAS\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"name\":\"URBs\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"submitted\",\"type\":\"bool\"},{\"internalType\":\"uint64\",\"name\":\"numEnter\",\"type\":\"uint64\"},{\"internalType\":\"uint64\",\"name\":\"epochNumber\",\"type\":\"uint64\"},{\"internalType\":\"uint64\",\"name\":\"requestStart\",\"type\":\"uint64\"},{\"internalType\":\"uint64\",\"name\":\"requestEnd\",\"type\":\"uint64\"},{\"internalType\":\"address\",\"name\":\"trie\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"currentFork\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"development\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"epochHandler\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"etherToken\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"name\":\"firstFilledORENumber\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"name\":\"firstNonEmptyRequestEpoch\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"name\":\"forks\",\"outputs\":[{\"internalType\":\"uint64\",\"name\":\"forkedBlock\",\"type\":\"uint64\"},{\"internalType\":\"uint64\",\"name\":\"firstEpoch\",\"type\":\"uint64\"},{\"internalType\":\"uint64\",\"name\":\"lastEpoch\",\"type\":\"uint64\"},{\"internalType\":\"uint64\",\"name\":\"firstBlock\",\"type\":\"uint64\"},{\"internalType\":\"uint64\",\"name\":\"lastBlock\",\"type\":\"uint64\"},{\"internalType\":\"uint64\",\"name\":\"lastFinalizedEpoch\",\"type\":\"uint64\"},{\"internalType\":\"uint64\",\"name\":\"lastFinalizedBlock\",\"type\":\"uint64\"},{\"internalType\":\"uint64\",\"name\":\"timestamp\",\"type\":\"uint64\"},{\"internalType\":\"uint64\",\"name\":\"firstEnterEpoch\",\"type\":\"uint64\"},{\"internalType\":\"uint64\",\"name\":\"lastEnterEpoch\",\"type\":\"uint64\"},{\"internalType\":\"uint64\",\"name\":\"nextBlockToRebase\",\"type\":\"uint64\"},{\"internalType\":\"bool\",\"name\":\"rebased\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"isRootChain\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"lastAppliedBlockNumber\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"lastAppliedEpochNumber\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"lastAppliedForkNumber\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"name\":\"lastNonEmptyRequestEpoch\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"numEnterForORB\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"operator\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"name\":\"requestableContracts\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"seigManager\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"submitHandler\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"}],\"devdoc\":{\"methods\":{}},\"userdoc\":{\"methods\":{},\"notice\":\"RootChainBase provides functions to be delegated to other handlers,        EpochHandler, SubmitHandler.\"}},\"settings\":{\"compilationTarget\":{\"/Users/pjh/workspace/go/src/github.com/Onther-Tech/plasma-evm/contracts/plasma/plasma-evm-cotracts/contracts/RootChainBase.sol\":\"RootChainBase\"},\"evmVersion\":\"petersburg\",\"libraries\":{},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"/Users/pjh/workspace/go/src/github.com/Onther-Tech/plasma-evm/contracts/plasma/plasma-evm-cotracts/contracts/RequestableI.sol\":{\"keccak256\":\"0x3fb4d0c8ae1d979d3a01b967118745221b6f3d713651d396a0b76762cbf32860\",\"urls\":[\"bzz-raw://609d18fff0ca18ffd0a57b2c61ba1eea56eb710dd016a63ea9074cbb6ba4be44\",\"dweb:/ipfs/Qmf3r6dM79QNhYN9L4SJ8g47QXQkTwW3V8Z6tQinfrVZwm\"]},\"/Users/pjh/workspace/go/src/github.com/Onther-Tech/plasma-evm/contracts/plasma/plasma-evm-cotracts/contracts/RootChainBase.sol\":{\"keccak256\":\"0xb7f55bd20985ad21deeb97f5e9879fdd6ee67e6693df7c779f9f1dafd52fc39d\",\"urls\":[\"bzz-raw://487d935c07fceee59f6ac16854a9d742836a68a921288f7108e56b753ba51167\",\"dweb:/ipfs/QmSm8AHhvmJS5k9Mp3zWPCGK3ub7gwktaFqFwfzBFjRH41\"]},\"/Users/pjh/workspace/go/src/github.com/Onther-Tech/plasma-evm/contracts/plasma/plasma-evm-cotracts/contracts/RootChainEvent.sol\":{\"keccak256\":\"0x5b07eed8a20bb723bf2fc7cea58971f26a5a21e0cda972960d6c982319e3888d\",\"urls\":[\"bzz-raw://ca07a36e343b953b50daf19fcbb10f5ff66a1292a3749e2f49f53c0c74f8017d\",\"dweb:/ipfs/QmPC7TbMyBgTRGZNDjhHZ3LFexTtB5NwWCXJvpJQegZeqF\"]},\"/Users/pjh/workspace/go/src/github.com/Onther-Tech/plasma-evm/contracts/plasma/plasma-evm-cotracts/contracts/RootChainStorage.sol\":{\"keccak256\":\"0x63203534701133f464167c09bcbbef16e394c0c21e071ba03da47504e3a3fe92\",\"urls\":[\"bzz-raw://0ecf29ad3c2c64b63973d5139db2e002b6fbb2554f9e7add934c1640aa3feb70\",\"dweb:/ipfs/QmfZS77D4VWmGhYKXTh8VzQFCipv1DoGoebJhyWtut782h\"]},\"/Users/pjh/workspace/go/src/github.com/Onther-Tech/plasma-evm/contracts/plasma/plasma-evm-cotracts/contracts/lib/BMT.sol\":{\"keccak256\":\"0xb38c47e185c29f4edd3b69235836d772e724230c6a473adcfbc7467e1d7e23e0\",\"urls\":[\"bzz-raw://9e80937c9467940e6e678461687b4d939c5eb8dc5de0402ca047b11a755b0281\",\"dweb:/ipfs/QmdSxjMdnFP222QdSFqQwoaAztFMK1irJd4yyMsQFrnKSN\"]},\"/Users/pjh/workspace/go/src/github.com/Onther-Tech/plasma-evm/contracts/plasma/plasma-evm-cotracts/contracts/lib/Data.sol\":{\"keccak256\":\"0x8dee29a267fd16dd567cd666c1b735de8e564c5601bed92996ebc6bada92cfb0\",\"urls\":[\"bzz-raw://3903878fdbfa42b1a9c19376b45b467ab718acc37ae49ee7cb2c36889a9fa6c5\",\"dweb:/ipfs/QmYgxCjRhqkbSXZgt1Eqh2KYyWjiYquphowE2oP6zuQzGD\"]},\"/Users/pjh/workspace/go/src/github.com/Onther-Tech/plasma-evm/contracts/plasma/plasma-evm-cotracts/contracts/lib/Math.sol\":{\"keccak256\":\"0xbe5574b1d3e3f5179d4fdf27265270b36df00dd0aaed46b1f77e06b14c49eaa8\",\"urls\":[\"bzz-raw://4f4c6f2ff3e24bac90caeb1a888f0e34d91e433d6d56c83e4cd0467254c6c67f\",\"dweb:/ipfs/QmSC84TJd5NemXV2uHvo16694Ao57uou8ZvdTAnN6JSm1X\"]},\"/Users/pjh/workspace/go/src/github.com/Onther-Tech/plasma-evm/contracts/plasma/plasma-evm-cotracts/contracts/lib/RLP.sol\":{\"keccak256\":\"0x9ac5456084be0245e138d3746aa8a5196da272208e8b0466593cc07e91a3ce97\",\"urls\":[\"bzz-raw://d53f7ea9260a7078d55cdeaec57be0e810210aed6fa1dc9da04ece0b573cd624\",\"dweb:/ipfs/QmUNbVeaZYMAYNfCjg2ptG7n4Z6tPYNCRZA5k8c3uTDZtN\"]},\"/Users/pjh/workspace/go/src/github.com/Onther-Tech/plasma-evm/contracts/plasma/plasma-evm-cotracts/contracts/lib/RLPEncode.sol\":{\"keccak256\":\"0x581ea54832bb8afd6c95ae70060e92e2818d01db036f96acb08c8ef55f7e4882\",\"urls\":[\"bzz-raw://9b245abae2cf5ad0ec9b66e8af0ffb6567bdea6de5ea2665d5b2a8dcfb49ebb3\",\"dweb:/ipfs/QmcQGJwrqxAp7rH8MsC2QtAkj19f9Xc5CjN6fh6VAoLXjR\"]},\"/Users/pjh/workspace/go/src/github.com/Onther-Tech/plasma-evm/contracts/plasma/plasma-evm-cotracts/contracts/lib/SafeMath.sol\":{\"keccak256\":\"0xf46cbd8fb1c5f0bcf57f6a27e5ec1263d383c413673b37876dc7e8360233a70b\",\"urls\":[\"bzz-raw://3d937d7ac3bd2681e2655829faedc31fbcee53c9d1726755fc13cd041b5ce361\",\"dweb:/ipfs/QmZGATD813dDuH1VNsyEPwTKtp7KUySQK4jw9Cw8kChCA6\"]}},\"version\":1}",
-  "bytecode": "0x608060405234801561001057600080fd5b50610955806100206000396000f3fe608060405234801561001057600080fd5b506004361061021c5760003560e01c8063b17fa6e911610125578063ca6f6380116100ad578063e259faf71161007c578063e259faf714610595578063e7b88b801461059d578063ea7f22a8146105a5578063f4f31de4146105c2578063fb788a27146105df5761021c565b8063ca6f63801461054a578063d691acd814610221578063da0185f814610567578063de0ce17d1461058d5761021c565b8063b8066bcb116100f4578063b8066bcb146104c1578063c0e86064146104c9578063c2bc88fa14610532578063c54626cc1461053a578063c8ad329f146105425761021c565b8063b17fa6e91461038c578063b2ae9ba814610221578063b443f3cc14610394578063b6715647146104a45761021c565b8063570ca735116101a85780638155717d116101775780638155717d1461036c5780638b5172d0146103745780638eb288ca1461037c57806394be3aa514610221578063ab96da2d146103845761021c565b8063570ca7351461031b5780636fb7f5581461033f57806372ecb9a8146103475780637b929c27146103645761021c565b8063192adc5b116101ef578063192adc5b14610253578063236915661461025b5780632dc6bb7b14610263578063420bb4b81461026b5780634ba3a126146102875761021c565b8063033cfbed1461022157806308c4fff01461023b578063164bc2ae14610243578063183d2d1c1461024b575b600080fd5b6102296105e7565b60408051918252519081900360200190f35b6102296105f1565b6102296105f6565b6102296105fc565b610229610602565b61022961060c565b610229610612565b610273610618565b604080519115158252519081900360200190f35b6102a46004803603602081101561029d57600080fd5b503561061d565b6040805167ffffffffffffffff9d8e1681529b8d1660208d0152998c168b8b0152978b1660608b0152958a1660808a015293891660a089015291881660c0880152871660e0870152861661010086015285166101208501529093166101408301529115156101608201529051908190036101800190f35b610323610695565b604080516001600160a01b039092168252519081900360200190f35b6103236106a9565b6102296004803603602081101561035d57600080fd5b50356106b8565b6102736106ca565b6102296106d3565b6102296106d8565b6102296106e2565b6102296106e9565b6102296106ef565b6103b1600480360360208110156103aa57600080fd5b50356106f4565b6040805167ffffffffffffffff8d1681528b15156020808301919091528b151592820192909252891515606082015288151560808201526001600160801b03881660a08201526001600160a01b0380881660c0830152861660e082015261010081018590526101208101849052610160610140820181815284519183019190915283519192909161018084019185019080838360005b8381101561045f578181015183820152602001610447565b50505050905090810190601f16801561048c5780820380516001836020036101000a031916815260200191505b509c5050505050505050505050505060405180910390f35b610229600480360360208110156104ba57600080fd5b5035610816565b610323610828565b6104e6600480360360208110156104df57600080fd5b5035610837565b60408051961515875267ffffffffffffffff958616602088015293851686850152918416606086015290921660808401526001600160a01b0390911660a0830152519081900360c00190f35b61022961089f565b6102296108a4565b6102296108aa565b6102296004803603602081101561056057600080fd5b50356108b0565b6103236004803603602081101561057d57600080fd5b50356001600160a01b03166108c2565b6103236108dd565b6103236108e2565b6103236108f1565b6104e6600480360360208110156105bb57600080fd5b5035610900565b6103b1600480360360208110156105d857600080fd5b503561090d565b61022961091a565b6509184e72a00081565b600f81565b60105481565b60065481565b6551dac207a00081565b600d5481565b60135481565b600181565b60086020526000908152604090208054600182015460029092015467ffffffffffffffff80831693600160401b808504831694600160801b808204851695600160c01b92839004861695858116958581048216958482048316959182900483169484841694918204841693908204169160ff9104168c565b60005461010090046001600160a01b031681565b6004546001600160a01b031681565b60076020526000908152604090205481565b60005460ff1681565b600a81565b6512309ce5400081565b620186a081565b60055481565b601481565b6009818154811061070157fe5b6000918252602091829020600691909102018054600180830154600280850154600386015460048701546005880180546040805161010099831615999099026000190190911695909504601f81018b90048b0288018b0190955284875267ffffffffffffffff88169a50600160401b880460ff9081169a600160481b8a0482169a600160501b8b0483169a600160581b810490931699600160601b9093046001600160801b0316986001600160a01b039081169897169690939183018282801561080c5780601f106107e15761010080835404028352916020019161080c565b820191906000526020600020905b8154815290600101906020018083116107ef57829003601f168201915b505050505090508b565b600e6020526000908152604090205481565b6003546001600160a01b031681565b600c818154811061084457fe5b60009182526020909120600290910201805460019091015460ff8216925067ffffffffffffffff6101008304811692600160481b8104821692600160881b9091048216918116906001600160a01b03600160401b9091041686565b603c81565b60145481565b60115481565b600f6020526000908152604090205481565b6015602052600090815260409020546001600160a01b031681565b600081565b6002546001600160a01b031681565b6001546001600160a01b031681565b600b818154811061084457fe5b600a818154811061070157fe5b6012548156fea265627a7a723158204ed2983d989fed360697d96b29fc2f7b3e0b4dd0bbfced7cc56ba92a7422c5ab64736f6c634300050c0032",
-  "deployedBytecode": "0x608060405234801561001057600080fd5b506004361061021c5760003560e01c8063b17fa6e911610125578063ca6f6380116100ad578063e259faf71161007c578063e259faf714610595578063e7b88b801461059d578063ea7f22a8146105a5578063f4f31de4146105c2578063fb788a27146105df5761021c565b8063ca6f63801461054a578063d691acd814610221578063da0185f814610567578063de0ce17d1461058d5761021c565b8063b8066bcb116100f4578063b8066bcb146104c1578063c0e86064146104c9578063c2bc88fa14610532578063c54626cc1461053a578063c8ad329f146105425761021c565b8063b17fa6e91461038c578063b2ae9ba814610221578063b443f3cc14610394578063b6715647146104a45761021c565b8063570ca735116101a85780638155717d116101775780638155717d1461036c5780638b5172d0146103745780638eb288ca1461037c57806394be3aa514610221578063ab96da2d146103845761021c565b8063570ca7351461031b5780636fb7f5581461033f57806372ecb9a8146103475780637b929c27146103645761021c565b8063192adc5b116101ef578063192adc5b14610253578063236915661461025b5780632dc6bb7b14610263578063420bb4b81461026b5780634ba3a126146102875761021c565b8063033cfbed1461022157806308c4fff01461023b578063164bc2ae14610243578063183d2d1c1461024b575b600080fd5b6102296105e7565b60408051918252519081900360200190f35b6102296105f1565b6102296105f6565b6102296105fc565b610229610602565b61022961060c565b610229610612565b610273610618565b604080519115158252519081900360200190f35b6102a46004803603602081101561029d57600080fd5b503561061d565b6040805167ffffffffffffffff9d8e1681529b8d1660208d0152998c168b8b0152978b1660608b0152958a1660808a015293891660a089015291881660c0880152871660e0870152861661010086015285166101208501529093166101408301529115156101608201529051908190036101800190f35b610323610695565b604080516001600160a01b039092168252519081900360200190f35b6103236106a9565b6102296004803603602081101561035d57600080fd5b50356106b8565b6102736106ca565b6102296106d3565b6102296106d8565b6102296106e2565b6102296106e9565b6102296106ef565b6103b1600480360360208110156103aa57600080fd5b50356106f4565b6040805167ffffffffffffffff8d1681528b15156020808301919091528b151592820192909252891515606082015288151560808201526001600160801b03881660a08201526001600160a01b0380881660c0830152861660e082015261010081018590526101208101849052610160610140820181815284519183019190915283519192909161018084019185019080838360005b8381101561045f578181015183820152602001610447565b50505050905090810190601f16801561048c5780820380516001836020036101000a031916815260200191505b509c5050505050505050505050505060405180910390f35b610229600480360360208110156104ba57600080fd5b5035610816565b610323610828565b6104e6600480360360208110156104df57600080fd5b5035610837565b60408051961515875267ffffffffffffffff958616602088015293851686850152918416606086015290921660808401526001600160a01b0390911660a0830152519081900360c00190f35b61022961089f565b6102296108a4565b6102296108aa565b6102296004803603602081101561056057600080fd5b50356108b0565b6103236004803603602081101561057d57600080fd5b50356001600160a01b03166108c2565b6103236108dd565b6103236108e2565b6103236108f1565b6104e6600480360360208110156105bb57600080fd5b5035610900565b6103b1600480360360208110156105d857600080fd5b503561090d565b61022961091a565b6509184e72a00081565b600f81565b60105481565b60065481565b6551dac207a00081565b600d5481565b60135481565b600181565b60086020526000908152604090208054600182015460029092015467ffffffffffffffff80831693600160401b808504831694600160801b808204851695600160c01b92839004861695858116958581048216958482048316959182900483169484841694918204841693908204169160ff9104168c565b60005461010090046001600160a01b031681565b6004546001600160a01b031681565b60076020526000908152604090205481565b60005460ff1681565b600a81565b6512309ce5400081565b620186a081565b60055481565b601481565b6009818154811061070157fe5b6000918252602091829020600691909102018054600180830154600280850154600386015460048701546005880180546040805161010099831615999099026000190190911695909504601f81018b90048b0288018b0190955284875267ffffffffffffffff88169a50600160401b880460ff9081169a600160481b8a0482169a600160501b8b0483169a600160581b810490931699600160601b9093046001600160801b0316986001600160a01b039081169897169690939183018282801561080c5780601f106107e15761010080835404028352916020019161080c565b820191906000526020600020905b8154815290600101906020018083116107ef57829003601f168201915b505050505090508b565b600e6020526000908152604090205481565b6003546001600160a01b031681565b600c818154811061084457fe5b60009182526020909120600290910201805460019091015460ff8216925067ffffffffffffffff6101008304811692600160481b8104821692600160881b9091048216918116906001600160a01b03600160401b9091041686565b603c81565b60145481565b60115481565b600f6020526000908152604090205481565b6015602052600090815260409020546001600160a01b031681565b600081565b6002546001600160a01b031681565b6001546001600160a01b031681565b600b818154811061084457fe5b600a818154811061070157fe5b6012548156fea265627a7a723158204ed2983d989fed360697d96b29fc2f7b3e0b4dd0bbfced7cc56ba92a7422c5ab64736f6c634300050c0032",
+  "metadata": "{\"compiler\":{\"version\":\"0.5.12+commit.7709ece9\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"forkNumber\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"blockNumber\",\"type\":\"uint256\"}],\"name\":\"BlockFinalized\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"fork\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"epochNumber\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"blockNumber\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"bool\",\"name\":\"isRequest\",\"type\":\"bool\"},{\"indexed\":false,\"internalType\":\"bool\",\"name\":\"userActivated\",\"type\":\"bool\"}],\"name\":\"BlockSubmitted\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"requestId\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"address\",\"name\":\"requestor\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"address\",\"name\":\"to\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"bytes\",\"name\":\"trieKey\",\"type\":\"bytes\"},{\"indexed\":false,\"internalType\":\"bytes32\",\"name\":\"trieValue\",\"type\":\"bytes32\"}],\"name\":\"ERUCreated\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"forkNumber\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"epochNumber\",\"type\":\"uint256\"}],\"name\":\"EpochFilled\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"forkNumber\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"epochNumber\",\"type\":\"uint256\"}],\"name\":\"EpochFilling\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"forkNumber\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"epochNumber\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"startBlockNumber\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"endBlockNumber\",\"type\":\"uint256\"}],\"name\":\"EpochFinalized\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"forkNumber\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"epochNumber\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"startBlockNumber\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"endBlockNumber\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"requestStart\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"requestEnd\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"bool\",\"name\":\"epochIsEmpty\",\"type\":\"bool\"},{\"indexed\":false,\"internalType\":\"bool\",\"name\":\"isRequest\",\"type\":\"bool\"},{\"indexed\":false,\"internalType\":\"bool\",\"name\":\"userActivated\",\"type\":\"bool\"},{\"indexed\":false,\"internalType\":\"bool\",\"name\":\"rebase\",\"type\":\"bool\"}],\"name\":\"EpochPrepared\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"forkNumber\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"epochNumber\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"startBlockNumber\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"endBlockNumber\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"requestStart\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"requestEnd\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"bool\",\"name\":\"epochIsEmpty\",\"type\":\"bool\"},{\"indexed\":false,\"internalType\":\"bool\",\"name\":\"isRequest\",\"type\":\"bool\"},{\"indexed\":false,\"internalType\":\"bool\",\"name\":\"userActivated\",\"type\":\"bool\"}],\"name\":\"EpochRebased\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"newFork\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"epochNumber\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"forkedBlockNumber\",\"type\":\"uint256\"}],\"name\":\"Forked\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"address\",\"name\":\"_newOperator\",\"type\":\"address\"}],\"name\":\"OperatorChanged\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"requestId\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"bool\",\"name\":\"userActivated\",\"type\":\"bool\"}],\"name\":\"RequestApplied\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"requestId\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"bool\",\"name\":\"userActivated\",\"type\":\"bool\"}],\"name\":\"RequestChallenged\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"requestId\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"address\",\"name\":\"requestor\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"address\",\"name\":\"to\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"weiAmount\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"bytes32\",\"name\":\"trieKey\",\"type\":\"bytes32\"},{\"indexed\":false,\"internalType\":\"bytes\",\"name\":\"trieValue\",\"type\":\"bytes\"},{\"indexed\":false,\"internalType\":\"bool\",\"name\":\"isExit\",\"type\":\"bool\"},{\"indexed\":false,\"internalType\":\"bool\",\"name\":\"userActivated\",\"type\":\"bool\"}],\"name\":\"RequestCreated\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"requestId\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"bool\",\"name\":\"userActivated\",\"type\":\"bool\"}],\"name\":\"RequestFinalized\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"address\",\"name\":\"contractInRootchain\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"address\",\"name\":\"contractInChildchain\",\"type\":\"address\"}],\"name\":\"RequestableContractMapped\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"bool\",\"name\":\"userActivated\",\"type\":\"bool\"}],\"name\":\"SessionTimeout\",\"type\":\"event\"},{\"constant\":true,\"inputs\":[],\"name\":\"COST_ERO\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"COST_ERU\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"COST_NRB\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"COST_ORB\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"COST_URB\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"COST_URB_PREPARE\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CP_COMPUTATION\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CP_EXIT\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CP_WITHHOLDING\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"EROIdToFinalize\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"name\":\"EROs\",\"outputs\":[{\"internalType\":\"uint64\",\"name\":\"timestamp\",\"type\":\"uint64\"},{\"internalType\":\"bool\",\"name\":\"isExit\",\"type\":\"bool\"},{\"internalType\":\"bool\",\"name\":\"isTransfer\",\"type\":\"bool\"},{\"internalType\":\"bool\",\"name\":\"finalized\",\"type\":\"bool\"},{\"internalType\":\"bool\",\"name\":\"challenged\",\"type\":\"bool\"},{\"internalType\":\"uint128\",\"name\":\"value\",\"type\":\"uint128\"},{\"internalType\":\"address payable\",\"name\":\"requestor\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"to\",\"type\":\"address\"},{\"internalType\":\"bytes32\",\"name\":\"trieKey\",\"type\":\"bytes32\"},{\"internalType\":\"bytes32\",\"name\":\"hash\",\"type\":\"bytes32\"},{\"internalType\":\"bytes\",\"name\":\"trieValue\",\"type\":\"bytes\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"ERUIdToFinalize\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"name\":\"ERUs\",\"outputs\":[{\"internalType\":\"uint64\",\"name\":\"timestamp\",\"type\":\"uint64\"},{\"internalType\":\"bool\",\"name\":\"isExit\",\"type\":\"bool\"},{\"internalType\":\"bool\",\"name\":\"isTransfer\",\"type\":\"bool\"},{\"internalType\":\"bool\",\"name\":\"finalized\",\"type\":\"bool\"},{\"internalType\":\"bool\",\"name\":\"challenged\",\"type\":\"bool\"},{\"internalType\":\"uint128\",\"name\":\"value\",\"type\":\"uint128\"},{\"internalType\":\"address payable\",\"name\":\"requestor\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"to\",\"type\":\"address\"},{\"internalType\":\"bytes32\",\"name\":\"trieKey\",\"type\":\"bytes32\"},{\"internalType\":\"bytes32\",\"name\":\"hash\",\"type\":\"bytes32\"},{\"internalType\":\"bytes\",\"name\":\"trieValue\",\"type\":\"bytes\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"NRELength\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"NULL_ADDRESS\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"name\":\"ORBs\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"submitted\",\"type\":\"bool\"},{\"internalType\":\"uint64\",\"name\":\"numEnter\",\"type\":\"uint64\"},{\"internalType\":\"uint64\",\"name\":\"epochNumber\",\"type\":\"uint64\"},{\"internalType\":\"uint64\",\"name\":\"requestStart\",\"type\":\"uint64\"},{\"internalType\":\"uint64\",\"name\":\"requestEnd\",\"type\":\"uint64\"},{\"internalType\":\"address\",\"name\":\"trie\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"PREPARE_TIMEOUT\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"REQUEST_GAS\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"name\":\"URBs\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"submitted\",\"type\":\"bool\"},{\"internalType\":\"uint64\",\"name\":\"numEnter\",\"type\":\"uint64\"},{\"internalType\":\"uint64\",\"name\":\"epochNumber\",\"type\":\"uint64\"},{\"internalType\":\"uint64\",\"name\":\"requestStart\",\"type\":\"uint64\"},{\"internalType\":\"uint64\",\"name\":\"requestEnd\",\"type\":\"uint64\"},{\"internalType\":\"address\",\"name\":\"trie\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"currentFork\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"development\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"epochHandler\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"etherToken\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"name\":\"firstFilledORENumber\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"name\":\"firstNonEmptyRequestEpoch\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"name\":\"forks\",\"outputs\":[{\"internalType\":\"uint64\",\"name\":\"forkedBlock\",\"type\":\"uint64\"},{\"internalType\":\"uint64\",\"name\":\"firstEpoch\",\"type\":\"uint64\"},{\"internalType\":\"uint64\",\"name\":\"lastEpoch\",\"type\":\"uint64\"},{\"internalType\":\"uint64\",\"name\":\"firstBlock\",\"type\":\"uint64\"},{\"internalType\":\"uint64\",\"name\":\"lastBlock\",\"type\":\"uint64\"},{\"internalType\":\"uint64\",\"name\":\"lastFinalizedEpoch\",\"type\":\"uint64\"},{\"internalType\":\"uint64\",\"name\":\"lastFinalizedBlock\",\"type\":\"uint64\"},{\"internalType\":\"uint64\",\"name\":\"timestamp\",\"type\":\"uint64\"},{\"internalType\":\"uint64\",\"name\":\"firstEnterEpoch\",\"type\":\"uint64\"},{\"internalType\":\"uint64\",\"name\":\"lastEnterEpoch\",\"type\":\"uint64\"},{\"internalType\":\"uint64\",\"name\":\"nextBlockToRebase\",\"type\":\"uint64\"},{\"internalType\":\"bool\",\"name\":\"rebased\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"isRootChain\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"lastAppliedBlockNumber\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"lastAppliedEpochNumber\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"lastAppliedForkNumber\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"name\":\"lastNonEmptyRequestEpoch\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"numEnterForORB\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"operator\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"name\":\"requestableContracts\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"seigManager\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"submitHandler\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"}],\"devdoc\":{\"methods\":{}},\"userdoc\":{\"methods\":{},\"notice\":\"RootChainBase provides functions to be delegated to other handlers,        EpochHandler, SubmitHandler.\"}},\"settings\":{\"compilationTarget\":{\"/Users/thomashin/Workspace/plasma-evm-contracts/contracts/RootChainBase.sol\":\"RootChainBase\"},\"evmVersion\":\"petersburg\",\"libraries\":{},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"/Users/thomashin/Workspace/plasma-evm-contracts/contracts/RequestableI.sol\":{\"keccak256\":\"0x3fb4d0c8ae1d979d3a01b967118745221b6f3d713651d396a0b76762cbf32860\",\"urls\":[\"bzz-raw://609d18fff0ca18ffd0a57b2c61ba1eea56eb710dd016a63ea9074cbb6ba4be44\",\"dweb:/ipfs/Qmf3r6dM79QNhYN9L4SJ8g47QXQkTwW3V8Z6tQinfrVZwm\"]},\"/Users/thomashin/Workspace/plasma-evm-contracts/contracts/RootChainBase.sol\":{\"keccak256\":\"0xb7f55bd20985ad21deeb97f5e9879fdd6ee67e6693df7c779f9f1dafd52fc39d\",\"urls\":[\"bzz-raw://487d935c07fceee59f6ac16854a9d742836a68a921288f7108e56b753ba51167\",\"dweb:/ipfs/QmSm8AHhvmJS5k9Mp3zWPCGK3ub7gwktaFqFwfzBFjRH41\"]},\"/Users/thomashin/Workspace/plasma-evm-contracts/contracts/RootChainEvent.sol\":{\"keccak256\":\"0x5b07eed8a20bb723bf2fc7cea58971f26a5a21e0cda972960d6c982319e3888d\",\"urls\":[\"bzz-raw://ca07a36e343b953b50daf19fcbb10f5ff66a1292a3749e2f49f53c0c74f8017d\",\"dweb:/ipfs/QmPC7TbMyBgTRGZNDjhHZ3LFexTtB5NwWCXJvpJQegZeqF\"]},\"/Users/thomashin/Workspace/plasma-evm-contracts/contracts/RootChainStorage.sol\":{\"keccak256\":\"0x63203534701133f464167c09bcbbef16e394c0c21e071ba03da47504e3a3fe92\",\"urls\":[\"bzz-raw://0ecf29ad3c2c64b63973d5139db2e002b6fbb2554f9e7add934c1640aa3feb70\",\"dweb:/ipfs/QmfZS77D4VWmGhYKXTh8VzQFCipv1DoGoebJhyWtut782h\"]},\"/Users/thomashin/Workspace/plasma-evm-contracts/contracts/lib/BMT.sol\":{\"keccak256\":\"0xb38c47e185c29f4edd3b69235836d772e724230c6a473adcfbc7467e1d7e23e0\",\"urls\":[\"bzz-raw://9e80937c9467940e6e678461687b4d939c5eb8dc5de0402ca047b11a755b0281\",\"dweb:/ipfs/QmdSxjMdnFP222QdSFqQwoaAztFMK1irJd4yyMsQFrnKSN\"]},\"/Users/thomashin/Workspace/plasma-evm-contracts/contracts/lib/Data.sol\":{\"keccak256\":\"0x8dee29a267fd16dd567cd666c1b735de8e564c5601bed92996ebc6bada92cfb0\",\"urls\":[\"bzz-raw://3903878fdbfa42b1a9c19376b45b467ab718acc37ae49ee7cb2c36889a9fa6c5\",\"dweb:/ipfs/QmYgxCjRhqkbSXZgt1Eqh2KYyWjiYquphowE2oP6zuQzGD\"]},\"/Users/thomashin/Workspace/plasma-evm-contracts/contracts/lib/Math.sol\":{\"keccak256\":\"0xbe5574b1d3e3f5179d4fdf27265270b36df00dd0aaed46b1f77e06b14c49eaa8\",\"urls\":[\"bzz-raw://4f4c6f2ff3e24bac90caeb1a888f0e34d91e433d6d56c83e4cd0467254c6c67f\",\"dweb:/ipfs/QmSC84TJd5NemXV2uHvo16694Ao57uou8ZvdTAnN6JSm1X\"]},\"/Users/thomashin/Workspace/plasma-evm-contracts/contracts/lib/RLP.sol\":{\"keccak256\":\"0x9ac5456084be0245e138d3746aa8a5196da272208e8b0466593cc07e91a3ce97\",\"urls\":[\"bzz-raw://d53f7ea9260a7078d55cdeaec57be0e810210aed6fa1dc9da04ece0b573cd624\",\"dweb:/ipfs/QmUNbVeaZYMAYNfCjg2ptG7n4Z6tPYNCRZA5k8c3uTDZtN\"]},\"/Users/thomashin/Workspace/plasma-evm-contracts/contracts/lib/RLPEncode.sol\":{\"keccak256\":\"0x581ea54832bb8afd6c95ae70060e92e2818d01db036f96acb08c8ef55f7e4882\",\"urls\":[\"bzz-raw://9b245abae2cf5ad0ec9b66e8af0ffb6567bdea6de5ea2665d5b2a8dcfb49ebb3\",\"dweb:/ipfs/QmcQGJwrqxAp7rH8MsC2QtAkj19f9Xc5CjN6fh6VAoLXjR\"]},\"/Users/thomashin/Workspace/plasma-evm-contracts/contracts/lib/SafeMath.sol\":{\"keccak256\":\"0xf46cbd8fb1c5f0bcf57f6a27e5ec1263d383c413673b37876dc7e8360233a70b\",\"urls\":[\"bzz-raw://3d937d7ac3bd2681e2655829faedc31fbcee53c9d1726755fc13cd041b5ce361\",\"dweb:/ipfs/QmZGATD813dDuH1VNsyEPwTKtp7KUySQK4jw9Cw8kChCA6\"]}},\"version\":1}",
+  "bytecode": "0x608060405234801561001057600080fd5b50610955806100206000396000f3fe608060405234801561001057600080fd5b506004361061021c5760003560e01c8063b17fa6e911610125578063ca6f6380116100ad578063e259faf71161007c578063e259faf714610595578063e7b88b801461059d578063ea7f22a8146105a5578063f4f31de4146105c2578063fb788a27146105df5761021c565b8063ca6f63801461054a578063d691acd814610221578063da0185f814610567578063de0ce17d1461058d5761021c565b8063b8066bcb116100f4578063b8066bcb146104c1578063c0e86064146104c9578063c2bc88fa14610532578063c54626cc1461053a578063c8ad329f146105425761021c565b8063b17fa6e91461038c578063b2ae9ba814610221578063b443f3cc14610394578063b6715647146104a45761021c565b8063570ca735116101a85780638155717d116101775780638155717d1461036c5780638b5172d0146103745780638eb288ca1461037c57806394be3aa514610221578063ab96da2d146103845761021c565b8063570ca7351461031b5780636fb7f5581461033f57806372ecb9a8146103475780637b929c27146103645761021c565b8063192adc5b116101ef578063192adc5b14610253578063236915661461025b5780632dc6bb7b14610263578063420bb4b81461026b5780634ba3a126146102875761021c565b8063033cfbed1461022157806308c4fff01461023b578063164bc2ae14610243578063183d2d1c1461024b575b600080fd5b6102296105e7565b60408051918252519081900360200190f35b6102296105f1565b6102296105f6565b6102296105fc565b610229610602565b61022961060c565b610229610612565b610273610618565b604080519115158252519081900360200190f35b6102a46004803603602081101561029d57600080fd5b503561061d565b6040805167ffffffffffffffff9d8e1681529b8d1660208d0152998c168b8b0152978b1660608b0152958a1660808a015293891660a089015291881660c0880152871660e0870152861661010086015285166101208501529093166101408301529115156101608201529051908190036101800190f35b610323610695565b604080516001600160a01b039092168252519081900360200190f35b6103236106a9565b6102296004803603602081101561035d57600080fd5b50356106b8565b6102736106ca565b6102296106d3565b6102296106d8565b6102296106e2565b6102296106e9565b6102296106ef565b6103b1600480360360208110156103aa57600080fd5b50356106f4565b6040805167ffffffffffffffff8d1681528b15156020808301919091528b151592820192909252891515606082015288151560808201526001600160801b03881660a08201526001600160a01b0380881660c0830152861660e082015261010081018590526101208101849052610160610140820181815284519183019190915283519192909161018084019185019080838360005b8381101561045f578181015183820152602001610447565b50505050905090810190601f16801561048c5780820380516001836020036101000a031916815260200191505b509c5050505050505050505050505060405180910390f35b610229600480360360208110156104ba57600080fd5b5035610816565b610323610828565b6104e6600480360360208110156104df57600080fd5b5035610837565b60408051961515875267ffffffffffffffff958616602088015293851686850152918416606086015290921660808401526001600160a01b0390911660a0830152519081900360c00190f35b61022961089f565b6102296108a4565b6102296108aa565b6102296004803603602081101561056057600080fd5b50356108b0565b6103236004803603602081101561057d57600080fd5b50356001600160a01b03166108c2565b6103236108dd565b6103236108e2565b6103236108f1565b6104e6600480360360208110156105bb57600080fd5b5035610900565b6103b1600480360360208110156105d857600080fd5b503561090d565b61022961091a565b6509184e72a00081565b600f81565b60105481565b60065481565b6551dac207a00081565b600d5481565b60135481565b600181565b60086020526000908152604090208054600182015460029092015467ffffffffffffffff80831693600160401b808504831694600160801b808204851695600160c01b92839004861695858116958581048216958482048316959182900483169484841694918204841693908204169160ff9104168c565b60005461010090046001600160a01b031681565b6004546001600160a01b031681565b60076020526000908152604090205481565b60005460ff1681565b600a81565b6512309ce5400081565b620186a081565b60055481565b601481565b6009818154811061070157fe5b6000918252602091829020600691909102018054600180830154600280850154600386015460048701546005880180546040805161010099831615999099026000190190911695909504601f81018b90048b0288018b0190955284875267ffffffffffffffff88169a50600160401b880460ff9081169a600160481b8a0482169a600160501b8b0483169a600160581b810490931699600160601b9093046001600160801b0316986001600160a01b039081169897169690939183018282801561080c5780601f106107e15761010080835404028352916020019161080c565b820191906000526020600020905b8154815290600101906020018083116107ef57829003601f168201915b505050505090508b565b600e6020526000908152604090205481565b6003546001600160a01b031681565b600c818154811061084457fe5b60009182526020909120600290910201805460019091015460ff8216925067ffffffffffffffff6101008304811692600160481b8104821692600160881b9091048216918116906001600160a01b03600160401b9091041686565b603c81565b60145481565b60115481565b600f6020526000908152604090205481565b6015602052600090815260409020546001600160a01b031681565b600081565b6002546001600160a01b031681565b6001546001600160a01b031681565b600b818154811061084457fe5b600a818154811061070157fe5b6012548156fea265627a7a723158200197e6dd059d719a22d945643c3b4a84592c33a5095679578983354e263ddf2164736f6c634300050c0032",
+  "deployedBytecode": "0x608060405234801561001057600080fd5b506004361061021c5760003560e01c8063b17fa6e911610125578063ca6f6380116100ad578063e259faf71161007c578063e259faf714610595578063e7b88b801461059d578063ea7f22a8146105a5578063f4f31de4146105c2578063fb788a27146105df5761021c565b8063ca6f63801461054a578063d691acd814610221578063da0185f814610567578063de0ce17d1461058d5761021c565b8063b8066bcb116100f4578063b8066bcb146104c1578063c0e86064146104c9578063c2bc88fa14610532578063c54626cc1461053a578063c8ad329f146105425761021c565b8063b17fa6e91461038c578063b2ae9ba814610221578063b443f3cc14610394578063b6715647146104a45761021c565b8063570ca735116101a85780638155717d116101775780638155717d1461036c5780638b5172d0146103745780638eb288ca1461037c57806394be3aa514610221578063ab96da2d146103845761021c565b8063570ca7351461031b5780636fb7f5581461033f57806372ecb9a8146103475780637b929c27146103645761021c565b8063192adc5b116101ef578063192adc5b14610253578063236915661461025b5780632dc6bb7b14610263578063420bb4b81461026b5780634ba3a126146102875761021c565b8063033cfbed1461022157806308c4fff01461023b578063164bc2ae14610243578063183d2d1c1461024b575b600080fd5b6102296105e7565b60408051918252519081900360200190f35b6102296105f1565b6102296105f6565b6102296105fc565b610229610602565b61022961060c565b610229610612565b610273610618565b604080519115158252519081900360200190f35b6102a46004803603602081101561029d57600080fd5b503561061d565b6040805167ffffffffffffffff9d8e1681529b8d1660208d0152998c168b8b0152978b1660608b0152958a1660808a015293891660a089015291881660c0880152871660e0870152861661010086015285166101208501529093166101408301529115156101608201529051908190036101800190f35b610323610695565b604080516001600160a01b039092168252519081900360200190f35b6103236106a9565b6102296004803603602081101561035d57600080fd5b50356106b8565b6102736106ca565b6102296106d3565b6102296106d8565b6102296106e2565b6102296106e9565b6102296106ef565b6103b1600480360360208110156103aa57600080fd5b50356106f4565b6040805167ffffffffffffffff8d1681528b15156020808301919091528b151592820192909252891515606082015288151560808201526001600160801b03881660a08201526001600160a01b0380881660c0830152861660e082015261010081018590526101208101849052610160610140820181815284519183019190915283519192909161018084019185019080838360005b8381101561045f578181015183820152602001610447565b50505050905090810190601f16801561048c5780820380516001836020036101000a031916815260200191505b509c5050505050505050505050505060405180910390f35b610229600480360360208110156104ba57600080fd5b5035610816565b610323610828565b6104e6600480360360208110156104df57600080fd5b5035610837565b60408051961515875267ffffffffffffffff958616602088015293851686850152918416606086015290921660808401526001600160a01b0390911660a0830152519081900360c00190f35b61022961089f565b6102296108a4565b6102296108aa565b6102296004803603602081101561056057600080fd5b50356108b0565b6103236004803603602081101561057d57600080fd5b50356001600160a01b03166108c2565b6103236108dd565b6103236108e2565b6103236108f1565b6104e6600480360360208110156105bb57600080fd5b5035610900565b6103b1600480360360208110156105d857600080fd5b503561090d565b61022961091a565b6509184e72a00081565b600f81565b60105481565b60065481565b6551dac207a00081565b600d5481565b60135481565b600181565b60086020526000908152604090208054600182015460029092015467ffffffffffffffff80831693600160401b808504831694600160801b808204851695600160c01b92839004861695858116958581048216958482048316959182900483169484841694918204841693908204169160ff9104168c565b60005461010090046001600160a01b031681565b6004546001600160a01b031681565b60076020526000908152604090205481565b60005460ff1681565b600a81565b6512309ce5400081565b620186a081565b60055481565b601481565b6009818154811061070157fe5b6000918252602091829020600691909102018054600180830154600280850154600386015460048701546005880180546040805161010099831615999099026000190190911695909504601f81018b90048b0288018b0190955284875267ffffffffffffffff88169a50600160401b880460ff9081169a600160481b8a0482169a600160501b8b0483169a600160581b810490931699600160601b9093046001600160801b0316986001600160a01b039081169897169690939183018282801561080c5780601f106107e15761010080835404028352916020019161080c565b820191906000526020600020905b8154815290600101906020018083116107ef57829003601f168201915b505050505090508b565b600e6020526000908152604090205481565b6003546001600160a01b031681565b600c818154811061084457fe5b60009182526020909120600290910201805460019091015460ff8216925067ffffffffffffffff6101008304811692600160481b8104821692600160881b9091048216918116906001600160a01b03600160401b9091041686565b603c81565b60145481565b60115481565b600f6020526000908152604090205481565b6015602052600090815260409020546001600160a01b031681565b600081565b6002546001600160a01b031681565b6001546001600160a01b031681565b600b818154811061084457fe5b600a818154811061070157fe5b6012548156fea265627a7a723158200197e6dd059d719a22d945643c3b4a84592c33a5095679578983354e263ddf2164736f6c634300050c0032",
   "sourceMap": "218:4557:4:-;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;218:4557:4;;;;;;;",
   "deployedSourceMap": "218:4557:4:-;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;218:4557:4;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;2121:53:7;;;:::i;:::-;;;;;;;;;;;;;;;;2582:40;;;:::i;1358:33::-;;;:::i;608:23::-;;;:::i;2202:45::-;;;:::i;1081:26::-;;;:::i;1502:27::-;;;:::i;3687:39::-;;;:::i;:::-;;;;;;;;;;;;;;;;;;737:40;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;-1:-1;737:40:7;;:::i;:::-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;146:23;;;:::i;:::-;;;;-1:-1:-1;;;;;146:23:7;;;;;;;;;;;;;;265:26;;;:::i;682:50::-;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;-1:-1;682:50:7;;:::i;107:23::-;;;:::i;2706:33::-;;;:::i;2038:45::-;;;:::i;3641:41::-;;;:::i;555:21::-;;;:::i;2644:40::-;;;:::i;823:26::-;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;-1:-1;823:26:7;;:::i;:::-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;-1:-1:-1;;;;;823:26:7;;;;;;-1:-1:-1;;;;;823:26:7;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;-1:-1:-1;8:100;33:3;30:1;27:10;8:100;;;90:11;;;84:18;71:11;;;64:39;52:2;45:10;8:100;;;12:14;823:26:7;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1163:53;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;-1:-1;1163:53:7;;:::i;236:25::-;;;:::i;1009:31::-;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;-1:-1;1009:31:7;;:::i;:::-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;-1:-1:-1;;;;;1009:31:7;;;;;;;;;;;;;;;;2463:41;;;:::i;1533:27::-;;;:::i;1395:34::-;;;:::i;1273:54::-;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;-1:-1;1273:54:7;;:::i;1738:56::-;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;-1:-1;1738:56:7;-1:-1:-1;;;;;1738:56:7;;:::i;1824:81::-;;;:::i;204:28::-;;;:::i;173:27::-;;;:::i;974:31::-;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;-1:-1;974:31:7;;:::i;853:26::-;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;-1:-1;853:26:7;;:::i;1433:34::-;;;:::i;2121:53::-;2161:13;2121:53;:::o;2582:40::-;2620:2;2582:40;:::o;1358:33::-;;;;:::o;608:23::-;;;;:::o;2202:45::-;2234:13;2202:45;:::o;1081:26::-;;;;:::o;1502:27::-;;;;:::o;3687:39::-;3722:4;3687:39;:::o;737:40::-;;;;;;;;;;;;;;;;;;;;;;;;;;;-1:-1:-1;;;737:40:7;;;;;;-1:-1:-1;;;737:40:7;;;;;;-1:-1:-1;;;737:40:7;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::o;146:23::-;;;;;;-1:-1:-1;;;;;146:23:7;;:::o;265:26::-;;;-1:-1:-1;;;;;265:26:7;;:::o;682:50::-;;;;;;;;;;;;;:::o;107:23::-;;;;;;:::o;2706:33::-;2737:2;2706:33;:::o;2038:45::-;2070:13;2038:45;:::o;3641:41::-;3676:6;3641:41;:::o;555:21::-;;;;:::o;2644:40::-;2682:2;2644:40;:::o;823:26::-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;-1:-1:-1;;823:26:7;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;-1:-1:-1;;;;823:26:7;;;;;;;-1:-1:-1;;;823:26:7;;;;;-1:-1:-1;;;823:26:7;;;;;-1:-1:-1;;;823:26:7;;;;;;-1:-1:-1;;;823:26:7;;;-1:-1:-1;;;;;823:26:7;;-1:-1:-1;;;;;823:26:7;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::o;1163:53::-;;;;;;;;;;;;;:::o;236:25::-;;;-1:-1:-1;;;;;236:25:7;;:::o;1009:31::-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;-1:-1:-1;1009:31:7;;;;;;;-1:-1:-1;;;1009:31:7;;;;;-1:-1:-1;;;1009:31:7;;;;;;;;;-1:-1:-1;;;;;;;;1009:31:7;;;;;:::o;2463:41::-;2502:2;2463:41;:::o;1533:27::-;;;;:::o;1395:34::-;;;;:::o;1273:54::-;;;;;;;;;;;;;:::o;1738:56::-;;;;;;;;;;;;-1:-1:-1;;;;;1738:56:7;;:::o;1824:81::-;1863:42;1824:81;:::o;204:28::-;;;-1:-1:-1;;;;;204:28:7;;:::o;173:27::-;;;-1:-1:-1;;;;;173:27:7;;:::o;974:31::-;;;;;;;;;;853:26;;;;;;;;;;1433:34;;;;:::o",
   "source": "pragma solidity ^0.5.12;\n\nimport \"./RootChainStorage.sol\";\nimport \"./RootChainEvent.sol\";\n\n/**\n * @notice RootChainBase provides functions to be delegated to other handlers,\n *         EpochHandler, SubmitHandler.\n */\ncontract RootChainBase is RootChainStorage, RootChainEvent {\n  /**\n   * Constants\n   */\n\n  // solium-disable mixedcase\n  // EpochHandler functions\n  bytes4 constant PREPARE_TO_SUTMIBT_ORB_SIG = bytes4(keccak256(\"prepareORE()\"));\n  bytes4 constant PREPARE_TO_SUTMIBT_NRB_SIG = bytes4(keccak256(\"prepareNRE()\"));\n  bytes4 constant PREPARE_TO_SUTMIBT_URB_SIG = bytes4(keccak256(\"prepareToSubmitURB()\"));\n  bytes4 constant PREPARE_ORE_AFTER_URE_SIG = bytes4(keccak256(\"prepareOREAfterURE()\"));\n  bytes4 constant PREPARE_NRE_AFTER_URE_SIG = bytes4(keccak256(\"prepareNREAfterURE()\"));\n\n  // SubmitHandler functions\n  bytes4 constant SUBMIT_NRE_SIG = bytes4(keccak256(\"submitNRE(uint256,uint256,bytes32,bytes32,bytes32)\"));\n  bytes4 constant SUBMIT_ORB_SIG = bytes4(keccak256(\"submitORB(uint256,bytes32,bytes32,bytes32)\"));\n  bytes4 constant SUBMIT_URB_SIG = bytes4(keccak256(\"submitURB(uint256,bytes32,bytes32,bytes32)\"));\n  // solium-endable mixedcase\n\n  /**\n   * Functions\n   */\n  // delegate to epoch handler\n  function _delegatePrepareORE() internal {\n    // solium-disable-next-line security/no-low-level-calls, max-len, no-unused-vars\n    (bool success, bytes memory returnData) = epochHandler.delegatecall(abi.encodeWithSelector(PREPARE_TO_SUTMIBT_ORB_SIG));\n    require(success);\n  }\n\n  // delegate to epoch handler\n  function _delegatePrepareNRE() internal {\n    // solium-disable-next-line security/no-low-level-calls, max-len, no-unused-vars\n    (bool success, bytes memory returnData) = epochHandler.delegatecall(abi.encodeWithSelector(PREPARE_TO_SUTMIBT_NRB_SIG));\n    // (bool success, bytes memory returnData) = epochHandler.delegatecall(abi.encodeWithSelector(PREPARE_TO_SUTMIBT_NRB_SIG));\n    require(success);\n  }\n\n  // delegate to epoch handler\n  function _delegatePrepareToSubmitURB() internal {\n    // solium-disable-next-line security/no-low-level-calls, max-len, no-unused-vars\n    (bool success, bytes memory returnData) = epochHandler.delegatecall(abi.encodeWithSelector(PREPARE_TO_SUTMIBT_URB_SIG));\n    // (bool success, bytes memory returnData) = epochHandler.delegatecall(abi.encodeWithSelector(PREPARE_TO_SUTMIBT_NRB_SIG));\n    require(success);\n  }\n\n  // delegate to epoch handler\n  function _delegatePrepareOREAfterURE() internal {\n    // solium-disable-next-line security/no-low-level-calls, max-len, no-unused-vars\n    (bool success, bytes memory returnData) = epochHandler.delegatecall(abi.encodeWithSelector(PREPARE_ORE_AFTER_URE_SIG));\n    require(success);\n  }\n\n  // delegate to epoch handler\n  function _delegatePrepareNREAfterURE() internal {\n    // solium-disable-next-line security/no-low-level-calls, max-len, no-unused-vars\n    (bool success, bytes memory returnData) = epochHandler.delegatecall(abi.encodeWithSelector(PREPARE_NRE_AFTER_URE_SIG));\n    require(success);\n  }\n\n  // delegate to submit handler\n  function _delegateSubmitNRE(\n    uint _pos1, // forknumber + epochNumber\n    uint _pos2, // startBlockNumber + endBlockNumber\n    bytes32 _epochStateRoot,\n    bytes32 _epochTransactionsRoot,\n    bytes32 _epochReceiptsRoot\n  )\n    internal\n    returns (bool success)\n  {\n    // solium-disable-next-line security/no-low-level-calls, max-len, no-unused-vars\n    (bool success, bytes memory returnData) = submitHandler.delegatecall(abi.encodeWithSelector(\n      SUBMIT_NRE_SIG,\n      _pos1,\n      _pos2,\n      _epochStateRoot,\n      _epochTransactionsRoot,\n      _epochReceiptsRoot\n    ));\n    require(success);\n    return true;\n  }\n\n  // delegate to submit handler\n  function _delegateSubmitORB(\n    uint _pos,\n    bytes32 _statesRoot,\n    bytes32 _transactionsRoot,\n    bytes32 _receiptsRoot\n  )\n    internal\n    returns (bool success)\n  {\n    // solium-disable-next-line security/no-low-level-calls, max-len, no-unused-vars\n    (bool success, bytes memory returnData) = submitHandler.delegatecall(abi.encodeWithSelector(\n      SUBMIT_ORB_SIG,\n      _pos,\n      _statesRoot,\n      _transactionsRoot,\n      _receiptsRoot\n    ));\n    require(success);\n    return true;\n  }\n\n  // delegate to submit handler\n  function _delegateSubmitURB(\n    uint _pos,\n    bytes32 _statesRoot,\n    bytes32 _transactionsRoot,\n    bytes32 _receiptsRoot\n  )\n    internal\n    returns (bool success)\n  {\n    // solium-disable-next-line security/no-low-level-calls, max-len, no-unused-vars\n    (bool success, bytes memory returnData) = submitHandler.delegatecall(abi.encodeWithSelector(\n      SUBMIT_URB_SIG,\n      _pos,\n      _statesRoot,\n      _transactionsRoot,\n      _receiptsRoot\n    ));\n    require(success);\n    return true;\n  }\n}\n",
-  "sourcePath": "/Users/pjh/workspace/go/src/github.com/Onther-Tech/plasma-evm/contracts/plasma/plasma-evm-cotracts/contracts/RootChainBase.sol",
+  "sourcePath": "/Users/thomashin/Workspace/plasma-evm-contracts/contracts/RootChainBase.sol",
   "ast": {
-    "absolutePath": "/Users/pjh/workspace/go/src/github.com/Onther-Tech/plasma-evm/contracts/plasma/plasma-evm-cotracts/contracts/RootChainBase.sol",
+    "absolutePath": "/Users/thomashin/Workspace/plasma-evm-contracts/contracts/RootChainBase.sol",
     "exportedSymbols": {
       "RootChainBase": [
         2881
@@ -1302,7 +1302,7 @@
         "src": "0:24:4"
       },
       {
-        "absolutePath": "/Users/pjh/workspace/go/src/github.com/Onther-Tech/plasma-evm/contracts/plasma/plasma-evm-cotracts/contracts/RootChainStorage.sol",
+        "absolutePath": "/Users/thomashin/Workspace/plasma-evm-contracts/contracts/RootChainStorage.sol",
         "file": "./RootChainStorage.sol",
         "id": 2608,
         "nodeType": "ImportDirective",
@@ -1313,7 +1313,7 @@
         "unitAlias": ""
       },
       {
-        "absolutePath": "/Users/pjh/workspace/go/src/github.com/Onther-Tech/plasma-evm/contracts/plasma/plasma-evm-cotracts/contracts/RootChainEvent.sol",
+        "absolutePath": "/Users/thomashin/Workspace/plasma-evm-contracts/contracts/RootChainEvent.sol",
         "file": "./RootChainEvent.sol",
         "id": 2609,
         "nodeType": "ImportDirective",
@@ -1437,7 +1437,7 @@
                     "name": "keccak256",
                     "nodeType": "Identifier",
                     "overloadedDeclarations": [],
-                    "referencedDeclaration": 21747,
+                    "referencedDeclaration": 21611,
                     "src": "419:9:4",
                     "typeDescriptions": {
                       "typeIdentifier": "t_function_keccak256_pure$_t_bytes_memory_ptr_$returns$_t_bytes32_$",
@@ -1554,7 +1554,7 @@
                     "name": "keccak256",
                     "nodeType": "Identifier",
                     "overloadedDeclarations": [],
-                    "referencedDeclaration": 21747,
+                    "referencedDeclaration": 21611,
                     "src": "501:9:4",
                     "typeDescriptions": {
                       "typeIdentifier": "t_function_keccak256_pure$_t_bytes_memory_ptr_$returns$_t_bytes32_$",
@@ -1671,7 +1671,7 @@
                     "name": "keccak256",
                     "nodeType": "Identifier",
                     "overloadedDeclarations": [],
-                    "referencedDeclaration": 21747,
+                    "referencedDeclaration": 21611,
                     "src": "583:9:4",
                     "typeDescriptions": {
                       "typeIdentifier": "t_function_keccak256_pure$_t_bytes_memory_ptr_$returns$_t_bytes32_$",
@@ -1788,7 +1788,7 @@
                     "name": "keccak256",
                     "nodeType": "Identifier",
                     "overloadedDeclarations": [],
-                    "referencedDeclaration": 21747,
+                    "referencedDeclaration": 21611,
                     "src": "672:9:4",
                     "typeDescriptions": {
                       "typeIdentifier": "t_function_keccak256_pure$_t_bytes_memory_ptr_$returns$_t_bytes32_$",
@@ -1905,7 +1905,7 @@
                     "name": "keccak256",
                     "nodeType": "Identifier",
                     "overloadedDeclarations": [],
-                    "referencedDeclaration": 21747,
+                    "referencedDeclaration": 21611,
                     "src": "761:9:4",
                     "typeDescriptions": {
                       "typeIdentifier": "t_function_keccak256_pure$_t_bytes_memory_ptr_$returns$_t_bytes32_$",
@@ -2022,7 +2022,7 @@
                     "name": "keccak256",
                     "nodeType": "Identifier",
                     "overloadedDeclarations": [],
-                    "referencedDeclaration": 21747,
+                    "referencedDeclaration": 21611,
                     "src": "869:9:4",
                     "typeDescriptions": {
                       "typeIdentifier": "t_function_keccak256_pure$_t_bytes_memory_ptr_$returns$_t_bytes32_$",
@@ -2139,7 +2139,7 @@
                     "name": "keccak256",
                     "nodeType": "Identifier",
                     "overloadedDeclarations": [],
-                    "referencedDeclaration": 21747,
+                    "referencedDeclaration": 21611,
                     "src": "977:9:4",
                     "typeDescriptions": {
                       "typeIdentifier": "t_function_keccak256_pure$_t_bytes_memory_ptr_$returns$_t_bytes32_$",
@@ -2256,7 +2256,7 @@
                     "name": "keccak256",
                     "nodeType": "Identifier",
                     "overloadedDeclarations": [],
-                    "referencedDeclaration": 21747,
+                    "referencedDeclaration": 21611,
                     "src": "1077:9:4",
                     "typeDescriptions": {
                       "typeIdentifier": "t_function_keccak256_pure$_t_bytes_memory_ptr_$returns$_t_bytes32_$",
@@ -2413,7 +2413,7 @@
                             "name": "abi",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 21740,
+                            "referencedDeclaration": 21604,
                             "src": "1425:3:4",
                             "typeDescriptions": {
                               "typeIdentifier": "t_magic_abi",
@@ -2529,10 +2529,10 @@
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        21756,
-                        21757
+                        21620,
+                        21621
                       ],
-                      "referencedDeclaration": 21756,
+                      "referencedDeclaration": 21620,
                       "src": "1482:7:4",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$returns$__$",
@@ -2683,7 +2683,7 @@
                             "name": "abi",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 21740,
+                            "referencedDeclaration": 21604,
                             "src": "1737:3:4",
                             "typeDescriptions": {
                               "typeIdentifier": "t_magic_abi",
@@ -2799,10 +2799,10 @@
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        21756,
-                        21757
+                        21620,
+                        21621
                       ],
-                      "referencedDeclaration": 21756,
+                      "referencedDeclaration": 21620,
                       "src": "1922:7:4",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$returns$__$",
@@ -2953,7 +2953,7 @@
                             "name": "abi",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 21740,
+                            "referencedDeclaration": 21604,
                             "src": "2185:3:4",
                             "typeDescriptions": {
                               "typeIdentifier": "t_magic_abi",
@@ -3069,10 +3069,10 @@
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        21756,
-                        21757
+                        21620,
+                        21621
                       ],
-                      "referencedDeclaration": 21756,
+                      "referencedDeclaration": 21620,
                       "src": "2370:7:4",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$returns$__$",
@@ -3223,7 +3223,7 @@
                             "name": "abi",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 21740,
+                            "referencedDeclaration": 21604,
                             "src": "2633:3:4",
                             "typeDescriptions": {
                               "typeIdentifier": "t_magic_abi",
@@ -3339,10 +3339,10 @@
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        21756,
-                        21757
+                        21620,
+                        21621
                       ],
-                      "referencedDeclaration": 21756,
+                      "referencedDeclaration": 21620,
                       "src": "2689:7:4",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$returns$__$",
@@ -3493,7 +3493,7 @@
                             "name": "abi",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 21740,
+                            "referencedDeclaration": 21604,
                             "src": "2952:3:4",
                             "typeDescriptions": {
                               "typeIdentifier": "t_magic_abi",
@@ -3609,10 +3609,10 @@
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        21756,
-                        21757
+                        21620,
+                        21621
                       ],
-                      "referencedDeclaration": 21756,
+                      "referencedDeclaration": 21620,
                       "src": "3008:7:4",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$returns$__$",
@@ -3848,7 +3848,7 @@
                             "name": "abi",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 21740,
+                            "referencedDeclaration": 21604,
                             "src": "3493:3:4",
                             "typeDescriptions": {
                               "typeIdentifier": "t_magic_abi",
@@ -3964,10 +3964,10 @@
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        21756,
-                        21757
+                        21620,
+                        21621
                       ],
-                      "referencedDeclaration": 21756,
+                      "referencedDeclaration": 21620,
                       "src": "3655:7:4",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$returns$__$",
@@ -4368,7 +4368,7 @@
                             "name": "abi",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 21740,
+                            "referencedDeclaration": 21604,
                             "src": "4061:3:4",
                             "typeDescriptions": {
                               "typeIdentifier": "t_magic_abi",
@@ -4484,10 +4484,10 @@
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        21756,
-                        21757
+                        21620,
+                        21621
                       ],
-                      "referencedDeclaration": 21756,
+                      "referencedDeclaration": 21620,
                       "src": "4195:7:4",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$returns$__$",
@@ -4862,7 +4862,7 @@
                             "name": "abi",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 21740,
+                            "referencedDeclaration": 21604,
                             "src": "4601:3:4",
                             "typeDescriptions": {
                               "typeIdentifier": "t_magic_abi",
@@ -4978,10 +4978,10 @@
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        21756,
-                        21757
+                        21620,
+                        21621
                       ],
-                      "referencedDeclaration": 21756,
+                      "referencedDeclaration": 21620,
                       "src": "4735:7:4",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$returns$__$",
@@ -5197,7 +5197,7 @@
     "src": "0:4776:4"
   },
   "legacyAST": {
-    "absolutePath": "/Users/pjh/workspace/go/src/github.com/Onther-Tech/plasma-evm/contracts/plasma/plasma-evm-cotracts/contracts/RootChainBase.sol",
+    "absolutePath": "/Users/thomashin/Workspace/plasma-evm-contracts/contracts/RootChainBase.sol",
     "exportedSymbols": {
       "RootChainBase": [
         2881
@@ -5218,7 +5218,7 @@
         "src": "0:24:4"
       },
       {
-        "absolutePath": "/Users/pjh/workspace/go/src/github.com/Onther-Tech/plasma-evm/contracts/plasma/plasma-evm-cotracts/contracts/RootChainStorage.sol",
+        "absolutePath": "/Users/thomashin/Workspace/plasma-evm-contracts/contracts/RootChainStorage.sol",
         "file": "./RootChainStorage.sol",
         "id": 2608,
         "nodeType": "ImportDirective",
@@ -5229,7 +5229,7 @@
         "unitAlias": ""
       },
       {
-        "absolutePath": "/Users/pjh/workspace/go/src/github.com/Onther-Tech/plasma-evm/contracts/plasma/plasma-evm-cotracts/contracts/RootChainEvent.sol",
+        "absolutePath": "/Users/thomashin/Workspace/plasma-evm-contracts/contracts/RootChainEvent.sol",
         "file": "./RootChainEvent.sol",
         "id": 2609,
         "nodeType": "ImportDirective",
@@ -5353,7 +5353,7 @@
                     "name": "keccak256",
                     "nodeType": "Identifier",
                     "overloadedDeclarations": [],
-                    "referencedDeclaration": 21747,
+                    "referencedDeclaration": 21611,
                     "src": "419:9:4",
                     "typeDescriptions": {
                       "typeIdentifier": "t_function_keccak256_pure$_t_bytes_memory_ptr_$returns$_t_bytes32_$",
@@ -5470,7 +5470,7 @@
                     "name": "keccak256",
                     "nodeType": "Identifier",
                     "overloadedDeclarations": [],
-                    "referencedDeclaration": 21747,
+                    "referencedDeclaration": 21611,
                     "src": "501:9:4",
                     "typeDescriptions": {
                       "typeIdentifier": "t_function_keccak256_pure$_t_bytes_memory_ptr_$returns$_t_bytes32_$",
@@ -5587,7 +5587,7 @@
                     "name": "keccak256",
                     "nodeType": "Identifier",
                     "overloadedDeclarations": [],
-                    "referencedDeclaration": 21747,
+                    "referencedDeclaration": 21611,
                     "src": "583:9:4",
                     "typeDescriptions": {
                       "typeIdentifier": "t_function_keccak256_pure$_t_bytes_memory_ptr_$returns$_t_bytes32_$",
@@ -5704,7 +5704,7 @@
                     "name": "keccak256",
                     "nodeType": "Identifier",
                     "overloadedDeclarations": [],
-                    "referencedDeclaration": 21747,
+                    "referencedDeclaration": 21611,
                     "src": "672:9:4",
                     "typeDescriptions": {
                       "typeIdentifier": "t_function_keccak256_pure$_t_bytes_memory_ptr_$returns$_t_bytes32_$",
@@ -5821,7 +5821,7 @@
                     "name": "keccak256",
                     "nodeType": "Identifier",
                     "overloadedDeclarations": [],
-                    "referencedDeclaration": 21747,
+                    "referencedDeclaration": 21611,
                     "src": "761:9:4",
                     "typeDescriptions": {
                       "typeIdentifier": "t_function_keccak256_pure$_t_bytes_memory_ptr_$returns$_t_bytes32_$",
@@ -5938,7 +5938,7 @@
                     "name": "keccak256",
                     "nodeType": "Identifier",
                     "overloadedDeclarations": [],
-                    "referencedDeclaration": 21747,
+                    "referencedDeclaration": 21611,
                     "src": "869:9:4",
                     "typeDescriptions": {
                       "typeIdentifier": "t_function_keccak256_pure$_t_bytes_memory_ptr_$returns$_t_bytes32_$",
@@ -6055,7 +6055,7 @@
                     "name": "keccak256",
                     "nodeType": "Identifier",
                     "overloadedDeclarations": [],
-                    "referencedDeclaration": 21747,
+                    "referencedDeclaration": 21611,
                     "src": "977:9:4",
                     "typeDescriptions": {
                       "typeIdentifier": "t_function_keccak256_pure$_t_bytes_memory_ptr_$returns$_t_bytes32_$",
@@ -6172,7 +6172,7 @@
                     "name": "keccak256",
                     "nodeType": "Identifier",
                     "overloadedDeclarations": [],
-                    "referencedDeclaration": 21747,
+                    "referencedDeclaration": 21611,
                     "src": "1077:9:4",
                     "typeDescriptions": {
                       "typeIdentifier": "t_function_keccak256_pure$_t_bytes_memory_ptr_$returns$_t_bytes32_$",
@@ -6329,7 +6329,7 @@
                             "name": "abi",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 21740,
+                            "referencedDeclaration": 21604,
                             "src": "1425:3:4",
                             "typeDescriptions": {
                               "typeIdentifier": "t_magic_abi",
@@ -6445,10 +6445,10 @@
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        21756,
-                        21757
+                        21620,
+                        21621
                       ],
-                      "referencedDeclaration": 21756,
+                      "referencedDeclaration": 21620,
                       "src": "1482:7:4",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$returns$__$",
@@ -6599,7 +6599,7 @@
                             "name": "abi",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 21740,
+                            "referencedDeclaration": 21604,
                             "src": "1737:3:4",
                             "typeDescriptions": {
                               "typeIdentifier": "t_magic_abi",
@@ -6715,10 +6715,10 @@
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        21756,
-                        21757
+                        21620,
+                        21621
                       ],
-                      "referencedDeclaration": 21756,
+                      "referencedDeclaration": 21620,
                       "src": "1922:7:4",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$returns$__$",
@@ -6869,7 +6869,7 @@
                             "name": "abi",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 21740,
+                            "referencedDeclaration": 21604,
                             "src": "2185:3:4",
                             "typeDescriptions": {
                               "typeIdentifier": "t_magic_abi",
@@ -6985,10 +6985,10 @@
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        21756,
-                        21757
+                        21620,
+                        21621
                       ],
-                      "referencedDeclaration": 21756,
+                      "referencedDeclaration": 21620,
                       "src": "2370:7:4",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$returns$__$",
@@ -7139,7 +7139,7 @@
                             "name": "abi",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 21740,
+                            "referencedDeclaration": 21604,
                             "src": "2633:3:4",
                             "typeDescriptions": {
                               "typeIdentifier": "t_magic_abi",
@@ -7255,10 +7255,10 @@
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        21756,
-                        21757
+                        21620,
+                        21621
                       ],
-                      "referencedDeclaration": 21756,
+                      "referencedDeclaration": 21620,
                       "src": "2689:7:4",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$returns$__$",
@@ -7409,7 +7409,7 @@
                             "name": "abi",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 21740,
+                            "referencedDeclaration": 21604,
                             "src": "2952:3:4",
                             "typeDescriptions": {
                               "typeIdentifier": "t_magic_abi",
@@ -7525,10 +7525,10 @@
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        21756,
-                        21757
+                        21620,
+                        21621
                       ],
-                      "referencedDeclaration": 21756,
+                      "referencedDeclaration": 21620,
                       "src": "3008:7:4",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$returns$__$",
@@ -7764,7 +7764,7 @@
                             "name": "abi",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 21740,
+                            "referencedDeclaration": 21604,
                             "src": "3493:3:4",
                             "typeDescriptions": {
                               "typeIdentifier": "t_magic_abi",
@@ -7880,10 +7880,10 @@
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        21756,
-                        21757
+                        21620,
+                        21621
                       ],
-                      "referencedDeclaration": 21756,
+                      "referencedDeclaration": 21620,
                       "src": "3655:7:4",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$returns$__$",
@@ -8284,7 +8284,7 @@
                             "name": "abi",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 21740,
+                            "referencedDeclaration": 21604,
                             "src": "4061:3:4",
                             "typeDescriptions": {
                               "typeIdentifier": "t_magic_abi",
@@ -8400,10 +8400,10 @@
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        21756,
-                        21757
+                        21620,
+                        21621
                       ],
-                      "referencedDeclaration": 21756,
+                      "referencedDeclaration": 21620,
                       "src": "4195:7:4",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$returns$__$",
@@ -8778,7 +8778,7 @@
                             "name": "abi",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 21740,
+                            "referencedDeclaration": 21604,
                             "src": "4601:3:4",
                             "typeDescriptions": {
                               "typeIdentifier": "t_magic_abi",
@@ -8894,10 +8894,10 @@
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        21756,
-                        21757
+                        21620,
+                        21621
                       ],
-                      "referencedDeclaration": 21756,
+                      "referencedDeclaration": 21620,
                       "src": "4735:7:4",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$returns$__$",
@@ -9118,7 +9118,7 @@
   },
   "networks": {},
   "schemaVersion": "3.0.23",
-  "updatedAt": "2020-02-13T05:01:23.654Z",
+  "updatedAt": "2020-02-13T12:53:41.809Z",
   "devdoc": {
     "methods": {}
   },
