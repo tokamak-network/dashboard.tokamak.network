@@ -9,7 +9,7 @@
       {{ operator.name }}
     </div>
     <div class="simple-stake-info-amount">
-      {{ operator.userClaim.toNumber() }}
+      {{ operator.userStake.toNumber() }}
     </div>
     <div class="simple-stake-info-unit">
       TON

@@ -187,34 +187,18 @@ export default new Vuex.Store({
       const DepositManager = context.state.DepositManager;
       const SeigManager = context.state.SeigManager;
 
+      const wtonWrapper = (amount) => _WTON.ray(amount);
+
       let count = 0;
       const operatorsFromRootchain = rootchains.map(async rootchain => {
         const RootChain = await createTruffleContract(RootChainABI, rootchain);
         const Coinage =
-            await createTruffleContract(CustomIncrementCoinageABI, (await SeigManager.coinages(rootchain)));
+            await createTruffleContract(CustomIncrementCoinageABI, await SeigManager.coinages(rootchain));
+        // const Tot =
+        //     await createTruffleContract(CustomIncrementCoinageABI, await SeigManager.tot());
 
         const forkNumber = await RootChain.currentFork();
         const operator = await RootChain.operator();
-
-        const getTotalStake = async () => {
-          const totTotalSupplyAtCommit = await SeigManager.totTotalSupplyAtCommit(rootchain);
-          const totalCoinageBalance = await Coinage.totalSupply();
-
-          return totTotalSupplyAtCommit.add(totalCoinageBalance);
-        };
-
-        const getStake = async (account) => {
-          const accStaked = await DepositManager.accStaked(rootchain, account);
-          const accUnstaked = await DepositManager.accUnstaked(rootchain, account);
-          return accStaked.sub(accUnstaked);
-        };
-
-        const getReward = async (account) => {
-          const stake = await getStake(account);
-          const coinageBalance = await Coinage.balanceOf(account);
-
-          return coinageBalance.sub(stake);
-        };
 
         const getRecentCommitTimeStamp = async () => {
           const fork = await RootChain.forks(forkNumber);
@@ -229,41 +213,70 @@ export default new Vuex.Store({
           return timestamp;
         };
 
+        const getDeposit = async (account) => {
+          let accStaked, accUnstaked;
+          if (typeof account === 'undefined') {
+            accStaked = await DepositManager.accStakedRootChain(rootchain);
+            accUnstaked = await DepositManager.accUnstakedRootChain(rootchain);
+          } else {
+            accStaked = await DepositManager.accStaked(rootchain, account);
+            accUnstaked = await DepositManager.accUnstaked(rootchain, account);
+          }
+          return accStaked.sub(accUnstaked);
+        };
+
         const recentCommitTimestamp = await getRecentCommitTimeStamp();
         const commitCount = await RootChain.lastEpoch(forkNumber);
         const duration
           = (await web3.eth.getBlock('latest')).timestamp - (await RootChain.getEpoch(0, 0)).timestamp;
 
-        const totalStake = _WTON.ray((await getTotalStake()).toString());
-        const operatorStake = _WTON.ray((await getStake(operator)).toString());
-        const userStake = _WTON.ray((await getStake(user)).toString());
+        const totalDeposit = await getDeposit();
+        const operatorDeposit = await getDeposit(operator);
+        const userDeposit = await getDeposit(user);
 
-        // const totalReward = _WTON.ray((await Coinage.totalSupply()).toString());
-        // const operatorStake = _WTON.ray((await getStake(operator)).toString());
-        // const userStake = _WTON.ray((await getStake(user)).toString());
+        const userPendingUnstaked = await DepositManager.pendingUnstaked(rootchain, user);
+        const userUncomittedStakeOf = await SeigManager.uncomittedStakeOf(rootchain, operator);
 
-        const userReward = _WTON.ray((await getReward(user)).toString());
-        const userClaim = _WTON.ray((await SeigManager.stakeOf(rootchain, user)).toString());
-        // TODO: fix `Returned values aren't valid, did it run Out of Gas?` error
-        // const userUncomittedStakeOf
-        //   = _WTON.ray((await SeigManager.uncomittedStakeOf(rootchain, operator)).toString());
+        const totalStake = await Coinage.totalSupply();
+        const operatorStake = await Coinage.balanceOf(operator);
+        const userStake = await Coinage.balanceOf(user);
 
         count++;
-        return {
-          name : `TOKAMAK_OPERATOR_${count}`,
-          website : `www.tokamak${count}.network`,
-          address: operator,                        // operator address
-          rootchain,                                // rootchain address
+        const operatorFromRootChain = {
+          name: `TOKAMAK_OPERATOR_${count}`,
+          address: operator,
+          website: `www.tokamak${count}.network`,
+
+          rootchain,
           recentCommitTimestamp,
           commitCount,
           duration,
-          totalStake,
-          operatorStake,
-          userStake,
-          userReward,
-          userClaim,
-          // userUncomittedStakeOf,
+
+          totalDeposit: wtonWrapper(totalDeposit),
+          operatorDeposit: wtonWrapper(operatorDeposit),
+          userDeposit: wtonWrapper(userDeposit),
+
+          totalStake: wtonWrapper(totalStake),
+          operatorStake: wtonWrapper(operatorStake),
+          userStake: wtonWrapper(userStake),
+
+          userPendingUnstaked: wtonWrapper(userPendingUnstaked),
+          userUncomittedStakeOf: wtonWrapper(userUncomittedStakeOf),
         };
+
+        console.log({
+          totalDeposit: wtonWrapper(totalDeposit).toString(),
+          operatorDeposit: wtonWrapper(operatorDeposit).toString(),
+          userDeposit: wtonWrapper(userDeposit).toString(),
+
+          totalStake: wtonWrapper(totalStake).toString(),
+          operatorStake: wtonWrapper(operatorStake).toString(),
+          userStake: wtonWrapper(userStake).toString(),
+
+          userPendingUnstaked: wtonWrapper(userPendingUnstaked).toString(),
+          userUncomittedStakeOf: wtonWrapper(userUncomittedStakeOf).toString(),
+        });
+        return operatorFromRootChain;
       });
 
       context.commit('SET_OPERATORS', await Promise.all(operatorsFromRootchain));
@@ -276,8 +289,9 @@ export default new Vuex.Store({
       const DepositManager = context.state.DepositManager;
 
       context.commit('SET_TON_BALANCE', _TON.wei((await TON.balanceOf(user)).toString()));
-      context.commit('SET_TON_ALLOWANCE', _TON.wei((await TON.allowance(user, WTON.address)).toString()));
       context.commit('SET_WTON_BALANCE', _WTON.ray((await WTON.balanceOf(user)).toString()));
+
+      context.commit('SET_TON_ALLOWANCE', _TON.wei((await TON.allowance(user, WTON.address)).toString()));
       context.commit('SET_WTON_ALLOWANCE',
         _WTON.ray((await WTON.allowance(user, DepositManager.address)).toString()));
     },

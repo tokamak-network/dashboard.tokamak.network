@@ -11,7 +11,7 @@
         {{ operator.name }}
       </div>
       <div class="staking-amount">
-        {{ operator.userClaim.toNumber() }}
+        {{ operator.userStake.toNumber() }}
       </div>
       <div class="staking-amount-unit">
         WTON
