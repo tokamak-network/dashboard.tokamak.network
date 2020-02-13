@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapState, mapGetters } from 'vuex';
 
 import LoadingSpinner from '@/components/LoadingSpinner.vue';
 import TxProcessor from '@/components/TxProcessor.vue';
@@ -35,11 +35,29 @@ export default {
     'main-layout': MainLayout,
     'tx-processor': TxProcessor,
   },
-  computed: mapState([
-    'web3',
-    'loading',
-    'signIn',
-  ]),
+  computed: {
+    ...mapState([
+      'web3',
+      'loading',
+      'signIn',
+    ]),
+    ...mapGetters([
+      'initialState',
+    ]),
+  },
+  created () {
+    if (this.initialState && this.$route.path !== '/') {
+      this.$router.replace('/');
+    }
+    this.$store.watch(
+      (_, getters) => getters.initialState,
+      (logout) => {
+        if (logout && this.$route.path !== '/') {
+          this.$router.replace('/');
+        }
+      },
+    );
+  },
 };
 </script>
 

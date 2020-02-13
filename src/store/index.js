@@ -314,11 +314,8 @@ export default new Vuex.Store({
     isTxProcessing: (state) => (type) => {
       return state.txsPending.includes(type);
     },
-    stateChecker: (state) => {
-      if (isEqual(state, initialState)) {
-        if (router.currentRoute.path !== '/')
-          router.replace('/');
-      }
+    initialState: (state) => {
+      return isEqual(state, initialState);
     },
   },
 });
