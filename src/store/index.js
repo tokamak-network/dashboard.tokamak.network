@@ -2,8 +2,10 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 Vue.use(Vuex);
 
+import router from '@/router';
+
 import { getState, getHistory } from '@/api';
-import _ from 'lodash';
+import { cloneDeep, isEqual } from 'lodash';
 
 import { createTruffleContract } from '@/helpers/Contract';
 import { createCurrency } from '@makerdao/currency';
@@ -32,6 +34,7 @@ const CustomIncrementCoinageABI = CustomIncrementCoinage.abi;
 
 const initialState = {
   loading: false,
+  signIn: false,
 
   modalData: null,
   isModalShowed: false,
@@ -61,7 +64,7 @@ const initialState = {
 const getInitialState = () => initialState;
 
 export default new Vuex.Store({
-  state: _.cloneDeep(initialState),
+  state: cloneDeep(initialState),
   mutations: {
     SET_INITIAL_STATE: (state) => {
       const initialState = getInitialState();
@@ -71,6 +74,9 @@ export default new Vuex.Store({
     },
     IS_LOADING: (state, isLoading) => {
       state.loading = isLoading;
+    },
+    SIGN_IN: (state) => {
+      state.signIn = true;
     },
     ADD_PENDING_TX: (state, request) => {
       state.txsPending.push(request);
@@ -139,18 +145,21 @@ export default new Vuex.Store({
     },
     async signIn (context, web3) {
       context.commit('IS_LOADING', true);
+      context.commit('SET_WEB3', web3);
 
       const user = (await web3.eth.getAccounts())[0];
       const networkId = (await web3.eth.net.getId());
-
-      context.commit('SET_WEB3', web3);
       context.commit('SET_USER', user);
       context.commit('SET_NETWORK_ID', networkId);
-      console.log('connected');
+      console.log('connect');
 
       await context.dispatch('set');
 
       context.commit('IS_LOADING', false);
+      context.commit('SIGN_IN');
+
+      router.replace('/dashboard');
+      console.log('sign in');
     },
     async set (context) {
       return getState()
@@ -290,6 +299,12 @@ export default new Vuex.Store({
     },
     isTxProcessing: (state) => (type) => {
       return state.txsPending.includes(type);
+    },
+    stateChecker: (state) => {
+      if (isEqual(state, initialState)) {
+        if (router.currentRoute.path !== '/')
+          router.replace('/');
+      }
     },
   },
 });
