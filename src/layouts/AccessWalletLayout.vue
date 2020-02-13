@@ -20,7 +20,6 @@ export default {
 <style scoped>
 .access-wallet-layout {
   display: flex;
-  flex-direction: row;
   padding-top: 85px;
 }
 </style>

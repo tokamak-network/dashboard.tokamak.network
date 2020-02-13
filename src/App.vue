@@ -1,19 +1,14 @@
 <template>
-  <div
-    id="app"
-  >
+  <div id="app">
     <header-container />
     <div class="body-container">
-      <loading-spinner v-if="loading" />
-      <div
-        v-else
-        class="container_12"
-      >
-        <access-wallet-layout v-if="$route.path === '/' || web3 === null" />
-        <div v-else>
-          <tx-processor />
-          <main-layout />
-        </div>
+      <div v-if="!signIn">
+        <loading-spinner v-if="loading" />
+        <access-wallet-layout v-else />
+      </div>
+      <div v-else>
+        <tx-processor />
+        <main-layout />
       </div>
     </div>
     <footer-container />
@@ -22,7 +17,6 @@
 
 <script>
 import { mapState } from 'vuex';
-import { isNull } from 'lodash';
 
 import LoadingSpinner from '@/components/LoadingSpinner.vue';
 import TxProcessor from '@/components/TxProcessor.vue';
@@ -44,12 +38,8 @@ export default {
   computed: mapState([
     'web3',
     'loading',
+    'signIn',
   ]),
-  created () {
-    if (isNull(this.web3) && this.$route.path !== '/') {
-      this.$router.replace('/');
-    }
-  },
 };
 </script>
 
@@ -72,8 +62,11 @@ html, body {
 }
 
 .body-container {
+  width: 960px;
   display: flex;
   flex: 1;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 /* GLOBAL CSS */
