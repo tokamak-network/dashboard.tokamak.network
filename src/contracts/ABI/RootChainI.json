@@ -68,12 +68,12 @@
       "type": "function"
     }
   ],
-  "metadata": "{\"compiler\":{\"version\":\"0.5.12+commit.7709ece9\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"constant\":true,\"inputs\":[],\"name\":\"currentFork\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"isRootChain\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"forkNumber\",\"type\":\"uint256\"}],\"name\":\"lastEpoch\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"operator\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"}],\"devdoc\":{\"methods\":{}},\"userdoc\":{\"methods\":{}}},\"settings\":{\"compilationTarget\":{\"/Users/pjh/workspace/go/src/github.com/Onther-Tech/plasma-evm/contracts/plasma/plasma-evm-cotracts/contracts/RootChainI.sol\":\"RootChainI\"},\"evmVersion\":\"petersburg\",\"libraries\":{},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"/Users/pjh/workspace/go/src/github.com/Onther-Tech/plasma-evm/contracts/plasma/plasma-evm-cotracts/contracts/RootChainI.sol\":{\"keccak256\":\"0x6eeb92c50bd3537f445c796dabae8e396cc8381537b08a9fee49d4d21e740877\",\"urls\":[\"bzz-raw://d9c1e3dc0d4b0ead97486a2f2d934b8b3b2f2b7e6b079334ec6fa56079c5eff7\",\"dweb:/ipfs/QmNYT1mzJ7QQbHCnapWLBVehGxJs6ZVA6ZphyQMWRZweyA\"]}},\"version\":1}",
+  "metadata": "{\"compiler\":{\"version\":\"0.5.12+commit.7709ece9\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"constant\":true,\"inputs\":[],\"name\":\"currentFork\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"isRootChain\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"forkNumber\",\"type\":\"uint256\"}],\"name\":\"lastEpoch\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"operator\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"}],\"devdoc\":{\"methods\":{}},\"userdoc\":{\"methods\":{}}},\"settings\":{\"compilationTarget\":{\"/Users/pjh/workspace/go/src/github.com/Onther-Tech/plasma-evm/contracts/plasma/plasma-evm-cotracts/contracts/RootChainI.sol\":\"RootChainI\"},\"evmVersion\":\"petersburg\",\"libraries\":{},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"/Users/pjh/workspace/go/src/github.com/Onther-Tech/plasma-evm/contracts/plasma/plasma-evm-cotracts/contracts/RootChainI.sol\":{\"keccak256\":\"0x664e699d6afd7a839f5fae13a661b3446aeb655b0e1df5cf11f1d5fe849aae18\",\"urls\":[\"bzz-raw://c6e912566cd48ac2a5355eed0c1a26cbdd49bb50f2e32e0e45d9d3804709b359\",\"dweb:/ipfs/QmZP9RsBZSmsvJYAqtfP2G51iUyuLoXieJQA3YFZLdPayZ\"]}},\"version\":1}",
   "bytecode": "0x",
   "deployedBytecode": "0x",
   "sourceMap": "",
   "deployedSourceMap": "",
-  "source": "pragma solidity ^0.5.0;\n\ninterface RootChainI {\n  function operator() external view returns (address);\n  function isRootChain() external view returns (bool);\n  function currentFork() external view returns (uint);\n  function lastEpoch(uint forkNumber) external view returns (uint);\n}",
+  "source": "pragma solidity ^0.5.12;\n\ninterface RootChainI {\n  function operator() external view returns (address);\n  function isRootChain() external view returns (bool);\n  function currentFork() external view returns (uint);\n  function lastEpoch(uint forkNumber) external view returns (uint);\n}",
   "sourcePath": "/Users/pjh/workspace/go/src/github.com/Onther-Tech/plasma-evm/contracts/plasma/plasma-evm-cotracts/contracts/RootChainI.sol",
   "ast": {
     "absolutePath": "/Users/pjh/workspace/go/src/github.com/Onther-Tech/plasma-evm/contracts/plasma/plasma-evm-cotracts/contracts/RootChainI.sol",
@@ -91,10 +91,10 @@
           "solidity",
           "^",
           "0.5",
-          ".0"
+          ".12"
         ],
         "nodeType": "PragmaDirective",
-        "src": "0:23:6"
+        "src": "0:24:6"
       },
       {
         "baseContracts": [],
@@ -122,7 +122,7 @@
               "id": 3040,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "67:2:6"
+              "src": "68:2:6"
             },
             "returnParameters": {
               "id": 3043,
@@ -134,7 +134,7 @@
                   "name": "",
                   "nodeType": "VariableDeclaration",
                   "scope": 3044,
-                  "src": "93:7:6",
+                  "src": "94:7:6",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -145,7 +145,7 @@
                     "id": 3041,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
-                    "src": "93:7:6",
+                    "src": "94:7:6",
                     "stateMutability": "nonpayable",
                     "typeDescriptions": {
                       "typeIdentifier": "t_address",
@@ -156,10 +156,10 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "92:9:6"
+              "src": "93:9:6"
             },
             "scope": 3062,
-            "src": "50:52:6",
+            "src": "51:52:6",
             "stateMutability": "view",
             "superFunction": null,
             "visibility": "external"
@@ -177,7 +177,7 @@
               "id": 3045,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "125:2:6"
+              "src": "126:2:6"
             },
             "returnParameters": {
               "id": 3048,
@@ -189,7 +189,7 @@
                   "name": "",
                   "nodeType": "VariableDeclaration",
                   "scope": 3049,
-                  "src": "151:4:6",
+                  "src": "152:4:6",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -200,7 +200,7 @@
                     "id": 3046,
                     "name": "bool",
                     "nodeType": "ElementaryTypeName",
-                    "src": "151:4:6",
+                    "src": "152:4:6",
                     "typeDescriptions": {
                       "typeIdentifier": "t_bool",
                       "typeString": "bool"
@@ -210,10 +210,10 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "150:6:6"
+              "src": "151:6:6"
             },
             "scope": 3062,
-            "src": "105:52:6",
+            "src": "106:52:6",
             "stateMutability": "view",
             "superFunction": null,
             "visibility": "external"
@@ -231,7 +231,7 @@
               "id": 3050,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "180:2:6"
+              "src": "181:2:6"
             },
             "returnParameters": {
               "id": 3053,
@@ -243,7 +243,7 @@
                   "name": "",
                   "nodeType": "VariableDeclaration",
                   "scope": 3054,
-                  "src": "206:4:6",
+                  "src": "207:4:6",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -254,7 +254,7 @@
                     "id": 3051,
                     "name": "uint",
                     "nodeType": "ElementaryTypeName",
-                    "src": "206:4:6",
+                    "src": "207:4:6",
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint256",
                       "typeString": "uint256"
@@ -264,10 +264,10 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "205:6:6"
+              "src": "206:6:6"
             },
             "scope": 3062,
-            "src": "160:52:6",
+            "src": "161:52:6",
             "stateMutability": "view",
             "superFunction": null,
             "visibility": "external"
@@ -291,7 +291,7 @@
                   "name": "forkNumber",
                   "nodeType": "VariableDeclaration",
                   "scope": 3061,
-                  "src": "234:15:6",
+                  "src": "235:15:6",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -302,7 +302,7 @@
                     "id": 3055,
                     "name": "uint",
                     "nodeType": "ElementaryTypeName",
-                    "src": "234:4:6",
+                    "src": "235:4:6",
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint256",
                       "typeString": "uint256"
@@ -312,7 +312,7 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "233:17:6"
+              "src": "234:17:6"
             },
             "returnParameters": {
               "id": 3060,
@@ -324,7 +324,7 @@
                   "name": "",
                   "nodeType": "VariableDeclaration",
                   "scope": 3061,
-                  "src": "274:4:6",
+                  "src": "275:4:6",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -335,7 +335,7 @@
                     "id": 3058,
                     "name": "uint",
                     "nodeType": "ElementaryTypeName",
-                    "src": "274:4:6",
+                    "src": "275:4:6",
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint256",
                       "typeString": "uint256"
@@ -345,20 +345,20 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "273:6:6"
+              "src": "274:6:6"
             },
             "scope": 3062,
-            "src": "215:65:6",
+            "src": "216:65:6",
             "stateMutability": "view",
             "superFunction": null,
             "visibility": "external"
           }
         ],
         "scope": 3063,
-        "src": "25:257:6"
+        "src": "26:257:6"
       }
     ],
-    "src": "0:282:6"
+    "src": "0:283:6"
   },
   "legacyAST": {
     "absolutePath": "/Users/pjh/workspace/go/src/github.com/Onther-Tech/plasma-evm/contracts/plasma/plasma-evm-cotracts/contracts/RootChainI.sol",
@@ -376,10 +376,10 @@
           "solidity",
           "^",
           "0.5",
-          ".0"
+          ".12"
         ],
         "nodeType": "PragmaDirective",
-        "src": "0:23:6"
+        "src": "0:24:6"
       },
       {
         "baseContracts": [],
@@ -407,7 +407,7 @@
               "id": 3040,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "67:2:6"
+              "src": "68:2:6"
             },
             "returnParameters": {
               "id": 3043,
@@ -419,7 +419,7 @@
                   "name": "",
                   "nodeType": "VariableDeclaration",
                   "scope": 3044,
-                  "src": "93:7:6",
+                  "src": "94:7:6",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -430,7 +430,7 @@
                     "id": 3041,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
-                    "src": "93:7:6",
+                    "src": "94:7:6",
                     "stateMutability": "nonpayable",
                     "typeDescriptions": {
                       "typeIdentifier": "t_address",
@@ -441,10 +441,10 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "92:9:6"
+              "src": "93:9:6"
             },
             "scope": 3062,
-            "src": "50:52:6",
+            "src": "51:52:6",
             "stateMutability": "view",
             "superFunction": null,
             "visibility": "external"
@@ -462,7 +462,7 @@
               "id": 3045,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "125:2:6"
+              "src": "126:2:6"
             },
             "returnParameters": {
               "id": 3048,
@@ -474,7 +474,7 @@
                   "name": "",
                   "nodeType": "VariableDeclaration",
                   "scope": 3049,
-                  "src": "151:4:6",
+                  "src": "152:4:6",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -485,7 +485,7 @@
                     "id": 3046,
                     "name": "bool",
                     "nodeType": "ElementaryTypeName",
-                    "src": "151:4:6",
+                    "src": "152:4:6",
                     "typeDescriptions": {
                       "typeIdentifier": "t_bool",
                       "typeString": "bool"
@@ -495,10 +495,10 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "150:6:6"
+              "src": "151:6:6"
             },
             "scope": 3062,
-            "src": "105:52:6",
+            "src": "106:52:6",
             "stateMutability": "view",
             "superFunction": null,
             "visibility": "external"
@@ -516,7 +516,7 @@
               "id": 3050,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "180:2:6"
+              "src": "181:2:6"
             },
             "returnParameters": {
               "id": 3053,
@@ -528,7 +528,7 @@
                   "name": "",
                   "nodeType": "VariableDeclaration",
                   "scope": 3054,
-                  "src": "206:4:6",
+                  "src": "207:4:6",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -539,7 +539,7 @@
                     "id": 3051,
                     "name": "uint",
                     "nodeType": "ElementaryTypeName",
-                    "src": "206:4:6",
+                    "src": "207:4:6",
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint256",
                       "typeString": "uint256"
@@ -549,10 +549,10 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "205:6:6"
+              "src": "206:6:6"
             },
             "scope": 3062,
-            "src": "160:52:6",
+            "src": "161:52:6",
             "stateMutability": "view",
             "superFunction": null,
             "visibility": "external"
@@ -576,7 +576,7 @@
                   "name": "forkNumber",
                   "nodeType": "VariableDeclaration",
                   "scope": 3061,
-                  "src": "234:15:6",
+                  "src": "235:15:6",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -587,7 +587,7 @@
                     "id": 3055,
                     "name": "uint",
                     "nodeType": "ElementaryTypeName",
-                    "src": "234:4:6",
+                    "src": "235:4:6",
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint256",
                       "typeString": "uint256"
@@ -597,7 +597,7 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "233:17:6"
+              "src": "234:17:6"
             },
             "returnParameters": {
               "id": 3060,
@@ -609,7 +609,7 @@
                   "name": "",
                   "nodeType": "VariableDeclaration",
                   "scope": 3061,
-                  "src": "274:4:6",
+                  "src": "275:4:6",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -620,7 +620,7 @@
                     "id": 3058,
                     "name": "uint",
                     "nodeType": "ElementaryTypeName",
-                    "src": "274:4:6",
+                    "src": "275:4:6",
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint256",
                       "typeString": "uint256"
@@ -630,28 +630,28 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "273:6:6"
+              "src": "274:6:6"
             },
             "scope": 3062,
-            "src": "215:65:6",
+            "src": "216:65:6",
             "stateMutability": "view",
             "superFunction": null,
             "visibility": "external"
           }
         ],
         "scope": 3063,
-        "src": "25:257:6"
+        "src": "26:257:6"
       }
     ],
-    "src": "0:282:6"
+    "src": "0:283:6"
   },
   "compiler": {
     "name": "solc",
     "version": "0.5.12+commit.7709ece9.Emscripten.clang"
   },
   "networks": {},
-  "schemaVersion": "3.0.20",
-  "updatedAt": "2020-01-29T10:22:31.015Z",
+  "schemaVersion": "3.0.23",
+  "updatedAt": "2020-02-13T05:01:23.662Z",
   "devdoc": {
     "methods": {}
   },
