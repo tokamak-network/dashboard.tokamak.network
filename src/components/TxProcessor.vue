@@ -14,12 +14,14 @@
 <script>
 import { mapState } from 'vuex';
 import { addHistory } from '@/api';
+import { isNull } from 'lodash';
 
 export default {
   computed: {
     ...mapState([
       'user',
       'txsPending',
+      'WTON',
     ]),
   },
   async created () {
@@ -34,6 +36,8 @@ export default {
     async process (tx) {
       const request = tx.request;
       const func = tx.txSender;
+
+      console.log(request, func);
       await this.$store.dispatch('addPendingTx', request);
 
       let receipt;
@@ -45,15 +49,17 @@ export default {
           request,
           status: receipt.status ? 'success' : 'failed',
           transactionHash: receipt.transactionHash,
-          blockNumber: receipt.blockNumber,
+          // amount: params.amount ? params.amount : '-',
         };
         await addHistory(this.user, history);
+
         await this.$store.dispatch('set');
         alert(`${request} 트랜잭션 처리가 완료되었습니다.`);
       } catch (e) {
         if (e.message.includes('User denied transaction signature')) {
           alert(`${request} 트랜잭션 서명을 거부했습니다.`);
         }
+        console.log(e.message);
       } finally {
         await this.$store.dispatch('deletePendingTx', request);
       }

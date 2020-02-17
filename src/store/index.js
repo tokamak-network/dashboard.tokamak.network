@@ -5,7 +5,7 @@ Vue.use(Vuex);
 import router from '@/router';
 
 import { getState, getHistory } from '@/api';
-import { cloneDeep, isEqual } from 'lodash';
+import { cloneDeep, isEqual, range } from 'lodash';
 
 import { createTruffleContract } from '@/helpers/Contract';
 import { createCurrency } from '@makerdao/currency';
@@ -171,6 +171,7 @@ export default new Vuex.Store({
           await context.dispatch('setOperatorFromRootchains', rootchains);
           await context.dispatch('setUserBalanceAndAllowance');
           await context.dispatch('setUserHistory');
+
           console.log('set');
         });
     },
@@ -241,6 +242,22 @@ export default new Vuex.Store({
         const operatorStake = await Coinage.balanceOf(operator);
         const userStake = await Coinage.balanceOf(user);
 
+        let withdrawalRequestIndex, withdrawalRequest, numRequests, numPendingRequests;
+        try {
+          withdrawalRequestIndex = await DepositManager.withdrawalRequestIndex(rootchain, user);
+          withdrawalRequest = await DepositManager.withdrawalRequest(rootchain, user, withdrawalRequestIndex);
+          numRequests = await DepositManager.numRequests(rootchain, user);
+          numPendingRequests = await DepositManager.numPendingRequests(rootchain, user);
+        } catch (e) {
+          console.log(e.message);
+
+          withdrawalRequestIndex = undefined;
+          numRequests = undefined;
+          numPendingRequests = undefined;
+        }
+
+        const pendingRequests = await context.dispatch('getPendingRequests', rootchain);
+
         count++;
         const operatorFromRootChain = {
           name: `TOKAMAK_OPERATOR_${count}`,
@@ -262,24 +279,11 @@ export default new Vuex.Store({
 
           userPendingUnstaked: wtonWrapper(userPendingUnstaked),
           userUncomittedStakeOf: wtonWrapper(userUncomittedStakeOf),
+
+          pendingRequests,
         };
 
-        console.log({
-          WITHDRAWAL_DELAY: (await DepositManager.WITHDRAWAL_DELAY()).toString(),
-          numRequests: (await DepositManager.numRequests(rootchain, user)).toString(),
-          numPendingRequests: (await DepositManager.numPendingRequests(rootchain, user)).toString(),
-
-          totalDeposit: wtonWrapper(totalDeposit).toString(),
-          operatorDeposit: wtonWrapper(operatorDeposit).toString(),
-          userDeposit: wtonWrapper(userDeposit).toString(),
-
-          totalStake: wtonWrapper(totalStake).toString(),
-          operatorStake: wtonWrapper(operatorStake).toString(),
-          userStake: wtonWrapper(userStake).toString(),
-
-          userPendingUnstaked: wtonWrapper(userPendingUnstaked).toString(),
-          userUncomittedStakeOf: wtonWrapper(userUncomittedStakeOf).toString(),
-        });
+        console.log(operatorFromRootChain);
         return operatorFromRootChain;
       });
 
@@ -298,12 +302,52 @@ export default new Vuex.Store({
       context.commit('SET_TON_ALLOWANCE', _TON.wei((await TON.allowance(user, WTON.address)).toString()));
       context.commit('SET_WTON_ALLOWANCE',
         _WTON.ray((await WTON.allowance(user, DepositManager.address)).toString()));
+
+      //       console.log(`
+      // user TON : ${_TON.wei((await TON.balanceOf(user)).toString())}
+      // user WTON: ${_WTON.ray((await WTON.balanceOf(user)).toString())}
+      // `);
     },
     async setUserHistory (context) {
       const user = context.state.user;
       const userHistory = await getHistory(user);
 
       context.commit('SET_USER_HISTORY', userHistory);
+    },
+    async getPendingRequests (context, rootchain) {
+      const user = context.state.user;
+      const DepositManager = context.state.DepositManager;
+
+      let withdrawalRequestIndex, withdrawalRequest, numRequests, numPendingRequests;
+      try {
+        withdrawalRequestIndex = await DepositManager.withdrawalRequestIndex(rootchain, user);
+        withdrawalRequest = await DepositManager.withdrawalRequest(rootchain, user, withdrawalRequestIndex);
+        numRequests = (await DepositManager.numRequests(rootchain, user)).toNumber();
+        numPendingRequests = (await DepositManager.numPendingRequests(rootchain, user)).toNumber();
+      } catch (e) {
+        console.log(e.message);
+        withdrawalRequestIndex = undefined;
+        numRequests = undefined;
+        numPendingRequests = undefined;
+        return [];
+      }
+
+      const requestsPending = [];
+      for (const _ of range(numPendingRequests)) {
+        const request = await DepositManager.withdrawalRequest(rootchain, user, withdrawalRequestIndex);
+        console.log(`
+request: ${request.withdrawableBlockNumber.toString()}
+request: ${request.amount.toString()}
+request: ${request.processed}
+        `);
+        requestsPending.push({
+          withdrawableBlockNumber: request.withdrawableBlockNumber,
+          amount: _WTON.ray(request.amount),
+          processed: request.processed,
+        });
+        withdrawalRequestIndex++;
+      }
+      return requestsPending;
     },
   },
   getters: {
@@ -320,6 +364,25 @@ export default new Vuex.Store({
     },
     initialState: (state) => {
       return isEqual(state, initialState);
+    },
+    userUndepositedBalance: (state) => {
+      const balance = state.tonBalance.toNumber() + state.wtonBalance.toNumber();
+      return _TON(balance);
+    },
+    userTotalDeposit: (state) => {
+      const initialValue = _WTON.ray('0');
+      const reducer = (totalDeposit, operator) => totalDeposit.add(operator.userDeposit);
+
+      return state.operators.reduce(reducer, initialValue);
+    },
+    userTotalStake: (state) => {
+      const initialValue = _WTON.ray('0');
+      const reducer = (totalStake, operator) => totalStake.add(operator.userStake);
+
+      return state.operators.reduce(reducer, initialValue);
+    },
+    userTotalReward: (_, getters) => {
+      return getters.userTotalStake.sub(getters.userTotalDeposit);
     },
   },
 });

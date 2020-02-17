@@ -11,10 +11,7 @@
         {{ operator.name }}
       </div>
       <div class="staking-amount">
-        {{ operator.userStake.toNumber() }}
-      </div>
-      <div class="staking-amount-unit">
-        WTON
+        {{ operator.userStake | convertToTON }}
       </div>
       <div
         class="claim-button"
@@ -29,9 +26,18 @@
     >
       <div class="operator-detailed-info">
         <div class="operator-address">
-          Operator: {{ operator.address }}
+          내가 DEPOSIT한 AMOUNT: {{ operator.userDeposit | convertToTON }}
         </div>
-        <div style="display: flex;">
+        <div class="operator-address">
+          DELEGATE 요청할 수 있는 STAKE AMOUNT: {{ operator.userStake | convertToTON }}
+        </div>
+        <div class="operator-address">
+          생성된 REWARD: {{ operator.userStake.sub(operator.userDeposit) | convertToTON }}
+        </div>
+        <div class="operator-address">
+          DELEGATE할 수 있는 PENDING STAKE AMOUNT: {{ operator.userPendingUnstaked | convertToTON }}
+        </div>
+        <div style="display: flex; padding-top: 16px;">
           <div class="last-commit">
             Last commit: {{ operator.recentCommitTimestamp | fromNow }}
           </div>
@@ -56,6 +62,14 @@
           />
         </div>
       </div>
+    </div>
+    <div
+      v-for="request of operator.pendingRequests"
+      :key="request.withdrawableBlockNumber.toString()"
+    >
+      {{ request.withdrawableBlockNumber }}
+      {{ request.amount | convertToTON }}
+      {{ request.processed }}
     </div>
   </div>
 </template>
@@ -92,7 +106,7 @@ export default {
         const availableAmount = this.wtonBalance.toNumber();
         const delegateFunc =
           async (amount) => await this.DepositManager.deposit(
-            this.operatorByAddress(this.$route.params.address).rootchain, amount, { from: this.user });
+            this.operator.rootchain, amount, { from: this.user });
 
         this.$store.dispatch('showModal', {
           type,
@@ -104,7 +118,7 @@ export default {
     undelegate (type, availableAmount) {
       return () => {
         const type = 'undelegate';
-        const availableAmount = this.operatorByAddress(this.$route.params.address).userStake.toNumber();
+        const availableAmount = this.operator.userStake.toNumber();
 
         this.$store.dispatch('showModal', {
           type,
@@ -152,6 +166,7 @@ export default {
 }
 
 .staking-amount {
+  width: 200px;
   padding-top: 4px;
   font-size: 18px;
   font-weight: 500;

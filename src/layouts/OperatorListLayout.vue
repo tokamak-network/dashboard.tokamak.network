@@ -3,7 +3,6 @@
     <search-bar
       @valueChanged="searchOperatorByName"
     />
-
     <div class="operator-list-layout table-container">
       <standard-table
         :type="'operator'"

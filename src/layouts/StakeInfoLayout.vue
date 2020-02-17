@@ -1,33 +1,82 @@
 <template>
-  <div class="stake-info-layout">
-    <div
-      v-for="operator in operatorsStaked"
-      :key="operator.rootchain"
-    >
-      <stake-info-container :operator="operator" />
+  <div>
+    <search-bar
+      @valueChanged="searchOperatorByName"
+    />
+    <div class="operator-list-layout table-container">
+      <standard-table
+        :type="'operator'"
+        :columns="[
+          {
+            name: 'OPERATOR',
+            key: 'name',
+          },
+          {
+            name: 'ADDRESS',
+            key: 'address',
+          },
+          {
+            name: 'COMMIT TIMESTAMP',
+            key: 'recentCommitTimestamp',
+          },
+          {
+            name: 'TOTAL STAKE',
+            key: 'totalStake',
+          },
+        ]"
+        :datas="searching ? operatorsByName : operators"
+        :rounded="true"
+        :clickable="true"
+        @tableDataClicked="viewOperator"
+      />
     </div>
   </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapState } from 'vuex';
 
-import StakeInfoContainer from '@/containers/StakeInfoContainer.vue';
+import StandardTable from '@/components/StandardTable.vue';
+import SearchBar from '@/components/SearchBar.vue';
 
 export default {
   components: {
-    'stake-info-container': StakeInfoContainer,
+    'standard-table': StandardTable,
+    'search-bar': SearchBar,
   },
-  computed: {
-    ...mapGetters([
-      'operatorsStaked',
-    ]),
+  data () {
+    return {
+      columns: [],
+      searching: false,
+      operatorsBySearching: [],
+    };
+  },
+  computed: mapState([
+    'operators',
+  ]),
+  methods: {
+    viewOperator (operator) {
+      const address = operator.address;
+      this.$router.push(`/operators/${address.toLowerCase()}`);
+    },
+    searchOperatorByName (name) {
+      if (name === '') {
+        this.searching = false;
+      } else {
+        this.searching = true;
+        this.operatorsByName =
+          this.operators.filter(operator => operator.name.toLowerCase().includes(name.toLowerCase()));
+      }
+    },
   },
 };
 </script>
 
 <style scoped>
-.stake-info-layout {
-  margin-top: -8px;
+.operator-list-layout {
+  margin-top: 8px;
+  border: solid 1px #ced6d9;
+  background-color: #ffffff;
+  border-radius: 6px;
 }
 </style>

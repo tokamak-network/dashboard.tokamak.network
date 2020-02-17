@@ -3,6 +3,8 @@
     <div class="wallet-basic-info-container">
       <div class="wallet-info">
         <img
+          width="30"
+          height="30"
           class="wallet-info-image"
           :src="require(`@/assets/images/Account.svg`)"
         >
@@ -17,6 +19,8 @@
       </div>
       <div class="wallet-info">
         <img
+          width="30"
+          height="30"
           class="wallet-info-image"
           :src="require(`@/assets/images/Network.svg`)"
         >
@@ -43,14 +47,6 @@
           >
             Assets
           </div>
-          <div>
-            <div @click="toTON">
-              swap to TON
-            </div>
-            <div @click="toWTON">
-              swap from TON
-            </div>
-          </div>
         </div>
       </div>
       <div class="wallet-assets-header">
@@ -69,7 +65,7 @@
           TON
         </div>
         <div class="wallet-content ton-balance">
-          {{ tonBalance.toNumber() }}
+          {{ tonBalance }}
         </div>
         <div class="wallet-content">
           <toggle-switch
@@ -85,7 +81,8 @@
           WTON
         </div>
         <div class="wallet-content wton-balance">
-          {{ wtonBalance.toNumber() }}
+          <!-- {{ wtonBalance.toNumber() }} -->
+          {{ wtonBalance | convertToTON }}
         </div>
         <div class="wallet-content">
           <toggle-switch
@@ -134,6 +131,9 @@ export default {
     ]),
     ...mapGetters([
       'isTxProcessing',
+      'userUndepositedBalance',
+      'userTotalDeposit',
+      'userTotalReward',
     ]),
   },
   created () {

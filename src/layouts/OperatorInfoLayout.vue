@@ -1,34 +1,38 @@
 <template>
-  <div class="operator-info-layout">
-    <div class="operator-info-container">
-      <img
-        class="operator-info-image"
-        src="@/assets/images/Operator.png"
-        width="80"
-        height="80"
-      >
-      <div style="flex: 1;">
-        <div class="operator-name-label">
-          {{ operatorByAddress($route.params.address).name }}
+  <div style="display: flex;">
+    <div
+      class="operator-info-layout"
+      style="flex: 1; margin-right: 4px;"
+    >
+      <div class="operator-info-container">
+        <img
+          class="operator-info-image"
+          src="@/assets/images/Operator.png"
+          width="80"
+          height="80"
+        >
+        <div>
+          <div class="operator-name-label">
+            {{ operator.name }}
+          </div>
+          <div style="display: flex; margin-top: 8px;">
+            <div class="operator-info-label">
+              Operator
+            </div>
+            <div class="operator-info-content">
+              {{ operator.address }}
+            </div>
+          </div>
+          <div style="display: flex;">
+            <div class="operator-info-label">
+              Website
+            </div>
+            <div class="operator-info-content">
+              {{ operator.website }}
+            </div>
+          </div>
         </div>
-        <div style="display: flex; margin-top: 16px;">
-          <div class="operator-info-label">
-            Operator
-          </div>
-          <div class="operator-info-content">
-            {{ operatorByAddress($route.params.address).address }}
-          </div>
-        </div>
-        <div style="display: flex;">
-          <div class="operator-info-label">
-            Website
-          </div>
-          <div class="operator-info-content">
-            {{ operatorByAddress($route.params.address).website }}
-          </div>
-        </div>
-      </div>
-      <div class="delegate-button-container">
+      <!-- <div class="delegate-button-container">
         <div class="delegate-button">
           <standard-button
             :label="'Delegate'"
@@ -43,57 +47,96 @@
             :disable="isTxProcessing('undelegate')"
           />
         </div>
+      </div> -->
+      </div>
+      <div class="operator-info-detailed-container">
+        <div class="operator-info-detailed">
+          <div class="operator-info-detailed-label">
+            Total Reward
+          </div>
+          <div class="operator-info-detailed-content">
+            {{ operator.totalStake.sub(operator.totalDeposit) | convertToTON }}
+          </div>
+        </div>
+        <div class="operator-info-detailed">
+          <div class="operator-info-detailed-label">
+            Total deposit
+          </div>
+          <div class="operator-info-detailed-content">
+            {{ operator.totalDeposit | convertToTON }}
+          </div>
+        </div>
+        <div class="operator-info-detailed">
+          <div class="operator-info-detailed-label">
+            Total stake
+          </div>
+          <div class="operator-info-detailed-content">
+            {{ operator.totalStake | convertToTON }}
+          </div>
+        </div>
+        <div class="operator-info-detailed">
+          <div class="operator-info-detailed-label">
+            operator deposit
+          </div>
+          <div class="operator-info-detailed-content">
+            {{ operator.operatorDeposit | convertToTON }}
+          </div>
+        </div>
+        <div class="operator-info-detailed">
+          <div class="operator-info-detailed-label">
+            operator stake
+          </div>
+          <div class="operator-info-detailed-content">
+            {{ operator.operatorStake | convertToTON }}
+          </div>
+        </div>
+
+        <div class="operator-info-detailed">
+          <div class="operator-info-detailed-label">
+            Reward (totalStake / totalDeposit)
+          </div>
+          <div class="operator-info-detailed-content">
+            {{ (operator.totalStake.div(operator.totalDeposit)).toNumber() }} %
+          </div>
+        </div>
+        <div class="operator-info-detailed">
+          <div class="operator-info-detailed-label">
+            Commit count
+          </div>
+          <div class="operator-info-detailed-content">
+            {{ operator.commitCount }}
+          </div>
+        </div>
+        <div class="operator-info-detailed">
+          <div class="operator-info-detailed-label">
+            Duration
+          </div>
+          <div class="operator-info-detailed-content">
+            {{ operator.duration | fromNow }}
+          </div>
+        </div>
       </div>
     </div>
-    <div class="operator-info-detailed-container">
-      <div class="operator-info-detailed">
-        <div class="operator-info-detailed-label">
-          Total stake
-        </div>
-        <div class="operator-info-detailed-content">
-          {{ operatorByAddress($route.params.address).totalStake.toString(0) }}
-        </div>
-      </div>
-      <div class="operator-info-detailed">
-        <div class="operator-info-detailed-label">
-          Operator stake
-        </div>
-        <div class="operator-info-detailed-content">
-          {{ operatorByAddress($route.params.address).operatorStake.toString(0) }}
-        </div>
-      </div>
-      <div class="operator-info-detailed">
-        <div class="operator-info-detailed-label">
-          Commit count
-        </div>
-        <div class="operator-info-detailed-content">
-          {{ operatorByAddress($route.params.address).commitCount }}
-        </div>
-      </div>
-      <div class="operator-info-detailed">
-        <div class="operator-info-detailed-label">
-          Duration
-        </div>
-        <div class="operator-info-detailed-content">
-          {{ operatorByAddress($route.params.address).duration | fromNow }}
-        </div>
-      </div>
-    </div>
+    <delegate-manager
+      style="flex: 1; margin-left: 4px;"
+      :operator="operator"
+    />
   </div>
 </template>
 
 <script>
 import { mapState, mapGetters } from 'vuex';
 
+import DelegateManager from '@/components/DelegateManager.vue';
 import StandardButton from '@/components/StandardButton.vue';
 
 export default {
   components: {
-    'standard-button': StandardButton,
+    // 'standard-button': StandardButton,
+    'delegate-manager': DelegateManager,
   },
   computed: {
     ...mapState([
-      'web3',
       'user',
       'operators',
       'wtonBalance',
@@ -103,6 +146,9 @@ export default {
       'operatorByAddress',
       'isTxProcessing',
     ]),
+    operator: function () {
+      return this.operatorByAddress(this.$route.params.address);
+    },
   },
   methods: {
     delegate (type, availableAmount) {
@@ -111,7 +157,7 @@ export default {
         const availableAmount = this.wtonBalance.toNumber();
         const delegateFunc =
           async (amount) => await this.DepositManager.deposit(
-            this.operatorByAddress(this.$route.params.address).rootchain, amount, { from: this.user });
+            this.operator.rootchain, amount, { from: this.user });
 
         this.$store.dispatch('showModal', {
           type,
@@ -123,16 +169,16 @@ export default {
     undelegate (type, availableAmount) {
       return () => {
         const type = 'undelegate';
-        const availableAmount = this.operatorByAddress(this.$route.params.address).userStake.toNumber();
+        const availableAmount = this.operator.userStake.toNumber();
         const requestWithdrawalFunc =
           async (amount) => await this.DepositManager.requestWithdrawal(
-            this.operatorByAddress(this.$route.params.address).rootchain,
+            this.operator.rootchain,
             amount,
             { from: this.user }
           );
         const processRequestFunc =
           async () => await this.DepositManager.processRequest(
-            this.operatorByAddress(this.$route.params.address).rootchain,
+            this.operator.rootchain,
             true,
             { from: this.user }
           );
@@ -140,8 +186,8 @@ export default {
         this.$store.dispatch('showModal', {
           type,
           availableAmount,
-          // func: requestWithdrawalFunc,
-          func: processRequestFunc,
+          func: requestWithdrawalFunc,
+          // func: processRequestFunc,
         });
       };
     },
@@ -151,12 +197,14 @@ export default {
 
 <style scoped>
 .operator-info-layout {
+  height: 100%;
   border-radius: 6px;
   border: solid 0.7px #ced6d9;
   background-color: #ffffff;
 }
 .operator-info-container {
   display: flex;
+  justify-content: center;
   align-items: center;
   min-height: 100px;
 }
@@ -174,8 +222,6 @@ export default {
   font-style: normal;
   letter-spacing: normal;
   text-align: left;
-  color: #586064;
-  padding-top: 6px;
 }
 
 .operator-info-label {
@@ -222,7 +268,6 @@ export default {
 
 .operator-info-detailed-container {
   width: 100%;
-  padding-top: 8px;
 }
 
 .operator-info-detailed {

@@ -1,4 +1,7 @@
 import moment from 'moment';
+import { Currency, createCurrency } from '@makerdao/currency';
+
+const _TON = createCurrency('TON');
 
 export function hexSlicer (address = '') {
   if (address.length < 11) {
@@ -10,4 +13,17 @@ export function hexSlicer (address = '') {
 
 export function fromNow (timestamp) {
   return moment.unix(timestamp).fromNow();
+}
+
+export function convertToTON (amount) {
+  if (!(amount instanceof Currency)) {
+    console.log('amount is not Currency instance');
+    return amount;
+  }
+  if (amount.symbol === 'WTON') {
+    return _TON(amount.toNumber());
+  } else {
+    console.log('amount is already TON type');
+    return amount;
+  }
 }
