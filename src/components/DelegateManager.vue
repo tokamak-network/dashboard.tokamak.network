@@ -7,12 +7,14 @@
         </div>
         <button
           class="tab left"
+          :class="{ 'delegate-clicked': tab === 'delegate' }"
           @click="changeTab('delegate')"
         >
           Delegate
         </button>
         <button
           class="tab right"
+          :class="{ 'undelegate-clicked': tab === 'undelegate' }"
           @click="changeTab('undelegate')"
         >
           Undelegate
@@ -43,11 +45,13 @@
             Delegate 가능한 Amount
           </div>
           <div style="font-size: 14px; color: #586064">
-            <!-- {{ userUndepositedBalance }} -->
-            {{ wtonBalance }}
+            {{ tonBalance }}
           </div>
         </div>
-        <div class="request-button">
+        <div
+          class="request-button"
+          style="margin-top: 192px;"
+        >
           <standard-button
             :label="'Delegate TON'"
             :func="delegate"
@@ -61,13 +65,13 @@
           </div>
           <div class="ton-input">
             <input
+              v-model="amountToUndelegate"
               style="height: 26px; border:none;border-right:0px; border-top:0px; boder-left:0px; boder-bottom:0px;
             width: 100%; border-top: 1px solid #b4b4b4;
             border-bottom: 1px solid #b4b4b4; font-size: 16px; text-align: right;
             padding-right: 16px;"
               @keypress="isNumber"
             >
-          <!-- style="width: 100%; border:none;border-right:0px; border-top:0px; boder-left:0px; boder-bottom:0px;" -->
           </div>
           <div class="has-border">
             TON
@@ -78,19 +82,25 @@
             Undelegate 가능한 Amount
           </div>
           <div style="font-size: 14px; color: #586064">
-            200 TON
+            {{ operator.userStake | convertToTON }}
           </div>
         </div>
-        <button class="request-button">
-          Request Undelegate TON
-        </button>
+        <div
+          class="request-button"
+          style="margin-top: 40px;"
+        >
+          <standard-button
+            :label="'Request Undelegate TON'"
+            :func="undelegate"
+          />
+        </div>
         <div class="divider" />
-        <div style="display: flex;">
-          <div style="flex: 1; font-size: 14px; color: #586064">
-            Request amount
+        <div style="display: flex;  margin-top: 40px;">
+          <div style="flex: 1; font-size: 14px; color: #586064;">
+            Requests
           </div>
           <div style="font-size: 14px; color: #586064">
-            1
+            {{ operator.pendingRequests.length }}
           </div>
         </div>
         <div style="display: flex;">
@@ -98,13 +108,14 @@
             Pending Amount
           </div>
           <div style="font-size: 14px; color: #586064">
-            1000 TON
+            {{ operator.userPendingUnstaked | convertToTON }}
           </div>
         </div>
         <div class="request-button">
           <standard-button
             :label="'Process All Requests'"
-            :func="undelegate"
+            :func="processAllRequests"
+            :disable="operator.pendingRequests.length === 0"
           />
         </div>
       </form>
@@ -116,6 +127,7 @@
 import { mapState, mapGetters } from 'vuex';
 import { padLeft } from 'web3-utils';
 import { createCurrency } from '@makerdao/currency';
+const _TON = createCurrency('TON');
 const _WTON = createCurrency('WTON');
 
 import StandardButton from '@/components/StandardButton.vue';
@@ -140,11 +152,11 @@ export default {
   computed: {
     ...mapState([
       'user',
+      'tonBalance',
+      'wtonBalance',
       'DepositManager',
       'TON',
       'WTON',
-      'tonBalance',
-      'wtonBalance',
     ]),
     ...mapGetters([
       'userUndepositedBalance',
@@ -155,16 +167,15 @@ export default {
       this.tab = tab;
     },
     delegate () {
+      if (this.amountToDelegate === '') return alert('Amount를 입력해주세요.');
+      if (_TON(this.amountToDelegate).gt(this.tonBalance)) return alert('TON 수량을 확인해주세요.');
+
       const data = this.getData();
-      // const func = async () => await this.TON.approveAndCall(
-      //   this.WTON.address,
-      //   _WTON(this.amountToDelegate).toFixed('ray'),
-      //   data,
-      //   { from: this.user }
-      // );
-      const func = async () => await this.DepositManager.deposit(
-        this.operator.rootchain,
-        _WTON(this.amountToDelegate).toFixed('ray'),
+      const amount = _TON(this.amountToDelegate).toFixed('wei');
+      const func = async () => await this.TON.approveAndCall(
+        this.WTON.address,
+        amount,
+        data,
         { from: this.user }
       );
 
@@ -172,9 +183,41 @@ export default {
         request: 'delegate',
         txSender: func,
       });
+
+      this.amountToDelegate = '';
     },
     undelegate () {
-      //
+      if (this.amountToUndelegate === '') return alert('Amount를 입력해주세요.');
+      if (_WTON(this.amountToUndelegate).gt(this.operator.userStake)) return alert('TON 수량을 확인해주세요.');
+
+      const amount = _WTON(this.amountToUndelegate).toFixed('ray');
+      const func = async () => await this.DepositManager.requestWithdrawal(
+        this.operator.rootchain,
+        amount,
+        { from: this.user }
+      );
+
+      this.$bus.$emit('txSended', {
+        request: 'undelegate',
+        txSender: func,
+      });
+
+      this.amountToUndelegate = '';
+    },
+    processAllRequests () {
+      if (this.operator.pendingRequests.length === 0) return;
+      const func =
+        async () => await this.DepositManager.processRequests(
+          this.operator.rootchain,
+          this.operator.pendingRequests.length,
+          true,
+          { from: this.user }
+        );
+
+      this.$bus.$emit('txSended', {
+        request: 'process request',
+        txSender: func,
+      });
     },
     isNumber (evt) {
       evt = (evt) ? evt : window.event;
@@ -210,7 +253,7 @@ export default {
 <style scoped>
 .delegate-manager {
   background: #ffffff;
-  width: 400px;
+  width: 100%;
   border-radius: 6px;
   border: solid 0.7px #ced6d9;
 }
@@ -235,7 +278,29 @@ export default {
 
 .tab:hover {
   cursor: pointer;
-  background-color: slategray;
+  background-color: #ecf1f3;
+}
+
+.delegate-clicked {
+  background-color: #2868af;
+  color: #ffffff;
+  z-index: 2;
+}
+
+.delegate-clicked:hover {
+  background-color: #1e4e85;
+  color: #ffffff;
+}
+
+.undelegate-clicked {
+  background-color: #f38777;
+  color: #ffffff;
+  z-index: 2;
+}
+
+.undelegate-clicked:hover  {
+  background-color: #f06752;
+  color: #ffffff;
 }
 
 .left {
@@ -279,12 +344,14 @@ export default {
 }
 
 .request-button {
-  border: 1px solid #b4b4b4;
+  color: #ffffff;
+  background-color: #6fc4b3;
+  border: 1px solid #6fc4b3;
   text-align: center;
   margin-top: 16px;
   width: 100%;
   font-size: 14px;
-  line-height: 2;
+  line-height: 2.5;
   border-radius: 4px;
 }
 
