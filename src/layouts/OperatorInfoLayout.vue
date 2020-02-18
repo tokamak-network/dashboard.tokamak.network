@@ -5,12 +5,6 @@
       style="flex: 1; margin-right: 4px;"
     >
       <div class="operator-info-container">
-        <img
-          class="operator-info-image"
-          src="@/assets/images/Operator.png"
-          width="80"
-          height="80"
-        >
         <div>
           <div class="operator-name-label">
             {{ operator.name }}
@@ -32,22 +26,6 @@
             </div>
           </div>
         </div>
-      <!-- <div class="delegate-button-container">
-        <div class="delegate-button">
-          <standard-button
-            :label="'Delegate'"
-            :func="delegate()"
-            :disable="isTxProcessing('delegate')"
-          />
-        </div>
-        <div class="undelegate-button">
-          <standard-button
-            :label="'Undelegate'"
-            :func="undelegate()"
-            :disable="isTxProcessing('undelegate')"
-          />
-        </div>
-      </div> -->
       </div>
       <div class="operator-info-detailed-container">
         <div class="operator-info-detailed">
@@ -55,12 +33,15 @@
             Total Reward
           </div>
           <div class="operator-info-detailed-content">
-            {{ operator.totalStake.sub(operator.totalDeposit) | convertToTON }}
+            {{ operator.totalStake.
+              add(userTotalPendingByOperator(operator.address)).
+              sub(operator.totalDeposit) | convertToTON
+            }}
           </div>
         </div>
         <div class="operator-info-detailed">
           <div class="operator-info-detailed-label">
-            Total deposit
+            Total Deposit
           </div>
           <div class="operator-info-detailed-content">
             {{ operator.totalDeposit | convertToTON }}
@@ -68,7 +49,7 @@
         </div>
         <div class="operator-info-detailed">
           <div class="operator-info-detailed-label">
-            Total stake
+            Total Stake
           </div>
           <div class="operator-info-detailed-content">
             {{ operator.totalStake | convertToTON }}
@@ -76,7 +57,7 @@
         </div>
         <div class="operator-info-detailed">
           <div class="operator-info-detailed-label">
-            operator deposit
+            Operator Deposit
           </div>
           <div class="operator-info-detailed-content">
             {{ operator.operatorDeposit | convertToTON }}
@@ -84,13 +65,12 @@
         </div>
         <div class="operator-info-detailed">
           <div class="operator-info-detailed-label">
-            operator stake
+            Operator Stake
           </div>
           <div class="operator-info-detailed-content">
             {{ operator.operatorStake | convertToTON }}
           </div>
         </div>
-
         <div class="operator-info-detailed">
           <div class="operator-info-detailed-label">
             Reward (totalStake / totalDeposit)
@@ -101,7 +81,7 @@
         </div>
         <div class="operator-info-detailed">
           <div class="operator-info-detailed-label">
-            Commit count
+            Commit Count
           </div>
           <div class="operator-info-detailed-content">
             {{ operator.commitCount }}
@@ -132,7 +112,6 @@ import StandardButton from '@/components/StandardButton.vue';
 
 export default {
   components: {
-    // 'standard-button': StandardButton,
     'delegate-manager': DelegateManager,
   },
   computed: {
@@ -145,51 +124,10 @@ export default {
     ...mapGetters([
       'operatorByAddress',
       'isTxProcessing',
+      'userTotalPendingByOperator',
     ]),
     operator: function () {
       return this.operatorByAddress(this.$route.params.address);
-    },
-  },
-  methods: {
-    delegate (type, availableAmount) {
-      return () => {
-        const type = 'delegate';
-        const availableAmount = this.wtonBalance.toNumber();
-        const delegateFunc =
-          async (amount) => await this.DepositManager.deposit(
-            this.operator.rootchain, amount, { from: this.user });
-
-        this.$store.dispatch('showModal', {
-          type,
-          availableAmount,
-          func: delegateFunc,
-        });
-      };
-    },
-    undelegate (type, availableAmount) {
-      return () => {
-        const type = 'undelegate';
-        const availableAmount = this.operator.userStake.toNumber();
-        const requestWithdrawalFunc =
-          async (amount) => await this.DepositManager.requestWithdrawal(
-            this.operator.rootchain,
-            amount,
-            { from: this.user }
-          );
-        const processRequestFunc =
-          async () => await this.DepositManager.processRequest(
-            this.operator.rootchain,
-            true,
-            { from: this.user }
-          );
-
-        this.$store.dispatch('showModal', {
-          type,
-          availableAmount,
-          func: requestWithdrawalFunc,
-          // func: processRequestFunc,
-        });
-      };
     },
   },
 };
@@ -206,12 +144,16 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 100px;
+  height: 100px;
+  margin-left: 16px;
+  margin-right: 16px;
 }
 
 .operator-info-image {
-  margin-left: 24px;
-  margin-right: 24px;
+  margin-left: 16px;
+  margin-right: 16px;
+  width: 65px;
+  height: 65px;
 }
 
 .operator-name-label {

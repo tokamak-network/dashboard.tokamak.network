@@ -6,29 +6,35 @@
     >
       <loading-spinner />
     </div>
-    <div
-      v-else
-      class="simple-stake-info-container"
-    >
-      <div
-        v-for="operator in operatorsStaked"
-        :key="operator.rootchain"
-      >
-        <simple-stake-info :operator="operator" />
-      </div>
-    </div>
+    <standard-table
+      :type="'operator'"
+      :columns="[
+        {
+          name: 'OPERATOR',
+          key: 'name',
+        },
+        {
+          name: 'MY STAKE',
+          key: 'userStake',
+        },
+      ]"
+      :datas="operatorsStaked"
+      :rounded="true"
+      :clickable="true"
+      @tableDataClicked="viewOperator"
+    />
   </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex';
 
-import SimpleStakeInfo from '@/components/SimpleStakeInfo.vue';
+import StandardTable from '@/components/StandardTable.vue';
 import LoadingSpinner from '@/components/LoadingSpinner.vue';
 
 export default {
   components: {
-    'simple-stake-info': SimpleStakeInfo,
+    'standard-table': StandardTable,
     'loading-spinner': LoadingSpinner,
   },
   data () {
@@ -40,6 +46,12 @@ export default {
     ...mapGetters([
       'operatorsStaked',
     ]),
+  },
+  methods: {
+    viewOperator (operator) {
+      const address = operator.address;
+      this.$router.push(`/operators/${address.toLowerCase()}`);
+    },
   },
 };
 </script>

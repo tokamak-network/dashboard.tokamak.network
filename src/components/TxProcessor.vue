@@ -37,7 +37,6 @@ export default {
       const request = tx.request;
       const func = tx.txSender;
 
-      console.log(request, func);
       await this.$store.dispatch('addPendingTx', request);
 
       let receipt;
