@@ -1,48 +1,95 @@
 <template>
   <div>
-    <search-bar
-      @valueChanged="searchOperatorByName"
-    />
-    <div class="operator-list-layout table-container">
-      <standard-table
-        :type="'operator'"
-        :columns="[
-          {
-            name: 'OPERATOR',
-            key: 'name',
-          },
-          {
-            name: 'ADDRESS',
-            key: 'address',
-          },
-          {
-            name: 'COMMIT TIMESTAMP',
-            key: 'recentCommitTimestamp',
-          },
-          {
-            name: 'TOTAL STAKE',
-            key: 'totalStake',
-          },
-        ]"
-        :datas="searching ? operatorsByName : operators"
-        :rounded="true"
-        :clickable="true"
-        @tableDataClicked="viewOperator"
-      />
+    <div class="operator-list-layout">
+      <div
+        style="flex: 1;
+      border: solid 1px #ced6d9;
+  background-color: #ffffff;
+  border-radius: 6px;
+  margin-right: 8px;"
+      >
+        <div style="padding: 16px; display: flex; flex-direction: column; height: 100%;">
+          <div style="display: flex;">
+            <div style="flex: 1; font-size: 19px; color: #000000">
+              Total Reward
+            </div>
+            <div style="font-size: 19px; color: #000000">
+              {{ userTotalReward | convertToTON }}
+            </div>
+          </div>
+          <div class="divider" />
+          <div style="display: flex; margin-top: 60px;">
+            <div style="flex: 1; font-size: 14px; color: #586064;">
+              Total Deposit
+            </div>
+            <div style="font-size: 14px; color: #586064">
+              {{ userTotalDeposit | convertToTON }}
+            </div>
+          </div>
+          <div style="display: flex; margin-top: 8px;">
+            <div style="flex: 1; font-size: 14px; color: #586064">
+              Total Stake
+            </div>
+            <div style="font-size: 14px; color: #586064">
+              {{ userTotalStake | convertToTON }}
+            </div>
+          </div>
+          <div style="display: flex; margin-top: 8px;">
+            <div style="flex: 1; font-size: 14px; color: #586064">
+              Total Pending
+            </div>
+            <div style="font-size: 14px; color: #586064">
+              {{ userTotalPending | convertToTON }}
+            </div>
+          </div>
+          <div style="display: flex; margin-top: 8px;">
+            <div style="flex: 1; font-size: 14px; color: #586064">
+              My Operators
+            </div>
+            <div style="font-size: 14px; color: #586064">
+              {{ operatorsStaked.length }}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="table-container"
+        style="flex: 1;
+        border: solid 1px #ced6d9;
+  background-color: #ffffff;
+  border-radius: 6px;
+        "
+      >
+        <standard-table
+          :type="'operator'"
+          :columns="[
+            {
+              name: 'OPERATOR',
+              key: 'name',
+            },
+            {
+              name: 'MY STAKE',
+              key: 'userStake',
+            },
+          ]"
+          :datas="operatorsStaked"
+          :rounded="true"
+          :clickable="true"
+          @tableDataClicked="viewOperator"
+        />
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapState, mapGetters } from 'vuex';
 
 import StandardTable from '@/components/StandardTable.vue';
-import SearchBar from '@/components/SearchBar.vue';
 
 export default {
   components: {
     'standard-table': StandardTable,
-    'search-bar': SearchBar,
   },
   data () {
     return {
@@ -51,9 +98,18 @@ export default {
       operatorsBySearching: [],
     };
   },
-  computed: mapState([
-    'operators',
-  ]),
+  computed: {
+    ...mapState([
+      'tonBalance',
+    ]),
+    ...mapGetters([
+      'operatorsStaked',
+      'userTotalDeposit',
+      'userTotalStake',
+      'userTotalReward',
+      'userTotalPending',
+    ]),
+  },
   methods: {
     viewOperator (operator) {
       const address = operator.address;
@@ -74,9 +130,14 @@ export default {
 
 <style scoped>
 .operator-list-layout {
-  margin-top: 8px;
-  border: solid 1px #ced6d9;
-  background-color: #ffffff;
-  border-radius: 6px;
+  display: flex;
+}
+
+.divider{
+  margin-top: 16px;
+  margin-bottom: 16px;
+  width: 100%;
+  height: 1px;
+  background: #b4b4b4;
 }
 </style>

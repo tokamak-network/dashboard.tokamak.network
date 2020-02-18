@@ -6,10 +6,8 @@ import router from '@/router';
 
 import { getState, getHistory } from '@/api';
 import { cloneDeep, isEqual, range } from 'lodash';
-
 import { createTruffleContract } from '@/helpers/Contract';
 import { createCurrency } from '@makerdao/currency';
-
 const _TON = createCurrency('TON');
 const _WTON = createCurrency('WTON');
 
@@ -302,11 +300,6 @@ export default new Vuex.Store({
       context.commit('SET_TON_ALLOWANCE', _TON.wei((await TON.allowance(user, WTON.address)).toString()));
       context.commit('SET_WTON_ALLOWANCE',
         _WTON.ray((await WTON.allowance(user, DepositManager.address)).toString()));
-
-      //       console.log(`
-      // user TON : ${_TON.wei((await TON.balanceOf(user)).toString())}
-      // user WTON: ${_WTON.ray((await WTON.balanceOf(user)).toString())}
-      // `);
     },
     async setUserHistory (context) {
       const user = context.state.user;
@@ -335,11 +328,6 @@ export default new Vuex.Store({
       const requestsPending = [];
       for (const _ of range(numPendingRequests)) {
         const request = await DepositManager.withdrawalRequest(rootchain, user, withdrawalRequestIndex);
-        console.log(`
-request: ${request.withdrawableBlockNumber.toString()}
-request: ${request.amount.toString()}
-request: ${request.processed}
-        `);
         requestsPending.push({
           withdrawableBlockNumber: request.withdrawableBlockNumber,
           amount: _WTON.ray(request.amount),
@@ -351,19 +339,19 @@ request: ${request.processed}
     },
   },
   getters: {
+    initialState: (state) => {
+      return isEqual(state, initialState);
+    },
     operatorsStaked: state => {
       if (state.operators && state.operators.length > 0)
         return state.operators.filter(operator => parseInt(operator.userStake) > 0);
       else return [];
     },
     operatorByAddress: (state) => (address) => {
-      return state.operators.find(operator => operator.address.toLowerCase() === address);
+      return state.operators.find(operator => operator.address.toLowerCase() === address.toLowerCase());
     },
     isTxProcessing: (state) => (type) => {
       return state.txsPending.includes(type);
-    },
-    initialState: (state) => {
-      return isEqual(state, initialState);
     },
     userUndepositedBalance: (state) => {
       const balance = state.tonBalance.toNumber() + state.wtonBalance.toNumber();
@@ -381,8 +369,25 @@ request: ${request.processed}
 
       return state.operators.reduce(reducer, initialValue);
     },
+    userTotalPendingByOperator: (_, getters) => (address) => {
+      const operator = getters.operatorByAddress(address);
+
+      const initialValue = _WTON.ray('0');
+      const reducer = (pending, request) => pending.add(request.amount);
+
+      return operator.pendingRequests.reduce(reducer, initialValue);
+    },
+    userTotalPending: (state, getters) => {
+      const initialValue = _WTON.ray('0');
+      const reducer = (totalPending, operator) => {
+        const pending = getters.userTotalPendingByOperator(operator.address);
+        return totalPending.add(pending);
+      };
+
+      return state.operators.reduce(reducer, initialValue);
+    },
     userTotalReward: (_, getters) => {
-      return getters.userTotalStake.sub(getters.userTotalDeposit);
+      return getters.userTotalStake.add(getters.userTotalPending).sub(getters.userTotalDeposit);
     },
   },
 });

@@ -56,9 +56,6 @@
         <div class="wallet-header">
           AMOUNT
         </div>
-        <div class="wallet-header">
-          UNLOCK
-        </div>
       </div>
       <div class="wallet-assets-content">
         <div class="wallet-content">
@@ -67,30 +64,13 @@
         <div class="wallet-content ton-balance">
           {{ tonBalance }}
         </div>
-        <div class="wallet-content">
-          <toggle-switch
-            :checked="isTONUnlocked()"
-            :check="unlockTON"
-            :uncheck="lockTON"
-            :disable="isTxProcessing('TON lock') || isTxProcessing('TON unlock')"
-          />
-        </div>
       </div>
       <div class="wallet-assets-content">
         <div class="wallet-content">
-          WTON
+          Staked TON
         </div>
         <div class="wallet-content wton-balance">
-          <!-- {{ wtonBalance.toNumber() }} -->
-          {{ wtonBalance | convertToTON }}
-        </div>
-        <div class="wallet-content">
-          <toggle-switch
-            :checked="isWTONUnlocked()"
-            :check="unlockWTON"
-            :uncheck="lockWTON"
-            :disable="isTxProcessing('WTON lock') || isTxProcessing('WTON unlock')"
-          />
+          {{ userTotalStake | convertToTON }}
         </div>
       </div>
     </div>
@@ -100,12 +80,7 @@
 <script>
 import { mapState, mapGetters } from 'vuex';
 
-import ToggleSwitch from '@/components/ToggleSwitch.vue';
-
 export default {
-  components: {
-    'toggle-switch': ToggleSwitch,
-  },
   data () {
     return {
       tonLocked: false,
@@ -128,12 +103,14 @@ export default {
       'wtonBalance',
       'tonAllowance',
       'wtonAllowance',
+      'userStake',
     ]),
     ...mapGetters([
       'isTxProcessing',
       'userUndepositedBalance',
       'userTotalDeposit',
       'userTotalReward',
+      'userTotalStake',
     ]),
   },
   created () {
@@ -212,7 +189,7 @@ export default {
 }
 
 .wallet-basic-info-container {
-  width: 40%;
+  flex: 1;
   margin-right: 4px;
 }
 
@@ -263,7 +240,7 @@ export default {
 .wallet-header {
   margin-top: 4px;
   margin-bottom: 4px;
-  width: 33.3%;
+  width: 50%;
   text-align: center;
   color: #586064;
   font-size: 11px;
@@ -278,7 +255,7 @@ export default {
 .wallet-content {
   margin-top: 4px;
   margin-bottom: 2px;
-  width: 33.3%;
+  width: 50%;
   text-align: center;
   font-size: 12px;
 }
