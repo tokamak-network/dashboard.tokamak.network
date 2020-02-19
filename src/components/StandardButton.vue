@@ -26,9 +26,9 @@ export default {
     },
   },
   methods: {
-    click () {
+    async click () {
       if (!this.disable) {
-        this.func();
+        await this.func();
       }
     },
   },

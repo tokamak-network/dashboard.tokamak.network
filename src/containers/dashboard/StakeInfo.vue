@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="table-container">
     <div
       v-if="isLoading"
       class="loading-container-in-dashboard"

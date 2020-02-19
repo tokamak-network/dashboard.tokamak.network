@@ -86,7 +86,7 @@ export default {
   padding-bottom: 24px;
   background: #ffffff;
   width: 260px;
-  min-height: 460px;
+  min-height: 400px;
   border-radius: 7px;
   border: solid 0.7px #ced6d9;
 }

@@ -50,8 +50,6 @@ export default {
       'operators',
     ]),
   },
-  async beforeCreate () {
-  },
   methods: {
     viewOperator (operator) {
       const address = operator.address;

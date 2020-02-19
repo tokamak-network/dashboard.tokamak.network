@@ -33,9 +33,7 @@
             More
           </div>
         </div>
-        <div class="stake-infos-container">
-          <stake-info />
-        </div>
+        <stake-info />
       </div>
     </div>
     <div
@@ -81,6 +79,7 @@ export default {
   display: flex;
   flex-direction: column;
   width: 100%;
+  height: 100%;
   border-radius: 6px;
   border: solid 1px #ced6d9;
   background-color: #ffffff;
