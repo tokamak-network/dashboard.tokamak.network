@@ -1,6 +1,5 @@
 import moment from 'moment';
 import { Currency, createCurrency } from '@makerdao/currency';
-
 const _TON = createCurrency('TON');
 
 export function hexSlicer (address = '') {
@@ -26,4 +25,17 @@ export function convertToTON (amount) {
     console.log('amount is already TON type');
     return amount;
   }
+}
+
+export function nameOfNetwork (networkId) {
+  if (networkId === 1) return 'Mainnet';
+  if (networkId === 2) return 'Morden';
+  if (networkId === 3) return 'Ropsten';
+  if (networkId === 4) return 'Rinkeby';
+  if (networkId === 5) return 'Goerli';
+  if (networkId === 42) return 'Covan';
+  if (networkId === 99) return 'POA';
+  if (networkId === 1337) return 'Development';
+
+  return networkId;
 }

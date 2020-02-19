@@ -29,7 +29,7 @@
             Network
           </div>
           <div class="wallet-info-content network-id">
-            {{ networkId }}
+            {{ networkId | nameOfNetwork }}
           </div>
         </div>
       </div>

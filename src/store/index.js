@@ -146,7 +146,8 @@ export default new Vuex.Store({
       context.commit('SET_WEB3', web3);
 
       const user = (await web3.eth.getAccounts())[0];
-      const networkId = (await web3.eth.net.getId());
+      const networkId = await web3.eth.net.getId();
+
       context.commit('SET_USER', user);
       context.commit('SET_NETWORK_ID', networkId);
       console.log('connect');
