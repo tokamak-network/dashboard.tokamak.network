@@ -14,6 +14,14 @@ export function fromNow (timestamp) {
   return moment.unix(timestamp).fromNow();
 }
 
+export function stringToTON (amount) {
+  try {
+    return _TON.ray(amount);
+  } catch (e) {
+    return amount;
+  }
+}
+
 export function convertToTON (amount) {
   if (!(amount instanceof Currency)) {
     console.log('amount is not Currency instance');

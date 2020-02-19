@@ -73,6 +73,7 @@ export default {
 
       case 'history':
         if (key === 'transactionHash') return this.$options.filters.hexSlicer(data);
+        else if (key === 'amount') return this.$options.filters.stringToTON(data);
         else return data;
 
       default:

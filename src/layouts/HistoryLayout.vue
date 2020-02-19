@@ -13,12 +13,8 @@
           key: 'transactionHash',
         },
         {
-          name: 'BLOCK',
-          key: 'blockNumber',
-        },
-        {
-          name: 'STATUS',
-          key: 'status',
+          name: 'AMOUNT',
+          key: 'amount',
         },
       ]"
       :datas="userHistory"

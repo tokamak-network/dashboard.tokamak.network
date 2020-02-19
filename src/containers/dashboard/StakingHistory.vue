@@ -8,6 +8,7 @@
     </div>
     <div v-else>
       <standard-table
+        :type="'history'"
         :rounded="true"
         :columns="[
           {
@@ -15,8 +16,12 @@
             key: 'request',
           },
           {
-            name: 'STATUS',
-            key: 'status',
+            name: 'TRANSACTION HASH',
+            key: 'transactionHash',
+          },
+          {
+            name: 'AMOUNT',
+            key: 'amount',
           },
         ]"
         :datas="userHistory"
