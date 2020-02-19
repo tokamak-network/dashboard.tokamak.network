@@ -33,10 +33,8 @@
             Total Reward
           </div>
           <div class="operator-info-detailed-content">
-            {{ operator.totalStake.
-              add(userTotalPendingByOperator(operator.address)).
-              sub(operator.totalDeposit) | convertToTON
-            }}
+            {{ operator.totalStake }}
+            <!-- TODO: calculate total reward -->
           </div>
         </div>
         <div class="operator-info-detailed">

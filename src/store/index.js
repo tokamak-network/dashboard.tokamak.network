@@ -234,7 +234,13 @@ export default new Vuex.Store({
         const userDeposit = await getDeposit(user);
 
         const userPendingUnstaked = await DepositManager.pendingUnstaked(rootchain, user);
-        const userUncomittedStakeOf = await SeigManager.uncomittedStakeOf(rootchain, operator);
+        // TODO: fix
+        let userUncomittedStakeOf;
+        try {
+          userUncomittedStakeOf = await SeigManager.uncomittedStakeOf(rootchain, operator);
+        } catch (e) {
+          userUncomittedStakeOf = '0';
+        }
 
         const totalStake = await Coinage.totalSupply();
         const operatorStake = await Coinage.balanceOf(operator);
@@ -247,8 +253,7 @@ export default new Vuex.Store({
           numRequests = await DepositManager.numRequests(rootchain, user);
           numPendingRequests = await DepositManager.numPendingRequests(rootchain, user);
         } catch (e) {
-          console.log(e.message);
-
+          // console.log(e.message);
           withdrawalRequestIndex = undefined;
           numRequests = undefined;
           numPendingRequests = undefined;
@@ -280,7 +285,6 @@ export default new Vuex.Store({
 
           pendingRequests,
         };
-
         console.log(operatorFromRootChain);
         return operatorFromRootChain;
       });
@@ -313,12 +317,12 @@ export default new Vuex.Store({
 
       let withdrawalRequestIndex, withdrawalRequest, numRequests, numPendingRequests;
       try {
-        withdrawalRequestIndex = await DepositManager.withdrawalRequestIndex(rootchain, user);
+        withdrawalRequestIndex = (await DepositManager.withdrawalRequestIndex(rootchain, user)).toNumber();
         withdrawalRequest = await DepositManager.withdrawalRequest(rootchain, user, withdrawalRequestIndex);
         numRequests = (await DepositManager.numRequests(rootchain, user)).toNumber();
         numPendingRequests = (await DepositManager.numPendingRequests(rootchain, user)).toNumber();
       } catch (e) {
-        console.log(e.message);
+        // console.log(e.message);
         withdrawalRequestIndex = undefined;
         numRequests = undefined;
         numPendingRequests = undefined;
