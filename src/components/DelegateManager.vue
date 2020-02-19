@@ -220,7 +220,7 @@ export default {
           );
 
       this.$bus.$emit('txSended', {
-        request: 'process request',
+        request: 'withdraw',
         txSender: func,
       });
     },

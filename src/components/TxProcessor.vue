@@ -15,10 +15,12 @@
 import { mapState } from 'vuex';
 import { addHistory } from '@/api';
 import { isNull } from 'lodash';
+import { soliditySha3 } from 'web3-utils';
 
 export default {
   computed: {
     ...mapState([
+      'web3',
       'user',
       'txsPending',
       'WTON',
@@ -26,14 +28,14 @@ export default {
   },
   async created () {
     this.$bus.$on('txSended', async (tx) => {
-      await this.process(tx);
+      await this.processTx(tx);
     });
   },
   beforeDestroy () {
     this.$bus.$off('txSended', () => {});
   },
   methods: {
-    async process (tx) {
+    async processTx (tx) {
       const request = tx.request;
       const func = tx.txSender;
 
@@ -44,15 +46,10 @@ export default {
         receipt = (await func()).receipt;
         console.log('tx mined');
 
-        const history = {
-          request,
-          status: receipt.status ? 'success' : 'failed',
-          transactionHash: receipt.transactionHash,
-          // amount: params.amount ? params.amount : '-',
-        };
-        await addHistory(this.user, history);
-
+        if (receipt.status === true && request === 'delegate') await this.processDepositLog(receipt);
+        else if (receipt.status === true && request === 'withdraw') await this.processRequestProcessLog(receipt);
         await this.$store.dispatch('set');
+
         alert(`${request} 트랜잭션 처리가 완료되었습니다.`);
       } catch (e) {
         if (e.message.includes('User denied transaction signature')) {
@@ -61,6 +58,44 @@ export default {
         console.log(e.message);
       } finally {
         await this.$store.dispatch('deletePendingTx', request);
+      }
+    },
+    async processDepositLog (receipt) {
+      for (const log of receipt.rawLogs) {
+        // TODO: check encodeEventSignature
+        // this.web3.eth.abi.encodeEventSignature('Deposited(address,address,uint256')
+        if (log.topics[0] === '0x8752a472e571a816aea92eec8dae9baf628e840f4929fbcc2d155e6233ff68a7') {
+          const transactionHash = receipt.transactionHash;
+          const params = this.web3.eth.abi.decodeParameters(
+            ['address', 'uint256'],
+            log.data
+          );
+          const amount = params[1];
+
+          await addHistory(this.user, {
+            request: 'DEPOSIT',
+            amount,
+            transactionHash: receipt.transactionHash,
+          });
+
+          return;
+        }
+      }
+    },
+    async processRequestProcessLog (receipt) {
+      for (const log of receipt.logs) {
+        if (log.event === 'WithdrawalProcessed') {
+          const transactionHash = receipt.transactionHash;
+          const amount = (log.args.amount).toString(10);
+
+          await addHistory(this.user, {
+            request: 'WITHDRAWAL',
+            amount,
+            transactionHash: receipt.transactionHash,
+          });
+
+          return;
+        }
       }
     },
   },

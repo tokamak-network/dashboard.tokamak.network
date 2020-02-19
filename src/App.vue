@@ -16,6 +16,7 @@
 </template>
 
 <script>
+// TODO: apply rc-4
 import { mapState, mapGetters } from 'vuex';
 
 import LoadingSpinner from '@/components/LoadingSpinner.vue';
