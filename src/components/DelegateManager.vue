@@ -113,8 +113,8 @@
         </div>
         <div class="request-button">
           <standard-button
-            :label="'Process All Requests'"
-            :func="processAllRequests"
+            :label="'Process Requests'"
+            :func="processRequests"
             :disable="operator.pendingRequests.length === 0"
           />
         </div>
@@ -151,6 +151,7 @@ export default {
   },
   computed: {
     ...mapState([
+      'web3',
       'user',
       'tonBalance',
       'wtonBalance',
@@ -166,7 +167,7 @@ export default {
     changeTab (tab) {
       this.tab = tab;
     },
-    delegate () {
+    async delegate () {
       if (this.amountToDelegate === '') return alert('Amount를 입력해주세요.');
       if (_TON(this.amountToDelegate).gt(this.tonBalance)) return alert('TON 수량을 확인해주세요.');
 
@@ -186,7 +187,7 @@ export default {
 
       this.amountToDelegate = '';
     },
-    undelegate () {
+    async undelegate () {
       if (this.amountToUndelegate === '') return alert('Amount를 입력해주세요.');
       if (_WTON(this.amountToUndelegate).gt(this.operator.userStake)) return alert('TON 수량을 확인해주세요.');
 
@@ -204,20 +205,34 @@ export default {
 
       this.amountToUndelegate = '';
     },
-    processAllRequests () {
+    async processRequests () {
       if (this.operator.pendingRequests.length === 0) return;
+
+      const count = await this.getWithdrawableRequestCount();
+      if (count === 0) return alert('you must wait withdrawal delay');
+
       const func =
-        async () => await this.DepositManager.processRequests(
-          this.operator.rootchain,
-          this.operator.pendingRequests.length,
-          true,
-          { from: this.user }
-        );
+          async () => await this.DepositManager.processRequests(
+            this.operator.rootchain,
+            count,
+            true,
+            { from: this.user }
+          );
 
       this.$bus.$emit('txSended', {
         request: 'process request',
         txSender: func,
       });
+    },
+    async getWithdrawableRequestCount () {
+      const blockNumber = await this.web3.eth.getBlockNumber();
+
+      let count = 0;
+      this.operator.pendingRequests.map(request => {
+        if (request.withdrawableBlockNumber.toNumber() <= blockNumber)
+          count++;
+      });
+      return count;
     },
     isNumber (evt) {
       evt = (evt) ? evt : window.event;
