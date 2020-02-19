@@ -11220,7 +11220,7 @@
   },
   "networks": {},
   "schemaVersion": "3.0.23",
-  "updatedAt": "2020-02-17T01:27:42.151Z",
+  "updatedAt": "2020-02-19T11:32:11.415Z",
   "devdoc": {
     "author": "Andreas Olofsson (androlo1980@gmail.com)",
     "details": "RLPReader is used to read and parse RLP encoded data in memory.",

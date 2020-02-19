@@ -91,14 +91,14 @@
     "absolutePath": "/Users/thomashin/Workspace/plasma-evm-contracts/contracts/stake/tokens/OnApprove.sol",
     "exportedSymbols": {
       "OnApprove": [
-        11828
+        11924
       ]
     },
-    "id": 11829,
+    "id": 11925,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 11798,
+        "id": 11894,
         "literals": [
           "solidity",
           "^",
@@ -111,14 +111,14 @@
       {
         "absolutePath": "/Users/thomashin/Workspace/plasma-evm-contracts/node_modules/openzeppelin-solidity/contracts/introspection/ERC165.sol",
         "file": "../../../node_modules/openzeppelin-solidity/contracts/introspection/ERC165.sol",
-        "id": 11800,
+        "id": 11896,
         "nodeType": "ImportDirective",
-        "scope": 11829,
-        "sourceUnit": 18249,
+        "scope": 11925,
+        "sourceUnit": 18452,
         "src": "26:104:34",
         "symbolAliases": [
           {
-            "foreign": 11799,
+            "foreign": 11895,
             "local": null
           }
         ],
@@ -127,14 +127,14 @@
       {
         "absolutePath": "/Users/thomashin/Workspace/plasma-evm-contracts/contracts/stake/tokens/OnApproveConstant.sol",
         "file": "./OnApproveConstant.sol",
-        "id": 11802,
+        "id": 11898,
         "nodeType": "ImportDirective",
-        "scope": 11829,
-        "sourceUnit": 11839,
+        "scope": 11925,
+        "sourceUnit": 11935,
         "src": "131:60:34",
         "symbolAliases": [
           {
-            "foreign": 11801,
+            "foreign": 11897,
             "local": null
           }
         ],
@@ -146,17 +146,17 @@
             "arguments": null,
             "baseName": {
               "contractScope": null,
-              "id": 11803,
+              "id": 11899,
               "name": "OnApproveConstant",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 11838,
+              "referencedDeclaration": 11934,
               "src": "216:17:34",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_OnApproveConstant_$11838",
+                "typeIdentifier": "t_contract$_OnApproveConstant_$11934",
                 "typeString": "contract OnApproveConstant"
               }
             },
-            "id": 11804,
+            "id": 11900,
             "nodeType": "InheritanceSpecifier",
             "src": "216:17:34"
           },
@@ -164,42 +164,42 @@
             "arguments": null,
             "baseName": {
               "contractScope": null,
-              "id": 11805,
+              "id": 11901,
               "name": "ERC165",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 18248,
+              "referencedDeclaration": 18451,
               "src": "235:6:34",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_ERC165_$18248",
+                "typeIdentifier": "t_contract$_ERC165_$18451",
                 "typeString": "contract ERC165"
               }
             },
-            "id": 11806,
+            "id": 11902,
             "nodeType": "InheritanceSpecifier",
             "src": "235:6:34"
           }
         ],
         "contractDependencies": [
-          11838,
-          18248,
-          18424
+          11934,
+          18451,
+          18627
         ],
         "contractKind": "contract",
         "documentation": null,
         "fullyImplemented": false,
-        "id": 11828,
+        "id": 11924,
         "linearizedBaseContracts": [
-          11828,
-          18248,
-          18424,
-          11838
+          11924,
+          18451,
+          18627,
+          11934
         ],
         "name": "OnApprove",
         "nodeType": "ContractDefinition",
         "nodes": [
           {
             "body": {
-              "id": 11813,
+              "id": 11909,
               "nodeType": "Block",
               "src": "267:54:34",
               "statements": [
@@ -209,11 +209,11 @@
                     "arguments": [
                       {
                         "argumentTypes": null,
-                        "id": 11810,
+                        "id": 11906,
                         "name": "INTERFACE_ID_ON_APPROVE",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 11837,
+                        "referencedDeclaration": 11933,
                         "src": "292:23:34",
                         "typeDescriptions": {
                           "typeIdentifier": "t_bytes4",
@@ -228,18 +228,18 @@
                           "typeString": "bytes4"
                         }
                       ],
-                      "id": 11809,
+                      "id": 11905,
                       "name": "_registerInterface",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 18247,
+                      "referencedDeclaration": 18450,
                       "src": "273:18:34",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_internal_nonpayable$_t_bytes4_$returns$__$",
                         "typeString": "function (bytes4)"
                       }
                     },
-                    "id": 11811,
+                    "id": 11907,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -253,32 +253,32 @@
                       "typeString": "tuple()"
                     }
                   },
-                  "id": 11812,
+                  "id": 11908,
                   "nodeType": "ExpressionStatement",
                   "src": "273:43:34"
                 }
               ]
             },
             "documentation": null,
-            "id": 11814,
+            "id": 11910,
             "implemented": true,
             "kind": "constructor",
             "modifiers": [],
             "name": "",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 11807,
+              "id": 11903,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "257:2:34"
             },
             "returnParameters": {
-              "id": 11808,
+              "id": 11904,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "267:0:34"
             },
-            "scope": 11828,
+            "scope": 11924,
             "src": "246:75:34",
             "stateMutability": "nonpayable",
             "superFunction": null,
@@ -287,22 +287,22 @@
           {
             "body": null,
             "documentation": null,
-            "id": 11827,
+            "id": 11923,
             "implemented": false,
             "kind": "function",
             "modifiers": [],
             "name": "onApprove",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 11823,
+              "id": 11919,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 11816,
+                  "id": 11912,
                   "name": "owner",
                   "nodeType": "VariableDeclaration",
-                  "scope": 11827,
+                  "scope": 11923,
                   "src": "344:13:34",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -311,7 +311,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 11815,
+                    "id": 11911,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "344:7:34",
@@ -326,10 +326,10 @@
                 },
                 {
                   "constant": false,
-                  "id": 11818,
+                  "id": 11914,
                   "name": "spender",
                   "nodeType": "VariableDeclaration",
-                  "scope": 11827,
+                  "scope": 11923,
                   "src": "359:15:34",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -338,7 +338,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 11817,
+                    "id": 11913,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "359:7:34",
@@ -353,10 +353,10 @@
                 },
                 {
                   "constant": false,
-                  "id": 11820,
+                  "id": 11916,
                   "name": "amount",
                   "nodeType": "VariableDeclaration",
-                  "scope": 11827,
+                  "scope": 11923,
                   "src": "376:14:34",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -365,7 +365,7 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 11819,
+                    "id": 11915,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
                     "src": "376:7:34",
@@ -379,10 +379,10 @@
                 },
                 {
                   "constant": false,
-                  "id": 11822,
+                  "id": 11918,
                   "name": "data",
                   "nodeType": "VariableDeclaration",
-                  "scope": 11827,
+                  "scope": 11923,
                   "src": "392:19:34",
                   "stateVariable": false,
                   "storageLocation": "calldata",
@@ -391,7 +391,7 @@
                     "typeString": "bytes"
                   },
                   "typeName": {
-                    "id": 11821,
+                    "id": 11917,
                     "name": "bytes",
                     "nodeType": "ElementaryTypeName",
                     "src": "392:5:34",
@@ -407,15 +407,15 @@
               "src": "343:69:34"
             },
             "returnParameters": {
-              "id": 11826,
+              "id": 11922,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 11825,
+                  "id": 11921,
                   "name": "",
                   "nodeType": "VariableDeclaration",
-                  "scope": 11827,
+                  "scope": 11923,
                   "src": "431:4:34",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -424,7 +424,7 @@
                     "typeString": "bool"
                   },
                   "typeName": {
-                    "id": 11824,
+                    "id": 11920,
                     "name": "bool",
                     "nodeType": "ElementaryTypeName",
                     "src": "431:4:34",
@@ -439,14 +439,14 @@
               ],
               "src": "430:6:34"
             },
-            "scope": 11828,
+            "scope": 11924,
             "src": "325:112:34",
             "stateMutability": "nonpayable",
             "superFunction": null,
             "visibility": "external"
           }
         ],
-        "scope": 11829,
+        "scope": 11925,
         "src": "194:245:34"
       }
     ],
@@ -456,14 +456,14 @@
     "absolutePath": "/Users/thomashin/Workspace/plasma-evm-contracts/contracts/stake/tokens/OnApprove.sol",
     "exportedSymbols": {
       "OnApprove": [
-        11828
+        11924
       ]
     },
-    "id": 11829,
+    "id": 11925,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 11798,
+        "id": 11894,
         "literals": [
           "solidity",
           "^",
@@ -476,14 +476,14 @@
       {
         "absolutePath": "/Users/thomashin/Workspace/plasma-evm-contracts/node_modules/openzeppelin-solidity/contracts/introspection/ERC165.sol",
         "file": "../../../node_modules/openzeppelin-solidity/contracts/introspection/ERC165.sol",
-        "id": 11800,
+        "id": 11896,
         "nodeType": "ImportDirective",
-        "scope": 11829,
-        "sourceUnit": 18249,
+        "scope": 11925,
+        "sourceUnit": 18452,
         "src": "26:104:34",
         "symbolAliases": [
           {
-            "foreign": 11799,
+            "foreign": 11895,
             "local": null
           }
         ],
@@ -492,14 +492,14 @@
       {
         "absolutePath": "/Users/thomashin/Workspace/plasma-evm-contracts/contracts/stake/tokens/OnApproveConstant.sol",
         "file": "./OnApproveConstant.sol",
-        "id": 11802,
+        "id": 11898,
         "nodeType": "ImportDirective",
-        "scope": 11829,
-        "sourceUnit": 11839,
+        "scope": 11925,
+        "sourceUnit": 11935,
         "src": "131:60:34",
         "symbolAliases": [
           {
-            "foreign": 11801,
+            "foreign": 11897,
             "local": null
           }
         ],
@@ -511,17 +511,17 @@
             "arguments": null,
             "baseName": {
               "contractScope": null,
-              "id": 11803,
+              "id": 11899,
               "name": "OnApproveConstant",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 11838,
+              "referencedDeclaration": 11934,
               "src": "216:17:34",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_OnApproveConstant_$11838",
+                "typeIdentifier": "t_contract$_OnApproveConstant_$11934",
                 "typeString": "contract OnApproveConstant"
               }
             },
-            "id": 11804,
+            "id": 11900,
             "nodeType": "InheritanceSpecifier",
             "src": "216:17:34"
           },
@@ -529,42 +529,42 @@
             "arguments": null,
             "baseName": {
               "contractScope": null,
-              "id": 11805,
+              "id": 11901,
               "name": "ERC165",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 18248,
+              "referencedDeclaration": 18451,
               "src": "235:6:34",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_ERC165_$18248",
+                "typeIdentifier": "t_contract$_ERC165_$18451",
                 "typeString": "contract ERC165"
               }
             },
-            "id": 11806,
+            "id": 11902,
             "nodeType": "InheritanceSpecifier",
             "src": "235:6:34"
           }
         ],
         "contractDependencies": [
-          11838,
-          18248,
-          18424
+          11934,
+          18451,
+          18627
         ],
         "contractKind": "contract",
         "documentation": null,
         "fullyImplemented": false,
-        "id": 11828,
+        "id": 11924,
         "linearizedBaseContracts": [
-          11828,
-          18248,
-          18424,
-          11838
+          11924,
+          18451,
+          18627,
+          11934
         ],
         "name": "OnApprove",
         "nodeType": "ContractDefinition",
         "nodes": [
           {
             "body": {
-              "id": 11813,
+              "id": 11909,
               "nodeType": "Block",
               "src": "267:54:34",
               "statements": [
@@ -574,11 +574,11 @@
                     "arguments": [
                       {
                         "argumentTypes": null,
-                        "id": 11810,
+                        "id": 11906,
                         "name": "INTERFACE_ID_ON_APPROVE",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 11837,
+                        "referencedDeclaration": 11933,
                         "src": "292:23:34",
                         "typeDescriptions": {
                           "typeIdentifier": "t_bytes4",
@@ -593,18 +593,18 @@
                           "typeString": "bytes4"
                         }
                       ],
-                      "id": 11809,
+                      "id": 11905,
                       "name": "_registerInterface",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 18247,
+                      "referencedDeclaration": 18450,
                       "src": "273:18:34",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_internal_nonpayable$_t_bytes4_$returns$__$",
                         "typeString": "function (bytes4)"
                       }
                     },
-                    "id": 11811,
+                    "id": 11907,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -618,32 +618,32 @@
                       "typeString": "tuple()"
                     }
                   },
-                  "id": 11812,
+                  "id": 11908,
                   "nodeType": "ExpressionStatement",
                   "src": "273:43:34"
                 }
               ]
             },
             "documentation": null,
-            "id": 11814,
+            "id": 11910,
             "implemented": true,
             "kind": "constructor",
             "modifiers": [],
             "name": "",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 11807,
+              "id": 11903,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "257:2:34"
             },
             "returnParameters": {
-              "id": 11808,
+              "id": 11904,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "267:0:34"
             },
-            "scope": 11828,
+            "scope": 11924,
             "src": "246:75:34",
             "stateMutability": "nonpayable",
             "superFunction": null,
@@ -652,22 +652,22 @@
           {
             "body": null,
             "documentation": null,
-            "id": 11827,
+            "id": 11923,
             "implemented": false,
             "kind": "function",
             "modifiers": [],
             "name": "onApprove",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 11823,
+              "id": 11919,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 11816,
+                  "id": 11912,
                   "name": "owner",
                   "nodeType": "VariableDeclaration",
-                  "scope": 11827,
+                  "scope": 11923,
                   "src": "344:13:34",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -676,7 +676,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 11815,
+                    "id": 11911,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "344:7:34",
@@ -691,10 +691,10 @@
                 },
                 {
                   "constant": false,
-                  "id": 11818,
+                  "id": 11914,
                   "name": "spender",
                   "nodeType": "VariableDeclaration",
-                  "scope": 11827,
+                  "scope": 11923,
                   "src": "359:15:34",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -703,7 +703,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 11817,
+                    "id": 11913,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "359:7:34",
@@ -718,10 +718,10 @@
                 },
                 {
                   "constant": false,
-                  "id": 11820,
+                  "id": 11916,
                   "name": "amount",
                   "nodeType": "VariableDeclaration",
-                  "scope": 11827,
+                  "scope": 11923,
                   "src": "376:14:34",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -730,7 +730,7 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 11819,
+                    "id": 11915,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
                     "src": "376:7:34",
@@ -744,10 +744,10 @@
                 },
                 {
                   "constant": false,
-                  "id": 11822,
+                  "id": 11918,
                   "name": "data",
                   "nodeType": "VariableDeclaration",
-                  "scope": 11827,
+                  "scope": 11923,
                   "src": "392:19:34",
                   "stateVariable": false,
                   "storageLocation": "calldata",
@@ -756,7 +756,7 @@
                     "typeString": "bytes"
                   },
                   "typeName": {
-                    "id": 11821,
+                    "id": 11917,
                     "name": "bytes",
                     "nodeType": "ElementaryTypeName",
                     "src": "392:5:34",
@@ -772,15 +772,15 @@
               "src": "343:69:34"
             },
             "returnParameters": {
-              "id": 11826,
+              "id": 11922,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 11825,
+                  "id": 11921,
                   "name": "",
                   "nodeType": "VariableDeclaration",
-                  "scope": 11827,
+                  "scope": 11923,
                   "src": "431:4:34",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -789,7 +789,7 @@
                     "typeString": "bool"
                   },
                   "typeName": {
-                    "id": 11824,
+                    "id": 11920,
                     "name": "bool",
                     "nodeType": "ElementaryTypeName",
                     "src": "431:4:34",
@@ -804,14 +804,14 @@
               ],
               "src": "430:6:34"
             },
-            "scope": 11828,
+            "scope": 11924,
             "src": "325:112:34",
             "stateMutability": "nonpayable",
             "superFunction": null,
             "visibility": "external"
           }
         ],
-        "scope": 11829,
+        "scope": 11925,
         "src": "194:245:34"
       }
     ],
@@ -823,7 +823,7 @@
   },
   "networks": {},
   "schemaVersion": "3.0.23",
-  "updatedAt": "2020-02-17T01:27:42.297Z",
+  "updatedAt": "2020-02-19T11:32:11.525Z",
   "devdoc": {
     "methods": {
       "supportsInterface(bytes4)": {
