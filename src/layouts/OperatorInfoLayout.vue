@@ -74,7 +74,7 @@
             Reward (totalStake / totalDeposit)
           </div>
           <div class="operator-info-detailed-content">
-            {{ (operator.totalStake.div(operator.totalDeposit)).toNumber() }} %
+            {{ calculateReward() }} %
           </div>
         </div>
         <div class="operator-info-detailed">
@@ -126,6 +126,15 @@ export default {
     ]),
     operator: function () {
       return this.operatorByAddress(this.$route.params.address);
+    },
+  },
+  methods: {
+    calculateReward () {
+      try {
+        return (this.operator.totalStake.div(this.operator.totalDeposit)).toNumber();
+      } catch (e) {
+        return 0;
+      }
     },
   },
 };
