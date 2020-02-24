@@ -150,7 +150,6 @@ export default new Vuex.Store({
 
       context.commit('SET_USER', user);
       context.commit('SET_NETWORK_ID', networkId);
-      console.log('connect');
 
       await context.dispatch('set');
 
@@ -158,7 +157,6 @@ export default new Vuex.Store({
       context.commit('SIGN_IN');
 
       router.replace('/dashboard');
-      console.log('sign in');
     },
     async set (context) {
       return getState()
@@ -170,8 +168,6 @@ export default new Vuex.Store({
           await context.dispatch('setOperatorFromRootchains', rootchains);
           await context.dispatch('setUserBalanceAndAllowance');
           await context.dispatch('setUserHistory');
-
-          console.log('set');
         });
     },
     async setManagers (context, managers) {
@@ -286,7 +282,6 @@ export default new Vuex.Store({
 
           pendingRequests,
         };
-        console.log(operatorFromRootChain);
         return operatorFromRootChain;
       });
 

@@ -11,6 +11,6 @@ export async function createTruffleContract (abi, address) {
     contract.setProvider(web3.currentProvider);
     return await contract.at(address);
   } catch (e) {
-    console.log(e.message);
+    //
   }
 }

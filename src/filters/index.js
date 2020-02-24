@@ -24,13 +24,11 @@ export function stringToTON (amount) {
 
 export function convertToTON (amount) {
   if (!(amount instanceof Currency)) {
-    console.log('amount is not Currency instance');
     return amount;
   }
   if (amount.symbol === 'WTON') {
     return _TON(amount.toNumber());
   } else {
-    console.log('amount is already TON type');
     return amount;
   }
 }
