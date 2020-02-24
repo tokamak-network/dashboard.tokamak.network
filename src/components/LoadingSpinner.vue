@@ -10,7 +10,6 @@ export default {};
 
 <style scpoed>
 .loading-spinner-container {
-  width: 100vh;
   min-height: 100%;
   display: flex;
   justify-content: center;

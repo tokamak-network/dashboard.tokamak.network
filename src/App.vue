@@ -84,6 +84,7 @@ html, body {
   width: 960px;
   display: flex;
   flex: 1;
+  justify-content: center;
   margin-left: auto;
   margin-right: auto;
 }
