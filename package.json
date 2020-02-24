@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
+    "serve:production": "npx serve -p 8000 dist",
     "build": "vue-cli-service build",
     "test": "jest",
     "test:unit": "vue-cli-service test:unit",
@@ -45,6 +46,7 @@
     "jest": "^24.9.0",
     "node-sass": "^4.12.0",
     "sass-loader": "^8.0.0",
+    "serve": "^11.3.0",
     "vue-jest": "^3.0.5",
     "vue-template-compiler": "^2.6.10"
   },
