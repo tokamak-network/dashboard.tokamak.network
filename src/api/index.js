@@ -2,7 +2,7 @@ import axios from 'axios';
 
 function createInstance () {
   return axios.create({
-    baseURL: 'http://127.0.0.1:9000',
+    baseURL: `http://${window.location.hostname}:9000`,
   });
 }
 
