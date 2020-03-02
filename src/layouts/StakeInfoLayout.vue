@@ -112,8 +112,8 @@ export default {
   },
   methods: {
     viewOperator (operator) {
-      const address = operator.address;
-      this.$router.push(`/operators/${address.toLowerCase()}`);
+      const rootchain = operator.rootchain;
+      this.$router.push(`/operators/${rootchain.toLowerCase()}`);
     },
     searchOperatorByName (name) {
       if (name === '') {
