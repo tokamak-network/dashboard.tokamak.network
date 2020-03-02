@@ -14,20 +14,13 @@
           class="header-link"
           target="_blank"
           rel="noopener noreferrer"
-          href="http://your_url_here.html"
-        >Buy TON</a>
+          :href="faucet"
+        >FAUCET</a>
         <a
           class="header-link"
           target="_blank"
           rel="noopener noreferrer"
-          href="http://your_url_here.html"
-        >GUIDE</a>
-        <a
-          style="margin-right: 32px;"
-          class="header-link"
-          target="_blank"
-          rel="noopener noreferrer"
-          href="http://your_url_here.html"
+          :href="FAQs"
         >FAQs</a>
       </div>
     </div>
@@ -35,7 +28,18 @@
 </template>
 
 <script>
-export default {};
+export default {
+  data () {
+    return {
+      FAQs: '',
+      faucet: '',
+    };
+  },
+  created () {
+    this.FAQs = process.env.VUE_APP_FAQS_LINK;
+    this.faucet = process.env.VUE_APP_FAUCET_LINK;
+  },
+};
 </script>
 
 <style scoped>
@@ -64,7 +68,7 @@ export default {};
 }
 
 .header-link-container {
-  width: 340px;
+  width: 160px;
   display: flex;
   align-items: center;
   justify-content: space-between;
