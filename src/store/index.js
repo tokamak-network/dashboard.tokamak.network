@@ -142,19 +142,23 @@ export default new Vuex.Store({
       context.commit('SET_INITIAL_STATE');
     },
     async signIn (context, web3) {
-      context.commit('IS_LOADING', true);
-      context.commit('SET_WEB3', web3);
-
       const user = (await web3.eth.getAccounts())[0];
       const networkId = await web3.eth.net.getId();
 
+      if (networkId.toString() !== process.env.VUE_APP_NETWORK_ID) {
+        return alert(`Please connect proper metamask endpoint: ${process.env.VUE_APP_NETWORK_ID}`);
+      }
+
+      context.commit('IS_LOADING', true);
+
+      context.commit('SET_WEB3', web3);
       context.commit('SET_USER', user);
       context.commit('SET_NETWORK_ID', networkId);
 
       await context.dispatch('set');
 
-      context.commit('IS_LOADING', false);
       context.commit('SIGN_IN');
+      context.commit('IS_LOADING', false);
 
       router.replace('/dashboard');
     },
