@@ -112,6 +112,11 @@ export default {
   components: {
     'delegate-manager': DelegateManager,
   },
+  data () {
+    return {
+      operator: {},
+    };
+  },
   computed: {
     ...mapState([
       'user',
@@ -124,9 +129,9 @@ export default {
       'isTxProcessing',
       'userTotalPendingByOperator',
     ]),
-    operator: function () {
-      return this.operatorByRootchain(this.$route.params.rootchain);
-    },
+  },
+  created () {
+    this.operator = this.operatorByRootchain(this.$route.params.rootchain);
   },
   methods: {
     calculateReward () {
