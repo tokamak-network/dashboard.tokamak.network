@@ -60,7 +60,7 @@ export default {
     getKey (data) {
       switch (this.type) {
       case 'operator':
-        return data.operator;
+        return data.rootchain;
       }
     },
     filtered (key, data) {
