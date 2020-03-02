@@ -18,7 +18,7 @@ const routes = [
     component: OperatorListLayout,
   },
   {
-    path: '/operators/:address',
+    path: '/operators/:rootchain',
     component: OperatorInfoLayout,
   },
   {

@@ -351,8 +351,8 @@ export default new Vuex.Store({
         return state.operators.filter(operator => parseInt(operator.userStake) > 0);
       else return [];
     },
-    operatorByAddress: (state) => (address) => {
-      return state.operators.find(operator => operator.address.toLowerCase() === address.toLowerCase());
+    operatorByRootchain: (state) => (rootchain) => {
+      return state.operators.find(operator => operator.rootchain.toLowerCase() === rootchain.toLowerCase());
     },
     isTxProcessing: (state) => (type) => {
       return state.txsPending.includes(type);
@@ -373,8 +373,8 @@ export default new Vuex.Store({
 
       return state.operators.reduce(reducer, initialValue);
     },
-    userTotalPendingByOperator: (_, getters) => (address) => {
-      const operator = getters.operatorByAddress(address);
+    userTotalPendingByOperator: (_, getters) => (rootchain) => {
+      const operator = getters.operatorByRootchain(rootchain);
 
       const initialValue = _WTON.ray('0');
       const reducer = (pending, request) => pending.add(request.amount);
@@ -384,7 +384,7 @@ export default new Vuex.Store({
     userTotalPending: (state, getters) => {
       const initialValue = _WTON.ray('0');
       const reducer = (totalPending, operator) => {
-        const pending = getters.userTotalPendingByOperator(operator.address);
+        const pending = getters.userTotalPendingByOperator(operator.rootchain);
         return totalPending.add(pending);
       };
 

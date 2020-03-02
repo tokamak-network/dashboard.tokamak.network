@@ -120,12 +120,12 @@ export default {
       'DepositManager',
     ]),
     ...mapGetters([
-      'operatorByAddress',
+      'operatorByRootchain',
       'isTxProcessing',
       'userTotalPendingByOperator',
     ]),
     operator: function () {
-      return this.operatorByAddress(this.$route.params.address);
+      return this.operatorByRootchain(this.$route.params.rootchain);
     },
   },
   methods: {
