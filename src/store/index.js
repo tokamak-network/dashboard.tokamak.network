@@ -6,7 +6,7 @@ import router from '@/router';
 
 import { getState, getHistory } from '@/api';
 import { cloneDeep, isEqual, range } from 'lodash';
-import { createTruffleContract } from '@/helpers/Contract';
+import { createWeb3Contract } from '@/helpers/Contract';
 import { createCurrency } from '@makerdao/currency';
 const _TON = createCurrency('TON');
 const _WTON = createCurrency('WTON');
@@ -76,11 +76,11 @@ export default new Vuex.Store({
     SIGN_IN: (state) => {
       state.signIn = true;
     },
-    ADD_PENDING_TX: (state, request) => {
-      state.txsPending.push(request);
+    ADD_PENDING_TX: (state, hash) => {
+      state.txsPending.push(hash);
     },
-    DELETE_PENDING_TX: (state, request) => {
-      state.txsPending.splice(state.txsPending.indexOf(request), 1);
+    DELETE_PENDING_TX: (state, hash) => {
+      state.txsPending.splice(state.txsPending.indexOf(hash), 1);
     },
     SHOW_MODAL: (state, isModalShowed) => {
       state.isModalShowed = isModalShowed;
@@ -123,12 +123,12 @@ export default new Vuex.Store({
     },
   },
   actions: {
-    addPendingTx (context, request) {
+    addPendingTx (context, hash) {
       const txsPending = context.state.txsPending;
-      if (!txsPending.find(r => r === request)) context.commit('ADD_PENDING_TX', request);
+      if (!txsPending.find(h => h === hash)) context.commit('ADD_PENDING_TX', hash);
     },
-    deletePendingTx (context, request) {
-      context.commit('DELETE_PENDING_TX', request);
+    deletePendingTx (context, hash) {
+      context.commit('DELETE_PENDING_TX', hash);
     },
     showModal (context, data) {
       context.commit('SET_MODAL_DATA', data);
@@ -175,9 +175,10 @@ export default new Vuex.Store({
         });
     },
     async setManagers (context, managers) {
+      const user = context.state.user;
       for (const [name, address] of Object.entries(managers)) {
         const abi = managerABIs[`${name}ABI`];
-        managers[name] = await createTruffleContract(abi, address);
+        managers[name] = await createWeb3Contract(abi, address, user);
       }
       context.commit('SET_MANAGERS', managers);
     },
@@ -191,70 +192,70 @@ export default new Vuex.Store({
 
       let count = 0;
       const operatorsFromRootchain = rootchains.map(async rootchain => {
-        const RootChain = await createTruffleContract(RootChainABI, rootchain);
+        const RootChain = await createWeb3Contract(RootChainABI, rootchain);
         const Coinage =
-            await createTruffleContract(CustomIncrementCoinageABI, await SeigManager.coinages(rootchain));
+            await createWeb3Contract(CustomIncrementCoinageABI, await SeigManager.methods.coinages(rootchain).call());
         // const Tot =
-        //     await createTruffleContract(CustomIncrementCoinageABI, await SeigManager.tot());
+        //     await createWeb3Contract(CustomIncrementCoinageABI, await SeigManager.tot());
 
-        const forkNumber = await RootChain.currentFork();
-        const operator = await RootChain.operator();
+        const forkNumber = await RootChain.methods.currentFork().call();
+        const operator = await RootChain.methods.operator().call();
 
         const getRecentCommitTimeStamp = async () => {
-          const fork = await RootChain.forks(forkNumber);
+          const fork = await RootChain.methods.forks(forkNumber).call();
           const epochNumber = fork.lastFinalizedEpoch;
           const blockNumber = fork.lastFinalizedBlock;
 
-          const epoch = await RootChain.getEpoch(forkNumber, epochNumber);
+          const epoch = await RootChain.methods.getEpoch(forkNumber, epochNumber).call();
           const timestamp
                           = epoch.isRequest ?
                             epoch.NRE.submittedAt :
-                            (await RootChain.getBlock(forkNumber, blockNumber)).timestamp;
+                            (await RootChain.methods.getBlock(forkNumber, blockNumber).call()).timestamp;
           return timestamp;
         };
 
         const getDeposit = async (account) => {
           let accStaked, accUnstaked;
           if (typeof account === 'undefined') {
-            accStaked = await DepositManager.accStakedRootChain(rootchain);
-            accUnstaked = await DepositManager.accUnstakedRootChain(rootchain);
+            accStaked = await DepositManager.methods.accStakedRootChain(rootchain).call();
+            accUnstaked = await DepositManager.methods.accUnstakedRootChain(rootchain).call();
           } else {
-            accStaked = await DepositManager.accStaked(rootchain, account);
-            accUnstaked = await DepositManager.accUnstaked(rootchain, account);
+            accStaked = await DepositManager.methods.accStaked(rootchain, account).call();
+            accUnstaked = await DepositManager.methods.accUnstaked(rootchain, account).call();
           }
-          return accStaked.sub(accUnstaked);
+          return accStaked - accUnstaked;
         };
 
         const recentCommitTimestamp = await getRecentCommitTimeStamp();
-        const commitCount = await RootChain.lastEpoch(forkNumber);
+        const commitCount = await RootChain.methods.lastEpoch(forkNumber).call();
         const duration
-          = (await web3.eth.getBlock('latest')).timestamp - (await RootChain.getEpoch(0, 0)).timestamp;
+          = (await web3.eth.getBlock('latest')).timestamp - (await RootChain.methods.getEpoch(0, 0).call()).timestamp;
 
         const totalDeposit = await getDeposit();
         const operatorDeposit = await getDeposit(operator);
         const userDeposit = await getDeposit(user);
 
-        const userPendingUnstaked = await DepositManager.pendingUnstaked(rootchain, user);
+        const userPendingUnstaked = await DepositManager.methods.pendingUnstaked(rootchain, user).call();
         // TODO: fix
         let userUncomittedStakeOf;
         try {
-          userUncomittedStakeOf = await SeigManager.uncomittedStakeOf(rootchain, operator);
+          userUncomittedStakeOf = await SeigManager.methods.uncomittedStakeOf(rootchain, operator).call();
         } catch (e) {
           userUncomittedStakeOf = '0';
         }
 
-        const totalStake = await Coinage.totalSupply();
-        const operatorStake = await Coinage.balanceOf(operator);
-        const userStake = await Coinage.balanceOf(user);
+        const totalStake = await Coinage.methods.totalSupply().call();
+        const operatorStake = await Coinage.methods.balanceOf(operator).call();
+        const userStake = await Coinage.methods.balanceOf(user).call();
 
         let withdrawalRequestIndex, withdrawalRequest, numRequests, numPendingRequests;
         try {
-          withdrawalRequestIndex = await DepositManager.withdrawalRequestIndex(rootchain, user);
-          withdrawalRequest = await DepositManager.withdrawalRequest(rootchain, user, withdrawalRequestIndex);
-          numRequests = await DepositManager.numRequests(rootchain, user);
-          numPendingRequests = await DepositManager.numPendingRequests(rootchain, user);
+          withdrawalRequestIndex = await DepositManager.methods.withdrawalRequestIndex(rootchain, user).call();
+          withdrawalRequest =
+            await DepositManager.methods.withdrawalRequest(rootchain, user, withdrawalRequestIndex).call();
+          numRequests = await DepositManager.methods.numRequests(rootchain, user).call();
+          numPendingRequests = await DepositManager.methods.numPendingRequests(rootchain, user).call();
         } catch (e) {
-          // console.log(e.message);
           withdrawalRequestIndex = undefined;
           numRequests = undefined;
           numPendingRequests = undefined;
@@ -298,12 +299,15 @@ export default new Vuex.Store({
       const WTON = context.state.WTON;
       const DepositManager = context.state.DepositManager;
 
-      context.commit('SET_TON_BALANCE', _TON.wei((await TON.balanceOf(user)).toString()));
-      context.commit('SET_WTON_BALANCE', _WTON.ray((await WTON.balanceOf(user)).toString()));
+      const tonBalance = await TON.methods.balanceOf(user).call();
+      const wtonBalance = await WTON.methods.balanceOf(user).call();
+      const tonAllowance = await TON.methods.allowance(user, WTON._address).call();
+      const wtonAllowance = await WTON.methods.allowance(user, DepositManager._address).call();
 
-      context.commit('SET_TON_ALLOWANCE', _TON.wei((await TON.allowance(user, WTON.address)).toString()));
-      context.commit('SET_WTON_ALLOWANCE',
-        _WTON.ray((await WTON.allowance(user, DepositManager.address)).toString()));
+      context.commit('SET_TON_BALANCE', _TON.wei(tonBalance.toString()).toString());
+      context.commit('SET_WTON_BALANCE', _WTON.ray(wtonBalance.toString()).toString());
+      context.commit('SET_TON_ALLOWANCE', _TON.wei(tonAllowance.toString()).toString());
+      context.commit('SET_WTON_ALLOWANCE', _WTON.ray(wtonAllowance.toString()).toString());
     },
     async setUserHistory (context) {
       const user = context.state.user;
@@ -317,12 +321,13 @@ export default new Vuex.Store({
 
       let withdrawalRequestIndex, withdrawalRequest, numRequests, numPendingRequests;
       try {
-        withdrawalRequestIndex = (await DepositManager.withdrawalRequestIndex(rootchain, user)).toNumber();
-        withdrawalRequest = await DepositManager.withdrawalRequest(rootchain, user, withdrawalRequestIndex);
-        numRequests = (await DepositManager.numRequests(rootchain, user)).toNumber();
-        numPendingRequests = (await DepositManager.numPendingRequests(rootchain, user)).toNumber();
+        withdrawalRequestIndex
+          = await DepositManager.methods.withdrawalRequestIndex(rootchain, user).call();
+        withdrawalRequest
+          = await DepositManager.methods.withdrawalRequest(rootchain, user, withdrawalRequestIndex).call();
+        numRequests = await DepositManager.methods.numRequests(rootchain, user).call();
+        numPendingRequests = await DepositManager.methods.numPendingRequests(rootchain, user).call();
       } catch (e) {
-        // console.log(e.message);
         withdrawalRequestIndex = undefined;
         numRequests = undefined;
         numPendingRequests = undefined;
@@ -331,7 +336,7 @@ export default new Vuex.Store({
 
       const requestsPending = [];
       for (const _ of range(numPendingRequests)) {
-        const request = await DepositManager.withdrawalRequest(rootchain, user, withdrawalRequestIndex);
+        const request = await DepositManager.methods.withdrawalRequest(rootchain, user, withdrawalRequestIndex).call();
         requestsPending.push({
           withdrawableBlockNumber: request.withdrawableBlockNumber,
           amount: _WTON.ray(request.amount),

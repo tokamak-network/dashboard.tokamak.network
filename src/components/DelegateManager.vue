@@ -1,6 +1,6 @@
 <template>
   <div class="delegate-manager">
-    <div style="padding: 16px;">
+    <div class="delegate-manager-container">
       <div class="header">
         <div class="title">
           Staking
@@ -29,10 +29,7 @@
           <div class="ton-input">
             <input
               v-model="amountToDelegate"
-              style="height: 26px; border:none;border-right:0px; border-top:0px; boder-left:0px; boder-bottom:0px;
-            width: 100%; border-top: 1px solid #b4b4b4;
-            border-bottom: 1px solid #b4b4b4; font-size: 16px; text-align: right;
-            padding-right: 16px;"
+              class="input-delegate"
               @keypress="isNumber"
             >
           </div>
@@ -66,10 +63,7 @@
           <div class="ton-input">
             <input
               v-model="amountToUndelegate"
-              style="height: 26px; border:none;border-right:0px; border-top:0px; boder-left:0px; boder-bottom:0px;
-            width: 100%; border-top: 1px solid #b4b4b4;
-            border-bottom: 1px solid #b4b4b4; font-size: 16px; text-align: right;
-            padding-right: 16px;"
+              class="input-undelegate"
               @keypress="isNumber"
             >
           </div>
@@ -95,7 +89,7 @@
           />
         </div>
         <div class="divider" />
-        <div style="display: flex;  margin-top: 40px;">
+        <div style="display: flex; margin-top: 40px;">
           <div style="flex: 1; font-size: 14px; color: #586064;">
             Requests
           </div>
@@ -126,6 +120,8 @@
 <script>
 import { mapState, mapGetters } from 'vuex';
 import { padLeft } from 'web3-utils';
+import { addHistory } from '@/api';
+
 import { createCurrency } from '@makerdao/currency';
 const _TON = createCurrency('TON');
 const _WTON = createCurrency('WTON');
@@ -136,14 +132,10 @@ export default {
   components: {
     'standard-button': StandardButton,
   },
-  props: {
-    operator: {
-      type: Object,
-      default: () => {},
-    },
-  },
   data () {
     return {
+      operator: {},
+      param: '',
       tab: 'delegate',
       amountToDelegate: '',
       amountToUndelegate: '',
@@ -161,9 +153,17 @@ export default {
     ]),
     ...mapGetters([
       'userUndepositedBalance',
+      'operatorByRootchain',
     ]),
   },
+  created () {
+    this.param = this.$route.params.rootchain;
+    this.refreshOperator(this.param);
+  },
   methods: {
+    refreshOperator (param) {
+      this.operator = this.operatorByRootchain(param);
+    },
     changeTab (tab) {
       this.tab = tab;
     },
@@ -173,35 +173,55 @@ export default {
 
       const data = this.getData();
       const amount = _TON(this.amountToDelegate).toFixed('wei');
-      const func = async () => await this.TON.approveAndCall(
-        this.WTON.address,
+
+      this.TON.methods.approveAndCall(
+        this.WTON._address,
         amount,
         data,
-        { from: this.user }
-      );
+      ).send({ from: this.user })
+        .on('transactionHash', (hash) => {
+          this.$store.dispatch('addPendingTx', hash);
+        })
+        .on('confirmation', (confirmationNumber, receipt) => {
+          // default: 24
+        })
+        .on('receipt', async (receipt) => {
+          await this.processDepositLog(receipt);
 
-      this.$bus.$emit('txSended', {
-        request: 'delegate',
-        txSender: func,
-      });
+          await this.$store.dispatch('set');
+          this.refreshOperator(this.param);
+          this.$store.dispatch('deletePendingTx', receipt.transactionHash);
+        })
+        .on('error', function (error, receipt) {
+          console.log(error.message);
+        });
 
       this.amountToDelegate = '';
     },
     async undelegate () {
-      if (this.amountToUndelegate === '') return alert('Amount를 입력해주세요.');
-      if (_WTON(this.amountToUndelegate).gt(this.operator.userStake)) return alert('TON 수량을 확인해주세요.');
+      if (this.amountToUndelegate === '') return alert('Please check input amount');
+      if (_WTON(this.amountToUndelegate).gt(this.operator.userStake)) return alert('Please check TON amount');
 
       const amount = _WTON(this.amountToUndelegate).toFixed('ray');
-      const func = async () => await this.DepositManager.requestWithdrawal(
+
+      this.DepositManager.methods.requestWithdrawal(
         this.operator.rootchain,
         amount,
-        { from: this.user }
-      );
-
-      this.$bus.$emit('txSended', {
-        request: 'undelegate',
-        txSender: func,
-      });
+      ).send({ from: this.user })
+        .on('transactionHash', (hash) => {
+          this.$store.dispatch('addPendingTx', hash);
+        })
+        .on('confirmation', (confirmationNumber, receipt) => {
+          // default: 24
+        })
+        .on('receipt', async (receipt) => {
+          await this.$store.dispatch('set');
+          this.refreshOperator(this.param);
+          this.$store.dispatch('deletePendingTx', receipt.transactionHash);
+        })
+        .on('error', function (error, receipt) {
+          console.log(error.message);
+        });
 
       this.amountToUndelegate = '';
     },
@@ -209,27 +229,74 @@ export default {
       if (this.operator.pendingRequests.length === 0) return;
 
       const count = await this.getWithdrawableRequestCount();
-      if (count === 0) return alert('you must wait withdrawal delay');
+      if (count === 0) return alert('You have to wait withdrawal delay');
 
-      const func =
-          async () => await this.DepositManager.processRequests(
-            this.operator.rootchain,
-            count,
-            true,
-            { from: this.user }
-          );
+      this.DepositManager.methods.processRequests(
+        this.operator.rootchain,
+        count,
+        true,
+      ).send({ from: this.user })
+        .on('transactionHash', (hash) => {
+          this.$store.dispatch('addPendingTx', hash);
+        })
+        .on('confirmation', (confirmationNumber, receipt) => {
+          // default: 24
+        })
+        .on('receipt', async (receipt) => {
+          await this.processRequestProcessLog(receipt);
 
-      this.$bus.$emit('txSended', {
-        request: 'withdraw',
-        txSender: func,
-      });
+          await this.$store.dispatch('set');
+          this.refreshOperator(this.param);
+          this.$store.dispatch('deletePendingTx', receipt.transactionHash);
+        });
+
+    },
+    async processDepositLog (receipt) {
+      const event = receipt.events[0];
+
+      // TODO: check encodeEventSignature
+      // this.web3.eth.abi.encodeEventSignature('Deposited(address,address,uint256')
+      if (event.raw.topics[0] === '0x8752a472e571a816aea92eec8dae9baf628e840f4929fbcc2d155e6233ff68a7') {
+        const transactionHash = receipt.transactionHash;
+        const params = this.web3.eth.abi.decodeParameters(
+          ['address', 'uint256'],
+          event.raw.data
+        );
+        const amount = params[1];
+
+        await addHistory(this.user, {
+          request: 'DEPOSIT',
+          amount,
+          transactionHash: receipt.transactionHash,
+        });
+
+        return;
+      }
+    },
+    async processRequestProcessLog (receipt) {
+      const process = async (event) => {
+        const amount = event.returnValues.amount;
+
+        await addHistory(this.user, {
+          request: 'WITHDRAWAL',
+          amount,
+          transactionHash: receipt.transactionHash,
+        });
+      };
+
+      const event = receipt.events.WithdrawalProcessed;
+      if (event.length) {
+        event.forEach(async e => await process(e));
+      } else {
+        await process(event);
+      }
     },
     async getWithdrawableRequestCount () {
       const blockNumber = await this.web3.eth.getBlockNumber();
 
       let count = 0;
       this.operator.pendingRequests.map(request => {
-        if (request.withdrawableBlockNumber.toNumber() <= blockNumber)
+        if (request.withdrawableBlockNumber <= blockNumber)
           count++;
       });
       return count;
@@ -253,7 +320,7 @@ export default {
     },
     getData () {
       const data = this.marshalString(
-        [this.DepositManager.address, this.operator.rootchain]
+        [this.DepositManager._address, this.operator.rootchain]
           .map(this.unmarshalString)
           .map(str => padLeft(str, 64))
           .join('')
@@ -273,6 +340,10 @@ export default {
   border: solid 0.7px #ced6d9;
 }
 
+.delegate-manager-container {
+  padding: 16px;
+}
+
 .header {
   display: flex;
 }
@@ -281,6 +352,35 @@ export default {
   flex: 1;
   font-size: 18px;
   line-height: 2;
+}
+
+.input-delegate {
+  height: 26px;
+  border: none;
+  border-right: 0px;
+  border-top: 0px;
+  border-left: 0px;
+  border-bottom: 0px;
+  width: 100%;
+  border-top: 1px solid #b4b4b4;
+  border-bottom: 1px solid #b4b4b4;
+  font-size: 16px;
+  text-align: right;
+  padding-right: 16px;
+}
+
+.input-undelegate {
+  height: 26px;
+  border:none;
+  border-right: 0px;
+  border-top: 0px;
+  border-left: 0px;
+  border-bottom:0px;
+  width: 100%; border-top: 1px solid #b4b4b4;
+  border-bottom: 1px solid #b4b4b4;
+  font-size: 16px;
+  text-align: right;
+  padding-right: 16px;
 }
 
 .tab {
