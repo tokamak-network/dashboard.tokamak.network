@@ -94,11 +94,6 @@ export default {
       const amount = _WTON(this.amount).toFixed('ray');
       const depositFunc = this.modalData.func;
 
-      this.$bus.$emit('txSended', {
-        request: 'delegate',
-        txSender: async () => await depositFunc(amount),
-      });
-
       this.closeModal();
     },
     isNumber (evt) {

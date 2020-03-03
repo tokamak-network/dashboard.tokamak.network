@@ -81,102 +81,15 @@
 import { mapState, mapGetters } from 'vuex';
 
 export default {
-  data () {
-    return {
-      tonLocked: false,
-      wtonLocked: false,
-
-      lockTON: () => {},
-      unlockTON: () => {},
-      lockWTON: () => {},
-      unlockWTON: () => {},
-    };
-  },
   computed: {
     ...mapState([
       'user',
       'networkId',
-      'TON',
-      'WTON',
-      'DepositManager',
       'tonBalance',
-      'wtonBalance',
-      'tonAllowance',
-      'wtonAllowance',
-      'userStake',
     ]),
     ...mapGetters([
-      'isTxProcessing',
-      'userUndepositedBalance',
-      'userTotalDeposit',
-      'userTotalReward',
       'userTotalStake',
     ]),
-  },
-  created () {
-    this.lockTON = () => {
-      const tx = async () => await this.TON.approve(this.WTON.address, 0, { from: this.user });
-      this.$bus.$emit('txSended', {
-        request: 'TON lock',
-        txSender: tx,
-      });
-    };
-    this.lockWTON = () => {
-      const tx = async () => await this.WTON.approve(this.DepositManager.address, 0, { from: this.user });
-      this.$bus.$emit('txSended', {
-        request: 'WTON lock',
-        txSender: tx,
-      });
-    };
-
-    this.unlockTON = () => {
-      const tx = async () =>
-        await this.TON.approve(this.WTON.address, this.tonBalance.toFixed('wei'), { from: this.user });
-      this.$bus.$emit('txSended', {
-        request: 'TON unlock',
-        txSender: tx,
-      });
-    };
-    this.unlockWTON = () => {
-      const tx = async () =>
-        await this.WTON.approve(this.DepositManager.address, this.wtonBalance.toFixed('ray'), { from: this.user });
-      this.$bus.$emit('txSended', {
-        request: 'WTON unlock',
-        txSender: tx,
-      });
-    };
-  },
-  methods: {
-    isTONUnlocked () {
-      const tonBalance = this.tonBalance.toNumber();
-      const tonAllowance = this.tonAllowance.toNumber();
-
-      if (tonBalance === 0 || tonAllowance === 0) return false;
-      return tonAllowance >= tonBalance;
-    },
-    isWTONUnlocked () {
-      const wtonBalance = this.wtonBalance.toNumber();
-      const wtonAllowance = this.wtonAllowance.toNumber();
-
-      if (wtonBalance === 0 || wtonAllowance === 0) return false;
-      return wtonAllowance >= wtonBalance;
-    },
-    toTON () {
-      if (!this.$store.state.isTxProcessing) {
-        this.$bus.$emit('txSended', {
-          request: 'swapToTON',
-          txSender: async () => await this.WTON.swapToTON(this.wtonBalance.toFixed('ray'), { from: this.user }),
-        });
-      }
-    },
-    async toWTON () {
-      if (!this.$store.state.isTxProcessing) {
-        this.$bus.$emit('txSended', {
-          request: 'swapFromTON',
-          txSender: async () => await this.WTON.swapFromTON(this.tonBalance.toFixed('wei'), { from: this.user }),
-        });
-      }
-    },
   },
 };
 </script>
