@@ -134,12 +134,17 @@ export default {
   },
   data () {
     return {
-      operator: {},
       param: '',
       tab: 'delegate',
       amountToDelegate: '',
       amountToUndelegate: '',
     };
+  },
+  props: {
+    operator: {
+      type: Object,
+      default: () => {},
+    },
   },
   computed: {
     ...mapState([
@@ -156,14 +161,7 @@ export default {
       'operatorByRootchain',
     ]),
   },
-  created () {
-    this.param = this.$route.params.rootchain;
-    this.refreshOperator(this.param);
-  },
   methods: {
-    refreshOperator (param) {
-      this.operator = this.operatorByRootchain(param);
-    },
     changeTab (tab) {
       this.tab = tab;
     },
@@ -189,7 +187,7 @@ export default {
           await this.processDepositLog(receipt);
 
           await this.$store.dispatch('set');
-          this.refreshOperator(this.param);
+          this.$emit('refresh');
           this.$store.dispatch('deletePendingTx', receipt.transactionHash);
         })
         .on('error', function (error, receipt) {
@@ -216,7 +214,7 @@ export default {
         })
         .on('receipt', async (receipt) => {
           await this.$store.dispatch('set');
-          this.refreshOperator(this.param);
+          this.$emit('refresh');
           this.$store.dispatch('deletePendingTx', receipt.transactionHash);
         })
         .on('error', function (error, receipt) {
@@ -246,7 +244,7 @@ export default {
           await this.processRequestProcessLog(receipt);
 
           await this.$store.dispatch('set');
-          this.refreshOperator(this.param);
+          this.$emit('refresh');
           this.$store.dispatch('deletePendingTx', receipt.transactionHash);
         });
 

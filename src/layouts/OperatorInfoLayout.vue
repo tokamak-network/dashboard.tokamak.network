@@ -1,116 +1,27 @@
 <template>
   <div style="display: flex;">
-    <div
-      class="operator-info-layout"
+    <operator-info-container
+      :operator="operator"
       style="flex: 1; margin-right: 4px;"
-    >
-      <div class="operator-info-container">
-        <div>
-          <div class="operator-name-label">
-            {{ operator.name }}
-          </div>
-          <div style="display: flex; margin-top: 8px;">
-            <div class="operator-info-label">
-              Operator
-            </div>
-            <div class="operator-info-content">
-              {{ operator.address }}
-            </div>
-          </div>
-          <div style="display: flex;">
-            <div class="operator-info-label">
-              Website
-            </div>
-            <div class="operator-info-content">
-              {{ operator.website }}
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="operator-info-detailed-container">
-        <div class="operator-info-detailed">
-          <div class="operator-info-detailed-label">
-            Total Reward
-          </div>
-          <div class="operator-info-detailed-content">
-            {{ operator.totalStake }}
-            <!-- TODO: calculate total reward -->
-          </div>
-        </div>
-        <div class="operator-info-detailed">
-          <div class="operator-info-detailed-label">
-            Total Deposit
-          </div>
-          <div class="operator-info-detailed-content">
-            {{ operator.totalDeposit | convertToTON }}
-          </div>
-        </div>
-        <div class="operator-info-detailed">
-          <div class="operator-info-detailed-label">
-            Total Stake
-          </div>
-          <div class="operator-info-detailed-content">
-            {{ operator.totalStake | convertToTON }}
-          </div>
-        </div>
-        <div class="operator-info-detailed">
-          <div class="operator-info-detailed-label">
-            Operator Deposit
-          </div>
-          <div class="operator-info-detailed-content">
-            {{ operator.operatorDeposit | convertToTON }}
-          </div>
-        </div>
-        <div class="operator-info-detailed">
-          <div class="operator-info-detailed-label">
-            Operator Stake
-          </div>
-          <div class="operator-info-detailed-content">
-            {{ operator.operatorStake | convertToTON }}
-          </div>
-        </div>
-        <div class="operator-info-detailed">
-          <div class="operator-info-detailed-label">
-            Reward (totalStake / totalDeposit)
-          </div>
-          <div class="operator-info-detailed-content">
-            {{ calculateReward() }} %
-          </div>
-        </div>
-        <div class="operator-info-detailed">
-          <div class="operator-info-detailed-label">
-            Commit Count
-          </div>
-          <div class="operator-info-detailed-content">
-            {{ operator.commitCount }}
-          </div>
-        </div>
-        <div class="operator-info-detailed">
-          <div class="operator-info-detailed-label">
-            Duration
-          </div>
-          <div class="operator-info-detailed-content">
-            {{ operator.duration | fromNow }}
-          </div>
-        </div>
-      </div>
-    </div>
+    />
     <delegate-manager
       style="flex: 1; margin-left: 4px;"
       :operator="operator"
+      v-on:refresh="refreshOperator"
     />
   </div>
 </template>
 
 <script>
-import { mapState, mapGetters } from 'vuex';
+import { mapGetters } from 'vuex';
 
 import DelegateManager from '@/components/DelegateManager.vue';
-import StandardButton from '@/components/StandardButton.vue';
+import OperatorInfoContainer from '@/containers/OperatorInfoContainer.vue';
 
 export default {
   components: {
     'delegate-manager': DelegateManager,
+    'operator-info-container': OperatorInfoContainer,
   },
   data () {
     return {
@@ -118,22 +29,18 @@ export default {
     };
   },
   computed: {
-    ...mapState([
-      'user',
-      'operators',
-      'wtonBalance',
-      'DepositManager',
-    ]),
     ...mapGetters([
       'operatorByRootchain',
-      'isTxProcessing',
-      'userTotalPendingByOperator',
     ]),
   },
   created () {
-    this.operator = this.operatorByRootchain(this.$route.params.rootchain);
+    this.param = this.$route.params.rootchain;
+    this.refreshOperator();
   },
   methods: {
+    refreshOperator () {
+      this.operator = this.operatorByRootchain(this.param);
+    },
     calculateReward () {
       try {
         return (this.operator.totalStake.div(this.operator.totalDeposit)).toNumber();
