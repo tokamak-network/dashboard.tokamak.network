@@ -20,6 +20,7 @@
     "bignumber.js": "^9.0.0",
     "body-parser": "^1.19.0",
     "core-js": "^3.4.4",
+    "eth-sig-util": "^2.5.2",
     "ethereumjs-tx": "^2.1.2",
     "express": "^4.17.1",
     "lodash": "^4.17.15",
