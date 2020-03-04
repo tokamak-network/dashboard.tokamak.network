@@ -132,6 +132,12 @@ export default {
   components: {
     'standard-button': StandardButton,
   },
+  props: {
+    operator: {
+      type: Object,
+      default: () => {},
+    },
+  },
   data () {
     return {
       param: '',
@@ -139,12 +145,6 @@ export default {
       amountToDelegate: '',
       amountToUndelegate: '',
     };
-  },
-  props: {
-    operator: {
-      type: Object,
-      default: () => {},
-    },
   },
   computed: {
     ...mapState([
