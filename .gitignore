@@ -22,3 +22,6 @@ yarn-error.log*
 
 # db
 localstorage
+
+# static file
+avatars
