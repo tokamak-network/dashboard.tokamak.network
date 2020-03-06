@@ -4,7 +4,7 @@ Vue.use(Vuex);
 
 import router from '@/router';
 
-import { getState, getHistory } from '@/api';
+import { getState, getHistory, getRootchainRegistry } from '@/api';
 import { cloneDeep, isEqual, range } from 'lodash';
 import { createWeb3Contract } from '@/helpers/Contract';
 import { createCurrency } from '@makerdao/currency';
@@ -262,6 +262,7 @@ export default new Vuex.Store({
         }
 
         const pendingRequests = await context.dispatch('getPendingRequests', rootchain);
+        const registry = await getRootchainRegistry(rootchain);
 
         count++;
         const operatorFromRootChain = {
@@ -286,7 +287,9 @@ export default new Vuex.Store({
           userUncomittedStakeOf: wtonWrapper(userUncomittedStakeOf),
 
           pendingRequests,
+          registry,
         };
+        console.log('rootchain', operatorFromRootChain);
         return operatorFromRootChain;
       });
 

@@ -1,14 +1,22 @@
 const express = require('express');
+const app = express();
+
 const cors = require('cors');
+app.use(cors());
+
 const bodyParser = require('body-parser');
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
+const multer = require('multer');
+const upload = multer({
+  dest: './avatars',
+});
+app.use('/static', express.static(__dirname + '/avatars'));
+
 const db = require('./localstorage');
 const path = require('path');
 const fs = require('fs');
-
-const app = express();
-app.use(cors());
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
 
 const homeDir = require('os').homedir();
 const plsStakingDir = path.join(homeDir, '.pls.staking');
@@ -46,6 +54,32 @@ app.get('/history/:user', function (req, res) {
   return res.status(200).json({
     history,
   });
+});
+
+app.get('/registry/:rootchain', function (req, res) {
+  const rootchain = (req.params.rootchain).toLowerCase();
+  const registry = db.getRootchainRegistry(rootchain);
+
+  return res.status(200).json({
+    registry,
+  });
+});
+
+app.post('/registry/:rootchain', upload.single('avatar'), function (req, res) {
+  const rootchain = (req.params.rootchain).toLowerCase();
+
+  const registry = {};
+  if (req.file) {
+    const avatar = req.file.filename;
+    registry.avatar = avatar;
+  }
+  registry.name = req.body.name;
+  registry.website = req.body.website;
+  registry.description = req.body.description;
+
+  db.updateRootchainRegistry(rootchain, registry);
+
+  return res.status(200).json({});
 });
 
 app.post('/managers', function (req, res) {
