@@ -1,14 +1,7 @@
 <template>
-  <div class="column">
-    <operator-info-container
-      :operator="operator"
-      style="flex: 1; margin-right: 4px;"
-    />
-    <delegate-manager-container
-      :operator="operator"
-      style="flex: 1; margin-left: 4px;"
-      @refresh="refreshOperator"
-    />
+  <div class="row">
+    <operator-info-container class="left-container" :operator="operator" />
+    <delegate-manager-container class="right-container" :operator="operator" @refresh="refreshOperator" />
   </div>
 </template>
 
@@ -53,7 +46,18 @@ export default {
 </script>
 
 <style scoped>
-.column{
+.row {
   display: flex;
+  flex-direction: row;
+}
+
+.left-container {
+  flex: 1;
+  margin-right: 4px;
+}
+
+.right-container {
+  flex: 1;
+  margin-left: 4px;
 }
 </style>
