@@ -38,6 +38,12 @@ module.exports = {
     "promise/always-return": "off",
     "promise/avoid-new": "off",
     "no-unused-vars": "off",
+    "vue/attribute-hyphenation": "off",
+    "vue/require-default-prop": "off",
+    "vue/require-prop-types": "off",
+    "vue/singleline-html-element-content-newline": "off",
+    "vue/max-attributes-per-line": "off",
+    "vue/prop-name-casing": "off",
   },
   parserOptions: {
     parser: 'babel-eslint'
