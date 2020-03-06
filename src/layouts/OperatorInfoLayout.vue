@@ -3,11 +3,11 @@
     <operator-info-container
       :operator="operator"
       style="flex: 1; margin-right: 4px;"
-    />
-    <delegate-manager
+    />g
+    <delegate-manager-container
       style="flex: 1; margin-left: 4px;"
       :operator="operator"
-      v-on:refresh="refreshOperator"
+      @refresh="refreshOperator"
     />
   </div>
 </template>
@@ -15,12 +15,12 @@
 <script>
 import { mapGetters } from 'vuex';
 
-import DelegateManager from '@/components/DelegateManager.vue';
+import DelegateManagerContainer from '@/containers/DelegateManagerContainer.vue';
 import OperatorInfoContainer from '@/containers/OperatorInfoContainer.vue';
 
 export default {
   components: {
-    'delegate-manager': DelegateManager,
+    'delegate-manager-container': DelegateManagerContainer,
     'operator-info-container': OperatorInfoContainer,
   },
   data () {
