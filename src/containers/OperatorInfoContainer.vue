@@ -1,6 +1,7 @@
 <template>
   <div class="container column">
-    <operator-info-registry :registry="operator.registry" />
+    <operator-info-registry :operator="operator" />
+    <div class="space" />
     <operator-info :title="'ADDRESS'" :content="operator.address" />
     <operator-info :title="'TOTAL DEPOSIT'" :content="operator.totalDeposit" :is-token="true" />
   </div>
@@ -31,10 +32,6 @@ export default {
         return 0;
       }
     },
-    edit () {
-      const path = this.$route.path;
-      this.$router.push(`${path}/edit`);
-    },
   },
 };
 </script>
@@ -49,5 +46,10 @@ export default {
   border-radius: 6px;
   border: solid 0.7px #ced6d9;
   background-color: #ffffff;
+  padding-bottom: 16px;
+}
+
+.space {
+  flex: 1;
 }
 </style>

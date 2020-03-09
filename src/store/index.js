@@ -190,7 +190,6 @@ export default new Vuex.Store({
 
       const wtonWrapper = (amount) => _WTON.ray(amount);
 
-      let count = 0;
       const operatorsFromRootchain = rootchains.map(async rootchain => {
         const RootChain = await createWeb3Contract(RootChainABI, rootchain);
         const Coinage =
@@ -264,12 +263,8 @@ export default new Vuex.Store({
         const pendingRequests = await context.dispatch('getPendingRequests', rootchain);
         const registry = await getRootchainRegistry(rootchain);
 
-        count++;
         const operatorFromRootChain = {
-          name: `TOKAMAK_OPERATOR_${count}`,
           address: operator,
-          website: `www.tokamak${count}.network`,
-
           rootchain,
           recentCommitTimestamp,
           commitCount,
@@ -289,7 +284,6 @@ export default new Vuex.Store({
           pendingRequests,
           registry,
         };
-        console.log('rootchain', operatorFromRootChain);
         return operatorFromRootChain;
       });
 

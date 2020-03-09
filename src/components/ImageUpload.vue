@@ -22,11 +22,18 @@ export default {
       preview: '',
     };
   },
+  computed: {
+    filteredImgURL () {
+      return name => `http://${window.location.hostname}:9000/avatars/${name}`;
+    },
+  },
   created () {
     this.randomColor = 'rgb(' + (Math.floor(Math.random() * 256)) +',' +
                                 (Math.floor(Math.random() * 256)) + ',' +
                                 (Math.floor(Math.random() * 256)) + ')';
-    this.preview = this.beforeAvatar;
+    if (this.beforeAvatar !== '') {
+      this.preview = this.filteredImgURL(this.beforeAvatar);
+    }
   },
   methods: {
     onSelect (event) {

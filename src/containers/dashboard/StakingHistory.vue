@@ -31,7 +31,6 @@
 </template>
 
 <script>
-import api from '@/api';
 import { mapState } from 'vuex';
 
 import StandardTable from '@/components/StandardTable.vue';

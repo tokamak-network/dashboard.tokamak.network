@@ -11,7 +11,7 @@
       :columns="[
         {
           name: 'OPERATOR',
-          key: 'name',
+          key: 'registry.name',
         },
         {
           name: 'MY STAKE',

@@ -22,7 +22,7 @@
           v-for="column in columns"
           :key="column.name"
         >
-          {{ filtered(column.key, data[column.key]) }}
+          {{ filtered(column.key, data[column.key], data) }}
         </td>
       </tr>
     </tbody>
@@ -63,12 +63,13 @@ export default {
         return data.rootchain;
       }
     },
-    filtered (key, data) {
+    filtered (key, data, originData) {
       switch (this.type) {
       case 'operator':
         if (key === 'address' || key === 'rootchain') return this.$options.filters.hexSlicer(data);
         else if (key === 'totalStake' || key === 'userStake') return this.$options.filters.convertToTON(data);
         else if (key === 'recentCommitTimestamp') return this.$options.filters.fromNow(data);
+        else if (key === 'registry.name') return originData.registry.name;
         else return data;
 
       case 'history':

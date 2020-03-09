@@ -1,12 +1,7 @@
 <template>
-  <div>
-    <label>
-      {{ label }}
-    </label>
-    <input
-      :value="value"
-      @input="updateValue($event.target.value)"
-    >
+  <div class="column">
+    <label>{{ label }}</label>
+    <input :value="value" @input="updateValue($event.target.value)">
     <hr>
   </div>
 </template>
@@ -32,6 +27,11 @@ export default {
 </script>
 
 <style scoped>
+.column {
+  display: flex;
+  flex-direction: column;
+}
+
 label {
   color: #a1a1a1;
 	display: block;

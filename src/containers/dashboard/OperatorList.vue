@@ -12,7 +12,7 @@
         :columns="[
           {
             name: 'OPERATOR',
-            key: 'name',
+            key: 'registry.name',
           },
           {
             name: 'TOTAL STAKE',
@@ -29,7 +29,6 @@
 </template>
 
 <script>
-import api from '@/api';
 import { mapState } from 'vuex';
 
 import StandardTable from '@/components/StandardTable.vue';
