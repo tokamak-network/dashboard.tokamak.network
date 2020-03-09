@@ -7,6 +7,7 @@ import OperatorListLayout from '@/layouts/OperatorListLayout.vue';
 import StakeInfoLayout from '@/layouts/StakeInfoLayout.vue';
 import OperatorInfoLayout from '@/layouts/OperatorInfoLayout.vue';
 import HistoryLayout from '@/layouts/HistoryLayout.vue';
+import OperatorInfoEditLayout from '@/layouts/OperatorInfoEditLayout.vue';
 
 const routes = [
   {
@@ -20,6 +21,10 @@ const routes = [
   {
     path: '/operators/:rootchain',
     component: OperatorInfoLayout,
+  },
+  {
+    path: '/operators/:rootchain/edit',
+    component: OperatorInfoEditLayout,
   },
   {
     path: '/staking',
