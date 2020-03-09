@@ -30,13 +30,12 @@ export default {
         window.ethereum.autoRefreshOnNetworkChange = false;
         window.ethereum.on('chainIdChanged', async (chainId) => {
           switch (parseInt(chainId)) {
-          case 1: console.log('changed to mainnet'); break;
-          default: console.log('changed to testnet'); break;
+          case 1: break;
+          default: break;
           }
           this.$store.dispatch('logout');
         });
         window.ethereum.on('accountsChanged', async (chainId) => {
-          console.log('changed to account');
           this.$store.dispatch('logout');
         });
       } catch (e) {

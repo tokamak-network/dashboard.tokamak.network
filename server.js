@@ -12,7 +12,7 @@ const multer = require('multer');
 const upload = multer({
   dest: './avatars',
 });
-app.use('/static', express.static(__dirname + '/avatars'));
+app.use('/avatars', express.static(__dirname + '/avatars'));
 
 const db = require('./localstorage');
 const path = require('path');
