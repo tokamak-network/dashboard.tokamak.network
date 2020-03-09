@@ -1,8 +1,8 @@
 import { shallowMount } from '@vue/test-utils';
 
-import StandardButton from '@/components/StandardButton.vue';
+import BaseButton from '@/components/BaseButton.vue';
 
-describe('StandardButton.vue', () => {
+describe('BaseButton.vue', () => {
   let wrapper, button;
 
   const props = {
@@ -11,7 +11,7 @@ describe('StandardButton.vue', () => {
   };
 
   beforeEach(() => {
-    wrapper = shallowMount(StandardButton);
+    wrapper = shallowMount(BaseButton);
     wrapper.setProps({
       label: 'label',
       disable: true,

@@ -60,7 +60,7 @@
   border-radius: 6px;
         "
       >
-        <standard-table
+        <base-table
           :type="'operator'"
           :columns="[
             {
@@ -85,11 +85,11 @@
 <script>
 import { mapState, mapGetters } from 'vuex';
 
-import StandardTable from '@/components/StandardTable.vue';
+import BaseTable from '@/components/BaseTable.vue';
 
 export default {
   components: {
-    'standard-table': StandardTable,
+    'base-table': BaseTable,
   },
   data () {
     return {

@@ -48,14 +48,14 @@
       </div>
       <div class="delegate-button-container">
         <div class="delegate-button">
-          <standard-button
+          <base-button
             :label="'Delegate'"
             :func="delegate()"
             :disable="isTxProcessing('delegate')"
           />
         </div>
         <div class="undelegate-button">
-          <standard-button
+          <base-button
             :label="'Undelegate'"
             :func="undelegate()"
             :disable="isTxProcessing('undelegate')"
@@ -75,13 +75,13 @@
 </template>
 
 <script>
-import StandardButton from '@/components/StandardButton.vue';
+import BaseButton from '@/components/BaseButton.vue';
 
 import { mapState, mapGetters } from 'vuex';
 
 export default {
   components: {
-    'standard-button': StandardButton,
+    'base-button': BaseButton,
   },
   props: {
     operator: {

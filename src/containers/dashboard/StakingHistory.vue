@@ -7,7 +7,7 @@
       <loading-spinner />
     </div>
     <div v-else>
-      <standard-table
+      <base-table
         :type="'history'"
         :rounded="true"
         :columns="[
@@ -33,12 +33,12 @@
 <script>
 import { mapState } from 'vuex';
 
-import StandardTable from '@/components/StandardTable.vue';
+import BaseTable from '@/components/BaseTable.vue';
 import LoadingSpinner from '@/components/LoadingSpinner.vue';
 
 export default {
   components: {
-    'standard-table': StandardTable,
+    'base-table': BaseTable,
     'loading-spinner': LoadingSpinner,
   },
   data () {

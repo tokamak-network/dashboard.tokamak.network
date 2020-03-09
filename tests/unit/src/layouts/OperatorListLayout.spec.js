@@ -3,7 +3,7 @@ import Vuex from 'vuex';
 
 import OperatorListLayout from '@/layouts/OperatorListLayout.vue';
 import SearchBar from '@/components/SearchBar.vue';
-import StandardTable from '@/components/StandardTable.vue';
+import BaseTable from '@/components/BaseTable.vue';
 
 describe('OperatorListLayout.vue', () => {
   let localVue;
@@ -43,7 +43,7 @@ describe('OperatorListLayout.vue', () => {
     const clickOperatorInfo = jest.fn();
     wrapper.setMethods({ clickOperatorInfo });
 
-    const table = wrapper.find(StandardTable);
+    const table = wrapper.find(BaseTable);
     table.vm.$emit('tableDataClicked');
 
     expect(table.emitted().tableDataClicked).toBeTruthy();

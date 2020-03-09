@@ -5,7 +5,7 @@
       <operator-info-input v-model="name" :label="'NAME'" />
       <operator-info-input v-model="website" :label="'WEBSITE'" />
       <operator-info-input v-model="description" :label="'DESCRIPTION'" />
-      <div class="button"><standard-button :label="'UPDATE'" :func="update" /></div>
+      <div class="button"><base-button :label="'UPDATE'" :func="update" /></div>
     </div>
   </form>
 </template>
@@ -18,13 +18,13 @@ import { recoverTypedSignatureLegacy } from 'eth-sig-util';
 
 import ImageUpload from '@/components/ImageUpload.vue';
 import OperatorInfoInput from '@/components/OperatorInfoInput.vue';
-import StandardButton from '@/components/StandardButton.vue';
+import BaseButton from '@/components/BaseButton.vue';
 
 export default {
   components: {
     'image-upload': ImageUpload,
     'operator-info-input': OperatorInfoInput,
-    'standard-button': StandardButton,
+    'base-button': BaseButton,
   },
   data () {
     return {

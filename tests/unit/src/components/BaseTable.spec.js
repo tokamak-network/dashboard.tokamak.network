@@ -1,8 +1,8 @@
 import { shallowMount } from '@vue/test-utils';
 
-import StandardTable from '@/components/StandardTable.vue';
+import BaseTable from '@/components/BaseTable.vue';
 
-describe('StandardTable.vue', () => {
+describe('BaseTable.vue', () => {
   let wrapper;
 
   const columns = [
@@ -28,7 +28,7 @@ describe('StandardTable.vue', () => {
   const clickable = true;
 
   beforeEach(() => {
-    wrapper = shallowMount(StandardTable);
+    wrapper = shallowMount(BaseTable);
   });
 
   it('should render correct table header', () => {

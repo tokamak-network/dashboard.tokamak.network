@@ -49,7 +49,7 @@
           class="request-button"
           style="margin-top: 192px;"
         >
-          <standard-button
+          <base-button
             :label="'Delegate TON'"
             :func="delegate"
           />
@@ -83,7 +83,7 @@
           class="request-button"
           style="margin-top: 40px;"
         >
-          <standard-button
+          <base-button
             :label="'Request Undelegate TON'"
             :func="undelegate"
           />
@@ -106,7 +106,7 @@
           </div>
         </div>
         <div class="request-button">
-          <standard-button
+          <base-button
             :label="'Process Requests'"
             :func="processRequests"
             :disable="operator.pendingRequests.length === 0"
@@ -126,11 +126,11 @@ import { createCurrency } from '@makerdao/currency';
 const _TON = createCurrency('TON');
 const _WTON = createCurrency('WTON');
 
-import StandardButton from '@/components/StandardButton.vue';
+import BaseButton from '@/components/BaseButton.vue';
 
 export default {
   components: {
-    'standard-button': StandardButton,
+    'base-button': BaseButton,
   },
   props: {
     operator: {

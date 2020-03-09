@@ -1,6 +1,6 @@
 <template>
   <div class="history-layout table-container">
-    <standard-table
+    <base-table
       :type="'history'"
       :rounded="true"
       :columns="[
@@ -25,11 +25,11 @@
 <script>
 import { mapState } from 'vuex';
 
-import StandardTable from '@/components/StandardTable.vue';
+import BaseTable from '@/components/BaseTable.vue';
 
 export default {
   components: {
-    'standard-table': StandardTable,
+    'base-table': BaseTable,
   },
   computed: mapState([
     'userHistory',

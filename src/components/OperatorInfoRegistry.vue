@@ -2,7 +2,7 @@
   <div class="column">
     <div class="row avatar-container">
       <avatar class="avatar" fullname="O P R" :image="preview" :size="50" />
-      <div v-if="user === operator.address" class="button"><standard-button :label="'edit'" :func="edit" /></div>
+      <div v-if="user === operator.address" class="button"><base-button :label="'edit'" :func="edit" /></div>
     </div>
     <div class="row">
       <span class="title">NAME</span>
@@ -23,11 +23,11 @@
 import { mapState } from 'vuex';
 
 import Avatar from 'vue-avatar-component';
-import StandardButton from '@/components/StandardButton.vue';
+import BaseButton from '@/components/BaseButton.vue';
 
 export default {
   components: {
-    'standard-button': StandardButton,
+    'base-button': BaseButton,
     'avatar': Avatar,
   },
   props: {
