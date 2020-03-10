@@ -136,7 +136,7 @@ export default {
       try {
         await updateOperatorRegistry(this.operator.rootchain, formData);
       } catch (e) {
-        console.log(e.message);
+        //
       }
     },
   },

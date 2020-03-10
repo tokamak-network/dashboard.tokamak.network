@@ -39,7 +39,7 @@
         </div>
         <div style="display: flex; margin-top: 8px;">
           <div style="flex: 1; font-size: 14px; color: #586064">
-            Delegate 가능한 Amount
+            Available Amount
           </div>
           <div style="font-size: 14px; color: #586064">
             {{ tonBalance }}
@@ -73,7 +73,7 @@
         </div>
         <div style="display: flex;  padding-top: 8px;">
           <div style="flex: 1; font-size: 14px; color: #586064;">
-            Undelegate 가능한 Amount
+            Available Amount
           </div>
           <div style="font-size: 14px; color: #586064">
             {{ operator.userStake | convertToTON }}
@@ -191,7 +191,7 @@ export default {
           this.$store.dispatch('deletePendingTx', receipt.transactionHash);
         })
         .on('error', function (error, receipt) {
-          console.log(error.message);
+          //
         });
 
       this.amountToDelegate = '';
@@ -218,7 +218,7 @@ export default {
           this.$store.dispatch('deletePendingTx', receipt.transactionHash);
         })
         .on('error', function (error, receipt) {
-          console.log(error.message);
+          //
         });
 
       this.amountToUndelegate = '';
