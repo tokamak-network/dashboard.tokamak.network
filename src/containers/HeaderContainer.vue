@@ -7,6 +7,7 @@
           src="@/assets/images/Tokamak.png"
           width="230"
           height="23"
+          @click="toMainPage"
         >
       </div>
       <div class="header-link-container">
@@ -28,6 +29,8 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
+
 export default {
   data () {
     return {
@@ -35,9 +38,23 @@ export default {
       faucet: '',
     };
   },
+  computed: {
+    ...mapState([
+      'signIn',
+    ]),
+  },
   created () {
     this.FAQs = process.env.VUE_APP_FAQS_LINK;
     this.faucet = process.env.VUE_APP_FAUCET_LINK;
+  },
+  methods: {
+    toMainPage () {
+      if (this.signIn && this.$route.path !== '/dashboard') {
+        this.$router.push('/dashboard');
+      } else if(!this.signIn && this.$route.path !== '/') {
+        this.$router.replace('/');
+      }
+    },
   },
 };
 </script>
@@ -65,6 +82,10 @@ export default {
 .header-logo {
   margin-top: 7px;
   padding-left: 16px;
+}
+
+.header-logo:hover {
+  cursor: pointer;
 }
 
 .header-link-container {
