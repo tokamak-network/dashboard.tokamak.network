@@ -46,7 +46,8 @@ export default {
       'user',
     ]),
     filteredImgURL () {
-      return name => `http://${window.location.hostname}:9000/avatars/${name}`;
+      const port = process.env.VUE_APP_PORT ? process.env.VUE_APP_PORT : '9000';
+      return name => `${window.location.protocol}//${window.location.hostname}:${port}/avatars/${name}`;
     },
   },
   created () {
@@ -81,16 +82,18 @@ export default {
 }
 
 .avatar {
-  margin-right: 240px;
+  margin-left: 4px;
+  margin-right: 16px;
 }
 
 .avatar-container {
-  margin: 16px;
+  margin: 8px;
+  align-items: center;
 }
 
 .content-container {
   flex: 1;
-  margin-right: 16px;
+  margin-right: 8px;
 }
 
 .content {
@@ -106,5 +109,6 @@ export default {
   font-size: 14px;
   border-radius: 4px;
   height: 20px;
+  width: 40px;
 }
 </style>

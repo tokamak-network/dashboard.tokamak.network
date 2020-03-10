@@ -11,7 +11,7 @@
             class="header-link"
             target="_blank"
             rel="noopener noreferrer"
-            :href="`https://etherscan.io/tx/${hash}`"
+            :href="explorerURL(hash)"
           >{{ hash }}</a> )
         </p>
       </div>
@@ -23,10 +23,21 @@
 import { mapState } from 'vuex';
 
 export default {
+  data () {
+    return {
+      prefix: '',
+    };
+  },
   computed: {
     ...mapState([
       'txsPending',
     ]),
+    explorerURL () {
+      return hash => `${this.prefix}/${hash}`;
+    },
+  },
+  created () {
+    this.prefix = process.env.VUE_APP_EXPLORER_PREFIX;
   },
 };
 </script>
