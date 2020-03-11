@@ -21,6 +21,7 @@ function getHistory (user) {
 }
 module.exports.getHisotry = getHistory;
 
+// TODO: move dircetory (registry, histories)
 function updateRootchainRegistry (rootchain, newRegistry) {
   const registry = getRootchainRegistry(rootchain);
   for (const key in registry){
