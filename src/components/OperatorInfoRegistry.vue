@@ -46,8 +46,8 @@ export default {
       'user',
     ]),
     filteredImgURL () {
-      const port = process.env.VUE_APP_PORT ? process.env.VUE_APP_PORT : '9000';
-      return name => `${window.location.protocol}//${window.location.hostname}:${port}/avatars/${name}`;
+      const baseUrl = process.env.VUE_APP_API_SERVER_URL ? process.env.VUE_APP_API_SERVER_URL : 'http://localhost:9000';
+      return name => `${baseUrl}/avatars/${name}`;
     },
   },
   created () {
