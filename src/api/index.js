@@ -1,9 +1,8 @@
 import axios from 'axios';
 
 function createInstance () {
-  const url = process.env.VUE_APP_API_SERVER_URL ? process.env.VUE_APP_API_SERVER_URL : 'http://localhost:9000';
   return axios.create({
-    baseURL: url,
+    baseURL: 'http://52.79.156.128:9000',
   });
 }
 

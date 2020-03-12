@@ -46,8 +46,7 @@ export default {
       'user',
     ]),
     filteredImgURL () {
-      const baseUrl = process.env.VUE_APP_API_SERVER_URL ? process.env.VUE_APP_API_SERVER_URL : 'http://localhost:9000';
-      return name => `${baseUrl}/avatars/${name}`;
+      return name => `http://52.79.156.128:9000/avatars/${name}`;
     },
   },
   created () {
