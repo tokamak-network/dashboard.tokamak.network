@@ -77,7 +77,7 @@ export default {
         this.message = 'Please install metamask extension';
         return false;
       }
-      if(window.ethereum.networkVersion !== '1337') {
+      if (window.ethereum.networkVersion !== '1337') {
         this.message = 'Please connect to the Faraday Network';
         return false;
       }
