@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "env": {
+    "VUE_APP_NETWORK_ID": "@vue-app-network-id",
+    "VUE_APP_FAQS_LINK":"@vue-app-faqs-link",
+    "VUE_APP_FAUCET_LINK":"@vue-app-faucet-link",
+    "VUE_APP_EXPLORER_PREFIX":"@vue-app-explorer-prefix",
+    "VUE_APP_API_SERVER_URL":"@vue-app-api-server-url"
+  }
+}
