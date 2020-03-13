@@ -1,17 +1,22 @@
 <template>
-  <div id="app">
-    <header-container />
-    <div class="body-container">
-      <div v-if="!signIn">
-        <loading-spinner v-if="loading" />
-        <access-wallet-layout v-else />
-      </div>
-      <div v-else>
-        <tx-processor />
-        <main-layout />
-      </div>
+  <div>
+    <div v-if="!hasCorrectNetwork()">
+      <network-guide-layout :message="message" />
     </div>
-    <footer-container />
+    <div v-else id="app">
+      <header-container />
+      <div class="body-container">
+        <div v-if="!signIn">
+          <loading-spinner v-if="loading" />
+          <access-wallet-layout v-else />
+        </div>
+        <div v-else>
+          <tx-processor />
+          <main-layout />
+        </div>
+      </div>
+      <footer-container />
+    </div>
   </div>
 </template>
 
@@ -26,6 +31,7 @@ import FooterContainer from '@/containers/FooterContainer.vue';
 import AccessWalletLayout from '@/layouts/AccessWalletLayout.vue';
 import MainLayout from '@/layouts/MainLayout.vue';
 import AccessWalletLayoutVue from './layouts/AccessWalletLayout.vue';
+import NetworkGuideLayout from './layouts/NetworkGuideLayout.vue';
 
 export default {
   components: {
@@ -35,6 +41,12 @@ export default {
     'access-wallet-layout': AccessWalletLayout,
     'main-layout': MainLayout,
     'tx-processor': TxProcessor,
+    'network-guide-layout': NetworkGuideLayout,
+  },
+  data () {
+    return {
+      message: '',
+    };
   },
   computed: {
     ...mapState([
@@ -58,6 +70,19 @@ export default {
         }
       },
     );
+  },
+  methods: {
+    hasCorrectNetwork () {
+      if (typeof window.ethereum === 'undefined') {
+        this.message = 'Please install metamask extension';
+        return false;
+      }
+      if(window.ethereum.networkVersion !== '1337') {
+        this.message = 'Please connect to the Faraday Network';
+        return false;
+      }
+      return true;
+    },
   },
 };
 </script>

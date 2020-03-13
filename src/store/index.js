@@ -145,11 +145,6 @@ export default new Vuex.Store({
       const user = (await web3.eth.getAccounts())[0];
       const networkId = await web3.eth.net.getId();
 
-      // TODO: optimization
-      // if (networkId.toString() !== process.env.VUE_APP_NETWORK_ID) {
-      //   return alert(`Please connect proper metamask endpoint: ${process.env.VUE_APP_NETWORK_ID}`);
-      // }
-
       context.commit('IS_LOADING', true);
 
       context.commit('SET_WEB3', web3);
