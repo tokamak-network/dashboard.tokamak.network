@@ -12,9 +12,9 @@ const multer = require('multer');
 
 // TODO: localstorage/avartars
 const upload = multer({
-  dest: './avatars',
+  dest: './localstorage/avatars',
 });
-app.use('/avatars', express.static(__dirname + '/avatars'));
+app.use('/avatars', express.static(__dirname + '/localstorage/avatars'));
 
 const db = require('./localstorage');
 const fs = require('fs');
