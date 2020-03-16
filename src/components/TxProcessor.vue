@@ -6,13 +6,13 @@
     >
       <div class="tx-processor">
         <p class="message">
-          Pending confirmation (
+          Pending transaction (
           <a
             class="header-link"
             target="_blank"
             rel="noopener noreferrer"
             :href="explorerURL(hash)"
-          >{{ hash }}</a> )
+          >{{ hash }}</a> ), waiting to be confirmed...
         </p>
       </div>
     </div>
