@@ -48,6 +48,15 @@
     </div>
     <div
       class="sub-menu-title-container"
+      :class="{ 'menu-selected': $route.path === '/powerton'}"
+      @click="clickMenu('powerton')"
+    >
+      <div class="sub-menu-title">
+        Power TON
+      </div>
+    </div>
+    <div
+      class="sub-menu-title-container"
       :class="{ 'menu-selected': $route.path === '/history'}"
       @click="clickMenu('history')"
     >
@@ -86,8 +95,8 @@ export default {
   padding-bottom: 24px;
   background: #ffffff;
   width: 260px;
-  min-height: 320px;
-  max-height: 320px;
+  min-height: 340px;
+  max-height: 340px;
   border-radius: 7px;
   border: solid 0.7px #ced6d9;
 }
