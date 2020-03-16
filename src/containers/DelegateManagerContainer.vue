@@ -166,8 +166,8 @@ export default {
       this.tab = tab;
     },
     async delegate () {
-      if (this.amountToDelegate === '') return alert('Amount를 입력해주세요.');
-      if (_TON(this.amountToDelegate).gt(this.tonBalance)) return alert('TON 수량을 확인해주세요.');
+      if (this.amountToDelegate === '') return alert('Please check input amount.');
+      if (_TON(this.amountToDelegate).gt(this.tonBalance)) return alert('Please check your TON amount.');
 
       const data = this.getData();
       const amount = _TON(this.amountToDelegate).toFixed('wei');
@@ -197,8 +197,8 @@ export default {
       this.amountToDelegate = '';
     },
     async undelegate () {
-      if (this.amountToUndelegate === '') return alert('Please check input amount');
-      if (_WTON(this.amountToUndelegate).gt(this.operator.userStake)) return alert('Please check TON amount');
+      if (this.amountToUndelegate === '') return alert('Please check input amount.');
+      if (_WTON(this.amountToUndelegate).gt(this.operator.userStake)) return alert('Please check your TON amount.');
 
       const amount = _WTON(this.amountToUndelegate).toFixed('ray');
 
@@ -247,7 +247,6 @@ export default {
           this.$emit('refresh');
           this.$store.dispatch('deletePendingTx', receipt.transactionHash);
         });
-
     },
     async processDepositLog (receipt) {
       const event = receipt.events[0];
