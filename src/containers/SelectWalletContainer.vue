@@ -29,10 +29,16 @@ export default {
 
         window.ethereum.autoRefreshOnNetworkChange = false;
         window.ethereum.on('chainIdChanged', async (chainId) => {
+          console.log('0');
           switch (parseInt(chainId)) {
           case 1: break;
           default: break;
           }
+          this.$store.dispatch('logout');
+        });
+        // TODO
+        window.ethereum.on('chainChanged', async (chainId) => {
+          console.log('1', chainId);
           this.$store.dispatch('logout');
         });
         window.ethereum.on('accountsChanged', async (chainId) => {
