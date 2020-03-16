@@ -85,6 +85,8 @@ app.post('/managers', function (req, res) {
 });
 
 app.post('/rootchains', function (req, res) {
+  const rootchain = req.body.extraData;
+
   let rootchains;
   try {
     rootchains = JSON.parse(fs.readFileSync(`${localstorageDir}/rootchains.json`));
@@ -92,7 +94,7 @@ app.post('/rootchains', function (req, res) {
     rootchains = [];
   }
 
-  rootchains.push(req.body.address);
+  rootchains.push(rootchain);
   fs.writeFileSync(`${localstorageDir}/rootchains.json`, JSON.stringify(rootchains));
 
   return res.status(200).json({});
