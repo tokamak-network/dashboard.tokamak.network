@@ -27,21 +27,10 @@ export default {
       try {
         await this.metamask();
 
-        window.ethereum.autoRefreshOnNetworkChange = false;
-        window.ethereum.on('chainIdChanged', async (chainId) => {
-          console.log('0');
-          switch (parseInt(chainId)) {
-          case 1: break;
-          default: break;
-          }
+        window.ethereum.on('chainIdChanged', (chainId) => {
           this.$store.dispatch('logout');
         });
-        // TODO
-        window.ethereum.on('chainChanged', async (chainId) => {
-          console.log('1', chainId);
-          this.$store.dispatch('logout');
-        });
-        window.ethereum.on('accountsChanged', async (chainId) => {
+        window.ethereum.on('accountsChanged', (chainId) => {
           this.$store.dispatch('logout');
         });
       } catch (e) {
