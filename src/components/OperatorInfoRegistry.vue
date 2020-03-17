@@ -6,15 +6,15 @@
     </div>
     <div class="row">
       <span class="title">NAME</span>
-      <div class="content-container"><span class="content">{{ operator.registry.name }}</span></div>
+      <div class="content-container"><span class="content">{{ operator.name }}</span></div>
     </div>
     <div class="row">
       <span class="title">WEBSITE</span>
-      <div class="content-container"><span class="content">{{ operator.registry.website }}</span></div>
+      <div class="content-container"><span class="content">{{ operator.website }}</span></div>
     </div>
     <div class="row">
       <span class="title">DESCRIPTION</span>
-      <div class="content-container"><span class="content">{{ operator.registry.description }}</span></div>
+      <div class="content-container"><span class="content">{{ operator.description }}</span></div>
     </div>
   </div>
 </template>
@@ -46,12 +46,12 @@ export default {
       'user',
     ]),
     filteredImgURL () {
-      return name => `http://52.79.156.128:9000/avatars/${name}`;
+      return name => `http://127.0.0.1:9000/avatars/${name}`;
     },
   },
   created () {
-    if (this.operator.registry.avatar !== '') {
-      this.preview = this.filteredImgURL(this.operator.registry.avatar);
+    if (this.operator.avatar !== '') {
+      this.preview = this.filteredImgURL(this.operator.avatar);
     }
   },
   methods: {

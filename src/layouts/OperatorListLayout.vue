@@ -6,7 +6,7 @@
         :columns="[
           {
             name: 'OPERATOR',
-            key: 'registry.name',
+            key: 'name',
           },
           {
             name: 'ADDRESS',

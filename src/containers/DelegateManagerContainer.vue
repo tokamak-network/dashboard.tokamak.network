@@ -191,7 +191,7 @@ export default {
           this.$store.dispatch('deletePendingTx', receipt.transactionHash);
         })
         .on('error', function (error, receipt) {
-          //
+          alert('tx errors');
         });
 
       this.amountToDelegate = '';

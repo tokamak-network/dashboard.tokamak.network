@@ -1,7 +1,7 @@
 <template>
   <form enctype="multipart/form-data">
     <div class="column container">
-      <image-upload v-model="avatar" :before-avatar="operator.registry.avatar" />
+      <image-upload v-model="avatar" :before-avatar="operator.avatar" />
       <operator-info-input v-model="name" :label="'NAME'" />
       <operator-info-input v-model="website" :label="'WEBSITE'" />
       <operator-info-input v-model="description" :label="'DESCRIPTION'" />
@@ -12,7 +12,7 @@
 
 <script>
 import { mapState, mapGetters } from 'vuex';
-import { updateOperatorRegistry } from '@/api/index.js';
+import { updateOperator } from '@/api/index.js';
 import { toChecksumAddress } from 'web3-utils';
 import { recoverTypedSignatureLegacy } from 'eth-sig-util';
 
@@ -47,9 +47,9 @@ export default {
   },
   created () {
     this.operator = this.operatorByRootchain(this.$route.params.rootchain);
-    this.name = this.operator.registry.name;
-    this.website = this.operator.registry.website;
-    this.description = this.operator.registry.description;
+    this.name = this.operator.name;
+    this.website = this.operator.website;
+    this.description = this.operator.description;
   },
   beforeRouteEnter (to, from, next) {
     next(vm => {
@@ -134,7 +134,7 @@ export default {
       formData.append('description', this.description);
 
       try {
-        await updateOperatorRegistry(this.operator.rootchain, formData);
+        await updateOperator(this.operator.rootchain, formData);
       } catch (e) {
         //
       }

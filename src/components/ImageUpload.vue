@@ -24,7 +24,7 @@ export default {
   },
   computed: {
     filteredImgURL () {
-      return name => `http://52.79.156.128:9000/avatars/${name}`;
+      return name => `http://127.0.0.1:9000/avatars/${name}`;
     },
   },
   created () {

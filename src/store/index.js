@@ -4,30 +4,32 @@ Vue.use(Vuex);
 
 import router from '@/router';
 
-import { getState, getHistory, getRootchainRegistry } from '@/api';
+import { getManagers, getOperators, getHistory } from '@/api';
 import { cloneDeep, isEqual, range } from 'lodash';
 import { createWeb3Contract } from '@/helpers/Contract';
 import { createCurrency } from '@makerdao/currency';
 const _TON = createCurrency('TON');
 const _WTON = createCurrency('WTON');
 
-import TON from '@/contracts/ABI/TON.json';
-import WTON from '@/contracts/ABI/WTON.json';
-import DepositManager from '@/contracts/ABI/DepositManager.json';
-import RootChainRegistry from '@/contracts/ABI/RootChainRegistry.json';
-import SeigManager from '@/contracts/ABI/SeigManager.json';
+import TON from '@/contracts/TON.json';
+import WTON from '@/contracts/WTON.json';
+import DepositManager from '@/contracts/DepositManager.json';
+import RootChainRegistry from '@/contracts/RootChainRegistry.json';
+import SeigManager from '@/contracts/SeigManager.json';
+import PowerTON from '@/contracts/PowerTON.json';
 const managerABIs = {
   TONABI: TON.abi,
   WTONABI: WTON.abi,
   DepositManagerABI: DepositManager.abi,
   RootChainRegistryABI: RootChainRegistry.abi,
   SeigManagerABI: SeigManager.abi,
+  PowerTONABI: PowerTON.abi,
 };
 
-import RootChain from '@/contracts/ABI/RootChain.json';
+import RootChain from '@/contracts/RootChain.json';
 const RootChainABI = RootChain.abi;
 
-import CustomIncrementCoinage from '@/contracts/ABI/CustomIncrementCoinage.json';
+import CustomIncrementCoinage from '@/contracts/CustomIncrementCoinage.json';
 const CustomIncrementCoinageABI = CustomIncrementCoinage.abi;
 
 const initialState = {
@@ -159,16 +161,13 @@ export default new Vuex.Store({
       router.replace('/dashboard');
     },
     async set (context) {
-      return getState()
-        .then(async state => {
-          const managers = state.managers;
-          const rootchains = state.rootchains;
+      const managers = await getManagers();
+      const operators = await getOperators();
 
-          await context.dispatch('setManagers', managers);
-          await context.dispatch('setOperatorFromRootchains', rootchains);
-          await context.dispatch('setUserBalanceAndAllowance');
-          await context.dispatch('setUserHistory');
-        });
+      await context.dispatch('setManagers', managers);
+      await context.dispatch('setOperators', operators);
+      await context.dispatch('setUserBalanceAndAllowance');
+      await context.dispatch('setUserHistory');
     },
     async setManagers (context, managers) {
       const user = context.state.user;
@@ -178,7 +177,7 @@ export default new Vuex.Store({
       }
       context.commit('SET_MANAGERS', managers);
     },
-    async setOperatorFromRootchains (context, rootchains) {
+    async setOperators (context, operators) {
       const web3 = context.state.web3;
       const user = context.state.user;
       const DepositManager = context.state.DepositManager;
@@ -186,7 +185,8 @@ export default new Vuex.Store({
 
       const wtonWrapper = (amount) => _WTON.ray(amount);
 
-      const operatorsFromRootchain = rootchains.map(async rootchain => {
+      const operatorsFromRootChain = operators.map(async operatorFromRootChain => {
+        const rootchain = operatorFromRootChain.rootchain;
         const RootChain = await createWeb3Contract(RootChainABI, rootchain);
         const Coinage =
           await createWeb3Contract(CustomIncrementCoinageABI, await SeigManager.methods.coinages(rootchain).call());
@@ -257,33 +257,26 @@ export default new Vuex.Store({
         }
 
         const pendingRequests = await context.dispatch('getPendingRequests', rootchain);
-        const registry = await getRootchainRegistry(rootchain);
 
-        const operatorFromRootChain = {
-          address: operator,
-          rootchain,
-          recentCommitTimestamp,
-          commitCount,
-          duration,
+        operatorFromRootChain.address = operator;
+        operatorFromRootChain.recentCommitTimestamp = recentCommitTimestamp;
+        operatorFromRootChain.recentCommitTimestamp = recentCommitTimestamp;
+        operatorFromRootChain.commitCount = commitCount;
+        operatorFromRootChain.duration = duration;
+        operatorFromRootChain.totalDeposit = wtonWrapper(totalDeposit);
+        operatorFromRootChain.operatorDeposit = wtonWrapper(operatorDeposit);
+        operatorFromRootChain.userDeposit = wtonWrapper(userDeposit);
+        operatorFromRootChain.totalStake = wtonWrapper(totalStake);
+        operatorFromRootChain.operatorStake = wtonWrapper(operatorStake);
+        operatorFromRootChain.userStake = wtonWrapper(userStake);
+        operatorFromRootChain.userPendingUnstaked = wtonWrapper(userPendingUnstaked);
+        operatorFromRootChain.userUncomittedStakeOf = wtonWrapper(userUncomittedStakeOf);
+        operatorFromRootChain.pendingRequests = pendingRequests;
 
-          totalDeposit: wtonWrapper(totalDeposit),
-          operatorDeposit: wtonWrapper(operatorDeposit),
-          userDeposit: wtonWrapper(userDeposit),
-
-          totalStake: wtonWrapper(totalStake),
-          operatorStake: wtonWrapper(operatorStake),
-          userStake: wtonWrapper(userStake),
-
-          userPendingUnstaked: wtonWrapper(userPendingUnstaked),
-          userUncomittedStakeOf: wtonWrapper(userUncomittedStakeOf),
-
-          pendingRequests,
-          registry,
-        };
         return operatorFromRootChain;
       });
 
-      context.commit('SET_OPERATORS', await Promise.all(operatorsFromRootchain));
+      context.commit('SET_OPERATORS', await Promise.all(operatorsFromRootChain));
     },
     async setUserBalanceAndAllowance (context) {
       const user = context.state.user;
