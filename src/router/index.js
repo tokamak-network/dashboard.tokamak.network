@@ -8,6 +8,7 @@ import StakeInfoLayout from '@/layouts/StakeInfoLayout.vue';
 import OperatorInfoLayout from '@/layouts/OperatorInfoLayout.vue';
 import HistoryLayout from '@/layouts/HistoryLayout.vue';
 import OperatorInfoEditLayout from '@/layouts/OperatorInfoEditLayout.vue';
+import PowerTONLayout from '@/layouts/PowerTONLayout.vue';
 
 const routes = [
   {
@@ -25,6 +26,10 @@ const routes = [
   {
     path: '/operators/:rootchain/edit',
     component: OperatorInfoEditLayout,
+  },
+  {
+    path: '/powerton',
+    component: PowerTONLayout,
   },
   {
     path: '/staking',
