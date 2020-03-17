@@ -38,6 +38,7 @@ module.exports = {
     "promise/always-return": "off",
     "promise/avoid-new": "off",
     "no-unused-vars": "off",
+    "max-len": "off",
     "vue/attribute-hyphenation": "off",
     "vue/require-default-prop": "off",
     "vue/require-prop-types": "off",
