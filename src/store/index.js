@@ -59,6 +59,7 @@ const initialState = {
   operators: null,
   myStakes: null,
   userHistory: null,
+  power: null,
 };
 
 const getInitialState = () => initialState;
@@ -123,6 +124,9 @@ export default new Vuex.Store({
     SET_USER_HISTORY: (state, userHistory) => {
       state.userHistory = userHistory;
     },
+    SET_POWER: (state, power) => {
+      state.power = power;
+    },
   },
   actions: {
     addPendingTx (context, hash) {
@@ -168,6 +172,7 @@ export default new Vuex.Store({
       await context.dispatch('setOperators', operators);
       await context.dispatch('setUserBalanceAndAllowance');
       await context.dispatch('setUserHistory');
+      await context.dispatch('setPower');
     },
     async setManagers (context, managers) {
       const user = context.state.user;
@@ -260,7 +265,6 @@ export default new Vuex.Store({
 
         operatorFromRootChain.address = operator;
         operatorFromRootChain.recentCommitTimestamp = recentCommitTimestamp;
-        operatorFromRootChain.recentCommitTimestamp = recentCommitTimestamp;
         operatorFromRootChain.commitCount = commitCount;
         operatorFromRootChain.duration = duration;
         operatorFromRootChain.totalDeposit = wtonWrapper(totalDeposit);
@@ -331,6 +335,30 @@ export default new Vuex.Store({
         withdrawalRequestIndex++;
       }
       return requestsPending;
+    },
+    async setPower (context) {
+      const PowerTON = context.state.PowerTON;
+      const currentRound = await PowerTON.methods.currentRound().call();
+      const totalDeposits = await PowerTON.methods.totalDeposits().call();
+
+      const rounds = [];
+      for (const i of range(currentRound)) {
+        const round = await PowerTON.methods.rounds(i).call();
+        rounds.push(round);
+      }
+
+      const user = context.state.user;
+      const power = await PowerTON.methods.powerOf(user).call();
+      console.log(power, totalDeposits);
+
+      const obj = {
+        currentRound: await PowerTON.methods.rounds(currentRound).call(),
+        rounds: rounds,
+        power: power,
+        totalDeposits: totalDeposits,
+      };
+      obj.currentRound.currentRound = currentRound;
+      context.commit('SET_POWER', obj);
     },
   },
   getters: {

@@ -1,6 +1,6 @@
 <template>
   <div class="viewer-power-container">
-    <text-viewer :title="'POWER'" :content="'1'" />
+    <text-viewer :title="'POWER'" :content="power" />
     <text-viewer :title="'RANK'" :content="'1'" />
     <text-viewer :title="'WINNING PROBABILITY'" :content="'0.25 %'" />
   </div>
@@ -13,6 +13,11 @@ export default {
   components: {
     'text-viewer': TextViewer,
   },
+  props: {
+    power : {
+      type: String,
+    },
+  },
 };
 </script>
 
@@ -22,6 +27,7 @@ export default {
   border: solid 1px #ced6d9;
   background-color: #ffffff;
   border-radius: 6px;
+  margin-left: 4px;
 }
 
 .column {
