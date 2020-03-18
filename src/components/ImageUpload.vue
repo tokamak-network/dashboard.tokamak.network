@@ -6,6 +6,8 @@
 </template>
 
 <script>
+import config from '../../config.json';
+
 import Avatar from 'vue-avatar-component';
 
 export default {
@@ -24,7 +26,7 @@ export default {
   },
   computed: {
     filteredImgURL () {
-      return name => `http://127.0.0.1:9000/avatars/${name}`;
+      return name => `${config.baseURL}/avatars/${name}`;
     },
   },
   created () {

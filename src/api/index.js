@@ -1,9 +1,10 @@
 import axios from 'axios';
+import config from '../../config.json';
 
 // TODO: make baseURL environement variable
 function createInstance () {
   return axios.create({
-    baseURL: 'http://127.0.0.1:9000',
+    baseURL: config.baseURL,
   });
 }
 
