@@ -11,13 +11,13 @@ app.use(bodyParser.urlencoded({ extended: true }));
 const multer = require('multer');
 
 const upload = multer({
-  dest: './avatars',
+  dest: './db/avatars',
 });
-app.use('/avatars', express.static(__dirname + '/avatars'));
+app.use('/avatars', express.static(__dirname + '/db/avatars'));
 
 const low = require('lowdb');
 const FileAsync = require('lowdb/adapters/FileAsync');
-const adapter = new FileAsync('db.json');
+const adapter = new FileAsync('db/db.json');
 low(adapter)
   .then(db => {
     app.get('/operators', (_, res) => {

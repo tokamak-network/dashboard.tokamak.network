@@ -21,8 +21,7 @@ yarn-error.log*
 *.sw?
 
 # db
-db.json
-avatars
+db
 
 # ZEIT
 .now
