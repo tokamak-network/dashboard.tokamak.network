@@ -1,14 +1,16 @@
 <template>
   <div class="dashboard-staking">
     <dashboard-header :title="'STAKING'" :path="'staking'" />
-    <text-viewer :title="'STAKED TON'" :content="'100.00 TON'" />
+    <text-viewer :title="'STAKED TON'" :content="convertedTONFromWTON(userTotalStake)" />
     <div class="space" />
-    <text-viewer :title="'EXPECTED REWARD'" :content="'100.00 TON'" />
+    <text-viewer :title="'EXPECTED REWARD'" :content="convertedTONFromWTON(userTotalReward)" />
   </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex';
+import { createCurrency } from '@makerdao/currency';
+const _TON = createCurrency('TON');
 
 import DashboardHeader from '@/containers/dashboard/components/DashboardHeader.vue';
 import TextViewer from '@/components/TextViewer.vue';
@@ -25,8 +27,12 @@ export default {
   },
   computed: {
     ...mapGetters([
-      'operatorsStaked',
+      'userTotalStake',
+      'userTotalReward',
     ]),
+    convertedTONFromWTON () {
+      return wtonAmount => _TON(wtonAmount.toNumber());
+    },
   },
   created () {
     this.columns = [

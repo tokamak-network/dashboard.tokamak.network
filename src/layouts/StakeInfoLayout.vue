@@ -11,7 +11,7 @@
         <div style="padding: 16px; display: flex; flex-direction: column; height: 100%;">
           <div style="display: flex;">
             <div style="flex: 1; font-size: 19px; color: #000000">
-              Total Reward
+              Expected Reward
             </div>
             <div style="font-size: 19px; color: #000000">
               {{ userTotalReward | convertToTON }}

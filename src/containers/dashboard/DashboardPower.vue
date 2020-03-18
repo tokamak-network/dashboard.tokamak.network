@@ -1,16 +1,16 @@
 <template>
   <div class="dashboard-power">
     <dashboard-header :title="'POWER'" :path="'powerton'" />
-    <text-viewer :title="'POWER'" :content="'100.00 TON'" />
-    <text-viewer :title="'ROUND'" :content="'16'" />
-    <text-viewer :title="'REWARD'" :content="'100.00 TON'" />
+    <text-viewer :title="'POWER'" :content="power.power" />
+    <text-viewer :title="'ROUND'" :content="power.currentRound.currentRound" />
+    <text-viewer :title="'REWARD'" :content="power.currentRound.reward" />
     <div class="space" />
-    <text-viewer :title="'WINNING PROBABILITY'" :content="'100%'" />
+    <text-viewer :title="'WINNING PROBABILITY'" :content="winningProbability" />
   </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapState } from 'vuex';
 
 import DashboardHeader from '@/containers/dashboard/components/DashboardHeader.vue';
 import TextViewer from '@/components/TextViewer.vue';
@@ -19,6 +19,19 @@ export default {
   components: {
     'dashboard-header': DashboardHeader,
     'text-viewer': TextViewer,
+  },
+  data () {
+    return {
+      winningProbability: '',
+    };
+  },
+  computed: {
+    ...mapState([
+      'power',
+    ]),
+  },
+  created () {
+    this.winningProbability = `${this.power.power.div(this.power.totalDeposits).mul(100).toNumber()}%`;
   },
 };
 </script>
