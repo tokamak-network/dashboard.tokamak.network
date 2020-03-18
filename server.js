@@ -55,6 +55,11 @@ low(adapter)
 
     // only from curl.
     app.post('/operators', upload.single('avatar'), (req, res) => {
+      const operator = db.get('operators').find({ rootchain: req.body.rootchain }).value();
+      if (operator) {
+        return res.status(500).send({ error: 'duplicated operator' });
+      }
+
       const color = 'rgb(' + (Math.floor(Math.random() * 256)) +',' +
                              (Math.floor(Math.random() * 256)) + ',' +
                              (Math.floor(Math.random() * 256)) + ')';
