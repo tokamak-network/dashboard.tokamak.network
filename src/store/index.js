@@ -10,6 +10,7 @@ import { createWeb3Contract } from '@/helpers/Contract';
 import { createCurrency } from '@makerdao/currency';
 const _TON = createCurrency('TON');
 const _WTON = createCurrency('WTON');
+const _POWER = createCurrency('POWER');
 
 import TON from '@/contracts/TON.json';
 import WTON from '@/contracts/WTON.json';
@@ -169,7 +170,7 @@ export default new Vuex.Store({
       const operators = await getOperators();
 
       await context.dispatch('setManagers', managers);
-      await context.dispatch('setOperators', operators);
+      if (operators.length !== 0) await context.dispatch('setOperators', operators);
       await context.dispatch('setUserBalanceAndAllowance');
       await context.dispatch('setUserHistory');
       await context.dispatch('setPower');
@@ -303,7 +304,7 @@ export default new Vuex.Store({
       const user = context.state.user;
       const userHistory = await getHistory(user);
 
-      context.commit('SET_USER_HISTORY', userHistory);
+      context.commit('SET_USER_HISTORY', userHistory.map(h => h.history));
     },
     async getPendingRequests (context, rootchain) {
       const user = context.state.user;
@@ -344,20 +345,21 @@ export default new Vuex.Store({
       const rounds = [];
       for (const i of range(currentRound)) {
         const round = await PowerTON.methods.rounds(i).call();
+        round.round = i;
         rounds.push(round);
       }
 
       const user = context.state.user;
       const power = await PowerTON.methods.powerOf(user).call();
-      console.log(power, totalDeposits);
 
       const obj = {
         currentRound: await PowerTON.methods.rounds(currentRound).call(),
         rounds: rounds,
-        power: power,
-        totalDeposits: totalDeposits,
+        power: _POWER.ray(power.toString()),
+        totalDeposits: _POWER.ray(totalDeposits.toString()),
       };
       obj.currentRound.currentRound = currentRound;
+
       context.commit('SET_POWER', obj);
     },
   },

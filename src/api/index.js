@@ -21,7 +21,7 @@ export async function getManagers () {
 
 export async function getHistory (user) {
   const res = await instance.get(`/history/${user}`);
-  return res.data.history;
+  return res.data;
 }
 
 export async function addHistory (user, history) {

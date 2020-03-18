@@ -37,12 +37,11 @@ low(adapter)
     app.get('/history/:user', (req, res) => {
       const user = (req.params.user).toLowerCase();
       const history = db.get('history')
-        .find({ user })
+        .filter(history => history.user === user)
         .value();
 
-      res.status(200).json({
-        history: history === '' ? history : [],
-      });
+      if (history) res.status(200).json(history);
+      else res.status(200).json([]);
     });
 
     // only from curl.
