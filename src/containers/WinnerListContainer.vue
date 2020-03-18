@@ -1,6 +1,6 @@
 <template>
   <div class="winner-list-container">
-    <base-table :type="'winner'" :columns="columns" />
+    <base-table :type="'winner'" :columns="columns" :datas="rounds" :rounded="true" />
   </div>
 </template>
 
@@ -10,6 +10,12 @@ import BaseTable from '@/components/BaseTable.vue';
 export default {
   components: {
     'base-table': BaseTable,
+  },
+  props: {
+    rounds: {
+      type: Array,
+      default: () => [],
+    },
   },
   data () {
     return {
@@ -24,7 +30,7 @@ export default {
       },
       {
         name: 'WINNER ACCOUNT',
-        key: 'winnerAccount',
+        key: 'winner',
       },
       {
         name: 'REWARD',

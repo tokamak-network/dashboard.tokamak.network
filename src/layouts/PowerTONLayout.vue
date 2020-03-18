@@ -2,7 +2,7 @@
   <div>
     <div class="row">
       <viewer-round-container :round="power.currentRound" />
-      <viewer-power-container :power="power.power" />
+      <viewer-power-container :power="power.power" :total-deposits="power.totalDeposits" />
     </div>
     <winner-list-container :rounds="power.rounds " />
   </div>

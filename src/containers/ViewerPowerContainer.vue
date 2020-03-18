@@ -1,8 +1,9 @@
 <template>
   <div class="viewer-power-container">
-    <text-viewer :title="'POWER'" :content="power" />
+    <text-viewer :title="'POWER'" :content="power.toString()" />
+    <text-viewer :title="'TOTAL POWER'" :content="totalDeposits.toString()" />
+    <text-viewer :title="'WINNING PROBABILITY'" :content="winningProbability.toString()" />
     <text-viewer :title="'RANK'" :content="'1'" />
-    <text-viewer :title="'WINNING PROBABILITY'" :content="'0.25 %'" />
   </div>
 </template>
 
@@ -15,8 +16,19 @@ export default {
   },
   props: {
     power : {
-      type: String,
+      type: Object,
     },
+    totalDeposits: {
+      type: Object,
+    },
+  },
+  data () {
+    return {
+      winningProbability: '',
+    };
+  },
+  created () {
+    this.winningProbability = `${this.power.div(this.totalDeposits).mul(100).toNumber()}%`;
   },
 };
 </script>

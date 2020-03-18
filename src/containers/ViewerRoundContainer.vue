@@ -1,14 +1,16 @@
 <template>
   <div class="viewer-round-container">
     <text-viewer :title="'ROUND'" :content="round.currentRound" />
-    <text-viewer :title="'ROUND start'" :content="round.startTime" />
-    <text-viewer :title="'ROUND finish'" :content="round.endTime" />
+    <text-viewer :title="'ROUND start'" :content="formatedTimestamp(round.startTime)" />
+    <text-viewer :title="'ROUND finish'" :content="formatedTimestamp(round.endTime)" />
     <text-viewer :title="'REWARD'" :content="round.reward" />
     <text-viewer :title="'current block number'" :content="'30'" />
   </div>
 </template>
 
 <script>
+import moment from 'moment';
+
 import TextViewer from '@/components/TextViewer.vue';
 
 export default {
@@ -18,6 +20,11 @@ export default {
   props: {
     round: {
       type: Object,
+    },
+  },
+  computed: {
+    formatedTimestamp () {
+      return timestamp => moment.unix(timestamp).format('LLL');
     },
   },
 };
