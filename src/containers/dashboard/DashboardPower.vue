@@ -1,6 +1,6 @@
 <template>
   <div class="dashboard-power">
-    <dashboard-header :title="'POWER'" />
+    <dashboard-header :title="'POWER'" :path="'powerton'" />
     <text-viewer :title="'POWER'" :content="'100.00 TON'" />
     <text-viewer :title="'ROUND'" :content="'16'" />
     <text-viewer :title="'REWARD'" :content="'100.00 TON'" />

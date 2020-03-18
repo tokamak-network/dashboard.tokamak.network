@@ -1,6 +1,6 @@
 <template>
   <div class="dashboard-staking">
-    <dashboard-header :title="'STAKING'" />
+    <dashboard-header :title="'STAKING'" :path="'staking'" />
     <text-viewer :title="'STAKED TON'" :content="'100.00 TON'" />
     <div class="space" />
     <text-viewer :title="'EXPECTED REWARD'" :content="'100.00 TON'" />

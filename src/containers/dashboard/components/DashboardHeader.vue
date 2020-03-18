@@ -1,7 +1,7 @@
 <template>
   <div class="dashboard-header">
     <div class="title"><span>{{ title }}</span></div>
-    <button>more</button>
+    <button @click="$router.push(`/${path}`)">more</button>
   </div>
 </template>
 
@@ -9,6 +9,10 @@
 export default {
   props: {
     title: {
+      type: String,
+      default: '',
+    },
+    path: {
       type: String,
       default: '',
     },

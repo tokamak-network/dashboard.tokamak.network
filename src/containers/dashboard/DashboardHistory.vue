@@ -1,6 +1,6 @@
 <template>
   <div class="dashboard-history">
-    <dashboard-header :title="'HISTORY'" />
+    <dashboard-header :title="'HISTORY'" :path="'history'" />
     <base-table
       :type="'history'"
       :rounded="true"

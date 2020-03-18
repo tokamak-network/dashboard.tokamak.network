@@ -1,6 +1,6 @@
 <template>
   <div class="operator-list">
-    <dashboard-header :title="'OPERATOR LIST'" />
+    <dashboard-header :title="'OPERATOR LIST'" :path="'operators'" />
     <base-table
       :type="'operator'"
       :columns="columns"
