@@ -1,7 +1,7 @@
 <template>
   <div class="column">
     <div class="row avatar-container">
-      <avatar class="avatar" fullname="O P R" :image="preview" :size="50" />
+      <avatar class="avatar" fullname="O P R" :image="preview" :size="50" :color="operator.color" />
       <div v-if="user === operator.address" class="button"><base-button :label="'edit'" :func="edit" /></div>
     </div>
     <div class="row">

@@ -59,14 +59,14 @@ low(adapter)
         return res.status(500).send({ error: 'duplicated operator' });
       }
 
-      const color = 'rgb(' + (Math.floor(Math.random() * 256)) +',' +
+      const randomColor = 'rgb(' + (Math.floor(Math.random() * 256)) +',' +
                              (Math.floor(Math.random() * 256)) + ',' +
                              (Math.floor(Math.random() * 256)) + ')';
       db.get('operators')
         .push(req.body)
         .last()
         .assign({ avatar: '' })
-        .assign({ background: color })
+        .assign({ color: randomColor })
         .write()
         .then(operators => res.status(200).json({ operators }));
     });

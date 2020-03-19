@@ -1,6 +1,6 @@
 <template>
   <div class="column">
-    <avatar fullname="O P R" :color="randomColor" :image="preview" :size="96" />
+    <avatar fullname="O P R" :color="color" :image="preview" :size="96" />
     <label class="custom-file-upload"><input type="file" accept="image/*" @change="onSelect">Upload</label>
   </div>
 </template>
@@ -17,6 +17,7 @@ export default {
   props: {
     avatar: {},
     beforeAvatar: {},
+    color: {},
   },
   data () {
     return {
@@ -30,9 +31,6 @@ export default {
     },
   },
   created () {
-    this.randomColor = 'rgb(' + (Math.floor(Math.random() * 256)) +',' +
-                                (Math.floor(Math.random() * 256)) + ',' +
-                                (Math.floor(Math.random() * 256)) + ')';
     if (this.beforeAvatar !== '') {
       this.preview = this.filteredImgURL(this.beforeAvatar);
     }

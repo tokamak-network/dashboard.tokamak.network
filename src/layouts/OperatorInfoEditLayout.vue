@@ -1,7 +1,7 @@
 <template>
   <form enctype="multipart/form-data">
     <div class="column container">
-      <image-upload v-model="avatar" :before-avatar="operator.avatar" />
+      <image-upload v-model="avatar" :before-avatar="operator.avatar" :color="operator.color" />
       <operator-info-input v-model="name" :label="'NAME'" />
       <operator-info-input v-model="website" :label="'WEBSITE'" />
       <operator-info-input v-model="description" :label="'DESCRIPTION'" />
