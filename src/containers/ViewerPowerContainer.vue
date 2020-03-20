@@ -8,6 +8,9 @@
 </template>
 
 <script>
+import { createCurrency } from '@makerdao/currency';
+const _TON = createCurrency('TON');
+
 import TextViewer from '@/components/TextViewer.vue';
 
 export default {
@@ -24,6 +27,11 @@ export default {
     return {
       winningProbability: '',
     };
+  },
+  computed: {
+    convertedTONFromWTON () {
+      return wtonAmount => _TON(wtonAmount.toNumber());
+    },
   },
   created () {
     // this.winningProbability = `${this.power.div(this.totalDeposits).mul(100).toNumber()}%`;

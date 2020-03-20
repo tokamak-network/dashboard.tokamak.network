@@ -5,12 +5,14 @@
     <div class="space" />
     <text-viewer :title="'POWER'" :content="power" />
     <text-viewer :title="'ROUND'" :content="currentRound.index" />
-    <text-viewer :title="'REWARD'" :content="currentRound.reward" />
+    <text-viewer :title="'EXPECTED REWARD'" :content="convertedTONFromWTON(currentRound.reward)" />
   </div>
 </template>
 
 <script>
 import { mapState } from 'vuex';
+import { createCurrency } from '@makerdao/currency';
+const _TON = createCurrency('TON');
 
 import DashboardHeader from '@/containers/dashboard/components/DashboardHeader.vue';
 import TextViewer from '@/components/TextViewer.vue';
@@ -30,6 +32,9 @@ export default {
       'power',
       'currentRound',
     ]),
+    convertedTONFromWTON () {
+      return wtonAmount => _TON(wtonAmount.toNumber());
+    },
   },
   created () {
     this.winningProbability = '1 %';

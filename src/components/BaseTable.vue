@@ -79,6 +79,10 @@ export default {
         else if (key === 'amount') return this.$options.filters.stringToTON(data);
         else return data;
 
+      case 'winner':
+        if (key === 'reward') return this.$options.filters.convertedTONFromWTON(data);
+        else return data;
+
       default:
         return data;
       }
