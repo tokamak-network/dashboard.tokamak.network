@@ -1,83 +1,15 @@
 <template>
-  <div>
-    <div class="operator-list-layout">
-      <div
-        style="flex: 1;
-      border: solid 1px #ced6d9;
-  background-color: #ffffff;
-  border-radius: 6px;
-  margin-right: 8px;"
-      >
-        <div style="padding: 16px; display: flex; flex-direction: column; height: 100%;">
-          <div style="display: flex;">
-            <div style="flex: 1; font-size: 19px; color: #000000">
-              Expected Reward
-            </div>
-            <div style="font-size: 19px; color: #000000">
-              {{ userTotalReward | convertToTON }}
-            </div>
-          </div>
-          <div class="divider" />
-          <div style="display: flex; margin-top: 60px;">
-            <div style="flex: 1; font-size: 14px; color: #586064;">
-              Total Deposit
-            </div>
-            <div style="font-size: 14px; color: #586064">
-              {{ userTotalDeposit | convertToTON }}
-            </div>
-          </div>
-          <div style="display: flex; margin-top: 8px;">
-            <div style="flex: 1; font-size: 14px; color: #586064">
-              Total Stake
-            </div>
-            <div style="font-size: 14px; color: #586064">
-              {{ userTotalStake | convertToTON }}
-            </div>
-          </div>
-          <div style="display: flex; margin-top: 8px;">
-            <div style="flex: 1; font-size: 14px; color: #586064">
-              Total Pending
-            </div>
-            <div style="font-size: 14px; color: #586064">
-              {{ userTotalPending | convertToTON }}
-            </div>
-          </div>
-          <div style="display: flex; margin-top: 8px;">
-            <div style="flex: 1; font-size: 14px; color: #586064">
-              My Operators
-            </div>
-            <div style="font-size: 14px; color: #586064">
-              {{ operatorsStaked.length }}
-            </div>
-          </div>
-        </div>
-      </div>
-      <div
-        class="table-container"
-        style="flex: 1;
-        border: solid 1px #ced6d9;
-  background-color: #ffffff;
-  border-radius: 6px;
-        "
-      >
-        <base-table
-          :type="'operator'"
-          :columns="[
-            {
-              name: 'OPERATOR',
-              key: 'name',
-            },
-            {
-              name: 'MY STAKE',
-              key: 'userStake',
-            },
-          ]"
-          :datas="operatorsStaked"
-          :rounded="true"
-          :clickable="true"
-          @tableDataClicked="viewOperator"
-        />
-      </div>
+  <div class="stake-info-layout">
+    <stake-info-container />
+    <div class="table-container">
+      <base-table
+        :type="'operator'"
+        :columns="columns"
+        :datas="operatorsStaked"
+        :rounded="true"
+        :clickable="true"
+        @tableDataClicked="viewOperator"
+      />
     </div>
   </div>
 </template>
@@ -85,10 +17,12 @@
 <script>
 import { mapState, mapGetters } from 'vuex';
 
+import StakeInfoContainer from '@/containers/StakeInfoContainer.vue';
 import BaseTable from '@/components/BaseTable.vue';
 
 export default {
   components: {
+    'stake-info-container': StakeInfoContainer,
     'base-table': BaseTable,
   },
   data () {
@@ -105,10 +39,22 @@ export default {
     ...mapGetters([
       'operatorsStaked',
       'userTotalDeposit',
-      'userTotalStake',
+      'userTotalStaked',
       'userTotalReward',
       'userTotalPending',
     ]),
+  },
+  created () {
+    this.columns = [
+      {
+        name: 'OPERATOR',
+        key: 'name',
+      },
+      {
+        name: 'MY STAKE',
+        key: 'userStaked',
+      },
+    ];
   },
   methods: {
     viewOperator (operator) {
@@ -129,15 +75,24 @@ export default {
 </script>
 
 <style scoped>
-.operator-list-layout {
+.stake-info-layout {
   display: flex;
+  flex-direction: row;
 }
 
-.divider{
+.divider {
   margin-top: 16px;
   margin-bottom: 16px;
   width: 100%;
   height: 1px;
   background: #b4b4b4;
+}
+
+.table-container {
+  flex: 1;
+  border: solid 1px #ced6d9;
+  background-color: #ffffff;
+  border-radius: 6px;
+  margin-left: 4px;
 }
 </style>

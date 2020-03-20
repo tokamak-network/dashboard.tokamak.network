@@ -27,7 +27,7 @@ export default {
     };
   },
   created () {
-    if (this.isToken) this.filteredContent = this.$options.filters.convertToTON(this.content);
+    if (this.isToken) this.filteredContent = this.$options.filters.convertedTONFromWTON(this.content);
     else this.filteredContent = this.content;
   },
 };

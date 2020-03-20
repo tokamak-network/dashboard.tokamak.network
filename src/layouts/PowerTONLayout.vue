@@ -1,10 +1,10 @@
 <template>
   <div>
     <div class="row">
-      <viewer-round-container :round="power.currentRound" />
-      <viewer-power-container :power="power.power" :total-deposits="power.totalDeposits" />
+      <viewer-round-container :round="currentRound" />
+      <viewer-power-container :power="power" :total-deposits="power.totalDeposits" />
     </div>
-    <winner-list-container :rounds="power.rounds " />
+    <winner-list-container :rounds="rounds " />
   </div>
 </template>
 
@@ -24,6 +24,8 @@ export default {
   computed: {
     ...mapState([
       'power',
+      'currentRound',
+      'rounds',
     ]),
   },
 };

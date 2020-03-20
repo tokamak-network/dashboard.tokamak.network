@@ -1,9 +1,12 @@
 <template>
   <div class="dashboard-staking">
     <dashboard-header :title="'STAKING'" :path="'staking'" />
-    <text-viewer :title="'STAKED TON'" :content="convertedTONFromWTON(userTotalStake)" />
+    <text-viewer :title="'REWARD'" :content="convertedTONFromWTON(userTotalReward)" />
+    <text-viewer :title="'PENDING TON'" :content="convertedTONFromWTON(userTotalPending)" />
+    <text-viewer :title="'WITHDRAWABLE TON'" :content="convertedTONFromWTON(userTotalWithdrawable)" />
     <div class="space" />
-    <text-viewer :title="'EXPECTED REWARD'" :content="convertedTONFromWTON(userTotalReward)" />
+    <text-viewer :title="'STAKED TON'" :content="convertedTONFromWTON(userTotalStaked)" />
+    <text-viewer :title="'DEPOSITED TON'" :content="convertedTONFromWTON(userTotalDeposit)" />
   </div>
 </template>
 
@@ -27,8 +30,11 @@ export default {
   },
   computed: {
     ...mapGetters([
-      'userTotalStake',
       'userTotalReward',
+      'userTotalStaked',
+      'userTotalDeposit',
+      'userTotalPending',
+      'userTotalWithdrawable',
     ]),
     convertedTONFromWTON () {
       return wtonAmount => _TON(wtonAmount.toNumber());

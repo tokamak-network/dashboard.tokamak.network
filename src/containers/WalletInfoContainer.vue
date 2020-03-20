@@ -70,7 +70,7 @@
           Staked TON
         </div>
         <div class="wallet-content wton-balance">
-          {{ userTotalStake | convertToTON }}
+          {{ userTotalStaked | convertedTONFromWTON }}
         </div>
       </div>
     </div>
@@ -88,7 +88,7 @@ export default {
       'tonBalance',
     ]),
     ...mapGetters([
-      'userTotalStake',
+      'userTotalStaked',
     ]),
   },
 };

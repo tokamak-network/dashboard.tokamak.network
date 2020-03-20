@@ -30,6 +30,9 @@
 </template>
 
 <script>
+import { createCurrency } from '@makerdao/currency';
+const _TON = createCurrency('TON');
+
 export default {
   props: {
     type: {
@@ -67,7 +70,7 @@ export default {
       switch (this.type) {
       case 'operator':
         if (key === 'address' || key === 'rootchain') return this.$options.filters.hexSlicer(data);
-        else if (key === 'totalStake' || key === 'userStake') return this.$options.filters.convertToTON(data);
+        else if (key === 'totalStaked' || key === 'userStaked') return this.$options.filters.convertedTONFromWTON(data);
         else if (key === 'recentCommitTimestamp') return this.$options.filters.fromNow(data);
         else return data;
 

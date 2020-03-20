@@ -30,8 +30,8 @@ import HeaderContainer from '@/containers/HeaderContainer.vue';
 import FooterContainer from '@/containers/FooterContainer.vue';
 import AccessWalletLayout from '@/layouts/AccessWalletLayout.vue';
 import MainLayout from '@/layouts/MainLayout.vue';
-import AccessWalletLayoutVue from './layouts/AccessWalletLayout.vue';
-import NetworkGuideLayout from './layouts/NetworkGuideLayout.vue';
+import AccessWalletLayoutVue from '@/layouts/AccessWalletLayout.vue';
+import NetworkGuideLayout from '@/layouts/NetworkGuideLayout.vue';
 
 export default {
   components: {

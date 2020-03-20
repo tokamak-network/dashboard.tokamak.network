@@ -22,7 +22,7 @@ export function stringToTON (amount) {
   }
 }
 
-export function convertToTON (amount) {
+export function convertedTONFromWTON (amount) {
   if (!(amount instanceof Currency)) {
     return amount;
   }

@@ -23,7 +23,7 @@ export default {
   },
   computed: {
     ...mapGetters([
-      'operatorByRootchain',
+      'operatorByRootChain',
     ]),
   },
   created () {
@@ -32,7 +32,7 @@ export default {
   },
   methods: {
     refreshOperator () {
-      this.operator = this.operatorByRootchain(this.param);
+      this.operator = this.operatorByRootChain(this.param);
     },
     calculateReward () {
       try {

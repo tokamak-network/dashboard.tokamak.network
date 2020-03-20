@@ -1,11 +1,11 @@
 <template>
   <div class="dashboard-power">
     <dashboard-header :title="'POWER'" :path="'powerton'" />
-    <text-viewer :title="'POWER'" :content="power.power" />
-    <text-viewer :title="'ROUND'" :content="power.currentRound.currentRound" />
-    <text-viewer :title="'REWARD'" :content="power.currentRound.reward" />
-    <div class="space" />
     <text-viewer :title="'WINNING PROBABILITY'" :content="winningProbability" />
+    <div class="space" />
+    <text-viewer :title="'POWER'" :content="power" />
+    <text-viewer :title="'ROUND'" :content="currentRound.index" />
+    <text-viewer :title="'REWARD'" :content="currentRound.reward" />
   </div>
 </template>
 
@@ -28,10 +28,11 @@ export default {
   computed: {
     ...mapState([
       'power',
+      'currentRound',
     ]),
   },
   created () {
-    this.winningProbability = `${this.power.power.div(this.power.totalDeposits).mul(100).toNumber()}%`;
+    this.winningProbability = '1 %';
   },
 };
 </script>

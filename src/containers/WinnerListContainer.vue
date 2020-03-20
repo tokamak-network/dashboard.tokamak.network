@@ -26,7 +26,7 @@ export default {
     this.columns = [
       {
         name: 'ROUND',
-        key: 'round',
+        key: 'index',
       },
       {
         name: 'WINNER ACCOUNT',

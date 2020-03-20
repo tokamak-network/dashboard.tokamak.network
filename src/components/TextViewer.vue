@@ -38,12 +38,10 @@ export default {
 .title {
   font-size: 14px;
   color: #586064;
-  margin-left: 16px;
 }
 
 .content {
   float: right;
-  margin-right: 16px;
   font-size: 14px;
   color: #586064;
 }

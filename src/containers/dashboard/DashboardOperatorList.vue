@@ -41,7 +41,7 @@ export default {
       },
       {
         name: 'TOTAL STAKE',
-        key: 'totalStake',
+        key: 'totalStaked',
       },
     ];
   },

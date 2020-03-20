@@ -42,11 +42,11 @@ export default {
       'web3',
     ]),
     ...mapGetters([
-      'operatorByRootchain',
+      'operatorByRootChain',
     ]),
   },
   created () {
-    this.operator = this.operatorByRootchain(this.$route.params.rootchain);
+    this.operator = this.operatorByRootChain(this.$route.params.rootchain);
     this.name = this.operator.name;
     this.website = this.operator.website;
     this.description = this.operator.description;

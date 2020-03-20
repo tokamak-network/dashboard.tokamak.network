@@ -18,7 +18,7 @@
           },
           {
             name: 'TOTAL STAKE',
-            key: 'totalStake',
+            key: 'totalStaked',
           },
         ]"
         :datas="operators"

@@ -1,87 +1,24 @@
 <template>
   <div class="stake-info-container">
-    <div class="operator-info-container">
-      <img
-        class="operator-image"
-        src="@/assets/images/Operator.png"
-        width="60"
-        height="60"
-      >
-      <div class="operator-name">
-        {{ operator.name }}
-      </div>
-      <div class="staking-amount">
-        {{ operator.userStake | convertToTON }}
-      </div>
-      <div
-        class="claim-button"
-        @click="claim"
-      >
-        Claim
-      </div>
-    </div>
-    <div class="division-line" />
-    <div
-      class="operator-detailed-info-container"
-    >
-      <div class="operator-detailed-info">
-        <div class="operator-address">
-          내가 DEPOSIT한 AMOUNT: {{ operator.userDeposit | convertToTON }}
-        </div>
-        <div class="operator-address">
-          DELEGATE 요청할 수 있는 STAKE AMOUNT: {{ operator.userStake | convertToTON }}
-        </div>
-        <div class="operator-address">
-          생성된 REWARD: {{ operator.userStake.sub(operator.userDeposit) | convertToTON }}
-        </div>
-        <div class="operator-address">
-          DELEGATE할 수 있는 PENDING STAKE AMOUNT: {{ operator.userPendingUnstaked | convertToTON }}
-        </div>
-        <div style="display: flex; padding-top: 16px;">
-          <div class="last-commit">
-            Last commit: {{ operator.recentCommitTimestamp | fromNow }}
-          </div>
-        </div>
-        <div class="uncommitted-rewards">
-          Uncommitted rewards : {{ operator.userUncomittedStakeOf.toString(0) }}
-        </div>
-      </div>
-      <div class="delegate-button-container">
-        <div class="delegate-button">
-          <base-button
-            :label="'Delegate'"
-            :func="delegate()"
-            :disable="isTxProcessing('delegate')"
-          />
-        </div>
-        <div class="undelegate-button">
-          <base-button
-            :label="'Undelegate'"
-            :func="undelegate()"
-            :disable="isTxProcessing('undelegate')"
-          />
-        </div>
-      </div>
-    </div>
-    <div
-      v-for="request of operator.pendingRequests"
-      :key="request.withdrawableBlockNumber.toString()"
-    >
-      {{ request.withdrawableBlockNumber }}
-      {{ request.amount | convertToTON }}
-      {{ request.processed }}
-    </div>
+    <text-viewer :title="'Expected Reward'" :content="convertedTONFromWTON(userTotalReward)" />
+    <div class="space" />
+    <text-viewer :title="'Total Deposit Amount'" :content="convertedTONFromWTON(userTotalDeposit)" />
+    <text-viewer :title="'Total Staked Amount'" :content="convertedTONFromWTON(userTotalStaked)" />
+    <text-viewer :title="'Total Pending Amount'" :content="convertedTONFromWTON(userTotalPending)" />
+    <text-viewer :title="'Total Withdrawable Amount'" :content="convertedTONFromWTON(userTotalWithdrawable)" />
   </div>
 </template>
 
 <script>
-import BaseButton from '@/components/BaseButton.vue';
-
 import { mapState, mapGetters } from 'vuex';
+import { createCurrency } from '@makerdao/currency';
+const _TON = createCurrency('TON');
+
+import TextViewer from '@/components/TextViewer.vue';
 
 export default {
   components: {
-    'base-button': BaseButton,
+    'text-viewer': TextViewer,
   },
   props: {
     operator: {
@@ -90,43 +27,15 @@ export default {
     },
   },
   computed: {
-    ...mapState([
-      'user',
-      'wtonBalance',
-      'DepositManager',
-    ]),
     ...mapGetters([
-      'isTxProcessing',
+      'userTotalReward',
+      'userTotalDeposit',
+      'userTotalStaked',
+      'userTotalPending',
+      'userTotalWithdrawable',
     ]),
-  },
-  methods: {
-    delegate (type, availableAmount) {
-      return () => {
-        const type = 'delegate';
-        const availableAmount = this.wtonBalance.toNumber();
-        const delegateFunc =
-          async (amount) => await this.DepositManager.deposit(
-            this.operator.rootchain, amount, { from: this.user });
-
-        this.$store.dispatch('showModal', {
-          type,
-          availableAmount,
-          func: delegateFunc,
-        });
-      };
-    },
-    undelegate (type, availableAmount) {
-      return () => {
-        const type = 'undelegate';
-        const availableAmount = this.operator.userStake.toNumber();
-
-        this.$store.dispatch('showModal', {
-          type,
-          availableAmount,
-        });
-      };
-    },
-    claim () {
+    convertedTONFromWTON () {
+      return wtonAmount => _TON(wtonAmount.toNumber());
     },
   },
 };
@@ -134,145 +43,19 @@ export default {
 
 <style scoped>
 .stake-info-container {
-  width: 100%;
+  flex: 1;
+
+  display: flex;
+  flex-direction: column;
+
   border-radius: 6px;
   border: solid 0.7px #ced6d9;
   background-color: #ffffff;
-  margin-top: 8px;
+
+  margin-right: 4px;
 }
 
-.operator-image {
-  margin-left: 20px;
-}
-
-.operator-info-container {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  padding-top: 8px;
-  padding-bottom: 8px;
-}
-
-.operator-name {
-  width: 100%;
-  margin-left: 20px;
-  font-size: 15px;
-  font-weight: bold;
-  font-stretch: normal;
-  font-style: normal;
-  letter-spacing: normal;
-  text-align: left;
-  color: #586064;
-}
-
-.staking-amount {
-  width: 200px;
-  padding-top: 4px;
-  font-size: 18px;
-  font-weight: 500;
-  font-stretch: normal;
-  font-style: normal;
-  letter-spacing: normal;
-  text-align: left;
-  color: #586064;
-}
-
-.staking-amount-unit {
-  margin-left: 4px;
-  padding-top: 4px;
-  font-size: 18px;
-  font-weight: 300;
-  font-stretch: normal;
-  font-style: normal;
-  letter-spacing: normal;
-  text-align: left;
-  color: #586064;
-}
-
-.claim-button {
-  margin-left: 10px;
-  margin-right: 20px;
-  width: 121px;
-  height: 27px;
-  line-height: 27px;
-  border-radius: 7px;
-  box-shadow: 0 3px 14px 0 rgba(0, 0, 0, 0.03);
-  border: solid 1px #dce2e5;
-  font-size: 12px;
-  font-weight: 500;
-  font-stretch: normal;
-  font-style: normal;
-  letter-spacing: normal;
-  text-align: center;
-  color: #124b71;
-}
-
-.claim-button:hover {
-  cursor: pointer;
-  -webkit-filter: opacity(.7);
-  filter: opacity(.7);
-}
-
-.division-line {
-  width: 100%;
-  height: 2px;
-  background: #dce2e5;
-}
-
-.operator-detailed-info-container {
-  display: flex;
-  align-items: center;
-  margin-left: 20px;
-  margin-top: 8px;
-  margin-bottom: 8px;
-}
-
-.operator-detailed-info {
-  width: 100%;
-}
-
-.operator-address {
-  font-size: 11px;
-  font-weight: normal;
-  font-stretch: normal;
-  font-style: normal;
-  line-height: 2.09;
-  letter-spacing: 0.33px;
-  text-align: left;
-  color: #586064;
-}
-
-.block-number {
-  font-size: 11px;
-  font-weight: 500;
-  font-stretch: normal;
-  margin-right: 8px;
-  font-style: normal;
-  line-height: 2.09;
-  letter-spacing: 0.33px;
-  text-align: left;
-  color: #124b71;
-}
-
-.last-commit {
-  font-size: 11px;
-  font-weight: 500;
-  font-stretch: normal;
-  font-style: normal;
-  line-height: 2.09;
-  letter-spacing: 0.33px;
-  text-align: left;
-  color: #797979;
-}
-
-.uncommitted-rewards {
-  font-size: 10px;
-  font-weight: 300;
-  font-stretch: normal;
-  font-style: italic;
-  line-height: 2.3;
-  letter-spacing: 0.3px;
-  text-align: left;
-  color: #8e8e8e;
+.space {
+  flex: 1;
 }
 </style>
