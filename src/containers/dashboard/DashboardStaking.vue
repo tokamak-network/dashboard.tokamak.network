@@ -1,12 +1,12 @@
 <template>
   <div class="dashboard-staking">
     <dashboard-header :title="'STAKING'" :path="'staking'" />
-    <text-viewer :title="'REWARD'" :content="convertedTONFromWTON(userTotalReward)" />
-    <text-viewer :title="'PENDING TON'" :content="convertedTONFromWTON(userTotalPending)" />
-    <text-viewer :title="'WITHDRAWABLE TON'" :content="convertedTONFromWTON(userTotalWithdrawable)" />
+    <text-viewer :title="'TOTAL REWARD'" :content="convertedTONFromWTON(userTotalReward)" />
+    <text-viewer :title="'TOTAL STAKED TON'" :content="convertedTONFromWTON(userTotalStaked)" />
+    <text-viewer :title="'TOTAL DEPOSITED TON'" :content="convertedTONFromWTON(userTotalDepositWithPendingAndRequestable)" />
     <div class="space" />
-    <text-viewer :title="'STAKED TON'" :content="convertedTONFromWTON(userTotalStaked)" />
-    <text-viewer :title="'DEPOSITED TON'" :content="convertedTONFromWTON(userTotalDeposit)" />
+    <text-viewer :title="'TOTAL PENDING TON'" :content="convertedTONFromWTON(userTotalPending)" />
+    <text-viewer :title="'TOTAL WITHDRAWABLE TON'" :content="convertedTONFromWTON(userTotalWithdrawable)" />
   </div>
 </template>
 
@@ -38,6 +38,9 @@ export default {
     ]),
     convertedTONFromWTON () {
       return wtonAmount => _TON(wtonAmount.toNumber());
+    },
+    userTotalDepositWithPendingAndRequestable () {
+      return this.userTotalDeposit.sub(this.userTotalPending).sub(this.userTotalWithdrawable);
     },
   },
   created () {

@@ -1,11 +1,11 @@
 <template>
   <div class="stake-info-container">
-    <text-viewer :title="'Expected Reward'" :content="convertedTONFromWTON(userTotalReward)" />
+    <text-viewer :title="'TOTAL REWARD'" :content="convertedTONFromWTON(userTotalReward)" />
+    <text-viewer :title="'TOTAL STAKED TON'" :content="convertedTONFromWTON(userTotalStaked)" />
+    <text-viewer :title="'TOTAL DEPOSITED TON'" :content="convertedTONFromWTON(userTotalDepositWithPendingAndRequestable)" />
     <div class="space" />
-    <text-viewer :title="'Total Deposit Amount'" :content="convertedTONFromWTON(userTotalDeposit)" />
-    <text-viewer :title="'Total Staked Amount'" :content="convertedTONFromWTON(userTotalStaked)" />
-    <text-viewer :title="'Total Pending Amount'" :content="convertedTONFromWTON(userTotalPending)" />
-    <text-viewer :title="'Total Withdrawable Amount'" :content="convertedTONFromWTON(userTotalWithdrawable)" />
+    <text-viewer :title="'TOTAL PENDING TON'" :content="convertedTONFromWTON(userTotalPending)" />
+    <text-viewer :title="'TOTAL WITHDRAWABLE TON'" :content="convertedTONFromWTON(userTotalWithdrawable)" />
   </div>
 </template>
 
@@ -36,6 +36,9 @@ export default {
     ]),
     convertedTONFromWTON () {
       return wtonAmount => _TON(wtonAmount.toNumber());
+    },
+    userTotalDepositWithPendingAndRequestable () {
+      return this.userTotalDeposit.sub(this.userTotalPending).sub(this.userTotalWithdrawable);
     },
   },
 };
