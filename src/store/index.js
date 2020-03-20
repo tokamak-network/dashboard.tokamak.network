@@ -7,6 +7,7 @@ import router from '@/router';
 import { getManagers, getOperators, getHistory } from '@/api';
 import { cloneDeep, isEqual, range } from 'lodash';
 import { createWeb3Contract } from '@/helpers/Contract';
+import { BN } from 'web3-utils';
 
 import { createCurrency } from '@makerdao/currency';
 const _ETH = createCurrency('ETH');
@@ -328,17 +329,26 @@ export default new Vuex.Store({
       context.commit('SET_USER_HISTORY', userHistory.map(h => h.history));
     },
     async setRound (context) {
+      const WTON = context.state.WTON;
       const PowerTON = context.state.PowerTON;
 
       const currentRoundIndex = await PowerTON.methods.currentRound().call();
       const currentRound = await PowerTON.methods.rounds(currentRoundIndex).call();
       currentRound.index = currentRoundIndex;
+
+      const REWARD_NUMERATOR = await PowerTON.methods.REWARD_NUMERATOR().call();
+      const REWARD_DENOMINATOR = await PowerTON.methods.REWARD_DENOMINATOR().call();
+      const balance = await WTON.methods.balanceOf(PowerTON._address).call();
+      const reward = new BN(balance).mul(new BN(REWARD_NUMERATOR)).div(new BN(REWARD_DENOMINATOR));
+      currentRound.reward = _WTON.ray(reward);
+
       context.commit('SET_CURRENT_ROUND', currentRound);
 
       const rounds = [];
       for (const i of range(currentRoundIndex)) {
         const round = await PowerTON.methods.rounds(i).call();
         round.index = i;
+        round.reward = _WTON.ray(round.reward);
         rounds.push(round);
       }
       context.commit('SET_ROUNDS', rounds);
