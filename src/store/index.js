@@ -234,25 +234,22 @@ export default new Vuex.Store({
         };
 
         const getRequests = async () => {
-          try {
-            let requestIndex
-              = await DepositManager.methods.withdrawalRequestIndex(rootchain, user).call();
-            // NOTE: check #24 issue. if there is no withdrawal request, then it'll throw error.
-            const request
-              = await DepositManager.methods.withdrawalRequest(rootchain, user, requestIndex).call();
-
-            const requests = [];
-            const numPendingRequests = await DepositManager.methods.numPendingRequests(rootchain, user).call();
-            for (const _ of range(numPendingRequests)) {
-              const request = await DepositManager.methods.withdrawalRequest(rootchain, user, requestIndex).call();
-              requestIndex++;
-
-              requests.push(request);
-            }
-            return requests;
-          } catch (err) {
+          const numPendingRequests = await DepositManager.methods.numPendingRequests(rootchain, user).call();
+          if (numPendingRequests === 0) {
             return [];
           }
+
+          let requestIndex
+          = await DepositManager.methods.withdrawalRequestIndex(rootchain, user).call();
+
+          const requests = [];
+          for (const _ of range(numPendingRequests)) {
+            const request = await DepositManager.methods.withdrawalRequest(rootchain, user, requestIndex).call();
+            requests.push(request);
+
+            requestIndex++;
+          }
+          return requests;
         };
 
         const getPendingRequests = async (requests) => {
