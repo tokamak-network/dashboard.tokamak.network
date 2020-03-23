@@ -5,7 +5,7 @@ Vue.use(Vuex);
 import router from '@/router';
 
 import { getManagers, getOperators, getHistory } from '@/api';
-import { cloneDeep, isEqual, range } from 'lodash';
+import { cloneDeep, isEqual, range, uniq } from 'lodash';
 import { createWeb3Contract } from '@/helpers/Contract';
 import { BN } from 'web3-utils';
 
@@ -68,6 +68,9 @@ const initialState = {
 
   // user transaction history
   history: [],
+
+  // rank
+  accountsDepositedWithPower: [],
 };
 
 const getInitialState = () => initialState;
@@ -132,6 +135,9 @@ export default new Vuex.Store({
     SET_ROUNDS: (state, rounds) => {
       state.rounds = rounds;
     },
+    SET_ACCOUNTS_DEPOSITED_WITH_POWER: (state, accounts) => {
+      state.accountsDepositedWithPower = accounts;
+    },
   },
   actions: {
     logout (context) {
@@ -171,6 +177,7 @@ export default new Vuex.Store({
       await context.dispatch('setBalance');
       await context.dispatch('setHistory');
       await context.dispatch('setRound');
+      await context.dispatch('setAccountsDepositedWithPower');
     },
     async setManagers (context, managers) {
       const user = context.state.user;
@@ -352,6 +359,32 @@ export default new Vuex.Store({
         rounds.push(round);
       }
       context.commit('SET_ROUNDS', rounds);
+    },
+    async setAccountsDepositedWithPower (context) {
+      const web3 = context.state.web3;
+      const PowerTON = context.state.PowerTON;
+      const DepositManager = context.state.DepositManager;
+
+      const depositedEvent = web3.eth.abi.encodeEventSignature('Deposited(address,address,uint256)');
+      const deployedAt = DepositManager.transactionConfirmationBlocks;
+
+      // event Deposited(address indexed rootchain, address depositor, uint256 amount);
+      const events = await DepositManager.getPastEvents('Deposited', {
+        fromBlock: deployedAt,
+        toBlock: 'latest',
+        topics: [depositedEvent],
+      });
+
+      const depositors = uniq(events.map(event => event.returnValues.depositor));
+      const accounts = depositors.map(async depositor => {
+        const power = await PowerTON.methods.powerOf(depositor).call();
+        return {
+          account: depositor,
+          power: _POWER.ray(power.toString()),
+        };
+      });
+
+      context.commit('SET_ACCOUNTS_DEPOSITED_WITH_POWER', await Promise.all(accounts));
     },
   },
   getters: {
