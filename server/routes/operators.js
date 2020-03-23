@@ -32,14 +32,17 @@ const POST = async (db, req) => {
     throw new Error('Already registered');
   }
 
+  const data = {};
+  data.rootchain = rootchain; // use checksum address
+  data.avatar = '';
+  data.color = randomColor;
+
   await db
     .defaults({ operators: [] })
     .get('operators')
     .push(req.body)
     .last()
-    .assign({ avatar: '' })
-    .assign({ rootchain: rootchain }) // use checksum address
-    .assign({ color: randomColor })
+    .assign(data)
     .write();
 };
 
