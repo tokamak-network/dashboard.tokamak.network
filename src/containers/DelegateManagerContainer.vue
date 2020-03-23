@@ -182,10 +182,9 @@ export default {
     },
     async processDepositLog (receipt) {
       const event = receipt.events[0];
+      const depositedEvent = this.web3.eth.abi.encodeEventSignature('Deposited(address,address,uint256)');
 
-      // TODO: check encodeEventSignature
-      // this.web3.eth.abi.encodeEventSignature('Deposited(address,address,uint256')
-      if (event.raw.topics[0] === '0x8752a472e571a816aea92eec8dae9baf628e840f4929fbcc2d155e6233ff68a7') {
+      if (event.raw.topics[0] === depositedEvent) {
         const transactionHash = receipt.transactionHash;
         const params = this.web3.eth.abi.decodeParameters(
           ['address', 'uint256'],
