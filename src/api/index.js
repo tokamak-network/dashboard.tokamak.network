@@ -21,18 +21,34 @@ export async function getManagers () {
 }
 
 export async function getHistory (user) {
-  const res = await instance.get(`/history/${user}`);
+  const res = await instance.get('/history', {
+    params: {
+      user: user,
+    },
+  });
   return res.data;
 }
 
 export async function addHistory (user, history) {
-  const res = await instance.post(`/history/${user}`, {
-    history,
-  });
+  const res = await instance.post(
+    '/history',
+    { history },
+    {
+      params: {
+        user: user,
+      },
+    });
   return res.data.history;
 }
 
 export async function updateOperator (rootchain, formData) {
-  const res = await instance.put(`/operators/${rootchain}`, formData);
+  const res = await instance.patch(
+    '/operators',
+    formData,
+    {
+      params: {
+        rootchain: rootchain,
+      },
+    });
   return res.data.operators;
 }
