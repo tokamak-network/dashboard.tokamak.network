@@ -23,7 +23,7 @@ export async function getManagers () {
 export async function getHistory (user) {
   const res = await instance.get('/history', {
     params: {
-      user: user,
+      account: user,
     },
   });
   return res.data;
@@ -35,7 +35,7 @@ export async function addHistory (user, history) {
     { history },
     {
       params: {
-        user: user,
+        account: user,
       },
     });
   return res.data.history;

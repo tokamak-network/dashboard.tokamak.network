@@ -3,7 +3,7 @@ const { toChecksumAddress } = require('web3-utils');
 const GET = (db, req) => {
   let user;
   try {
-    user = toChecksumAddress(req.query.user);
+    account = toChecksumAddress(req.query.account);
   } catch (err) {
     throw new Error('Non-checksum address');
   }
@@ -11,16 +11,16 @@ const GET = (db, req) => {
   const history = db
     .defaults({ history: [] })
     .get('history')
-    .filter(history => history.user === user)
+    .filter(history => history.account === account)
     .value();
 
   return Promise.resolve(history);
 };
 
 const POST = async (db, req) => {
-  let user;
+  let account;
   try {
-    user = toChecksumAddress(req.query.user);
+    account = toChecksumAddress(req.query.account);
   } catch (err) {
     throw new Error('Non-checksum address');
   }
@@ -30,7 +30,7 @@ const POST = async (db, req) => {
     .get('history')
     .push(req.body)
     .last()
-    .assign({ user })
+    .assign({ account })
     .write();
 };
 
