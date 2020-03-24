@@ -5,7 +5,7 @@ Vue.use(Vuex);
 import router from '@/router';
 
 import { getManagers, getOperators, getHistory } from '@/api';
-import { cloneDeep, isEqual, range, uniq } from 'lodash';
+import { cloneDeep, isEqual, range, uniq, orderBy } from 'lodash';
 import { createWeb3Contract } from '@/helpers/Contract';
 import { BN } from 'web3-utils';
 
@@ -379,7 +379,7 @@ export default new Vuex.Store({
       const accounts = depositors.map(async depositor => {
         const power = await PowerTON.methods.powerOf(depositor).call();
         return {
-          account: depositor,
+          address: depositor,
           power: _POWER.ray(power.toString()),
         };
       });
@@ -431,6 +431,10 @@ export default new Vuex.Store({
         .add(getters.userTotalWithdrawable)
         .add(getters.userTotalPending)
         .sub(getters.userTotalDeposit);
+    },
+    sortedAccountsByPower: (state) => {
+      const accounts = state.accountsDepositedWithPower;
+      return orderBy(accounts, (account) => account.power.toFixed('ray'), ['desc']);
     },
   },
 });

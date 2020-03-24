@@ -13,7 +13,7 @@
       :class="{ 'round': rounded }"
     >
       <tr
-        v-for="data in datas"
+        v-for="(data, index) in datas"
         :key="getKey(data)"
         :class="{ 'table-clickable': clickable }"
         @click="clickTableData(data)"
@@ -22,7 +22,7 @@
           v-for="column in columns"
           :key="column.name"
         >
-          {{ filtered(column.key, data[column.key], data) }}
+          {{ filtered(column.key, data[column.key], index) }}
         </td>
       </tr>
     </tbody>
@@ -66,7 +66,7 @@ export default {
         return data.rootchain;
       }
     },
-    filtered (key, data) {
+    filtered (key, data, index) {
       switch (this.type) {
       case 'operator':
         if (key === 'address' || key === 'rootchain') return this.$options.filters.hexSlicer(data);
@@ -81,6 +81,10 @@ export default {
 
       case 'winner':
         if (key === 'reward') return this.$options.filters.convertedTONFromWTON(data);
+        else return data;
+
+      case 'rank':
+        if (key === 'rank') return index + 1;
         else return data;
 
       default:

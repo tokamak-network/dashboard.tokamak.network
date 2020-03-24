@@ -3,7 +3,7 @@
     <text-viewer :title="'POWER'" :content="power" />
     <!-- <text-viewer :title="'TOTAL POWER'" :content="totalDeposits.toString()" /> -->
     <!-- <text-viewer :title="'WINNING PROBABILITY'" :content="winningProbability.toString()" /> -->
-    <text-viewer :title="'RANK'" :content="'1'" />
+    <text-viewer :title="'RANK'" :content="rank" />
   </div>
 </template>
 
@@ -18,9 +18,11 @@ export default {
     'text-viewer': TextViewer,
   },
   props: {
-    power : {
+    power: {
     },
     totalDeposits: {
+    },
+    rank: {
     },
   },
   data () {
