@@ -31,7 +31,7 @@
 <script>
 import { mapState, mapGetters } from 'vuex';
 import { padLeft } from 'web3-utils';
-import { addHistory } from '@/api';
+import { addHistory, addTransaction, updateTransactionState } from '@/api';
 
 import { createCurrency } from '@makerdao/currency';
 const _TON = createCurrency('TON');
@@ -105,18 +105,21 @@ export default {
         amount,
         data,
       ).send({ from: this.user })
-        .on('transactionHash', (hash) => {
+        .on('transactionHash', async (hash) => {
           this.$store.dispatch('addPendingTx', hash);
+          await addTransaction(this.user, hash);
         })
         .on('confirmation', (confirmationNumber, receipt) => {
           // default: 24
         })
         .on('receipt', async (receipt) => {
           await this.processDepositLog(receipt);
+          await updateTransactionState(receipt.transactionHash);
 
           await this.$store.dispatch('set');
-          this.$emit('refresh');
           this.$store.dispatch('deletePendingTx', receipt.transactionHash);
+
+          this.$emit('refresh');
         })
         .on('error', function (error, receipt) {
           alert('error', error);
@@ -142,9 +145,9 @@ export default {
         })
         .on('receipt', async (receipt) => {
           await this.$store.dispatch('set');
-          this.$emit('refresh');
           this.$store.dispatch('deletePendingTx', receipt.transactionHash);
-          this.amountToUndelegate = '0';
+
+          this.$emit('refresh');
         })
         .on('error', function (error, receipt) {
           alert('error', error);

@@ -4,7 +4,7 @@ Vue.use(Vuex);
 
 import router from '@/router';
 
-import { getManagers, getOperators, getHistory } from '@/api';
+import { getManagers, getOperators, getHistory, getPendingTransactions, updateTransactionState } from '@/api';
 import { cloneDeep, isEqual, range, uniq, orderBy } from 'lodash';
 import { createWeb3Contract } from '@/helpers/Contract';
 import { BN } from 'web3-utils';
@@ -149,6 +149,10 @@ export default new Vuex.Store({
       while (context.state.signIn) {
         await new Promise(r => setTimeout(r, 5000)); // 5s
         await context.dispatch('set');
+
+        if (context.state.txsPending.length > 0) {
+          await context.dispatch('checkPendingTransactions');
+        }
       }
     },
     logout (context) {
@@ -163,6 +167,20 @@ export default new Vuex.Store({
     deletePendingTx (context, hash) {
       context.commit('DELETE_PENDING_TX', hash);
     },
+    async checkPendingTransactions (context) {
+      const web3 = context.state.web3;
+      const user = context.state.user;
+
+      const pendingTransactions = await getPendingTransactions(user);
+      pendingTransactions.forEach(async transaction => {
+        const tx = await web3.eth.getTransaction(transaction.hash);
+        if (tx) {
+          await updateTransactionState(transaction.hash);
+        } else {
+          context.dispatch('addPendingTx', transaction.hash);
+        }
+      });
+    },
     async signIn (context, web3) {
       const user = (await web3.eth.getAccounts())[0];
       const networkId = await web3.eth.net.getId();
@@ -172,6 +190,7 @@ export default new Vuex.Store({
       context.commit('SET_USER', user);
       context.commit('SET_NETWORK_ID', networkId);
       await context.dispatch('set');
+      await context.dispatch('checkPendingTransactions');
 
       context.commit('SIGN_IN');
       context.commit('IS_LOADING', false);
