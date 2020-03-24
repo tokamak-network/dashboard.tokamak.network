@@ -1,7 +1,6 @@
 import axios from 'axios';
 import config from '../../config.json';
 
-// TODO: make baseURL environement variable
 function createInstance () {
   return axios.create({
     baseURL: config.baseURL,
@@ -10,14 +9,25 @@ function createInstance () {
 
 const instance = createInstance();
 
+export async function getManagers () {
+  const res = await instance.get('/managers');
+  return res.data;
+}
+
 export async function getOperators () {
   const res = await instance.get('/operators');
   return res.data;
 }
 
-export async function getManagers () {
-  const res = await instance.get('/managers');
-  return res.data;
+export async function updateOperator (rootchain, formData) {
+  await instance.patch(
+    '/operators',
+    formData,
+    {
+      params: {
+        rootchain: rootchain,
+      },
+    });
 }
 
 export async function getHistory (user) {
@@ -30,7 +40,7 @@ export async function getHistory (user) {
 }
 
 export async function addHistory (user, history) {
-  const res = await instance.post(
+  await instance.post(
     '/history',
     { history },
     {
@@ -38,17 +48,35 @@ export async function addHistory (user, history) {
         account: user,
       },
     });
-  return res.data.history;
 }
 
-export async function updateOperator (rootchain, formData) {
-  const res = await instance.patch(
-    '/operators',
-    formData,
+export async function getPendingTransactions (user) {
+  const res = await instance.get('/transactions', {
+    params: {
+      account: user,
+      state: 'pending',
+    },
+  });
+  return res.data;
+}
+
+export async function addTransaction (user, hash) {
+  await instance.post(
+    '/transactions',
+    { transactionHash: hash },
     {
       params: {
-        rootchain: rootchain,
+        account: user,
       },
     });
-  return res.data.operators;
+}
+
+// `pending` -> `mined`
+export async function updateTransactionState (hash) {
+  await instance.patch(
+    '/transactions',
+    {
+      transactionHash: hash,
+    }
+  );
 }
