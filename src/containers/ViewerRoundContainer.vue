@@ -4,7 +4,7 @@
     <text-viewer :title="'ROUND start'" :content="formatedTimestamp(round.startTime)" />
     <text-viewer :title="'ROUND finish'" :content="formatedTimestamp(round.endTime)" />
     <text-viewer :title="'EXPECTED REWARD'" :content="convertedTONFromWTON(round.reward)" />
-    <text-viewer :title="'current block number'" :content="'30'" />
+    <text-viewer :title="'current block number'" :content="blockNumber" />
   </div>
 </template>
 
@@ -12,6 +12,7 @@
 import moment from 'moment';
 import { createCurrency } from '@makerdao/currency';
 const _TON = createCurrency('TON');
+import { mapState } from 'vuex';
 
 import TextViewer from '@/components/TextViewer.vue';
 
@@ -25,6 +26,9 @@ export default {
     },
   },
   computed: {
+    ...mapState([
+      'blockNumber',
+    ]),
     formatedTimestamp () {
       return timestamp => moment.unix(timestamp).format('LLL');
     },

@@ -44,6 +44,7 @@ const initialState = {
   web3: {},
   user: '',
   networkId: '',
+  blockNumber: 0,
 
   // contract of managers
   TON: {},
@@ -105,6 +106,9 @@ export default new Vuex.Store({
     SET_NETWORK_ID: (state, networkId) => {
       state.networkId = networkId;
     },
+    SET_BLOCK_NUMBER: (state, number) => {
+      state.blockNumber = number;
+    },
     SET_ETH_BALANCE: (state, balance) => {
       state.ethBalance = balance;
     },
@@ -140,6 +144,13 @@ export default new Vuex.Store({
     },
   },
   actions: {
+    // considering block time, this timer run and refresh vue state.
+    async runTimer (context) {
+      while (context.state.signIn) {
+        await new Promise(r => setTimeout(r, 5000)); // 5s
+        await context.dispatch('set');
+      }
+    },
     logout (context) {
       context.commit('SET_INITIAL_STATE');
     },
@@ -165,8 +176,13 @@ export default new Vuex.Store({
       context.commit('SIGN_IN');
       context.commit('IS_LOADING', false);
       router.replace('/dashboard');
+      await context.dispatch('runTimer');
     },
     async set (context) {
+      const web3 = this.state.web3;
+      const blockNumber = await web3.eth.getBlockNumber();
+      context.commit('SET_BLOCK_NUMBER', blockNumber);
+
       const managers = await getManagers();
       const operators = await getOperators();
 
