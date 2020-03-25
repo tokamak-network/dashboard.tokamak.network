@@ -1,7 +1,7 @@
 const { toChecksumAddress } = require('web3-utils');
 
 const GET = (db, req) => {
-  let user;
+  let account;
   try {
     account = toChecksumAddress(req.query.account);
   } catch (err) {

@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import { mapState, mapGetters } from 'vuex';
+import { mapGetters } from 'vuex';
 
 import StakeInfoContainer from '@/containers/StakeInfoContainer.vue';
 import BaseTable from '@/components/BaseTable.vue';
@@ -33,15 +33,8 @@ export default {
     };
   },
   computed: {
-    ...mapState([
-      'tonBalance',
-    ]),
     ...mapGetters([
       'operatorsStaked',
-      'userTotalDeposit',
-      'userTotalStaked',
-      'userTotalReward',
-      'userTotalPending',
     ]),
   },
   created () {
