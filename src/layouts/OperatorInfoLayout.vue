@@ -1,12 +1,12 @@
 <template>
   <div class="row">
     <operator-info-container class="left-container" :operator="operator" />
-    <delegate-manager-container class="right-container" :operator="operator" @refresh="refreshOperator" />
+    <delegate-manager-container class="right-container" :operator="operator" />
   </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { cloneDeep } from 'lodash';
 
 import DelegateManagerContainer from '@/containers/DelegateManagerContainer.vue';
 import OperatorInfoContainer from '@/containers/OperatorInfoContainer.vue';
@@ -16,23 +16,10 @@ export default {
     'delegate-manager-container': DelegateManagerContainer,
     'operator-info-container': OperatorInfoContainer,
   },
-  data () {
-    return {
-      operator: {},
-    };
-  },
   computed: {
-    ...mapGetters([
-      'operatorByRootChain',
-    ]),
-  },
-  created () {
-    this.param = this.$route.params.rootchain;
-    this.refreshOperator();
-  },
-  methods: {
-    refreshOperator () {
-      this.operator = this.operatorByRootChain(this.param);
+    operator () {
+      const rootchain = this.$route.params.rootchain;
+      return cloneDeep(this.$store.getters.operatorByRootChain(rootchain));
     },
   },
 };

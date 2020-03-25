@@ -20,8 +20,8 @@ export default {
   },
   props: {
     operator: {
+      required: true,
       type: Object,
-      default: () => {},
     },
   },
 };

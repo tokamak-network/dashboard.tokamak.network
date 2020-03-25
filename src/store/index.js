@@ -128,8 +128,7 @@ export default new Vuex.Store({
       }
     },
     SET_OPERATORS: (state, operators) => {
-      if (operators) state.operators = operators;
-      else state.operators = [];
+      state.operators = operators;
     },
     SET_USER_HISTORY: (state, userHistory) => {
       state.userHistory = userHistory;
@@ -188,13 +187,20 @@ export default new Vuex.Store({
       });
     },
     async signIn (context, web3) {
-      const user = (await web3.eth.getAccounts())[0];
-      const networkId = await web3.eth.net.getId();
-
       context.commit('IS_LOADING', true);
       context.commit('SET_WEB3', web3);
+
+      const user = (await web3.eth.getAccounts())[0];
+      const networkId = await web3.eth.net.getId();
       context.commit('SET_USER', user);
       context.commit('SET_NETWORK_ID', networkId);
+
+      const managers = await getManagers();
+      await context.dispatch('setManagers', managers);
+
+      const operators = await getOperators();
+      context.commit('SET_OPERATORS', operators);
+
       await context.dispatch('set');
       await context.dispatch('checkPendingTransactions');
       await context.dispatch('setAccountsDepositedWithPower');
@@ -209,13 +215,7 @@ export default new Vuex.Store({
       const blockNumber = await web3.eth.getBlockNumber();
       context.commit('SET_BLOCK_NUMBER', blockNumber);
 
-      const managers = await getManagers();
-      const operators = await getOperators();
-
-      await context.dispatch('setManagers', managers);
-      if (operators.length !== 0) {
-        await context.dispatch('setOperators', operators);
-      }
+      await context.dispatch('setOperators');
       await context.dispatch('setBalance');
       await context.dispatch('setHistory');
       await context.dispatch('setRound');
@@ -228,7 +228,7 @@ export default new Vuex.Store({
       }
       context.commit('SET_MANAGERS', managers);
     },
-    async setOperators (context, operators) {
+    async setOperators (context) {
       const web3 = context.state.web3;
       const user = context.state.user;
       const DepositManager = context.state.DepositManager;
@@ -236,6 +236,7 @@ export default new Vuex.Store({
 
       const wtonWrapper = (amount) => _WTON.ray(amount);
 
+      const operators = context.state.operators;
       const operatorsFromRootChain = operators.map(async operatorFromRootChain => {
         ///////////////////////////////////////////////////////////////////
         // NOTE: operatorFromRootChain has already have following property.

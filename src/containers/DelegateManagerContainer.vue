@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import { mapState, mapGetters } from 'vuex';
+import { mapState } from 'vuex';
 import { padLeft } from 'web3-utils';
 import { addHistory, addTransaction, updateTransactionState } from '@/api';
 
@@ -51,8 +51,8 @@ export default {
   },
   props: {
     operator: {
+      required: true,
       type: Object,
-      default: () => {},
     },
   },
   data () {
@@ -105,8 +105,6 @@ export default {
           await this.$store.dispatch('set');
           this.$store.dispatch('deletePendingTx', receipt.transactionHash);
           this.$store.dispatch('addAccountDepositedWithPower', this.user);
-
-          this.$emit('refresh');
         })
         .on('error', function (error, receipt) {
           alert('error', error);
@@ -133,8 +131,6 @@ export default {
         .on('receipt', async (receipt) => {
           await this.$store.dispatch('set');
           this.$store.dispatch('deletePendingTx', receipt.transactionHash);
-
-          this.$emit('refresh');
         })
         .on('error', function (error, receipt) {
           alert('error', error);
@@ -166,7 +162,6 @@ export default {
           await this.processRequestProcessLog(receipt);
 
           await this.$store.dispatch('set');
-          this.$emit('refresh');
           this.$store.dispatch('deletePendingTx', receipt.transactionHash);
         });
     },
