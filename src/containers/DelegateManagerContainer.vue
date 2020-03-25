@@ -104,6 +104,7 @@ export default {
 
           await this.$store.dispatch('set');
           this.$store.dispatch('deletePendingTx', receipt.transactionHash);
+          this.$store.dispatch('addAccountDepositedWithPower', this.user);
 
           this.$emit('refresh');
         })

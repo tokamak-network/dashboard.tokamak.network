@@ -142,6 +142,11 @@ export default new Vuex.Store({
     SET_ACCOUNTS_DEPOSITED_WITH_POWER: (state, accounts) => {
       state.accountsDepositedWithPower = accounts;
     },
+    ADD_ACCOUNT_DEPOSITED_WITH_POWER: (state, account) => {
+      if (!state.accountsDepositedWithPower.find(a => a.address === account.address)) {
+        state.accountsDepositedWithPower.push(account);
+      }
+    },
   },
   actions: {
     // considering block time, this timer run and refresh vue state.
@@ -191,6 +196,7 @@ export default new Vuex.Store({
       context.commit('SET_NETWORK_ID', networkId);
       await context.dispatch('set');
       await context.dispatch('checkPendingTransactions');
+      await context.dispatch('setAccountsDepositedWithPower');
 
       context.commit('SIGN_IN');
       context.commit('IS_LOADING', false);
@@ -212,7 +218,6 @@ export default new Vuex.Store({
       await context.dispatch('setBalance');
       await context.dispatch('setHistory');
       await context.dispatch('setRound');
-      await context.dispatch('setAccountsDepositedWithPower');
     },
     async setManagers (context, managers) {
       const user = context.state.user;
@@ -441,12 +446,19 @@ export default new Vuex.Store({
       const accounts = depositors.map(async depositor => {
         const power = await PowerTON.methods.powerOf(depositor).call();
         return {
-          address: depositor,
+          address: depositor.toLowerCase(),
           power: _POWER.ray(power.toString()),
         };
       });
-
       context.commit('SET_ACCOUNTS_DEPOSITED_WITH_POWER', await Promise.all(accounts));
+    },
+    async addAccountDepositedWithPower (context, depositor) {
+      const PowerTON = context.state.PowerTON;
+      const power = await PowerTON.methods.powerOf(depositor).call();
+      context.commit('ADD_ACCOUNT_DEPOSITED_WITH_POWER', {
+        address: depositor.toLowerCase(),
+        power: _POWER.ray(power.toString()),
+      });
     },
   },
   getters: {
