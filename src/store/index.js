@@ -307,7 +307,7 @@ export default new Vuex.Store({
 
         const filterWithdrawableRequests = async (requests) => {
           const currentBlockNumber = await web3.eth.getBlockNumber();
-          return requests.filter(request => parseInt(request.withdrawableBlockNumber) < currentBlockNumber);
+          return requests.filter(request => parseInt(request.withdrawableBlockNumber) <= currentBlockNumber);
         };
 
         const getUserNotWithdrawable = async (notWithdrawableRequests) => {
