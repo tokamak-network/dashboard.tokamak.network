@@ -29,13 +29,16 @@ export default {
 
         window.ethereum.on('chainIdChanged', (chainId) => {
           this.$store.dispatch('logout');
+          this.$router.replace('/');
         });
         window.ethereum.on('accountsChanged', (chainId) => {
           this.$store.dispatch('logout');
+          this.$router.replace('/');
         });
       } catch (e) {
         alert(e.message);
         this.$store.dispatch('logout');
+        this.$router.replace('/');
       }
     },
     async metamask () {
