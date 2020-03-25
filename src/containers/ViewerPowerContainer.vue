@@ -1,16 +1,11 @@
 <template>
   <div class="viewer-power-container">
     <text-viewer :title="'POWER'" :content="power" />
-    <!-- <text-viewer :title="'TOTAL POWER'" :content="totalDeposits.toString()" /> -->
-    <!-- <text-viewer :title="'WINNING PROBABILITY'" :content="winningProbability.toString()" /> -->
     <text-viewer :title="'RANK'" :content="rank" />
   </div>
 </template>
 
 <script>
-import { createCurrency } from '@makerdao/currency';
-const _TON = createCurrency('TON');
-
 import TextViewer from '@/components/TextViewer.vue';
 
 export default {
@@ -20,23 +15,8 @@ export default {
   props: {
     power: {
     },
-    totalDeposits: {
-    },
     rank: {
     },
-  },
-  data () {
-    return {
-      winningProbability: '',
-    };
-  },
-  computed: {
-    convertedTONFromWTON () {
-      return wtonAmount => _TON(wtonAmount.toNumber());
-    },
-  },
-  created () {
-    // this.winningProbability = `${this.power.div(this.totalDeposits).mul(100).toNumber()}%`;
   },
 };
 </script>

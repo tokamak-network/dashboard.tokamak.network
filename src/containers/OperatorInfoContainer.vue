@@ -24,15 +24,6 @@ export default {
       default: () => {},
     },
   },
-  methods: {
-    calculateReward () {
-      try {
-        return (this.operator.totalStake.div(this.operator.totalDeposit)).toNumber();
-      } catch (e) {
-        return 0;
-      }
-    },
-  },
 };
 </script>
 

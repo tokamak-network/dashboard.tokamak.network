@@ -388,6 +388,7 @@ export default new Vuex.Store({
       context.commit('SET_USER_HISTORY', userHistory.map(h => h.history));
     },
     async setRound (context) {
+      const user = context.state.user;
       const WTON = context.state.WTON;
       const PowerTON = context.state.PowerTON;
 
@@ -401,6 +402,16 @@ export default new Vuex.Store({
       const reward = new BN(balance).mul(new BN(REWARD_NUMERATOR)).div(new BN(REWARD_DENOMINATOR));
       currentRound.reward = _WTON.ray(reward);
 
+      const totalDeposits = await PowerTON.methods.totalDeposits().call();
+      const userPower = await PowerTON.methods.powerOf(user).call();
+
+      // `.div` needs to check zero value
+      if (totalDeposits !== '0') {
+        const winningProbability = new BN(userPower).div(new BN(totalDeposits)).mul(new BN('100'));
+        currentRound.winningProbability = winningProbability;
+      } else {
+        currentRound.winningProbability = '0';
+      }
       context.commit('SET_CURRENT_ROUND', currentRound);
 
       const rounds = [];

@@ -22,11 +22,6 @@ export default {
     'dashboard-header': DashboardHeader,
     'text-viewer': TextViewer,
   },
-  data () {
-    return {
-      winningProbability: '',
-    };
-  },
   computed: {
     ...mapState([
       'power',
@@ -35,9 +30,9 @@ export default {
     convertedTONFromWTON () {
       return wtonAmount => _TON(wtonAmount.toNumber());
     },
-  },
-  created () {
-    this.winningProbability = '1 %';
+    winningProbability () {
+      return `${this.currentRound.winningProbability}%`;
+    },
   },
 };
 </script>

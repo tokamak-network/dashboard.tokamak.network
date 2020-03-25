@@ -34,13 +34,6 @@ export default {
     refreshOperator () {
       this.operator = this.operatorByRootChain(this.param);
     },
-    calculateReward () {
-      try {
-        return (this.operator.totalStake.div(this.operator.totalDeposit)).toNumber();
-      } catch (e) {
-        return 0;
-      }
-    },
   },
 };
 </script>

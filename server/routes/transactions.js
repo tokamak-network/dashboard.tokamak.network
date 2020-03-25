@@ -43,7 +43,6 @@ const POST = async (db, req) => {
 // update transaction state
 const PATCH = async (db, req) => {
   const transactionHash = req.body.transactionHash;
-  console.log(transactionHash);
 
   await db
     .defaults({ transactions: [] })

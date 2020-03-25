@@ -1,18 +1,19 @@
 <template>
   <div class="viewer-round-container">
-    <text-viewer :title="'ROUND'" :content="round.index" />
+    <text-viewer :title="'CURRENT ROUND'" :content="round.index" />
     <text-viewer :title="'ROUND start'" :content="formatedTimestamp(round.startTime)" />
     <text-viewer :title="'ROUND finish'" :content="formatedTimestamp(round.endTime)" />
     <text-viewer :title="'EXPECTED REWARD'" :content="convertedTONFromWTON(round.reward)" />
-    <text-viewer :title="'current block number'" :content="blockNumber" />
+    <text-viewer :title="'CURRENT BLOCK NUMBER'" :content="blockNumber" />
+    <text-viewer :title="'WINNING PROBABILITY'" :content="winningProbability" />
   </div>
 </template>
 
 <script>
 import moment from 'moment';
+import { mapState } from 'vuex';
 import { createCurrency } from '@makerdao/currency';
 const _TON = createCurrency('TON');
-import { mapState } from 'vuex';
 
 import TextViewer from '@/components/TextViewer.vue';
 
@@ -34,6 +35,9 @@ export default {
     },
     convertedTONFromWTON () {
       return wtonAmount => _TON(wtonAmount.toNumber());
+    },
+    winningProbability () {
+      return `${this.round.winningProbability}%`;
     },
   },
 };
