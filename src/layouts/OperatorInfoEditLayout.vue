@@ -134,7 +134,8 @@ export default {
       formData.append('description', this.description);
 
       try {
-        await updateOperator(this.operator.rootchain, formData);
+        const operator = await updateOperator(this.operator.rootchain, formData);
+        this.$store.dispatch('updateOperator', operator);
       } catch (e) {
         //
       }

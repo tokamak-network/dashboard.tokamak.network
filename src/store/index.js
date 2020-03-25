@@ -130,6 +130,14 @@ export default new Vuex.Store({
     SET_OPERATORS: (state, operators) => {
       state.operators = operators;
     },
+    UPDATE_OPERATOR: (state, newOperator) => {
+      const index = state.operators.indexOf(prevOperator);
+      const prevOperator = state.operators.find(operator => operator.rootchain === newOperator.rootchain);
+      for (const [key, value] of Object.entries(newOperator)) {
+        prevOperator[key] = value;
+      }
+      Vue.set(state.operators, index, prevOperator);
+    },
     SET_USER_HISTORY: (state, userHistory) => {
       state.userHistory = userHistory;
     },
@@ -196,10 +204,9 @@ export default new Vuex.Store({
       context.commit('SET_NETWORK_ID', networkId);
 
       const managers = await getManagers();
-      await context.dispatch('setManagers', managers);
-
       const operators = await getOperators();
-      context.commit('SET_OPERATORS', operators);
+      await context.dispatch('setManagers', managers);
+      await context.dispatch('setOperatorsWithRegistry', operators);
 
       await context.dispatch('set');
       await context.dispatch('checkPendingTransactions');
@@ -227,6 +234,12 @@ export default new Vuex.Store({
         managers[name] = await createWeb3Contract(abi, address, user);
       }
       context.commit('SET_MANAGERS', managers);
+    },
+    async updateOperator (context, operator) {
+      context.commit('UPDATE_OPERATOR', operator);
+    },
+    async setOperatorsWithRegistry (context, operators) {
+      context.commit('SET_OPERATORS', operators);
     },
     async setOperators (context) {
       const web3 = context.state.web3;

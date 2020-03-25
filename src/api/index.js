@@ -20,7 +20,7 @@ export async function getOperators () {
 }
 
 export async function updateOperator (rootchain, formData) {
-  await instance.patch(
+  const res = await instance.patch(
     '/operators',
     formData,
     {
@@ -28,6 +28,7 @@ export async function updateOperator (rootchain, formData) {
         rootchain: rootchain,
       },
     });
+  return res.data;
 }
 
 export async function getHistory (user) {
