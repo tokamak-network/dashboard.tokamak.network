@@ -9,7 +9,7 @@
     "test": "jest",
     "test:unit": "vue-cli-service test:unit",
     "lint": "vue-cli-service lint",
-    "server": "node server.js"
+    "server": "node server/index.js"
   },
   "dependencies": {
     "@ledgerhq/hw-app-eth": "^5.6.0",
@@ -26,6 +26,7 @@
     "lowdb": "^1.0.0",
     "moment": "^2.24.0",
     "multer": "^1.4.2",
+    "numeral": "^2.0.6",
     "vue": "^2.6.10",
     "vue-avatar-component": "^1.2.6",
     "vue-router": "^3.1.3",

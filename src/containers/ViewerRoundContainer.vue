@@ -5,7 +5,7 @@
     <text-viewer :title="'ROUND finish'" :content="formatedTimestamp(round.endTime)" />
     <text-viewer :title="'EXPECTED REWARD'" :content="convertedTONFromWTON(round.reward)" />
     <text-viewer :title="'CURRENT BLOCK NUMBER'" :content="blockNumber" />
-    <text-viewer :title="'WINNING PROBABILITY'" :content="winningProbability" />
+    <text-viewer :title="'WINNING PROBABILITY'" :content="round.winningProbability" />
   </div>
 </template>
 
@@ -35,9 +35,6 @@ export default {
     },
     convertedTONFromWTON () {
       return wtonAmount => _TON(wtonAmount.toNumber());
-    },
-    winningProbability () {
-      return `${this.round.winningProbability}%`;
     },
   },
 };

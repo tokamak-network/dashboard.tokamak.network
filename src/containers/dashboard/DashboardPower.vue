@@ -1,7 +1,7 @@
 <template>
   <div class="dashboard-power">
     <dashboard-header :title="'POWER'" :path="'powerton'" />
-    <text-viewer :title="'WINNING PROBABILITY'" :content="winningProbability" />
+    <text-viewer :title="'WINNING PROBABILITY'" :content="currentRound.winningProbability" />
     <div class="space" />
     <text-viewer :title="'POWER'" :content="power" />
     <text-viewer :title="'ROUND'" :content="currentRound.index" />

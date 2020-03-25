@@ -6,6 +6,7 @@ import router from '@/router';
 
 import { getManagers, getOperators, getHistory, getPendingTransactions, updateTransactionState } from '@/api';
 import { cloneDeep, isEqual, range, uniq, orderBy } from 'lodash';
+import numeral from 'numeral';
 import { createWeb3Contract } from '@/helpers/Contract';
 import { BN } from 'web3-utils';
 
@@ -406,15 +407,15 @@ export default new Vuex.Store({
       const reward = new BN(balance).mul(new BN(REWARD_NUMERATOR)).div(new BN(REWARD_DENOMINATOR));
       currentRound.reward = _WTON.ray(reward);
 
-      const totalDeposits = await PowerTON.methods.totalDeposits().call();
-      const userPower = await PowerTON.methods.powerOf(user).call();
+      const totalDeposits = _POWER.ray(await PowerTON.methods.totalDeposits().call());
+      const userPower = _POWER.ray(await PowerTON.methods.powerOf(user).call());
 
       // `.div` needs to check zero value
-      if (totalDeposits !== '0') {
-        const winningProbability = new BN(userPower).div(new BN(totalDeposits)).mul(new BN('100'));
-        currentRound.winningProbability = winningProbability;
+      if (!totalDeposits.eq(_POWER.ray('0'))) {
+        const winningProbability = userPower.div(totalDeposits);
+        currentRound.winningProbability = `${numeral(winningProbability.toNumber()).format('0.00%')}`;
       } else {
-        currentRound.winningProbability = '0';
+        currentRound.winningProbability = '0.00%';
       }
       context.commit('SET_CURRENT_ROUND', currentRound);
 
