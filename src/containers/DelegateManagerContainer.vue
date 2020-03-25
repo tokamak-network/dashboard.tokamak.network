@@ -19,8 +19,8 @@
           <text-viewer :title="'Available Amount'" :content="convertedTONFromWTON(operator.userStaked)" />
           <div class="button-container"><base-button :label="'Request Undelegate TON'" :func="undelegate" /></div>
           <div class="divider" />
-          <text-viewer :title="'Pending Amount'" :content="convertedTONFromWTON(userPending)" />
-          <text-viewer :title="'Withdrawable Amount'" :content="convertedTONFromWTON(userWithdrawable)" />
+          <text-viewer :title="'Pending Amount'" :content="convertedTONFromWTON(operator.userPending)" />
+          <text-viewer :title="'Withdrawable Amount'" :content="convertedTONFromWTON(operator.userWithdrawable)" />
           <div class="button-container"><base-button :label="'Process Requests'" :func="processRequests" /></div>
         </div>
       </form>
@@ -67,24 +67,10 @@ export default {
       'web3',
       'user',
       'tonBalance',
-      'wtonBalance',
-      'DepositManager',
-      'RootChainRegistry',
       'TON',
       'WTON',
+      'DepositManager',
     ]),
-    userPending () {
-      const initialAmount = _WTON.ray('0');
-      const reducer = (amount, request) => amount.add(_WTON.ray(request.amount));
-
-      return this.operator.pendingRequests.reduce(reducer, initialAmount);
-    },
-    userWithdrawable () {
-      const initialAmount = _WTON.ray('0');
-      const reducer = (amount, request) => amount.add(_WTON.ray(request.amount));
-
-      return this.operator.withdrawableRequests.reduce(reducer, initialAmount);
-    },
     convertedTONFromWTON () {
       return wtonAmount => _TON(wtonAmount.toNumber());
     },
@@ -156,7 +142,7 @@ export default {
       this.amountToUndelegate = '';
     },
     async processRequests () {
-      if (this.userWithdrawable.isEqual(_WTON.ray('0'))) {
+      if (this.operator.userWithdrawable.isEqual(_WTON.ray('0'))) {
         return alert('cannot be withdrawable');
       }
 

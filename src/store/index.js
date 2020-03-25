@@ -283,7 +283,7 @@ export default new Vuex.Store({
           }
 
           let requestIndex
-          = await DepositManager.methods.withdrawalRequestIndex(rootchain, user).call();
+            = await DepositManager.methods.withdrawalRequestIndex(rootchain, user).call();
 
           const requests = [];
           for (const _ of range(numPendingRequests)) {
@@ -303,6 +303,18 @@ export default new Vuex.Store({
         const getWithdrawableRequests = async (requests) => {
           const currentBlockNumber = await web3.eth.getBlockNumber();
           return requests.filter(request => parseInt(request.withdrawableBlockNumber) < currentBlockNumber);
+        };
+
+        const getUserPending = async (pendingRequests) => {
+          const initialAmount = _WTON.ray('0');
+          const reducer = (amount, request) => amount.add(_WTON.ray(request.amount));
+          return pendingRequests.reduce(reducer, initialAmount);
+        };
+
+        const getUserWithdrawable = async (withdrawableRequests) => {
+          const initialAmount = _WTON.ray('0');
+          const reducer = (amount, request) => amount.add(_WTON.ray(request.amount));
+          return withdrawableRequests.reduce(reducer, initialAmount);
         };
 
         const operator = await RootChain.methods.operator().call();
@@ -325,6 +337,9 @@ export default new Vuex.Store({
         const pendingRequests = await getPendingRequests(requests);
         const withdrawableRequests = await getWithdrawableRequests(requests);
 
+        const userPending = await getUserPending(pendingRequests);
+        const userWithdrawable = await getUserWithdrawable(withdrawableRequests);
+
         // set vue state.
         operatorFromRootChain.address = operator;
         operatorFromRootChain.recentCommitTimestamp = recentCommitTimestamp;
@@ -338,8 +353,10 @@ export default new Vuex.Store({
         operatorFromRootChain.userDeposit = wtonWrapper(userDeposit);
         operatorFromRootChain.userStaked = wtonWrapper(userStaked);
 
-        operatorFromRootChain.pendingRequests = pendingRequests;
-        operatorFromRootChain.withdrawableRequests = withdrawableRequests;
+        operatorFromRootChain.withdrawableRequests = withdrawableRequests; // used at DepositManager.processRequests count
+        // already wrapped with WTON
+        operatorFromRootChain.userPending = userPending;
+        operatorFromRootChain.userWithdrawable = userWithdrawable;
 
         return operatorFromRootChain;
       });
@@ -449,17 +466,15 @@ export default new Vuex.Store({
     },
     userTotalPending: (state) => {
       const initialAmount = _WTON.ray('0');
-      const pendingReducer = (amount, request) => amount.add(_WTON.ray(request.amount));
-      const totalPendingReducer = (amount, operator) => amount.add(operator.pendingRequests.reduce(pendingReducer, initialAmount));
+      const reducer = (amount, operator) => amount.add(operator.userPending);
 
-      return state.operators.reduce(totalPendingReducer, initialAmount);
+      return state.operators.reduce(reducer, initialAmount);
     },
     userTotalWithdrawable: (state) => {
       const initialAmount = _WTON.ray('0');
-      const withdrawableReducer = (amount, request) => amount.add(_WTON.ray(request.amount));
-      const totalWithdrawableReducer = (amount, operator) => amount.add(operator.withdrawableRequests.reduce(withdrawableReducer, initialAmount));
+      const reducer = (amount, operator) => amount.add(operator.userWithdrawable);
 
-      return state.operators.reduce(totalWithdrawableReducer, initialAmount);
+      return state.operators.reduce(reducer, initialAmount);
     },
     userTotalReward: (_, getters) => {
       return getters.userTotalStaked
