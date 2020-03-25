@@ -8,15 +8,19 @@ const GET = (db, req) => {
     throw new Error('Non-checksum address');
   }
 
-  const account = (req.query.account).toLowerCase();
-  const state = req.query.state;
-  const transactions = db
-    .defaults({ transactions: [] })
-    .get('transactions')
-    .filter(transaction => transaction.account === account && transaction.state === state)
-    .value();
+  try {
+    const account = (req.query.account).toLowerCase();
+    const state = req.query.state;
+    const transactions = db
+      .defaults({ transactions: [] })
+      .get('transactions')
+      .filter(transaction => transaction.account === account && transaction.state === state)
+      .value();
 
-  return Promise.resolve(transactions);
+    return Promise.resolve(transactions);
+  } catch (err) {
+    throw err;
+  }
 };
 
 // put new pending transaction
@@ -33,23 +37,31 @@ const POST = async (db, req) => {
   transaction.hash = req.body.transactionHash;
   transaction.state = 'pending';
 
-  await db
-    .defaults({ transactions: [] })
-    .get('transactions')
-    .push(transaction)
-    .write();
+  try {
+    await db
+      .defaults({ transactions: [] })
+      .get('transactions')
+      .push(transaction)
+      .write();
+  } catch (err) {
+    throw err;
+  }
 };
 
 // update transaction state
 const PATCH = async (db, req) => {
   const transactionHash = req.body.transactionHash;
 
-  await db
-    .defaults({ transactions: [] })
-    .get('transactions')
-    .find({ hash: transactionHash })
-    .assign({ state: 'mined ' })
-    .write();
+  try {
+    await db
+      .defaults({ transactions: [] })
+      .get('transactions')
+      .find({ hash: transactionHash })
+      .assign({ state: 'mined ' })
+      .write();
+  } catch (err) {
+    throw err;
+  }
 };
 
 module.exports = {

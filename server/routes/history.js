@@ -8,13 +8,17 @@ const GET = (db, req) => {
     throw new Error('Non-checksum address');
   }
 
-  const history = db
-    .defaults({ history: [] })
-    .get('history')
-    .filter(history => history.account === account)
-    .value();
+  try {
+    const history = db
+      .defaults({ history: [] })
+      .get('history')
+      .filter(history => history.account === account)
+      .value();
 
-  return Promise.resolve(history);
+    return Promise.resolve(history);
+  } catch (err) {
+    throw err;
+  }
 };
 
 const POST = async (db, req) => {
@@ -25,13 +29,17 @@ const POST = async (db, req) => {
     throw new Error('Non-checksum address');
   }
 
-  await db
-    .defaults({ history: [] })
-    .get('history')
-    .push(req.body)
-    .last()
-    .assign({ account })
-    .write();
+  try {
+    await db
+      .defaults({ history: [] })
+      .get('history')
+      .push(req.body)
+      .last()
+      .assign({ account })
+      .write();
+  } catch (err) {
+    throw err;
+  }
 };
 
 module.exports = {

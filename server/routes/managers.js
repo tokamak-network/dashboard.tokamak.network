@@ -1,19 +1,27 @@
 const GET = (db) => {
-  const managers = db
-    .defaults({ managers: {} })
-    .get('managers')
-    .value();
+  try {
+    const managers = db
+      .defaults({ managers: {} })
+      .get('managers')
+      .value();
 
-  return Promise.resolve(managers);
+    return Promise.resolve(managers);
+  } catch (err) {
+    throw err;
+  }
 };
 
 // only from CURL
 const POST = async (db, req) => {
-  await db
-    .defaults({ managers: {} })
-    .get('managers')
-    .assign(req.body)
-    .write();
+  try {
+    await db
+      .defaults({ managers: {} })
+      .get('managers')
+      .assign(req.body)
+      .write();
+  } catch (err) {
+    throw err;
+  }
 };
 
 module.exports = {

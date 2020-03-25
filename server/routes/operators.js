@@ -1,3 +1,4 @@
+const util = require('util');
 const multer = require('multer');
 const upload = multer({
   dest: `${__dirname}/../../db/avatars`,
@@ -6,12 +7,16 @@ const upload = multer({
 const { toChecksumAddress } = require('web3-utils');
 
 const GET = (db) => {
-  const operators = db
-    .defaults({ operators: [] })
-    .get('operators')
-    .value();
+  try {
+    const operators = db
+      .defaults({ operators: [] })
+      .get('operators')
+      .value();
 
-  return Promise.resolve(operators);
+    return Promise.resolve(operators);
+  } catch (err) {
+    throw err;
+  }
 };
 
 // only from CURL
@@ -31,19 +36,21 @@ const POST = async (db, req) => {
   if (operator) {
     throw new Error('Already registered');
   }
+  operator.rootchain = rootchain; // use checksum address
+  operator.avatar = '';
+  operator.color = randomColor;
 
-  const data = {};
-  data.rootchain = rootchain; // use checksum address
-  data.avatar = '';
-  data.color = randomColor;
-
-  await db
-    .defaults({ operators: [] })
-    .get('operators')
-    .push(req.body)
-    .last()
-    .assign(data)
-    .write();
+  try {
+    await db
+      .defaults({ operators: [] })
+      .get('operators')
+      .push(req.body)
+      .last()
+      .assign(operator)
+      .write();
+  } catch (err) {
+    throw err;
+  }
 };
 
 const PATCH = async (db, req) => {
