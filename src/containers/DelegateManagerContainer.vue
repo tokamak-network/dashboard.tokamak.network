@@ -19,7 +19,7 @@
           <text-viewer :title="'Available Amount'" :content="convertedTONFromWTON(operator.userStaked)" />
           <div class="button-container"><base-button :label="'Request Undelegate TON'" :func="undelegate" /></div>
           <div class="divider" />
-          <text-viewer :title="'Pending Amount'" :content="convertedTONFromWTON(operator.userPending)" />
+          <text-viewer :title="'Pending Amount'" :content="convertedTONFromWTON(operator.userNotWithdrawable)" />
           <text-viewer :title="'Withdrawable Amount'" :content="convertedTONFromWTON(operator.userWithdrawable)" />
           <div class="button-container"><base-button :label="'Process Requests'" :func="processRequests" /></div>
         </div>
