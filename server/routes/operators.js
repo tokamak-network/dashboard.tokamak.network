@@ -36,9 +36,11 @@ const POST = async (db, req) => {
   if (operator) {
     throw new Error('Already registered');
   }
-  operator.rootchain = rootchain; // use checksum address
-  operator.avatar = '';
-  operator.color = randomColor;
+
+  const newOperator = {};
+  newOperator.rootchain = rootchain; // use checksum address
+  newOperator.avatar = '';
+  newOperator.color = randomColor;
 
   try {
     await db
@@ -46,7 +48,7 @@ const POST = async (db, req) => {
       .get('operators')
       .push(req.body)
       .last()
-      .assign(operator)
+      .assign(newOperator)
       .write();
   } catch (err) {
     throw err;
