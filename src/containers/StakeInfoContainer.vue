@@ -1,10 +1,10 @@
 <template>
   <div class="stake-info-container">
-    <text-viewer :title="'Total Staked TON'" :content="convertedTONFromWTON(userTotalStaked)" :withDivider="true" />
-    <text-viewer :title="'Total Reward TON'" :content="convertedTONFromWTON(userTotalReward)" :withDivider="true" />
+    <text-viewer :title="'Total Staked TON'" :content="convertedTONFromWTON(userTotalStaked)" :with-divider="true" />
+    <text-viewer :title="'Total Reward TON'" :content="convertedTONFromWTON(userTotalReward)" :with-divider="true" />
     <!-- <div class="space" /> -->
-    <text-viewer :title="'Total Not Withdrawable TON'" :content="convertedTONFromWTON(userTotalNotWithdrawable)" :withDivider="true" />
-    <text-viewer :title="'Total Withdrawable TON'" :content="convertedTONFromWTON(userTotalWithdrawable)" :withDivider="false" />
+    <text-viewer :title="'Total Not Withdrawable TON'" :content="convertedTONFromWTON(userTotalNotWithdrawable)" :with-divider="true" />
+    <text-viewer :title="'Total Withdrawable TON'" :content="convertedTONFromWTON(userTotalWithdrawable)" :with-divider="false" />
   </div>
 </template>
 
@@ -45,12 +45,10 @@ export default {
 <style scoped>
 .stake-info-container {
   flex: 1;
-
   display: flex;
   flex-direction: column;
-
   border-radius: 6px;
-  border: solid 0.7px #ced6d9;
+  border: solid 1px #ced6d9;
   background-color: #ffffff;
 
   margin-right: 4px;

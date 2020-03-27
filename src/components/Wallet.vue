@@ -64,7 +64,7 @@ export default {
   box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.06);
   background-color: #ffffff;
   margin-top: 9px;
-  border: solid 0.7px #ffffff;
+  border: solid 1px #ffffff;
   padding-right: 16px;
 }
 
@@ -72,7 +72,7 @@ export default {
   cursor: pointer;
   background-color: #f7f8f9;
   border-radius: 3px;
-  border: solid 0.7px #ced6d9;
+  border: solid 1px #ced6d9;
 }
 
 .not-allowed:hover {

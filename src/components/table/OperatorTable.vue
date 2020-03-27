@@ -90,7 +90,7 @@ export default {
   table-layout: auto;
   border-collapse: collapse;
   border-spacing: 0;
-  border: solid 0.7px #ced6d9;
+  border: solid 1px #ced6d9;
   background: #ffffff;
 }
 

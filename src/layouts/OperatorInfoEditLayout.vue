@@ -157,7 +157,7 @@ form {
 .container {
   align-items: center;
   border-radius: 6px;
-  border: solid 0.7px #ced6d9;
+  border: solid 1px #ced6d9;
   background-color: #ffffff;
   padding: 20px;
 }

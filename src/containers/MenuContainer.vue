@@ -99,7 +99,7 @@ export default {
   min-height: 340px;
   max-height: 340px;
   border-radius: 7px;
-  border: solid 0.7px #ced6d9;
+  border: solid 1px #ced6d9;
 }
 
 .menu-title-container {

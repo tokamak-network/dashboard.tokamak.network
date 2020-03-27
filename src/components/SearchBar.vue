@@ -31,7 +31,7 @@ export default {
   height: 40px;
   font-size: 14px;
   border-radius: 7px;
-  border: solid 0.7px #ced6d9;
+  border: solid 1px #ced6d9;
   background-color: #ffffff;
   background-image: url("../assets/images/Search.svg");
   background-position: right;

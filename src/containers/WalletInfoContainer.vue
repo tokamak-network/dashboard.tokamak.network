@@ -115,7 +115,7 @@ export default {
   flex: 1;
   min-height: 100%;
   border-radius: 6px;
-  border: solid 0.7px #ced6d9;
+  border: solid 1px #ced6d9;
   background-color: #ffffff;
 }
 
@@ -124,7 +124,7 @@ export default {
   align-items: center;
   height: 74px;
   border-radius: 6px;
-  border: solid 0.7px #ced6d9;
+  border: solid 1px #ced6d9;
   background-color: #ffffff;
 }
 

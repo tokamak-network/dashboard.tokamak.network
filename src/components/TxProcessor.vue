@@ -47,7 +47,7 @@ export default {
   width: 960px;
   display: table;
   border-radius: 7px;
-  border: solid 0.7px #ced6d9;
+  border: solid 1px #ced6d9;
   background: red; height: 36px; background: #5ba7d8;
   color: white;
   margin-top: 8px;
