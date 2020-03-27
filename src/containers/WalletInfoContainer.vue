@@ -151,6 +151,7 @@ export default {
 }
 
 .wallet-header {
+  font-family: Roboto;
   margin-top: 4px;
   margin-bottom: 4px;
   width: 50%;
@@ -171,9 +172,17 @@ export default {
   width: 50%;
   text-align: center;
   font-size: 12px;
+  font-family: Roboto;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.44;
+  letter-spacing: 0.27px;
+  color: #586064;
 }
 
 .wallet-info-title {
+  font-family: Roboto;
   font-size: 14px;
   font-weight: 500;
   font-stretch: normal;
@@ -185,12 +194,15 @@ export default {
 }
 
 .wallet-info-content {
-  font-size: 11.5px;
-  line-height: 1.08;
-  letter-spacing: 0.2px;
   text-align: left;
+  font-size: 12px;
+  font-family: Roboto;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.44;
+  letter-spacing: 0.27px;
   color: #586064;
-  padding-right: 17px;
   word-break: break-all;
 }
 
