@@ -24,7 +24,6 @@ export default {
     async useMetamask () {
       try {
         await this.metamask();
-        console.log('connect event');
         window.ethereum.on('chainIdChanged', (chainId) => {
           this.$store.dispatch('logout');
           this.$router.replace('/');
