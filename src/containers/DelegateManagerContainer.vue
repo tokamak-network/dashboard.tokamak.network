@@ -1,37 +1,34 @@
 <template>
   <div class="delegate-manager-container">
-    <div class="container">
-      <div class="row">
-        <div class="title">Staking</div>
-        <base-tab :left-label="'Delegate'" :right-label="'Undelegate'" :tab="tab" @tab-changed="changeTab" />
-      </div>
-      <div class="divider" />
-      <form v-if="tab === 'left'">
-        <div class="column">
-          <ton-input v-model="amountToDelegate" :amount="amountToDelegate" />
-          <text-viewer :title="'Available Amount'" :content="tonBalance" />
-          <div class="button-container"><base-button :label="'Delegate TON'" :func="delegate" /></div>
-        </div>
-      </form>
-      <form v-else>
-        <div class="column">
-          <ton-input v-model="amountToUndelegate" :amount="amountToUndelegate" />
-          <text-viewer :title="'Available Amount'" :content="convertedTONFromWTON(operator.userStaked)" />
-          <div class="button-container"><base-button :label="'Request Undelegate TON'" :func="undelegate" /></div>
-          <div class="divider" />
-          <text-viewer :title="'Pending Amount'" :content="convertedTONFromWTON(operator.userNotWithdrawable)" />
-          <text-viewer :title="'Withdrawable Amount'" :content="convertedTONFromWTON(operator.userWithdrawable)" />
-          <div class="button-container"><base-button :label="'Process Requests'" :func="processRequests" /></div>
-        </div>
-      </form>
+    <div class="row-reverse">
+      <base-tab :left-label="'Delegate'" :right-label="'Undelegate'" :tab="tab" @tab-changed="changeTab" />
     </div>
+    <div class="divider" />
+    <form v-if="tab === 'left'">
+      <div class="column">
+        <ton-input v-model="amountToDelegate" :amount="amountToDelegate" />
+        <text-viewer :title="'Available Amount'" :content="tonBalance" />
+        <div class="button-container"><base-button :label="'Delegate TON'" :func="delegate" /></div>
+      </div>
+    </form>
+    <form v-else>
+      <div class="column">
+        <ton-input v-model="amountToUndelegate" :amount="amountToUndelegate" />
+        <text-viewer :title="'Available Amount'" :content="convertedTONFromWTON(operator.userStaked)" />
+        <div class="button-container"><base-button :label="'Request Undelegate TON'" :func="undelegate" /></div>
+        <div class="divider" />
+        <text-viewer :title="'Not Withdrawable'" :content="convertedTONFromWTON(operator.userNotWithdrawable)" />
+        <text-viewer :title="'Withdrawable'" :content="convertedTONFromWTON(operator.userWithdrawable)" />
+        <div class="button-container"><base-button :label="'Process Requests'" :func="processRequests" /></div>
+      </div>
+    </form>
   </div>
 </template>
 
 <script>
 import { mapState } from 'vuex';
 import { padLeft } from 'web3-utils';
-import { addHistory, addTransaction, updateTransactionState } from '@/api';
+import { addHistory, addTransaction } from '@/api';
 
 import { createCurrency } from '@makerdao/currency';
 const _TON = createCurrency('TON');
@@ -79,31 +76,37 @@ export default {
     changeTab (tab) {
       this.tab = tab;
     },
+    // TODO: account checksum
+    // TODO: account -> from
     async delegate () {
-      if (this.amountToDelegate === '') return alert('Please check input amount.');
-      if (_TON(this.amountToDelegate).gt(this.tonBalance)) return alert('Please check your TON amount.');
+      if (this.amountToDelegate === '') {
+        return alert('Please check input amount.');
+      }
+      if (_TON(this.amountToDelegate).gt(this.tonBalance)) {
+        return alert('Please check your TON amount.');
+      }
 
       const data = this.getData();
       const amount = _TON(this.amountToDelegate).toFixed('wei');
-
       this.TON.methods.approveAndCall(
         this.WTON._address,
         amount,
         data,
       ).send({ from: this.user })
         .on('transactionHash', async (hash) => {
-          this.$store.dispatch('addPendingTx', hash);
-          await addTransaction(this.user, hash);
+          const pendingTransaction = {
+            from: this.user,
+            transactionHash: hash,
+          };
+          await addTransaction(pendingTransaction);
+          this.$store.dispatch('addTransaction', pendingTransaction);
         })
         .on('confirmation', (confirmationNumber, receipt) => {
           // default: 24
         })
         .on('receipt', async (receipt) => {
-          await this.processDepositLog(receipt);
-          await updateTransactionState(receipt.transactionHash);
-
+          // await this.processDepositLog(receipt);
           await this.$store.dispatch('set');
-          this.$store.dispatch('deletePendingTx', receipt.transactionHash);
           this.$store.dispatch('addAccountDepositedWithPower', this.user);
         })
         .on('error', function (error, receipt) {
@@ -113,24 +116,31 @@ export default {
       this.amountToDelegate = '';
     },
     async undelegate () {
-      if (this.amountToUndelegate === '') return alert('Please check input amount.');
-      if (_WTON(this.amountToUndelegate).gt(this.operator.userStaked)) return alert('Please check your TON amount.');
+      if (this.amountToUndelegate === '') {
+        return alert('Please check input amount.');
+      }
+      if (_WTON(this.amountToUndelegate).gt(this.operator.userStaked)){
+        return alert('Please check your TON amount.');
+      }
 
       const amount = _WTON(this.amountToUndelegate).toFixed('ray');
-
       this.DepositManager.methods.requestWithdrawal(
         this.operator.rootchain,
         amount,
       ).send({ from: this.user })
-        .on('transactionHash', (hash) => {
-          this.$store.dispatch('addPendingTx', hash);
+        .on('transactionHash', async (hash) => {
+          const pendingTransaction = {
+            from: this.user,
+            transactionHash: hash,
+          };
+          await addTransaction(pendingTransaction);
+          this.$store.dispatch('addTransaction', pendingTransaction);
         })
         .on('confirmation', (confirmationNumber, receipt) => {
           // default: 24
         })
         .on('receipt', async (receipt) => {
           await this.$store.dispatch('set');
-          this.$store.dispatch('deletePendingTx', receipt.transactionHash);
         })
         .on('error', function (error, receipt) {
           alert('error', error);
@@ -152,17 +162,20 @@ export default {
         count,
         true,
       ).send({ from: this.user })
-        .on('transactionHash', (hash) => {
-          this.$store.dispatch('addPendingTx', hash);
+        .on('transactionHash', async (hash) => {
+          const pendingTransaction = {
+            from: this.user,
+            transactionHash: hash,
+          };
+          await addTransaction(pendingTransaction);
+          this.$store.dispatch('addTransaction', pendingTransaction);
         })
         .on('confirmation', (confirmationNumber, receipt) => {
           // default: 24
         })
         .on('receipt', async (receipt) => {
-          await this.processRequestProcessLog(receipt);
-
+          // await this.processRequestProcessLog(receipt);
           await this.$store.dispatch('set');
-          this.$store.dispatch('deletePendingTx', receipt.transactionHash);
         });
     },
     async processDepositLog (receipt) {
@@ -236,14 +249,14 @@ export default {
 
 <style scoped>
 .delegate-manager-container {
-  background: #ffffff;
-  width: 100%;
-  border-radius: 6px;
-  border: solid 0.7px #ced6d9;
+  display: flex;
+  flex-direction: column;
+  margin-top: 16px;
 }
 
-.container {
-  padding: 16px;
+.row-reverse {
+  display: flex;
+  flex-direction: row-reverse;
 }
 
 .row {
