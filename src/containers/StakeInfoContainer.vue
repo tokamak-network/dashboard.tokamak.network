@@ -1,19 +1,18 @@
 <template>
   <div class="stake-info-container">
-    <text-viewer :title="'TOTAL DEPOSITED TON'" :content="convertedTONFromWTON(userTotalDepositWithPendingAndRequestable)" />
-    <text-viewer :title="'TOTAL STAKED TON'" :content="convertedTONFromWTON(userTotalStaked)" />
-    <text-viewer :title="'TOTAL REWARD'" :content="convertedTONFromWTON(userTotalReward)" />
-    <div class="space" />
-    <text-viewer :title="'TOTAL NOT WITHDRAWABLE TON'" :content="convertedTONFromWTON(userTotalNotWithdrawable)" />
-    <text-viewer :title="'TOTAL WITHDRAWABLE TON'" :content="convertedTONFromWTON(userTotalWithdrawable)" />
+    <text-viewer :title="'Total Staked TON'" :content="convertedTONFromWTON(userTotalStaked)" :withDivider="true" />
+    <text-viewer :title="'Total Reward TON'" :content="convertedTONFromWTON(userTotalReward)" :withDivider="true" />
+    <!-- <div class="space" /> -->
+    <text-viewer :title="'Total Not Withdrawable TON'" :content="convertedTONFromWTON(userTotalNotWithdrawable)" :withDivider="true" />
+    <text-viewer :title="'Total Withdrawable TON'" :content="convertedTONFromWTON(userTotalWithdrawable)" :withDivider="false" />
   </div>
 </template>
 
 <script>
-import { mapState, mapGetters } from 'vuex';
 import { createCurrency } from '@makerdao/currency';
 const _TON = createCurrency('TON');
 
+import { mapState, mapGetters } from 'vuex';
 import TextViewer from '@/components/TextViewer.vue';
 
 export default {
@@ -29,7 +28,6 @@ export default {
   computed: {
     ...mapGetters([
       'userTotalReward',
-      'userTotalDeposit',
       'userTotalStaked',
       'userTotalNotWithdrawable',
       'userTotalWithdrawable',

@@ -1,29 +1,19 @@
 <template>
   <div class="stake-info-layout">
-    <stake-info-container />
-    <div class="table-container">
-      <base-table
-        :type="'operator'"
-        :columns="columns"
-        :datas="operatorsStaked"
-        :rounded="true"
-        :clickable="true"
-        @tableDataClicked="viewOperator"
-      />
-    </div>
+    <stake-info-container style="flex: 1;" />
+    <staked-operator-table style="flex: 1" />
   </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex';
-
 import StakeInfoContainer from '@/containers/StakeInfoContainer.vue';
-import BaseTable from '@/components/BaseTable.vue';
+import StakedOperatorTable from '../components/table/StakedOperatorTable.vue';
 
 export default {
   components: {
     'stake-info-container': StakeInfoContainer,
-    'base-table': BaseTable,
+    'staked-operator-table': StakedOperatorTable,
   },
   data () {
     return {
