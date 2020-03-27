@@ -1,18 +1,18 @@
 <template>
   <div>
     <div class="row">
-      <viewer-round-container :round="currentRound" />
-      <viewer-power-container :power="power" :total-deposits="power.totalDeposits" :rank="rank" />
+      <viewer-round-container :round="currentRound" style="flex: 1;" />
+      <viewer-power-container :power="power" :total-deposits="power.totalDeposits" :rank="rank" style="flex: 1;" />
     </div>
-    <winner-list-container :rounds="rounds " />
-    <rank-container />
+    <div class="row">
+      <winner-list-container style="flex: 1; margin-right: 4px;" />
+      <rank-container style="flex: 1; margin-left: 4px;" />
+    </div>
   </div>
 </template>
 
 <script>
-import { findIndex } from 'lodash';
 import { mapState, mapGetters } from 'vuex';
-
 import ViewerRoundContainer from '@/containers/ViewerRoundContainer.vue';
 import ViewerPowerContainer from '@/containers/ViewerPowerContainer.vue';
 import WinnerListContainer from '@/containers/WinnerListContainer.vue';
@@ -33,10 +33,10 @@ export default {
       'rounds',
     ]),
     ...mapGetters([
-      'sortedAccountsByPower',
+      'rankedAccountsWithPower',
     ]),
     rank () {
-      return 1 + findIndex(this.sortedAccountsByPower, (account) => account.address === this.user);
+      return (this.rankedAccountsWithPower.find(account => account.address.toLowerCase() === this.user.toLowerCase())).rank;
     },
   },
 };
@@ -44,7 +44,6 @@ export default {
 
 <style scoped>
 .row {
-  width: 100%;
   display: flex;
   flex-direction: row;
 }

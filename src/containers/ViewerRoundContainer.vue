@@ -1,20 +1,19 @@
 <template>
   <div class="viewer-round-container">
-    <text-viewer :title="'CURRENT ROUND'" :content="round.index" />
-    <text-viewer :title="'ROUND start'" :content="formatedTimestamp(round.startTime)" />
-    <text-viewer :title="'ROUND finish'" :content="formatedTimestamp(round.endTime)" />
-    <text-viewer :title="'EXPECTED REWARD'" :content="convertedTONFromWTON(round.reward)" />
-    <text-viewer :title="'CURRENT BLOCK NUMBER'" :content="blockNumber" />
-    <text-viewer :title="'WINNING PROBABILITY'" :content="round.winningProbability" />
+    <text-viewer :title="'Current Round'" :content="round.index" :with-divider="true" />
+    <text-viewer :title="'Round Start'" :content="formatedTimestamp(round.startTime)" :with-divider="true" />
+    <text-viewer :title="'Round End'" :content="formatedTimestamp(round.endTime)" :with-divider="true" />
+    <text-viewer :title="'Expected Reward'" :content="convertedTONFromWTON(round.reward)" :with-divider="true" />
+    <text-viewer :title="'Winning Probability'" :content="round.winningProbability" :with-divider="false" />
   </div>
 </template>
 
 <script>
 import moment from 'moment';
-import { mapState } from 'vuex';
 import { createCurrency } from '@makerdao/currency';
 const _TON = createCurrency('TON');
 
+import { mapState } from 'vuex';
 import TextViewer from '@/components/TextViewer.vue';
 
 export default {
@@ -27,9 +26,6 @@ export default {
     },
   },
   computed: {
-    ...mapState([
-      'blockNumber',
-    ]),
     formatedTimestamp () {
       return timestamp => moment.unix(timestamp).format('LLL');
     },
@@ -42,7 +38,6 @@ export default {
 
 <style scoped>
 .viewer-round-container {
-  width: 100%;
   border: solid 1px #ced6d9;
   background-color: #ffffff;
   border-radius: 6px;

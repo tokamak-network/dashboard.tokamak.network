@@ -1,7 +1,7 @@
 <template>
   <div class="viewer-power-container">
-    <text-viewer :title="'POWER'" :content="power" />
-    <text-viewer :title="'RANK'" :content="rank" />
+    <text-viewer :title="'POWER'" :content="power" :with-divider="true" />
+    <text-viewer :title="'RANK'" :content="rank" :with-divider="false" />
   </div>
 </template>
 
@@ -23,7 +23,7 @@ export default {
 
 <style scoped>
 .viewer-power-container {
-  width: 100%;
+  height: 100%;
   border: solid 1px #ced6d9;
   background-color: #ffffff;
   border-radius: 6px;
