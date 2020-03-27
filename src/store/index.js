@@ -407,6 +407,11 @@ export default new Vuex.Store({
         // already wrapped with WTON
         operatorFromRootChain.userNotWithdrawable = userNotWithdrawable;
         operatorFromRootChain.userWithdrawable = userWithdrawable;
+        operatorFromRootChain.userReward
+          = operatorFromRootChain.userStaked
+            .add(userNotWithdrawable)
+            .add(userWithdrawable)
+            .sub(operatorFromRootChain.userDeposit);
 
         return operatorFromRootChain;
       });
