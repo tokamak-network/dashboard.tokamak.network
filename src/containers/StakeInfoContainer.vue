@@ -10,21 +10,15 @@
 </template>
 
 <script>
-import { mapState, mapGetters } from 'vuex';
 import { createCurrency } from '@makerdao/currency';
 const _TON = createCurrency('TON');
 
+import { mapState, mapGetters } from 'vuex';
 import TextViewer from '@/components/TextViewer.vue';
 
 export default {
   components: {
     'text-viewer': TextViewer,
-  },
-  props: {
-    operator: {
-      type: Object,
-      default: () => {},
-    },
   },
   computed: {
     ...mapGetters([

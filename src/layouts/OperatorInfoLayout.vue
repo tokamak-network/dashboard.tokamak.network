@@ -1,5 +1,5 @@
 <template>
-  <div class="row">
+  <div class="operator-info-layout">
     <operator-info-container class="left-container" :operator="operator" />
     <delegate-manager-container class="right-container" :operator="operator" />
   </div>
@@ -26,18 +26,19 @@ export default {
 </script>
 
 <style scoped>
-.row {
+.operator-info-layout {
+  margin-top: 24px;
   display: flex;
   flex-direction: row;
 }
 
 .left-container {
-  flex: 1;
-  margin-right: 4px;
+  flex: 7;
+  margin-right: 16px;
 }
 
 .right-container {
-  flex: 1;
-  margin-left: 4px;
+  flex: 4;
+  margin-left: 16px;
 }
 </style>

@@ -6,7 +6,7 @@
           class="header-logo"
           src="@/assets/images/Tokamak.png"
           width="230"
-          height="23"
+          height="29"
           @click="toMainPage"
         >
       </div>
@@ -49,10 +49,8 @@ export default {
   },
   methods: {
     toMainPage () {
-      if (this.signIn && this.$route.path !== '/dashboard') {
-        this.$router.push('/dashboard');
-      } else if(!this.signIn && this.$route.path !== '/') {
-        this.$router.replace('/');
+      if (this.$route.path !== '/') {
+        this.$router.push('/');
       }
     },
   },
@@ -63,7 +61,7 @@ export default {
 .header-container {
   width: 100%;
   height: 60px;
-  background: #ffffff;
+  background: #20232a;
   display: flex;
   justify-content: center;
 }

@@ -4,7 +4,7 @@
       <avatar class="avatar" fullname="O P R" :image="preview" :size="50" :color="operator.color" />
       <div v-if="user === operator.address" class="button"><base-button :label="'edit'" :func="edit" /></div>
     </div>
-    <div class="row">
+    <!-- <div class="row">
       <span class="title">NAME</span>
       <div class="content-container"><span class="content">{{ operator.name }}</span></div>
     </div>
@@ -15,7 +15,7 @@
     <div class="row">
       <span class="title">DESCRIPTION</span>
       <div class="content-container"><span class="content">{{ operator.description }}</span></div>
-    </div>
+    </div> -->
   </div>
 </template>
 

@@ -1,52 +1,19 @@
 <template>
   <div class="rank-container">
-    <base-table :type="'rank'" :columns="columns" :datas="sortedAccountsByPower" :rounded="true" />
+    <h4>Rank</h4>
+    <rank-table />
   </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
-
-import BaseTable from '@/components/BaseTable.vue';
+import RankTable from '@/components/table/RankTable.vue';
 
 export default {
   components: {
-    'base-table': BaseTable,
-  },
-  data () {
-    return {
-      columns: [],
-    };
-  },
-  computed: {
-    ...mapGetters([
-      'sortedAccountsByPower',
-    ]),
-  },
-  created () {
-    this.columns = [
-      {
-        name: 'RANK',
-        key: 'rank',
-      },
-      {
-        name: 'ACCOUNT',
-        key: 'address',
-      },
-      {
-        name: 'POWER',
-        key: 'power',
-      },
-    ];
+    'rank-table': RankTable,
   },
 };
 </script>
 
 <style scoped>
-.rank-container {
-  margin-top: 8px;
-  border: solid 1px #ced6d9;
-  background-color: #ffffff;
-  border-radius: 6px;
-}
 </style>

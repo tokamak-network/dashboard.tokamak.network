@@ -209,7 +209,7 @@ export default new Vuex.Store({
 
       context.commit('SIGN_IN');
       context.commit('IS_LOADING', false);
-      router.replace('/dashboard');
+      router.replace('/');
       await context.dispatch('runTimer');
     },
     async set (context) {
@@ -376,6 +376,7 @@ export default new Vuex.Store({
         const duration = (await web3.eth.getBlock('latest')).timestamp -
                          (await RootChain.methods.getEpoch(0, 0).call()).timestamp;
 
+        // TODO: considering bignumber (check type (number or string?))
         const totalDeposit = await getDeposit();
         const selfDeposit = await getDeposit(operator);
         const userDeposit = await getDeposit(user);
@@ -407,6 +408,11 @@ export default new Vuex.Store({
         // already wrapped with WTON
         operatorFromRootChain.userNotWithdrawable = userNotWithdrawable;
         operatorFromRootChain.userWithdrawable = userWithdrawable;
+        operatorFromRootChain.userReward
+          = operatorFromRootChain.userStaked
+            .add(userNotWithdrawable)
+            .add(userWithdrawable)
+            .sub(operatorFromRootChain.userDeposit);
 
         return operatorFromRootChain;
       });
@@ -550,9 +556,20 @@ export default new Vuex.Store({
         .add(getters.userTotalNotWithdrawable)
         .sub(getters.userTotalDeposit);
     },
-    sortedAccountsByPower: (state) => {
+    rankedAccountsWithPower: (state) => {
       const accounts = state.accountsDepositedWithPower;
-      return orderBy(accounts, (account) => account.power.toFixed('ray'), ['desc']);
+      const orderedAccounts = orderBy(accounts, (account) => account.power.toNumber(), ['desc']);
+
+      let rank = 1;
+      orderedAccounts.forEach(account => {
+        account.rank = rank;
+        rank++;
+      });
+      return orderedAccounts;
+    },
+    recentTransactions: (state) => {
+      const orderedTransactions = orderBy(state.transactions, (transaction) => transaction.blockNumber, ['desc']);
+      return orderedTransactions.slice(0, 5);
     },
   },
 });

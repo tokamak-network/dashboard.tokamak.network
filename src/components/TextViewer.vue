@@ -36,13 +36,12 @@ export default {
 }
 
 .title {
-  font-size: 14px;
-  color: #586064;
+  margin-right: 16px;
 }
 
 .content {
   float: right;
-  font-size: 14px;
-  color: #586064;
+  word-break: break-all;
+  text-align-last: right;
 }
 </style>

@@ -33,10 +33,10 @@ export default {
       'rounds',
     ]),
     ...mapGetters([
-      'sortedAccountsByPower',
+      'rankedAccountsWithPower',
     ]),
     rank () {
-      return 1 + findIndex(this.sortedAccountsByPower, (account) => account.address === this.user);
+      return 1 + findIndex(this.rankedAccountsWithPower, (account) => account.address === this.user);
     },
   },
 };

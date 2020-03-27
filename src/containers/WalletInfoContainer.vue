@@ -146,8 +146,8 @@ export default {
   margin-bottom: 8px;
   display: flex;
   width: 100%;
-  border-top: 1px solid #ddd;
-  border-bottom: 1px solid #ddd;
+  border-top: 1px solid #ececec;
+  border-bottom: 1px solid #ececec;
 }
 
 .wallet-header {

@@ -1,8 +1,6 @@
 <template>
   <div class="select-wallet-container">
-    <div class="wallet-header-title">
-      Sellect Wallet
-    </div>
+    <h4>Sellect Wallet</h4>
     <div class="wallet-container">
       <wallet
         :title="'MetaMask'"
@@ -26,11 +24,12 @@ export default {
     async useMetamask () {
       try {
         await this.metamask();
-
+        console.log('connect event');
         window.ethereum.on('chainIdChanged', (chainId) => {
           this.$store.dispatch('logout');
           this.$router.replace('/');
         });
+        // TODO: doesn't work. I'll check.
         window.ethereum.on('accountsChanged', (chainId) => {
           this.$store.dispatch('logout');
           this.$router.replace('/');
@@ -83,5 +82,10 @@ export default {
   font-style: normal;
   text-align: left;
   color: #b2b7b9;
+}
+
+h4 {
+  padding: 0px;
+  margin: 0px;
 }
 </style>

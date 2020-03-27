@@ -11,8 +11,8 @@
           <access-wallet-layout v-else />
         </div>
         <div v-else>
-          <tx-processor />
-          <main-layout />
+          <!-- TODO: manage width -->
+          <router-view style="width: 960px;" />
         </div>
       </div>
       <footer-container />
@@ -38,8 +38,8 @@ export default {
     'header-container': HeaderContainer,
     'footer-container': FooterContainer,
     'access-wallet-layout': AccessWalletLayout,
-    'main-layout': MainLayout,
-    'tx-processor': TxProcessor,
+    // 'main-layout': MainLayout,
+    // 'tx-processor': TxProcessor,
     'network-guide-layout': NetworkGuideLayout,
   },
   data () {
@@ -92,7 +92,6 @@ export default {
 }
 
 html, body {
-  background: #f6f8f9;
   position: relative;
   margin: 0;
   min-height: 100%;

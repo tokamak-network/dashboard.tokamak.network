@@ -110,7 +110,7 @@ export default {};
   align-items: center;
   justify-content: center;
   padding-bottom: 1rem;
-  background-color: #f6f8f9;
+  background-color: #ffffff;
   text-align: center;
 }
 
