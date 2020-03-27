@@ -1,16 +1,17 @@
 <template>
   <div class="rank-container">
+    <container-header :title="'Rank'" />
     <rank-table />
   </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
-
+import ContainerHeader from '@/containers/ContainerHeader.vue';
 import RankTable from '@/components/table/RankTable.vue';
 
 export default {
   components: {
+    'container-header': ContainerHeader,
     'rank-table': RankTable,
   },
 };
@@ -19,5 +20,8 @@ export default {
 <style scoped>
 .rank-container {
   margin-top: 8px;
+  border: solid 1px #ced6d9;
+  background-color: #ffffff;
+  border-radius: 6px;
 }
 </style>

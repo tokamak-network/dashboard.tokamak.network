@@ -90,14 +90,11 @@ export default {
   table-layout: auto;
   border-collapse: collapse;
   border-spacing: 0;
-  border: solid 1px #ced6d9;
   background: #ffffff;
 }
 
 .operator-table td, .operator-table th {
-  border-bottom: solid 0.5px #dce2e5;
-  /* border: 1px solid #555561; */
-  /* padding: 8px; */
+  border-top: solid 1px #dce2e5;
 }
 
 tbody tr:hover {

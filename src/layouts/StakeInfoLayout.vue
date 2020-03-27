@@ -1,19 +1,19 @@
 <template>
   <div class="stake-info-layout">
-    <stake-info-container style="flex: 1;" />
-    <staked-operator-table style="flex: 1" />
+    <stake-info-container style="flex: 1; margin-right: 4px;" />
+    <staked-operator-container style="flex: 1; margin-left: 4px;" />
   </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex';
 import StakeInfoContainer from '@/containers/StakeInfoContainer.vue';
-import StakedOperatorTable from '../components/table/StakedOperatorTable.vue';
+import StakedOperatorContainer from '@/containers/StakedOperatorContainer.vue';
 
 export default {
   components: {
     'stake-info-container': StakeInfoContainer,
-    'staked-operator-table': StakedOperatorTable,
+    'staked-operator-container': StakedOperatorContainer,
   },
   data () {
     return {
@@ -61,21 +61,5 @@ export default {
 .stake-info-layout {
   display: flex;
   flex-direction: row;
-}
-
-.divider {
-  margin-top: 16px;
-  margin-bottom: 16px;
-  width: 100%;
-  height: 1px;
-  background: #b4b4b4;
-}
-
-.table-container {
-  flex: 1;
-  border: solid 1px #ced6d9;
-  background-color: #ffffff;
-  border-radius: 6px;
-  margin-left: 4px;
 }
 </style>

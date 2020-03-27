@@ -2,7 +2,7 @@
   <table class="staked-operator-table">
     <thead>
       <tr>
-        <th>#</th>
+        <th class="text-center">#</th>
         <th class="pointer" @click="orderBy('name')">{{ withArrow('name', 'Operator Name') }}</th>
         <th class="text-right pointer" @click="orderBy('userStaked')">{{ withArrow('userStaked', 'My Staked') }}</th>
         <th class="text-right pointer" @click="orderBy('userReward')">{{ withArrow('userReward', 'My Reward') }}</th>
@@ -10,7 +10,7 @@
     </thead>
     <tbody>
       <tr v-for="(operator, index) in orderedOperators" :key="operator.rootchain">
-        <td>{{ index }}</td>
+        <td class="text-center">{{ index }}</td>
         <td class="clickable" @click="viewDetailedOperator(operator)"><span class="pointer">{{ operator.name }}</span></td>
         <td class="text-right">{{ operator.userStaked | convertedTONFromWTON }} </td>
         <td class="text-right">{{ operator.userReward | convertedTONFromWTON }} </td>

@@ -1,10 +1,10 @@
 <template>
   <div class="stake-info-container">
+    <container-header :title="'Staking'" />
     <text-viewer :title="'Total Staked TON'" :content="convertedTONFromWTON(userTotalStaked)" :with-divider="true" />
     <text-viewer :title="'Total Reward TON'" :content="convertedTONFromWTON(userTotalReward)" :with-divider="true" />
-    <!-- <div class="space" /> -->
     <text-viewer :title="'Total Not Withdrawable TON'" :content="convertedTONFromWTON(userTotalNotWithdrawable)" :with-divider="true" />
-    <text-viewer :title="'Total Withdrawable TON'" :content="convertedTONFromWTON(userTotalWithdrawable)" :with-divider="false" />
+    <text-viewer :title="'Total Withdrawable TON'" :content="convertedTONFromWTON(userTotalWithdrawable)" :with-divider="true" />
   </div>
 </template>
 
@@ -14,10 +14,12 @@ const _TON = createCurrency('TON');
 
 import { mapState, mapGetters } from 'vuex';
 import TextViewer from '@/components/TextViewer.vue';
+import ContainerHeader from '@/containers/ContainerHeader.vue';
 
 export default {
   components: {
     'text-viewer': TextViewer,
+    'container-header': ContainerHeader,
   },
   props: {
     operator: {
@@ -44,13 +46,12 @@ export default {
 
 <style scoped>
 .stake-info-container {
-  flex: 1;
   display: flex;
+  height: 100%;
   flex-direction: column;
   border-radius: 6px;
   border: solid 1px #ced6d9;
   background-color: #ffffff;
-
   margin-right: 4px;
 }
 

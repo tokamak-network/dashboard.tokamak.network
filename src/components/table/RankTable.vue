@@ -81,12 +81,11 @@ export default {
   table-layout: auto;
   border-collapse: collapse;
   border-spacing: 0;
-  border: solid 1px #ced6d9;
   background: #ffffff;
 }
 
 .rank-table td, .rank-table th {
-  border-bottom: solid 0.5px #dce2e5;
+  border-top: solid 0.5px #dce2e5;
   /* border: 1px solid #555561; */
   /* padding: 8px; */
 }

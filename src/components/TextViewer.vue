@@ -1,10 +1,10 @@
 <template>
   <div class="text-viewer">
+    <hr class="divider" :style="[withDivider ? {} : {'visibility': 'hidden'}]">
     <div class="row">
       <span class="title">{{ title }}</span>
       <div class="content-container"><span class="content">{{ content }}</span></div>
     </div>
-    <hr class="divider" :style="[withDivider ? {} : {'visibility': 'hidden'}]">
   </div>
 </template>
 
@@ -26,7 +26,7 @@ export default {
 
 <style scoped>
 .text-viewer {
-  margin-top: 8px;
+  margin-bottom: 6px;
 }
 
 .row {
@@ -67,7 +67,7 @@ export default {
   border: solid 0.5px #dce2e5;
   margin: 0px;
   padding: 0px;
-  margin-top: 4px;
+  margin-bottom: 8px;
 }
 
 .hidden {

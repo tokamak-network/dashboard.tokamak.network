@@ -1,39 +1,20 @@
 <template>
-  <div class="history-layout table-container">
-    <base-table
-      :type="'history'"
-      :rounded="true"
-      :columns="[
-        {
-          name: 'REQUEST',
-          key: 'request',
-        },
-        {
-          name: 'TRANSACTION HASH',
-          key: 'transactionHash',
-        },
-        {
-          name: 'AMOUNT',
-          key: 'amount',
-        },
-      ]"
-      :datas="userHistory"
-    />
+  <div class="history-layout">
+    <container-header :title="'History'" />
+    <transcation-table />
   </div>
 </template>
 
 <script>
 import { mapState } from 'vuex';
-
-import BaseTable from '@/components/BaseTable.vue';
+import ContainerHeader from '@/containers/ContainerHeader.vue';
+import TransactionTable from '../components/table/TransactionTable.vue';
 
 export default {
   components: {
-    'base-table': BaseTable,
+    'container-header': ContainerHeader,
+    'transcation-table': TransactionTable,
   },
-  computed: mapState([
-    'userHistory',
-  ]),
 };
 </script>
 

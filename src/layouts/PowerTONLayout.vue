@@ -1,12 +1,12 @@
 <template>
-  <div>
-    <div class="row">
-      <viewer-round-container :round="currentRound" style="flex: 1;" />
-      <viewer-power-container :power="power" :total-deposits="power.totalDeposits" :rank="rank" style="flex: 1;" />
+  <div class="power-ton-layout">
+    <div class="column" style="flex: 1; margin-right: 4px;">
+      <viewer-round-container :round="currentRound" />
+      <viewer-power-container :power="power" :total-deposits="power.totalDeposits" :rank="rank" style="margin-top: 6px;" />
     </div>
-    <div class="row">
-      <winner-list-container style="flex: 1; margin-right: 4px;" />
-      <rank-container style="flex: 1; margin-left: 4px;" />
+    <div class="column" style="flex: 1; margin-left: 4px;">
+      <winner-list-container />
+      <rank-container style="margin-top: 6px;" />
     </div>
   </div>
 </template>
@@ -43,12 +43,13 @@ export default {
 </script>
 
 <style scoped>
-.row {
+.power-ton-layout {
   display: flex;
   flex-direction: row;
 }
 
 .column {
-  background: red;
+  display: flex;
+  flex-direction: column;
 }
 </style>

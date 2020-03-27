@@ -1,10 +1,11 @@
 <template>
   <div class="viewer-round-container">
+    <container-header :title="'Round'" />
     <text-viewer :title="'Current Round'" :content="round.index" :with-divider="true" />
     <text-viewer :title="'Round Start'" :content="formatedTimestamp(round.startTime)" :with-divider="true" />
     <text-viewer :title="'Round End'" :content="formatedTimestamp(round.endTime)" :with-divider="true" />
     <text-viewer :title="'Expected Reward'" :content="convertedTONFromWTON(round.reward)" :with-divider="true" />
-    <text-viewer :title="'Winning Probability'" :content="round.winningProbability" :with-divider="false" />
+    <text-viewer :title="'Winning Probability'" :content="round.winningProbability" :with-divider="true" />
   </div>
 </template>
 
@@ -14,10 +15,12 @@ import { createCurrency } from '@makerdao/currency';
 const _TON = createCurrency('TON');
 
 import { mapState } from 'vuex';
+import ContainerHeader from '@/containers/ContainerHeader.vue';
 import TextViewer from '@/components/TextViewer.vue';
 
 export default {
   components: {
+    'container-header': ContainerHeader,
     'text-viewer': TextViewer,
   },
   props: {
@@ -41,6 +44,5 @@ export default {
   border: solid 1px #ced6d9;
   background-color: #ffffff;
   border-radius: 6px;
-  margin-right: 4px;
 }
 </style>

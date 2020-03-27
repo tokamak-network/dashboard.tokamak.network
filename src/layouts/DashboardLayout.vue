@@ -1,11 +1,11 @@
 <template>
   <div class="dashboard-layout">
-    <div class="row">
+    <div class="column" style="flex: 7;">
       <dashboard-operator-list />
-      <dashboard-staking />
-    </div>
-    <div class="row">
       <dashboard-history />
+    </div>
+    <div class="column" style="flex: 4;">
+      <dashboard-staking />
       <dashboard-power />
     </div>
   </div>
@@ -30,11 +30,11 @@ export default {
 <style scoped>
 .dashboard-layout {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
 }
 
-.row {
+.column {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
 }
 </style>
