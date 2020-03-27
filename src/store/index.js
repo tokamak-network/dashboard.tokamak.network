@@ -4,7 +4,7 @@ Vue.use(Vuex);
 
 import router from '@/router';
 
-import { getManagers, getOperators, getHistory, getPendingTransactions, updateTransactionState } from '@/api';
+import { getManagers, getOperators, getHistory, getTransactions } from '@/api';
 import { cloneDeep, isEqual, range, uniq, orderBy } from 'lodash';
 import numeral from 'numeral';
 import { createWeb3Contract } from '@/helpers/Contract';
@@ -39,8 +39,9 @@ const initialState = {
   loading: false,
   signIn: false,
 
-  // pending transactions
-  txsPending: [],
+  // transactionss (based on receipt: getTransactionReceipt)
+  transactions: [],
+  pendingTransactions: [],
 
   web3: {},
   user: '',
@@ -92,12 +93,6 @@ export default new Vuex.Store({
     SIGN_IN: (state) => {
       state.signIn = true;
     },
-    ADD_PENDING_TX: (state, hash) => {
-      state.txsPending.push(hash);
-    },
-    DELETE_PENDING_TX: (state, hash) => {
-      state.txsPending.splice(state.txsPending.indexOf(hash), 1);
-    },
     SET_WEB3: (state, web3) => {
       state.web3 = web3;
     },
@@ -129,6 +124,28 @@ export default new Vuex.Store({
     },
     SET_OPERATORS: (state, operators) => {
       state.operators = operators;
+    },
+    SET_TRANSACTIONS: (state, transactions) => {
+      state.transactions = transactions;
+    },
+    ADD_TRANSACTION: (state, newTransaction) => {
+      const transactions = state.transactions;
+      if (!transactions.find(transaction => transaction.transactionHash === newTransaction.transactionHash)) {
+        transactions.push(newTransaction);
+      }
+    },
+    ADD_PENDING_TRANSACTION: (state, newPendingTransaction) => {
+      const pendingTransactions = state.pendingTransactions;
+      if (!pendingTransactions.find(pendingTransaction => pendingTransaction.transactionHash === newPendingTransaction.transactionHash)) {
+        pendingTransactions.push(newPendingTransaction);
+      }
+    },
+    UPDATE_TRANSACTION_FROM_PENDING_TO_MINED: (state, minedTransaction) => {
+      // delete from pending transactions list
+      state.pendingTransactions.splice(state.pendingTransactions.map(pendingTransaction => pendingTransaction.transactionHash).indexOf(minedTransaction.transactionHash), 1);
+
+      const index = state.transactions.map(transaction => transaction.transactionHash).indexOf(minedTransaction.transactionHash);
+      Vue.set(state.transactions, index, minedTransaction);
     },
     UPDATE_OPERATOR: (state, newOperator) => {
       const index = state.operators.indexOf(prevOperator);
@@ -163,36 +180,13 @@ export default new Vuex.Store({
         await new Promise(r => setTimeout(r, 5000)); // 5s
         await context.dispatch('set');
 
-        if (context.state.txsPending.length > 0) {
+        if (context.state.pendingTransactions.length > 0) {
           await context.dispatch('checkPendingTransactions');
         }
       }
     },
     logout (context) {
       context.commit('SET_INITIAL_STATE');
-    },
-    addPendingTx (context, hash) {
-      const txsPending = context.state.txsPending;
-      if (!txsPending.find(h => h === hash)) {
-        context.commit('ADD_PENDING_TX', hash);
-      }
-    },
-    deletePendingTx (context, hash) {
-      context.commit('DELETE_PENDING_TX', hash);
-    },
-    async checkPendingTransactions (context) {
-      const web3 = context.state.web3;
-      const user = context.state.user;
-
-      const pendingTransactions = await getPendingTransactions(user);
-      pendingTransactions.forEach(async transaction => {
-        const tx = await web3.eth.getTransaction(transaction.hash);
-        if (tx) {
-          await updateTransactionState(transaction.hash);
-        } else {
-          context.dispatch('addPendingTx', transaction.hash);
-        }
-      });
     },
     async signIn (context, web3) {
       context.commit('IS_LOADING', true);
@@ -205,11 +199,12 @@ export default new Vuex.Store({
 
       const managers = await getManagers();
       const operators = await getOperators();
+      const transactions = await getTransactions(user);
       await context.dispatch('setManagers', managers);
       await context.dispatch('setOperatorsWithRegistry', operators);
+      await context.dispatch('setTransactions', transactions);
 
       await context.dispatch('set');
-      await context.dispatch('checkPendingTransactions');
       await context.dispatch('setAccountsDepositedWithPower');
 
       context.commit('SIGN_IN');
@@ -234,6 +229,42 @@ export default new Vuex.Store({
         managers[name] = await createWeb3Contract(abi, address, user);
       }
       context.commit('SET_MANAGERS', managers);
+    },
+    async setTransactions (context, transactions) {
+      const web3 = context.state.web3;
+
+      const mappedTransactions = transactions.map(async pendingTransaction => {
+        const minedTransaction = await web3.eth.getTransactionReceipt(pendingTransaction.transactionHash);
+        if (minedTransaction) {
+          return minedTransaction;
+        } else {
+          context.commit('ADD_PENDING_TRANSACTION', pendingTransaction);
+          return pendingTransaction;
+        }
+      });
+      context.commit('SET_TRANSACTIONS', await Promise.all(mappedTransactions));
+    },
+    async addTransaction (context, newPendingTransaction) {
+      const web3 = context.state.web3;
+
+      const minedTransaction = await web3.eth.getTransactionReceipt(newPendingTransaction.transactionHash);
+      if (minedTransaction) {
+        context.commit('ADD_TRANSACTION', minedTransaction);
+      } else {
+        context.commit('ADD_TRANSACTION', newPendingTransaction);
+        context.commit('ADD_PENDING_TRANSACTION', newPendingTransaction);
+      }
+    },
+    async checkPendingTransactions (context) {
+      const web3 = context.state.web3;
+      const pendingTransactions = context.state.pendingTransactions;
+
+      pendingTransactions.forEach(async pendingTransaction => {
+        const minedTransaction = await web3.eth.getTransactionReceipt(pendingTransaction.transactionHash);
+        if (minedTransaction) {
+          context.commit('UPDATE_TRANSACTION_FROM_PENDING_TO_MINED', minedTransaction);
+        }
+      });
     },
     async updateOperator (context, operator) {
       context.commit('UPDATE_OPERATOR', operator);

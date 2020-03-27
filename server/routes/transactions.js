@@ -2,19 +2,18 @@ const { toChecksumAddress } = require('web3-utils');
 
 // only get pending transactions
 const GET = (db, req) => {
+  let from;
   try {
-    toChecksumAddress(req.query.account);
+    from = toChecksumAddress(req.query.from);
   } catch (err) {
     throw new Error('Non-checksum address');
   }
 
   try {
-    const account = (req.query.account).toLowerCase();
-    const state = req.query.state;
     const transactions = db
       .defaults({ transactions: [] })
       .get('transactions')
-      .filter(transaction => transaction.account === account && transaction.state === state)
+      .filter(transaction => transaction.from === from)
       .value();
 
     return Promise.resolve(transactions);
@@ -25,17 +24,16 @@ const GET = (db, req) => {
 
 // put new pending transaction
 const POST = async (db, req) => {
+  let from;
   try {
-    toChecksumAddress(req.query.account);
+    from = toChecksumAddress(req.query.from);
   } catch (err) {
     throw new Error('Non-checksum address');
   }
 
-  const account = (req.query.account).toLowerCase();
   const transaction = {};
-  transaction.account = account;
-  transaction.hash = req.body.transactionHash;
-  transaction.state = 'pending';
+  transaction.from = from;
+  transaction.transactionHash = req.body.transactionHash;
 
   try {
     await db
@@ -48,24 +46,7 @@ const POST = async (db, req) => {
   }
 };
 
-// update transaction state
-const PATCH = async (db, req) => {
-  const transactionHash = req.body.transactionHash;
-
-  try {
-    await db
-      .defaults({ transactions: [] })
-      .get('transactions')
-      .find({ hash: transactionHash })
-      .assign({ state: 'mined ' })
-      .write();
-  } catch (err) {
-    throw err;
-  }
-};
-
 module.exports = {
   GET,
   POST,
-  PATCH,
 };

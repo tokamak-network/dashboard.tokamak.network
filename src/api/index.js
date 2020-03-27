@@ -51,33 +51,22 @@ export async function addHistory (user, history) {
     });
 }
 
-export async function getPendingTransactions (user) {
+export async function getTransactions (user) {
   const res = await instance.get('/transactions', {
     params: {
-      account: user,
-      state: 'pending',
+      from: user,
     },
   });
   return res.data;
 }
 
-export async function addTransaction (user, hash) {
+export async function addTransaction (transaction) {
   await instance.post(
     '/transactions',
-    { transactionHash: hash },
+    { transactionHash: transaction.transactionHash },
     {
       params: {
-        account: user,
+        from: transaction.from,
       },
     });
-}
-
-// `pending` -> `mined`
-export async function updateTransactionState (hash) {
-  await instance.patch(
-    '/transactions',
-    {
-      transactionHash: hash,
-    }
-  );
 }
