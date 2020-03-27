@@ -1,9 +1,10 @@
 <template>
-  <div class="column text-viewer">
+  <div class="text-viewer">
     <div class="row">
       <span class="title">{{ title }}</span>
       <div class="content-container"><span class="content">{{ content }}</span></div>
     </div>
+    <hr class="divider" :style="[withDivider ? {} : {'visibility': 'hidden'}]">
   </div>
 </template>
 
@@ -15,14 +16,17 @@ export default {
     },
     content: {
     },
+    withDivider: {
+      type: Boolean,
+      default: false,
+    },
   },
 };
 </script>
 
 <style scoped>
 .text-viewer {
-  margin-top: 4px;
-  margin-bottom: 4px;
+  margin-top: 8px;
 }
 
 .row {
@@ -36,13 +40,37 @@ export default {
 }
 
 .title {
-  font-size: 14px;
-  color: #586064;
+  padding-left: 16px;
+  font-family: Roboto;
+  font-size: 10px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  letter-spacing: normal;
+  color: #161819;
 }
 
 .content {
+  padding-right: 16px;
   float: right;
-  font-size: 14px;
-  color: #586064;
+  font-family: Roboto;
+  font-size: 10px;
+  font-weight: 300;
+  font-stretch: normal;
+  font-style: normal;
+  letter-spacing: normal;
+  color: #161819;
+}
+
+.divider {
+  height: 0;
+  border: solid 0.5px #dce2e5;
+  margin: 0px;
+  padding: 0px;
+  margin-top: 4px;
+}
+
+.hidden {
+  visibility: hidden;
 }
 </style>
