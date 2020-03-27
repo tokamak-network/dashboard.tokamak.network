@@ -1,14 +1,7 @@
 <template>
   <div class="operator-list">
-    <dashboard-header :title="'OPERATOR LIST'" :path="'operators'" />
-    <base-table
-      :type="'operator'"
-      :columns="columns"
-      :datas="operators"
-      :clickable="true"
-      :rounded="true"
-      @tableDataClicked="viewOperator"
-    />
+    <dashboard-header :title="'Operator List'" :path="'operators'" />
+    <dashboard-operator-table />
   </div>
 </template>
 
@@ -16,12 +9,12 @@
 import { mapState } from 'vuex';
 
 import DashboardHeader from '@/containers/dashboard/components/DashboardHeader.vue';
-import BaseTable from '@/components/BaseTable.vue';
+import DashboardOperatorTable from '@/components/table/DashboardOperatorTable.vue';
 
 export default {
   components: {
     'dashboard-header': DashboardHeader,
-    'base-table': BaseTable,
+    'dashboard-operator-table': DashboardOperatorTable,
   },
   data () {
     return {
@@ -56,9 +49,6 @@ export default {
 
 <style scoped>
 .operator-list {
-  flex: 6;
-  min-height: 314px;
-  max-height: 314px;
   display: flex;
   flex-direction: column;
   border-radius: 6px;

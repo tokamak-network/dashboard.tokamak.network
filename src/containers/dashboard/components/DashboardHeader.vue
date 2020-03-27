@@ -26,7 +26,6 @@ export default {
   flex-direction: row;
   padding-top: 12px;
   padding-bottom: 12px;
-  border-bottom: solid 1px #ced6d9;
 }
 
 .title {

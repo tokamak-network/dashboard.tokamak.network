@@ -1,12 +1,10 @@
 <template>
   <div class="dashboard-staking">
     <dashboard-header :title="'STAKING'" :path="'staking'" />
-    <text-viewer :title="'TOTAL DEPOSITED TON'" :content="convertedTONFromWTON(userTotalDepositWithPendingAndRequestable)" />
-    <text-viewer :title="'TOTAL STAKED TON'" :content="convertedTONFromWTON(userTotalStaked)" />
-    <text-viewer :title="'TOTAL REWARD'" :content="convertedTONFromWTON(userTotalReward)" />
-    <div class="space" />
-    <text-viewer :title="'TOTAL NOT WITHDRAWABLE TON'" :content="convertedTONFromWTON(userTotalNotWithdrawable)" />
-    <text-viewer :title="'TOTAL WITHDRAWABLE TON'" :content="convertedTONFromWTON(userTotalWithdrawable)" />
+    <text-viewer :title="'TOTAL STAKED TON'" :content="convertedTONFromWTON(userTotalStaked)" :with-divider="true" />
+    <text-viewer :title="'TOTAL REWARD'" :content="convertedTONFromWTON(userTotalReward)" :with-divider="true" />
+    <text-viewer :title="'TOTAL NOT WITHDRAWABLE TON'" :content="convertedTONFromWTON(userTotalNotWithdrawable)" :with-divider="true" />
+    <text-viewer :title="'TOTAL WITHDRAWABLE TON'" :content="convertedTONFromWTON(userTotalWithdrawable)" :with-divider="false" />
   </div>
 </template>
 
@@ -39,9 +37,6 @@ export default {
     convertedTONFromWTON () {
       return wtonAmount => _TON(wtonAmount.toNumber());
     },
-    userTotalDepositWithPendingAndRequestable () {
-      return this.userTotalDeposit.sub(this.userTotalNotWithdrawable).sub(this.userTotalWithdrawable);
-    },
   },
   created () {
     this.columns = [
@@ -66,18 +61,11 @@ export default {
 
 <style scoped>
 .dashboard-staking {
-  flex: 4;
-  min-height: 314px;
-  max-height: 314px;
   display: flex;
   flex-direction: column;
   border-radius: 6px;
   border: solid 1px #ced6d9;
   background-color: #ffffff;
   margin-left: 8px;
-}
-
-.space {
-  flex: 1;
 }
 </style>

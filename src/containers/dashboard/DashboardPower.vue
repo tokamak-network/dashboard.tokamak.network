@@ -1,11 +1,10 @@
 <template>
   <div class="dashboard-power">
     <dashboard-header :title="'POWER'" :path="'powerton'" />
-    <text-viewer :title="'WINNING PROBABILITY'" :content="currentRound.winningProbability" />
-    <div class="space" />
-    <text-viewer :title="'POWER'" :content="power" />
-    <text-viewer :title="'ROUND'" :content="currentRound.index" />
-    <text-viewer :title="'EXPECTED REWARD'" :content="convertedTONFromWTON(currentRound.reward)" />
+    <text-viewer :title="'WINNING PROBABILITY'" :content="currentRound.winningProbability" :with-divider="true" />
+    <text-viewer :title="'POWER'" :content="power" :with-divider="true" />
+    <text-viewer :title="'ROUND'" :content="currentRound.index" :with-divider="true" />
+    <text-viewer :title="'EXPECTED REWARD'" :content="convertedTONFromWTON(currentRound.reward)" :with-divider="false" />
   </div>
 </template>
 
@@ -39,9 +38,6 @@ export default {
 
 <style scoped>
 .dashboard-power {
-  flex: 4;
-  min-height: 314px;
-  max-height: 314px;
   display: flex;
   flex-direction: column;
   border-radius: 6px;
@@ -49,9 +45,5 @@ export default {
   background-color: #ffffff;
   margin-left: 8px;
   margin-top: 8px;
-}
-
-.space {
-  flex: 1;
 }
 </style>

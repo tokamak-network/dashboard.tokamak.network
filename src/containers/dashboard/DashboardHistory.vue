@@ -1,12 +1,7 @@
 <template>
   <div class="dashboard-history">
     <dashboard-header :title="'HISTORY'" :path="'history'" />
-    <base-table
-      :type="'history'"
-      :rounded="true"
-      :columns="columns"
-      :datas="userHistory"
-    />
+    <transaction-table />
   </div>
 </template>
 
@@ -14,12 +9,12 @@
 import { mapState } from 'vuex';
 
 import DashboardHeader from '@/containers/dashboard/components/DashboardHeader.vue';
-import BaseTable from '@/components/BaseTable.vue';
+import TransactionTable from '@/components/table/TransactionTable.vue';
 
 export default {
   components: {
     'dashboard-header': DashboardHeader,
-    'base-table': BaseTable,
+    'transaction-table': TransactionTable,
   },
   data () {
     return {
