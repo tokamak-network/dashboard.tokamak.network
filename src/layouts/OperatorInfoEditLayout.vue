@@ -1,30 +1,28 @@
 <template>
   <div class="operator-info-edit-layout">
     <form enctype="multipart/form-data">
-      <div class="column">
-        <div class="row container">
-          <div class="column">
-            <avatar style="margin-bottom: 8px;" fullname="O P R" :image="filteredImgURL(avatar)" :size="85" :color="operator.color" />
-            <label class="custom-file-upload"><input type="file" accept="image/*" @change="onSelect">Change Photo</label>
-          </div>
-          <div class="column" style="margin-left: 36px;">
-            <div class="row">
-              <div class="column" style="margin-right: 24px;">
-                <div class="title">Name</div>
-                <input :value="name" style="width: 200px;" @input="updateName($event.target.value)">
-              </div>
-              <div class="column" style="flex: 1;">
-                <div class="title">Website</div>
-                <input :value="website" style="width: 200px;" @input="updateWebsite($event.target.value)">
-              </div>
-            </div>
-            <div class="column" style="margin-top: 16px;">
-              <div class="title">Description</div>
-              <textarea :value="description" cols="40" rows="6" @input="updateDescription($event.target.value)" />
-            </div>
-          </div>
+      <div class="row container">
+        <div class="column" style="margin-bottom: 72px;">
+          <avatar style="margin-bottom: 8px;" fullname="O P R" :image="filteredImgURL(avatar)" :size="85" :color="operator.color" />
+          <label class="custom-file-upload"><input type="file" accept="image/*" @change="onSelect">Change Photo</label>
         </div>
-        <div class="button-container"><base-button :label="'Update'" :func="update" /></div>
+        <div class="column" style="margin-left: 60px;">
+          <div class="row">
+            <div class="column" style="margin-right: 24px;">
+              <div class="title">Name</div>
+              <input :value="name" style="width: 200px;" @input="updateName($event.target.value)">
+            </div>
+            <div class="column" style="flex: 1;">
+              <div class="title">Website</div>
+              <input :value="website" style="width: 200px;" @input="updateWebsite($event.target.value)">
+            </div>
+          </div>
+          <div class="column" style="margin-top: 16px;">
+            <div class="title">Description</div>
+            <textarea :value="description" cols="40" rows="6" @input="updateDescription($event.target.value)" />
+          </div>
+          <div class="button-container"><base-button :label="'Update'" :func="update" /></div>
+        </div>
       </div>
     </form>
   </div>
@@ -209,7 +207,6 @@ form {
 .row {
   display: flex;
   flex-direction: row;
-  align-items: center;
 }
 
 .column {
@@ -246,6 +243,7 @@ button {
   margin-top: 24px;
   padding-top: 4px;
   padding-bottom: 4px;
+  border-radius: 6px;
 }
 
 input[type="file"] {
