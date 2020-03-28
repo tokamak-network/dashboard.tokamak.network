@@ -2,7 +2,9 @@
   <div class="operator-info-container">
     <div class="row name-container">
       <div class="name">{{ operator.name }}</div>
-      <avatar class="avatar" fullname="O P R" :image="operator.avatar" :size="50" :color="operator.color" />
+      <avatar class="avatar" fullname="O P R" :image="filteredImgURL(operator.avatar)" :size="50" :color="operator.color" />
+      <div class="space" style="flex: 1;" />
+      <div v-if="user === operator.address" class="button"><base-button :label="'edit'" :func="edit" /></div>
     </div>
     <text-viewer :title="'Website'" :content="operator.website" :with-divider="true" />
     <text-viewer :title="'Description'" :content="operator.description" :with-divider="true" />
@@ -20,19 +22,37 @@
 </template>
 
 <script>
-import { mapState, mapGetters } from 'vuex';
+import config from '../../config.json';
+
+import { mapState } from 'vuex';
 import Avatar from 'vue-avatar-component';
 import TextViewer from '@/components/TextViewer.vue';
+import BaseButton from '@/components/BaseButton.vue';
 
 export default {
   components: {
     'avatar': Avatar,
     'text-viewer': TextViewer,
+    'base-button': BaseButton,
   },
   props: {
     operator: {
       required: true,
       type: Object,
+    },
+  },
+  computed: {
+    ...mapState([
+      'user',
+    ]),
+    filteredImgURL () {
+      return name => name !== '' ? `${config.baseURL}/avatars/${name}` : '';
+    },
+  },
+  methods: {
+    edit () {
+      const path = this.$route.path;
+      this.$router.push(`${path}/edit`);
     },
   },
 };
@@ -68,5 +88,17 @@ export default {
   font-style: normal;
   letter-spacing: normal;
   color: #161819;
+}
+
+.button {
+  color: #ffffff;
+  background-color: #f38777;
+  border: 1px solid #f38777;
+  text-align: center;
+  font-size: 14px;
+  border-radius: 4px;
+  height: 22px;
+  width: 40px;
+  margin-right: 16px;
 }
 </style>
