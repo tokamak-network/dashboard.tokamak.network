@@ -1,19 +1,19 @@
 <template>
   <div class="history-layout">
     <container-header :title="'History'" />
-    <transcation-table />
+    <history-table />
   </div>
 </template>
 
 <script>
 import { mapState } from 'vuex';
 import ContainerHeader from '@/containers/ContainerHeader.vue';
-import TransactionTable from '../components/table/TransactionTable.vue';
+import HistoryTable from '../components/table/HistoryTable.vue';
 
 export default {
   components: {
     'container-header': ContainerHeader,
-    'transcation-table': TransactionTable,
+    'history-table': HistoryTable,
   },
 };
 </script>

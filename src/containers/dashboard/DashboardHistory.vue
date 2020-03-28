@@ -1,20 +1,19 @@
 <template>
   <div class="dashboard-history">
     <dashboard-header :title="'History'" :path="'history'" />
-    <transaction-table />
+    <dashboard-history-table />
   </div>
 </template>
 
 <script>
 import { mapState } from 'vuex';
-
 import DashboardHeader from '@/containers/dashboard/components/DashboardHeader.vue';
-import TransactionTable from '@/components/table/TransactionTable.vue';
+import DashboardHistoryTable from '@/components/table/DashboardHistoryTable.vue';
 
 export default {
   components: {
     'dashboard-header': DashboardHeader,
-    'transaction-table': TransactionTable,
+    'dashboard-history-table': DashboardHistoryTable,
   },
   data () {
     return {
