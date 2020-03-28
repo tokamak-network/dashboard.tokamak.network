@@ -1,6 +1,6 @@
 <template>
   <div class="dashboard-history">
-    <dashboard-header :title="'HISTORY'" :path="'history'" />
+    <dashboard-header :title="'History'" :path="'history'" />
     <transaction-table />
   </div>
 </template>
@@ -46,8 +46,6 @@ export default {
 <style scoped>
 .dashboard-history {
   flex: 6;
-  min-height: 314px;
-  max-height: 314px;
   display: flex;
   flex-direction: column;
   border-radius: 6px;

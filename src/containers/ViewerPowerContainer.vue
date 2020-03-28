@@ -1,8 +1,8 @@
 <template>
   <div class="viewer-power-container">
     <container-header :title="'Power'" />
-    <text-viewer :title="'POWER'" :content="power" :with-divider="true" />
-    <text-viewer :title="'RANK'" :content="rank" :with-divider="true" />
+    <text-viewer :title="'Power'" :content="power" :with-divider="true" />
+    <text-viewer :title="'Rank'" :content="rank" :with-divider="true" />
   </div>
 </template>
 

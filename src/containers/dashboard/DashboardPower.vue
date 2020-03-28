@@ -1,10 +1,10 @@
 <template>
   <div class="dashboard-power">
-    <dashboard-header :title="'POWER'" :path="'powerton'" />
-    <text-viewer :title="'WINNING PROBABILITY'" :content="currentRound.winningProbability" :with-divider="true" />
-    <text-viewer :title="'POWER'" :content="power" :with-divider="true" />
-    <text-viewer :title="'ROUND'" :content="currentRound.index" :with-divider="true" />
-    <text-viewer :title="'EXPECTED REWARD'" :content="convertedTONFromWTON(currentRound.reward)" :with-divider="false" />
+    <dashboard-header :title="'Power'" :path="'powerton'" />
+    <text-viewer :title="'Winning Probability'" :content="currentRound.winningProbability" :with-divider="true" />
+    <text-viewer :title="'Power'" :content="power" :with-divider="true" />
+    <text-viewer :title="'Round'" :content="currentRound.index" :with-divider="true" />
+    <text-viewer :title="'Expected Reward'" :content="convertedTONFromWTON(currentRound.reward)" :with-divider="true" />
   </div>
 </template>
 
