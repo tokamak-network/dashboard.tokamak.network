@@ -1,39 +1,60 @@
 <template>
-  <form enctype="multipart/form-data">
-    <div class="column container">
-      <image-upload v-model="avatar" :before-avatar="operator.avatar" :color="operator.color" />
-      <operator-info-input v-model="name" :label="'NAME'" />
-      <operator-info-input v-model="website" :label="'WEBSITE'" />
-      <operator-info-input v-model="description" :label="'DESCRIPTION'" />
-      <div class="button"><base-button :label="'UPDATE'" :func="update" /></div>
-    </div>
-  </form>
+  <div class="operator-info-edit-layout">
+    <form enctype="multipart/form-data">
+      <div class="column">
+        <div class="row container">
+          <div class="column">
+            <avatar style="margin-bottom: 8px;" fullname="O P R" :image="filteredImgURL(avatar)" :size="85" :color="operator.color" />
+            <label class="custom-file-upload"><input type="file" accept="image/*" @change="onSelect">Change Photo</label>
+          </div>
+          <div class="column" style="margin-left: 36px;">
+            <div class="row">
+              <div class="column" style="margin-right: 24px;">
+                <div class="title">Name</div>
+                <input :value="name" style="width: 200px;" @input="updateName($event.target.value)">
+              </div>
+              <div class="column" style="flex: 1;">
+                <div class="title">Website</div>
+                <input :value="website" style="width: 200px;" @input="updateWebsite($event.target.value)">
+              </div>
+            </div>
+            <div class="column" style="margin-top: 16px;">
+              <div class="title">Description</div>
+              <textarea :value="description" cols="40" rows="6" @input="updateDescription($event.target.value)" />
+            </div>
+          </div>
+        </div>
+        <div class="button-container"><base-button :label="'Update'" :func="update" /></div>
+      </div>
+    </form>
+  </div>
 </template>
 
 <script>
-import { mapState, mapGetters } from 'vuex';
+import config from '../../config.json';
 import { updateOperator } from '@/api/index.js';
 import { toChecksumAddress } from 'web3-utils';
 import { recoverTypedSignatureLegacy } from 'eth-sig-util';
 
-import ImageUpload from '@/components/ImageUpload.vue';
-import OperatorInfoInput from '@/components/OperatorInfoInput.vue';
+import { mapState, mapGetters } from 'vuex';
 import BaseButton from '@/components/BaseButton.vue';
+import Avatar from 'vue-avatar-component';
 
 export default {
   components: {
-    'image-upload': ImageUpload,
-    'operator-info-input': OperatorInfoInput,
+    'avatar': Avatar,
     'base-button': BaseButton,
   },
   data () {
     return {
       from: '',
+      selectedFile: {},
       operator: {},
-      avatar: undefined,
+      avatar: '',
       name: '',
       website: '',
       description: '',
+      preview: '',
     };
   },
   computed: {
@@ -44,12 +65,21 @@ export default {
     ...mapGetters([
       'operatorByRootChain',
     ]),
+    filteredImgURL () {
+      return name => {
+        if (this.preview !== '') {
+          return this.preview;
+        }
+        return name !== '' ? `${config.baseURL}/avatars/${name}` : '';
+      };
+    },
   },
   created () {
     this.operator = this.operatorByRootChain(this.$route.params.rootchain);
     this.name = this.operator.name;
     this.website = this.operator.website;
     this.description = this.operator.description;
+    this.avatar = this.operator.avatar;
   },
   beforeRouteEnter (to, from, next) {
     next(vm => {
@@ -57,13 +87,32 @@ export default {
     });
   },
   methods: {
+    onSelect (event) {
+      const file = event.target.files[0];
+      if (file) {
+        this.selectedFile = file;
+        this.preview = URL.createObjectURL(file);
+      }
+    },
+    updateName (name) {
+      this.name = name;
+    },
+    updateWebsite (website) {
+      this.website = website;
+    },
+    updateDescription (description) {
+      this.description = description;
+    },
     async update () {
+      if (this.name === '' || this.website === '' || this.description === '') {
+        return alert('Please input all operator information');
+      }
       try {
-        if (await this.sign()){
-          await this.send();
-        }
-        await this.$store.dispatch('set');
+        await this.sign();
+        await this.send();
         this.$router.replace(this.from);
+
+        await this.$store.dispatch('set');
       } catch (err) {
         alert(err.message);
       }
@@ -71,10 +120,10 @@ export default {
     async sign () {
       return new Promise((resolve, reject) => {
         const msgParams = [];
-        if (this.avatar) msgParams.push({
+        if (this.selectedFile.name) msgParams.push({
           type: 'string',
           name: 'File name',
-          value: this.avatar.name,
+          value: this.selectedFile.name,
         });
         if (this.name !== '') msgParams.push({
           type: 'string',
@@ -126,8 +175,8 @@ export default {
     async send () {
       const formData = new FormData();
 
-      if (this.avatar) {
-        formData.append('avatar', this.avatar);
+      if (this.selectedFile) {
+        formData.append('avatar', this.selectedFile);
       }
       formData.append('name', this.name);
       formData.append('website', this.website);
@@ -145,8 +194,22 @@ export default {
 </script>
 
 <style scoped>
+.operator-info-edit-layout {
+  border-radius: 6px;
+  border: solid 1px #ced6d9;
+  background-color: #ffffff;
+  padding-top: 24px;
+  padding-bottom: 24px;
+}
+
 form {
   width: 100%;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 
 .column {
@@ -154,22 +217,52 @@ form {
   flex-direction: column;
 }
 
-.container {
-  align-items: center;
-  border-radius: 6px;
-  border: solid 1px #ced6d9;
-  background-color: #ffffff;
-  padding: 20px;
+.title {
+  font-family: Roboto;
+  font-size: 12px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  letter-spacing: normal;
+  color: #161819;
 }
 
-.button {
+.container {
+  align-items: center;
+  justify-content: center;
+}
+
+button {
+  cursor: pointer;
+}
+
+.button-container {
   color: #ffffff;
   background-color: #6fc4b3;
   border: 1px solid #6fc4b3;
   text-align: center;
-  width: 100%;
-  font-size: 14px;
-  line-height: 2.5;
-  border-radius: 4px;
+  margin-top: 16px;
+  font-size: 10px;
+  margin-top: 24px;
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+input[type="file"] {
+  display: none;
+}
+
+label {
+  font-family: Roboto;
+  font-size: 12px;
+  font-stretch: normal;
+  font-style: normal;
+  letter-spacing: normal;
+  color: #161819;
+  margin-top: 8px;
+  text-align: center;
+  border: 1px solid #ccc;
+  display: inline-block;
+  cursor: pointer;
 }
 </style>

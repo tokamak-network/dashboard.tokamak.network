@@ -92,8 +92,8 @@ export default {
 
 .button {
   color: #ffffff;
-  background-color: #f38777;
-  border: 1px solid #f38777;
+  background-color: #35496b;
+  border: 1px solid #35496b;
   text-align: center;
   font-size: 14px;
   border-radius: 4px;
