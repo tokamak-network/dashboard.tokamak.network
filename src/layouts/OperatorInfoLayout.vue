@@ -1,7 +1,7 @@
 <template>
   <div class="row">
-    <operator-info-container class="left-container" :operator="operator" />
-    <delegate-manager-container class="right-container" :operator="operator" />
+    <operator-info-container class="left-container" :operator="operator" style="flex: 5;" />
+    <delegate-manager-container class="right-container" :operator="operator" style="flex: 3;" />
   </div>
 </template>
 
@@ -13,8 +13,8 @@ import OperatorInfoContainer from '@/containers/OperatorInfoContainer.vue';
 
 export default {
   components: {
-    'delegate-manager-container': DelegateManagerContainer,
     'operator-info-container': OperatorInfoContainer,
+    'delegate-manager-container': DelegateManagerContainer,
   },
   computed: {
     operator () {
@@ -27,6 +27,7 @@ export default {
 
 <style scoped>
 .row {
+  min-width: 100%;
   display: flex;
   flex-direction: row;
 }
