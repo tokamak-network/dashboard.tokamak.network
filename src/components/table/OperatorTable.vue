@@ -25,6 +25,7 @@
 
 <script>
 import { orderBy } from 'lodash';
+
 import { mapState } from 'vuex';
 
 export default {

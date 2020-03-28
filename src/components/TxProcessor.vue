@@ -1,8 +1,8 @@
 <template>
   <div>
     <div
-      v-for="hash in txsPending"
-      :key="hash"
+      v-for="transaction in pendingTransactions"
+      :key="transaction.transactionHash"
     >
       <div class="tx-processor">
         <p class="message">
@@ -11,8 +11,8 @@
             class="header-link"
             target="_blank"
             rel="noopener noreferrer"
-            :href="explorerURL(hash)"
-          >{{ hash }}</a> ), waiting to be confirmed...
+            :href="explorerURL(transaction.transactionHash)"
+          >{{ transaction.transactionHash }}</a> ), waiting to be confirmed...
         </p>
       </div>
     </div>
@@ -30,7 +30,7 @@ export default {
   },
   computed: {
     ...mapState([
-      'txsPending',
+      'pendingTransactions',
     ]),
     explorerURL () {
       return hash => `${this.prefix}/${hash}`;
