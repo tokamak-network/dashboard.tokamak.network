@@ -2,8 +2,8 @@
   <div class="text-viewer">
     <hr class="divider" :style="[withDivider ? {} : {'visibility': 'hidden'}]">
     <div class="row">
-      <span class="title">{{ title }}</span>
-      <div class="content-container"><span class="content">{{ content }}</span></div>
+      <div class="title">{{ title }}</div>
+      <div class="content" :style="[title === 'Description' ? { 'width': '168px' } : {}]">{{ content }}</div>
     </div>
   </div>
 </template>
@@ -30,17 +30,13 @@ export default {
 }
 
 .row {
-  width: 100%;
   display: flex;
   flex-direction: row;
 }
 
-.content-container {
-  flex: 1;
-}
-
 .title {
   padding-left: 16px;
+  margin-right: 24px;
   font-family: Roboto;
   font-size: 10px;
   font-weight: normal;
@@ -51,8 +47,10 @@ export default {
 }
 
 .content {
+  display: inline-block;
+  flex: 1;
+  text-align: right;
   padding-right: 16px;
-  float: right;
   font-family: Roboto;
   font-size: 10px;
   font-weight: 300;
@@ -60,6 +58,7 @@ export default {
   font-style: normal;
   letter-spacing: normal;
   color: #161819;
+  word-break: break-all;
 }
 
 .divider {

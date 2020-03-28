@@ -34,14 +34,15 @@ export default {
 .base-tab {
   display: flex;
   flex-direction: row;
+  margin-top: 8px;
+  margin-bottom: 8px;
 }
 
 button {
-  width: 90px;
-  line-height: 2;
-  font-size: 14px;
-  text-align: center;
-  color: #000000;
+  width: 65px;
+  height: 30px;
+  font-size: 10px;
+  color: #161819;
 }
 
 button:hover {
@@ -50,8 +51,8 @@ button:hover {
 }
 
 .left-tab {
-  border-top-left-radius: 6px;
-  border-bottom-left-radius: 6px;
+  border-top-left-radius: 4px;
+  border-bottom-left-radius: 4px;
   z-index: 2;
 }
 
@@ -67,8 +68,8 @@ button:hover {
 }
 
 .right-tab {
-  border-top-right-radius: 6px;
-  border-bottom-right-radius: 6px;
+  border-top-right-radius: 4px;
+  border-bottom-right-radius: 4px;
 }
 
 .right-tab-clicked {

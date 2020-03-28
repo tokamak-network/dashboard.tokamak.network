@@ -3,7 +3,6 @@
     <div class="row-reverse">
       <base-tab :left-label="'Delegate'" :right-label="'Undelegate'" :tab="tab" @tab-changed="changeTab" />
     </div>
-    <div class="divider" />
     <form v-if="tab === 'left'">
       <div class="column">
         <ton-input v-model="amountToDelegate" :amount="amountToDelegate" />
@@ -17,8 +16,8 @@
         <text-viewer :title="'Available Amount'" :content="convertedTONFromWTON(operator.userStaked)" />
         <div class="button-container"><base-button :label="'Request Undelegate TON'" :func="undelegate" /></div>
         <div class="divider" />
-        <text-viewer :title="'Not Withdrawable'" :content="convertedTONFromWTON(operator.userNotWithdrawable)" />
-        <text-viewer :title="'Withdrawable'" :content="convertedTONFromWTON(operator.userWithdrawable)" />
+        <text-viewer :title="'Not Withdrawable'" :content="convertedTONFromWTON(operator.userNotWithdrawable)" style="margin-bottom: -2px;" />
+        <text-viewer :title="'Withdrawable'" :content="convertedTONFromWTON(operator.userWithdrawable)" style="margin-bottom: -6px;" />
         <div class="button-container"><base-button :label="'Process Requests'" :func="processRequests" /></div>
       </div>
     </form>
@@ -26,14 +25,13 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
 import { padLeft } from 'web3-utils';
 import { addHistory, addTransaction } from '@/api';
-
 import { createCurrency } from '@makerdao/currency';
 const _TON = createCurrency('TON');
 const _WTON = createCurrency('WTON');
 
+import { mapState } from 'vuex';
 import BaseButton from '@/components/BaseButton.vue';
 import BaseTab from '@/components/BaseTab.vue';
 import TONInput from '@/components/TONInput.vue';
@@ -250,13 +248,18 @@ export default {
 <style scoped>
 .delegate-manager-container {
   display: flex;
+  height: 100%;
   flex-direction: column;
-  margin-top: 16px;
+  border-radius: 6px;
+  border: solid 1px #ced6d9;
+  background-color: #ffffff;
+  padding-bottom: 16px;
 }
 
 .row-reverse {
   display: flex;
   flex-direction: row-reverse;
+  margin-right: 8px;
 }
 
 .row {
@@ -276,7 +279,7 @@ export default {
 }
 
 .divider {
-  margin-top: 16px;
+  margin-top: 24px;
   margin-bottom: 16px;
   width: 100%;
   height: 1px;
@@ -289,10 +292,9 @@ export default {
   border: 1px solid #6fc4b3;
   text-align: center;
   margin-top: 16px;
-  width: 100%;
-  font-size: 14px;
-  line-height: 2.5;
-  border-radius: 4px;
+  font-size: 10px;
+  padding-top: 4px;
+  padding-bottom: 4px;
 }
 
 .button-container:hover {
