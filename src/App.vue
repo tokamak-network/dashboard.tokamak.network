@@ -1,22 +1,17 @@
 <template>
-  <div>
-    <div v-if="!hasCorrectNetwork()">
-      <network-guide-layout :message="message" />
-    </div>
-    <div v-else id="app">
-      <header-container />
-      <div class="body-container">
-        <div v-if="!signIn">
-          <loading-spinner v-if="loading" />
-          <access-wallet-layout v-else />
-        </div>
-        <div v-else>
-          <tx-processor />
-          <main-layout />
-        </div>
+  <div id="app">
+    <header-container />
+    <div class="body-container">
+      <div v-if="!signIn">
+        <loading-spinner v-if="loading" />
+        <access-wallet-layout v-else />
       </div>
-      <footer-container />
+      <div v-else>
+        <tx-processor />
+        <main-layout />
+      </div>
     </div>
+    <footer-container />
   </div>
 </template>
 
@@ -40,7 +35,6 @@ export default {
     'access-wallet-layout': AccessWalletLayout,
     'main-layout': MainLayout,
     'tx-processor': TxProcessor,
-    'network-guide-layout': NetworkGuideLayout,
   },
   data () {
     return {
@@ -49,7 +43,6 @@ export default {
   },
   computed: {
     ...mapState([
-      'web3',
       'loading',
       'signIn',
     ]),
@@ -69,19 +62,6 @@ export default {
         }
       },
     );
-  },
-  methods: {
-    hasCorrectNetwork () {
-      if (typeof window.ethereum === 'undefined') {
-        this.message = 'Please install metamask extension';
-        return false;
-      }
-      if (window.ethereum.networkVersion !== '1337') {
-        this.message = 'Please connect to the Faraday Network';
-        return false;
-      }
-      return true;
-    },
   },
 };
 </script>

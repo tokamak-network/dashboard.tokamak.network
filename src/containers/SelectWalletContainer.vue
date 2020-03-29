@@ -25,16 +25,18 @@ export default {
   methods: {
     async useMetamask () {
       try {
-        await this.metamask();
+        const web3 = await this.metamask();
 
         window.ethereum.on('chainIdChanged', (chainId) => {
           this.$store.dispatch('logout');
           this.$router.replace('/');
         });
-        window.ethereum.on('accountsChanged', (chainId) => {
+        window.ethereum.on('accountsChanged', (account) => {
           this.$store.dispatch('logout');
           this.$router.replace('/');
         });
+
+        await this.$store.dispatch('signIn', web3);
       } catch (e) {
         alert(e.message);
         this.$store.dispatch('logout');
@@ -60,7 +62,11 @@ export default {
         throw new Error('No web3 provider detected');
       }
 
-      await this.$store.dispatch('signIn', new Web3(provider));
+      if (provider.networkVersion !== '1337') {
+        throw new Error('Please connect to the Faraday Network');
+      }
+
+      return new Web3(provider);
     },
   },
 };
