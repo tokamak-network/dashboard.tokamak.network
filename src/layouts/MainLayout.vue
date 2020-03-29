@@ -31,7 +31,6 @@ export default {
   methods: {
     poll () {
       this.polling = setInterval(() => {
-        console.log('polling');
         if (this.$store.state.signIn) {
           this.$store.dispatch('set');
         }
