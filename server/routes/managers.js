@@ -14,6 +14,18 @@ const GET = (db) => {
 // only from CURL
 const POST = async (db, req) => {
   try {
+    const managers = db
+      .get('managers')
+      .value();
+
+    if (managers) {
+      throw new Error('Already set');
+    }
+  } catch (err) {
+    throw err;
+  }
+
+  try {
     await db
       .defaults({ managers: {} })
       .get('managers')
