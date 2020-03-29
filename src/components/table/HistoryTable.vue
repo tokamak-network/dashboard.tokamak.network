@@ -109,24 +109,23 @@ export default {
         const WithdrawalRequested = this.web3.eth.abi.encodeEventSignature('WithdrawalRequested(address,address,uint256)');
         const WithdrawalProcessed = this.web3.eth.abi.encodeEventSignature('WithdrawalProcessed(address,address,uint256)');
 
-        let amount = '-';
+        let amount = _WTON.ray('0');
         const logs = transaction.logs;
         if (logs) {
-          loop1:
           for (const log of logs) {
             for (const topic of log.topics) {
               switch (topic) {
               case Deposited:
-                amount = _WTON.ray((this.web3.eth.abi.decodeParameters(['address', 'uint256'], log.data))[1]);
-                break loop1;
+                amount = amount.add(_WTON.ray((this.web3.eth.abi.decodeParameters(['address', 'uint256'], log.data))[1]));
+                break;
 
               case WithdrawalRequested:
-                amount = _WTON.ray((this.web3.eth.abi.decodeParameters(['address', 'uint256'], log.data))[1]);
-                break loop1;
+                amount = amount.add(_WTON.ray((this.web3.eth.abi.decodeParameters(['address', 'uint256'], log.data))[1]));
+                break;
 
               case WithdrawalProcessed:
-                amount = _WTON.ray((this.web3.eth.abi.decodeParameters(['address', 'uint256'], log.data))[1]);
-                break loop1;
+                amount = amount.add(_WTON.ray((this.web3.eth.abi.decodeParameters(['address', 'uint256'], log.data))[1]));
+                break;
               }
             }
           }
