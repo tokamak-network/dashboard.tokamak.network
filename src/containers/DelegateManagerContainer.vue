@@ -74,10 +74,8 @@ export default {
     changeTab (tab) {
       this.tab = tab;
     },
-    // TODO: account checksum
-    // TODO: account -> from
     async delegate () {
-      if (this.amountToDelegate === '') {
+      if (this.amountToDelegate === '' || parseFloat(this.amountToDelegate) === 0) {
         return alert('Please check input amount.');
       }
       if (_TON(this.amountToDelegate).gt(this.tonBalance)) {
@@ -116,7 +114,7 @@ export default {
       this.amountToDelegate = '';
     },
     async undelegate () {
-      if (this.amountToUndelegate === '') {
+      if (this.amountToUndelegate === '' || parseFloat(this.amountToUndelegate) === 0) {
         return alert('Please check input amount.');
       }
       if (_WTON(this.amountToUndelegate).gt(this.operator.userStaked)){
