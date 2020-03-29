@@ -13,8 +13,8 @@
     <text-viewer :title="'Recent Commit Timestamp'" :content="operator.recentCommitTimestamp" :with-divider="true" />
     <text-viewer :title="'Commit Count'" :content="operator.commitCount" :with-divider="true" />
     <text-viewer :title="'Duration'" :content="operator.duration" :with-divider="true" />
-    <text-viewer :title="'Total Staked'" :content="operator.totalStaked" :with-divider="true" />
     <text-viewer :title="'Reward'" :content="operator.userReward" :with-divider="true" />
+    <text-viewer :title="'Total Staked'" :content="operator.totalStaked" :with-divider="true" />
     <text-viewer :title="'Staked'" :content="operator.userStaked" :with-divider="true" />
     <text-viewer :title="'Not Withdrawable'" :content="operator.userNotWithdrawable" :with-divider="true" />
     <text-viewer :title="'Withdrawable'" :content="operator.userWithdrawable" :with-divider="true" />
