@@ -28,8 +28,13 @@
           <div class="wallet-info-title">
             Network
           </div>
-          <div class="wallet-info-content network-id">
-            {{ networkId | nameOfNetwork }}
+          <div class="row">
+            <div class="wallet-info-content">
+              {{ networkId | nameOfNetwork }}
+            </div>
+            <div class="wallet-info-content block-number">
+              (Block: #{{ blockNumber }})
+            </div>
           </div>
         </div>
       </div>
@@ -86,6 +91,7 @@ export default {
       'user',
       'networkId',
       'tonBalance',
+      'blockNumber',
     ]),
     ...mapGetters([
       'userTotalStaked',
@@ -99,6 +105,15 @@ export default {
   width: 100%;
   display: flex;
   padding-bottom: 16px;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+}
+
+.block-number {
+  margin-left: 4px;
 }
 
 .wallet-basic-info-container {
