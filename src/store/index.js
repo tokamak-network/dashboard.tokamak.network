@@ -217,10 +217,10 @@ export default new Vuex.Store({
       const blockNumber = await web3.eth.getBlockNumber();
       context.commit('SET_BLOCK_NUMBER', blockNumber);
 
-      await context.dispatch('setOperators');
+      await context.dispatch('setOperators', blockNumber);
       await context.dispatch('setBalance');
-      await context.dispatch('setHistory');
       await context.dispatch('setRound');
+      await context.dispatch('setHistory');
     },
     async setManagers (context, managers) {
       const user = context.state.user;
@@ -272,7 +272,7 @@ export default new Vuex.Store({
     async setOperatorsWithRegistry (context, operators) {
       context.commit('SET_OPERATORS', operators);
     },
-    async setOperators (context) {
+    async setOperators (context, blockNumber) {
       const web3 = context.state.web3;
       const user = context.state.user;
       const DepositManager = context.state.DepositManager;
@@ -347,13 +347,11 @@ export default new Vuex.Store({
         };
 
         const filterNotWithdrawableRequests = async (requests) => {
-          const currentBlockNumber = await web3.eth.getBlockNumber();
-          return requests.filter(request => parseInt(request.withdrawableBlockNumber) > currentBlockNumber);
+          return requests.filter(request => parseInt(request.withdrawableBlockNumber) > blockNumber);
         };
 
         const filterWithdrawableRequests = async (requests) => {
-          const currentBlockNumber = await web3.eth.getBlockNumber();
-          return requests.filter(request => parseInt(request.withdrawableBlockNumber) <= currentBlockNumber);
+          return requests.filter(request => parseInt(request.withdrawableBlockNumber) <= blockNumber);
         };
 
         const getUserNotWithdrawable = async (notWithdrawableRequests) => {
