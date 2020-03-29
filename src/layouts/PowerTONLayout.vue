@@ -36,7 +36,8 @@ export default {
       'rankedAccountsWithPower',
     ]),
     rank () {
-      return (this.rankedAccountsWithPower.find(account => account.address.toLowerCase() === this.user.toLowerCase())).rank;
+      const account = this.rankedAccountsWithPower.find(account => account.address.toLowerCase() === this.user.toLowerCase());
+      return account ? account.rank : 'no record';
     },
   },
 };
