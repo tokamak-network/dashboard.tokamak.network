@@ -17,7 +17,7 @@
         <div class="button-container"><base-button :label="'Request Undelegate TON'" :func="undelegate" /></div>
         <div class="divider" />
         <text-viewer :title="'Not Withdrawable'" :content="convertedTONFromWTON(operator.userNotWithdrawable)" style="margin-bottom: -2px;" />
-        <text-viewer :title="'Withdrawable'" :content="convertedTONFromWTON(operator.userWithdrawable)" style="margin-bottom: -6px;" />
+        <text-viewer :title="'Withdrawable'" :content="convertedTONFromWTON(operator.userWithdrawable)" />
         <div class="button-container"><base-button :label="'Process Requests'" :func="processRequests" /></div>
       </div>
     </form>
@@ -299,6 +299,9 @@ export default {
   font-size: 10px;
   padding-top: 4px;
   padding-bottom: 4px;
+  margin-left: 16px;
+  margin-right: 16px;
+  border-radius: 6px;
 }
 
 .button-container:hover {
