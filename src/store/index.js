@@ -321,8 +321,8 @@ export default new Vuex.Store({
             accStaked = await DepositManager.methods.accStakedRootChain(rootchain).call();
             accUnstaked = await DepositManager.methods.accUnstakedRootChain(rootchain).call();
           } else {
-            accStaked = await DepositManager.methods.accStaked(rootchain, account).call();
-            accUnstaked = await DepositManager.methods.accUnstaked(rootchain, account).call();
+            accStaked = await DepositManager.methods.accStaked(rootchain, account).call(null, blockNumber);
+            accUnstaked = await DepositManager.methods.accUnstaked(rootchain, account).call(null, blockNumber);
           }
           return accStaked - accUnstaked;
         };
@@ -381,7 +381,7 @@ export default new Vuex.Store({
 
         const totalStaked = await Coinage.methods.totalSupply().call();
         const selfStaked = await Coinage.methods.balanceOf(operator).call();
-        const userStaked = await Coinage.methods.balanceOf(user).call();
+        const userStaked = await Coinage.methods.balanceOf(user).call(null, blockNumber);
 
         const pendingRequests = await getPendingRequests();
         const notWithdrawableRequests = await filterNotWithdrawableRequests(pendingRequests);
