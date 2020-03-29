@@ -174,17 +174,6 @@ export default new Vuex.Store({
     },
   },
   actions: {
-    // considering block time, this timer run and refresh vue state.
-    async runTimer (context) {
-      while (context.state.signIn) {
-        await new Promise(r => setTimeout(r, 5000)); // 5s
-        await context.dispatch('set');
-
-        if (context.state.pendingTransactions.length > 0) {
-          await context.dispatch('checkPendingTransactions');
-        }
-      }
-    },
     logout (context) {
       context.commit('SET_INITIAL_STATE');
     },
@@ -210,7 +199,6 @@ export default new Vuex.Store({
       context.commit('SIGN_IN');
       context.commit('IS_LOADING', false);
       router.replace('/dashboard');
-      await context.dispatch('runTimer');
     },
     async set (context) {
       const web3 = this.state.web3;

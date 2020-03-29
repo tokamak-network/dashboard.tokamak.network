@@ -17,6 +17,27 @@ export default {
     'menu-container': MenuContainer,
     'wallet-info-container': WalletInfoContainer,
   },
+  data () {
+    return {
+      polling: null,
+    };
+  },
+  async created () {
+    this.poll();
+  },
+  beforeDestroy () {
+    clearInterval(this.polling);
+  },
+  methods: {
+    poll () {
+      this.polling = setInterval(() => {
+        console.log('polling');
+        if (this.$store.state.signIn) {
+          this.$store.dispatch('set');
+        }
+      }, 5000);
+    },
+  },
 };
 </script>
 
