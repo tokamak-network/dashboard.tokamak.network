@@ -125,9 +125,6 @@ export default new Vuex.Store({
     SET_OPERATORS: (state, operators) => {
       state.operators = operators;
     },
-    SET_TRANSACTIONS: (state, transactions) => {
-      state.transactions = transactions;
-    },
     ADD_TRANSACTION: (state, newTransaction) => {
       const transactions = state.transactions;
       if (!transactions.find(transaction => transaction.transactionHash === newTransaction.transactionHash)) {
@@ -140,10 +137,11 @@ export default new Vuex.Store({
         pendingTransactions.push(newPendingTransaction);
       }
     },
-    UPDATE_TRANSACTION_FROM_PENDING_TO_MINED: (state, minedTransaction) => {
-      // delete from pending transactions list
+    DELETE_PENDING_TRANSACTION_AND_UPDATE: (state, minedTransaction) => {
+      // delete
       state.pendingTransactions.splice(state.pendingTransactions.map(pendingTransaction => pendingTransaction.transactionHash).indexOf(minedTransaction.transactionHash), 1);
 
+      // update
       const index = state.transactions.map(transaction => transaction.transactionHash).indexOf(minedTransaction.transactionHash);
       Vue.set(state.transactions, index, minedTransaction);
     },
@@ -206,6 +204,7 @@ export default new Vuex.Store({
         const blockNumber = await web3.eth.getBlockNumber();
         context.commit('SET_BLOCK_NUMBER', blockNumber);
 
+        await context.dispatch('checkPendingTransactions');
         await context.dispatch('setOperators', blockNumber);
         await context.dispatch('setBalance');
         await context.dispatch('setRound');
