@@ -4,22 +4,22 @@
       <tr>
         <th class="text-center">#</th>
         <th class="text-center pointer" @click="orderBy('transactionHash')">{{ withArrow('transactionHash', 'Transaction Hash') }}</th>
-        <th class="text-right pointer" @click="orderBy('type')">{{ withArrow('type', 'Type') }}</th>
-        <th class="text-right pointer" @click="orderBy('amount')">{{ withArrow('amount', 'Amount') }}</th>
-        <th class="text-right pointer" @click="orderBy('blockNumber')">{{ withArrow('blockNumber', 'Block Number') }}</th>
-        <th class="text-right pointer" @click="orderBy('state')">{{ withArrow('state', 'State') }}</th>
-        <th class="text-right pointer" @click="orderBy('status')">{{ withArrow('status', 'Status') }}</th>
+        <th class="text-center pointer" @click="orderBy('type')">{{ withArrow('type', 'Type') }}</th>
+        <th class="text-center pointer" @click="orderBy('amount')">{{ withArrow('amount', 'Amount') }}</th>
+        <th class="text-center pointer" @click="orderBy('blockNumber')">{{ withArrow('blockNumber', 'Block Number') }}</th>
+        <th class="text-center pointer" @click="orderBy('state')">{{ withArrow('state', 'State') }}</th>
+        <th class="text-center pointer" @click="orderBy('status')">{{ withArrow('status', 'Status') }}</th>
       </tr>
     </thead>
     <tbody>
       <tr v-for="(transaction, index) in orderedTransaction" :key="transaction.transactionHash">
         <td class="text-center">{{ index }}</td>
         <td class="text-center">{{ transaction.transactionHash | hexSlicer }}</td>
-        <td class="text-right">{{ transactionType(transaction) }}</td>
-        <td class="text-right">{{ convertedTONFromWTON(amount(transaction)) }}</td>
-        <td class="text-right">{{ transaction.blockNumber ? transaction.blockNumber : '-' }}</td>
-        <td class="text-right">{{ transaction.status ? 'mined' : 'pending' }}</td>
-        <td class="text-right">{{ transaction.status ? transaction.status : '-' }}</td>
+        <td class="text-center">{{ transactionType(transaction) }}</td>
+        <td class="text-center">{{ convertedTONFromWTON(amount(transaction)) }}</td>
+        <td class="text-center">{{ transaction.blockNumber ? transaction.blockNumber : '-' }}</td>
+        <td class="text-center">{{ transaction.status ? 'mined' : 'pending' }}</td>
+        <td class="text-center">{{ transaction.status ? transaction.status : '-' }}</td>
       </tr>
     </tbody>
   </table>

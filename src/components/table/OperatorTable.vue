@@ -4,20 +4,20 @@
       <tr>
         <th class="text-center">#</th>
         <th class="pointer text-center" @click="orderBy('name')">{{ withArrow('name', 'Operator Name') }}</th>
-        <th class="pointer text-right" @click="orderBy('operator')">{{ withArrow('operator', 'Operator') }}</th>
-        <th class="pointer text-right" @click="orderBy('rootchain')">{{ withArrow('rootchain', 'RootChain') }}</th>
-        <th class="pointer text-right" @click="orderBy('userStaked')">{{ withArrow('userStaked', 'Staked') }}</th>
-        <th class="pointer text-right" @click="orderBy('totalStaked')">{{ withArrow('totalStaked', 'Total Staked') }}</th>
+        <th class="pointer text-center" @click="orderBy('operator')">{{ withArrow('operator', 'Operator') }}</th>
+        <th class="pointer text-center" @click="orderBy('rootchain')">{{ withArrow('rootchain', 'RootChain') }}</th>
+        <th class="pointer text-center" @click="orderBy('userStaked')">{{ withArrow('userStaked', 'Staked') }}</th>
+        <th class="pointer text-center" @click="orderBy('totalStaked')">{{ withArrow('totalStaked', 'Total Staked') }}</th>
       </tr>
     </thead>
     <tbody>
       <tr v-for="(operator, index) in orderedOperators" :key="operator.rootchain">
         <td class="text-center">{{ index }}</td>
-        <td class="clickable text-center" @click="viewDetailedOperator(operator)"><span class="pointer name">{{ operator.name }}</span></td>
-        <td class="text-right">{{ operator.address | hexSlicer }}</td>
-        <td class="text-right">{{ operator.rootchain | hexSlicer }}</td>
-        <td class="text-right">{{ operator.userStaked | convertedTONFromWTON }} </td>
-        <td class="text-right">{{ operator.totalStaked | convertedTONFromWTON }} </td>
+        <td class="clickable text-center name" @click="viewDetailedOperator(operator)"><span class="pointer name">{{ operator.name }}</span></td>
+        <td class="text-center">{{ operator.address | hexSlicer }}</td>
+        <td class="text-center">{{ operator.rootchain | hexSlicer }}</td>
+        <td class="text-center">{{ operator.userStaked | convertedTONFromWTON }} </td>
+        <td class="text-center">{{ operator.totalStaked | convertedTONFromWTON }} </td>
       </tr>
     </tbody>
   </table>
@@ -153,6 +153,7 @@ td {
 }
 
 .name {
+  width: 200px;
   word-break: break-all;
 }
 </style>

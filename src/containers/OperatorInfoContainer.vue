@@ -1,8 +1,8 @@
 <template>
   <div class="operator-info-container">
     <div class="row name-container">
-      <div class="name">{{ operator.name }}</div>
       <avatar class="avatar" fullname="O P R" :image="filteredImgURL(operator.avatar)" :size="50" :color="operator.color" />
+      <div class="name">{{ operator.name }}</div>
       <div class="space" style="flex: 1;" />
       <div v-if="user === operator.address" class="button"><base-button :label="'edit'" :func="edit" /></div>
     </div>
@@ -70,6 +70,7 @@ export default {
 .name-container {
   padding-top: 12px;
   padding-bottom: 12px;
+  margin-left: 16px;
 }
 
 .row {
@@ -79,6 +80,7 @@ export default {
 }
 
 .name {
+  width: 200px;
   padding-left: 16px;
   padding-right: 8px;
   font-family: Roboto;
@@ -88,6 +90,7 @@ export default {
   font-style: normal;
   letter-spacing: normal;
   color: #161819;
+  word-break: break-all;
 }
 
 .button {

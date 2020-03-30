@@ -5,7 +5,7 @@
         <th class="text-center">#</th>
         <th class="pointer text-center" @click="orderBy('rank')">{{ withArrow('rank', 'Rank') }}</th>
         <th class="pointer text-center" @click="orderBy('account')">{{ withArrow('account', 'Account') }}</th>
-        <th class="pointer text-right" @click="orderBy('power')">{{ withArrow('power', 'Power') }}</th>
+        <th class="pointer text-center" @click="orderBy('power')">{{ withArrow('power', 'Power') }}</th>
       </tr>
     </thead>
     <tbody>
@@ -13,7 +13,7 @@
         <td class="text-center">{{ index }}</td>
         <td class="text-center">{{ account.rank }}</td>
         <td class="text-center">{{ account.address | hexSlicer }}</td>
-        <td class="text-right">{{ account.power }}</td>
+        <td class="text-center">{{ account.power }}</td>
       </tr>
     </tbody>
   </table>

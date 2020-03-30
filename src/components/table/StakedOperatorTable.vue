@@ -3,17 +3,17 @@
     <thead>
       <tr>
         <th class="text-center">#</th>
-        <th class="pointer" @click="orderBy('name')">{{ withArrow('name', 'Operator Name') }}</th>
-        <th class="text-right pointer" @click="orderBy('userStaked')">{{ withArrow('userStaked', 'My Staked') }}</th>
-        <th class="text-right pointer" @click="orderBy('userReward')">{{ withArrow('userReward', 'My Reward') }}</th>
+        <th class="text-center pointer" @click="orderBy('name')">{{ withArrow('name', 'Operator Name') }}</th>
+        <th class="text-center pointer" @click="orderBy('userStaked')">{{ withArrow('userStaked', 'My Staked') }}</th>
+        <th class="text-center pointer" @click="orderBy('userReward')">{{ withArrow('userReward', 'My Reward') }}</th>
       </tr>
     </thead>
     <tbody>
       <tr v-for="(operator, index) in orderedOperators" :key="operator.rootchain">
         <td class="text-center">{{ index }}</td>
-        <td class="clickable" @click="viewDetailedOperator(operator)"><span class="pointer">{{ operator.name }}</span></td>
-        <td class="text-right">{{ operator.userStaked | convertedTONFromWTON }} </td>
-        <td class="text-right">{{ operator.userReward | convertedTONFromWTON }} </td>
+        <td class="clickable text-center name" @click="viewDetailedOperator(operator)"><span class="pointer">{{ operator.name }}</span></td>
+        <td class="text-center">{{ operator.userStaked | convertedTONFromWTON }} </td>
+        <td class="text-center">{{ operator.userReward | convertedTONFromWTON }} </td>
       </tr>
     </tbody>
   </table>
@@ -146,5 +146,10 @@ td {
   letter-spacing: normal;
   text-align: center;
   color: #161819;
+}
+
+.name {
+  width: 140px;
+  word-break: break-all;
 }
 </style>
