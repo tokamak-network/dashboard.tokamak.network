@@ -95,8 +95,8 @@ export default {
             transactionHash: hash,
             target: this.operator.rootchain,
           };
-          const newTransaction = await addTransaction(transcation);
-          this.$store.dispatch('addTransaction', newTransaction);
+          const pendingTransaction = await addTransaction(transcation);
+          this.$store.dispatch('addPendingTransaction', pendingTransaction);
         })
         .on('confirmation', (confirmationNumber, receipt) => {
           // default: 24
@@ -131,8 +131,8 @@ export default {
             transactionHash: hash,
             target: this.operator.rootchain,
           };
-          const newTransaction = await addTransaction(transcation);
-          this.$store.dispatch('addTransaction', newTransaction);
+          const pendingTransaction = await addTransaction(transcation);
+          this.$store.dispatch('addPendingTransaction', pendingTransaction);
         })
         .on('confirmation', (confirmationNumber, receipt) => {
           // default: 24
@@ -166,8 +166,8 @@ export default {
             transactionHash: hash,
             target: this.operator.rootchain,
           };
-          const newTransaction = await addTransaction(transcation);
-          this.$store.dispatch('addTransaction', newTransaction);
+          const pendingTransaction = await addTransaction(transcation);
+          this.$store.dispatch('addPendingTransaction', pendingTransaction);
         })
         .on('confirmation', (confirmationNumber, receipt) => {
           // default: 24

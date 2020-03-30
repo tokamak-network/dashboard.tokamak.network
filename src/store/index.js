@@ -137,13 +137,8 @@ export default new Vuex.Store({
         pendingTransactions.push(newPendingTransaction);
       }
     },
-    DELETE_PENDING_TRANSACTION_AND_UPDATE: (state, minedTransaction) => {
-      // delete
+    DELETE_PENDING_TRANSACTION: (state, minedTransaction) => {
       state.pendingTransactions.splice(state.pendingTransactions.map(pendingTransaction => pendingTransaction.transactionHash).indexOf(minedTransaction.transactionHash), 1);
-
-      // update
-      const index = state.transactions.map(transaction => transaction.transactionHash).indexOf(minedTransaction.transactionHash);
-      Vue.set(state.transactions, index, minedTransaction);
     },
     UPDATE_OPERATOR: (state, newOperator) => {
       const index = state.operators.indexOf(prevOperator);
@@ -204,11 +199,11 @@ export default new Vuex.Store({
         const blockNumber = await web3.eth.getBlockNumber();
         context.commit('SET_BLOCK_NUMBER', blockNumber);
 
-        await context.dispatch('checkPendingTransactions');
         await context.dispatch('setOperators', blockNumber);
         await context.dispatch('setBalance');
         await context.dispatch('setRound');
         await context.dispatch('setHistory');
+        await context.dispatch('checkPendingTransactions');
       } catch (err) {
         // after logout, error can be happened
       }
@@ -234,26 +229,19 @@ export default new Vuex.Store({
         }
       });
     },
-    async addTransaction (context, transaction) {
-      const web3 = context.state.web3;
-
-      const receipt = await web3.eth.getTransactionReceipt(transaction.transactionHash);
-      if (receipt) {
-        transaction.receipt = receipt;
-        context.commit('ADD_TRANSACTION', transaction);
-      } else{
-        context.commit('ADD_PENDING_TRANSACTION', transaction);
-      }
+    async addPendingTransaction (context, transaction) {
+      context.commit('ADD_PENDING_TRANSACTION', transaction);
     },
     async checkPendingTransactions (context) {
       const web3 = context.state.web3;
       const pendingTransactions = context.state.pendingTransactions;
 
-      pendingTransactions.forEach(async pendingTransaction => {
-        const receipt = await web3.eth.getTransactionReceipt(pendingTransaction.transactionHash);
+      pendingTransactions.forEach(async transaction => {
+        const receipt = await web3.eth.getTransactionReceipt(transaction.transactionHash);
         if (receipt) {
-          pendingTransaction.receipt = receipt;
-          context.commit('DELETE_PENDING_TRANSACTION_AND_UPDATE', pendingTransaction);
+          transaction.receipt = receipt;
+          context.commit('ADD_TRANSACTION', transaction);
+          context.commit('DELETE_PENDING_TRANSACTION', transaction);
         }
       });
     },
