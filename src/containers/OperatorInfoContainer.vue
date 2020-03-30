@@ -7,17 +7,17 @@
       <div v-if="user === operator.address" class="button"><base-button :label="'edit'" :func="edit" /></div>
     </div>
     <text-viewer :title="'Website'" :content="operator.website" :with-divider="true" />
-    <text-viewer :title="'Description'" :content="operator.description" :with-divider="true" />
-    <text-viewer :title="'Address'" :content="operator.address" :with-divider="true" />
-    <text-viewer :title="'RootChain'" :content="operator.rootchain" :with-divider="true" />
-    <text-viewer :title="'Recent Commit Timestamp'" :content="operator.recentCommitTimestamp" :with-divider="true" />
-    <text-viewer :title="'Commit Count'" :content="operator.commitCount" :with-divider="true" />
-    <text-viewer :title="'Duration'" :content="operator.duration" :with-divider="true" />
-    <text-viewer :title="'Reward'" :content="operator.userReward" :with-divider="true" />
-    <text-viewer :title="'Total Staked'" :content="operator.totalStaked" :with-divider="true" />
-    <text-viewer :title="'Staked'" :content="operator.userStaked" :with-divider="true" />
-    <text-viewer :title="'Not Withdrawable'" :content="operator.userNotWithdrawable" :with-divider="true" />
-    <text-viewer :title="'Withdrawable'" :content="operator.userWithdrawable" :with-divider="true" />
+    <text-viewer :title="'Description'" :content="operator.description" :with-divider="false" />
+    <text-viewer :title="'Address'" :content="operator.address" :with-divider="false" />
+    <text-viewer :title="'RootChain'" :content="operator.rootchain" :with-divider="false" />
+    <text-viewer :title="'Recent Commit Timestamp'" :content="operator.recentCommitTimestamp" :with-divider="false" />
+    <text-viewer :title="'Commit Count'" :content="operator.commitCount" :with-divider="false" />
+    <text-viewer :title="'Duration'" :content="operator.duration" :with-divider="false" />
+    <text-viewer :title="'Reward'" :content="operator.userReward" :with-divider="false" />
+    <text-viewer :title="'Total Staked'" :content="operator.totalStaked" :with-divider="false" />
+    <text-viewer :title="'Staked'" :content="operator.userStaked" :with-divider="false" />
+    <text-viewer :title="'Not Withdrawable'" :content="operator.userNotWithdrawable" :with-divider="false" />
+    <text-viewer :title="'Withdrawable'" :content="operator.userWithdrawable" :with-divider="false" />
   </div>
 </template>
 

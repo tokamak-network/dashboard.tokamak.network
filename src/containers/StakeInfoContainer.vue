@@ -2,9 +2,9 @@
   <div class="stake-info-container">
     <container-header :title="'Staking'" />
     <text-viewer :title="'Total Staked TON'" :content="convertedTONFromWTON(userTotalStaked)" :with-divider="true" />
-    <text-viewer :title="'Total Reward TON'" :content="convertedTONFromWTON(userTotalReward)" :with-divider="true" />
-    <text-viewer :title="'Total Not Withdrawable TON'" :content="convertedTONFromWTON(userTotalNotWithdrawable)" :with-divider="true" />
-    <text-viewer :title="'Total Withdrawable TON'" :content="convertedTONFromWTON(userTotalWithdrawable)" :with-divider="true" />
+    <text-viewer :title="'Total Reward TON'" :content="convertedTONFromWTON(userTotalReward)" :with-divider="false" />
+    <text-viewer :title="'Total Not Withdrawable TON'" :content="convertedTONFromWTON(userTotalNotWithdrawable)" :with-divider="false" />
+    <text-viewer :title="'Total Withdrawable TON'" :content="convertedTONFromWTON(userTotalWithdrawable)" :with-divider="false" />
   </div>
 </template>
 

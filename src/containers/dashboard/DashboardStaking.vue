@@ -2,8 +2,8 @@
   <div class="dashboard-staking">
     <dashboard-header :title="'Staking'" :path="'staking'" />
     <text-viewer :title="'TOTAL REWARD'" :content="convertedTONFromWTON(userTotalReward)" :with-divider="true" />
-    <text-viewer :title="'TOTAL STAKED TON'" :content="convertedTONFromWTON(userTotalStaked)" :with-divider="true" />
-    <text-viewer :title="'TOTAL NOT WITHDRAWABLE TON'" :content="convertedTONFromWTON(userTotalNotWithdrawable)" :with-divider="true" />
+    <text-viewer :title="'TOTAL STAKED TON'" :content="convertedTONFromWTON(userTotalStaked)" :with-divider="false" />
+    <text-viewer :title="'TOTAL NOT WITHDRAWABLE TON'" :content="convertedTONFromWTON(userTotalNotWithdrawable)" :with-divider="false" />
     <text-viewer :title="'TOTAL WITHDRAWABLE TON'" :content="convertedTONFromWTON(userTotalWithdrawable)" :with-divider="false" />
   </div>
 </template>
