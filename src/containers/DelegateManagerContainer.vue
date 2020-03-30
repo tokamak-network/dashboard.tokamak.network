@@ -93,8 +93,6 @@ export default {
           const pendingTransaction = {
             from: this.user,
             transactionHash: hash,
-            type: 'deposit',
-            amount: amount,
           };
           await addTransaction(pendingTransaction);
           this.$store.dispatch('addTransaction', pendingTransaction);
@@ -130,8 +128,6 @@ export default {
           const pendingTransaction = {
             from: this.user,
             transactionHash: hash,
-            type: 'request',
-            amount: amount,
           };
           await addTransaction(pendingTransaction);
           this.$store.dispatch('addTransaction', pendingTransaction);
@@ -166,8 +162,6 @@ export default {
           const pendingTransaction = {
             from: this.user,
             transactionHash: hash,
-            type: 'withdraw',
-            amount: _WTON(this.operator.userWithdrawable.toFixed('ray')),
           };
           await addTransaction(pendingTransaction);
           this.$store.dispatch('addTransaction', pendingTransaction);
