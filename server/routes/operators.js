@@ -28,16 +28,31 @@ const POST = async (db, req) => {
     throw new Error('Non-checksum address');
   }
 
+  try {
+    const operator = db.get('operators').find({ rootchain: rootchain }).value();
+    if (operator) {
+      throw new Error('Already registered');
+    }
+  } catch (err) {
+    throw err;
+  }
+
+  let chainId;
+  try {
+    chainId = req.body.chainId;
+    const operator = db.get('operators').find({ chainId: chainId }).value();
+    if (operator) {
+      throw new Error('Duplicate chain id');
+    }
+  } catch (err) {
+    throw err;
+  }
+
   const randomColor = 'rgb(' + (Math.floor(Math.random() * 256)) +',' +
                              (Math.floor(Math.random() * 256)) + ',' +
                              (Math.floor(Math.random() * 256)) + ')';
-
-  const operator = db.get('operators').find({ rootchain: rootchain }).value();
-  if (operator) {
-    throw new Error('Already registered');
-  }
-
   const newOperator = {};
+  newOperator.chainId = chainId;
   newOperator.rootchain = rootchain; // use checksum address
   newOperator.avatar = '';
   newOperator.color = randomColor;
