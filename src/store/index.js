@@ -201,14 +201,18 @@ export default new Vuex.Store({
       router.replace('/dashboard');
     },
     async set (context) {
-      const web3 = this.state.web3;
-      const blockNumber = await web3.eth.getBlockNumber();
-      context.commit('SET_BLOCK_NUMBER', blockNumber);
+      try {
+        const web3 = this.state.web3;
+        const blockNumber = await web3.eth.getBlockNumber();
+        context.commit('SET_BLOCK_NUMBER', blockNumber);
 
-      await context.dispatch('setOperators', blockNumber);
-      await context.dispatch('setBalance');
-      await context.dispatch('setRound');
-      await context.dispatch('setHistory');
+        await context.dispatch('setOperators', blockNumber);
+        await context.dispatch('setBalance');
+        await context.dispatch('setRound');
+        await context.dispatch('setHistory');
+      } catch (err) {
+        // after logout, error can be happened
+      }
     },
     async setManagers (context, managers) {
       const user = context.state.user;
