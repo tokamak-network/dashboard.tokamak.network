@@ -34,6 +34,7 @@ const POST = async (db, req) => {
   const transaction = {};
   transaction.from = from;
   transaction.transactionHash = req.body.transactionHash;
+  transaction.target = req.body.target;
 
   try {
     await db
@@ -41,6 +42,8 @@ const POST = async (db, req) => {
       .get('transactions')
       .push(transaction)
       .write();
+
+    return Promise.resolve(transaction);
   } catch (err) {
     throw err;
   }

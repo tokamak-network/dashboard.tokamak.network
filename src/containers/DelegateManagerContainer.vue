@@ -90,12 +90,13 @@ export default {
         data,
       ).send({ from: this.user })
         .on('transactionHash', async (hash) => {
-          const pendingTransaction = {
+          const transcation = {
             from: this.user,
             transactionHash: hash,
+            target: this.operator.rootchain,
           };
-          await addTransaction(pendingTransaction);
-          this.$store.dispatch('addTransaction', pendingTransaction);
+          const newTransaction = await addTransaction(transcation);
+          this.$store.dispatch('addTransaction', newTransaction);
         })
         .on('confirmation', (confirmationNumber, receipt) => {
           // default: 24
@@ -125,12 +126,13 @@ export default {
         amount,
       ).send({ from: this.user })
         .on('transactionHash', async (hash) => {
-          const pendingTransaction = {
+          const transcation = {
             from: this.user,
             transactionHash: hash,
+            target: this.operator.rootchain,
           };
-          await addTransaction(pendingTransaction);
-          this.$store.dispatch('addTransaction', pendingTransaction);
+          const newTransaction = await addTransaction(transcation);
+          this.$store.dispatch('addTransaction', newTransaction);
         })
         .on('confirmation', (confirmationNumber, receipt) => {
           // default: 24
@@ -159,12 +161,13 @@ export default {
         true,
       ).send({ from: this.user })
         .on('transactionHash', async (hash) => {
-          const pendingTransaction = {
+          const transcation = {
             from: this.user,
             transactionHash: hash,
+            target: this.operator.rootchain,
           };
-          await addTransaction(pendingTransaction);
-          this.$store.dispatch('addTransaction', pendingTransaction);
+          const newTransaction = await addTransaction(transcation);
+          this.$store.dispatch('addTransaction', newTransaction);
         })
         .on('confirmation', (confirmationNumber, receipt) => {
           // default: 24

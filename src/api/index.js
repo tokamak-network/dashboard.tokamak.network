@@ -61,12 +61,15 @@ export async function getTransactions (user) {
 }
 
 export async function addTransaction (transaction) {
-  await instance.post(
+  const res = await instance.post(
     '/transactions',
-    { transactionHash: transaction.transactionHash },
+    { transactionHash: transaction.transactionHash,
+      target: transaction.target,
+    },
     {
       params: {
         from: transaction.from,
       },
     });
+  return res.data;
 }
