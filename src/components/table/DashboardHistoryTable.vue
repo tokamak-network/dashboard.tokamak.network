@@ -82,15 +82,15 @@ export default {
             for (const topic of log.topics) {
               switch (topic) {
               case Deposited:
-                type ='deposited';
+                type ='Delegated';
                 break loop1;
 
               case WithdrawalRequested:
-                type = 'requested';
+                type = 'Undelegate Requested';
                 break loop1;
 
               case WithdrawalProcessed:
-                type = 'processed';
+                type = 'Undelegate Processed';
                 break loop1;
               }
             }
