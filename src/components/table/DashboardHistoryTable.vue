@@ -14,7 +14,7 @@
       <tr v-for="(transaction, index) in orderedTransaction" :key="transaction.transactionHash">
         <td class="text-center">{{ index }}</td>
         <td class="text-center">{{ transaction.transactionHash | hexSlicer }}</td>
-        <td class="text-right">{{ transaction.status ? 'mined' : 'pending' }}</td>
+        <td class="text-center">{{ transaction.receipt ? 'mined' : 'pending' }}</td>
         <td class="text-center">{{ transaction.target | hexSlicer }}</td>
         <td class="text-center">{{ transactionType(transaction) }}</td>
         <td class="text-center">{{ convertedTONFromWTON(amount(transaction)) }}</td>
@@ -79,7 +79,7 @@ export default {
         const WithdrawalProcessed = this.web3.eth.abi.encodeEventSignature('WithdrawalProcessed(address,address,uint256)');
 
         let type = '-';
-        const logs = transaction.logs;
+        const logs = transaction.receipt.logs;
         if (logs) {
           loop1:
           for (const log of logs) {
@@ -110,7 +110,7 @@ export default {
         const WithdrawalProcessed = this.web3.eth.abi.encodeEventSignature('WithdrawalProcessed(address,address,uint256)');
 
         let amount = _WTON.ray('0');
-        const logs = transaction.logs;
+        const logs = transaction.receipt.logs;
         if (logs) {
           for (const log of logs) {
             for (const topic of log.topics) {

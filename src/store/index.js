@@ -225,26 +225,25 @@ export default new Vuex.Store({
     async setTransactions (context, transactions) {
       const web3 = context.state.web3;
 
-      const mappedTransactions = transactions.map(async pendingTransaction => {
-        const minedTransaction = await web3.eth.getTransactionReceipt(pendingTransaction.transactionHash);
-        if (minedTransaction) {
-          return minedTransaction;
+      transactions.forEach(async transaction => {
+        const receipt = await web3.eth.getTransactionReceipt(transaction.transactionHash);
+        if (receipt) {
+          transaction.receipt = receipt;
+          context.commit('ADD_TRANSACTION', transaction);
         } else {
-          context.commit('ADD_PENDING_TRANSACTION', pendingTransaction);
-          return pendingTransaction;
+          context.commit('ADD_PENDING_TRANSACTION', transaction);
         }
       });
-      context.commit('SET_TRANSACTIONS', await Promise.all(mappedTransactions));
     },
-    async addTransaction (context, newPendingTransaction) {
+    async addTransaction (context, transaction) {
       const web3 = context.state.web3;
 
-      const minedTransaction = await web3.eth.getTransactionReceipt(newPendingTransaction.transactionHash);
-      if (minedTransaction) {
-        context.commit('ADD_TRANSACTION', minedTransaction);
-      } else {
-        context.commit('ADD_TRANSACTION', newPendingTransaction);
-        context.commit('ADD_PENDING_TRANSACTION', newPendingTransaction);
+      const receipt = await web3.eth.getTransactionReceipt(transaction.transactionHash);
+      if (receipt) {
+        transaction.receipt = receipt;
+        context.commit('ADD_TRANSACTION', transaction);
+      } else{
+        context.commit('ADD_PENDING_TRANSACTION', transaction);
       }
     },
     async checkPendingTransactions (context) {
@@ -252,9 +251,10 @@ export default new Vuex.Store({
       const pendingTransactions = context.state.pendingTransactions;
 
       pendingTransactions.forEach(async pendingTransaction => {
-        const minedTransaction = await web3.eth.getTransactionReceipt(pendingTransaction.transactionHash);
-        if (minedTransaction) {
-          context.commit('UPDATE_TRANSACTION_FROM_PENDING_TO_MINED', minedTransaction);
+        const receipt = await web3.eth.getTransactionReceipt(pendingTransaction.transactionHash);
+        if (receipt) {
+          pendingTransaction.receipt = receipt;
+          context.commit('DELETE_PENDING_TRANSACTION_AND_UPDATE', pendingTransaction);
         }
       });
     },
