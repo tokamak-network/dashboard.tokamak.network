@@ -39,8 +39,6 @@ export default {
         await this.$store.dispatch('signIn', web3);
       } catch (e) {
         alert(e.message);
-        this.$store.dispatch('logout');
-        this.$router.replace('/');
       }
     },
     async metamask () {
