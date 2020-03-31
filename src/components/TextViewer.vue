@@ -58,7 +58,7 @@ export default {
   font-style: normal;
   letter-spacing: normal;
   color: #161819;
-  word-break: break-all;
+  word-break: break-word;
 }
 
 .divider {
