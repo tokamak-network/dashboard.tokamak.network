@@ -98,14 +98,6 @@ export default {
           const pendingTransaction = await addTransaction(transcation);
           this.$store.dispatch('addPendingTransaction', pendingTransaction);
         })
-        .on('confirmation', (confirmationNumber, receipt) => {
-          // default: 24
-        })
-        .on('receipt', async (receipt) => {
-          // await this.processDepositLog(receipt);
-          await this.$store.dispatch('set');
-          this.$store.dispatch('addAccountDepositedWithPower', this.user);
-        })
         .on('error', function (error, receipt) {
           alert('error', error);
         });
@@ -133,12 +125,6 @@ export default {
           };
           const pendingTransaction = await addTransaction(transcation);
           this.$store.dispatch('addPendingTransaction', pendingTransaction);
-        })
-        .on('confirmation', (confirmationNumber, receipt) => {
-          // default: 24
-        })
-        .on('receipt', async (receipt) => {
-          await this.$store.dispatch('set');
         })
         .on('error', function (error, receipt) {
           alert('error', error);
@@ -169,52 +155,9 @@ export default {
           const pendingTransaction = await addTransaction(transcation);
           this.$store.dispatch('addPendingTransaction', pendingTransaction);
         })
-        .on('confirmation', (confirmationNumber, receipt) => {
-          // default: 24
-        })
-        .on('receipt', async (receipt) => {
-          // await this.processRequestProcessLog(receipt);
-          await this.$store.dispatch('set');
+        .on('error', function (error, receipt) {
+          alert('error', error);
         });
-    },
-    async processDepositLog (receipt) {
-      const event = receipt.events[0];
-      const depositedEvent = this.web3.eth.abi.encodeEventSignature('Deposited(address,address,uint256)');
-
-      if (event.raw.topics[0] === depositedEvent) {
-        const transactionHash = receipt.transactionHash;
-        const params = this.web3.eth.abi.decodeParameters(
-          ['address', 'uint256'],
-          event.raw.data
-        );
-        const amount = params[1];
-
-        await addHistory(this.user, {
-          request: 'DEPOSIT',
-          amount,
-          transactionHash: receipt.transactionHash,
-        });
-
-        return;
-      }
-    },
-    async processRequestProcessLog (receipt) {
-      const process = async (event) => {
-        const amount = event.returnValues.amount;
-
-        await addHistory(this.user, {
-          request: 'WITHDRAWAL',
-          amount,
-          transactionHash: receipt.transactionHash,
-        });
-      };
-
-      const event = receipt.events.WithdrawalProcessed;
-      if (event.length) {
-        event.forEach(async e => await process(e));
-      } else {
-        await process(event);
-      }
     },
     isNumber (evt) {
       evt = (evt) ? evt : window.event;
