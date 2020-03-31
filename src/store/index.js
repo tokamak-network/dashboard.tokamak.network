@@ -271,7 +271,8 @@ export default new Vuex.Store({
         //     "website": "https://tokamak.network/",
         //     "description": "Tokamak Network is a platform that assures decentralized and secure property same as Ethereum Main chain while supporting high level of scalability and extendability.",
         //     "avatar": "66652a5c44d1e8aa64a73366ad7f263a",
-        //     "color": "rgb(63,220,161)"
+        //     "color": "rgb(63,220,161)",
+        //     "chainId": "1021",
         //   },
         // }
         //
