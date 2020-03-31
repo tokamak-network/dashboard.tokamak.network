@@ -160,9 +160,14 @@ export default new Vuex.Store({
     SET_ACCOUNTS_DEPOSITED_WITH_POWER: (state, accounts) => {
       state.accountsDepositedWithPower = accounts;
     },
-    ADD_ACCOUNT_DEPOSITED_WITH_POWER: (state, account) => {
-      if (!state.accountsDepositedWithPower.find(a => a.address === account.address)) {
-        state.accountsDepositedWithPower.push(account);
+    ADD_ACCOUNT_DEPOSITED_WITH_POWER: (state, accountWithPower) => {
+      const findAccount = (account) => account.address.toLowerCase() === accountWithPower.address.toLowerCase();
+      const index = state.accountsDepositedWithPower.findIndex(findAccount);
+
+      if (index > -1) {
+        Vue.set(state.accountsDepositedWithPower, index, accountWithPower);
+      } else {
+        state.accountsDepositedWithPower.push(accountWithPower);
       }
     },
   },

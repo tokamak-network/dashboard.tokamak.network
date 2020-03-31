@@ -9,6 +9,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
 import WalletInfoContainer from '@/containers/WalletInfoContainer.vue';
 import MenuContainer from '@/containers/MenuContainer.vue';
 
@@ -19,14 +20,22 @@ export default {
   },
   data () {
     return {
+      depositedEventSubscription: null,
       polling: null,
     };
   },
+  computed: {
+    ...mapState([
+      'DepositManager',
+    ]),
+  },
   async created () {
     this.poll();
+    this.subscribe();
   },
   beforeDestroy () {
     clearInterval(this.polling);
+    this.depositedEventSubscription.unsubscribe();
   },
   methods: {
     poll () {
@@ -34,7 +43,18 @@ export default {
         if (this.$store.state.signIn) {
           this.$store.dispatch('set');
         }
-      }, 5000);
+      }, 5000); // 5s
+    },
+    subscribe () {
+      this.depositedEventSubscription = this.DepositManager.events.Deposited({
+        fromBlock: 'latest',
+      }, (error, event) => {
+        if (error) {
+          //
+        }
+        const result = event.returnValues;
+        this.$store.dispatch('addAccountDepositedWithPower', result.depositor);
+      });
     },
   },
 };
