@@ -38,7 +38,7 @@ export default {
     orderedRank () {
       switch (this.from) {
       case 'rank':
-        return orderBy(this.rankedAccountsWithPower, (account) => account.rank, [this.order]);
+        return orderBy(this.rankedAccountsWithPower, (account) => account.rank, [this.order === 'desc' ? 'asc' : 'desc']);
 
       case 'account':
         return orderBy(this.rankedAccountsWithPower, (account) => account.address, [this.order]);
