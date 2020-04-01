@@ -10,6 +10,7 @@
           <span class="available-amount-label">Available Amount</span>
           <button type="button" class="available-amount" @click="setAvailableAmountToDelegate()">{{ currencyAmount(tonBalance) }}</button>
         </div>
+        <div class="button-container" style="margin-top: 24px;"><base-button :label="'Delegate TON'" :func="delegate" /></div>
       </div>
     </form>
     <form v-else>
@@ -19,6 +20,7 @@
           <span class="available-amount-label">Available Amount</span>
           <button type="button" class="available-amount" @click="setAvailableAmountToUndelegate()">{{ currencyAmount(operator.userStaked) }}</button>
         </div>
+        <div class="button-container" style="margin-top: 24px;"><base-button :label="'Request Undelegate TON'" :func="undelegate" /></div>
         <div class="divider" />
         <text-viewer :title="'Not Withdrawable'" :content="currencyAmount(operator.userNotWithdrawable)" style="margin-bottom: -2px;" />
         <text-viewer :title="'Withdrawable'" :content="currencyAmount(operator.userWithdrawable)" />
@@ -79,7 +81,7 @@ export default {
       this.tab = tab;
     },
     setAvailableAmountToDelegate () {
-      this.amountToDelegate = _TON(this.tonBalance).toBigNumber().toString();
+      this.amountToDelegate = this.tonBalance.toBigNumber().toString();
     },
     setAvailableAmountToUndelegate () {
       this.amountToUndelegate = this.operator.userStaked.toBigNumber().toString();
@@ -245,7 +247,6 @@ export default {
   background-color: #6fc4b3;
   border: 1px solid #6fc4b3;
   text-align: center;
-  margin-top: 16px;
   font-size: 10px;
   padding-top: 4px;
   padding-bottom: 4px;
