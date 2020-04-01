@@ -415,10 +415,10 @@ export default new Vuex.Store({
       const wtonBalance = await WTON.methods.balanceOf(user).call();
       const power = await PowerTON.methods.powerOf(user).call();
 
-      context.commit('SET_ETH_BALANCE', _ETH.wei(ethBalance.toString()).toString());
-      context.commit('SET_TON_BALANCE', _TON.wei(tonBalance.toString()).toString());
-      context.commit('SET_WTON_BALANCE', _WTON.ray(wtonBalance.toString()).toString());
-      context.commit('SET_POWER', _POWER.ray(power.toString()).toString());
+      context.commit('SET_ETH_BALANCE', _ETH.wei(ethBalance.toString()));
+      context.commit('SET_TON_BALANCE', _TON.wei(tonBalance.toString()));
+      context.commit('SET_WTON_BALANCE', _WTON.ray(wtonBalance.toString()));
+      context.commit('SET_POWER', _POWER.ray(power.toString()));
     },
     async setHistory (context) {
       const user = context.state.user;

@@ -6,19 +6,23 @@
     <form v-if="tab === 'left'">
       <div class="column">
         <ton-input v-model="amountToDelegate" :amount="amountToDelegate" />
-        <text-viewer :title="'Available Amount'" :content="currencyAmount(tonBalance)" />
-        <div class="button-container"><base-button :label="'Delegate TON'" :func="delegate" /></div>
+        <div class="row">
+          <span class="available-amount-label">Available Amount</span>
+          <button type="button" class="available-amount" @click="setAvailableAmountToDelegate()">{{ currencyAmount(tonBalance) }}</button>
+        </div>
       </div>
     </form>
     <form v-else>
       <div class="column">
         <ton-input v-model="amountToUndelegate" :amount="amountToUndelegate" />
-        <text-viewer :title="'Available Amount'" :content="currencyAmount(operator.userStaked)" />
-        <div class="button-container"><base-button :label="'Request Undelegate TON'" :func="undelegate" /></div>
+        <div class="row">
+          <span class="available-amount-label">Available Amount</span>
+          <button type="button" class="available-amount" @click="setAvailableAmountToUndelegate()">{{ currencyAmount(operator.userStaked) }}</button>
+        </div>
         <div class="divider" />
         <text-viewer :title="'Not Withdrawable'" :content="currencyAmount(operator.userNotWithdrawable)" style="margin-bottom: -2px;" />
         <text-viewer :title="'Withdrawable'" :content="currencyAmount(operator.userWithdrawable)" />
-        <div class="button-container"><base-button :label="'Process Requests'" :func="processRequests" /></div>
+        <div class="button-container" style="margin-top: 16px;"><base-button :label="'Process Requests'" :func="processRequests" /></div>
       </div>
     </form>
   </div>
@@ -73,6 +77,12 @@ export default {
   methods: {
     changeTab (tab) {
       this.tab = tab;
+    },
+    setAvailableAmountToDelegate () {
+      this.amountToDelegate = _TON(this.tonBalance).toBigNumber().toString();
+    },
+    setAvailableAmountToUndelegate () {
+      this.amountToUndelegate = this.operator.userStaked.toBigNumber().toString();
     },
     async delegate () {
       if (this.amountToDelegate === '' || parseFloat(this.amountToDelegate) === 0) {
@@ -247,5 +257,34 @@ export default {
 .button-container:hover {
   -webkit-filter: opacity(.8);
   filter: opacity(.8);
+}
+
+.available-amount-label {
+  margin-top: 8px;
+  flex: 1;
+  padding-left: 16px;
+  margin-right: 24px;
+  font-family: Roboto;
+  font-size: 10px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  letter-spacing: normal;
+  color: #161819;
+}
+
+.available-amount {
+  margin-top: 8px;
+  margin-right: 12px;
+  outline:none;
+  border: none;
+  cursor: pointer;
+  font-family: Roboto;
+  font-size: 10px;
+  font-weight: 300;
+  font-stretch: normal;
+  font-style: normal;
+  letter-spacing: normal;
+  color: #161819;
 }
 </style>
