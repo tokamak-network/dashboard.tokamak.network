@@ -18,7 +18,7 @@
         <td class="text-center">{{ transaction.transactionHash | hexSlicer }}</td>
         <td class="text-center">{{ transaction.target | hexSlicer }}</td>
         <td class="text-center">{{ transactionType(transaction) }}</td>
-        <td class="text-center">{{ convertedTONFromWTON(amount(transaction)) }}</td>
+        <td class="text-center">{{ currencyAmount(amount(transaction)) }}</td>
         <td class="text-center">{{ transaction.receipt ? transaction.receipt.blockNumber : '-' }}</td>
         <td class="text-center">{{ transaction.receipt ? 'mined' : 'pending' }}</td>
         <td class="text-center">{{ transaction.receipt ? transaction.receipt.status : '-' }}</td>
@@ -137,8 +137,8 @@ export default {
         return amount;
       };
     },
-    convertedTONFromWTON () {
-      return wtonAmount => _TON(wtonAmount.toNumber());
+    currencyAmount () {
+      return amount => this.$options.filters.currencyAmount(amount);
     },
   },
   methods: {

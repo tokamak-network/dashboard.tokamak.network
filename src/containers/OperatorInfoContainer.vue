@@ -13,11 +13,11 @@
     <text-viewer :title="'Recent Commit Timestamp'" :content="fromNow(operator.recentCommitTimestamp)" :with-divider="false" />
     <text-viewer :title="'Commit Count'" :content="operator.commitCount" :with-divider="false" />
     <text-viewer :title="'Duration'" :content="fromNow(operator.duration)" :with-divider="false" />
-    <text-viewer :title="'Reward'" :content="convertedTONFromWTON(operator.userReward)" :with-divider="false" />
-    <text-viewer :title="'Total Staked'" :content="convertedTONFromWTON(operator.totalStaked)" :with-divider="false" />
-    <text-viewer :title="'Staked'" :content="convertedTONFromWTON(operator.userStaked)" :with-divider="false" />
-    <text-viewer :title="'Not Withdrawable'" :content="convertedTONFromWTON(operator.userNotWithdrawable)" :with-divider="false" />
-    <text-viewer :title="'Withdrawable'" :content="convertedTONFromWTON(operator.userWithdrawable)" :with-divider="false" />
+    <text-viewer :title="'Reward'" :content="currencyAmount(operator.userReward)" :with-divider="false" />
+    <text-viewer :title="'Total Staked'" :content="currencyAmount(operator.totalStaked)" :with-divider="false" />
+    <text-viewer :title="'Staked'" :content="currencyAmount(operator.userStaked)" :with-divider="false" />
+    <text-viewer :title="'Not Withdrawable'" :content="currencyAmount(operator.userNotWithdrawable)" :with-divider="false" />
+    <text-viewer :title="'Withdrawable'" :content="currencyAmount(operator.userWithdrawable)" :with-divider="false" />
   </div>
 </template>
 
@@ -51,8 +51,8 @@ export default {
     filteredImgURL () {
       return name => name !== '' ? `${config.baseURL}/avatars/${name}` : '';
     },
-    convertedTONFromWTON () {
-      return wtonAmount => _TON(wtonAmount.toNumber());
+    currencyAmount () {
+      return amount => this.$options.filters.currencyAmount(amount);
     },
     fromNow () {
       return timestamp => moment.unix(timestamp).fromNow();

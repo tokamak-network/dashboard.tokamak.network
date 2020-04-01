@@ -4,7 +4,7 @@
     <text-viewer :title="'Current Round'" :content="round.index" :with-divider="true" />
     <text-viewer :title="'Round Start'" :content="formatedTimestamp(round.startTime)" :with-divider="false" />
     <text-viewer :title="'Round End'" :content="formatedTimestamp(round.endTime)" :with-divider="false" />
-    <text-viewer :title="'Expected Reward'" :content="convertedTONFromWTON(round.reward)" :with-divider="false" />
+    <text-viewer :title="'Expected Reward'" :content="currencyAmount(round.reward)" :with-divider="false" />
     <text-viewer :title="'Winning Probability'" :content="round.winningProbability" :with-divider="false" />
   </div>
 </template>
@@ -32,8 +32,8 @@ export default {
     formatedTimestamp () {
       return timestamp => moment.unix(timestamp).format('LLL');
     },
-    convertedTONFromWTON () {
-      return wtonAmount => _TON(wtonAmount.toNumber());
+    currencyAmount () {
+      return amount => this.$options.filters.currencyAmount(amount);
     },
   },
 };

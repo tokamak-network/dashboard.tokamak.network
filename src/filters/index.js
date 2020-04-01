@@ -22,17 +22,6 @@ export function stringToTON (amount) {
   }
 }
 
-export function convertedTONFromWTON (amount) {
-  if (!(amount instanceof Currency)) {
-    return amount;
-  }
-  if (amount.symbol === 'WTON') {
-    return _TON(amount.toNumber());
-  } else {
-    return amount;
-  }
-}
-
 export function nameOfNetwork (networkId) {
   if (networkId === 1) return 'Mainnet';
   if (networkId === 2) return 'Morden';
@@ -44,4 +33,27 @@ export function nameOfNetwork (networkId) {
   if (networkId === 1337) return 'Development';
 
   return networkId;
+}
+
+// https://github.com/Onther-Tech/dashboard.tokamak.network/issues/49
+export function currencyAmount (amount) {
+  if (!(amount instanceof Currency)) {
+    return amount;
+  }
+
+  if (amount.symbol === 'POWER') {
+    const tonAmount = amount.toBigNumber().toString();
+    const index = tonAmount.indexOf('.');
+    return index > -1 ? `${tonAmount.slice(0, index + 3)} POWER` : amount;
+  } else if (amount.symbol === 'TON') {
+    const tonAmount = amount.toBigNumber().toString();
+    const index = tonAmount.indexOf('.');
+    return index > -1 ? `${tonAmount.slice(0, index + 3)} TON` : amount;
+  } else if (amount.symbol === 'WTON'){
+    const wtonAmount = amount.toBigNumber().toString();
+    const index = wtonAmount.indexOf('.');
+    return index > -1 ? `${wtonAmount.slice(0, index + 3)} TON` : _TON(amount.toNumber());
+  } else {
+    return amount;
+  }
 }

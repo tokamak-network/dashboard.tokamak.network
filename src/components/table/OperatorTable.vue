@@ -16,8 +16,8 @@
         <td class="clickable text-center name" @click="viewDetailedOperator(operator)"><span class="pointer name">{{ operator.name }}</span></td>
         <td class="text-center">{{ operator.address | hexSlicer }}</td>
         <td class="text-center">{{ operator.rootchain | hexSlicer }}</td>
-        <td class="text-center">{{ operator.userStaked | convertedTONFromWTON }} </td>
-        <td class="text-center">{{ operator.totalStaked | convertedTONFromWTON }} </td>
+        <td class="text-center">{{ operator.userStaked | currencyAmount }} </td>
+        <td class="text-center">{{ operator.totalStaked | currencyAmount }} </td>
       </tr>
     </tbody>
   </table>

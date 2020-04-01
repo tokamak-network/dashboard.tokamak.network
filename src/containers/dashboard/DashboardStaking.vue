@@ -1,10 +1,10 @@
 <template>
   <div class="dashboard-staking">
     <dashboard-header :title="'Staking'" :path="'staking'" />
-    <text-viewer :title="'TOTAL REWARD'" :content="convertedTONFromWTON(userTotalReward)" :with-divider="true" />
-    <text-viewer :title="'TOTAL STAKED TON'" :content="convertedTONFromWTON(userTotalStaked)" :with-divider="false" />
-    <text-viewer :title="'TOTAL NOT WITHDRAWABLE TON'" :content="convertedTONFromWTON(userTotalNotWithdrawable)" :with-divider="false" />
-    <text-viewer :title="'TOTAL WITHDRAWABLE TON'" :content="convertedTONFromWTON(userTotalWithdrawable)" :with-divider="false" />
+    <text-viewer :title="'Total Reward'" :content="currencyAmount(userTotalReward)" :with-divider="true" />
+    <text-viewer :title="'Total Staked TON'" :content="currencyAmount(userTotalStaked)" :with-divider="false" />
+    <text-viewer :title="'Total Not Withdrawable TON'" :content="currencyAmount(userTotalNotWithdrawable)" :with-divider="false" />
+    <text-viewer :title="'Total Withdrawable TON'" :content="currencyAmount(userTotalWithdrawable)" :with-divider="false" />
   </div>
 </template>
 
@@ -34,8 +34,8 @@ export default {
       'userTotalNotWithdrawable',
       'userTotalWithdrawable',
     ]),
-    convertedTONFromWTON () {
-      return wtonAmount => _TON(wtonAmount.toNumber());
+    currencyAmount () {
+      return amount => this.$options.filters.currencyAmount(amount);
     },
   },
   created () {

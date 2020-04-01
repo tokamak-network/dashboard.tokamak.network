@@ -6,18 +6,18 @@
     <form v-if="tab === 'left'">
       <div class="column">
         <ton-input v-model="amountToDelegate" :amount="amountToDelegate" />
-        <text-viewer :title="'Available Amount'" :content="tonBalance" />
+        <text-viewer :title="'Available Amount'" :content="currencyAmount(tonBalance)" />
         <div class="button-container"><base-button :label="'Delegate TON'" :func="delegate" /></div>
       </div>
     </form>
     <form v-else>
       <div class="column">
         <ton-input v-model="amountToUndelegate" :amount="amountToUndelegate" />
-        <text-viewer :title="'Available Amount'" :content="convertedTONFromWTON(operator.userStaked)" />
+        <text-viewer :title="'Available Amount'" :content="currencyAmount(operator.userStaked)" />
         <div class="button-container"><base-button :label="'Request Undelegate TON'" :func="undelegate" /></div>
         <div class="divider" />
-        <text-viewer :title="'Not Withdrawable'" :content="convertedTONFromWTON(operator.userNotWithdrawable)" style="margin-bottom: -2px;" />
-        <text-viewer :title="'Withdrawable'" :content="convertedTONFromWTON(operator.userWithdrawable)" />
+        <text-viewer :title="'Not Withdrawable'" :content="currencyAmount(operator.userNotWithdrawable)" style="margin-bottom: -2px;" />
+        <text-viewer :title="'Withdrawable'" :content="currencyAmount(operator.userWithdrawable)" />
         <div class="button-container"><base-button :label="'Process Requests'" :func="processRequests" /></div>
       </div>
     </form>
@@ -66,8 +66,8 @@ export default {
       'WTON',
       'DepositManager',
     ]),
-    convertedTONFromWTON () {
-      return wtonAmount => _TON(wtonAmount.toNumber());
+    currencyAmount () {
+      return amount => this.$options.filters.currencyAmount(amount);
     },
   },
   methods: {

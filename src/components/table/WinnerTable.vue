@@ -13,7 +13,7 @@
         <td class="text-center">{{ index }}</td>
         <td class="text-center">{{ round.index }}</td>
         <td class="text-center">{{ round.winner | hexSlicer }}</td>
-        <td class="text-center">{{ round.reward | convertedTONFromWTON }}</td>
+        <td class="text-center">{{ round.reward | currencyAmount }}</td>
       </tr>
     </tbody>
   </table>

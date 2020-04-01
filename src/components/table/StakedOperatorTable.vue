@@ -12,8 +12,8 @@
       <tr v-for="(operator, index) in orderedOperators" :key="operator.rootchain">
         <td class="text-center">{{ index }}</td>
         <td class="clickable text-center name" @click="viewDetailedOperator(operator)"><span class="pointer">{{ operator.name }}</span></td>
-        <td class="text-center">{{ operator.userStaked | convertedTONFromWTON }} </td>
-        <td class="text-center">{{ operator.userReward | convertedTONFromWTON }} </td>
+        <td class="text-center">{{ operator.userStaked | currencyAmount }} </td>
+        <td class="text-center">{{ operator.userReward | currencyAmount }} </td>
       </tr>
     </tbody>
   </table>

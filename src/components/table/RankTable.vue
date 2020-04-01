@@ -13,7 +13,7 @@
         <td class="text-center">{{ index }}</td>
         <td class="text-center">{{ account.rank }}</td>
         <td class="text-center">{{ account.address | hexSlicer }}</td>
-        <td class="text-center">{{ account.power }}</td>
+        <td class="text-center">{{ account.power | currencyAmount }}</td>
       </tr>
     </tbody>
   </table>

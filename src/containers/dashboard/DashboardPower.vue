@@ -2,9 +2,9 @@
   <div class="dashboard-power">
     <dashboard-header :title="'Power'" :path="'powerton'" />
     <text-viewer :title="'Winning Probability'" :content="currentRound.winningProbability" :with-divider="true" />
-    <text-viewer :title="'Power'" :content="power" :with-divider="false" />
+    <text-viewer :title="'Power'" :content="currencyAmount(power)" :with-divider="false" />
     <text-viewer :title="'Round'" :content="currentRound.index" :with-divider="false" />
-    <text-viewer :title="'Expected Reward'" :content="convertedTONFromWTON(currentRound.reward)" :with-divider="false" />
+    <text-viewer :title="'Expected Reward'" :content="currencyAmount(currentRound.reward)" :with-divider="false" />
   </div>
 </template>
 
@@ -26,8 +26,8 @@ export default {
       'power',
       'currentRound',
     ]),
-    convertedTONFromWTON () {
-      return wtonAmount => _TON(wtonAmount.toNumber());
+    currencyAmount () {
+      return amount => this.$options.filters.currencyAmount(amount);
     },
     winningProbability () {
       return `${this.currentRound.winningProbability}%`;

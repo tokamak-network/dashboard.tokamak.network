@@ -1,10 +1,10 @@
 <template>
   <div class="stake-info-container">
     <container-header :title="'Staking'" />
-    <text-viewer :title="'Total Staked TON'" :content="convertedTONFromWTON(userTotalStaked)" :with-divider="true" />
-    <text-viewer :title="'Total Reward TON'" :content="convertedTONFromWTON(userTotalReward)" :with-divider="false" />
-    <text-viewer :title="'Total Not Withdrawable TON'" :content="convertedTONFromWTON(userTotalNotWithdrawable)" :with-divider="false" />
-    <text-viewer :title="'Total Withdrawable TON'" :content="convertedTONFromWTON(userTotalWithdrawable)" :with-divider="false" />
+    <text-viewer :title="'Total Staked TON'" :content="currencyAmount(userTotalStaked)" :with-divider="true" />
+    <text-viewer :title="'Total Reward TON'" :content="currencyAmount(userTotalReward)" :with-divider="false" />
+    <text-viewer :title="'Total Not Withdrawable TON'" :content="currencyAmount(userTotalNotWithdrawable)" :with-divider="false" />
+    <text-viewer :title="'Total Withdrawable TON'" :content="currencyAmount(userTotalWithdrawable)" :with-divider="false" />
   </div>
 </template>
 
@@ -34,8 +34,8 @@ export default {
       'userTotalNotWithdrawable',
       'userTotalWithdrawable',
     ]),
-    convertedTONFromWTON () {
-      return wtonAmount => _TON(wtonAmount.toNumber());
+    currencyAmount () {
+      return amount => this.$options.filters.currencyAmount(amount);
     },
     userTotalDepositWithPendingAndRequestable () {
       return this.userTotalDeposit.sub(this.userTotalNotWithdrawable).sub(this.userTotalWithdrawable);

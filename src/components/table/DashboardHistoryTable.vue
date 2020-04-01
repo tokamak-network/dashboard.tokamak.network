@@ -17,7 +17,7 @@
         <td class="text-center">{{ transaction.target | hexSlicer }}</td>
         <td class="text-center">{{ transaction.receipt ? 'mined' : 'pending' }}</td>
         <td class="text-center">{{ transactionType(transaction) }}</td>
-        <td class="text-center">{{ convertedTONFromWTON(amount(transaction)) }}</td>
+        <!-- <td class="text-center">{{ currencyAmount(amount(transaction)) }}</td> -->
       </tr>
     </tbody>
   </table>
@@ -43,6 +43,9 @@ export default {
       'web3',
       'transactions',
     ]),
+    currencyAmount () {
+      return amount => this.$options.filters.currencyAmount(amount);
+    },
     orderedTransaction () {
       switch (this.from) {
       case 'transactionHash':
@@ -132,9 +135,6 @@ export default {
         }
         return amount;
       };
-    },
-    convertedTONFromWTON () {
-      return wtonAmount => _TON(wtonAmount.toNumber());
     },
   },
   methods: {
