@@ -60,7 +60,7 @@ export default {
         throw new Error('No web3 provider detected');
       }
 
-      if (provider.networkVersion !== '1337') {
+      if (provider.networkVersion !== '1337' && provider.networkVersion !== '16') {
         throw new Error('Please connect to the Faraday Network');
       }
 
