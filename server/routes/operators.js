@@ -21,26 +21,19 @@ const GET = (db) => {
 
 // only from CURL
 const POST = async (db, req) => {
-  let rootchain;
-  try {
-    rootchain = toChecksumAddress(req.body.rootchain);
-  } catch (err) {
-    throw new Error('Non-checksum address');
-  }
+  const genesis = req.body;
 
+  let rootchain, chainId, operator;
   try {
-    const operator = db.get('operators').find({ rootchain: rootchain }).value();
+    rootchain = toChecksumAddress(genesis.extraData);
+    chainId = genesis.config.chainId;
+
+    operator = db.get('operators').find({ rootchain: rootchain }).value();
     if (operator) {
       throw new Error('Already registered');
     }
-  } catch (err) {
-    throw err;
-  }
 
-  let chainId;
-  try {
-    chainId = req.body.chainId;
-    const operator = db.get('operators').find({ chainId: chainId }).value();
+    operator = db.get('operators').find({ chainId: chainId }).value();
     if (operator) {
       throw new Error('Duplicate chain id');
     }
@@ -52,8 +45,9 @@ const POST = async (db, req) => {
                              (Math.floor(Math.random() * 256)) + ',' +
                              (Math.floor(Math.random() * 256)) + ')';
   const newOperator = {};
-  newOperator.chainId = chainId;
+  newOperator.genesis = genesis;
   newOperator.rootchain = rootchain; // use checksum address
+  newOperator.chainId = chainId;
   newOperator.avatar = '';
   newOperator.color = randomColor;
 
@@ -61,9 +55,7 @@ const POST = async (db, req) => {
     await db
       .defaults({ operators: [] })
       .get('operators')
-      .push(req.body)
-      .last()
-      .assign(newOperator)
+      .push(newOperator)
       .write();
   } catch (err) {
     throw err;
