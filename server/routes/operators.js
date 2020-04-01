@@ -46,7 +46,7 @@ const POST = async (db, req) => {
                              (Math.floor(Math.random() * 256)) + ')';
   const newOperator = {};
   newOperator.name = req.body.name;
-  newOperator.webstie = req.body.webstie;
+  newOperator.website = req.body.website;
   newOperator.description = req.body.description;
   newOperator.rootchain = rootchain; // use checksum address
   newOperator.chainId = chainId;
