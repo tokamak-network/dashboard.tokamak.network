@@ -21,7 +21,7 @@ const GET = (db) => {
 
 // only from CURL
 const POST = async (db, req) => {
-  const genesis = req.body;
+  const genesis = JSON.parse(req.body.genesis);
 
   let rootchain, chainId, operator;
   try {
@@ -45,11 +45,14 @@ const POST = async (db, req) => {
                              (Math.floor(Math.random() * 256)) + ',' +
                              (Math.floor(Math.random() * 256)) + ')';
   const newOperator = {};
-  newOperator.genesis = genesis;
+  newOperator.name = req.body.name;
+  newOperator.webstie = req.body.webstie;
+  newOperator.description = req.body.description;
   newOperator.rootchain = rootchain; // use checksum address
   newOperator.chainId = chainId;
   newOperator.avatar = '';
   newOperator.color = randomColor;
+  newOperator.genesis = genesis;
 
   try {
     await db
