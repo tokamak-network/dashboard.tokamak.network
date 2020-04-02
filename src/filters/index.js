@@ -28,6 +28,7 @@ export function nameOfNetwork (networkId) {
   if (networkId === 3) return 'Ropsten';
   if (networkId === 4) return 'Rinkeby';
   if (networkId === 5) return 'Goerli';
+  if (networkId === 16) return 'Faraday';
   if (networkId === 42) return 'Covan';
   if (networkId === 99) return 'POA';
   if (networkId === 1337) return 'Development';
