@@ -33,7 +33,7 @@
               {{ networkId | nameOfNetwork }}
             </div>
             <div class="wallet-info-content block-number">
-              (Block: #{{ blockNumber }})
+              (Block: {{ blockNumber }})
             </div>
           </div>
         </div>

@@ -57,3 +57,14 @@ export function currencyAmount (amount) {
     return amount;
   }
 }
+
+import config from '../../config.json';
+export function toExplorer (type, param) {
+  if (type === 'transactionHash') {
+    return config.prefixTransactionHash + param;
+  } else if (type === 'address') {
+    return config.prefixAddress + param;
+  } else {
+    return this.content;
+  }
+}

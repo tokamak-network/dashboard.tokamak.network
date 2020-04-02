@@ -15,8 +15,26 @@
     <tbody>
       <tr v-for="(transaction, index) in orderedTransaction" :key="transaction.transactionHash">
         <td class="text-center">{{ index }}</td>
-        <td class="text-center">{{ transaction.transactionHash | hexSlicer }}</td>
-        <td class="text-center">{{ transaction.target | hexSlicer }}</td>
+        <td class="text-center">
+          <a
+            class="link"
+            target="_blank"
+            rel="noopener noreferrer"
+            :href="toExplorer('transactionHash', transaction.transactionHash)"
+          >
+            {{ transaction.transactionHash | hexSlicer }}
+          </a>
+        </td>
+        <td class="text-center">
+          <a
+            class="link"
+            target="_blank"
+            rel="noopener noreferrer"
+            :href="toExplorer('address', transaction.target)"
+          >
+            {{ transaction.target | hexSlicer }}
+          </a>
+        </td>
         <td class="text-center">{{ transactionType(transaction) }}</td>
         <td class="text-center">{{ currencyAmount(amount(transaction)) }}</td>
         <td class="text-center">{{ transaction.receipt ? transaction.receipt.blockNumber : '-' }}</td>
@@ -47,6 +65,9 @@ export default {
       'web3',
       'transactions',
     ]),
+    toExplorer () {
+      return (type, param) => this.$options.filters.toExplorer(type, param);
+    },
     orderedTransaction () {
       switch (this.from) {
       case 'transactionHash':
@@ -222,5 +243,9 @@ td {
   letter-spacing: normal;
   text-align: center;
   color: #161819;
+}
+
+.link {
+  color: black;
 }
 </style>

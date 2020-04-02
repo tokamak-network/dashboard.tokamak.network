@@ -14,8 +14,26 @@
       <tr v-for="(operator, index) in orderedOperators" :key="operator.rootchain">
         <td class="text-center">{{ index }}</td>
         <td class="clickable text-center name" @click="viewDetailedOperator(operator)"><span class="pointer name">{{ operator.name }}</span></td>
-        <td class="text-center">{{ operator.address | hexSlicer }}</td>
-        <td class="text-center">{{ operator.rootchain | hexSlicer }}</td>
+        <td class="text-center">
+          <a
+            class="link"
+            target="_blank"
+            rel="noopener noreferrer"
+            :href="toExplorer('address', operator.address)"
+          >
+            {{ operator.address | hexSlicer }}
+          </a>
+        </td>
+        <td class="text-center">
+          <a
+            class="link"
+            target="_blank"
+            rel="noopener noreferrer"
+            :href="toExplorer('address', operator.rootchain)"
+          >
+            {{ operator.rootchain | hexSlicer }}
+          </a>
+        </td>
         <td class="text-center">{{ operator.userStaked | currencyAmount }} </td>
         <td class="text-center">{{ operator.totalStaked | currencyAmount }} </td>
       </tr>
@@ -39,6 +57,9 @@ export default {
     ...mapState([
       'operators',
     ]),
+    toExplorer () {
+      return (type, param) => this.$options.filters.toExplorer(type, param);
+    },
     orderedOperators () {
       switch (this.from) {
       case 'name':
@@ -155,5 +176,9 @@ td {
 .name {
   width: 200px;
   word-break: break-all;
+}
+
+.link {
+  color: black;
 }
 </style>

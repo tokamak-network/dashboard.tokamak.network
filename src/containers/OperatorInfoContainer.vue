@@ -6,11 +6,11 @@
       <div class="space" style="flex: 1;" />
       <div v-if="user === operator.address" class="button"><base-button :label="'edit'" :func="edit" /></div>
     </div>
-    <text-viewer :title="'Website'" :content="operator.website" :with-divider="true" />
+    <text-viewer-link :title="'Website'" :content="operator.website" :with-divider="true" />
     <text-viewer :title="'Description'" :content="operator.description" :with-divider="false" />
-    <text-viewer-downloader :title="'Genesis'" :content="'Donload'" :href="exported(operator.genesis)" :download="'genesis.json'" />
-    <text-viewer :title="'Address'" :content="operator.address" :with-divider="false" />
-    <text-viewer :title="'RootChain'" :content="operator.rootchain" :with-divider="false" />
+    <text-viewer-downloader :title="'Genesis'" :content="'Download'" :href="exported(operator.genesis)" :download="'genesis.json'" />
+    <text-viewer-link :type="'address'" :title="'Address'" :content="operator.address" :with-divider="false" />
+    <text-viewer-link :type="'address'" :title="'RootChain'" :content="operator.rootchain" :with-divider="false" />
     <text-viewer :title="'Chain Id'" :content="operator.chainId" :with-divider="false" />
     <!-- <text-viewer :title="'Recent Commit Timestamp'" :content="operator.recentCommitTimestamp" :with-divider="false" /> -->
     <text-viewer :title="'Commit Count'" :content="operator.commitCount" :with-divider="false" />
@@ -32,6 +32,7 @@ const _TON = createCurrency('TON');
 import { mapState } from 'vuex';
 import Avatar from 'vue-avatar-component';
 import TextViewer from '@/components/TextViewer.vue';
+import TextViewerLink from '@/components/TextViewerLink.vue';
 import TextViewerDownloader from '@/components/TextViewerDownloader.vue';
 import BaseButton from '@/components/BaseButton.vue';
 
@@ -39,6 +40,7 @@ export default {
   components: {
     'avatar': Avatar,
     'text-viewer': TextViewer,
+    'text-viewer-link': TextViewerLink,
     'text-viewer-downloader': TextViewerDownloader,
     'base-button': BaseButton,
   },

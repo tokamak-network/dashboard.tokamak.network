@@ -11,7 +11,7 @@
             class="header-link"
             target="_blank"
             rel="noopener noreferrer"
-            :href="explorerURL(transaction.transactionHash)"
+            :href="href(transaction.transactionHash)"
           >{{ transaction.transactionHash }}</a> ), waiting to be confirmed...
         </p>
       </div>
@@ -20,24 +20,18 @@
 </template>
 
 <script>
+import config from '../../config.json';
+
 import { mapState } from 'vuex';
 
 export default {
-  data () {
-    return {
-      prefix: '',
-    };
-  },
   computed: {
     ...mapState([
       'pendingTransactions',
     ]),
-    explorerURL () {
-      return hash => `${this.prefix}/${hash}`;
+    href () {
+      return transactionHash => config.prefixTransactionHash + transactionHash;
     },
-  },
-  created () {
-    this.prefix = process.env.VUE_APP_EXPLORER_PREFIX;
   },
 };
 </script>
