@@ -4,9 +4,9 @@
       <div class="header-logo-container">
         <img
           class="header-logo"
-          src="@/assets/images/Tokamak.png"
-          width="230"
-          height="23"
+          src="@/assets/images/tokamak-network-staking-beta.png"
+          width="250"
+          height="40"
           @click="toMainPage"
         >
       </div>
