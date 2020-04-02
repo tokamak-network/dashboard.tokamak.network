@@ -63,7 +63,8 @@ export default {
 <style scoped>
 .main-layout {
   display: flex;
-  width: 100%;
+  min-width: 960px;
+  max-width: 960px;
   padding-top: 16px;
   padding-bottom: 2rem;
 }
