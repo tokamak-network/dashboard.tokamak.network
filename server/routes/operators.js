@@ -9,7 +9,6 @@ const { toChecksumAddress } = require('web3-utils');
 const GET = (db) => {
   try {
     const operators = db
-      .defaults({ operators: [] })
       .get('operators')
       .value();
 

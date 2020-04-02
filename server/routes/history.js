@@ -10,7 +10,6 @@ const GET = (db, req) => {
 
   try {
     const history = db
-      .defaults({ history: [] })
       .get('history')
       .filter(history => history.account === account)
       .value();

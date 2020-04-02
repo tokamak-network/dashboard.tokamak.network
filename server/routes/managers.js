@@ -1,7 +1,6 @@
 const GET = (db) => {
   try {
     const managers = db
-      .defaults({ managers: {} })
       .get('managers')
       .value();
 

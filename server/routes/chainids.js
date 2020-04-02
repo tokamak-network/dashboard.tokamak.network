@@ -1,7 +1,6 @@
 const GET = (db) => {
   try {
     const chainIds = db
-      .defaults({ operators: [] })
       .get('operators')
       .map('chainId')
       .value();

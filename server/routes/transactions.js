@@ -11,7 +11,6 @@ const GET = (db, req) => {
 
   try {
     const transactions = db
-      .defaults({ transactions: [] })
       .get('transactions')
       .filter(transaction => transaction.from === from)
       .value();
