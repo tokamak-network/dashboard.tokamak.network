@@ -8,6 +8,7 @@
     </div>
     <text-viewer :title="'Website'" :content="operator.website" :with-divider="true" />
     <text-viewer :title="'Description'" :content="operator.description" :with-divider="false" />
+    <text-viewer-downloader :title="'Genesis'" :content="'Donload'" :href="exported(operator.genesis)" :download="'genesis.json'" />
     <text-viewer :title="'Address'" :content="operator.address" :with-divider="false" />
     <text-viewer :title="'RootChain'" :content="operator.rootchain" :with-divider="false" />
     <text-viewer :title="'Chain Id'" :content="operator.chainId" :with-divider="false" />
@@ -31,12 +32,14 @@ const _TON = createCurrency('TON');
 import { mapState } from 'vuex';
 import Avatar from 'vue-avatar-component';
 import TextViewer from '@/components/TextViewer.vue';
+import TextViewerDownloader from '@/components/TextViewerDownloader.vue';
 import BaseButton from '@/components/BaseButton.vue';
 
 export default {
   components: {
     'avatar': Avatar,
     'text-viewer': TextViewer,
+    'text-viewer-downloader': TextViewerDownloader,
     'base-button': BaseButton,
   },
   props: {
@@ -57,6 +60,9 @@ export default {
     },
     duration () {
       return timestamp => moment.unix(timestamp).fromNow();
+    },
+    exported () {
+      return genesis => 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(genesis, undefined, 2));
     },
   },
   methods: {
