@@ -10,7 +10,7 @@
           @click="toMainPage"
         >
       </div>
-      <div class="header-link-container">
+      <!-- <div class="header-link-container">
         <a
           class="header-link"
           target="_blank"
@@ -23,7 +23,7 @@
           rel="noopener noreferrer"
           :href="FAQs"
         >FAQs</a>
-      </div>
+      </div> -->
     </div>
   </div>
 </template>
