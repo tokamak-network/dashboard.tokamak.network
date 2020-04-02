@@ -10,7 +10,7 @@
     <text-viewer :title="'Description'" :content="operator.description" :with-divider="false" />
     <text-viewer :title="'Address'" :content="operator.address" :with-divider="false" />
     <text-viewer :title="'RootChain'" :content="operator.rootchain" :with-divider="false" />
-    <text-viewer :title="'Recent Commit Timestamp'" :content="fromNow(operator.recentCommitTimestamp)" :with-divider="false" />
+    <!-- <text-viewer :title="'Recent Commit Timestamp'" :content="operator.recentCommitTimestamp" :with-divider="false" /> -->
     <text-viewer :title="'Commit Count'" :content="operator.commitCount" :with-divider="false" />
     <text-viewer :title="'Duration'" :content="duration(operator.deployedAt)" :with-divider="false" />
     <text-viewer :title="'Reward'" :content="currencyAmount(operator.userReward)" :with-divider="false" />
