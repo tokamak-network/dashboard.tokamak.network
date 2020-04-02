@@ -1,3 +1,5 @@
 {
-  "baseURL": "https://dashboard-api.faraday.tokamak.network"
+  "baseURL": "https://dashboard-api.faraday.tokamak.network",
+  "prefixTransactionHash": "https://etherscan.io/tx/",
+  "prefixAddress": "https://etherscan.io/address/"
 }
