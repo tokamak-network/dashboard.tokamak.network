@@ -111,7 +111,7 @@ export default {
           this.$store.dispatch('addPendingTransaction', pendingTransaction);
         })
         .on('error', function (error, receipt) {
-          alert('error', error);
+          alert(error.message);
         });
 
       this.amountToDelegate = '';
@@ -139,7 +139,7 @@ export default {
           this.$store.dispatch('addPendingTransaction', pendingTransaction);
         })
         .on('error', function (error, receipt) {
-          alert('error', error);
+          alert(error.message);
         });
 
       this.amountToUndelegate = '';
@@ -168,7 +168,7 @@ export default {
           this.$store.dispatch('addPendingTransaction', pendingTransaction);
         })
         .on('error', function (error, receipt) {
-          alert('error', error);
+          alert(error.message);
         });
     },
     isNumber (evt) {
