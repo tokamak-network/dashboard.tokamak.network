@@ -356,8 +356,7 @@ export default new Vuex.Store({
 
         const recentCommitTimestamp = await getRecentCommitTimeStamp();
         const commitCount = await RootChain.methods.lastEpoch(forkNumber).call();
-        const duration = (await web3.eth.getBlock('latest')).timestamp -
-                         (await RootChain.methods.getEpoch(0, 0).call()).timestamp;
+        const deployedAt = (await RootChain.methods.getEpoch(0, 0).call()).timestamp;
 
         // TODO: considering bignumber (check type (number or string?))
         const totalDeposit = await getDeposit();
@@ -379,7 +378,7 @@ export default new Vuex.Store({
         operatorFromRootChain.address = operator;
         operatorFromRootChain.recentCommitTimestamp = recentCommitTimestamp;
         operatorFromRootChain.commitCount = commitCount;
-        operatorFromRootChain.duration = duration;
+        operatorFromRootChain.deployedAt = deployedAt;
         operatorFromRootChain.totalDeposit = wtonWrapper(totalDeposit);
         operatorFromRootChain.totalStaked = wtonWrapper(totalStaked);
         operatorFromRootChain.selfDeposit = wtonWrapper(selfDeposit);

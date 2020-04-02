@@ -12,7 +12,7 @@
     <text-viewer :title="'RootChain'" :content="operator.rootchain" :with-divider="false" />
     <text-viewer :title="'Recent Commit Timestamp'" :content="fromNow(operator.recentCommitTimestamp)" :with-divider="false" />
     <text-viewer :title="'Commit Count'" :content="operator.commitCount" :with-divider="false" />
-    <text-viewer :title="'Duration'" :content="fromNow(operator.duration)" :with-divider="false" />
+    <text-viewer :title="'Duration'" :content="duration(operator.deployedAt)" :with-divider="false" />
     <text-viewer :title="'Reward'" :content="currencyAmount(operator.userReward)" :with-divider="false" />
     <text-viewer :title="'Total Staked'" :content="currencyAmount(operator.totalStaked)" :with-divider="false" />
     <text-viewer :title="'Staked'" :content="currencyAmount(operator.userStaked)" :with-divider="false" />
@@ -54,7 +54,7 @@ export default {
     currencyAmount () {
       return amount => this.$options.filters.currencyAmount(amount);
     },
-    fromNow () {
+    duration () {
       return timestamp => moment.unix(timestamp).fromNow();
     },
   },
