@@ -85,7 +85,8 @@ html, body {
 }
 
 .body-container {
-  width: 960px;
+  min-width: 960px;
+  max-width: 960px;
   display: flex;
   flex: 1;
   justify-content: center;
