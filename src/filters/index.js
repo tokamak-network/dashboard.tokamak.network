@@ -23,6 +23,10 @@ export function stringToTON (amount) {
 }
 
 export function nameOfNetwork (networkId) {
+  if (typeof networkId === 'string') {
+    networkId = parseInt(networkId);
+  }
+
   if (networkId === 1) return 'Mainnet';
   if (networkId === 2) return 'Morden';
   if (networkId === 3) return 'Ropsten';

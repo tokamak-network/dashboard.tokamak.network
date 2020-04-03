@@ -15,6 +15,7 @@
 
 <script>
 import Web3 from 'web3';
+import config from '../../config.json';
 
 import Wallet from '@/components/Wallet.vue';
 
@@ -60,10 +61,8 @@ export default {
         throw new Error('No web3 provider detected');
       }
 
-      if (provider.networkVersion !== '1337' &&
-          provider.networkVersion !== '16' &&
-          provider.networkVersion !== '4') {
-        throw new Error('This network is not allowed');
+      if (provider.networkVersion !== config.network) {
+        throw new Error(`Please connect to the '${this.$options.filters.nameOfNetwork(config.network)}' network`);
       }
 
       return new Web3(provider);
