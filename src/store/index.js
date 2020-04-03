@@ -287,16 +287,12 @@ export default new Vuex.Store({
         const Coinage =
           await createWeb3Contract(CustomIncrementCoinageABI, await SeigManager.methods.coinages(rootchain).call());
 
-        const getRecentCommitTimeStamp = async () => {
-          const fork = await RootChain.methods.forks(forkNumber).call();
-          const epochNumber = fork.lastFinalizedEpoch;
-          const blockNumber = fork.lastFinalizedBlock;
-
-          const epoch = await RootChain.methods.getEpoch(forkNumber, epochNumber).call();
+        const getLastFinalizedAt = async (lastFinalizedEpochNumber, lastFinalizedBlockNumber) => {
+          const epoch = await RootChain.methods.getEpoch(currentForkNumber, lastFinalizedEpochNumber).call();
           const timestamp
                           = epoch.isRequest ?
-                            epoch.NRE.submittedAt :
-                            (await RootChain.methods.getBlock(forkNumber, blockNumber).call()).timestamp;
+                            (await RootChain.methods.getBlock(currentForkNumber, lastFinalizedBlockNumber).call()).finalizedAt :
+                            epoch.NRE.finalizedAt;
           return timestamp;
         };
 
@@ -352,13 +348,15 @@ export default new Vuex.Store({
         };
 
         const operator = await RootChain.methods.operator().call();
-        const forkNumber = await RootChain.methods.currentFork().call();
+        const currentForkNumber = await RootChain.methods.currentFork().call();
+        const currentFork = await RootChain.methods.forks(currentForkNumber).call();
+        const lastFinalizedEpochNumber = currentFork.lastFinalizedEpoch;
+        const lastFinalizedBlockNumber = currentFork.lastFinalizedBlock;
 
-        const recentCommitTimestamp = await getRecentCommitTimeStamp();
-        const commitCount = await RootChain.methods.lastEpoch(forkNumber).call();
+        const lastFinalizedAt = await getLastFinalizedAt(lastFinalizedEpochNumber, lastFinalizedBlockNumber);
+        const finalizeCount = parseInt(lastFinalizedEpochNumber) + 1;
         const deployedAt = (await RootChain.methods.getEpoch(0, 0).call()).timestamp;
 
-        // TODO: considering bignumber (check type (number or string?))
         const totalDeposit = await getDeposit();
         const selfDeposit = await getDeposit(operator);
         const userDeposit = await getDeposit(user);
@@ -376,8 +374,8 @@ export default new Vuex.Store({
 
         // set vue state.
         operatorFromRootChain.address = operator;
-        operatorFromRootChain.recentCommitTimestamp = recentCommitTimestamp;
-        operatorFromRootChain.commitCount = commitCount;
+        operatorFromRootChain.lastFinalizedAt = lastFinalizedAt;
+        operatorFromRootChain.finalizeCount = finalizeCount;
         operatorFromRootChain.deployedAt = deployedAt;
         operatorFromRootChain.totalDeposit = wtonWrapper(totalDeposit);
         operatorFromRootChain.totalStaked = wtonWrapper(totalStaked);
