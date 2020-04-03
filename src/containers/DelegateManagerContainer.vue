@@ -81,10 +81,22 @@ export default {
       this.tab = tab;
     },
     setAvailableAmountToDelegate () {
-      this.amountToDelegate = this.tonBalance.toBigNumber().toString();
+      const tonAmount = this.tonBalance.toBigNumber().toString();
+      const index = tonAmount.indexOf('.');
+      if (index === -1) {
+        this.amountToDelegate = tonAmount + '.00';
+      } else {
+        this.amountToDelegate = tonAmount;
+      }
     },
     setAvailableAmountToUndelegate () {
-      this.amountToUndelegate = this.operator.userStaked.toBigNumber().toString();
+      const tonAmount = this.operator.userStaked.toBigNumber().toString();
+      const index = tonAmount.indexOf('.');
+      if (index === -1) {
+        this.amountToUndelegate = tonAmount + '.00';
+      } else {
+        this.amountToUndelegate = tonAmount;
+      }
     },
     async delegate () {
       if (this.amountToDelegate === '' || parseFloat(this.amountToDelegate) === 0) {
