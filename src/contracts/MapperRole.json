@@ -292,7 +292,7 @@
                           "name": "msg",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 23705,
+                          "referencedDeclaration": 24085,
                           "src": "278:3:25",
                           "typeDescriptions": {
                             "typeIdentifier": "t_magic_message",
@@ -398,7 +398,7 @@
                               "name": "msg",
                               "nodeType": "Identifier",
                               "overloadedDeclarations": [],
-                              "referencedDeclaration": 23705,
+                              "referencedDeclaration": 24085,
                               "src": "343:3:25",
                               "typeDescriptions": {
                                 "typeIdentifier": "t_magic_message",
@@ -464,10 +464,10 @@
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        23708,
-                        23709
+                        24088,
+                        24089
                       ],
-                      "referencedDeclaration": 23708,
+                      "referencedDeclaration": 24088,
                       "src": "326:7:25",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$returns$__$",
@@ -824,7 +824,7 @@
                           "name": "msg",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 23705,
+                          "referencedDeclaration": 24085,
                           "src": "617:3:25",
                           "typeDescriptions": {
                             "typeIdentifier": "t_magic_message",
@@ -1492,7 +1492,7 @@
                           "name": "msg",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 23705,
+                          "referencedDeclaration": 24085,
                           "src": "278:3:25",
                           "typeDescriptions": {
                             "typeIdentifier": "t_magic_message",
@@ -1598,7 +1598,7 @@
                               "name": "msg",
                               "nodeType": "Identifier",
                               "overloadedDeclarations": [],
-                              "referencedDeclaration": 23705,
+                              "referencedDeclaration": 24085,
                               "src": "343:3:25",
                               "typeDescriptions": {
                                 "typeIdentifier": "t_magic_message",
@@ -1664,10 +1664,10 @@
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        23708,
-                        23709
+                        24088,
+                        24089
                       ],
-                      "referencedDeclaration": 23708,
+                      "referencedDeclaration": 24088,
                       "src": "326:7:25",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$returns$__$",
@@ -2024,7 +2024,7 @@
                           "name": "msg",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 23705,
+                          "referencedDeclaration": 24085,
                           "src": "617:3:25",
                           "typeDescriptions": {
                             "typeIdentifier": "t_magic_message",
@@ -2492,7 +2492,7 @@
   },
   "networks": {},
   "schemaVersion": "3.0.23",
-  "updatedAt": "2020-03-16T00:51:37.501Z",
+  "updatedAt": "2020-04-03T10:22:38.310Z",
   "devdoc": {
     "methods": {}
   },

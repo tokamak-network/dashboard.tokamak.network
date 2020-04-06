@@ -20,22 +20,22 @@
   "metadata": "{\"compiler\":{\"version\":\"0.5.12+commit.7709ece9\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"constant\":true,\"inputs\":[],\"name\":\"INTERFACE_ID_ON_APPROVE\",\"outputs\":[{\"internalType\":\"bytes4\",\"name\":\"\",\"type\":\"bytes4\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"}],\"devdoc\":{\"methods\":{}},\"userdoc\":{\"methods\":{}}},\"settings\":{\"compilationTarget\":{\"/Users/thomashin/Workspace/plasma-evm-contracts/contracts/stake/tokens/OnApproveConstant.sol\":\"OnApproveConstant\"},\"evmVersion\":\"petersburg\",\"libraries\":{},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"/Users/thomashin/Workspace/plasma-evm-contracts/contracts/stake/tokens/OnApproveConstant.sol\":{\"keccak256\":\"0xd9cf91173fb575b54ed54874ec055168b7be861210893fcdc66c87f766e57ba8\",\"urls\":[\"bzz-raw://4f0f91bd9143cc52bbddbb2e23be9fcb8157fdae88675016b1c401a1486aa8d6\",\"dweb:/ipfs/Qma4BHMycMgnXLNP6YAZvwziHVCcDJi6zgbwcLsp89b8zT\"]}},\"version\":1}",
   "bytecode": "0x6080604052348015600f57600080fd5b5060c78061001e6000396000f3fe6080604052348015600f57600080fd5b506004361060285760003560e01c80636cd28f9a14602d575b600080fd5b60336050565b604080516001600160e01b03199092168252519081900360200190f35b604051806028606b8239602801905060405180910390208156fe6f6e417070726f766528616464726573732c616464726573732c75696e743235362c627974657329a265627a7a7231582005699dc9609915a0bc3f67f7e491540227b34bc56942617e3ffbc5fbe9e7122364736f6c634300050c0032",
   "deployedBytecode": "0x6080604052348015600f57600080fd5b506004361060285760003560e01c80636cd28f9a14602d575b600080fd5b60336050565b604080516001600160e01b03199092168252519081900360200190f35b604051806028606b8239602801905060405180910390208156fe6f6e417070726f766528616464726573732c616464726573732c75696e743235362c627974657329a265627a7a7231582005699dc9609915a0bc3f67f7e491540227b34bc56942617e3ffbc5fbe9e7122364736f6c634300050c0032",
-  "sourceMap": "27:144:38:-;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;27:144:38;;;;;;;",
-  "deployedSourceMap": "27:144:38:-;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;27:144:38;;;;;;;;;;;;;;;;;;;58:110;;;:::i;:::-;;;;-1:-1:-1;;;;;;58:110:38;;;;;;;;;;;;;;;114:53;;;;;;;;;;;;;;;;;;58:110;:::o",
+  "sourceMap": "27:144:40:-;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;27:144:40;;;;;;;",
+  "deployedSourceMap": "27:144:40:-;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;27:144:40;;;;;;;;;;;;;;;;;;;58:110;;;:::i;:::-;;;;-1:-1:-1;;;;;;58:110:40;;;;;;;;;;;;;;;114:53;;;;;;;;;;;;;;;;;;58:110;:::o",
   "source": "pragma solidity ^0.5.12;\n\n\ncontract OnApproveConstant {\n  bytes4 public constant INTERFACE_ID_ON_APPROVE = bytes4(keccak256(\"onApprove(address,address,uint256,bytes)\"));\n}",
   "sourcePath": "/Users/thomashin/Workspace/plasma-evm-contracts/contracts/stake/tokens/OnApproveConstant.sol",
   "ast": {
     "absolutePath": "/Users/thomashin/Workspace/plasma-evm-contracts/contracts/stake/tokens/OnApproveConstant.sol",
     "exportedSymbols": {
       "OnApproveConstant": [
-        13744
+        14120
       ]
     },
-    "id": 13745,
+    "id": 14121,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 13736,
+        "id": 14112,
         "literals": [
           "solidity",
           "^",
@@ -43,7 +43,7 @@
           ".12"
         ],
         "nodeType": "PragmaDirective",
-        "src": "0:24:38"
+        "src": "0:24:40"
       },
       {
         "baseContracts": [],
@@ -51,20 +51,20 @@
         "contractKind": "contract",
         "documentation": null,
         "fullyImplemented": true,
-        "id": 13744,
+        "id": 14120,
         "linearizedBaseContracts": [
-          13744
+          14120
         ],
         "name": "OnApproveConstant",
         "nodeType": "ContractDefinition",
         "nodes": [
           {
             "constant": true,
-            "id": 13743,
+            "id": 14119,
             "name": "INTERFACE_ID_ON_APPROVE",
             "nodeType": "VariableDeclaration",
-            "scope": 13744,
-            "src": "58:110:38",
+            "scope": 14120,
+            "src": "58:110:40",
             "stateVariable": true,
             "storageLocation": "default",
             "typeDescriptions": {
@@ -72,10 +72,10 @@
               "typeString": "bytes4"
             },
             "typeName": {
-              "id": 13737,
+              "id": 14113,
               "name": "bytes4",
               "nodeType": "ElementaryTypeName",
-              "src": "58:6:38",
+              "src": "58:6:40",
               "typeDescriptions": {
                 "typeIdentifier": "t_bytes4",
                 "typeString": "bytes4"
@@ -90,14 +90,14 @@
                     {
                       "argumentTypes": null,
                       "hexValue": "6f6e417070726f766528616464726573732c616464726573732c75696e743235362c627974657329",
-                      "id": 13740,
+                      "id": 14116,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": true,
                       "kind": "string",
                       "lValueRequested": false,
                       "nodeType": "Literal",
-                      "src": "124:42:38",
+                      "src": "124:42:40",
                       "subdenomination": null,
                       "typeDescriptions": {
                         "typeIdentifier": "t_stringliteral_4273ca16e32229270629d776700e1c07e4a1080fc9b26d21f6608efc2b31dc4d",
@@ -113,18 +113,18 @@
                         "typeString": "literal_string \"onApprove(address,address,uint256,bytes)\""
                       }
                     ],
-                    "id": 13739,
+                    "id": 14115,
                     "name": "keccak256",
                     "nodeType": "Identifier",
                     "overloadedDeclarations": [],
-                    "referencedDeclaration": 23699,
-                    "src": "114:9:38",
+                    "referencedDeclaration": 24079,
+                    "src": "114:9:40",
                     "typeDescriptions": {
                       "typeIdentifier": "t_function_keccak256_pure$_t_bytes_memory_ptr_$returns$_t_bytes32_$",
                       "typeString": "function (bytes memory) pure returns (bytes32)"
                     }
                   },
-                  "id": 13741,
+                  "id": 14117,
                   "isConstant": false,
                   "isLValue": false,
                   "isPure": true,
@@ -132,7 +132,7 @@
                   "lValueRequested": false,
                   "names": [],
                   "nodeType": "FunctionCall",
-                  "src": "114:53:38",
+                  "src": "114:53:40",
                   "typeDescriptions": {
                     "typeIdentifier": "t_bytes32",
                     "typeString": "bytes32"
@@ -146,20 +146,20 @@
                     "typeString": "bytes32"
                   }
                 ],
-                "id": 13738,
+                "id": 14114,
                 "isConstant": false,
                 "isLValue": false,
                 "isPure": true,
                 "lValueRequested": false,
                 "nodeType": "ElementaryTypeNameExpression",
-                "src": "107:6:38",
+                "src": "107:6:40",
                 "typeDescriptions": {
                   "typeIdentifier": "t_type$_t_bytes4_$",
                   "typeString": "type(bytes4)"
                 },
                 "typeName": "bytes4"
               },
-              "id": 13742,
+              "id": 14118,
               "isConstant": false,
               "isLValue": false,
               "isPure": true,
@@ -167,7 +167,7 @@
               "lValueRequested": false,
               "names": [],
               "nodeType": "FunctionCall",
-              "src": "107:61:38",
+              "src": "107:61:40",
               "typeDescriptions": {
                 "typeIdentifier": "t_bytes4",
                 "typeString": "bytes4"
@@ -176,24 +176,24 @@
             "visibility": "public"
           }
         ],
-        "scope": 13745,
-        "src": "27:144:38"
+        "scope": 14121,
+        "src": "27:144:40"
       }
     ],
-    "src": "0:171:38"
+    "src": "0:171:40"
   },
   "legacyAST": {
     "absolutePath": "/Users/thomashin/Workspace/plasma-evm-contracts/contracts/stake/tokens/OnApproveConstant.sol",
     "exportedSymbols": {
       "OnApproveConstant": [
-        13744
+        14120
       ]
     },
-    "id": 13745,
+    "id": 14121,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 13736,
+        "id": 14112,
         "literals": [
           "solidity",
           "^",
@@ -201,7 +201,7 @@
           ".12"
         ],
         "nodeType": "PragmaDirective",
-        "src": "0:24:38"
+        "src": "0:24:40"
       },
       {
         "baseContracts": [],
@@ -209,20 +209,20 @@
         "contractKind": "contract",
         "documentation": null,
         "fullyImplemented": true,
-        "id": 13744,
+        "id": 14120,
         "linearizedBaseContracts": [
-          13744
+          14120
         ],
         "name": "OnApproveConstant",
         "nodeType": "ContractDefinition",
         "nodes": [
           {
             "constant": true,
-            "id": 13743,
+            "id": 14119,
             "name": "INTERFACE_ID_ON_APPROVE",
             "nodeType": "VariableDeclaration",
-            "scope": 13744,
-            "src": "58:110:38",
+            "scope": 14120,
+            "src": "58:110:40",
             "stateVariable": true,
             "storageLocation": "default",
             "typeDescriptions": {
@@ -230,10 +230,10 @@
               "typeString": "bytes4"
             },
             "typeName": {
-              "id": 13737,
+              "id": 14113,
               "name": "bytes4",
               "nodeType": "ElementaryTypeName",
-              "src": "58:6:38",
+              "src": "58:6:40",
               "typeDescriptions": {
                 "typeIdentifier": "t_bytes4",
                 "typeString": "bytes4"
@@ -248,14 +248,14 @@
                     {
                       "argumentTypes": null,
                       "hexValue": "6f6e417070726f766528616464726573732c616464726573732c75696e743235362c627974657329",
-                      "id": 13740,
+                      "id": 14116,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": true,
                       "kind": "string",
                       "lValueRequested": false,
                       "nodeType": "Literal",
-                      "src": "124:42:38",
+                      "src": "124:42:40",
                       "subdenomination": null,
                       "typeDescriptions": {
                         "typeIdentifier": "t_stringliteral_4273ca16e32229270629d776700e1c07e4a1080fc9b26d21f6608efc2b31dc4d",
@@ -271,18 +271,18 @@
                         "typeString": "literal_string \"onApprove(address,address,uint256,bytes)\""
                       }
                     ],
-                    "id": 13739,
+                    "id": 14115,
                     "name": "keccak256",
                     "nodeType": "Identifier",
                     "overloadedDeclarations": [],
-                    "referencedDeclaration": 23699,
-                    "src": "114:9:38",
+                    "referencedDeclaration": 24079,
+                    "src": "114:9:40",
                     "typeDescriptions": {
                       "typeIdentifier": "t_function_keccak256_pure$_t_bytes_memory_ptr_$returns$_t_bytes32_$",
                       "typeString": "function (bytes memory) pure returns (bytes32)"
                     }
                   },
-                  "id": 13741,
+                  "id": 14117,
                   "isConstant": false,
                   "isLValue": false,
                   "isPure": true,
@@ -290,7 +290,7 @@
                   "lValueRequested": false,
                   "names": [],
                   "nodeType": "FunctionCall",
-                  "src": "114:53:38",
+                  "src": "114:53:40",
                   "typeDescriptions": {
                     "typeIdentifier": "t_bytes32",
                     "typeString": "bytes32"
@@ -304,20 +304,20 @@
                     "typeString": "bytes32"
                   }
                 ],
-                "id": 13738,
+                "id": 14114,
                 "isConstant": false,
                 "isLValue": false,
                 "isPure": true,
                 "lValueRequested": false,
                 "nodeType": "ElementaryTypeNameExpression",
-                "src": "107:6:38",
+                "src": "107:6:40",
                 "typeDescriptions": {
                   "typeIdentifier": "t_type$_t_bytes4_$",
                   "typeString": "type(bytes4)"
                 },
                 "typeName": "bytes4"
               },
-              "id": 13742,
+              "id": 14118,
               "isConstant": false,
               "isLValue": false,
               "isPure": true,
@@ -325,7 +325,7 @@
               "lValueRequested": false,
               "names": [],
               "nodeType": "FunctionCall",
-              "src": "107:61:38",
+              "src": "107:61:40",
               "typeDescriptions": {
                 "typeIdentifier": "t_bytes4",
                 "typeString": "bytes4"
@@ -334,11 +334,11 @@
             "visibility": "public"
           }
         ],
-        "scope": 13745,
-        "src": "27:144:38"
+        "scope": 14121,
+        "src": "27:144:40"
       }
     ],
-    "src": "0:171:38"
+    "src": "0:171:40"
   },
   "compiler": {
     "name": "solc",
@@ -346,7 +346,7 @@
   },
   "networks": {},
   "schemaVersion": "3.0.23",
-  "updatedAt": "2020-03-16T00:51:37.543Z",
+  "updatedAt": "2020-04-03T10:22:38.393Z",
   "devdoc": {
     "methods": {}
   },
