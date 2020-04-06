@@ -24,14 +24,6 @@ import SeigManagerABI from '@/contracts/abi/SeigManager.json';
 import PowerTONABI from '@/contracts/abi/PowerTON.json';
 import RootChainABI from '@/contracts/abi/RootChain.json';
 import CustomIncrementCoinageABI from '@/contracts/abi/CustomIncrementCoinage.json';
-const managerABIs = {
-  TONABI,
-  WTONABI,
-  DepositManagerABI,
-  RootChainRegistryABI,
-  SeigManagerABI,
-  PowerTONABI,
-};
 
 const initialState = {
   loading: false,
@@ -213,6 +205,14 @@ export default new Vuex.Store({
     },
     async setManagers (context, managers) {
       const user = context.state.user;
+      const managerABIs = {
+        TONABI,
+        WTONABI,
+        DepositManagerABI,
+        RootChainRegistryABI,
+        SeigManagerABI,
+        PowerTONABI,
+      };
       for (const [name, address] of Object.entries(managers)) {
         const abi = managerABIs[`${name}ABI`];
         managers[name] = await createWeb3Contract(abi, address, user);
