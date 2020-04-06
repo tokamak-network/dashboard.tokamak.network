@@ -16,20 +16,14 @@ const _TON = createCurrency('TON');
 const _WTON = createCurrency('WTON');
 const _POWER = createCurrency('POWER');
 
-import TON from '@/contracts/TON.json';
-import WTON from '@/contracts/WTON.json';
-import DepositManager from '@/contracts/DepositManager.json';
-import RootChainRegistry from '@/contracts/RootChainRegistry.json';
-import SeigManager from '@/contracts/SeigManager.json';
-import PowerTON from '@/contracts/PowerTON.json';
-import RootChain from '@/contracts/RootChain.json';
-import CustomIncrementCoinage from '@/contracts/CustomIncrementCoinage.json';
-const TONABI = TON.abi;
-const WTONABI = WTON.abi;
-const DepositManagerABI = DepositManager.abi;
-const RootChainRegistryABI = RootChainRegistry.abi;
-const SeigManagerABI = SeigManager.abi;
-const PowerTONABI = PowerTON.abi;
+import TONABI from '@/contracts/abi/TON.json';
+import WTONABI from '@/contracts/abi/WTON.json';
+import DepositManagerABI from '@/contracts/abi/DepositManager.json';
+import RootChainRegistryABI from '@/contracts/abi/RootChainRegistry.json';
+import SeigManagerABI from '@/contracts/abi/SeigManager.json';
+import PowerTONABI from '@/contracts/abi/PowerTON.json';
+import RootChainABI from '@/contracts/abi/RootChain.json';
+import CustomIncrementCoinageABI from '@/contracts/abi/CustomIncrementCoinage.json';
 const managerABIs = {
   TONABI,
   WTONABI,
@@ -38,8 +32,6 @@ const managerABIs = {
   SeigManagerABI,
   PowerTONABI,
 };
-const RootChainABI = RootChain.abi;
-const CustomIncrementCoinageABI = CustomIncrementCoinage.abi;
 
 const initialState = {
   loading: false,
