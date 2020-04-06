@@ -37,9 +37,6 @@ export default {
     currencyAmount () {
       return amount => this.$options.filters.currencyAmount(amount);
     },
-    userTotalDepositWithPendingAndRequestable () {
-      return this.userTotalDeposit.sub(this.userTotalNotWithdrawable).sub(this.userTotalWithdrawable);
-    },
   },
 };
 </script>

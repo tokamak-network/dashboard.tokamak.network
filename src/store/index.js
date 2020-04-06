@@ -303,7 +303,12 @@ export default new Vuex.Store({
             accStaked = await DepositManager.methods.accStaked(rootchain, account).call(null, blockNumber);
             accUnstaked = await DepositManager.methods.accUnstaked(rootchain, account).call(null, blockNumber);
           }
-          return new BN(accStaked).sub(new BN(accUnstaked)).toString();
+          const deposit = new BN(accStaked).sub(new BN(accUnstaked));
+          if (deposit.cmp(new BN('0')) === -1) {
+            return '0';
+          } else {
+            return deposit.toString();
+          }
         };
 
         const getPendingRequests = async () => {
