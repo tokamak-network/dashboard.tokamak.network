@@ -11,12 +11,14 @@ const instance = createInstance();
 
 export async function getManagers () {
   const res = await instance.get('/managers');
-  return res.data;
+  if (res.data === '') return [];
+  else return res.data;
 }
 
 export async function getOperators () {
   const res = await instance.get('/operators');
-  return res.data;
+  if (res.data === '') return [];
+  else return res.data;
 }
 
 export async function updateOperator (rootchain, formData) {
@@ -57,7 +59,8 @@ export async function getTransactions (user) {
       from: user,
     },
   });
-  return res.data;
+  if (res.data === '') return [];
+  else return res.data;
 }
 
 export async function addTransaction (transaction) {
