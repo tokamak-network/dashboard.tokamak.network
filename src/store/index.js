@@ -22,16 +22,22 @@ import DepositManager from '@/contracts/DepositManager.json';
 import RootChainRegistry from '@/contracts/RootChainRegistry.json';
 import SeigManager from '@/contracts/SeigManager.json';
 import PowerTON from '@/contracts/PowerTON.json';
-const managerABIs = {
-  TONABI: TON.abi,
-  WTONABI: WTON.abi,
-  DepositManagerABI: DepositManager.abi,
-  RootChainRegistryABI: RootChainRegistry.abi,
-  SeigManagerABI: SeigManager.abi,
-  PowerTONABI: PowerTON.abi,
-};
 import RootChain from '@/contracts/RootChain.json';
 import CustomIncrementCoinage from '@/contracts/CustomIncrementCoinage.json';
+const TONABI = TON.abi;
+const WTONABI = WTON.abi;
+const DepositManagerABI = DepositManager.abi;
+const RootChainRegistryABI = RootChainRegistry.abi;
+const SeigManagerABI = SeigManager.abi;
+const PowerTONABI = PowerTON.abi;
+const managerABIs = {
+  TONABI,
+  WTONABI,
+  DepositManagerABI,
+  RootChainRegistryABI,
+  SeigManagerABI,
+  PowerTONABI,
+};
 const RootChainABI = RootChain.abi;
 const CustomIncrementCoinageABI = CustomIncrementCoinage.abi;
 
