@@ -2,13 +2,13 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 Vue.use(VueRouter);
 
-import DashboardLayout from '@/layouts/DashboardLayout.vue';
-import OperatorListLayout from '@/layouts/OperatorListLayout.vue';
-import StakeInfoLayout from '@/layouts/StakeInfoLayout.vue';
-import OperatorInfoLayout from '@/layouts/OperatorInfoLayout.vue';
-import HistoryLayout from '@/layouts/HistoryLayout.vue';
-import OperatorInfoEditLayout from '@/layouts/OperatorInfoEditLayout.vue';
-import PowerTONLayout from '@/layouts/PowerTONLayout.vue';
+import DashboardLayout from '@/layouts/DashboardLayout.js';
+import OperatorListLayout from '@/layouts/OperatorListLayout.js';
+import StakeInfoLayout from '@/layouts/StakeInfoLayout.js';
+import OperatorInfoLayout from '@/layouts/OperatorInfoLayout.js';
+import HistoryLayout from '@/layouts/HistoryLayout.js';
+import OperatorInfoEditLayout from '@/layouts/OperatorInfoEditLayout.js';
+import PowerTONLayout from '@/layouts/PowerTONLayout.js';
 
 const routes = [
   {
