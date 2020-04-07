@@ -80,7 +80,7 @@ export default {
       if (`/${path}` === this.$route.path) {
         return;
       }
-      this.$router.push(`/${path}`);
+      this.$router.push(`/${path}`).catch(err => {});
     },
     logout () {
       this.$store.dispatch('logout');

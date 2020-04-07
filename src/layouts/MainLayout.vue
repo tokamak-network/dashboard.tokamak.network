@@ -26,6 +26,7 @@ export default {
   },
   computed: {
     ...mapState([
+      'web3',
       'DepositManager',
     ]),
   },
@@ -41,9 +42,9 @@ export default {
     poll () {
       this.polling = setInterval(() => {
         if (this.$store.state.signIn) {
-          this.$store.dispatch('set');
+          this.$store.dispatch('set', this.web3);
         }
-      }, 5000); // 5s
+      }, 13000); // 13s
     },
     subscribe () {
       this.depositedEventSubscription = this.DepositManager.events.Deposited({

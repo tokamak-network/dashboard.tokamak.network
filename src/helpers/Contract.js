@@ -1,9 +1,12 @@
-import store from '@/store/index.js';
+import web3EthContract from 'web3-eth-contract';
+
+export function setProvider (web3) {
+  web3EthContract.setProvider(web3.givenProvider);
+}
 
 export async function createWeb3Contract (abi, address, from) {
   try {
-    const web3 = store.state.web3;
-    return new web3.eth.Contract(abi, address, {
+    return new web3EthContract(abi, address, {
       from,
     });
   } catch (e) {

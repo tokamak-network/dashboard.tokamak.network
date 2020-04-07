@@ -58,7 +58,7 @@ export default {
   methods: {
     edit () {
       const path = this.$route.path;
-      this.$router.push(`${path}/edit`);
+      this.$router.push(`${path}/edit`).catch(err => {});
     },
   },
 };

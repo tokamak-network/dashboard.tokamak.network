@@ -53,7 +53,7 @@ export default {
   methods: {
     viewOperator (operator) {
       const rootchain = operator.rootchain;
-      this.$router.push(`/operators/${rootchain.toLowerCase()}`);
+      this.$router.push(`/operators/${rootchain.toLowerCase()}`).catch(err => {});
     },
   },
 };
