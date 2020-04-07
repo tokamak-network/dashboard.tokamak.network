@@ -28,3 +28,6 @@ db
 
 # contracts (not abi)
 src/contracts/*.json
+
+# dump
+dump
