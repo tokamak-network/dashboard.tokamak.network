@@ -4,11 +4,12 @@ Vue.use(Vuex);
 
 import router from '@/router';
 
-import { getManagers, getOperators, getHistory, getTransactions } from '@/api';
+import { getManagers, getOperators, getHistory, getTransactions, addTransaction } from '@/api';
 import { cloneDeep, isEqual, range, uniq, orderBy } from 'lodash';
 import numeral from 'numeral';
 import { createWeb3Contract } from '@/helpers/Contract';
 import { BN } from 'web3-utils';
+import { setPendingTransactions, getPendingTransactions } from '@/helpers/localStorage';
 
 import { createCurrency } from '@makerdao/currency';
 const _ETH = createCurrency('ETH');
@@ -115,20 +116,26 @@ export default new Vuex.Store({
     SET_OPERATORS: (state, operators) => {
       state.operators = operators;
     },
+    SET_TRANSACTIONS: (state, transactions) => {
+      state.transactions = transactions;
+    },
     ADD_TRANSACTION: (state, newTransaction) => {
-      const transactions = state.transactions;
-      if (!transactions.find(transaction => transaction.transactionHash === newTransaction.transactionHash)) {
-        transactions.push(newTransaction);
+      if (!state.transactions.find(transaction => transaction.transactionHash === newTransaction.transactionHash)) {
+        state.transactions.push(newTransaction);
       }
     },
+    SET_PENDING_TRANSACTIONS: (state, pendingTransactions) => {
+      state.pendingTransactions = pendingTransactions;
+    },
     ADD_PENDING_TRANSACTION: (state, newPendingTransaction) => {
-      const pendingTransactions = state.pendingTransactions;
-      if (!pendingTransactions.find(pendingTransaction => pendingTransaction.transactionHash === newPendingTransaction.transactionHash)) {
-        pendingTransactions.push(newPendingTransaction);
+      if (!state.pendingTransactions.find(pendingTransaction => pendingTransaction.transactionHash === newPendingTransaction.transactionHash)) {
+        state.pendingTransactions.push(newPendingTransaction);
       }
+      setPendingTransactions(state.pendingTransactions);
     },
     DELETE_PENDING_TRANSACTION: (state, minedTransaction) => {
       state.pendingTransactions.splice(state.pendingTransactions.map(pendingTransaction => pendingTransaction.transactionHash).indexOf(minedTransaction.transactionHash), 1);
+      setPendingTransactions(state.pendingTransactions);
     },
     UPDATE_OPERATOR: (state, newOperator) => {
       const index = state.operators.indexOf(prevOperator);
@@ -179,7 +186,7 @@ export default new Vuex.Store({
       const transactions = await getTransactions(user);
       await context.dispatch('setManagers', managers);
       await context.dispatch('setOperatorsWithRegistry', operators);
-      await context.dispatch('setTransactions', transactions);
+      await context.dispatch('setTransactionsAndPendingTransactions', transactions);
 
       await context.dispatch('set');
       await context.dispatch('setAccountsDepositedWithPower');
@@ -219,21 +226,17 @@ export default new Vuex.Store({
       }
       context.commit('SET_MANAGERS', managers);
     },
-    async setTransactions (context, transactions) {
-      const web3 = context.state.web3;
+    async setTransactionsAndPendingTransactions (context, transactions) {
+      context.commit('SET_TRANSACTIONS', transactions);
 
-      transactions.forEach(async transaction => {
-        const receipt = await web3.eth.getTransactionReceipt(transaction.transactionHash);
-        if (receipt) {
-          transaction.receipt = receipt;
-          context.commit('ADD_TRANSACTION', transaction);
-        } else {
-          context.commit('ADD_PENDING_TRANSACTION', transaction);
-        }
-      });
+      const pendingTransactions = getPendingTransactions();
+      context.commit('SET_PENDING_TRANSACTIONS', pendingTransactions);
     },
     async addPendingTransaction (context, transaction) {
       context.commit('ADD_PENDING_TRANSACTION', transaction);
+    },
+    async deletePendingTransaction (context, transaction) {
+      context.commit('DELETE_PENDING_TRANSACTION', transaction);
     },
     async checkPendingTransactions (context) {
       const web3 = context.state.web3;
@@ -243,8 +246,9 @@ export default new Vuex.Store({
         const receipt = await web3.eth.getTransactionReceipt(transaction.transactionHash);
         if (receipt) {
           transaction.receipt = receipt;
-          context.commit('ADD_TRANSACTION', transaction);
-          context.commit('DELETE_PENDING_TRANSACTION', transaction);
+          const minedTransaction = await addTransaction(transaction);
+          context.commit('ADD_TRANSACTION', minedTransaction);
+          context.commit('DELETE_PENDING_TRANSACTION', minedTransaction);
         }
       });
     },

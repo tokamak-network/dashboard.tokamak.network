@@ -119,8 +119,7 @@ export default {
             transactionHash: hash,
             target: this.operator.rootchain,
           };
-          const pendingTransaction = await addTransaction(transcation);
-          this.$store.dispatch('addPendingTransaction', pendingTransaction);
+          this.$store.dispatch('addPendingTransaction', transcation);
         })
         .on('error', function (error, receipt) {
           alert(error.message);
@@ -147,8 +146,7 @@ export default {
             transactionHash: hash,
             target: this.operator.rootchain,
           };
-          const pendingTransaction = await addTransaction(transcation);
-          this.$store.dispatch('addPendingTransaction', pendingTransaction);
+          this.$store.dispatch('addPendingTransaction', transcation);
         })
         .on('error', function (error, receipt) {
           alert(error.message);
@@ -176,8 +174,7 @@ export default {
             transactionHash: hash,
             target: this.operator.rootchain,
           };
-          const pendingTransaction = await addTransaction(transcation);
-          this.$store.dispatch('addPendingTransaction', pendingTransaction);
+          this.$store.dispatch('addPendingTransaction', transcation);
         })
         .on('error', function (error, receipt) {
           alert(error.message);

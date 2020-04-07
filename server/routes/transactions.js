@@ -34,6 +34,7 @@ const POST = async (db, req) => {
   transaction.from = from;
   transaction.transactionHash = req.body.transactionHash;
   transaction.target = req.body.target;
+  transaction.receipt = req.body.receipt;
 
   try {
     await db
