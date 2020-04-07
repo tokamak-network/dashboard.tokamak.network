@@ -3,6 +3,7 @@ import Vuex from 'vuex';
 Vue.use(Vuex);
 
 import router from '@/router';
+import web3EthABI from 'web3-eth-abi';
 
 import { getManagers, getOperators, getHistory, getTransactions, addTransaction } from '@/api';
 import { cloneDeep, isEqual, range, uniq, orderBy } from 'lodash';
@@ -188,21 +189,20 @@ export default new Vuex.Store({
       await context.dispatch('setOperatorsWithRegistry', operators);
       await context.dispatch('setTransactionsAndPendingTransactions', transactions);
 
-      await context.dispatch('set');
       await context.dispatch('setAccountsDepositedWithPower');
+      await context.dispatch('set', web3);
 
       context.commit('SIGN_IN');
       context.commit('IS_LOADING', false);
-      router.replace('/dashboard');
+      router.replace('/dashboard').catch(err => {});
     },
-    async set (context) {
+    async set (context, web3) {
       try {
-        const web3 = this.state.web3;
         const blockNumber = await web3.eth.getBlockNumber();
         context.commit('SET_BLOCK_NUMBER', blockNumber);
 
         await context.dispatch('setOperators', blockNumber);
-        await context.dispatch('setBalance');
+        await context.dispatch('setBalance', web3);
         await context.dispatch('setRound');
         await context.dispatch('setHistory');
         await context.dispatch('checkPendingTransactions');
@@ -259,7 +259,6 @@ export default new Vuex.Store({
       context.commit('SET_OPERATORS', operators);
     },
     async setOperators (context, blockNumber) {
-      const web3 = context.state.web3;
       const user = context.state.user;
       const DepositManager = context.state.DepositManager;
       const SeigManager = context.state.SeigManager;
@@ -406,8 +405,7 @@ export default new Vuex.Store({
 
       context.commit('SET_OPERATORS', await Promise.all(operatorsFromRootChain));
     },
-    async setBalance (context) {
-      const web3 = context.state.web3;
+    async setBalance (context, web3) {
       const user = context.state.user;
 
       const TON = context.state.TON;
@@ -467,11 +465,10 @@ export default new Vuex.Store({
       context.commit('SET_ROUNDS', rounds);
     },
     async setAccountsDepositedWithPower (context) {
-      const web3 = context.state.web3;
       const PowerTON = context.state.PowerTON;
       const DepositManager = context.state.DepositManager;
 
-      const depositedEvent = web3.eth.abi.encodeEventSignature('Deposited(address,address,uint256)');
+      const depositedEvent = web3EthABI.encodeEventSignature('Deposited(address,address,uint256)');
       const deployedAt = DepositManager.transactionConfirmationBlocks;
 
       // event Deposited(address indexed rootchain, address depositor, uint256 amount);

@@ -52,13 +52,13 @@ export default {
   },
   created () {
     if (this.initialState && this.$route.path !== '/') {
-      this.$router.replace('/');
+      this.$router.replace('/').catch(err => {});
     }
     this.$store.watch(
       (_, getters) => getters.initialState,
       (logout) => {
         if (logout && this.$route.path !== '/') {
-          this.$router.replace('/');
+          this.$router.replace('/').catch(err => {});
         }
       },
     );

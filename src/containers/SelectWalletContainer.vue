@@ -16,6 +16,7 @@
 <script>
 import Web3 from 'web3';
 import config from '../../config.json';
+import { setProvider } from '@/helpers/Contract';
 
 import Wallet from '@/components/Wallet.vue';
 
@@ -30,13 +31,14 @@ export default {
 
         window.ethereum.on('chainIdChanged', (chainId) => {
           this.$store.dispatch('logout');
-          this.$router.replace('/');
+          this.$router.replace('/').catch(err => {});
         });
         window.ethereum.on('accountsChanged', (account) => {
           this.$store.dispatch('logout');
-          this.$router.replace('/');
+          this.$router.replace('/').catch(err => {});
         });
 
+        setProvider(web3);
         await this.$store.dispatch('signIn', web3);
       } catch (e) {
         alert(e.message);

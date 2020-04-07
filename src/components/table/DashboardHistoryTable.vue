@@ -38,6 +38,7 @@
 </template>
 
 <script>
+import web3EthABI from 'web3-eth-abi';
 import { orderBy } from 'lodash';
 import { createCurrency } from '@makerdao/currency';
 const _TON = createCurrency('TON');
@@ -94,9 +95,9 @@ export default {
     },
     transactionType () {
       return transaction => {
-        const Deposited = this.web3.eth.abi.encodeEventSignature('Deposited(address,address,uint256)');
-        const WithdrawalRequested = this.web3.eth.abi.encodeEventSignature('WithdrawalRequested(address,address,uint256)');
-        const WithdrawalProcessed = this.web3.eth.abi.encodeEventSignature('WithdrawalProcessed(address,address,uint256)');
+        const Deposited = web3EthABI.encodeEventSignature('Deposited(address,address,uint256)');
+        const WithdrawalRequested = web3EthABI.encodeEventSignature('WithdrawalRequested(address,address,uint256)');
+        const WithdrawalProcessed = web3EthABI.encodeEventSignature('WithdrawalProcessed(address,address,uint256)');
 
         let type = '-';
         const logs = transaction.receipt.logs;
@@ -125,9 +126,9 @@ export default {
     },
     amount () {
       return transaction => {
-        const Deposited = this.web3.eth.abi.encodeEventSignature('Deposited(address,address,uint256)');
-        const WithdrawalRequested = this.web3.eth.abi.encodeEventSignature('WithdrawalRequested(address,address,uint256)');
-        const WithdrawalProcessed = this.web3.eth.abi.encodeEventSignature('WithdrawalProcessed(address,address,uint256)');
+        const Deposited = web3EthABI.encodeEventSignature('Deposited(address,address,uint256)');
+        const WithdrawalRequested = web3EthABI.encodeEventSignature('WithdrawalRequested(address,address,uint256)');
+        const WithdrawalProcessed = web3EthABI.encodeEventSignature('WithdrawalProcessed(address,address,uint256)');
 
         let amount = _WTON.ray('0');
         const logs = transaction.receipt.logs;
@@ -136,15 +137,15 @@ export default {
             for (const topic of log.topics) {
               switch (topic) {
               case Deposited:
-                amount = amount.add(_WTON.ray((this.web3.eth.abi.decodeParameters(['address', 'uint256'], log.data))[1]));
+                amount = amount.add(_WTON.ray((web3EthABI.decodeParameters(['address', 'uint256'], log.data))[1]));
                 break;
 
               case WithdrawalRequested:
-                amount = amount.add(_WTON.ray((this.web3.eth.abi.decodeParameters(['address', 'uint256'], log.data))[1]));
+                amount = amount.add(_WTON.ray((web3EthABI.decodeParameters(['address', 'uint256'], log.data))[1]));
                 break;
 
               case WithdrawalProcessed:
-                amount = amount.add(_WTON.ray((this.web3.eth.abi.decodeParameters(['address', 'uint256'], log.data))[1]));
+                amount = amount.add(_WTON.ray((web3EthABI.decodeParameters(['address', 'uint256'], log.data))[1]));
                 break;
               }
             }

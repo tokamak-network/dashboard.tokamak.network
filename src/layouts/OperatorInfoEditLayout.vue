@@ -108,7 +108,7 @@ export default {
       try {
         await this.sign();
         await this.send();
-        this.$router.replace(this.from);
+        this.$router.replace(this.from).catch(err => {});
 
         await this.$store.dispatch('set');
       } catch (err) {
