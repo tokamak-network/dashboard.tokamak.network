@@ -30,11 +30,11 @@ export default {
 
         window.ethereum.on('chainIdChanged', (chainId) => {
           this.$store.dispatch('logout');
-          this.$router.replace('/');
+          this.$router.replace('/').catch(err => {});
         });
         window.ethereum.on('accountsChanged', (account) => {
           this.$store.dispatch('logout');
-          this.$router.replace('/');
+          this.$router.replace('/').catch(err => {});
         });
 
         await this.$store.dispatch('signIn', web3);

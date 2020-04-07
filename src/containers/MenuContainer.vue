@@ -84,7 +84,7 @@ export default {
     },
     logout () {
       this.$store.dispatch('logout');
-      this.$router.replace('/');
+      this.$router.replace('/').catch(err => {});
     },
   },
 };

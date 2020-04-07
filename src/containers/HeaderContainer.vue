@@ -50,9 +50,9 @@ export default {
   methods: {
     toMainPage () {
       if (this.signIn && this.$route.path !== '/dashboard') {
-        this.$router.push('/dashboard');
+        this.$router.push('/dashboard').catch(err => {});
       } else if(!this.signIn && this.$route.path !== '/') {
-        this.$router.replace('/');
+        this.$router.replace('/').catch(err => {});
       }
     },
   },

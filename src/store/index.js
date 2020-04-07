@@ -193,7 +193,7 @@ export default new Vuex.Store({
 
       context.commit('SIGN_IN');
       context.commit('IS_LOADING', false);
-      router.replace('/dashboard');
+      router.replace('/dashboard').catch(err => {});
     },
     async set (context) {
       try {
