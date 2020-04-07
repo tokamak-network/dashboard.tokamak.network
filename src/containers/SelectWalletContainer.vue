@@ -18,28 +18,35 @@ import Web3 from 'web3';
 import config from '../../config.json';
 import { setProvider } from '@/helpers/Contract';
 
+import { mapState } from 'vuex';
 import Wallet from '@/components/Wallet.vue';
 
 export default {
   components: {
     'wallet': Wallet,
   },
+  computed: {
+    ...mapState([
+      'user',
+    ]),
+  },
   methods: {
     async useMetamask () {
       try {
         const web3 = await this.metamask();
+        setProvider(web3);
+        await this.$store.dispatch('signIn', web3);
 
         window.ethereum.on('chainIdChanged', (chainId) => {
           this.$store.dispatch('logout');
           this.$router.replace('/').catch(err => {});
         });
         window.ethereum.on('accountsChanged', (account) => {
-          this.$store.dispatch('logout');
-          this.$router.replace('/').catch(err => {});
+          if (this.user.toLowerCase() !== account.toLowerCase()) {
+            this.$store.dispatch('logout');
+            this.$router.replace('/').catch(err => {});
+          }
         });
-
-        setProvider(web3);
-        await this.$store.dispatch('signIn', web3);
       } catch (e) {
         alert(e.message);
       }
