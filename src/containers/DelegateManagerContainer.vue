@@ -156,12 +156,12 @@ export default {
     },
     async processRequests () {
       if (this.operator.userWithdrawable.isEqual(_WTON.ray('0'))) {
-        return alert('cannot be withdrawable');
+        return alert('Withdrawable amount is 0.');
       }
 
       const count = this.operator.withdrawableRequests.length;
       if (count === 0) {
-        return alert('cannot be withdrawable');
+        return alert('Withdrawable amount is 0.');
       }
       this.DepositManager.methods.processRequests(
         this.operator.rootchain,
