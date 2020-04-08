@@ -2,8 +2,8 @@
   <div class="viewer-round-container">
     <container-header :title="'Round'" />
     <text-viewer :title="'Current Round'" :content="round.index" :with-divider="true" />
-    <text-viewer :title="'Round Start'" :content="formatedTimestamp(round.startTime)" :with-divider="false" />
-    <text-viewer :title="'Round End'" :content="formatedTimestamp(round.endTime)" :with-divider="false" />
+    <text-viewer :title="'Round Start'" :content="formattedTimestamp(round.startTime)" :with-divider="false" />
+    <text-viewer :title="'Round End'" :content="formattedTimestamp(round.endTime)" :with-divider="false" />
     <text-viewer :title="'Expected Reward'" :content="currencyAmount(round.reward)" :with-divider="false" />
     <text-viewer :title="'Winning Probability'" :content="round.winningProbability" :with-divider="false" />
   </div>
@@ -29,8 +29,8 @@ export default {
     },
   },
   computed: {
-    formatedTimestamp () {
-      return timestamp => moment.unix(timestamp).format('LLL');
+    formattedTimestamp () {
+      return timestamp => this.$options.filters.formattedTimestamp(timestamp);
     },
     currencyAmount () {
       return amount => this.$options.filters.currencyAmount(amount);

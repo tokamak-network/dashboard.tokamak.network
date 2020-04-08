@@ -12,9 +12,9 @@
     <text-viewer-link :type="'address'" :title="'Address'" :content="operator.address" :with-divider="false" />
     <text-viewer-link :type="'address'" :title="'RootChain'" :content="operator.rootchain" :with-divider="false" />
     <text-viewer :title="'Chain Id'" :content="operator.chainId" :with-divider="false" />
-    <text-viewer :title="'Recent Commit Timestamp'" :content="formatedTimestamp(operator.lastFinalizedAt)" :with-divider="false" />
     <text-viewer :title="'Commit Count'" :content="operator.finalizeCount" :with-divider="false" />
-    <text-viewer :title="'Duration'" :content="duration(operator.deployedAt)" :with-divider="false" />
+    <text-viewer :title="'Recent Commit'" :content="fromNow(operator.lastFinalizedAt)" :with-divider="false" />
+    <text-viewer :title="'Duration'" :content="fromNow(operator.deployedAt)" :with-divider="false" />
     <text-viewer :title="'Reward'" :content="currencyAmount(operator.userReward)" :with-divider="false" />
     <text-viewer :title="'Total Staked'" :content="currencyAmount(operator.totalStaked)" :with-divider="false" />
     <text-viewer :title="'Staked'" :content="currencyAmount(operator.userStaked)" :with-divider="false" />
@@ -60,14 +60,11 @@ export default {
     currencyAmount () {
       return amount => this.$options.filters.currencyAmount(amount);
     },
-    duration () {
-      return timestamp => moment.unix(timestamp).fromNow();
+    fromNow () {
+      return timestamp => this.$options.filters.fromNow(timestamp);
     },
     exported () {
       return genesis => 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(genesis, undefined, 2));
-    },
-    formatedTimestamp () {
-      return timestamp => moment.unix(timestamp).format('LLL');
     },
   },
   methods: {

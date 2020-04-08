@@ -1,4 +1,7 @@
 import moment from 'moment';
+const locale = window.navigator.userLanguage || window.navigator.language;
+moment.locale(locale);
+
 import { Currency, createCurrency } from '@makerdao/currency';
 const _TON = createCurrency('TON');
 
@@ -8,6 +11,12 @@ export function hexSlicer (address = '') {
   }
 
   return `${address.slice(0, 6)}...${address.slice(-4)}`;
+}
+
+// Note: Despite Unix timestamps being UTC-based, this function creates a moment object in local mode.
+// (https://momentjs.com/docs/#/parsing/unix-timestamp/)
+export function formattedTimestamp (timestamp) {
+  return moment.unix(timestamp).format('LLL');
 }
 
 export function fromNow (timestamp) {
