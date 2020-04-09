@@ -31,7 +31,7 @@
             {{ transaction.target | hexSlicer }}
           </a>
         </td>
-        <td class="text-center">{{ transactionType(transaction) }}</td>
+        <td class="text-center">{{ transaction.type }}</td>
       </tr>
     </tbody>
   </table>
@@ -69,11 +69,11 @@ export default {
       case 'transactionHash':
         return orderBy(this.transactions, (transaction) => transaction.transactionHash, [this.order]);
       case 'type':
-        return orderBy(this.transactions, (transaction) => this.transactionType(transaction), [this.order]);
+        return orderBy(this.transactions, (transaction) => transaction.type, [this.order]);
       case 'amount':
-        return orderBy(this.transactions, (transaction) => this.amount(transaction).toNumber(), [this.order]);
+        return orderBy(this.transactions, (transaction) => transaction.amount, [this.order]);
       case 'blockNumber':
-        return orderBy(this.transactions, (transaction) => transaction.receipt.blockNumber, [this.order]);
+        return orderBy(this.transactions, (transaction) => transaction.blockNumber, [this.order]);
       case 'state':
         return orderBy(this.transactions, (transaction) => transaction.receipt.state, [this.order]);
       case 'status':
@@ -91,67 +91,6 @@ export default {
           return this.order === 'desc' ? `${label} ↑` : `${label} ↓`;
         }
         return label;
-      };
-    },
-    transactionType () {
-      return transaction => {
-        const Deposited = web3EthABI.encodeEventSignature('Deposited(address,address,uint256)');
-        const WithdrawalRequested = web3EthABI.encodeEventSignature('WithdrawalRequested(address,address,uint256)');
-        const WithdrawalProcessed = web3EthABI.encodeEventSignature('WithdrawalProcessed(address,address,uint256)');
-
-        let type = '-';
-        const logs = transaction.receipt.logs;
-        if (logs) {
-          loop1:
-          for (const log of logs) {
-            for (const topic of log.topics) {
-              switch (topic) {
-              case Deposited:
-                type ='Delegated';
-                break loop1;
-
-              case WithdrawalRequested:
-                type = 'Undelegate Requested';
-                break loop1;
-
-              case WithdrawalProcessed:
-                type = 'Undelegate Processed';
-                break loop1;
-              }
-            }
-          }
-        }
-        return type;
-      };
-    },
-    amount () {
-      return transaction => {
-        const Deposited = web3EthABI.encodeEventSignature('Deposited(address,address,uint256)');
-        const WithdrawalRequested = web3EthABI.encodeEventSignature('WithdrawalRequested(address,address,uint256)');
-        const WithdrawalProcessed = web3EthABI.encodeEventSignature('WithdrawalProcessed(address,address,uint256)');
-
-        let amount = _WTON.ray('0');
-        const logs = transaction.receipt.logs;
-        if (logs) {
-          for (const log of logs) {
-            for (const topic of log.topics) {
-              switch (topic) {
-              case Deposited:
-                amount = amount.add(_WTON.ray((web3EthABI.decodeParameters(['address', 'uint256'], log.data))[1]));
-                break;
-
-              case WithdrawalRequested:
-                amount = amount.add(_WTON.ray((web3EthABI.decodeParameters(['address', 'uint256'], log.data))[1]));
-                break;
-
-              case WithdrawalProcessed:
-                amount = amount.add(_WTON.ray((web3EthABI.decodeParameters(['address', 'uint256'], log.data))[1]));
-                break;
-              }
-            }
-          }
-        }
-        return amount;
       };
     },
   },

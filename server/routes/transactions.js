@@ -32,9 +32,12 @@ const POST = async (db, req) => {
 
   const transaction = {};
   transaction.from = from;
+  transaction.type = req.body.type;
+  transaction.amount = req.body.amount;
   transaction.transactionHash = req.body.transactionHash;
   transaction.target = req.body.target;
-  transaction.receipt = req.body.receipt;
+  transaction.status = req.body.receipt.status;
+  transaction.blockNumber = req.body.receipt.blockNumber;
 
   try {
     await db
