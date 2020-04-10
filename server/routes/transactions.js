@@ -21,7 +21,6 @@ const GET = (db, req) => {
   }
 };
 
-// put new pending transaction
 const POST = async (db, req) => {
   let from;
   try {
