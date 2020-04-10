@@ -42,7 +42,7 @@ export default {
           this.$router.replace('/').catch(err => {});
         });
         window.ethereum.on('accountsChanged', (account) => {
-          if (this.user.toLowerCase() !== account.toLowerCase()) {
+          if (this.user.toLowerCase() !== account[0].toLowerCase()) {
             this.$store.dispatch('logout');
             this.$router.replace('/').catch(err => {});
           }
