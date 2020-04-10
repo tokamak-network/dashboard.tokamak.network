@@ -1,11 +1,38 @@
 const express = require('express');
 const router = express.Router();
 
+const CustomError = require('../CustomError');
+
 const lowdb = require('lowdb');
 const FileAsync = require('lowdb/adapters/FileAsync');
-const adapter = new FileAsync(`${__dirname}/../../db/db.json`);
+const args = process.argv.slice(2);
 
-const CustomError = require('../CustomError');
+const fs = require('fs');
+const rinkebyDir = `${__dirname}/../../db/rinkeby`;
+if (!fs.existsSync(rinkebyDir)){
+  fs.mkdirSync(rinkebyDir);
+}
+const mainnetDir = `${__dirname}/../../db/mainnet`;
+if (!fs.existsSync(mainnetDir)){
+  fs.mkdirSync(mainnetDir);
+}
+const developmentDir = `${__dirname}/../../db/development`;
+if (!fs.existsSync(developmentDir)){
+  fs.mkdirSync(developmentDir);
+}
+
+let adapter;
+switch (args[0]) {
+case 'rinkeby':
+  adapter = new FileAsync(`${__dirname}/../../db/rinkeby/db.json`);
+  break;
+case 'development':
+  adapter = new FileAsync(`${__dirname}/../../db/development/db.json`);
+  break;
+default:
+  adapter = new FileAsync(`${__dirname}/../../db/mainnet/db.json`);
+  break;
+}
 
 router.use(async (req, res) => {
   lowdb(adapter)
