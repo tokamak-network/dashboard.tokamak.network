@@ -1,9 +1,9 @@
 import axios from 'axios';
-import config from '../../config.json';
+import { getConfig } from '../../config.js';
 
 function createInstance () {
   return axios.create({
-    baseURL: config.baseURL,
+    baseURL: getConfig().baseURL,
   });
 }
 

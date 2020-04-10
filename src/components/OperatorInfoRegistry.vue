@@ -20,7 +20,7 @@
 </template>
 
 <script>
-import config from '../../config.json';
+import { getConfig } from '../../config.js';
 import { mapState } from 'vuex';
 
 import Avatar from 'vue-avatar-component';
@@ -47,7 +47,7 @@ export default {
       'user',
     ]),
     filteredImgURL () {
-      return name => `${config.baseURL}/avatars/${name}`;
+      return name => `${getConfig().baseURL}/avatars/${name}`;
     },
   },
   created () {
@@ -58,7 +58,7 @@ export default {
   methods: {
     edit () {
       const path = this.$route.path;
-      this.$router.push(`${path}/edit`).catch(err => {});
+      this.$router.push({ path: `${path}/edit`, query: { network: this.$route.query.network } }).catch(err => {});
     },
   },
 };

@@ -1,7 +1,7 @@
 <template>
   <div class="dashboard-header">
     <div class="title"><span>{{ title }}</span></div>
-    <button @click="$router.push(`/${path}`)">more</button>
+    <button @click="clickButton()">more</button>
   </div>
 </template>
 
@@ -15,6 +15,14 @@ export default {
     path: {
       type: String,
       default: '',
+    },
+  },
+  methods: {
+    clickButton () {
+      this.$router.push({
+        path: `/${this.path}`,
+        query: { network: this.$route.query.network },
+      }).catch(err => {});
     },
   },
 };
