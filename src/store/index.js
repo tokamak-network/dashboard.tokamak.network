@@ -187,28 +187,30 @@ export default new Vuex.Store({
       const transactions = await getTransactions(user);
       await context.dispatch('setManagers', managers);
       await context.dispatch('setOperatorsWithRegistry', operators);
-      await context.dispatch('setTransactionsAndPendingTransactions', transactions);
 
-      await context.dispatch('setAccountsDepositedWithPower');
-      await context.dispatch('set', web3);
+      await Promise.all([
+        context.dispatch('setTransactionsAndPendingTransactions', transactions),
+        context.dispatch('setAccountsDepositedWithPower'),
+        context.dispatch('set', web3),
+      ]);
 
       context.commit('SIGN_IN');
       context.commit('IS_LOADING', false);
       router.replace('/dashboard').catch(err => {});
     },
     async set (context, web3) {
-      try {
-        const blockNumber = await web3.eth.getBlockNumber();
-        context.commit('SET_BLOCK_NUMBER', blockNumber);
+      const blockNumber = await web3.eth.getBlockNumber();
+      context.commit('SET_BLOCK_NUMBER', blockNumber);
 
-        await context.dispatch('setOperators', blockNumber);
-        await context.dispatch('setBalance', web3);
-        await context.dispatch('setRound');
-        await context.dispatch('setHistory');
-        await context.dispatch('checkPendingTransactions');
-      } catch (err) {
+      await Promise.all([
+        context.dispatch('setOperators', blockNumber),
+        context.dispatch('setBalance'),
+        context.dispatch('setRound'),
+        context.dispatch('setHistory'),
+        context.dispatch('checkPendingTransactions'),
+      ]).catch(err => {
         // after logout, error can be happened
-      }
+      });
     },
     async setManagers (context, managers) {
       const user = context.state.user;
@@ -266,146 +268,160 @@ export default new Vuex.Store({
       const wtonWrapper = (amount) => _WTON.ray(amount);
 
       const operators = context.state.operators;
-      const operatorsFromRootChain = operators.map(async operatorFromRootChain => {
-        ///////////////////////////////////////////////////////////////////
-        // NOTE: operatorFromRootChain has already have following property.
-        //
-        // operatorFromRootChain = {
-        //   {
-        //     "rootchain": "0xc4bf071b54914221cc047f480293231e7df9f85b",
-        //     "name": "ONTHER_1",
-        //     "website": "https://tokamak.network/",
-        //     "description": "Tokamak Network is a platform that assures decentralized and secure property same as Ethereum Main chain while supporting high level of scalability and extendability.",
-        //     "avatar": "66652a5c44d1e8aa64a73366ad7f263a",
-        //     "color": "rgb(63,220,161)",
-        //     "chainId": "1021",
-        //   },
-        // }
-        //
-        ///////////////////////////////////////////////////////////////////
-        const rootchain = operatorFromRootChain.rootchain;
-        const RootChain = await createWeb3Contract(RootChainABI, rootchain);
-        const Coinage =
-          await createWeb3Contract(CustomIncrementCoinageABI, await SeigManager.methods.coinages(rootchain).call());
+      const operatorsFromRootChain = await Promise.all(
+        operators.map(async operatorFromRootChain => {
+          ///////////////////////////////////////////////////////////////////
+          // NOTE: operatorFromRootChain has already have following property.
+          //
+          // operatorFromRootChain = {
+          //   {
+          //     "rootchain": "0xc4bf071b54914221cc047f480293231e7df9f85b",
+          //     "name": "ONTHER_1",
+          //     "website": "https://tokamak.network/",
+          //     "description": "Tokamak Network is a platform that assures decentralized and secure property same as Ethereum Main chain while supporting high level of scalability and extendability.",
+          //     "avatar": "66652a5c44d1e8aa64a73366ad7f263a",
+          //     "color": "rgb(63,220,161)",
+          //     "chainId": "1021",
+          //   },
+          // }
+          //
+          ///////////////////////////////////////////////////////////////////
+          const rootchain = operatorFromRootChain.rootchain;
+          const RootChain = await createWeb3Contract(RootChainABI, rootchain);
+          const Coinage =
+            await createWeb3Contract(CustomIncrementCoinageABI, await SeigManager.methods.coinages(rootchain).call());
 
-        const getLastFinalizedAt = async (lastFinalizedEpochNumber, lastFinalizedBlockNumber) => {
-          const epoch = await RootChain.methods.getEpoch(currentForkNumber, lastFinalizedEpochNumber).call();
-          const timestamp
-                          = epoch.isRequest ?
-                            (await RootChain.methods.getBlock(currentForkNumber, lastFinalizedBlockNumber).call()).finalizedAt :
-                            epoch.NRE.finalizedAt;
-          return timestamp;
-        };
+          const getLastFinalizedAt = async (lastFinalizedEpochNumber, lastFinalizedBlockNumber) => {
+            const epoch = await RootChain.methods.getEpoch(currentForkNumber, lastFinalizedEpochNumber).call();
+            const timestamp
+                            = epoch.isRequest ?
+                              (await RootChain.methods.getBlock(currentForkNumber, lastFinalizedBlockNumber).call()).finalizedAt :
+                              epoch.NRE.finalizedAt;
+            return timestamp;
+          };
 
-        const getDeposit = async (account) => {
-          let accStaked, accUnstaked;
-          if (typeof account === 'undefined') {
-            accStaked = await DepositManager.methods.accStakedRootChain(rootchain).call();
-            accUnstaked = await DepositManager.methods.accUnstakedRootChain(rootchain).call();
-          } else {
-            accStaked = await DepositManager.methods.accStaked(rootchain, account).call(null, blockNumber);
-            accUnstaked = await DepositManager.methods.accUnstaked(rootchain, account).call(null, blockNumber);
-          }
-          const deposit = new BN(accStaked).sub(new BN(accUnstaked));
-          if (deposit.cmp(new BN('0')) === -1) {
-            return '0';
-          } else {
-            return deposit.toString();
-          }
-        };
+          const getDeposit = async (account) => {
+            let accStaked, accUnstaked;
+            if (typeof account === 'undefined') {
+              accStaked = await DepositManager.methods.accStakedRootChain(rootchain).call();
+              accUnstaked = await DepositManager.methods.accUnstakedRootChain(rootchain).call();
+            } else {
+              accStaked = await DepositManager.methods.accStaked(rootchain, account).call(null, blockNumber);
+              accUnstaked = await DepositManager.methods.accUnstaked(rootchain, account).call(null, blockNumber);
+            }
+            const deposit = new BN(accStaked).sub(new BN(accUnstaked));
+            if (deposit.cmp(new BN('0')) === -1) {
+              return '0';
+            } else {
+              return deposit.toString();
+            }
+          };
 
-        const getPendingRequests = async () => {
-          const numPendingRequests = await DepositManager.methods.numPendingRequests(rootchain, user).call();
-          if (numPendingRequests === 0) {
-            return [];
-          }
+          const getPendingRequests = async () => {
+            const numPendingRequests = await DepositManager.methods.numPendingRequests(rootchain, user).call();
+            if (numPendingRequests === 0) {
+              return [];
+            }
 
-          let requestIndex
-            = await DepositManager.methods.withdrawalRequestIndex(rootchain, user).call();
+            let requestIndex
+              = await DepositManager.methods.withdrawalRequestIndex(rootchain, user).call();
 
-          const pendingRequests = [];
-          for (const _ of range(numPendingRequests)) {
-            const request = await DepositManager.methods.withdrawalRequest(rootchain, user, requestIndex).call();
-            pendingRequests.push(request);
+            const pendingRequests = [];
+            for (const _ of range(numPendingRequests)) {
+              const request = await DepositManager.methods.withdrawalRequest(rootchain, user, requestIndex).call();
+              pendingRequests.push(request);
 
-            requestIndex++;
-          }
-          return pendingRequests;
-        };
+              requestIndex++;
+            }
+            return pendingRequests;
+          };
 
-        const filterNotWithdrawableRequests = async (requests) => {
-          return requests.filter(request => parseInt(request.withdrawableBlockNumber) > blockNumber);
-        };
+          const filterNotWithdrawableRequests = (requests) => {
+            return requests.filter(request => parseInt(request.withdrawableBlockNumber) > blockNumber);
+          };
 
-        const filterWithdrawableRequests = async (requests) => {
-          return requests.filter(request => parseInt(request.withdrawableBlockNumber) <= blockNumber);
-        };
+          const filterWithdrawableRequests = (requests) => {
+            return requests.filter(request => parseInt(request.withdrawableBlockNumber) <= blockNumber);
+          };
 
-        const getUserNotWithdrawable = async (notWithdrawableRequests) => {
-          const initialAmount = _WTON.ray('0');
-          const reducer = (amount, request) => amount.add(_WTON.ray(request.amount));
-          return notWithdrawableRequests.reduce(reducer, initialAmount);
-        };
+          const getUserNotWithdrawable = (notWithdrawableRequests) => {
+            const initialAmount = _WTON.ray('0');
+            const reducer = (amount, request) => amount.add(_WTON.ray(request.amount));
+            return notWithdrawableRequests.reduce(reducer, initialAmount);
+          };
 
-        const getUserWithdrawable = async (withdrawableRequests) => {
-          const initialAmount = _WTON.ray('0');
-          const reducer = (amount, request) => amount.add(_WTON.ray(request.amount));
-          return withdrawableRequests.reduce(reducer, initialAmount);
-        };
+          const getUserWithdrawable = (withdrawableRequests) => {
+            const initialAmount = _WTON.ray('0');
+            const reducer = (amount, request) => amount.add(_WTON.ray(request.amount));
+            return withdrawableRequests.reduce(reducer, initialAmount);
+          };
 
-        const operator = await RootChain.methods.operator().call();
-        const currentForkNumber = await RootChain.methods.currentFork().call();
-        const currentFork = await RootChain.methods.forks(currentForkNumber).call();
-        const lastFinalizedEpochNumber = currentFork.lastFinalizedEpoch;
-        const lastFinalizedBlockNumber = currentFork.lastFinalizedBlock;
+          const operator = await RootChain.methods.operator().call();
+          const currentForkNumber = await RootChain.methods.currentFork().call();
+          const currentFork = await RootChain.methods.forks(currentForkNumber).call();
+          const lastFinalizedEpochNumber = currentFork.lastFinalizedEpoch;
+          const lastFinalizedBlockNumber = currentFork.lastFinalizedBlock;
 
-        const lastFinalizedAt = await getLastFinalizedAt(lastFinalizedEpochNumber, lastFinalizedBlockNumber);
-        const finalizeCount = parseInt(lastFinalizedEpochNumber) + 1;
-        const deployedAt = (await RootChain.methods.getEpoch(0, 0).call()).timestamp;
+          const [
+            totalDeposit,
+            selfDeposit,
+            userDeposit,
+            totalStaked,
+            selfStaked,
+            userStaked,
+            pendingRequests,
+            lastFinalizedAt,
+            firstEpoch,
+          ] = await Promise.all([
+            getDeposit(),
+            getDeposit(operator),
+            getDeposit(user),
+            Coinage.methods.totalSupply().call(),
+            Coinage.methods.balanceOf(operator).call(),
+            Coinage.methods.balanceOf(user).call(null, blockNumber),
+            getPendingRequests(),
+            getLastFinalizedAt(lastFinalizedEpochNumber, lastFinalizedBlockNumber),
+            RootChain.methods.getEpoch(0, 0).call(),
+          ]);
 
-        const totalDeposit = await getDeposit();
-        const selfDeposit = await getDeposit(operator);
-        const userDeposit = await getDeposit(user);
+          const finalizeCount = parseInt(lastFinalizedEpochNumber) + 1;
+          const deployedAt = firstEpoch.timestamp;
 
-        const totalStaked = await Coinage.methods.totalSupply().call();
-        const selfStaked = await Coinage.methods.balanceOf(operator).call();
-        const userStaked = await Coinage.methods.balanceOf(user).call(null, blockNumber);
+          const notWithdrawableRequests = filterNotWithdrawableRequests(pendingRequests);
+          const withdrawableRequests = filterWithdrawableRequests(pendingRequests);
 
-        const pendingRequests = await getPendingRequests();
-        const notWithdrawableRequests = await filterNotWithdrawableRequests(pendingRequests);
-        const withdrawableRequests = await filterWithdrawableRequests(pendingRequests);
+          const userNotWithdrawable = getUserNotWithdrawable(notWithdrawableRequests);
+          const userWithdrawable = getUserWithdrawable(withdrawableRequests);
 
-        const userNotWithdrawable = await getUserNotWithdrawable(notWithdrawableRequests);
-        const userWithdrawable = await getUserWithdrawable(withdrawableRequests);
+          // set vue state.
+          operatorFromRootChain.address = operator;
+          operatorFromRootChain.lastFinalizedAt = lastFinalizedAt;
+          operatorFromRootChain.finalizeCount = finalizeCount;
+          operatorFromRootChain.deployedAt = deployedAt;
+          operatorFromRootChain.totalDeposit = wtonWrapper(totalDeposit);
+          operatorFromRootChain.totalStaked = wtonWrapper(totalStaked);
+          operatorFromRootChain.selfDeposit = wtonWrapper(selfDeposit);
+          operatorFromRootChain.selfStaked = wtonWrapper(selfStaked);
 
-        // set vue state.
-        operatorFromRootChain.address = operator;
-        operatorFromRootChain.lastFinalizedAt = lastFinalizedAt;
-        operatorFromRootChain.finalizeCount = finalizeCount;
-        operatorFromRootChain.deployedAt = deployedAt;
-        operatorFromRootChain.totalDeposit = wtonWrapper(totalDeposit);
-        operatorFromRootChain.totalStaked = wtonWrapper(totalStaked);
-        operatorFromRootChain.selfDeposit = wtonWrapper(selfDeposit);
-        operatorFromRootChain.selfStaked = wtonWrapper(selfStaked);
+          operatorFromRootChain.userDeposit = wtonWrapper(userDeposit);
+          operatorFromRootChain.userStaked = wtonWrapper(userStaked);
+          operatorFromRootChain.withdrawableRequests = withdrawableRequests; // used at DepositManager.processRequests count
+          // already wrapped with WTON
+          operatorFromRootChain.userNotWithdrawable = userNotWithdrawable;
+          operatorFromRootChain.userWithdrawable = userWithdrawable;
+          operatorFromRootChain.userReward
+            = operatorFromRootChain.userStaked
+              .add(userNotWithdrawable)
+              .add(userWithdrawable)
+              .sub(operatorFromRootChain.userDeposit);
 
-        operatorFromRootChain.userDeposit = wtonWrapper(userDeposit);
-        operatorFromRootChain.userStaked = wtonWrapper(userStaked);
-        operatorFromRootChain.withdrawableRequests = withdrawableRequests; // used at DepositManager.processRequests count
-        // already wrapped with WTON
-        operatorFromRootChain.userNotWithdrawable = userNotWithdrawable;
-        operatorFromRootChain.userWithdrawable = userWithdrawable;
-        operatorFromRootChain.userReward
-          = operatorFromRootChain.userStaked
-            .add(userNotWithdrawable)
-            .add(userWithdrawable)
-            .sub(operatorFromRootChain.userDeposit);
-
-        return operatorFromRootChain;
-      });
-
-      context.commit('SET_OPERATORS', await Promise.all(operatorsFromRootChain));
+          return operatorFromRootChain;
+        })
+      );
+      context.commit('SET_OPERATORS', operatorsFromRootChain);
     },
-    async setBalance (context, web3) {
+    async setBalance (context) {
+      const web3 = context.state.web3;
       const user = context.state.user;
 
       const TON = context.state.TON;
@@ -455,14 +471,18 @@ export default new Vuex.Store({
       }
       context.commit('SET_CURRENT_ROUND', currentRound);
 
-      const rounds = [];
+      const promises = [];
       for (const i of range(currentRoundIndex)) {
-        const round = await PowerTON.methods.rounds(i).call();
-        round.index = i;
-        round.reward = _WTON.ray(round.reward);
-        rounds.push(round);
+        promises.push(PowerTON.methods.rounds(i).call());
       }
-      context.commit('SET_ROUNDS', rounds);
+      Promise.all(promises).then(rounds => {
+        let i = 1;
+        context.commit('SET_ROUNDS', rounds.map(round => {
+          round.index = i++;
+          round.reward = _WTON.ray(round.reward);
+          return round;
+        }));
+      });
     },
     async setAccountsDepositedWithPower (context) {
       const PowerTON = context.state.PowerTON;
