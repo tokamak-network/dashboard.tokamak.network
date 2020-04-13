@@ -29,7 +29,7 @@
         >
           <img
             class="footer-channel-image filter-grey"
-            src="@/assets/images/Medium.png"
+            src="@/assets/images/community/medium.png"
             width="28x;"
             height="28px;"
           >
@@ -41,7 +41,7 @@
         >
           <img
             class="footer-channel-image filter-grey"
-            src="@/assets/images/Linkedin.png"
+            src="@/assets/images/community/linkedin.png"
             width="28x;"
             height="28px;"
           >
@@ -53,7 +53,7 @@
         >
           <img
             class="footer-channel-image filter-grey"
-            src="@/assets/images/Twitter.png"
+            src="@/assets/images/community/twitter.png"
             width="28x;"
             height="28px;"
           >
@@ -65,7 +65,7 @@
         >
           <img
             class="footer-channel-image filter-grey"
-            src="@/assets/images/Youtube.png"
+            src="@/assets/images/community/youtube.png"
             width="28x;"
             height="28px;"
           >
@@ -77,7 +77,7 @@
         >
           <img
             class="footer-channel-image filter-grey"
-            src="@/assets/images/Facebook.png"
+            src="@/assets/images/community/facebook.png"
             width="28x;"
             height="28px;"
           >
@@ -89,7 +89,7 @@
         >
           <img
             class="footer-channel-image filter-grey"
-            src="@/assets/images/Github.png"
+            src="@/assets/images/community/github.png"
             width="28x;"
             height="28px;"
           >
@@ -101,7 +101,7 @@
         >
           <img
             class="footer-channel-image filter-grey"
-            src="@/assets/images/Discord.png"
+            src="@/assets/images/community/discord.png"
             width="28x;"
             height="28px;"
           >
@@ -113,7 +113,7 @@
         >
           <img
             class="footer-channel-image filter-grey"
-            src="@/assets/images/Telegram.png"
+            src="@/assets/images/community/telegram.png"
             width="28x;"
             height="28px;"
           >
