@@ -71,7 +71,7 @@
           >
         </a>
         <a
-          href="https://www.facebook.com/OntherInc/ㅛ"
+          href="https://www.facebook.com/OntherInc/"
           target="_blank"
           rel="noopener noreferrer"
         >
@@ -90,6 +90,30 @@
           <img
             class="footer-channel-image filter-grey"
             src="@/assets/images/Github.png"
+            width="28x;"
+            height="28px;"
+          >
+        </a>
+        <a
+          href="https://discord.gg/8wSpJKz"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <img
+            class="footer-channel-image filter-grey"
+            src="@/assets/images/Discord.png"
+            width="28x;"
+            height="28px;"
+          >
+        </a>
+        <a
+          href="https://t.me/tokamak_network/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <img
+            class="footer-channel-image filter-grey"
+            src="@/assets/images/Telegram.png"
             width="28x;"
             height="28px;"
           >
