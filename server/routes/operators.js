@@ -1,9 +1,6 @@
 const util = require('util');
 const multer = require('multer');
-const upload = multer({
-  dest: `${__dirname}/../../db/avatars`,
-});
-
+const path = require('path');
 const { toChecksumAddress } = require('web3-utils');
 
 const GET = (db) => {
@@ -65,6 +62,22 @@ const POST = async (db, req) => {
 };
 
 const PATCH = async (db, req) => {
+  let dir;
+  switch (req.network) {
+  case 'rinkeby':
+    dir = path.join(__dirname, '..', '..', 'db', 'rinkeby', 'avatars');
+    break;
+  case 'development':
+    dir = path.join(__dirname, '..', '..', 'db', 'development', 'avatars');
+    break;
+  default:
+    dir = path.join(__dirname, '..', '..', 'db', 'mainnet', 'avatars');
+    break;
+  }
+  const upload = multer({
+    dest: dir,
+  });
+
   const uploadPromise = util.promisify(upload.single('avatar'));
   try {
     await uploadPromise(req, {});

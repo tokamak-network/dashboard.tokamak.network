@@ -8,35 +8,32 @@ const FileAsync = require('lowdb/adapters/FileAsync');
 const args = process.argv.slice(2);
 
 const fs = require('fs');
-const rinkebyDir = `${__dirname}/../../db/rinkeby`;
-if (!fs.existsSync(rinkebyDir)){
-  fs.mkdirSync(rinkebyDir);
-}
-const mainnetDir = `${__dirname}/../../db/mainnet`;
-if (!fs.existsSync(mainnetDir)){
-  fs.mkdirSync(mainnetDir);
-}
-const developmentDir = `${__dirname}/../../db/development`;
-if (!fs.existsSync(developmentDir)){
-  fs.mkdirSync(developmentDir);
-}
+const path = require('path');
 
-let adapter;
+let dir;
 switch (args[0]) {
 case 'rinkeby':
-  adapter = new FileAsync(`${__dirname}/../../db/rinkeby/db.json`);
+  dir = path.join(__dirname, '..', '..', 'db', 'rinkeby');
   break;
 case 'development':
-  adapter = new FileAsync(`${__dirname}/../../db/development/db.json`);
+  dir = path.join(__dirname, '..', '..', 'db', 'development');
   break;
 default:
-  adapter = new FileAsync(`${__dirname}/../../db/mainnet/db.json`);
+  dir = path.join(__dirname, '..', '..', 'db', 'mainnet');
   break;
 }
+
+if (!fs.existsSync(dir)){
+  fs.mkdirSync(dir);
+  fs.mkdirSync(path.join(dir, 'avatars'));
+}
+const adapter = new FileAsync(path.join(dir, 'db.json'));
 
 router.use(async (req, res) => {
   lowdb(adapter)
     .then(async db => {
+      req.network = args[0];
+
       const index = req.path.indexOf('/', 1);
       const path = index > 0 ? req.path.slice(0, index) : req.path;
       try {
