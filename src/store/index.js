@@ -205,7 +205,8 @@ export default new Vuex.Store({
       await Promise.all([
         context.dispatch('setOperators', blockNumber),
         context.dispatch('setBalance'),
-        context.dispatch('setRound'),
+        context.dispatch('setCurrentRound'),
+        context.dispatch('setRounds'),
         context.dispatch('setHistory'),
         context.dispatch('checkPendingTransactions'),
       ]).catch(err => {
@@ -444,54 +445,68 @@ export default new Vuex.Store({
 
       context.commit('SET_USER_HISTORY', userHistory.map(h => h.history));
     },
-    async setRound (context) {
+    async setCurrentRound (context) {
       const user = context.state.user;
       const WTON = context.state.WTON;
       const PowerTON = context.state.PowerTON;
 
       const currentRoundIndex = await PowerTON.methods.currentRound().call();
-      const currentRound = await PowerTON.methods.rounds(currentRoundIndex).call();
-      currentRound.index = currentRoundIndex;
-
-      const REWARD_NUMERATOR = await PowerTON.methods.REWARD_NUMERATOR().call();
-      const REWARD_DENOMINATOR = await PowerTON.methods.REWARD_DENOMINATOR().call();
-      const balance = await WTON.methods.balanceOf(PowerTON._address).call();
+      const [
+        currentRound,
+        REWARD_NUMERATOR,
+        REWARD_DENOMINATOR,
+        balance,
+        totalDeposits,
+        power,
+      ] = await Promise.all([
+        PowerTON.methods.rounds(currentRoundIndex).call(),
+        PowerTON.methods.REWARD_NUMERATOR().call(),
+        PowerTON.methods.REWARD_DENOMINATOR().call(),
+        WTON.methods.balanceOf(PowerTON._address).call(),
+        PowerTON.methods.totalDeposits().call(),
+        PowerTON.methods.powerOf(user).call(),
+      ]);
+      const userPower = _POWER.ray(power);
+      const totalPower = _POWER.ray(totalDeposits);
       const reward = new BN(balance).mul(new BN(REWARD_NUMERATOR)).div(new BN(REWARD_DENOMINATOR));
+
+      currentRound.index = currentRoundIndex;
       currentRound.reward = _WTON.ray(reward);
-
-      const totalDeposits = _POWER.ray(await PowerTON.methods.totalDeposits().call());
-      const userPower = _POWER.ray(await PowerTON.methods.powerOf(user).call());
-
       // `.div` needs to check zero value
-      if (!totalDeposits.eq(_POWER.ray('0'))) {
-        const winningProbability = userPower.div(totalDeposits);
+      if (!totalPower.eq(_POWER.ray('0'))) {
+        const winningProbability = userPower.div(totalPower);
         currentRound.winningProbability = `${numeral(winningProbability.toNumber()).format('0.00%')}`;
       } else {
         currentRound.winningProbability = '0.00%';
       }
       context.commit('SET_CURRENT_ROUND', currentRound);
+    },
+    async setRounds (context) {
+      const PowerTON = context.state.PowerTON;
+      const roundEndEvent = web3EthABI.encodeEventSignature('RoundEnd(uint256,address,uint256)');
+      const deployedAt = PowerTON.transactionConfirmationBlocks;
 
-      const promises = [];
-      for (const i of range(currentRoundIndex)) {
-        promises.push(PowerTON.methods.rounds(i).call());
-      }
-      Promise.all(promises).then(rounds => {
-        let i = 1;
-        context.commit('SET_ROUNDS', rounds.map(round => {
-          round.index = i++;
-          round.reward = _WTON.ray(round.reward);
-          return round;
-        }));
+      const events = await PowerTON.getPastEvents('RoundEnd', {
+        fromBlock: deployedAt,
+        toBlock: 'latest',
+        topics: [roundEndEvent],
       });
+      const rounds = events.map(event => {
+        const returnValues = event.returnValues;
+        return {
+          index: parseInt(returnValues.round),
+          winner: returnValues.winner,
+          reward: _POWER.ray(returnValues.reward),
+        };
+      });
+      context.commit('SET_ROUNDS', rounds);
     },
     async setAccountsDepositedWithPower (context) {
       const PowerTON = context.state.PowerTON;
       const DepositManager = context.state.DepositManager;
-
       const depositedEvent = web3EthABI.encodeEventSignature('Deposited(address,address,uint256)');
       const deployedAt = DepositManager.transactionConfirmationBlocks;
 
-      // event Deposited(address indexed rootchain, address depositor, uint256 amount);
       const events = await DepositManager.getPastEvents('Deposited', {
         fromBlock: deployedAt,
         toBlock: 'latest',
