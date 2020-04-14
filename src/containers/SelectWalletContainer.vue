@@ -16,7 +16,6 @@
 <script>
 import Web3 from 'web3';
 import config from '../../config.json';
-import { setProvider } from '@/helpers/Contract';
 
 import { mapState } from 'vuex';
 import Wallet from '@/components/Wallet.vue';
@@ -34,7 +33,6 @@ export default {
     async useMetamask () {
       try {
         const web3 = await this.metamask();
-        setProvider(web3);
         await this.$store.dispatch('signIn', web3);
 
         window.ethereum.on('chainIdChanged', (chainId) => {
