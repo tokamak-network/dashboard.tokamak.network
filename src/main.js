@@ -1,4 +1,7 @@
 import Vue from 'vue';
+import Notifications from 'vue-notification';
+Vue.use(Notifications);
+
 import App from './App.vue';
 import router from './router';
 import store from './store';

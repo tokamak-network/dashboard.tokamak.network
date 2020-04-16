@@ -82,6 +82,7 @@ export default {
     },
     setAvailableAmountToDelegate () {
       const tonAmount = this.tonBalance.toBigNumber().toString();
+      console.log('tonAmount', tonAmount);
       const index = tonAmount.indexOf('.');
       if (index === -1) {
         this.amountToDelegate = tonAmount + '.00';
@@ -103,7 +104,7 @@ export default {
         return alert('Please check input amount.');
       }
       if (_TON(this.amountToDelegate).gt(this.tonBalance)) {
-        return alert('Please check your TON amount.');
+        return alert('Please check your MTON amount.');
       }
 
       const data = this.getData();
@@ -124,7 +125,7 @@ export default {
           this.$store.dispatch('addPendingTransaction', transcation);
         })
         .on('error', function (error, receipt) {
-          alert(error.message);
+          //
         });
 
       this.amountToDelegate = '';
@@ -134,7 +135,7 @@ export default {
         return alert('Please check input amount.');
       }
       if (_WTON(this.amountToUndelegate).gt(this.operator.userStaked)){
-        return alert('Please check your TON amount.');
+        return alert('Please check your MTON amount.');
       }
 
       const amount = _WTON(this.amountToUndelegate).toFixed('ray');
@@ -153,7 +154,7 @@ export default {
           this.$store.dispatch('addPendingTransaction', transcation);
         })
         .on('error', function (error, receipt) {
-          alert(error.message);
+          //
         });
 
       this.amountToUndelegate = '';
@@ -185,7 +186,7 @@ export default {
           this.$store.dispatch('addPendingTransaction', transcation);
         })
         .on('error', function (error, receipt) {
-          alert(error.message);
+          //
         });
     },
     isNumber (evt) {
