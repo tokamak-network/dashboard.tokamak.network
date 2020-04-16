@@ -82,7 +82,6 @@ export default {
     },
     setAvailableAmountToDelegate () {
       const tonAmount = this.tonBalance.toBigNumber().toString();
-      console.log('tonAmount', tonAmount);
       const index = tonAmount.indexOf('.');
       if (index === -1) {
         this.amountToDelegate = tonAmount + '.00';
