@@ -64,7 +64,7 @@
       </div>
       <div class="wallet-assets-content">
         <div class="wallet-content">
-          TON
+          MTON
         </div>
         <div class="wallet-content ton-balance">
           {{ tonBalance | currencyAmount }}
@@ -72,7 +72,7 @@
       </div>
       <div class="wallet-assets-content">
         <div class="wallet-content">
-          Staked TON
+          Staked MTON
         </div>
         <div class="wallet-content wton-balance">
           {{ userTotalStaked | currencyAmount }}

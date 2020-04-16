@@ -12,7 +12,16 @@
       <tr v-for="(account, index) in orderedRank" :key="account.address">
         <td class="text-center">{{ index }}</td>
         <td class="text-center">{{ account.rank }}</td>
-        <td class="text-center">{{ account.address | hexSlicer }}</td>
+        <td class="text-center">
+          <a
+            class="link"
+            target="_blank"
+            rel="noopener noreferrer"
+            :href="toExplorer('address', account.address)"
+          >
+            {{ account.address | hexSlicer }}
+          </a>
+        </td>
         <td class="text-center">{{ account.power | currencyAmount }}</td>
       </tr>
     </tbody>
@@ -35,6 +44,9 @@ export default {
     ...mapGetters([
       'rankedAccountsWithPower',
     ]),
+    toExplorer () {
+      return (type, param) => this.$options.filters.toExplorer(type, param);
+    },
     orderedRank () {
       switch (this.from) {
       case 'rank':
@@ -142,5 +154,9 @@ td {
   letter-spacing: normal;
   text-align: center;
   color: #161819;
+}
+
+.link {
+  color: black;
 }
 </style>

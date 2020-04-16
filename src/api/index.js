@@ -67,6 +67,8 @@ export async function addTransaction (transaction) {
   const res = await instance.post(
     '/transactions',
     {
+      type: transaction.type,
+      amount: transaction.amount,
       transactionHash: transaction.transactionHash,
       target: transaction.target,
       receipt: transaction.receipt,

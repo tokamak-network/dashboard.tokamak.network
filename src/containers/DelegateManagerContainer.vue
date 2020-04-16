@@ -10,7 +10,7 @@
           <span class="available-amount-label">Available Amount</span>
           <button type="button" class="available-amount" @click="setAvailableAmountToDelegate()">{{ currencyAmount(tonBalance) }}</button>
         </div>
-        <div class="button-container" style="margin-top: 24px;"><base-button :label="'Delegate TON'" :func="delegate" /></div>
+        <div class="button-container" style="margin-top: 24px;"><base-button :label="'Delegate MTON'" :func="delegate" /></div>
       </div>
     </form>
     <form v-else>
@@ -20,7 +20,7 @@
           <span class="available-amount-label">Available Amount</span>
           <button type="button" class="available-amount" @click="setAvailableAmountToUndelegate()">{{ currencyAmount(operator.userStaked) }}</button>
         </div>
-        <div class="button-container" style="margin-top: 24px;"><base-button :label="'Request Undelegate TON'" :func="undelegate" /></div>
+        <div class="button-container" style="margin-top: 24px;"><base-button :label="'Request Undelegate MTON'" :func="undelegate" /></div>
         <div class="divider" />
         <text-viewer :title="'Not Withdrawable'" :content="currencyAmount(operator.userNotWithdrawable)" style="margin-bottom: -2px;" />
         <text-viewer :title="'Withdrawable'" :content="currencyAmount(operator.userWithdrawable)" />
@@ -116,6 +116,8 @@ export default {
         .on('transactionHash', async (hash) => {
           const transcation = {
             from: this.user,
+            type: 'Delegated',
+            amount: amount,
             transactionHash: hash,
             target: this.operator.rootchain,
           };
@@ -143,6 +145,8 @@ export default {
         .on('transactionHash', async (hash) => {
           const transcation = {
             from: this.user,
+            type: 'Undelegate Requested',
+            amount: amount,
             transactionHash: hash,
             target: this.operator.rootchain,
           };
@@ -155,14 +159,16 @@ export default {
       this.amountToUndelegate = '';
     },
     async processRequests () {
-      if (this.operator.userWithdrawable.isEqual(_WTON.ray('0'))) {
+      const userWithdrawable = this.operator.userWithdrawable;
+      if (userWithdrawable.isEqual(_WTON.ray('0'))) {
         return alert('Withdrawable amount is 0.');
       }
-
       const count = this.operator.withdrawableRequests.length;
       if (count === 0) {
         return alert('Withdrawable amount is 0.');
       }
+
+      const amount = _WTON(userWithdrawable).toFixed('ray');
       this.DepositManager.methods.processRequests(
         this.operator.rootchain,
         count,
@@ -171,6 +177,8 @@ export default {
         .on('transactionHash', async (hash) => {
           const transcation = {
             from: this.user,
+            type: 'Undelegate Processed',
+            amount: amount,
             transactionHash: hash,
             target: this.operator.rootchain,
           };

@@ -34,7 +34,6 @@ export default {
     async useMetamask () {
       try {
         const web3 = await this.metamask();
-        setProvider(web3);
         await this.$store.dispatch('signIn', web3);
 
         window.ethereum.on('chainIdChanged', (chainId) => {
@@ -45,7 +44,7 @@ export default {
           }).catch(err => {});
         });
         window.ethereum.on('accountsChanged', (account) => {
-          if (this.user.toLowerCase() !== account.toLowerCase()) {
+          if (this.user.toLowerCase() !== account[0].toLowerCase()) {
             this.$store.dispatch('logout');
             this.$router.replace({
               path: '/',
