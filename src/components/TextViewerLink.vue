@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import config from '../../config.json';
+import { getConfig } from '../../config.js';
 
 export default {
   props: {
@@ -36,9 +36,9 @@ export default {
   computed: {
     href () {
       if (this.type === 'transactionHash') {
-        return config.prefixTransactionHash + this.content;
+        return getConfig().prefixTransactionHash + this.content;
       } else if (this.type === 'address') {
-        return config.prefixAddress + this.content;
+        return getConfig().prefixAddress + this.content;
       } else {
         return this.content;
       }

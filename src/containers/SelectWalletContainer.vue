@@ -15,7 +15,8 @@
 
 <script>
 import Web3 from 'web3';
-import config from '../../config.json';
+import { getConfig } from '../../config.js';
+import { setProvider } from '@/helpers/Contract';
 
 import { mapState } from 'vuex';
 import Wallet from '@/components/Wallet.vue';
@@ -37,12 +38,18 @@ export default {
 
         window.ethereum.on('chainIdChanged', (chainId) => {
           this.$store.dispatch('logout');
-          this.$router.replace('/').catch(err => {});
+          this.$router.replace({
+            path: '/',
+            query: { network: this.$route.query.network },
+          }).catch(err => {});
         });
         window.ethereum.on('accountsChanged', (account) => {
           if (this.user.toLowerCase() !== account[0].toLowerCase()) {
             this.$store.dispatch('logout');
-            this.$router.replace('/').catch(err => {});
+            this.$router.replace({
+              path: '/',
+              query: { network: this.$route.query.network },
+            }).catch(err => {});
           }
         });
       } catch (e) {
@@ -68,8 +75,8 @@ export default {
         throw new Error('No web3 provider detected');
       }
 
-      if (provider.networkVersion !== config.network) {
-        throw new Error(`Please connect to the '${this.$options.filters.nameOfNetwork(config.network)}' network`);
+      if (provider.networkVersion !== getConfig().network) {
+        throw new Error(`Please connect to the '${this.$options.filters.nameOfNetwork(getConfig().network)}' network`);
       }
 
       return new Web3(provider);

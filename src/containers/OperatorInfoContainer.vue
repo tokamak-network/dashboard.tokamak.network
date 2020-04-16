@@ -24,7 +24,7 @@
 </template>
 
 <script>
-import config from '../../config.json';
+import { getConfig } from '../../config.js';
 import moment from 'moment';
 import { createCurrency } from '@makerdao/currency';
 const _TON = createCurrency('TON');
@@ -55,7 +55,7 @@ export default {
       'user',
     ]),
     filteredImgURL () {
-      return name => name !== '' ? `${config.baseURL}/avatars/${name}` : '';
+      return name => name !== '' ? `${getConfig().baseURL}/avatars/${name}` : '';
     },
     currencyAmount () {
       return amount => this.$options.filters.currencyAmount(amount);
@@ -70,7 +70,10 @@ export default {
   methods: {
     edit () {
       const path = this.$route.path;
-      this.$router.push(`${path}/edit`).catch(err => {});
+      this.$router.push({
+        path: `${path}/edit`,
+        query: { network: this.$route.query.network },
+      }).catch(err => {});
     },
   },
 };

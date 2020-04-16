@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import config from '../../config.json';
+import { getConfig } from '../../config.js';
 import { updateOperator } from '@/api/index.js';
 import { toChecksumAddress } from 'web3-utils';
 import { recoverTypedSignatureLegacy } from 'eth-sig-util';
@@ -68,7 +68,7 @@ export default {
         if (this.preview !== '') {
           return this.preview;
         }
-        return name !== '' ? `${config.baseURL}/avatars/${name}` : '';
+        return name !== '' ? `${getConfig().baseURL}/avatars/${name}` : '';
       };
     },
   },
@@ -108,9 +108,10 @@ export default {
       try {
         await this.sign();
         await this.send();
-        this.$router.replace(this.from).catch(err => {});
-
-        await this.$store.dispatch('set');
+        this.$router.replace({
+          path: this.from.path,
+          query: { network: this.$route.query.network },
+        }).catch(err => {});
       } catch (err) {
         alert(err.message);
       }

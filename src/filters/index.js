@@ -87,12 +87,12 @@ export function currencyAmountFromNumberString (symbol, amount) {
   }
 }
 
-import config from '../../config.json';
+import { getConfig } from '../../config.js';
 export function toExplorer (type, param) {
   if (type === 'transactionHash') {
-    return config.prefixTransactionHash + param;
+    return getConfig().prefixTransactionHash + param;
   } else if (type === 'address') {
-    return config.prefixAddress + param;
+    return getConfig().prefixAddress + param;
   } else {
     return this.content;
   }

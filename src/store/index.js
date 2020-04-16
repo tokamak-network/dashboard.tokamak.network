@@ -196,7 +196,7 @@ export default new Vuex.Store({
 
       context.commit('SIGN_IN');
       context.commit('IS_LOADING', false);
-      router.replace('/dashboard').catch(err => {});
+      router.replace({ path: 'dashboard', query: { network: router.app.$route.query.network } }).catch(err => {});
     },
     async set (context, web3) {
       const blockNumber = await web3.eth.getBlockNumber();

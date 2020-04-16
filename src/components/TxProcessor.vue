@@ -20,7 +20,7 @@
 </template>
 
 <script>
-import config from '../../config.json';
+import { getConfig } from '../../config.js';
 
 import { mapState } from 'vuex';
 
@@ -30,7 +30,7 @@ export default {
       'pendingTransactions',
     ]),
     href () {
-      return transactionHash => config.prefixTransactionHash + transactionHash;
+      return transactionHash => getConfig().prefixTransactionHash + transactionHash;
     },
   },
 };

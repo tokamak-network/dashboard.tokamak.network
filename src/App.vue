@@ -52,13 +52,19 @@ export default {
   },
   created () {
     if (this.initialState && this.$route.path !== '/') {
-      this.$router.replace('/').catch(err => {});
+      this.$router.replace({
+        path: '/',
+        query: { network: this.$route.query.network },
+      }).catch(err => {});
     }
     this.$store.watch(
       (_, getters) => getters.initialState,
       (logout) => {
         if (logout && this.$route.path !== '/') {
-          this.$router.replace('/').catch(err => {});
+          this.$router.replace({
+            path: '/',
+            query: { network: this.$route.query.network },
+          }).catch(err => {});
         }
       },
     );
