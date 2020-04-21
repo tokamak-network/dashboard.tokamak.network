@@ -12,7 +12,16 @@
       <tr v-for="(round, index) in orderedRound" :key="round.index">
         <td class="text-center">{{ index }}</td>
         <td class="text-center">{{ round.index }}</td>
-        <td class="text-center">{{ round.winner | hexSlicer }}</td>
+        <td class="text-center">
+          <a
+            class="link"
+            target="_blank"
+            rel="noopener noreferrer"
+            :href="toExplorer('address', round.winner)"
+          >
+            {{ round.winner | hexSlicer }}
+          </a>
+        </td>
         <td class="text-center">{{ round.reward | currencyAmount }}</td>
       </tr>
     </tbody>
@@ -35,6 +44,9 @@ export default {
     ...mapState([
       'rounds',
     ]),
+    toExplorer () {
+      return (type, param) => this.$options.filters.toExplorer(type, param);
+    },
     orderedRound () {
       switch (this.from) {
       case 'round':
@@ -143,5 +155,9 @@ td {
   letter-spacing: normal;
   text-align: center;
   color: #161819;
+}
+
+.link {
+  color: black;
 }
 </style>

@@ -29,7 +29,7 @@
         >
           <img
             class="footer-channel-image filter-grey"
-            src="@/assets/images/Medium.png"
+            src="@/assets/images/community/medium.png"
             width="28x;"
             height="28px;"
           >
@@ -41,7 +41,7 @@
         >
           <img
             class="footer-channel-image filter-grey"
-            src="@/assets/images/Linkedin.png"
+            src="@/assets/images/community/linkedin.png"
             width="28x;"
             height="28px;"
           >
@@ -53,7 +53,7 @@
         >
           <img
             class="footer-channel-image filter-grey"
-            src="@/assets/images/Twitter.png"
+            src="@/assets/images/community/twitter.png"
             width="28x;"
             height="28px;"
           >
@@ -65,19 +65,19 @@
         >
           <img
             class="footer-channel-image filter-grey"
-            src="@/assets/images/Youtube.png"
+            src="@/assets/images/community/youtube.png"
             width="28x;"
             height="28px;"
           >
         </a>
         <a
-          href="https://www.facebook.com/OntherInc/ㅛ"
+          href="https://www.facebook.com/OntherInc/"
           target="_blank"
           rel="noopener noreferrer"
         >
           <img
             class="footer-channel-image filter-grey"
-            src="@/assets/images/Facebook.png"
+            src="@/assets/images/community/facebook.png"
             width="28x;"
             height="28px;"
           >
@@ -89,7 +89,31 @@
         >
           <img
             class="footer-channel-image filter-grey"
-            src="@/assets/images/Github.png"
+            src="@/assets/images/community/github.png"
+            width="28x;"
+            height="28px;"
+          >
+        </a>
+        <a
+          href="https://discord.gg/8wSpJKz"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <img
+            class="footer-channel-image filter-grey"
+            src="@/assets/images/community/discord.png"
+            width="28x;"
+            height="28px;"
+          >
+        </a>
+        <a
+          href="https://t.me/tokamak_network/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <img
+            class="footer-channel-image filter-grey"
+            src="@/assets/images/community/telegram.png"
             width="28x;"
             height="28px;"
           >

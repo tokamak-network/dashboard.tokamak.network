@@ -80,11 +80,17 @@ export default {
       if (`/${path}` === this.$route.path) {
         return;
       }
-      this.$router.push(`/${path}`).catch(err => {});
+      this.$router.push({
+        path: `/${path}`,
+        query: { network: this.$route.query.network },
+      }).catch(err => {});
     },
     logout () {
       this.$store.dispatch('logout');
-      this.$router.replace('/').catch(err => {});
+      this.$router.replace({
+        path: '/',
+        query: { network: this.$route.query.network },
+      }).catch(err => {});
     },
   },
 };

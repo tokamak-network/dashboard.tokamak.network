@@ -2,6 +2,8 @@
   <div class="main-layout">
     <menu-container />
     <div class="main-container">
+      <notifications group="reverted" style="width: 30%" />
+      <notifications group="confirmed" style="width: 30%" />
       <wallet-info-container />
       <router-view />
     </div>

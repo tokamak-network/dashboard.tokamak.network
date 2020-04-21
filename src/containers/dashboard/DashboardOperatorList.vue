@@ -41,7 +41,10 @@ export default {
   methods: {
     viewOperator (operator) {
       const rootchain = operator.rootchain;
-      this.$router.push(`/operators/${rootchain.toLowerCase()}`).catch(err => {});
+      this.$router.push({
+        path: `/operators/${rootchain.toLowerCase()}`,
+        query: { network: this.$route.query.network },
+      }).catch(err => {});
     },
   },
 };

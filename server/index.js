@@ -8,7 +8,19 @@ const bodyParser = require('body-parser');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use('/avatars', express.static(__dirname + '/../db/avatars'));
+const path = require('path');
+const args = process.argv.slice(2);
+switch (args[0]) {
+case 'rinkeby':
+  app.use('/avatars', express.static(path.join(__dirname, '..', 'db', 'rinkeby', 'avatars')));
+  break;
+case 'development':
+  app.use('/avatars', express.static(path.join(__dirname, '..', 'db', 'development', 'avatars')));
+  break;
+default:
+  app.use('/avatars', express.static(path.join(__dirname, '..', 'db', 'mainnet', 'avatars')));
+  break;
+}
 
 const routes = require('./routes');
 app.use('/', routes);
