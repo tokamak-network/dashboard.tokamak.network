@@ -79,10 +79,6 @@ export default {
         throw new Error(`Please connect to the '${this.$options.filters.nameOfNetwork(getConfig().network)}' network`);
       }
 
-      if (provider.networkVersion === '1') {
-        throw new Error('Staking service on Ethereum mainnet not supported yet');
-      }
-
       return new Web3(provider);
     },
   },
