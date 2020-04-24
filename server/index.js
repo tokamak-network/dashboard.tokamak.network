@@ -1,9 +1,12 @@
 const express = require('express');
 const app = express();
 
+const args = process.argv.slice(2);
+const network = args[0] || 'mainnet';
+
 const mongoose = require('mongoose');
 const config = require('config');
-const mongoURI = config.get('mongoURI');
+const mongoURI = config.get(`mongo_${network}`);
 const options = {
   useCreateIndex: true,
   useNewUrlParser: true,
@@ -28,6 +31,7 @@ app.use('/avatars', express.static(path.join(__dirname, '..', 'avatars')));
 const routes = require('./routes');
 app.use('/', routes);
 
-app.listen(9000, () => {
-  console.log('Server listening on http://localhost:9000');
+const port = config.get(`port_${network}`);
+app.listen(port, () => {
+  console.log(`Server listening on http://localhost:${port}`);
 });

@@ -2,11 +2,8 @@ const express = require('express');
 const router = express.Router();
 
 const CustomError = require('../CustomError');
-const args = process.argv.slice(2);
 
 router.use(async (req, res) => {
-  req.network = args[0]; // TODO: delete network param.
-
   const index = req.path.indexOf('/', 1);
   const path = index > 0 ? req.path.slice(0, index) : req.path;
   try {
