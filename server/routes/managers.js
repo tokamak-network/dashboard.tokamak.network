@@ -22,7 +22,7 @@ const POST = async (req) => {
     }
 
     await new Manager(req.body).save();
-    return Promise.resolve('The managers has been registered');
+    return Promise.resolve('The managers has been registered\n');
   } catch (err) {
     throw err;
   }

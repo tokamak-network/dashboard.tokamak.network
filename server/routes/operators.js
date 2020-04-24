@@ -49,7 +49,7 @@ const POST = async (req) => {
     operator.genesis = genesis;
 
     await new Operator(operator).save();
-    return Promise.resolve(`The ${operator.name} operator has been registered`);
+    return Promise.resolve(`The ${operator.name} operator has been registered\n`);
   } catch (err) {
     throw err;
   }
