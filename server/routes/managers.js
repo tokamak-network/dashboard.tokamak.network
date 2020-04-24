@@ -1,35 +1,28 @@
-const GET = (db) => {
-  try {
-    const managers = db
-      .get('managers')
-      .value();
+const Manager = require('../models/Manager');
 
-    return Promise.resolve(managers);
+const GET = async () => {
+  try {
+    const managers = await Manager.find();
+    if (managers.length > 0) {
+      return Promise.resolve(managers[0]);
+    } else {
+      throw new Error('No record');
+    }
   } catch (err) {
     throw err;
   }
 };
 
 // only from CURL
-const POST = async (db, req) => {
+const POST = async (req) => {
   try {
-    const managers = db
-      .get('managers')
-      .value();
-
-    if (managers) {
+    const managers = await Manager.find();
+    if (managers.length !== 0) {
       throw new Error('Already set');
     }
-  } catch (err) {
-    throw err;
-  }
 
-  try {
-    await db
-      .defaults({ managers: {} })
-      .get('managers')
-      .assign(req.body)
-      .write();
+    await new Manager(req.body).save();
+    return Promise.resolve('The managers has been registered');
   } catch (err) {
     throw err;
   }

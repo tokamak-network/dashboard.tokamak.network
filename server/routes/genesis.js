@@ -1,6 +1,7 @@
 const { toChecksumAddress } = require('web3-utils');
+const Operator = require('../models/Operator');
 
-const GET = (db, req) => {
+const GET = async (req) => {
   let rootchain;
   try {
     rootchain = toChecksumAddress(req.query.rootchain);
@@ -9,8 +10,8 @@ const GET = (db, req) => {
   }
 
   try {
-    const operator = db.get('operators').find({ rootchain: rootchain }).value();
-    if (operator) {
+    const operator = await Operator.findOne({ rootchain: rootchain });
+    if (operator !== null) {
       return Promise.resolve(operator.genesis);
     } else {
       throw new Error('No record');
