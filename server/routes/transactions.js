@@ -1,7 +1,7 @@
 const { toChecksumAddress } = require('web3-utils');
+const Transaction = require('../models/Transaction');
 
-// only get pending transactions
-const GET = (db, req) => {
+const GET = async (req) => {
   let from;
   try {
     from = toChecksumAddress(req.query.from);
@@ -10,18 +10,13 @@ const GET = (db, req) => {
   }
 
   try {
-    const transactions = db
-      .get('transactions')
-      .filter(transaction => transaction.from === from)
-      .value();
-
-    return Promise.resolve(transactions);
+    return Promise.resolve(await Transaction.find({ from: from }));
   } catch (err) {
     throw err;
   }
 };
 
-const POST = async (db, req) => {
+const POST = async (req) => {
   let from;
   try {
     from = toChecksumAddress(req.query.from);
@@ -39,13 +34,8 @@ const POST = async (db, req) => {
   transaction.blockNumber = req.body.receipt.blockNumber;
 
   try {
-    await db
-      .defaults({ transactions: [] })
-      .get('transactions')
-      .push(transaction)
-      .write();
-
-    return Promise.resolve(transaction);
+    const newTransaction = await new Transaction(transaction).save();
+    return Promise.resolve(newTransaction);
   } catch (err) {
     throw err;
   }

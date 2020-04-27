@@ -20,9 +20,6 @@ export default {
       columns: [],
     };
   },
-  computed: mapState([
-    'userHistory',
-  ]),
   created () {
     this.columns = [
       {

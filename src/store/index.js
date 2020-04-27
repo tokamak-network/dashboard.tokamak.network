@@ -5,7 +5,7 @@ Vue.use(Vuex);
 import router from '@/router';
 import web3EthABI from 'web3-eth-abi';
 
-import { getManagers, getOperators, getHistory, getTransactions, addTransaction } from '@/api';
+import { getManagers, getOperators, getTransactions, addTransaction } from '@/api';
 import { cloneDeep, isEqual, range, uniq, orderBy } from 'lodash';
 import numeral from 'numeral';
 import { createWeb3Contract } from '@/helpers/Contract';
@@ -60,9 +60,6 @@ const initialState = {
   // round
   currentRound: {},
   rounds: [],
-
-  // user transaction history
-  history: [],
 
   // rank
   accountsDepositedWithPower: [],
@@ -146,9 +143,6 @@ export default new Vuex.Store({
       }
       Vue.set(state.operators, index, prevOperator);
     },
-    SET_USER_HISTORY: (state, userHistory) => {
-      state.userHistory = userHistory;
-    },
     SET_CURRENT_ROUND: (state, round) => {
       state.currentRound = round;
     },
@@ -207,7 +201,6 @@ export default new Vuex.Store({
         context.dispatch('setBalance'),
         context.dispatch('setCurrentRound'),
         context.dispatch('setRounds'),
-        context.dispatch('setHistory'),
         context.dispatch('checkPendingTransactions'),
       ]).catch(err => {
         // after logout, error can be happened
@@ -454,12 +447,6 @@ export default new Vuex.Store({
       context.commit('SET_TON_BALANCE', _TON.wei(tonBalance.toString()));
       context.commit('SET_WTON_BALANCE', _WTON.ray(wtonBalance.toString()));
       context.commit('SET_POWER', _POWER.ray(power.toString()));
-    },
-    async setHistory (context) {
-      const user = context.state.user;
-      const userHistory = await getHistory(user);
-
-      context.commit('SET_USER_HISTORY', userHistory.map(h => h.history));
     },
     async setCurrentRound (context) {
       const user = context.state.user;

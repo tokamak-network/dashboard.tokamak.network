@@ -20,14 +20,14 @@ yarn-error.log*
 *.sln
 *.sw?
 
-# db
-db
-
 # ZEIT
 .now
 
 # contracts (not abi)
 src/contracts/*.json
 
-# dump
-dump
+# operator image files
+avatars
+
+# config
+config
