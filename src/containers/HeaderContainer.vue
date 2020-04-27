@@ -10,28 +10,19 @@
           @click="toMainPage"
         >
       </div>
-      <!-- <div class="header-link-container">
-        <a
-          class="header-link"
-          target="_blank"
-          rel="noopener noreferrer"
-          :href="faucet"
-        >FAUCET</a>
-        <a
-          class="header-link"
-          target="_blank"
-          rel="noopener noreferrer"
-          :href="FAQs"
-        >FAQs</a>
-      </div> -->
+      <guide-drop-down />
     </div>
   </div>
 </template>
 
 <script>
 import { mapState } from 'vuex';
+import GuideDropDown from '@/components/GuideDropDown.vue';
 
 export default {
+  components: {
+    'guide-drop-down': GuideDropDown,
+  },
   data () {
     return {
       FAQs: '',

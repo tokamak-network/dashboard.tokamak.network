@@ -32,3 +32,12 @@ export function getConfig () {
     return config.mainnet;
   }
 }
+
+export function getLink (type) {
+  // TODO: migrate to config/default.json
+  if (type === 'use') {
+    return 'https://docs.tokamak.network/';
+  } else if (type === 'register') {
+    return 'https://docs.tokamak.network/';
+  }
+}
