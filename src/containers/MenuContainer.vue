@@ -101,7 +101,8 @@ export default {
   padding-top: 8px;
   padding-bottom: 24px;
   background: #ffffff;
-  width: 260px;
+  min-width: 210px;
+  max-width: 210px;
   min-height: 340px;
   max-height: 340px;
   border-radius: 7px;
