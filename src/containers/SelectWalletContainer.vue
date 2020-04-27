@@ -1,7 +1,7 @@
 <template>
   <div class="select-wallet-container">
     <div class="wallet-header-title">
-      Sellect Wallet
+      Login
     </div>
     <div class="wallet-container">
       <wallet

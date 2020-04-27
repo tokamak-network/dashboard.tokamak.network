@@ -52,7 +52,7 @@
       @click="clickMenu('powerton')"
     >
       <div class="sub-menu-title">
-        Power TON
+        Power MTON
       </div>
     </div>
     <div

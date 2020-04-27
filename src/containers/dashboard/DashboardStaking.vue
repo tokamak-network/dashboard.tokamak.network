@@ -2,9 +2,9 @@
   <div class="dashboard-staking">
     <dashboard-header :title="'Staking'" :path="'staking'" />
     <text-viewer :title="'Total Reward'" :content="currencyAmount(userTotalReward)" :with-divider="true" />
-    <text-viewer :title="'Total Staked TON'" :content="currencyAmount(userTotalStaked)" :with-divider="false" />
-    <text-viewer :title="'Total Not Withdrawable TON'" :content="currencyAmount(userTotalNotWithdrawable)" :with-divider="false" />
-    <text-viewer :title="'Total Withdrawable TON'" :content="currencyAmount(userTotalWithdrawable)" :with-divider="false" />
+    <text-viewer :title="'Total Staked MTON'" :content="currencyAmount(userTotalStaked)" :with-divider="false" />
+    <text-viewer :title="'Total Not Withdrawable MTON'" :content="currencyAmount(userTotalNotWithdrawable)" :with-divider="false" />
+    <text-viewer :title="'Total Withdrawable MTON'" :content="currencyAmount(userTotalWithdrawable)" :with-divider="false" />
   </div>
 </template>
 
