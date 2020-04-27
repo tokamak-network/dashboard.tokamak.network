@@ -39,9 +39,15 @@ export default {
 }
 
 button {
-  width: 65px;
+  width: 72px;
   height: 30px;
-  font-size: 10px;
+  padding-top: 2px;
+  font-family: Roboto;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  letter-spacing: normal;
+  font-size: 11px;
   color: #161819;
 }
 
