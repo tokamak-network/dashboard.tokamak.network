@@ -1,18 +1,23 @@
 <template>
   <div class="stake-info-layout">
-    <stake-info-container style="flex: 1; margin-right: 4px;" />
-    <staked-operator-container style="flex: 1; margin-left: 4px;" />
+    <div class="row">
+      <stake-info-container style="flex: 1; margin-right: 4px;" />
+      <expected-reward-container style="flex: 1; margin-left: 4px;" />
+    </div>
+    <staked-operator-container style="flex: 1; margin-top: 8px;" />
   </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex';
 import StakeInfoContainer from '@/containers/StakeInfoContainer.vue';
+import ExpectedRewardContainer from '@/containers/ExpectedRewardContainer.vue';
 import StakedOperatorContainer from '@/containers/StakedOperatorContainer.vue';
 
 export default {
   components: {
     'stake-info-container': StakeInfoContainer,
+    'expected-reward-container': ExpectedRewardContainer,
     'staked-operator-container': StakedOperatorContainer,
   },
   data () {
@@ -62,6 +67,11 @@ export default {
 
 <style scoped>
 .stake-info-layout {
+  display: flex;
+  flex-direction: column;
+}
+
+.row {
   display: flex;
   flex-direction: row;
 }
