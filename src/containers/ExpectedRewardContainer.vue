@@ -8,10 +8,7 @@
 </template>
 
 <script>
-import { createCurrency } from '@makerdao/currency';
-const _TON = createCurrency('TON');
-
-import { mapState, mapGetters } from 'vuex';
+import { mapGetters } from 'vuex';
 import TextViewer from '@/components/TextViewer.vue';
 import ContainerHeader from '@/containers/ContainerHeader.vue';
 
@@ -19,12 +16,6 @@ export default {
   components: {
     'text-viewer': TextViewer,
     'container-header': ContainerHeader,
-  },
-  props: {
-    operator: {
-      type: Object,
-      default: () => {},
-    },
   },
   computed: {
     ...mapGetters([
