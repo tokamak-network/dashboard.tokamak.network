@@ -6,13 +6,13 @@ const config = {
     'network': '1',
   },
   'rinkeby': {
-    'baseURL': 'https://dashboard-api.tokamak.network',
+    'baseURL': 'https://dashboard-api.tokamak.network/rinkeby',
     'prefixTransactionHash': 'https://rinkeby.etherscan.io/tx/',
     'prefixAddress': 'https://rinkeby.etherscan.io/address/',
     'network': '4',
   },
   'development': {
-    'baseURL': 'http://127.0.0.1:9000',
+    'baseURL': 'http://127.0.0.1:9002',
     'prefixTransactionHash': 'https://rinkeby.etherscan.io/tx/',
     'prefixAddress': 'https://rinkeby.etherscan.io/address/',
     'network': '1337',
