@@ -3,10 +3,10 @@
     <div class="column" style="flex: 1; margin-right: 4px;">
       <viewer-round-container :round="currentRound" />
       <viewer-power-container :power="power" :total-deposits="power.totalDeposits" :rank="rank" style="margin-top: 8px;" />
-      <rank-container style="margin-top: 8px;" />
+      <winner-list-container style="margin-top: 8px;" />
     </div>
     <div class="column" style="flex: 1; margin-left: 4px;">
-      <winner-list-container />
+      <rank-container />
     </div>
   </div>
 </template>
