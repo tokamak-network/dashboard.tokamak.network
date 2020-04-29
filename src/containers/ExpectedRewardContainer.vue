@@ -2,7 +2,7 @@
   <div class="expected-reward-container ">
     <container-header :title="'Expected Reward'" />
     <text-viewer :title="'Total Expected Reward Amount'" :content="currencyAmount(userTotalSeigs)" :with-divider="true" />
-    <text-viewer :title="'Average Expected Reward Rate'" :content="userSeigsRate(userTotalStaked, userTotalSeigs)" :with-divider="false" />
+    <text-viewer :title="'Total Expected Reward Rate'" :content="userSeigsRate(userTotalStaked, userTotalSeigs)" :with-divider="false" />
     <text-viewer :title="'Staked Operators'" :content="operatorsStaked.length" :with-divider="false" />
   </div>
 </template>
