@@ -3,6 +3,10 @@
     <hr class="divider" :style="[withDivider ? {} : {'visibility': 'hidden'}]">
     <div class="row">
       <div class="title">{{ title }}</div>
+      <div v-if="tooltip !== ''" class="tooltip">
+        <img src="@/assets/images/instruction.png" alt="" width="10" height="10">
+        <span class="tooltiptext" style="margin-left: 10px; margin-top: -9px;">{{ tooltip }}</span>
+      </div>
       <div class="content" :style="[title === 'Description' ? { 'width': '168px' } : {}]">{{ content }}</div>
     </div>
   </div>
@@ -16,6 +20,10 @@ export default {
     },
     content: {
     },
+    tooltip: {
+      type: String,
+      default: '',
+    },
     withDivider: {
       type: Boolean,
       default: false,
@@ -25,6 +33,10 @@ export default {
 </script>
 
 <style scoped>
+img {
+  margin-bottom: 3px;
+}
+
 .text-viewer {
   margin-bottom: 6px;
 }
@@ -36,7 +48,7 @@ export default {
 
 .title {
   padding-left: 16px;
-  margin-right: 24px;
+  margin-right: 4px;
   font-family: Roboto;
   font-size: 10px;
   font-weight: normal;
@@ -71,5 +83,46 @@ export default {
 
 .hidden {
   visibility: hidden;
+}
+
+.tooltip {
+  position: relative;
+  display: inline-block;
+}
+
+/* Tooltip text */
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 120px;
+  background-color: black;
+  color: #fff;
+  font-family: Roboto;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  letter-spacing: normal;
+  font-size: 11px;
+  text-align: center;
+  padding: 7px 0;
+  border-radius: 6px;
+
+  /* Position the tooltip text - see examples below! */
+  position: absolute;
+  z-index: 1;
+}
+
+.tooltip .tooltiptext::after {
+  content: " ";
+  position: absolute;
+  top: 50%;
+  right: 100%; /* To the left of the tooltip */
+  margin-top: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: transparent black transparent transparent;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
 }
 </style>
