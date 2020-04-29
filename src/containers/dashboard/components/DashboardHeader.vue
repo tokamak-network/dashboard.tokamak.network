@@ -1,7 +1,6 @@
 <template>
   <div class="dashboard-header">
     <div class="title"><span>{{ title }}</span></div>
-    <button @click="clickButton()">more</button>
   </div>
 </template>
 
@@ -11,18 +10,6 @@ export default {
     title: {
       type: String,
       default: '',
-    },
-    path: {
-      type: String,
-      default: '',
-    },
-  },
-  methods: {
-    clickButton () {
-      this.$router.push({
-        path: `/${this.path}`,
-        query: { network: this.$route.query.network },
-      }).catch(err => {});
     },
   },
 };
@@ -44,24 +31,6 @@ export default {
   font-style: normal;
   letter-spacing: normal;
   padding-left: 20px;
-  color: #124b71;
-}
-
-button {
-  margin-right: 8px;
-  border: none;
-  letter-spacing: 0.7px;
-  font-size: 11px;
-  font-weight: 300;
-  font-stretch: normal;
-  font-style: normal;
-  line-height: 1.75;
-  text-align: center;
-  color: #bbb8b8;
-}
-
-button:hover {
-  cursor: pointer;
   color: #124b71;
 }
 </style>
