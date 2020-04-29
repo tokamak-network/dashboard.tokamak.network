@@ -17,6 +17,8 @@ const _ETH = createCurrency('ETH');
 const _TON = createCurrency('TON');
 const _WTON = createCurrency('WTON');
 const _POWER = createCurrency('POWER');
+const TON_UNIT = 'wei';
+const WTON_UNIT = 'ray';
 
 import TONABI from '@/contracts/abi/TON.json';
 import WTONABI from '@/contracts/abi/WTON.json';
@@ -225,7 +227,7 @@ export default new Vuex.Store({
       };
       for (const [name, address] of Object.entries(managers)) {
         const abi = managerABIs[`${name}ABI`];
-        managers[name] = await createWeb3Contract(abi, address, user);
+        managers[name] = createWeb3Contract(abi, address, user);
       }
       context.commit('SET_MANAGERS', managers);
     },
@@ -279,10 +281,23 @@ export default new Vuex.Store({
     },
     async setOperators (context, blockNumber) {
       const user = context.state.user;
+
+      const TON = context.state.TON;
+      const WTON = context.state.WTON;
       const DepositManager = context.state.DepositManager;
       const SeigManager = context.state.SeigManager;
+      const Tot = createWeb3Contract(
+        CustomIncrementCoinageABI, await SeigManager.methods.tot().call());
 
-      const wtonWrapper = (amount) => _WTON.ray(amount);
+      const [
+        tonTotalSupply,
+        totTotalSupply,
+        tonBalanceOfWTON,
+      ] = await Promise.all([
+        TON.methods.totalSupply().call(),
+        Tot.methods.totalSupply().call(),
+        TON.methods.balanceOf(WTON._address).call(),
+      ]);
 
       const operators = context.state.operators;
       const operatorsFromRootChain = await Promise.all(
@@ -304,9 +319,17 @@ export default new Vuex.Store({
           //
           ///////////////////////////////////////////////////////////////////
           const rootchain = operatorFromRootChain.rootchain;
-          const RootChain = await createWeb3Contract(RootChainABI, rootchain);
-          const Coinage =
-            await createWeb3Contract(CustomIncrementCoinageABI, await SeigManager.methods.coinages(rootchain).call());
+          const RootChain = createWeb3Contract(RootChainABI, rootchain);
+          const Coinage = createWeb3Contract(
+            CustomIncrementCoinageABI, await SeigManager.methods.coinages(rootchain).call());
+
+          const [
+            operator,
+            currentForkNumber,
+          ] = await Promise.all([
+            RootChain.methods.operator().call(),
+            RootChain.methods.currentFork().call(),
+          ]);
 
           const getLastFinalizedAt = async (lastFinalizedEpochNumber, lastFinalizedBlockNumber) => {
             const epoch = await RootChain.methods.getEpoch(currentForkNumber, lastFinalizedEpochNumber).call();
@@ -373,13 +396,142 @@ export default new Vuex.Store({
             return withdrawableRequests.reduce(reducer, initialAmount);
           };
 
-          const operator = await RootChain.methods.operator().call();
-          const currentForkNumber = await RootChain.methods.currentFork().call();
-          const currentFork = await RootChain.methods.forks(currentForkNumber).call();
-          const lastFinalizedEpochNumber = currentFork.lastFinalizedEpoch;
-          const lastFinalizedBlockNumber = currentFork.lastFinalizedBlock;
+          const getUserUncomittedStakedRate = (staked, uncomittedStaked) => {
+            if (staked.toBigNumber().toString() === '0' || uncomittedStaked.toBigNumber().toString() === '0') {
+              return 0;
+            }
+            return (staked.add(uncomittedStaked).div(staked)).toBigNumber().toString();
+          };
+
+          const getExpectedSeigs = async () => {
+            const [
+              isCommissionRateNegative,
+              paused,
+              lastSeigBlock,
+              unpausedBlock,
+              pausedBlock,
+            ] = await Promise.all([
+              SeigManager.methods.isCommissionRateNegative(rootchain).call(),
+              SeigManager.methods.paused().call(),
+              SeigManager.methods.lastSeigBlock().call(),
+              SeigManager.methods.unpausedBlock().call(),
+              SeigManager.methods.pausedBlock().call(),
+            ]);
+
+            let [
+              seigPerBlock,
+              commissionRate,
+              prevTotTotalSupply,
+              prevTotBalance,
+              prevCoinageTotalSupply,
+              prevCoinageOperatorBalance,
+              prevCoinageUserBalance,
+            ] = await Promise.all([
+              SeigManager.methods.seigPerBlock().call(),
+              SeigManager.methods.commissionRates(rootchain).call(),
+              Tot.methods.totalSupply().call(),
+              Tot.methods.balanceOf(rootchain).call(),
+              Coinage.methods.totalSupply().call(),
+              Coinage.methods.balanceOf(rootchain).call(),
+              Coinage.methods.balanceOf(user).call(),
+            ]);
+
+            seigPerBlock = _WTON(seigPerBlock, WTON_UNIT);
+            commissionRate = _WTON(commissionRate, WTON_UNIT);
+            prevTotTotalSupply = _WTON(prevTotTotalSupply, WTON_UNIT);
+            prevTotBalance = _WTON(prevTotBalance, WTON_UNIT);
+            prevCoinageTotalSupply = _WTON(prevCoinageTotalSupply, WTON_UNIT);
+            prevCoinageOperatorBalance = _WTON(prevCoinageOperatorBalance, WTON_UNIT);
+            prevCoinageUserBalance = _WTON(prevCoinageUserBalance, WTON_UNIT);
+            const prevCoinageUsersBalance = prevCoinageTotalSupply.minus(prevCoinageOperatorBalance);
+
+            function calcNumSeigBlocks () {
+              if (paused) return 0;
+
+              const span = blockNumber - lastSeigBlock + 1; // + 1 for new block
+
+              if (unpausedBlock < lastSeigBlock) {
+                return span;
+              }
+
+              return span - (unpausedBlock - pausedBlock);
+            }
+
+            function increaseTot () {
+              const maxSeig = seigPerBlock.times(calcNumSeigBlocks());
+              const tos = _WTON(tonTotalSupply, TON_UNIT)
+                .plus(_WTON(totTotalSupply, WTON_UNIT))
+                .minus(_WTON(tonBalanceOfWTON, TON_UNIT));
+
+              const stakedSeigs = maxSeig.times(prevTotTotalSupply).div(tos);
+              return stakedSeigs;
+            }
+
+            const stakedSeigs = increaseTot();
+            const rootchainSeigs = stakedSeigs.times(prevTotBalance).div(prevTotTotalSupply);
+
+            const operatorSeigs = rootchainSeigs.times(prevCoinageOperatorBalance).div(prevCoinageTotalSupply);
+            const usersSeigs = rootchainSeigs.times(prevCoinageUsersBalance).div(prevCoinageTotalSupply);
+
+            function _calcSeigsDistribution () {
+              let operatorSeigsWithCommissionRate = operatorSeigs;
+              let usersSeigsWithCommissionRate = usersSeigs;
+
+              if (commissionRate.toFixed(WTON_UNIT) === '0') {
+                return {
+                  operatorSeigsWithCommissionRate,
+                  usersSeigsWithCommissionRate,
+                };
+              }
+
+              if (!isCommissionRateNegative) {
+                const commissionFromUsers = usersSeigs.times(commissionRate);
+
+                operatorSeigsWithCommissionRate = operatorSeigsWithCommissionRate.plus(commissionFromUsers);
+                usersSeigsWithCommissionRate = usersSeigsWithCommissionRate.minus(commissionFromUsers);
+                return {
+                  operatorSeigsWithCommissionRate,
+                  usersSeigsWithCommissionRate,
+                };
+              }
+
+              if (prevCoinageTotalSupply.toFixed(WTON_UNIT) === '0' ||
+                prevCoinageOperatorBalance.toFixed(WTON_UNIT) === '0') {
+                return {
+                  operatorSeigsWithCommissionRate,
+                  usersSeigsWithCommissionRate,
+                };
+              }
+
+              const commissionFromOperator = operatorSeigs.times(commissionRate);
+
+              operatorSeigsWithCommissionRate = operatorSeigsWithCommissionRate.minus(commissionFromOperator);
+              usersSeigsWithCommissionRate = usersSeigsWithCommissionRate.plus(commissionFromOperator);
+
+              return {
+                operatorSeigsWithCommissionRate,
+                usersSeigsWithCommissionRate,
+              };
+            }
+
+            const {
+              operatorSeigsWithCommissionRate,
+              usersSeigsWithCommissionRate,
+            } = _calcSeigsDistribution();
+
+            const userSeigsWithCommissionRate = usersSeigsWithCommissionRate.times(prevCoinageUserBalance).div(prevCoinageUsersBalance);
+
+            return {
+              operatorSeigs: operatorSeigsWithCommissionRate,
+              userSeigs: userSeigsWithCommissionRate,
+              rootchainSeigs: rootchainSeigs,
+              usersSeigs: usersSeigs,
+            };
+          };
 
           const [
+            currentFork,
+            firstEpoch,
             totalDeposit,
             selfDeposit,
             userDeposit,
@@ -387,9 +539,11 @@ export default new Vuex.Store({
             selfStaked,
             userStaked,
             pendingRequests,
-            lastFinalizedAt,
-            firstEpoch,
+            seigs, // operatorSeigs, userSeigs, rootchainSeigs, usersSeigs
+            commissionRate,
           ] = await Promise.all([
+            RootChain.methods.forks(currentForkNumber).call(),
+            RootChain.methods.getEpoch(0, 0).call(),
             getDeposit(),
             getDeposit(operator),
             getDeposit(user),
@@ -397,12 +551,14 @@ export default new Vuex.Store({
             Coinage.methods.balanceOf(operator).call(),
             Coinage.methods.balanceOf(user).call(null, blockNumber),
             getPendingRequests(),
-            getLastFinalizedAt(lastFinalizedEpochNumber, lastFinalizedBlockNumber),
-            RootChain.methods.getEpoch(0, 0).call(),
+            getExpectedSeigs(),
+            SeigManager.methods.commissionRates(rootchain).call(),
           ]);
-
-          const finalizeCount = parseInt(lastFinalizedEpochNumber) + 1;
           const deployedAt = firstEpoch.timestamp;
+          const lastFinalizedEpochNumber = currentFork.lastFinalizedEpoch;
+          const lastFinalizedBlockNumber = currentFork.lastFinalizedBlock;
+          const finalizeCount = parseInt(lastFinalizedEpochNumber) + 1;
+          const lastFinalizedAt = await getLastFinalizedAt(lastFinalizedEpochNumber, lastFinalizedBlockNumber);
 
           const notWithdrawableRequests = filterNotWithdrawableRequests(pendingRequests);
           const withdrawableRequests = filterWithdrawableRequests(pendingRequests);
@@ -415,13 +571,20 @@ export default new Vuex.Store({
           operatorFromRootChain.lastFinalizedAt = lastFinalizedAt;
           operatorFromRootChain.finalizeCount = finalizeCount;
           operatorFromRootChain.deployedAt = deployedAt;
-          operatorFromRootChain.totalDeposit = wtonWrapper(totalDeposit);
-          operatorFromRootChain.totalStaked = wtonWrapper(totalStaked);
-          operatorFromRootChain.selfDeposit = wtonWrapper(selfDeposit);
-          operatorFromRootChain.selfStaked = wtonWrapper(selfStaked);
+          operatorFromRootChain.totalDeposit = _WTON(totalDeposit, WTON_UNIT);
+          operatorFromRootChain.totalStaked = _WTON(totalStaked, WTON_UNIT);
+          operatorFromRootChain.selfDeposit = _WTON(selfDeposit, WTON_UNIT);
+          operatorFromRootChain.selfStaked = _WTON(selfStaked, WTON_UNIT);
 
-          operatorFromRootChain.userDeposit = wtonWrapper(userDeposit);
-          operatorFromRootChain.userStaked = wtonWrapper(userStaked);
+          operatorFromRootChain.userDeposit = _WTON(userDeposit, WTON_UNIT);
+          operatorFromRootChain.userStaked = _WTON(userStaked, WTON_UNIT);
+
+          operatorFromRootChain.operatorSeigs = seigs.operatorSeigs;
+          operatorFromRootChain.userSeigs = seigs.userSeigs;
+          operatorFromRootChain.rootchainSeigs = seigs.rootchainSeigs;
+          operatorFromRootChain.usersSeigs = seigs.usersSeigs;
+          operatorFromRootChain.commissionRate = commissionRate;
+
           operatorFromRootChain.withdrawableRequests = withdrawableRequests; // used at DepositManager.processRequests count
           // already wrapped with WTON
           operatorFromRootChain.userNotWithdrawable = userNotWithdrawable;
@@ -570,6 +733,12 @@ export default new Vuex.Store({
     userTotalStaked: (state) => {
       const initialAmount = _WTON.ray('0');
       const reducer = (amount, operator) => amount.add(operator.userStaked);
+
+      return state.operators.reduce(reducer, initialAmount);
+    },
+    userTotalSeigs: (state) => {
+      const initialAmount = _WTON.ray('0');
+      const reducer = (amount, operator) => amount.add(operator.userSeigs);
 
       return state.operators.reduce(reducer, initialAmount);
     },

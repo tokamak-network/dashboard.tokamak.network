@@ -6,6 +6,9 @@
         <th class="text-center pointer" @click="orderBy('name')">{{ withArrow('name', 'Operator Name') }}</th>
         <th class="text-center pointer" @click="orderBy('userStaked')">{{ withArrow('userStaked', 'My Staked') }}</th>
         <th class="text-center pointer" @click="orderBy('userReward')">{{ withArrow('userReward', 'My Reward') }}</th>
+        <th class="text-center pointer" @click="orderBy('userSeigs')">{{ withArrow('userSeigs', 'Expected Reward Amount') }}</th>
+        <th class="text-center pointer" @click="orderBy('userSeigsRate')">{{ withArrow('userSeigsRate', 'Expected Reward Rate') }}</th>
+        <th class="text-center pointer" @click="orderBy('commissionRate')">{{ withArrow('commissionRate', 'Commission Rate') }}</th>
       </tr>
     </thead>
     <tbody>
@@ -14,6 +17,9 @@
         <td class="clickable text-center name" @click="viewDetailedOperator(operator)"><span class="pointer">{{ operator.name }}</span></td>
         <td class="text-center">{{ operator.userStaked | currencyAmount }} </td>
         <td class="text-center">{{ operator.userReward | currencyAmount }} </td>
+        <td class="text-center">{{ operator.userSeigs | currencyAmount }} </td>
+        <td class="text-center">{{ userSeigsRate(operator.userStaked, operator.userSeigs) }} </td>
+        <td class="text-center">{{ operator.commissionRate }}</td>
       </tr>
     </tbody>
   </table>
@@ -46,6 +52,15 @@ export default {
       case 'userReward':
         return orderBy(this.operatorsStaked, (operator) => operator.userReward.toFixed('ray'), [this.order]);
 
+      case 'userSeigs':
+        return orderBy(this.operatorsStaked, (operator) => operator.userSeigs.toFixed('ray'), [this.order]);
+
+      case 'userSeigsRate':
+        return orderBy(this.operatorsStaked, (operator) => this.userSeigsRate(operator.userStaked, operator.userSeigs), [this.order]);
+
+      case 'commissionRate':
+        return orderBy(this.operatorsStaked, (operator) => operator.commissionRate, [this.order]);
+
       default:
         return [];
       }
@@ -57,6 +72,9 @@ export default {
         }
         return label;
       };
+    },
+    userSeigsRate () {
+      return (userStaked, userSeigs) => this.$options.filters.userSeigsRate(userStaked, userSeigs);
     },
   },
   methods: {

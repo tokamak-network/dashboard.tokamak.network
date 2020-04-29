@@ -7,6 +7,10 @@ const _TON = createCurrency('TON');
 const _WTON = createCurrency('WTON');
 const _POWER = createCurrency('POWER');
 
+import { getConfig } from '../../config.js';
+import numeral from 'numeral';
+import { BN } from 'web3-utils';
+
 export function hexSlicer (address = '') {
   if (address.length < 11) {
     return address;
@@ -87,7 +91,6 @@ export function currencyAmountFromNumberString (symbol, amount) {
   }
 }
 
-import { getConfig } from '../../config.js';
 export function toExplorer (type, param) {
   if (type === 'transactionHash') {
     return getConfig().prefixTransactionHash + param;
@@ -96,4 +99,10 @@ export function toExplorer (type, param) {
   } else {
     return this.content;
   }
+}
+
+export function userSeigsRate (userStaked, userSeigs) {
+  const sum = userStaked.add(userSeigs);
+  const rate = sum.sub(userStaked).div(userStaked);
+  return `${numeral(Number(rate.toBigNumber().toString())).format('0.00%')}`;
 }
