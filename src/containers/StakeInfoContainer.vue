@@ -1,22 +1,22 @@
 <template>
   <div class="stake-info-container">
     <container-header :title="'Staking'" />
-    <text-viewer :title="'Total Staked MTON'"
+    <text-viewer :title="'Total Staked'"
                  :content="currencyAmount(userTotalStaked)"
                  :with-divider="true"
                  :tooltip="'Test'"
     />
-    <text-viewer :title="'Total Reward MTON'"
+    <text-viewer :title="'Total Reward'"
                  :content="currencyAmount(userTotalReward)"
                  :with-divider="false"
                  :tooltip="'Test'"
     />
-    <text-viewer :title="'Total Not Withdrawable MTON'"
+    <text-viewer :title="'Total Not Withdrawable'"
                  :content="currencyAmount(userTotalNotWithdrawable)"
                  :with-divider="false"
                  :tooltip="'Test'"
     />
-    <text-viewer :title="'Total Withdrawable MTON'"
+    <text-viewer :title="'Total Withdrawable'"
                  :content="currencyAmount(userTotalWithdrawable)"
                  :with-divider="false"
                  :tooltip="'Test'"

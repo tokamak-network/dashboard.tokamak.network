@@ -9,15 +9,15 @@
     <text-viewer-link :title="'Website'" :content="operator.website" :with-divider="true" />
     <text-viewer :title="'Description'" :content="operator.description" :with-divider="false" />
     <text-viewer-downloader :title="'Genesis'" :content="'Download'" :href="exported(operator.genesis)" :download="'genesis.json'" />
-    <text-viewer-link :type="'address'" :title="'Address'" :content="operator.address" :with-divider="false" />
-    <text-viewer-link :type="'address'" :title="'RootChain'" :content="operator.rootchain" :with-divider="false" />
-    <text-viewer :title="'Chain Id'" :content="operator.chainId" :with-divider="false" />
+    <text-viewer-link :type="'address'" :title="'Operator Address'" :content="operator.address" :with-divider="false" />
+    <text-viewer-link :type="'address'" :title="'Operator Contract'" :content="operator.rootchain" :with-divider="false" />
+    <text-viewer :title="'Chain ID'" :content="operator.chainId" :with-divider="false" />
     <text-viewer :title="'Commit Count'" :content="operator.finalizeCount" :with-divider="false" />
     <text-viewer :title="'Recent Commit'" :content="fromNow(operator.lastFinalizedAt)" :with-divider="false" />
-    <text-viewer :title="'Duration'" :content="fromNow(operator.deployedAt)" :with-divider="false" />
+    <text-viewer :title="'Running Time'" :content="fromNow(operator.deployedAt, true)" :with-divider="false" />
     <text-viewer :title="'Reward'" :content="currencyAmount(operator.userReward)" :with-divider="false" />
     <text-viewer :title="'Total Staked'" :content="currencyAmount(operator.totalStaked)" :with-divider="false" />
-    <text-viewer :title="'Staked'" :content="currencyAmount(operator.userStaked)" :with-divider="false" />
+    <text-viewer :title="'My Staked'" :content="currencyAmount(operator.userStaked)" :with-divider="false" />
     <text-viewer :title="'Not Withdrawable'" :content="currencyAmount(operator.userNotWithdrawable)" :with-divider="false" />
     <text-viewer :title="'Withdrawable'" :content="currencyAmount(operator.userWithdrawable)" :with-divider="false" />
   </div>
@@ -61,7 +61,7 @@ export default {
       return amount => this.$options.filters.currencyAmount(amount);
     },
     fromNow () {
-      return timestamp => this.$options.filters.fromNow(timestamp);
+      return (timestamp, suffix = false) => this.$options.filters.fromNow(timestamp, suffix);
     },
     exported () {
       return genesis => 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(genesis, undefined, 2));

@@ -4,7 +4,7 @@
     <text-viewer :title="'Winning Probability'" :content="currentRound.winningProbability" :with-divider="true" />
     <text-viewer :title="'Power'" :content="currencyAmount(power)" :with-divider="false" />
     <text-viewer :title="'Round'" :content="currentRound.index" :with-divider="false" />
-    <text-viewer :title="'Expected Reward'" :content="currencyAmount(currentRound.reward)" :with-divider="false" />
+    <text-viewer :title="'Round Prize'" :content="currencyAmount(currentRound.reward)" :with-divider="false" />
   </div>
 </template>
 

@@ -1,10 +1,10 @@
 <template>
   <div class="viewer-round-container">
     <container-header :title="'Round'" />
-    <text-viewer :title="'Current Round'" :content="round.index" :with-divider="true" />
+    <text-viewer :title="'Round Number'" :content="round.index" :with-divider="true" />
     <text-viewer :title="'Round Start'" :content="formattedTimestamp(round.startTime)" :with-divider="false" />
     <text-viewer :title="'Round End'" :content="formattedTimestamp(round.endTime)" :with-divider="false" />
-    <text-viewer :title="'Expected Reward'" :content="currencyAmount(round.reward)" :with-divider="false" />
+    <text-viewer :title="'Round Prize'" :content="currencyAmount(round.reward)" :with-divider="false" />
     <text-viewer :title="'Winning Probability'" :content="round.winningProbability" :with-divider="false" />
   </div>
 </template>

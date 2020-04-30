@@ -1,6 +1,6 @@
 <template>
   <div class="viewer-power-container">
-    <container-header :title="'Power'" />
+    <container-header :title="'My Power'" />
     <text-viewer :title="'Power'" :content="currencyAmount(power)" :with-divider="true" />
     <text-viewer :title="'Rank'" :content="rank" :with-divider="false" />
   </div>

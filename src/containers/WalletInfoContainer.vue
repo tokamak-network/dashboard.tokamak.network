@@ -72,7 +72,7 @@
       </div>
       <div class="wallet-assets-content">
         <div class="wallet-content">
-          Staked MTON
+          Total Staked
         </div>
         <div class="wallet-content wton-balance">
           {{ userTotalStaked | currencyAmount }}

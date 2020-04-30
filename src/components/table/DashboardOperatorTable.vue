@@ -4,7 +4,7 @@
       <tr>
         <th class="text-center">#</th>
         <th class="pointer text-center" @click="orderBy('name')">{{ withArrow('name', 'Operator Name') }}</th>
-        <th class="pointer text-center" @click="orderBy('userStaked')">{{ withArrow('userStaked', 'Staked') }}</th>
+        <th class="pointer text-center" @click="orderBy('userStaked')">{{ withArrow('userStaked', 'My Staked') }}</th>
         <th class="pointer text-center" @click="orderBy('totalStaked')">{{ withArrow('totalStaked', 'Total Staked') }}</th>
       </tr>
     </thead>

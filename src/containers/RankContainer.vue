@@ -19,6 +19,7 @@ export default {
 
 <style scoped>
 .rank-container {
+  height: 100%;
   border: solid 1px #ced6d9;
   background-color: #ffffff;
   border-radius: 6px;

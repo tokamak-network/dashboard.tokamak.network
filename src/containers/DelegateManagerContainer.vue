@@ -10,7 +10,7 @@
           <span class="available-amount-label">Available Amount</span>
           <button type="button" class="available-amount" @click="setAvailableAmountToDelegate()">{{ currencyAmount(tonBalance) }}</button>
         </div>
-        <div class="button-container" style="margin-top: 24px;"><base-button :label="'Delegate MTON'" :func="delegate" /></div>
+        <div class="button-container" style="margin-top: 24px;"><base-button :label="'Delegate'" :func="delegate" /></div>
       </div>
     </form>
     <form v-else>
@@ -20,11 +20,15 @@
           <span class="available-amount-label">Available Amount</span>
           <button type="button" class="available-amount" @click="setAvailableAmountToUndelegate()">{{ currencyAmount(operator.userStaked) }}</button>
         </div>
-        <div class="button-container" style="margin-top: 24px;"><base-button :label="'Request Undelegate MTON'" :func="undelegate" /></div>
+        <div class="button-container" style="margin-top: 24px;"><base-button :label="'Undelegate'" :func="undelegate" /></div>
         <div class="divider" />
         <text-viewer :title="'Not Withdrawable'" :content="currencyAmount(operator.userNotWithdrawable)" style="margin-bottom: -2px;" />
-        <text-viewer :title="'Withdrawable'" :content="currencyAmount(operator.userWithdrawable)" />
+                     :content="currencyAmount(operator.userNotWithdrawable)"
         <div class="button-container" style="margin-top: 16px;"><base-button :label="'Process Requests'" :func="processRequests" /></div>
+        <text-viewer :title="'Withdrawable'"
+                     :content="currencyAmount(operator.userWithdrawable)"
+        />
+        <div class="button-container" style="margin-top: 16px;"><base-button :label="'Withdraw'" :func="processRequests" /></div>
       </div>
     </form>
   </div>
@@ -145,7 +149,7 @@ export default {
         .on('transactionHash', async (hash) => {
           const transcation = {
             from: this.user,
-            type: 'Undelegate Requested',
+            type: 'Undelegated',
             amount: amount,
             transactionHash: hash,
             target: this.operator.rootchain,
@@ -177,7 +181,7 @@ export default {
         .on('transactionHash', async (hash) => {
           const transcation = {
             from: this.user,
-            type: 'Undelegate Processed',
+            type: 'Withdrawn',
             amount: amount,
             transactionHash: hash,
             target: this.operator.rootchain,

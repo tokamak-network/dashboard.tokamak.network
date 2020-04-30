@@ -1,10 +1,11 @@
 <template>
   <div class="dashboard-staking">
-    <dashboard-header :title="'Staking'" :path="'staking'" />
+    <dashboard-header :title="'My Staking'" :path="'staking'" />
     <text-viewer :title="'Total Reward'" :content="currencyAmount(userTotalReward)" :with-divider="true" />
-    <text-viewer :title="'Total Staked MTON'" :content="currencyAmount(userTotalStaked)" :with-divider="false" />
-    <text-viewer :title="'Total Not Withdrawable MTON'" :content="currencyAmount(userTotalNotWithdrawable)" :with-divider="false" />
-    <text-viewer :title="'Total Withdrawable MTON'" :content="currencyAmount(userTotalWithdrawable)" :with-divider="false" />
+    <text-viewer :title="'Total Delegated'" :content="currencyAmount(userTotalDeposit)" :with-divider="false" />
+    <text-viewer :title="'Total Staked'" :content="currencyAmount(userTotalStaked)" :with-divider="false" />
+    <text-viewer :title="'Total Not Withdrawable'" :content="currencyAmount(userTotalNotWithdrawable)" :with-divider="false" />
+    <text-viewer :title="'Total Withdrawable'" :content="currencyAmount(userTotalWithdrawable)" :with-divider="false" />
   </div>
 </template>
 
@@ -36,6 +37,9 @@ export default {
     ]),
     currencyAmount () {
       return amount => this.$options.filters.currencyAmount(amount);
+    },
+    userTotalDeposit () {
+      return this.userTotalStaked.sub(this.userTotalReward);
     },
   },
   created () {

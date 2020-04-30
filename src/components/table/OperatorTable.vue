@@ -4,9 +4,9 @@
       <tr>
         <th class="text-center">#</th>
         <th class="pointer text-center" @click="orderBy('name')">{{ withArrow('name', 'Operator Name') }}</th>
-        <th class="pointer text-center" @click="orderBy('operator')">{{ withArrow('operator', 'Operator') }}</th>
+        <th class="pointer text-center" @click="orderBy('rootchain')">{{ withArrow('rootchain', 'Operator Contract') }}</th>
         <th class="pointer text-center" @click="orderBy('rootchain')">{{ withArrow('rootchain', 'RootChain') }}</th>
-        <th class="pointer text-center" @click="orderBy('userStaked')">{{ withArrow('userStaked', 'Staked') }}</th>
+        <th class="pointer text-center" @click="orderBy('userStaked')">{{ withArrow('userStaked', 'My Staked') }}</th>
         <th class="pointer text-center" @click="orderBy('totalStaked')">{{ withArrow('totalStaked', 'Total Staked') }}</th>
       </tr>
     </thead>
@@ -19,21 +19,12 @@
             class="link"
             target="_blank"
             rel="noopener noreferrer"
-            :href="toExplorer('address', operator.address)"
-          >
-            {{ operator.address | hexSlicer }}
-          </a>
-        </td>
-        <td class="text-center">
-          <a
-            class="link"
-            target="_blank"
-            rel="noopener noreferrer"
             :href="toExplorer('address', operator.rootchain)"
           >
             {{ operator.rootchain | hexSlicer }}
           </a>
         </td>
+        <td class="text-center">{{ operator.commissionRate | rateOf }} </td>
         <td class="text-center">{{ operator.userStaked | currencyAmount }} </td>
         <td class="text-center">{{ operator.totalStaked | currencyAmount }} </td>
       </tr>

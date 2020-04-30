@@ -368,12 +368,10 @@ export default new Vuex.Store({
 
             const pendingRequests = [];
             for (const _ of range(numPendingRequests)) {
-              const request = await DepositManager.methods.withdrawalRequest(rootchain, user, requestIndex).call();
-              pendingRequests.push(request);
-
+              pendingRequests.push(DepositManager.methods.withdrawalRequest(rootchain, user, requestIndex).call());
               requestIndex++;
             }
-            return pendingRequests;
+            return Promise.all(pendingRequests);
           };
 
           const filterNotWithdrawableRequests = (requests) => {
@@ -394,13 +392,6 @@ export default new Vuex.Store({
             const initialAmount = _WTON.ray('0');
             const reducer = (amount, request) => amount.add(_WTON.ray(request.amount));
             return withdrawableRequests.reduce(reducer, initialAmount);
-          };
-
-          const getUserUncomittedStakedRate = (staked, uncomittedStaked) => {
-            if (staked.toBigNumber().toString() === '0' || uncomittedStaked.toBigNumber().toString() === '0') {
-              return 0;
-            }
-            return (staked.add(uncomittedStaked).div(staked)).toBigNumber().toString();
           };
 
           const getExpectedSeigs = async () => {
@@ -562,7 +553,6 @@ export default new Vuex.Store({
 
           const notWithdrawableRequests = filterNotWithdrawableRequests(pendingRequests);
           const withdrawableRequests = filterWithdrawableRequests(pendingRequests);
-
           const userNotWithdrawable = getUserNotWithdrawable(notWithdrawableRequests);
           const userWithdrawable = getUserWithdrawable(withdrawableRequests);
 
@@ -585,7 +575,8 @@ export default new Vuex.Store({
           operatorFromRootChain.usersSeigs = seigs.usersSeigs;
           operatorFromRootChain.commissionRate = commissionRate;
 
-          operatorFromRootChain.withdrawableRequests = withdrawableRequests; // used at DepositManager.processRequests count
+          operatorFromRootChain.notWithdrawableRequests = notWithdrawableRequests;
+          operatorFromRootChain.withdrawableRequests = withdrawableRequests;
           // already wrapped with WTON
           operatorFromRootChain.userNotWithdrawable = userNotWithdrawable;
           operatorFromRootChain.userWithdrawable = userWithdrawable;

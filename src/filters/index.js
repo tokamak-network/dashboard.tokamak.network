@@ -9,7 +9,6 @@ const _POWER = createCurrency('POWER');
 
 import { getConfig } from '../../config.js';
 import numeral from 'numeral';
-import { BN } from 'web3-utils';
 
 export function hexSlicer (address = '') {
   if (address.length < 11) {
@@ -25,8 +24,8 @@ export function formattedTimestamp (timestamp) {
   return moment.unix(timestamp).format('LLL');
 }
 
-export function fromNow (timestamp) {
-  return moment.unix(timestamp).fromNow();
+export function fromNow (timestamp, suffix) {
+  return moment.unix(timestamp).fromNow(suffix);
 }
 
 export function stringToTON (amount) {

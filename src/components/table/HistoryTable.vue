@@ -4,7 +4,7 @@
       <tr>
         <th class="text-center">#</th>
         <th class="text-center pointer" @click="orderBy('transactionHash')">{{ withArrow('transactionHash', 'Transaction Hash') }}</th>
-        <th class="text-center pointer" @click="orderBy('rootchain')">{{ withArrow('rootchain', 'RootChain') }}</th>
+        <th class="text-center pointer" @click="orderBy('rootchain')">{{ withArrow('rootchain', 'Operator Contract') }}</th>
         <th class="text-center pointer" @click="orderBy('type')">{{ withArrow('type', 'Type') }}</th>
         <th class="text-center pointer" @click="orderBy('amount')">{{ withArrow('amount', 'Amount') }}</th>
         <th class="text-center pointer" @click="orderBy('blockNumber')">{{ withArrow('blockNumber', 'Block Number') }}</th>

@@ -3,7 +3,7 @@
     <container-header :title="'Expected Reward'" />
     <text-viewer :title="'Total Expected Reward Amount'" :content="currencyAmount(userTotalSeigs)" :with-divider="true" />
     <text-viewer :title="'Total Expected Reward Rate'" :content="userSeigsRate(userTotalStaked, userTotalSeigs)" :with-divider="false" />
-    <text-viewer :title="'Staked Operators'" :content="operatorsStaked.length" :with-divider="false" />
+                 :with-divider="true"
   </div>
 </template>
 
@@ -19,7 +19,6 @@ export default {
   },
   computed: {
     ...mapGetters([
-      'operatorsStaked',
       'userTotalStaked',
       'userTotalSeigs',
     ]),
@@ -36,7 +35,7 @@ export default {
 <style scoped>
 .expected-reward-container {
   display: flex;
-  height: 100%;
+  min-height: 100%;
   flex-direction: column;
   border-radius: 6px;
   border: solid 1px #ced6d9;
