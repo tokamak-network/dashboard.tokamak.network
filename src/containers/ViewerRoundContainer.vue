@@ -4,7 +4,7 @@
     <text-viewer :title="'Round Number'" :content="round.index" :with-divider="true" />
     <text-viewer :title="'Round Start'" :content="formattedTimestamp(round.startTime)" :with-divider="false" />
     <text-viewer :title="'Round End'" :content="formattedTimestamp(round.endTime)" :with-divider="false" />
-    <text-viewer :title="'Round Prize'" :content="currencyAmount(round.reward)" :with-divider="false" />
+    <text-viewer :title="'Round Prize'" :content="currencyAmount(round.reward.add(uncommittedCurrendRoundReward))" :with-divider="false" />
     <text-viewer :title="'Winning Probability'" :content="round.winningProbability" :with-divider="false" />
   </div>
 </template>
@@ -29,6 +29,9 @@ export default {
     },
   },
   computed: {
+    ...mapState([
+      'uncommittedCurrendRoundReward',
+    ]),
     formattedTimestamp () {
       return timestamp => this.$options.filters.formattedTimestamp(timestamp);
     },

@@ -68,6 +68,7 @@ const initialState = {
 
   // rank
   accountsDepositedWithPower: [],
+  uncommittedCurrendRoundReward: _WTON('0'),
 };
 
 const getInitialState = () => initialState;
@@ -170,6 +171,9 @@ export default new Vuex.Store({
         state.accountsDepositedWithPower.push(accountWithPower);
       }
     },
+    SET_UNCOMMITTED_CURRENT_ROUND_REWARD: (state, reward) => {
+      state.uncommittedCurrendRoundReward = reward;
+    },
   },
   actions: {
     logout (context) {
@@ -210,6 +214,7 @@ export default new Vuex.Store({
         context.dispatch('setCurrentRound'),
         context.dispatch('setRounds'),
         context.dispatch('setHistory'),
+        context.dispatch('setUncommittedCurrendRoundReward', blockNumber),
         context.dispatch('checkPendingTransactions'),
       ]).catch(err => {
         // after logout, error can be happened
@@ -242,6 +247,55 @@ export default new Vuex.Store({
     },
     async deletePendingTransaction (context, transaction) {
       context.commit('DELETE_PENDING_TRANSACTION', transaction);
+    },
+    async setUncommittedCurrendRoundReward (context, blockNumber) {
+      const TON = context.state.TON;
+      const WTON = context.state.WTON;
+      const SeigManager = context.state.SeigManager;
+      const DepositManager = context.state.DepositManager;
+
+      const [
+        seigPerBlock,
+        paused,
+        lastSeigBlock,
+        unpausedBlock,
+        pausedBlock,
+        tonBalanceOfDepositManager,
+        wtonBalanceOfDepositManager,
+        tonTotalSupply,
+      ] = await Promise.all([
+        SeigManager.methods.seigPerBlock().call(),
+        SeigManager.methods.paused().call(),
+        SeigManager.methods.lastSeigBlock().call(),
+        SeigManager.methods.unpausedBlock().call(),
+        SeigManager.methods.pausedBlock().call(),
+        TON.methods.balanceOf(DepositManager._address).call(),
+        WTON.methods.balanceOf(DepositManager._address).call(),
+        WTON.methods.totalSupply().call(),
+      ]);
+
+      function calcNumSeigBlocks () {
+        if (paused) return 0;
+
+        const span = blockNumber - lastSeigBlock + 1; // + 1 for new block
+
+        if (unpausedBlock < lastSeigBlock) {
+          return span;
+        }
+
+        return span - (unpausedBlock - pausedBlock);
+      }
+
+      function getUnstakedRate () {
+        return _WTON(_TON(tonBalanceOfDepositManager, TON_UNIT).toBigNumber().toString(), WTON_UNIT)
+          .add(_WTON(wtonBalanceOfDepositManager, WTON_UNIT))
+          .div(_TON(tonTotalSupply, TON_UNIT).toBigNumber().toString(), WTON_UNIT);
+      }
+
+      const numBlocks = calcNumSeigBlocks();
+      const unstakedRate = getUnstakedRate();
+      const uncommittedCurrendRoundReward = unstakedRate.times(numBlocks).times(seigPerBlock).times(0.8).times(0.5);
+      context.commit('SET_UNCOMMITTED_CURRENT_ROUND_REWARD', uncommittedCurrendRoundReward);
     },
     async checkPendingTransactions (context) {
       const web3 = context.state.web3;
