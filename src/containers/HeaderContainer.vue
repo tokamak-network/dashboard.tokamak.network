@@ -10,18 +10,18 @@
           @click="toMainPage"
         >
       </div>
-      <guide-drop-down />
+      <!-- <guide-drop-down /> -->
     </div>
   </div>
 </template>
 
 <script>
 import { mapState } from 'vuex';
-import GuideDropDown from '@/components/GuideDropDown.vue';
+// import GuideDropDown from '@/components/GuideDropDown.vue';
 
 export default {
   components: {
-    'guide-drop-down': GuideDropDown,
+    // 'guide-drop-down': GuideDropDown,
   },
   data () {
     return {
