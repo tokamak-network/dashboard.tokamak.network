@@ -22,9 +22,13 @@
         </div>
         <div class="button-container" style="margin-top: 24px;"><base-button :label="'Undelegate'" :func="undelegate" /></div>
         <div class="divider" />
-        <text-viewer :title="'Not Withdrawable'" :content="currencyAmount(operator.userNotWithdrawable)" style="margin-bottom: -2px;" />
+        <text-viewer :title="'Not Withdrawable'"
                      :content="currencyAmount(operator.userNotWithdrawable)"
-        <div class="button-container" style="margin-top: 16px;"><base-button :label="'Process Requests'" :func="processRequests" /></div>
+                     :tooltip="operator.notWithdrawableRequests.length !== 0 ? notWithdrawableMessage(withdrawableBlockNumber(operator.notWithdrawableRequests)) : ''"
+                     :tooltipWidth="'200px'"
+                     :tooltipMarginTop="'-17px'"
+                     style="margin-bottom: -2px;"
+        />
         <text-viewer :title="'Withdrawable'"
                      :content="currencyAmount(operator.userWithdrawable)"
         />
@@ -70,6 +74,7 @@ export default {
   computed: {
     ...mapState([
       'web3',
+      'blockNumber',
       'user',
       'tonBalance',
       'TON',
@@ -79,8 +84,15 @@ export default {
     currencyAmount () {
       return amount => this.$options.filters.currencyAmount(amount);
     },
+    notWithdrawableMessage () {
+      return withdrawableBlockNumber => `You have to wait for ${withdrawableBlockNumber - this.blockNumber} blocks to withdraw all the tokens.`;
+    },
   },
   methods: {
+    withdrawableBlockNumber (requests) {
+      const numbers = requests.map(request => request.withdrawableBlockNumber);
+      return Math.max(...numbers);
+    },
     changeTab (tab) {
       this.tab = tab;
     },

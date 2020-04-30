@@ -5,7 +5,7 @@
       <div class="title">{{ title }}</div>
       <div v-if="tooltip !== ''" class="tooltip">
         <img src="@/assets/images/instruction.png" alt="" width="10" height="10">
-        <span class="tooltiptext" style="margin-left: 10px; margin-top: -9px;">{{ tooltip }}</span>
+        <span class="tooltiptext" :style="`margin-left: 10px; margin-top: ${tooltipMarginTop}; width: ${tooltipWidth};`">{{ tooltip }}</span>
       </div>
       <div class="content" :style="[title === 'Description' ? { 'width': '168px' } : {}]">{{ content }}</div>
     </div>
@@ -23,6 +23,14 @@ export default {
     tooltip: {
       type: String,
       default: '',
+    },
+    tooltipWidth: {
+      type: String,
+      default: '200px',
+    },
+    tooltipMarginTop: {
+      type: String,
+      default: '-17px',
     },
     withDivider: {
       type: Boolean,
@@ -93,7 +101,6 @@ img {
 /* Tooltip text */
 .tooltip .tooltiptext {
   visibility: hidden;
-  width: 120px;
   background-color: black;
   color: #fff;
   font-family: Roboto;
@@ -103,7 +110,7 @@ img {
   letter-spacing: normal;
   font-size: 11px;
   text-align: center;
-  padding: 7px 0;
+  padding: 7px;
   border-radius: 6px;
 
   /* Position the tooltip text - see examples below! */

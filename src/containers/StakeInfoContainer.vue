@@ -4,22 +4,25 @@
     <text-viewer :title="'Total Staked'"
                  :content="currencyAmount(userTotalStaked)"
                  :with-divider="true"
-                 :tooltip="'Test'"
+                 :tooltip="'Sum of your total delegate-stake and reward'"
     />
     <text-viewer :title="'Total Reward'"
                  :content="currencyAmount(userTotalReward)"
                  :with-divider="false"
-                 :tooltip="'Test'"
+                 :tooltip="'Sum of all issued reward so far'"
+                 :tooltipMarginTop="'-9px'"
     />
     <text-viewer :title="'Total Not Withdrawable'"
                  :content="currencyAmount(userTotalNotWithdrawable)"
                  :with-divider="false"
-                 :tooltip="'Test'"
+                 :tooltip="'Sum of your undelegate-stake reqeust amount. Each request does not withdrawable yet until 93046 blocks(14 days) passes from your request.'"
+                 :tooltipWidth="'220px'"
+                 :tooltipMarginTop="'-33px'"
     />
     <text-viewer :title="'Total Withdrawable'"
                  :content="currencyAmount(userTotalWithdrawable)"
                  :with-divider="false"
-                 :tooltip="'Test'"
+                 :tooltip="'Sum of all amount of undelegate-stake request which all passes 93046 blocks.'"
     />
   </div>
 </template>
