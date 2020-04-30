@@ -19,7 +19,7 @@
         <td class="text-center">{{ operator.userReward | currencyAmount }} </td>
         <td class="text-center">{{ operator.userSeigs | currencyAmount }} </td>
         <td class="text-center">{{ userSeigsRate(operator.userStaked, operator.userSeigs) }} </td>
-        <td class="text-center">{{ operator.commissionRate | rateOf }}</td>
+        <td class="text-center">{{ operator.isCommissionRateNegative ? '-' : '' }}{{ operator.commissionRate | rateOf }}</td>
       </tr>
     </tbody>
   </table>

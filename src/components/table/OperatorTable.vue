@@ -24,7 +24,7 @@
             {{ operator.rootchain | hexSlicer }}
           </a>
         </td>
-        <td class="text-center">{{ operator.commissionRate | rateOf }} </td>
+        <td class="text-center">{{ operator.isCommissionRateNegative ? '-' : '' }}{{ operator.commissionRate | rateOf }} </td>
         <td class="text-center">{{ operator.userStaked | currencyAmount }} </td>
         <td class="text-center">{{ operator.totalStaked | currencyAmount }} </td>
       </tr>

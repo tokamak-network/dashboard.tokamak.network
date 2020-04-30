@@ -15,7 +15,7 @@
     <text-viewer :title="'Commit Count'" :content="operator.finalizeCount" :with-divider="false" />
     <text-viewer :title="'Recent Commit'" :content="fromNow(operator.lastFinalizedAt)" :with-divider="false" />
     <text-viewer :title="'Running Time'" :content="fromNow(operator.deployedAt, true)" :with-divider="false" />
-    <text-viewer :title="'Commission Rate'" :content="rateOf(operator.commissionRate)" :with-divider="false" />
+    <text-viewer :title="'Commission Rate'" :content="`${operator.isCommissionRateNegative ? '-' : ''}${rateOf(operator.commissionRate)}`" :with-divider="false" />
     <text-viewer :title="'Reward'" :content="currencyAmount(operator.userReward)" :with-divider="false" />
     <text-viewer :title="'Total Staked'" :content="currencyAmount(operator.totalStaked)" :with-divider="false" />
     <text-viewer :title="'My Staked'" :content="currencyAmount(operator.userStaked)" :with-divider="false" />

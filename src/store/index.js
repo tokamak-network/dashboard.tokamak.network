@@ -546,6 +546,7 @@ export default new Vuex.Store({
             userStaked,
             pendingRequests,
             seigs, // operatorSeigs, userSeigs, rootchainSeigs, usersSeigs
+            isCommissionRateNegative,
             commissionRate,
           ] = await Promise.all([
             RootChain.methods.forks(currentForkNumber).call(),
@@ -558,6 +559,7 @@ export default new Vuex.Store({
             Coinage.methods.balanceOf(user).call(null, blockNumber),
             getPendingRequests(),
             getExpectedSeigs(),
+            SeigManager.methods.isCommissionRateNegative(rootchain).call(),
             SeigManager.methods.commissionRates(rootchain).call(),
           ]);
           const deployedAt = firstEpoch.timestamp;
@@ -588,6 +590,7 @@ export default new Vuex.Store({
           operatorFromRootChain.userSeigs = seigs.userSeigs;
           operatorFromRootChain.rootchainSeigs = seigs.rootchainSeigs;
           operatorFromRootChain.usersSeigs = seigs.usersSeigs;
+          operatorFromRootChain.isCommissionRateNegative = isCommissionRateNegative;
           operatorFromRootChain.commissionRate = _WTON(commissionRate, WTON_UNIT);
 
           operatorFromRootChain.notWithdrawableRequests = notWithdrawableRequests;
