@@ -459,10 +459,20 @@ export default new Vuex.Store({
             }
 
             const stakedSeigs = increaseTot();
-            const rootchainSeigs = stakedSeigs.times(prevTotBalance).div(prevTotTotalSupply);
+            let rootchainSeigs, operatorSeigs, usersSeigs;
+            if (prevTotTotalSupply.isEqual(_WTON('0', WTON_UNIT))) {
+              rootchainSeigs = _WTON('0', WTON_UNIT);
+            } else {
+              rootchainSeigs = stakedSeigs.times(prevTotBalance).div(prevTotTotalSupply);
+            }
 
-            const operatorSeigs = rootchainSeigs.times(prevCoinageOperatorBalance).div(prevCoinageTotalSupply);
-            const usersSeigs = rootchainSeigs.times(prevCoinageUsersBalance).div(prevCoinageTotalSupply);
+            if (prevCoinageTotalSupply.isEqual(_WTON('0', WTON_UNIT))) {
+              operatorSeigs = _WTON('0', WTON_UNIT);
+              usersSeigs = _WTON('0', WTON_UNIT);
+            } else {
+              rootchainSeigs = rootchainSeigs.times(prevCoinageOperatorBalance).div(prevCoinageTotalSupply);
+              usersSeigs = rootchainSeigs.times(prevCoinageUsersBalance).div(prevCoinageTotalSupply);
+            }
 
             function _calcSeigsDistribution () {
               let operatorSeigsWithCommissionRate = operatorSeigs;
@@ -510,7 +520,12 @@ export default new Vuex.Store({
               usersSeigsWithCommissionRate,
             } = _calcSeigsDistribution();
 
-            const userSeigsWithCommissionRate = usersSeigsWithCommissionRate.times(prevCoinageUserBalance).div(prevCoinageUsersBalance);
+            let userSeigsWithCommissionRate;
+            if (prevCoinageUsersBalance.isEqual(_WTON('0', WTON_UNIT))) {
+              userSeigsWithCommissionRate = _WTON('0', WTON_UNIT);
+            } else {
+              userSeigsWithCommissionRate = usersSeigsWithCommissionRate.times(prevCoinageUserBalance).div(prevCoinageUsersBalance);
+            }
 
             return {
               operatorSeigs: operatorSeigsWithCommissionRate,

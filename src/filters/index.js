@@ -101,6 +101,10 @@ export function toExplorer (type, param) {
 }
 
 export function userSeigsRate (userStaked, userSeigs) {
+  if (userStaked.eq(_WTON('0'))) {
+    return '0.00%';
+  }
+
   const sum = userStaked.add(userSeigs);
   const rate = sum.sub(userStaked).div(userStaked);
   return `${numeral(Number(rate.toBigNumber().toString())).format('0.00%')}`;
