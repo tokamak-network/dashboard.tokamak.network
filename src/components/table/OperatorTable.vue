@@ -5,7 +5,7 @@
         <th class="text-center">#</th>
         <th class="pointer text-center" @click="orderBy('name')">{{ withArrow('name', 'Operator Name') }}</th>
         <th class="pointer text-center" @click="orderBy('rootchain')">{{ withArrow('rootchain', 'Operator Contract') }}</th>
-        <th class="pointer text-center" @click="orderBy('rootchain')">{{ withArrow('rootchain', 'RootChain') }}</th>
+        <th class="pointer text-center" @click="orderBy('commissionRate')">{{ withArrow('commissionRate', 'Commission Rate') }}</th>
         <th class="pointer text-center" @click="orderBy('userStaked')">{{ withArrow('userStaked', 'My Staked') }}</th>
         <th class="pointer text-center" @click="orderBy('totalStaked')">{{ withArrow('totalStaked', 'Total Staked') }}</th>
       </tr>
@@ -55,8 +55,8 @@ export default {
       switch (this.from) {
       case 'name':
         return orderBy(this.operators, (operator) => operator.name, [this.order]);
-      case 'operator':
-        return orderBy(this.operators, (operator) => operator.address, [this.order]);
+      case 'commissionRate':
+        return orderBy(this.operators, (operator) => operator.commissionRate.toNumber(), [this.order]);
       case 'rootchain':
         return orderBy(this.operators, (operator) => operator.rootchain, [this.order]);
       case 'userStaked':

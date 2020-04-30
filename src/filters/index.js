@@ -105,3 +105,7 @@ export function userSeigsRate (userStaked, userSeigs) {
   const rate = sum.sub(userStaked).div(userStaked);
   return `${numeral(Number(rate.toBigNumber().toString())).format('0.00%')}`;
 }
+
+export function rateOf (commission) {
+  return `${commission.toNumber() * 100} %`;
+}

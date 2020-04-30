@@ -573,7 +573,7 @@ export default new Vuex.Store({
           operatorFromRootChain.userSeigs = seigs.userSeigs;
           operatorFromRootChain.rootchainSeigs = seigs.rootchainSeigs;
           operatorFromRootChain.usersSeigs = seigs.usersSeigs;
-          operatorFromRootChain.commissionRate = commissionRate;
+          operatorFromRootChain.commissionRate = _WTON(commissionRate, WTON_UNIT);
 
           operatorFromRootChain.notWithdrawableRequests = notWithdrawableRequests;
           operatorFromRootChain.withdrawableRequests = withdrawableRequests;
