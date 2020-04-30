@@ -460,17 +460,17 @@ export default new Vuex.Store({
 
             const stakedSeigs = increaseTot();
             let rootchainSeigs, operatorSeigs, usersSeigs;
-            if (prevTotTotalSupply.isEqual(_WTON('0', WTON_UNIT))) {
+            if (prevTotTotalSupply.isEqual(_WTON('0'))) {
               rootchainSeigs = _WTON('0', WTON_UNIT);
             } else {
               rootchainSeigs = stakedSeigs.times(prevTotBalance).div(prevTotTotalSupply);
             }
 
-            if (prevCoinageTotalSupply.isEqual(_WTON('0', WTON_UNIT))) {
+            if (prevCoinageTotalSupply.isEqual(_WTON('0'))) {
               operatorSeigs = _WTON('0', WTON_UNIT);
               usersSeigs = _WTON('0', WTON_UNIT);
             } else {
-              rootchainSeigs = rootchainSeigs.times(prevCoinageOperatorBalance).div(prevCoinageTotalSupply);
+              operatorSeigs = rootchainSeigs.times(prevCoinageOperatorBalance).div(prevCoinageTotalSupply);
               usersSeigs = rootchainSeigs.times(prevCoinageUsersBalance).div(prevCoinageTotalSupply);
             }
 
