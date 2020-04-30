@@ -68,6 +68,8 @@ const initialState = {
 
   // rank
   accountsDepositedWithPower: [],
+
+  // not yet committed
   uncommittedCurrendRoundReward: _WTON('0'),
 };
 
@@ -271,7 +273,7 @@ export default new Vuex.Store({
         SeigManager.methods.pausedBlock().call(),
         TON.methods.balanceOf(DepositManager._address).call(),
         WTON.methods.balanceOf(DepositManager._address).call(),
-        WTON.methods.totalSupply().call(),
+        TON.methods.totalSupply().call(),
       ]);
 
       function calcNumSeigBlocks () {
@@ -289,12 +291,16 @@ export default new Vuex.Store({
       function getUnstakedRate () {
         return _WTON(_TON(tonBalanceOfDepositManager, TON_UNIT).toBigNumber().toString(), WTON_UNIT)
           .add(_WTON(wtonBalanceOfDepositManager, WTON_UNIT))
-          .div(_TON(tonTotalSupply, TON_UNIT).toBigNumber().toString(), WTON_UNIT);
+          .div(_WTON(_TON(tonTotalSupply, TON_UNIT).toBigNumber().toString()), WTON_UNIT);
       }
 
       const numBlocks = calcNumSeigBlocks();
       const unstakedRate = getUnstakedRate();
-      const uncommittedCurrendRoundReward = unstakedRate.times(numBlocks).times(seigPerBlock).times(0.8).times(0.5);
+      const uncommittedCurrendRoundReward = unstakedRate
+        .times(numBlocks)
+        .times(_WTON(seigPerBlock, WTON_UNIT))
+        .times(0.8)
+        .times(0.5);
       context.commit('SET_UNCOMMITTED_CURRENT_ROUND_REWARD', uncommittedCurrendRoundReward);
     },
     async checkPendingTransactions (context) {
