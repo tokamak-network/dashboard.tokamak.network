@@ -22,7 +22,8 @@
     <text-viewer :title="'Total Withdrawable'"
                  :content="currencyAmount(userTotalWithdrawable)"
                  :with-divider="false"
-                 :tooltip="'Sum of all amount of undelegate-stake request which all passes 93046 blocks.'"
+                 :tooltipWidth="'220px'"
+                 :tooltip="'Sum of all amount of undelegate-stake request which all passes 93046 blocks(14 days).'"
     />
   </div>
 </template>
