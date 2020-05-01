@@ -3,6 +3,10 @@
     <hr class="divider" :style="[withDivider ? {} : {'visibility': 'hidden'}]">
     <div class="row">
       <div class="title">{{ title }}</div>
+      <div v-if="tooltip !== ''" class="tooltip">
+        <img src="@/assets/images/instruction.png" alt="" width="10" height="10" style="margin-top: -16px;">
+        <span class="tooltiptext" :style="`margin-left: 10px; margin-top: ${tooltipMarginTop}; width: ${tooltipWidth};`">{{ tooltip }}</span>
+      </div>
       <div class="content">
         <a
           class="link"
@@ -32,6 +36,18 @@ export default {
       type: Boolean,
       default: false,
     },
+    tooltip: {
+      type: String,
+      default: '',
+    },
+    tooltipWidth: {
+      type: String,
+      default: '200px',
+    },
+    tooltipMarginTop: {
+      type: String,
+      default: '-17px',
+    },
   },
   computed: {
     href () {
@@ -59,7 +75,7 @@ export default {
 
 .title {
   padding-left: 16px;
-  margin-right: 24px;
+  margin-right: 4px;
   font-family: Roboto;
   font-size: 10px;
   font-weight: normal;
@@ -67,6 +83,8 @@ export default {
   font-style: normal;
   letter-spacing: normal;
   color: #161819;
+  display: flex;
+  align-items: center;
 }
 
 .content {
@@ -86,6 +104,10 @@ export default {
 
 .link {
 /* font-weight: bolder; */
+  height: 100%;
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
   text-decoration: underline;
   color: black;
 }
@@ -100,5 +122,40 @@ export default {
 
 .hidden {
   visibility: hidden;
+}
+
+/* Tooltip text */
+.tooltip .tooltiptext {
+  visibility: hidden;
+  background-color: black;
+  color: #fff;
+  font-family: Roboto;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  letter-spacing: normal;
+  font-size: 11px;
+  text-align: center;
+  padding: 7px;
+  border-radius: 6px;
+
+  /* Position the tooltip text - see examples below! */
+  position: absolute;
+  z-index: 1;
+}
+
+.tooltip .tooltiptext::after {
+  content: " ";
+  position: absolute;
+  top: 50%;
+  right: 100%; /* To the left of the tooltip */
+  margin-top: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: transparent black transparent transparent;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
 }
 </style>
