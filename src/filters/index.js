@@ -113,3 +113,8 @@ export function userSeigsRate (userStaked, userSeigs) {
 export function rateOf (commission) {
   return `${commission.toNumber() * 100} %`;
 }
+
+export function addressExtractor (url) {
+  const lastIndex = url.lastIndexOf('/');
+  return url.substring(lastIndex + 1);
+}

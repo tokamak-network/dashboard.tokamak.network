@@ -71,6 +71,17 @@ export default {
       };
     },
   },
+  mounted () {
+    const addressLinks = this.$el.getElementsByClassName('link');
+
+    Object.values(addressLinks).map(link => {
+      const address = this.$options.filters.addressExtractor(link.href);
+      link.addEventListener('copy', e => {
+        e.clipboardData.setData('text/plain', address);
+        e.preventDefault();
+      });
+    });
+  },
   methods: {
     orderBy (from) {
       if (this.from === from) {
