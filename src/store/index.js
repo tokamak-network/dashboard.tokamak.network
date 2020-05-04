@@ -70,7 +70,7 @@ const initialState = {
   accountsDepositedWithPower: [],
 
   // not yet committed
-  uncommittedCurrendRoundReward: _WTON('0'),
+  uncommittedCurrentRoundReward: _WTON('0'),
 };
 
 const getInitialState = () => initialState;
@@ -174,7 +174,7 @@ export default new Vuex.Store({
       }
     },
     SET_UNCOMMITTED_CURRENT_ROUND_REWARD: (state, reward) => {
-      state.uncommittedCurrendRoundReward = reward;
+      state.uncommittedCurrentRoundReward = reward;
     },
   },
   actions: {
@@ -216,7 +216,7 @@ export default new Vuex.Store({
         context.dispatch('setCurrentRound'),
         context.dispatch('setRounds'),
         context.dispatch('setHistory'),
-        context.dispatch('setUncommittedCurrendRoundReward', blockNumber),
+        context.dispatch('setUncommittedCurrentRoundReward', blockNumber),
         context.dispatch('checkPendingTransactions'),
       ]).catch(err => {
         // after logout, error can be happened
@@ -250,7 +250,7 @@ export default new Vuex.Store({
     async deletePendingTransaction (context, transaction) {
       context.commit('DELETE_PENDING_TRANSACTION', transaction);
     },
-    async setUncommittedCurrendRoundReward (context, blockNumber) {
+    async setUncommittedCurrentRoundReward (context, blockNumber) {
       const TON = context.state.TON;
       const WTON = context.state.WTON;
       const SeigManager = context.state.SeigManager;
@@ -296,12 +296,12 @@ export default new Vuex.Store({
 
       const numBlocks = calcNumSeigBlocks();
       const unstakedRate = getUnstakedRate();
-      const uncommittedCurrendRoundReward = unstakedRate
+      const uncommittedCurrentRoundReward = unstakedRate
         .times(numBlocks)
         .times(_WTON(seigPerBlock, WTON_UNIT))
         .times(0.8)
         .times(0.5);
-      context.commit('SET_UNCOMMITTED_CURRENT_ROUND_REWARD', uncommittedCurrendRoundReward);
+      context.commit('SET_UNCOMMITTED_CURRENT_ROUND_REWARD', uncommittedCurrentRoundReward);
     },
     async checkPendingTransactions (context) {
       const web3 = context.state.web3;

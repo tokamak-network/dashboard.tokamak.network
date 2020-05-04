@@ -4,7 +4,7 @@
     <text-viewer :title="'Winning Probability'" :content="currentRound.winningProbability" :with-divider="true" />
     <text-viewer :title="'Power'" :content="currencyAmount(power)" :with-divider="false" />
     <text-viewer :title="'Round'" :content="currentRound.index" :with-divider="false" />
-    <text-viewer :title="'Round Prize'" :content="currencyAmount(currentRound.reward.add(uncommittedCurrendRoundReward))" :with-divider="false" />
+    <text-viewer :title="'Round Prize'" :content="currencyAmount(currentRound.reward.add(uncommittedCurrentRoundReward))" :with-divider="false" />
   </div>
 </template>
 
@@ -25,7 +25,7 @@ export default {
     ...mapState([
       'power',
       'currentRound',
-      'uncommittedCurrendRoundReward',
+      'uncommittedCurrentRoundReward',
     ]),
     currencyAmount () {
       return amount => this.$options.filters.currencyAmount(amount);
