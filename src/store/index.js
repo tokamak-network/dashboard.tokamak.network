@@ -744,7 +744,7 @@ export default new Vuex.Store({
         return {
           index: parseInt(returnValues.round),
           winner: returnValues.winner,
-          reward: _POWER.ray(returnValues.reward),
+          reward: _WTON.ray(returnValues.reward),
         };
       });
       context.commit('SET_ROUNDS', rounds);
