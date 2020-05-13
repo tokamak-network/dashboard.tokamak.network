@@ -47,7 +47,7 @@
           >
         </a>
         <a
-          href="https://twitter.com/ontherInc/"
+          href="https://twitter.com/tokamak_network/"
           target="_blank"
           rel="noopener noreferrer"
         >
