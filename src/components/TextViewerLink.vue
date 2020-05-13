@@ -103,10 +103,8 @@ export default {
 }
 
 .link {
-/* font-weight: bolder; */
-  height: 100%;
-  display: flex;
-  flex-direction: row-reverse;
+  display: inline;
+  text-align: right;
   align-items: center;
   text-decoration: underline;
   color: black;
