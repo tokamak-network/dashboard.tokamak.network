@@ -38,9 +38,6 @@ export default {
     currencyAmount () {
       return amount => this.$options.filters.currencyAmount(amount);
     },
-    userTotalDeposit () {
-      return this.userTotalStaked.sub(this.userTotalReward);
-    },
   },
   created () {
     this.columns = [

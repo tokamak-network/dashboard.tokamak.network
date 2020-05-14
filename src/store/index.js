@@ -403,14 +403,14 @@ export default new Vuex.Store({
           const getDeposit = async (account) => {
             let accStaked, accUnstaked;
             if (typeof account === 'undefined') {
-              accStaked = await DepositManager.methods.accStakedRootChain(rootchain).call();
-              accUnstaked = await DepositManager.methods.accUnstakedRootChain(rootchain).call();
+              accStaked = await DepositManager.methods.accStakedRootChain(rootchain).call(null, blockNumber);
+              accUnstaked = await DepositManager.methods.accUnstakedRootChain(rootchain).call(null, blockNumber);
             } else {
               accStaked = await DepositManager.methods.accStaked(rootchain, account).call(null, blockNumber);
               accUnstaked = await DepositManager.methods.accUnstaked(rootchain, account).call(null, blockNumber);
             }
             const deposit = new BN(accStaked).sub(new BN(accUnstaked));
-            if (deposit.cmp(new BN('0')) === -1) {
+            if (deposit.cmp(new BN('0')) === -1) { // https://github.com/Onther-Tech/plasma-evm-contracts/issues/39
               return '0';
             } else {
               return deposit.toString();
