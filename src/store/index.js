@@ -202,6 +202,7 @@ export default new Vuex.Store({
         context.dispatch('set', web3),
       ]);
 
+      await new Promise(resolve => setTimeout(resolve, 1000)); // https://github.com/Onther-Tech/dashboard.tokamak.network/issues/81
       context.commit('SIGN_IN');
       context.commit('IS_LOADING', false);
       router.replace({ path: 'dashboard', query: { network: router.app.$route.query.network } }).catch(err => {});
