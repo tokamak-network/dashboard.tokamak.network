@@ -403,8 +403,8 @@ export default new Vuex.Store({
           const getDeposit = async (account) => {
             let accStaked, accUnstaked;
             if (typeof account === 'undefined') {
-              accStaked = await DepositManager.methods.accStakedRootChain(rootchain).call(null, blockNumber);
-              accUnstaked = await DepositManager.methods.accUnstakedRootChain(rootchain).call(null, blockNumber);
+              accStaked = await DepositManager.methods.accStakedRootChain(rootchain).call();
+              accUnstaked = await DepositManager.methods.accUnstakedRootChain(rootchain).call();
             } else {
               accStaked = await DepositManager.methods.accStaked(rootchain, account).call(null, blockNumber);
               accUnstaked = await DepositManager.methods.accUnstaked(rootchain, account).call(null, blockNumber);
