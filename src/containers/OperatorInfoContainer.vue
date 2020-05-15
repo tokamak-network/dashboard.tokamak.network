@@ -201,7 +201,7 @@ export default {
       const pos2 = this._makePos(startBlockNumber, endBlockNumber);
       const dummyBytes = '0xdb431b544b2f5468e3f771d7843d9c5df3b4edcf8bc1c599f18f0b4ea8709bc3';
 
-      await RootChain.methods.submitNRE(
+      RootChain.methods.submitNRE(
         pos1,
         pos2,
         dummyBytes, // epochStateRoot
@@ -210,6 +210,22 @@ export default {
       ).send({
         from: this.operator.address,
         value: costNRB,
+      }).on('receipt', (receipt) => {
+        if (receipt.status) {
+          this.$notify({
+            group: 'confirmed',
+            title: 'Transaction is confirmed',
+            type: 'success',
+            duration: 10000,
+          });
+        } else {
+          this.$notify({
+            group: 'reverted',
+            title: 'Transaction is reverted',
+            type: 'error',
+            duration: 10000,
+          });
+        }
       });
     },
     _makePos (v1, v2) {
