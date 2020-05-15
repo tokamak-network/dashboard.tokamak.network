@@ -10,7 +10,21 @@
           @click="toMainPage"
         >
       </div>
-      <!-- <guide-drop-down /> -->
+      <div class="header-link-container">
+        <a
+          class="header-link"
+          target="_blank"
+          rel="noopener noreferrer"
+          href="https://medium.com/onther-tech/what-is-mton-80c011bb927e"
+        >What is MTON?</a>
+        <a
+          class="header-link"
+          target="_blank"
+          rel="noopener noreferrer"
+          href="https://docs.google.com/presentation/d/1PyEuI82ddicIh4wUHG-cFB4Y7ZQ0WoF_HHouNDKLwQ8/edit#slide=id.g84fb6fd20e_0_109"
+          style="margin-left: 48px; margin-right: 36px;"
+        >Staking User Guide</a>
+      </div>
     </div>
   </div>
 </template>
@@ -23,20 +37,10 @@ export default {
   components: {
     // 'guide-drop-down': GuideDropDown,
   },
-  data () {
-    return {
-      FAQs: '',
-      faucet: '',
-    };
-  },
   computed: {
     ...mapState([
       'signIn',
     ]),
-  },
-  created () {
-    this.FAQs = process.env.VUE_APP_FAQS_LINK;
-    this.faucet = process.env.VUE_APP_FAUCET_LINK;
   },
   methods: {
     toMainPage () {
@@ -86,7 +90,6 @@ export default {
 }
 
 .header-link-container {
-  width: 160px;
   display: flex;
   align-items: center;
   justify-content: space-between;
