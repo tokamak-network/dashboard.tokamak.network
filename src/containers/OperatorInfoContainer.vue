@@ -4,7 +4,14 @@
       <avatar class="avatar" fullname="O P R" :image="filteredImgURL(operator.avatar)" :size="50" :color="operator.color" />
       <div class="name">{{ operator.name }}</div>
       <div class="space" style="flex: 1;" />
-      <div v-if="user === operator.address" class="button"><base-button :label="'edit'" :func="edit" /></div>
+      <div class="row">
+        <div v-if="user === operator.address" class="button">
+          <base-button :label="'edit'" :func="edit" />
+        </div>
+        <div v-if="user === operator.address">
+          <button class="button-commit" @click="commit">commit</button>
+        </div>
+      </div>
     </div>
     <text-viewer-link :title="'Website'"
                       :content="operator.website"
@@ -117,6 +124,10 @@ import moment from 'moment';
 import { createCurrency } from '@makerdao/currency';
 const _TON = createCurrency('TON');
 
+import RootChainABI from '@/contracts/abi/RootChain.json';
+import { createWeb3Contract } from '@/helpers/Contract';
+import { BN } from 'web3-utils';
+
 import { mapState } from 'vuex';
 import Avatar from 'vue-avatar-component';
 import TextViewer from '@/components/TextViewer.vue';
@@ -165,6 +176,48 @@ export default {
         path: `${path}/edit`,
         query: { network: this.$route.query.network },
       }).catch(err => {});
+    },
+    // only for mton version.
+    async commit () {
+      const RootChain = createWeb3Contract(RootChainABI, this.operator.rootchain);
+      const [
+        costNRB,
+        NRELength,
+        currentForkNumber,
+      ] = await Promise.all([
+        RootChain.methods.COST_NRB().call(),
+        RootChain.methods.NRELength().call(),
+        RootChain.methods.currentFork().call(),
+      ]);
+
+      const fork = await RootChain.methods.forks(currentForkNumber).call();
+      const epochNumber = parseInt(fork.lastEpoch) + 1;
+      const startBlockNumber = parseInt(fork.lastBlock) + 1;
+      const endBlockNumber = parseInt(startBlockNumber) + parseInt(NRELength) - 1;
+
+      // pos1 = fork number * 2^128 + epoch number
+      // pos2 = start block number * 2^128 + end block number
+      const pos1 = this._makePos(currentForkNumber, epochNumber);
+      const pos2 = this._makePos(startBlockNumber, endBlockNumber);
+      const dummyBytes = '0xdb431b544b2f5468e3f771d7843d9c5df3b4edcf8bc1c599f18f0b4ea8709bc3';
+
+      await RootChain.methods.submitNRE(
+        pos1,
+        pos2,
+        dummyBytes, // epochStateRoot
+        dummyBytes, // epochTransactionsRoot
+        dummyBytes, // epochReceiptsRoot
+      ).send({
+        from: this.operator.address,
+        value: costNRB,
+      });
+    },
+    _makePos (v1, v2) {
+      v1 = new BN(v1);
+      v2 = new BN(v2);
+
+      const a = v1.mul(new BN(2).pow(new BN(128)));
+      return a.add(v2).toString();
     },
   },
 };
@@ -215,5 +268,20 @@ export default {
   height: 22px;
   width: 40px;
   margin-right: 16px;
+}
+
+.button-commit {
+  color: #ffffff;
+  background-color: #f38776;
+  border: 1px solid #f38776;
+  text-align: center;
+  font-size: 14px;
+  border-radius: 4px;
+  height: 24px;
+  margin-right: 16px;
+}
+
+.button-commit:hover {
+  cursor: pointer;
 }
 </style>
