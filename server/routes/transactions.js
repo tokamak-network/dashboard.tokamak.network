@@ -1,6 +1,5 @@
 const { toChecksumAddress } = require('web3-utils');
 
-// only get pending transactions
 const GET = (db, req) => {
   let from = req.query.from;
   if (from) {
