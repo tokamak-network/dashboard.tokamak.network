@@ -2,22 +2,30 @@ const { toChecksumAddress } = require('web3-utils');
 
 // only get pending transactions
 const GET = (db, req) => {
-  let from;
-  try {
-    from = toChecksumAddress(req.query.from);
-  } catch (err) {
-    throw new Error('Non-checksum address');
-  }
+  let from = req.query.from;
+  if (from) {
+    try {
+      from = toChecksumAddress(req.query.from);
+    } catch (err) {
+      throw new Error('Non-checksum address');
+    }
 
-  try {
+    try {
+      const transactions = db
+        .get('transactions')
+        .filter(transaction => transaction.from === from)
+        .value();
+
+      return Promise.resolve(transactions);
+    } catch (err) {
+      throw err;
+    }
+  } else {
     const transactions = db
       .get('transactions')
-      .filter(transaction => transaction.from === from)
       .value();
 
     return Promise.resolve(transactions);
-  } catch (err) {
-    throw err;
   }
 };
 
