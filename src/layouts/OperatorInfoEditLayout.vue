@@ -21,6 +21,14 @@
             <div class="title">Description</div>
             <textarea :value="description" cols="40" rows="6" @input="updateDescription($event.target.value)" />
           </div>
+          <div class="row" style="margin-top: 16px;">
+            <div>Current commission rate: {{ operator.isCommissionRateNegative ? '-' : '' }}{{ operator.commissionRate | rateOf }}</div>
+            <input :value="commissionRate" style="text-align: right; margin-left: 36px; width: 48px;" @input="updateCommissionRate($event.target.value)">
+            %
+            <div class="set-commission-rate-button">
+              <base-button :label="'Set new commission rate'" :func="setNewCommissionRate" />
+            </div>
+          </div>
           <div class="button-container"><base-button :label="'Update'" :func="update" /></div>
         </div>
       </div>
@@ -29,6 +37,7 @@
 </template>
 
 <script>
+import { BN } from 'web3-utils';
 import { getConfig } from '../../config.js';
 import { updateOperator } from '@/api/index.js';
 import { toChecksumAddress } from 'web3-utils';
@@ -51,6 +60,7 @@ export default {
       avatar: '',
       name: '',
       website: '',
+      commissionRate: '',
       description: '',
       preview: '',
     };
@@ -59,6 +69,7 @@ export default {
     ...mapState([
       'user',
       'web3',
+      'SeigManager',
     ]),
     ...mapGetters([
       'operatorByRootChain',
@@ -100,6 +111,53 @@ export default {
     },
     updateDescription (description) {
       this.description = description;
+    },
+    updateCommissionRate (commissionRate) {
+      this.commissionRate = commissionRate;
+    },
+    setNewCommissionRate () {
+      try {
+        let isCommissionRateNegative;
+        if (parseInt(this.commissionRate) < 0) {
+          isCommissionRateNegative = true;
+        } else {
+          isCommissionRateNegative = false;
+        }
+
+        const base = '10000000000000000000000000'; // 1e25
+        const commissionRate = (new BN(Math.abs(parseInt(this.commissionRate))).mul(new BN(base))).toString(); // (0 ~ 100) * 1e25
+
+        this.SeigManager.methods.setCommissionRate(
+          this.operator.rootchain,
+          commissionRate,
+          isCommissionRateNegative,
+        ).send({
+          from: this.user,
+        }).on('receipt', (receipt) => {
+          if (receipt.status) {
+            this.$notify({
+              group: 'confirmed',
+              title: 'Transaction is confirmed',
+              type: 'success',
+              duration: 10000,
+            });
+          } else {
+            this.$notify({
+              group: 'reverted',
+              title: 'Transaction is reverted',
+              type: 'error',
+              duration: 10000,
+            });
+          }
+
+          this.$router.replace({
+            path: this.from.path,
+            query: { network: this.$route.query.network },
+          }).catch(err => {});
+        });
+      } catch (err) {
+        console.log(err.message);
+      }
     },
     async update () {
       if (this.name === '' || this.website === '' || this.description === '') {
@@ -245,6 +303,17 @@ button {
   padding-top: 4px;
   padding-bottom: 4px;
   border-radius: 6px;
+}
+
+.set-commission-rate-button {
+  color: #ffffff;
+  background-color: #f38776;
+  border: 1px solid #f38776;
+  margin-left: 8px;
+  border-radius: 6px;
+  padding-left: 2px;
+  padding-right: 2px;
+  font-size: 12px;
 }
 
 input[type="file"] {
