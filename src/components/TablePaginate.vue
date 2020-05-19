@@ -70,6 +70,14 @@ export default {
   margin-right: 6px;
 }
 
+button {
+  color: #ffffff;
+  background-color: #b6b7b7;
+  border: 1px solid #b6b7b7;
+  text-align: center;
+  border-radius: 6px;
+}
+
 button:hover {
   cursor: pointer;
 }
