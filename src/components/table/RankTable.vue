@@ -1,43 +1,56 @@
 <template>
-  <table class="rank-table">
-    <thead>
-      <tr>
-        <th class="text-center">#</th>
-        <th class="pointer text-center" @click="orderBy('rank')">{{ withArrow('rank', 'Rank') }}</th>
-        <th class="pointer text-center" @click="orderBy('account')">{{ withArrow('account', 'Account') }}</th>
-        <th class="pointer text-center" @click="orderBy('power')">{{ withArrow('power', 'Power') }}</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr v-for="(account, index) in orderedRank" :key="account.address">
-        <td class="text-center">{{ index }}</td>
-        <td class="text-center">{{ account.rank }}</td>
-        <td class="text-center">
-          <a
-            class="link"
-            target="_blank"
-            rel="noopener noreferrer"
-            :href="toExplorer('address', account.address)"
-          >
-            {{ account.address | hexSlicer }}
-          </a>
-        </td>
-        <td class="text-center">{{ account.power | currencyAmount }}</td>
-      </tr>
-    </tbody>
-  </table>
+  <div>
+    <table class="rank-table">
+      <thead>
+        <tr>
+          <th class="text-center">#</th>
+          <th class="text-center">Rank</th>
+          <th class="text-center">Account</th>
+          <th class="text-center">Power</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="(account, index) in accounts" :key="account.address">
+          <td class="text-center">{{ index }}</td>
+          <td class="text-center">{{ account.rank }}</td>
+          <td class="text-center">
+            <a
+              class="link"
+              target="_blank"
+              rel="noopener noreferrer"
+              :href="toExplorer('address', account.address)"
+            >
+              {{ account.address | hexSlicer }}
+            </a>
+          </td>
+          <td class="text-center">{{ account.power | currencyAmount }}</td>
+        </tr>
+      </tbody>
+    </table>
+    <table-paginate
+      :pages="pages"
+      @update-page="updateTableByPage"
+    />
+  </div>
 </template>
 
 <script>
 import { orderBy } from 'lodash';
+import TablePaginate from '@/components/TablePaginate.vue';
 
 import { mapGetters } from 'vuex';
 
 export default {
+  components: {
+    'table-paginate': TablePaginate,
+  },
   data () {
     return {
-      from: 'rank',
-      order: 'desc',
+      base: 10,
+      pages: 0,
+
+      orderedAccounts: [],
+      accounts: [],
     };
   },
   computed: {
@@ -46,29 +59,6 @@ export default {
     ]),
     toExplorer () {
       return (type, param) => this.$options.filters.toExplorer(type, param);
-    },
-    orderedRank () {
-      switch (this.from) {
-      case 'rank':
-        return orderBy(this.rankedAccountsWithPower, (account) => account.rank, [this.order === 'desc' ? 'asc' : 'desc']);
-
-      case 'account':
-        return orderBy(this.rankedAccountsWithPower, (account) => account.address, [this.order]);
-
-      case 'power':
-        return orderBy(this.rankedAccountsWithPower, (account) => account.power.toNumber(), [this.order]);
-
-      default:
-        return [];
-      }
-    },
-    withArrow () {
-      return (from, label) => {
-        if (this.from === from) {
-          return this.order === 'desc' ? `${label} ↑` : `${label} ↓`;
-        }
-        return label;
-      };
     },
   },
   mounted () {
@@ -81,6 +71,11 @@ export default {
         e.preventDefault();
       });
     });
+
+    this.pages = parseInt(this.rankedAccountsWithPower.length / this.base) + 1;
+
+    this.orderedAccounts = orderBy(this.rankedAccountsWithPower, (account) => account.rank, 'asc');
+    this.accounts = this.orderedAccounts.slice(0, this.base);
   },
   methods: {
     orderBy (from) {
@@ -93,6 +88,9 @@ export default {
     },
     changedOrder () {
       return this.order === 'desc' ? 'asc' : 'desc';
+    },
+    updateTableByPage (page) {
+      this.accounts = this.orderedAccounts.slice((page - 1) * this.base, page * this.base);
     },
   },
 };
@@ -108,7 +106,7 @@ export default {
 }
 
 .rank-table td, .rank-table th {
-  border-top: solid 0.5px #dce2e5;
+  border-bottom: solid 0.5px #dce2e5;
   /* border: 1px solid #555561; */
   /* padding: 8px; */
 }
