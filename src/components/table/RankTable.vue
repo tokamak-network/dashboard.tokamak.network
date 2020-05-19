@@ -36,9 +36,9 @@
 
 <script>
 import { orderBy } from 'lodash';
-import TablePaginate from '@/components/TablePaginate.vue';
 
 import { mapGetters } from 'vuex';
+import TablePaginate from '@/components/TablePaginate.vue';
 
 export default {
   components: {

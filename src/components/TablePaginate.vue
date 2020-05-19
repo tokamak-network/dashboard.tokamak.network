@@ -51,7 +51,6 @@ export default {
   margin-top: -6px;
   margin-bottom: 12px;
   width: 100%;
-  /* background: yellow; */
 }
 
 .row {
