@@ -1,6 +1,7 @@
 <template>
   <div class="rank-container">
     <container-header :title="'Rank'" />
+    <div class="divider" />
     <rank-table />
   </div>
 </template>
@@ -23,5 +24,9 @@ export default {
   border: solid 1px #ced6d9;
   background-color: #ffffff;
   border-radius: 6px;
+}
+
+.divider {
+  border-bottom: solid 0.5px #dce2e5;
 }
 </style>
