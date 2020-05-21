@@ -73,6 +73,9 @@ export default {
     });
 
     this.pages = parseInt(this.rankedAccountsWithPower.length / this.base) + 1;
+    if (this.pages > 1 && this.rankedAccountsWithPower.length % this.base === 0) {
+      this.pages = this.pages - 1;
+    }
 
     this.orderedAccounts = orderBy(this.rankedAccountsWithPower, (account) => account.rank, 'asc');
     this.accounts = this.orderedAccounts.slice(0, this.base);
