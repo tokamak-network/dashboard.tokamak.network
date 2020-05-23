@@ -1,13 +1,17 @@
 <template>
   <div class="row">
-    <operator-info-container class="left-container" :operator="operator" style="flex: 5;" />
-    <delegate-manager-container class="right-container" :operator="operator" style="flex: 3;" />
+    <operator-info-container
+      class="left-container"
+      :rootchain="rootchain"
+    />
+    <delegate-manager-container
+      class="right-container"
+      :rootchain="rootchain"
+    />
   </div>
 </template>
 
 <script>
-import { cloneDeep } from 'lodash';
-
 import DelegateManagerContainer from '@/containers/DelegateManagerContainer.vue';
 import OperatorInfoContainer from '@/containers/OperatorInfoContainer.vue';
 
@@ -16,11 +20,13 @@ export default {
     'operator-info-container': OperatorInfoContainer,
     'delegate-manager-container': DelegateManagerContainer,
   },
-  computed: {
-    operator () {
-      const rootchain = this.$route.params.rootchain;
-      return cloneDeep(this.$store.getters.operatorByRootChain(rootchain));
-    },
+  data () {
+    return {
+      rootchain: '',
+    };
+  },
+  created () {
+    this.rootchain = this.$route.params.rootchain;
   },
 };
 </script>
@@ -33,12 +39,12 @@ export default {
 }
 
 .left-container {
-  flex: 1;
+  flex: 5;
   margin-right: 4px;
 }
 
 .right-container {
-  flex: 1;
+  flex: 3;
   margin-left: 4px;
 }
 </style>

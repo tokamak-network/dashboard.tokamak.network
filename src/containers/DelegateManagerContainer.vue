@@ -11,6 +11,17 @@
           <button type="button" class="available-amount" @click="setAvailableAmountToDelegate()">{{ currencyAmount(tonBalance) }}</button>
         </div>
         <div class="button-container" style="margin-top: 24px;"><base-button :label="'Delegate'" :func="delegate" /></div>
+        <div class="divider" />
+        <div class="row">
+          <span class="available-amount-label">Redelegatable</span>
+          <button type="button"
+                  class="available-amount"
+                  @click="increaseIndex()"
+          >
+            {{ redelegatableAmount | currencyAmount }}
+          </button>
+        </div>
+        <div class="button-container" style="margin-top: 24px;"><base-button :label="'Redelegate'" :func="redelegate" /></div>
       </div>
     </form>
     <form v-else>
@@ -39,13 +50,14 @@
 </template>
 
 <script>
-import { padLeft } from 'web3-utils';
+import { BN, padLeft } from 'web3-utils';
+import { range } from 'lodash';
 import { addHistory, addTransaction } from '@/api';
 import { createCurrency } from '@makerdao/currency';
 const _TON = createCurrency('TON');
 const _WTON = createCurrency('WTON');
 
-import { mapState } from 'vuex';
+import { mapState, mapGetters } from 'vuex';
 import BaseButton from '@/components/BaseButton.vue';
 import BaseTab from '@/components/BaseTab.vue';
 import TONInput from '@/components/TONInput.vue';
@@ -59,9 +71,9 @@ export default {
     'text-viewer': TextViewer,
   },
   props: {
-    operator: {
+    rootchain: {
       required: true,
-      type: Object,
+      type: String,
     },
   },
   data () {
@@ -69,6 +81,8 @@ export default {
       tab: 'left',
       amountToDelegate: '',
       amountToUndelegate: '',
+
+      index: 0,
     };
   },
   computed: {
@@ -81,12 +95,33 @@ export default {
       'WTON',
       'DepositManager',
     ]),
+    ...mapGetters([
+      'operatorByRootChain',
+    ]),
+    operator () {
+      return this.operatorByRootChain(this.rootchain);
+    },
     currencyAmount () {
       return amount => this.$options.filters.currencyAmount(amount);
     },
     notWithdrawableMessage () {
       return withdrawableBlockNumber => `You have to wait for ${withdrawableBlockNumber - this.blockNumber} blocks to withdraw all the tokens.`;
     },
+
+    withdrawableRequests () {
+      return this.operator.withdrawalRequests.length;
+    },
+    redelegatableRequests () {
+      return this.operator.withdrawalRequests.length - this.index;
+    },
+    redelegatableAmount () {
+      let amount = new BN(0);
+      for (const i of range(this.redelegatableRequests)) {
+        amount = amount.add(new BN(this.operator.withdrawalRequests[i].amount));
+      }
+      return _WTON(amount.toString(), 'ray');
+    },
+
   },
   methods: {
     withdrawableBlockNumber (requests) {
@@ -114,6 +149,13 @@ export default {
         this.amountToUndelegate = tonAmount;
       }
     },
+    increaseIndex () {
+      this.index++;
+      if (this.operator.withdrawalRequests.length === 0 ||
+          this.index === this.operator.withdrawalRequests.length) {
+        this.index = 0;
+      }
+    },
     async delegate () {
       if (this.amountToDelegate === '' || parseFloat(this.amountToDelegate) === 0) {
         return alert('Please check input amount.');
@@ -139,13 +181,39 @@ export default {
           };
           this.$store.dispatch('addPendingTransaction', transcation);
         })
-        .on('error', function (error, receipt) {
-          //
+        .on('receipt', (receipt) => {
+          this.index = 0;
         });
 
       this.amountToDelegate = '';
     },
-    async undelegate () {
+    redelegate () {
+      if (this.operator.withdrawalRequests.length === 0) {
+        return alert('Redelegatable amount is 0.');
+      }
+
+      const amount = this.redelegatableAmount.toFixed('ray');
+
+      this.DepositManager.methods.redepositMulti(
+        this.operator.rootchain,
+        this.redelegatableRequests,
+      ).send({ from: this.user })
+        .on('transactionHash', async (hash) => {
+          const transcation = {
+            from: this.user,
+            type: 'Redelegated',
+            amount,
+            transactionHash: hash,
+            target: this.operator.rootchain,
+          };
+          this.$store.dispatch('addPendingTransaction', transcation);
+        })
+        .on('receipt', (receipt) => {
+          this.$store.dispatch('set', this.web3);
+          this.index = 0; // after contract state is updated, display max redelegatable amount.
+        });
+    },
+    undelegate () {
       if (this.amountToUndelegate === '' || parseFloat(this.amountToUndelegate) === 0) {
         return alert('Please check input amount.');
       }
@@ -168,13 +236,13 @@ export default {
           };
           this.$store.dispatch('addPendingTransaction', transcation);
         })
-        .on('error', function (error, receipt) {
-          //
+        .on('receipt', (receipt) => {
+          this.index = 0;
         });
 
       this.amountToUndelegate = '';
     },
-    async processRequests () {
+    processRequests () {
       const userWithdrawable = this.operator.userWithdrawable;
       if (userWithdrawable.isEqual(_WTON.ray('0'))) {
         return alert('Withdrawable amount is 0.');
@@ -200,8 +268,8 @@ export default {
           };
           this.$store.dispatch('addPendingTransaction', transcation);
         })
-        .on('error', function (error, receipt) {
-          //
+        .on('receipt', async receipt => {
+          this.index = 0;
         });
     },
     isNumber (evt) {

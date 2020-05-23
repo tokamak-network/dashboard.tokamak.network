@@ -654,16 +654,18 @@ export default new Vuex.Store({
           operatorFromRootChain.isCommissionRateNegative = isCommissionRateNegative;
           operatorFromRootChain.commissionRate = _WTON(commissionRate, WTON_UNIT);
 
+          operatorFromRootChain.withdrawalRequests = pendingRequests;
           operatorFromRootChain.notWithdrawableRequests = notWithdrawableRequests;
           operatorFromRootChain.withdrawableRequests = withdrawableRequests;
           // already wrapped with WTON
           operatorFromRootChain.userNotWithdrawable = userNotWithdrawable;
           operatorFromRootChain.userWithdrawable = userWithdrawable;
-          operatorFromRootChain.userReward
-            = operatorFromRootChain.userStaked
-              .add(userNotWithdrawable)
-              .add(userWithdrawable)
-              .sub(operatorFromRootChain.userDeposit);
+          operatorFromRootChain.userRedelegatable = userWithdrawable.add(userNotWithdrawable);
+          operatorFromRootChain.userReward = userNotWithdrawable;
+          // = operatorFromRootChain.userStaked
+          //   .add(userNotWithdrawable)
+          //   .add(userWithdrawable)
+          //   .sub(operatorFromRootChain.userDeposit);
 
           return operatorFromRootChain;
         })
@@ -792,7 +794,7 @@ export default new Vuex.Store({
       else return [];
     },
     operatorByRootChain: (state) => (rootchain) => {
-      return state.operators.find(operator => operator.rootchain.toLowerCase() === rootchain.toLowerCase());
+      return cloneDeep(state.operators.find(operator => operator.rootchain.toLowerCase() === rootchain.toLowerCase()));
     },
     userTotalDeposit: (state) => {
       const initialAmount = _WTON.ray('0');
@@ -827,8 +829,8 @@ export default new Vuex.Store({
     userTotalReward: (_, getters) => {
       return getters.userTotalStaked
         .add(getters.userTotalWithdrawable)
-        .add(getters.userTotalNotWithdrawable)
-        .sub(getters.userTotalDeposit);
+        .add(getters.userTotalNotWithdrawable);
+      // .sub(getters.userTotalDeposit);
     },
     rankedAccountsWithPower: (state) => {
       const accounts = state.accountsDepositedWithPower;
