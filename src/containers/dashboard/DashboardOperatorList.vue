@@ -1,6 +1,6 @@
 <template>
   <div class="operator-list">
-    <dashboard-header :title="'Operator List'" :path="'operators'" />
+    <dashboard-header :title="'Operators'" :path="'operators'" />
     <dashboard-operator-table />
   </div>
 </template>

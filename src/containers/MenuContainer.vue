@@ -34,7 +34,7 @@
       @click="clickMenu('operators')"
     >
       <div class="sub-menu-title">
-        Operator List
+        Operators
       </div>
     </div>
     <div
