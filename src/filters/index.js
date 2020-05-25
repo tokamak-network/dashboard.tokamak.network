@@ -111,6 +111,9 @@ export function userSeigsRate (userStaked, userSeigs) {
 }
 
 export function rateOf (commission) {
+  if (!commission) {
+    return '0 %';
+  }
   return `${commission.toNumber() * 100} %`;
 }
 
