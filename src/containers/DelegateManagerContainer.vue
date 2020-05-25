@@ -13,7 +13,7 @@
         <div class="button-container" style="margin-top: 24px;"><base-button :label="'Delegate'" :func="delegate" /></div>
         <div class="divider" />
         <div class="row">
-          <span class="available-amount-label">Redelegatable</span>
+          <span class="available-amount-label">Available Amount</span>
           <button type="button"
                   class="available-amount"
                   @click="increaseIndex()"
@@ -21,7 +21,7 @@
             {{ redelegatableAmount | currencyAmount }}
           </button>
         </div>
-        <div class="button-container" style="margin-top: 24px;"><base-button :label="'Redelegate'" :func="redelegate" /></div>
+        <div class="button-container" style="margin-top: 24px;"><base-button :label="'Re-Delegate'" :func="redelegate" /></div>
       </div>
     </form>
     <form v-else>
