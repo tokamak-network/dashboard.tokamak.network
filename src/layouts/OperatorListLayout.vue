@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="operator-list-layout">
-      <container-header :title="'Operator'" />
+      <container-header :title="'Operators'" />
       <operator-table />
     </div>
   </div>
