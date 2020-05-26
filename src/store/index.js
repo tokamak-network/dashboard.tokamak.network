@@ -484,7 +484,7 @@ export default new Vuex.Store({
               Tot.methods.totalSupply().call(),
               Tot.methods.balanceOf(rootchain).call(),
               Coinage.methods.totalSupply().call(),
-              Coinage.methods.balanceOf(rootchain).call(),
+              Coinage.methods.balanceOf(operator).call(),
               Coinage.methods.balanceOf(user).call(),
             ]);
 
@@ -592,7 +592,6 @@ export default new Vuex.Store({
               operatorSeigs: operatorSeigsWithCommissionRate,
               userSeigs: userSeigsWithCommissionRate,
               rootchainSeigs: rootchainSeigs,
-              usersSeigs: usersSeigs,
             };
           };
 
@@ -606,7 +605,7 @@ export default new Vuex.Store({
             selfStaked,
             userStaked,
             pendingRequests,
-            seigs, // operatorSeigs, userSeigs, rootchainSeigs, usersSeigs
+            seigs, // operatorSeigs, userSeigs, rootchainSeigs
             isCommissionRateNegative,
             commissionRate,
           ] = await Promise.all([
@@ -646,11 +645,9 @@ export default new Vuex.Store({
 
           operatorFromRootChain.userDeposit = _WTON(userDeposit, WTON_UNIT);
           operatorFromRootChain.userStaked = _WTON(userStaked, WTON_UNIT);
+          operatorFromRootChain.userSeigs
+            = operator.toLowerCase() === user.toLowerCase() ? seigs.operatorSeigs : seigs.userSeigs;
 
-          operatorFromRootChain.operatorSeigs = seigs.operatorSeigs;
-          operatorFromRootChain.userSeigs = seigs.userSeigs;
-          operatorFromRootChain.rootchainSeigs = seigs.rootchainSeigs;
-          operatorFromRootChain.usersSeigs = seigs.usersSeigs;
           operatorFromRootChain.isCommissionRateNegative = isCommissionRateNegative;
           operatorFromRootChain.commissionRate = _WTON(commissionRate, WTON_UNIT);
 
