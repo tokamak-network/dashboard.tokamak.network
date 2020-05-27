@@ -6,8 +6,8 @@
         <th class="text-center pointer" @click="orderBy('name')">{{ withArrow('name', 'Operator Name') }}</th>
         <th class="text-center pointer" @click="orderBy('userStaked')">{{ withArrow('userStaked', 'My Staked') }}</th>
         <th class="text-center pointer" @click="orderBy('userReward')">{{ withArrow('userReward', 'My Reward') }}</th>
-        <th class="text-center pointer" @click="orderBy('userSeigs')">{{ withArrow('userSeigs', 'Estimated Reward Amount') }}</th>
-        <th class="text-center pointer" @click="orderBy('userSeigsRate')">{{ withArrow('userSeigsRate', 'Estimated Reward Rate') }}</th>
+        <th class="text-center pointer" @click="orderBy('userSeigs')">{{ withArrow('userSeigs', 'Expected Reward Amount') }}</th>
+        <th class="text-center pointer" @click="orderBy('userSeigsRate')">{{ withArrow('userSeigsRate', 'Expected Reward Rate') }}</th>
         <th class="text-center pointer" @click="orderBy('commissionRate')">{{ withArrow('commissionRate', 'Commission Rate') }}</th>
       </tr>
     </thead>
