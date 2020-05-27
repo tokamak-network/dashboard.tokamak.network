@@ -41,6 +41,7 @@ const initialState = {
   user: '',
   networkId: '',
   blockNumber: 0,
+  blockTimestamp: 0,
 
   // contract of managers
   TON: {},
@@ -101,6 +102,9 @@ export default new Vuex.Store({
     },
     SET_BLOCK_NUMBER: (state, number) => {
       state.blockNumber = number;
+    },
+    SET_BLOCK_TIMESTAMP: (state, timestamp) => {
+      state.blockTimestamp = timestamp;
     },
     SET_ETH_BALANCE: (state, balance) => {
       state.ethBalance = balance;
@@ -209,7 +213,9 @@ export default new Vuex.Store({
     },
     async set (context, web3) {
       const blockNumber = await web3.eth.getBlockNumber();
+      const block = await web3.eth.getBlock(blockNumber);
       context.commit('SET_BLOCK_NUMBER', blockNumber);
+      context.commit('SET_BLOCK_TIMESTAMP', block.timestamp);
 
       await Promise.all([
         context.dispatch('setOperators', blockNumber),
