@@ -128,7 +128,7 @@ import RootChainABI from '@/contracts/abi/RootChain.json';
 import { createWeb3Contract } from '@/helpers/Contract';
 import { BN } from 'web3-utils';
 
-import { mapState } from 'vuex';
+import { mapState, mapGetters } from 'vuex';
 import Avatar from 'vue-avatar-component';
 import TextViewer from '@/components/TextViewer.vue';
 import TextViewerLink from '@/components/TextViewerLink.vue';
@@ -144,15 +144,21 @@ export default {
     'base-button': BaseButton,
   },
   props: {
-    operator: {
+    rootchain: {
       required: true,
-      type: Object,
+      type: String,
     },
   },
   computed: {
     ...mapState([
       'user',
     ]),
+    ...mapGetters([
+      'operatorByRootChain',
+    ]),
+    operator () {
+      return this.operatorByRootChain(this.rootchain);
+    },
     filteredImgURL () {
       return name => name !== '' ? `${getConfig().baseURL}/avatars/${name}` : '';
     },

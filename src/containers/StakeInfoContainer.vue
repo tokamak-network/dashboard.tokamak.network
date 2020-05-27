@@ -6,12 +6,6 @@
                  :with-divider="true"
                  :tooltip="'Sum of your total delegate-stake and reward'"
     />
-    <text-viewer :title="'Total Reward'"
-                 :content="currencyAmount(userTotalReward)"
-                 :with-divider="false"
-                 :tooltip="'Sum of all issued reward so far'"
-                 :tooltipMarginTop="'-9px'"
-    />
     <text-viewer :title="'Total Not Withdrawable'"
                  :content="currencyAmount(userTotalNotWithdrawable)"
                  :with-divider="false"
@@ -49,7 +43,7 @@ export default {
   },
   computed: {
     ...mapGetters([
-      'userTotalReward',
+      'userTotalSeigs',
       'userTotalStaked',
       'userTotalNotWithdrawable',
       'userTotalWithdrawable',

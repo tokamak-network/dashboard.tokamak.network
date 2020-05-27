@@ -1,8 +1,7 @@
 <template>
   <div class="dashboard-staking">
     <dashboard-header :title="'My Staking'" :path="'staking'" />
-    <text-viewer :title="'Total Reward'" :content="currencyAmount(userTotalReward)" :with-divider="true" />
-    <text-viewer :title="'Total Delegated'" :content="currencyAmount(userTotalDeposit)" :with-divider="false" />
+    <text-viewer :title="'Total Expected Reward'" :content="currencyAmount(userTotalSeigs)" :with-divider="true" />
     <text-viewer :title="'Total Staked'" :content="currencyAmount(userTotalStaked)" :with-divider="false" />
     <text-viewer :title="'Total Not Withdrawable'" :content="currencyAmount(userTotalNotWithdrawable)" :with-divider="false" />
     <text-viewer :title="'Total Withdrawable'" :content="currencyAmount(userTotalWithdrawable)" :with-divider="false" />
@@ -29,9 +28,8 @@ export default {
   },
   computed: {
     ...mapGetters([
-      'userTotalReward',
+      'userTotalSeigs',
       'userTotalStaked',
-      'userTotalDeposit',
       'userTotalNotWithdrawable',
       'userTotalWithdrawable',
     ]),
