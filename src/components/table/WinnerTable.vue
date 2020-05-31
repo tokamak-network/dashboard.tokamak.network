@@ -1,43 +1,56 @@
 <template>
-  <table class="winner-table">
-    <thead>
-      <tr>
-        <th class="text-center">#</th>
-        <th class="pointer text-center" @click="orderBy('round')">{{ withArrow('round', 'Round') }}</th>
-        <th class="pointer text-center" @click="orderBy('winner')">{{ withArrow('winner', 'Winner') }}</th>
-        <th class="pointer text-center" @click="orderBy('reward')">{{ withArrow('reward', 'Reward') }}</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr v-for="(round, index) in orderedRound" :key="round.index">
-        <td class="text-center">{{ index }}</td>
-        <td class="text-center">{{ round.index }}</td>
-        <td class="text-center">
-          <a
-            class="link"
-            target="_blank"
-            rel="noopener noreferrer"
-            :href="toExplorer('address', round.winner)"
-          >
-            {{ round.winner | hexSlicer }}
-          </a>
-        </td>
-        <td class="text-center">{{ round.reward | currencyAmount }}</td>
-      </tr>
-    </tbody>
-  </table>
+  <div>
+    <table class="winner-table">
+      <thead>
+        <tr>
+          <th class="text-center">#</th>
+          <th class="text-center">Round</th>
+          <th class="text-center">Winner</th>
+          <th class="text-center">Reward</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="(round, index) in filteredRounds" :key="round.index">
+          <td class="text-center">{{ index }}</td>
+          <td class="text-center">{{ round.index }}</td>
+          <td class="text-center">
+            <a
+              class="link"
+              target="_blank"
+              rel="noopener noreferrer"
+              :href="toExplorer('address', round.winner)"
+            >
+              {{ round.winner | hexSlicer }}
+            </a>
+          </td>
+          <td class="text-center">{{ round.reward | currencyAmount }}</td>
+        </tr>
+      </tbody>
+    </table>
+    <table-paginate
+      :pages="pages"
+      @update-page="updateTableByPage"
+    />
+  </div>
 </template>
 
 <script>
 import { orderBy } from 'lodash';
 
 import { mapState } from 'vuex';
+import TablePaginate from '@/components/TablePaginate.vue';
 
 export default {
+  components: {
+    'table-paginate': TablePaginate,
+  },
   data () {
     return {
-      from: 'round',
-      order: 'desc',
+      base: 10,
+      pages: 0,
+
+      orderedRounds: [],
+      filteredRounds: [],
     };
   },
   computed: {
@@ -46,30 +59,6 @@ export default {
     ]),
     toExplorer () {
       return (type, param) => this.$options.filters.toExplorer(type, param);
-    },
-    orderedRound () {
-      switch (this.from) {
-      case 'round':
-        return orderBy(this.rounds, (round) => round.index, [this.order]);
-
-      case 'winner':
-        return orderBy(this.rounds, (round) => round.winner, [this.order]);
-
-      case 'reward':
-        // TODO: test bignumber of reward.toNumber()
-        return orderBy(this.rounds, (round) => round.reward.toNumber(), [this.order]);
-
-      default:
-        return [];
-      }
-    },
-    withArrow () {
-      return (from, label) => {
-        if (this.from === from) {
-          return this.order === 'desc' ? `${label} ↑` : `${label} ↓`;
-        }
-        return label;
-      };
     },
   },
   mounted () {
@@ -82,6 +71,14 @@ export default {
         e.preventDefault();
       });
     });
+
+    this.pages = parseInt(this.rounds.length / this.base) + 1;
+    if (this.pages > 1 && this.rounds.length % this.base === 0) {
+      this.pages = this.pages - 1;
+    }
+
+    this.orderedRounds = orderBy(this.rounds, (round) => round.index, 'desc');
+    this.filteredRounds = this.orderedRounds.slice(0, this.base);
   },
   methods: {
     orderBy (from) {
@@ -94,6 +91,9 @@ export default {
     },
     changedOrder () {
       return this.order === 'desc' ? 'asc' : 'desc';
+    },
+    updateTableByPage (page) {
+      this.filteredRounds = this.orderedRounds.slice((page - 1) * this.base, page * this.base);
     },
   },
 };
@@ -109,7 +109,7 @@ export default {
 }
 
 .winner-table td, .winner-table th {
-  border-top: solid 0.5px #dce2e5;
+  border-bottom: solid 0.5px #dce2e5;
   /* border: 1px solid #555561; */
   /* padding: 8px; */
 }
