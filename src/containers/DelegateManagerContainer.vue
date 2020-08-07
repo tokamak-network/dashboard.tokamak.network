@@ -10,7 +10,7 @@
           <span class="available-amount-label">Available Amount</span>
           <button type="button" class="available-amount" @click="setAvailableAmountToDelegate()">{{ currencyAmount(tonBalance) }}</button>
         </div>
-        <div class="button-container" style="margin-top: 24px;"><base-button :label="'Delegate'" :func="delegate" /></div>
+        <div class="button-container" style="margin-top: 24px;"><base-button-d :label="'Delegate'" :func="delegate" /></div>
         <div class="divider" />
         <div class="row">
           <span class="available-amount-label">Available Amount</span>
@@ -59,6 +59,7 @@ const _WTON = createCurrency('WTON');
 
 import { mapState, mapGetters } from 'vuex';
 import BaseButton from '@/components/BaseButton.vue';
+import BaseButtonDisable from '@/components/BaseButtonDisable.vue';
 import BaseTab from '@/components/BaseTab.vue';
 import TONInput from '@/components/TONInput.vue';
 import TextViewer from '@/components/TextViewer.vue';
@@ -66,6 +67,7 @@ import TextViewer from '@/components/TextViewer.vue';
 export default {
   components: {
     'base-button': BaseButton,
+    'base-button-d': BaseButtonDisable,
     'base-tab': BaseTab,
     'ton-input': TONInput,
     'text-viewer': TextViewer,
@@ -121,7 +123,9 @@ export default {
       }
       return _WTON(amount.toString(), 'ray');
     },
-
+    disableButton () {
+      return false;
+    },
   },
   methods: {
     withdrawableBlockNumber (requests) {
