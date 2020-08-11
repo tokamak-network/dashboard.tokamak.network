@@ -21,7 +21,7 @@
             {{ redelegatableAmount | currencyAmount }}
           </button>
         </div>
-        <div class="button-container" style="margin-top: 24px;"><base-button :label="'Re-Delegate'" :func="redelegate" /></div>
+        <div class="button-container" style="margin-top: 24px;"><base-button-d :label="'Re-Delegate'" :func="redelegate" /></div>
       </div>
     </form>
     <form v-else>
