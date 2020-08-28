@@ -44,7 +44,7 @@ export default {
 .button-container {
   display: flex;
   justify-content: flex-end;
-  margin-top: -14px;
+  margin-top: -12px;
 }
 .close-button {
   background: #fff;
