@@ -1,11 +1,15 @@
 <template>
   <div class="main-layout">
-    <menu-container />
+    <popup />
     <div class="main-container">
-      <notifications group="reverted" style="width: 30%" />
-      <notifications group="confirmed" style="width: 30%" />
-      <wallet-info-container />
-      <router-view />
+      <menu-container />
+      <div class="main-body-container">
+        <notifications group="reverted" style="width: 30%" />
+        <notifications group="confirmed" style="width: 30%" />
+
+        <wallet-info-container />
+        <router-view />
+      </div>
     </div>
   </div>
 </template>
@@ -14,11 +18,13 @@
 import { mapState } from 'vuex';
 import WalletInfoContainer from '@/containers/WalletInfoContainer.vue';
 import MenuContainer from '@/containers/MenuContainer.vue';
+import Popup from '@/components/Popup.vue';
 
 export default {
   components: {
     'menu-container': MenuContainer,
     'wallet-info-container': WalletInfoContainer,
+    'popup': Popup,
   },
   data () {
     return {
@@ -70,9 +76,13 @@ export default {
   max-width: 960px;
   padding-top: 16px;
   padding-bottom: 2rem;
+  flex-direction: column;
 }
-
 .main-container {
+  display: flex;
+  flex-direction: row;
+}
+.main-body-container {
   padding-left: 16px;
   width: 100%;
   position: relative;
