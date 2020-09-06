@@ -91,14 +91,14 @@
     <text-viewer :title="'Total Staked'"
                  :content="currencyAmount(operator.totalStaked)"
                  :with-divider="false"
-                 :tooltip="'The amount of all MTONs currently staked on this operator. It contains the staking rewards that have been created so far.'"
+                 :tooltip="'The amount of all TONs currently staked on this operator. It contains the staking rewards that have been created so far.'"
                  :tooltipWidth="'300px'"
                  :tooltipMarginTop="'-17px'"
     />
     <text-viewer :title="'My Staked'"
                  :content="currencyAmount(operator.userStaked)"
                  :with-divider="false"
-                 :tooltip="'The amount of all my MTONs currently staked on this operator. It includes the staking reward that I have received so far.'"
+                 :tooltip="'The amount of all my TONs currently staked on this operator. It includes the staking reward that I have received so far.'"
                  :tooltipWidth="'300px'"
                  :tooltipMarginTop="'-17px'"
     />
