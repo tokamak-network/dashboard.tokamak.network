@@ -10,7 +10,7 @@
           <span class="available-amount-label">Available Amount</span>
           <button type="button" class="available-amount" @click="setAvailableAmountToDelegate()">{{ currencyAmount(tonBalance) }}</button>
         </div>
-        <div class="button-container" style="margin-top: 24px;"><base-button-d :label="'Delegate'" :func="delegate" /></div>
+        <div class="button-container" style="margin-top: 24px;"><base-button :label="'Delegate'" :func="delegate" /></div>
         <div class="divider" />
         <div class="row">
           <span class="available-amount-label">Available Amount</span>
@@ -21,7 +21,7 @@
             {{ redelegatableAmount | currencyAmount }}
           </button>
         </div>
-        <div class="button-container" style="margin-top: 24px;"><base-button-d :label="'Re-Delegate'" :func="redelegate" /></div>
+        <div class="button-container" style="margin-top: 24px;"><base-button :label="'Re-Delegate'" :func="redelegate" /></div>
       </div>
     </form>
     <form v-else>
@@ -67,7 +67,7 @@ import TextViewer from '@/components/TextViewer.vue';
 export default {
   components: {
     'base-button': BaseButton,
-    'base-button-d': BaseButtonDisable,
+    // 'base-button-d': BaseButtonDisable,
     'base-tab': BaseTab,
     'ton-input': TONInput,
     'text-viewer': TextViewer,
