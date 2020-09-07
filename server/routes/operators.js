@@ -17,7 +17,12 @@ const GET = (db) => {
 
 // only from CURL
 const POST = async (db, req) => {
-  const genesis = JSON.parse(req.body.genesis);
+  let genesis;
+  if (typeof(req.body.genesis) === 'object') {
+    genesis = req.body.genesis;
+  } else {
+    genesis = JSON.parse(req.body.genesis);
+  }
 
   let rootchain, chainId, operator;
   try {
