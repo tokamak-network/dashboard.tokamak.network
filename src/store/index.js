@@ -616,9 +616,9 @@ export default new Vuex.Store({
             powerTONSeigRate,
             daoSeigRate,
             relativeSeigRate,
-            // delayedCommissionRateNegative,
-            // delayedCommissionRate,
-            //delayedCommissionBlock,
+            delayedCommissionRateNegative,
+            delayedCommissionRate,
+            delayedCommissionBlock,
             withdrawalDelay,
           ] = await Promise.all([
             RootChain.methods.forks(currentForkNumber).call(),
@@ -636,9 +636,9 @@ export default new Vuex.Store({
             SeigManager.methods.powerTONSeigRate().call(),
             SeigManager.methods.daoSeigRate().call(),
             SeigManager.methods.relativeSeigRate().call(),
-            // SeigManager.methods.delayedCommissionRateNegative(rootchain).call(),
-            // SeigManager.methods.delayedCommissionRate(rootchain).call(),
-            // SeigManager.methods.delayedCommissionBlock(rootchain).call(),
+            SeigManager.methods.delayedCommissionRateNegative(rootchain).call(),
+            SeigManager.methods.delayedCommissionRate(rootchain).call(),
+            SeigManager.methods.delayedCommissionBlock(rootchain).call(),
             DepositManager.methods.withdrawalDelay(rootchain).call(),
           ]);
           const deployedAt = firstEpoch.timestamp;
@@ -670,9 +670,9 @@ export default new Vuex.Store({
           operatorFromRootChain.isCommissionRateNegative = isCommissionRateNegative;
           operatorFromRootChain.commissionRate = _WTON(commissionRate, WTON_UNIT);
 
-          // operatorFromRootChain.delayedCommissionRateNegative = delayedCommissionRateNegative;
-          // operatorFromRootChain.delayedCommissionRate = _WTON(delayedCommissionRate, WTON_UNIT);
-          // operatorFromRootChain.delayedCommissionBlock = delayedCommissionBlock;
+          operatorFromRootChain.delayedCommissionRateNegative = delayedCommissionRateNegative;
+          operatorFromRootChain.delayedCommissionRate = _WTON(delayedCommissionRate, WTON_UNIT);
+          operatorFromRootChain.delayedCommissionBlock = delayedCommissionBlock;
           operatorFromRootChain.powerTONSeigRate = _WTON(powerTONSeigRate, WTON_UNIT);
           operatorFromRootChain.daoSeigRate = _WTON(daoSeigRate, WTON_UNIT);
           operatorFromRootChain.relativeSeigRate = _WTON(relativeSeigRate, WTON_UNIT);
