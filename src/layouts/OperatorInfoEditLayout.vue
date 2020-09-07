@@ -29,6 +29,14 @@
               <base-button :label="'Set new commission rate'" :func="setNewCommissionRate" />
             </div>
           </div>
+          <div class="row" style="margin-top: 16px;">
+            <div>Current Withdrawal Delay: {{ operator.withdrawalDelay }}</div>
+            <input :value="withdrawalDelay" style="text-align: right; margin-left: 31px; margin-right: 3px; width: 48px;" @input="updateWithdrawalDelay($event.target.value)">
+            blocks
+            <div class="set-commission-rate-button">
+              <base-button :label="'Set new Withdrawal Delay'" :func="setNewWithdrawalDelay" />
+            </div>
+          </div>
           <div class="button-container"><base-button :label="'Update'" :func="update" /></div>
         </div>
       </div>
@@ -61,6 +69,7 @@ export default {
       name: '',
       website: '',
       commissionRate: '',
+      withdrawalDelay: '',
       description: '',
       preview: '',
     };
@@ -70,6 +79,7 @@ export default {
       'user',
       'web3',
       'SeigManager',
+      'DepositManager',
     ]),
     ...mapGetters([
       'operatorByRootChain',
@@ -115,6 +125,9 @@ export default {
     updateCommissionRate (commissionRate) {
       this.commissionRate = commissionRate;
     },
+    updateWithdrawalDelay (withdrawalDelay) {
+      this.withdrawalDelay = withdrawalDelay;
+    },
     setNewCommissionRate () {
       let isCommissionRateNegative;
       if (parseInt(this.commissionRate) < 0) {
@@ -132,6 +145,35 @@ export default {
         isCommissionRateNegative,
       ).send({
         from: this.user,
+      }).on('receipt', (receipt) => {
+        if (receipt.status) {
+          this.$notify({
+            group: 'confirmed',
+            title: 'Transaction is confirmed',
+            type: 'success',
+            duration: 10000,
+          });
+        } else {
+          this.$notify({
+            group: 'reverted',
+            title: 'Transaction is reverted',
+            type: 'error',
+            duration: 10000,
+          });
+        }
+
+        this.$router.replace({
+          path: this.from.path,
+          query: { network: this.$route.query.network },
+        }).catch(err => {});
+      });
+    },
+    setNewWithdrawalDelay () {
+      this.DepositManager.methods.setWithdrawalDelay(
+        this.operator.rootchain,
+        this.withdrawalDelay
+      ).send({
+        from:this.user,
       }).on('receipt', (receipt) => {
         if (receipt.status) {
           this.$notify({

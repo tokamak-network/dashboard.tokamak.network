@@ -64,7 +64,7 @@
       </div>
       <div class="wallet-assets-content">
         <div class="wallet-content">
-          MTON
+          TON
         </div>
         <div class="wallet-content ton-balance">
           {{ tonBalance | currencyAmount }}

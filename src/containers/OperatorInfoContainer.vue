@@ -91,14 +91,14 @@
     <text-viewer :title="'Total Staked'"
                  :content="currencyAmount(operator.totalStaked)"
                  :with-divider="false"
-                 :tooltip="'The amount of all MTONs currently staked on this operator. It contains the staking rewards that have been created so far.'"
+                 :tooltip="'The amount of all TONs currently staked on this operator. It contains the staking rewards that have been created so far.'"
                  :tooltipWidth="'300px'"
                  :tooltipMarginTop="'-17px'"
     />
     <text-viewer :title="'My Staked'"
                  :content="currencyAmount(operator.userStaked)"
                  :with-divider="false"
-                 :tooltip="'The amount of all my MTONs currently staked on this operator. It includes the staking reward that I have received so far.'"
+                 :tooltip="'The amount of all my TONs currently staked on this operator. It includes the staking reward that I have received so far.'"
                  :tooltipWidth="'300px'"
                  :tooltipMarginTop="'-17px'"
     />
@@ -113,6 +113,42 @@
                  :content="currencyAmount(operator.userWithdrawable)"
                  :with-divider="false"
                  :tooltip="'Sum of all amount of undelegate-stake request which all passes 93046 blocks(14 days).'"
+                 :tooltipWidth="'220px'"
+    />
+    <text-viewer :title="'New Commission Rate'"
+                 :content="`${operator.delayedCommissionRateNegative ? '-' : ''}${rateOf(operator.delayedCommissionRate)}`"
+                 :with-divider="false"
+                 :tooltip="'New Commission Rate'"
+                 :tooltipWidth="'220px'"
+    />
+    <text-viewer :title="'New Commission Rate Changed At'"
+                 :content="operator.delayedCommissionBlock"
+                 :with-divider="false"
+                 :tooltip="'New Commission Rate Changed At'"
+                 :tooltipWidth="'220px'"
+    />
+    <text-viewer :title="'Power TON Deduction Rate'"
+                 :content="`${rateOf(operator.powerTONSeigRate)}`"
+                 :with-divider="false"
+                 :tooltip="'Power TON Deduction Rate'"
+                 :tooltipWidth="'220px'"
+    />
+    <text-viewer :title="'DAO Fund Deduction Rate'"
+                 :content="`${rateOf(operator.daoSeigRate)}`"
+                 :with-divider="false"
+                 :tooltip="'DAO Fund Deduction Rate'"
+                 :tooltipWidth="'220px'"
+    />
+    <text-viewer :title="'Relative Seig Rate'"
+                 :content="`${rateOf(operator.relativeSeigRate)}`"
+                 :with-divider="false"
+                 :tooltip="'Relative Seig Rate'"
+                 :tooltipWidth="'220px'"
+    />
+    <text-viewer :title="'Withdrawal Delay'"
+                 :content="operator.withdrawalDelay"
+                 :with-divider="false"
+                 :tooltip="'Withdrawal Delay'"
                  :tooltipWidth="'220px'"
     />
   </div>
