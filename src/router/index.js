@@ -9,6 +9,7 @@ import OperatorInfoLayout from '@/layouts/OperatorInfoLayout.vue';
 import HistoryLayout from '@/layouts/HistoryLayout.vue';
 import OperatorInfoEditLayout from '@/layouts/OperatorInfoEditLayout.vue';
 import PowerTONLayout from '@/layouts/PowerTONLayout.vue';
+import DelegateLayout from '@/layouts/DelegateLayout.vue';
 
 const routes = [
   {
@@ -38,6 +39,10 @@ const routes = [
   {
     path: '/history',
     component: HistoryLayout,
+  },
+  {
+    path: '/delegate',
+    component: DelegateLayout,
   },
 ];
 

@@ -358,6 +358,14 @@ input[type="file"] {
   display: none;
 }
 
+input:focus {
+  outline: none;
+}
+
+textarea:focus {
+  outline: none;
+}
+
 label {
   font-family: Roboto;
   font-size: 12px;

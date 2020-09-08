@@ -39,6 +39,8 @@ export default {
 .button {
   width: 100%;
   height: 100%;
+  font-size: 14px;
+  font-weight: bold;
 }
 
 .button:hover {

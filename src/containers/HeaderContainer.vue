@@ -4,7 +4,7 @@
       <div class="header-logo-container">
         <img
           class="header-logo"
-          src="@/assets/images/tokamak-network-staking-beta.png"
+          src="@/assets/images/tokamak-staking.png"
           width="250"
           height="40"
           @click="toMainPage"
@@ -15,8 +15,8 @@
           class="header-link"
           target="_blank"
           rel="noopener noreferrer"
-          href="https://medium.com/onther-tech/what-is-mton-80c011bb927e"
-        >What is MTON?</a>
+          href="https://staking-simulator.tokamak.network/"
+        >What is TON?</a>
         <a
           class="header-link"
           target="_blank"

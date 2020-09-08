@@ -116,7 +116,7 @@ table td {
 }
 
 th {
-  font-size: 8px;
+  font-size: 10px;
   height: 21px;
   color: #7e8d93;
   font-weight: 300;
@@ -134,7 +134,7 @@ th.round:last-child {
 
 td {
   height: 36px;
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 300;
   color: #586064;
 }

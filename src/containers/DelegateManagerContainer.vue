@@ -83,7 +83,6 @@ export default {
       tab: 'left',
       amountToDelegate: '',
       amountToUndelegate: '',
-
       index: 0,
     };
   },
@@ -165,31 +164,32 @@ export default {
         return alert('Please check input amount.');
       }
       if (_TON(this.amountToDelegate).gt(this.tonBalance)) {
-        return alert('Please check your MTON amount.');
+        return alert('Please check your TON amount.');
       }
+      if(confirm('Current withdrawal delay is 2 weeks. Are you sure you want to delegate?')){
+        const data = this.getData();
+        const amount = _TON(this.amountToDelegate).toFixed('wei');
+        this.TON.methods.approveAndCall(
+          this.WTON._address,
+          amount,
+          data,
+        ).send({ from: this.user })
+          .on('transactionHash', async (hash) => {
+            const transcation = {
+              from: this.user,
+              type: 'Delegated',
+              amount: amount,
+              transactionHash: hash,
+              target: this.operator.rootchain,
+            };
+            this.$store.dispatch('addPendingTransaction', transcation);
+          })
+          .on('receipt', (receipt) => {
+            this.index = 0;
+          });
 
-      const data = this.getData();
-      const amount = _TON(this.amountToDelegate).toFixed('wei');
-      this.TON.methods.approveAndCall(
-        this.WTON._address,
-        amount,
-        data,
-      ).send({ from: this.user })
-        .on('transactionHash', async (hash) => {
-          const transcation = {
-            from: this.user,
-            type: 'Delegated',
-            amount: amount,
-            transactionHash: hash,
-            target: this.operator.rootchain,
-          };
-          this.$store.dispatch('addPendingTransaction', transcation);
-        })
-        .on('receipt', (receipt) => {
-          this.index = 0;
-        });
-
-      this.amountToDelegate = '';
+        this.amountToDelegate = '';
+      }
     },
     redelegate () {
       if (this.operator.withdrawalRequests.length === 0) {
@@ -222,7 +222,7 @@ export default {
         return alert('Please check input amount.');
       }
       if (_WTON(this.amountToUndelegate).gt(this.operator.userStaked)){
-        return alert('Please check your MTON amount.');
+        return alert('Please check your TON amount.');
       }
 
       const amount = _WTON(this.amountToUndelegate).toFixed('ray');
@@ -371,7 +371,7 @@ export default {
   padding-left: 16px;
   margin-right: 24px;
   font-family: Roboto;
-  font-size: 10px;
+  font-size: 12px;
   font-weight: normal;
   font-stretch: normal;
   font-style: normal;
@@ -386,11 +386,16 @@ export default {
   border: none;
   cursor: pointer;
   font-family: Roboto;
-  font-size: 10px;
+  font-size: 12px;
   font-weight: 300;
   font-stretch: normal;
   font-style: normal;
   letter-spacing: normal;
   color: #161819;
+}
+
+.popup {
+  display: flex;
+  justify-content: center;
 }
 </style>

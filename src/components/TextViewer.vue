@@ -46,7 +46,7 @@ img {
 }
 
 .text-viewer {
-  margin-bottom: 6px;
+  margin-bottom: 8px;
 }
 
 .row {
@@ -58,7 +58,7 @@ img {
   padding-left: 16px;
   margin-right: 4px;
   font-family: Roboto;
-  font-size: 10px;
+  font-size: 12px;
   font-weight: normal;
   font-stretch: normal;
   font-style: normal;
@@ -72,7 +72,7 @@ img {
   text-align: right;
   padding-right: 16px;
   font-family: Roboto;
-  font-size: 10px;
+  font-size: 12px;
   font-weight: 300;
   font-stretch: normal;
   font-style: normal;
@@ -108,7 +108,7 @@ img {
   font-stretch: normal;
   font-style: normal;
   letter-spacing: normal;
-  font-size: 11px;
+  font-size: 12px;
   text-align: center;
   padding: 7px;
   border-radius: 6px;

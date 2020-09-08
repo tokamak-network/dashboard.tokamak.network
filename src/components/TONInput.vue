@@ -73,9 +73,11 @@ input {
   border-right: solid 1px #ced6d9;
   padding-right: 6px;
 }
-
+input:focus {
+  outline: none;
+}
 span {
-  font-size: 10px;
+  font-size: 12px;
   font-weight: normal;
   font-stretch: normal;
   font-style: normal;

@@ -146,7 +146,7 @@
                  :tooltipWidth="'220px'"
     />
     <text-viewer :title="'Withdrawal Delay'"
-                 :content="operator.withdrawalDelay"
+                 :content="`${operator.withdrawalDelay}${' blocks'}`"
                  :with-divider="false"
                  :tooltip="'Withdrawal Delay'"
                  :tooltipWidth="'220px'"

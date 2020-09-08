@@ -17,7 +17,7 @@
     <div
       class="menu-title-container"
       :class="{ 'menu-selected': $route.path !== '/dashboard'}"
-      @click="clickMenu('operators')"
+      @click="clickMenu('delegate')"
     >
       <img
         class="menu-image"
@@ -27,6 +27,15 @@
         height="13"
       >
       Staking
+    </div>
+    <div
+      class="sub-menu-title-container"
+      :class="{ 'menu-selected': $route.path === '/delegate'}"
+      @click="clickMenu('delegate')"
+    >
+      <div class="sub-menu-title">
+        Delegate
+      </div>
     </div>
     <div
       class="sub-menu-title-container"
@@ -52,7 +61,7 @@
       @click="clickMenu('powerton')"
     >
       <div class="sub-menu-title">
-        Power MTON
+        Power TON
       </div>
     </div>
     <div
@@ -103,8 +112,8 @@ export default {
   background: #ffffff;
   min-width: 210px;
   max-width: 210px;
-  min-height: 340px;
-  max-height: 340px;
+  min-height: 380px;
+  max-height: 380px;
   border-radius: 7px;
   border: solid 1px #ced6d9;
 }

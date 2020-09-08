@@ -180,7 +180,7 @@ th {
   padding: 6px;
   background-color: #f6f8f9;
   font-family: Roboto;
-  font-size: 9px;
+  font-size: 11px;
   font-weight: normal;
   font-stretch: normal;
   font-style: normal;
@@ -192,7 +192,7 @@ th {
 td {
   padding: 12px;
   font-family: Roboto;
-  font-size: 10px;
+  font-size: 12px;
   font-weight: 300;
   font-stretch: normal;
   font-style: normal;
