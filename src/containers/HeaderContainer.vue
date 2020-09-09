@@ -15,15 +15,22 @@
           class="header-link"
           target="_blank"
           rel="noopener noreferrer"
-          href="https://staking-simulator.tokamak.network/"
+          href="https://tokamak.network"
         >What is TON?</a>
         <a
           class="header-link"
           target="_blank"
           rel="noopener noreferrer"
-          href="https://docs.google.com/presentation/d/1PyEuI82ddicIh4wUHG-cFB4Y7ZQ0WoF_HHouNDKLwQ8/edit#slide=id.g84fb6fd20e_0_109"
-          style="margin-left: 48px; margin-right: 36px;"
+          href="https://docs.google.com/presentation/d/154nxPwhyzCwFKgWWQKUV2upFk-Wpi4Vp0sOXTKD0h0A/edit#slide=id.g9598558ba8_0_498"
+          style="margin-left: 48px;"
         >Staking User Guide</a>
+        <a
+          class="header-link"
+          target="_blank"
+          rel="noopener noreferrer"
+          href="https://staking-simulator.tokamak.network"
+          style="margin-left: 48px; margin-right: 36px;"
+        >Staking Simulator</a>
       </div>
     </div>
   </div>
