@@ -64,7 +64,7 @@
       </div>
       <div class="wallet-assets-content">
         <div class="wallet-content">
-          MTON
+          TON
         </div>
         <div class="wallet-content ton-balance">
           {{ tonBalance | currencyAmount }}
@@ -198,7 +198,7 @@ export default {
 
 .wallet-info-title {
   font-family: Roboto;
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 500;
   font-stretch: normal;
   font-style: normal;
@@ -210,7 +210,7 @@ export default {
 
 .wallet-info-content {
   text-align: left;
-  font-size: 12px;
+  font-size: 12.5px;
   font-family: Roboto;
   font-weight: normal;
   font-stretch: normal;

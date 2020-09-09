@@ -47,7 +47,7 @@ button {
   font-stretch: normal;
   font-style: normal;
   letter-spacing: normal;
-  font-size: 11px;
+  font-size: 13px;
   color: #161819;
 }
 
@@ -55,7 +55,9 @@ button:hover {
   cursor: pointer;
   background-color: #ecf1f3;
 }
-
+button:focus {
+  outline: none;
+}
 .left-tab {
   border-top-left-radius: 4px;
   border-bottom-left-radius: 4px;

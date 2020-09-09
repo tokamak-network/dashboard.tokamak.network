@@ -389,7 +389,6 @@ export default new Vuex.Store({
           const RootChain = createWeb3Contract(RootChainABI, rootchain);
           const Coinage = createWeb3Contract(
             CustomIncrementCoinageABI, await SeigManager.methods.coinages(rootchain).call());
-
           const [
             operator,
             currentForkNumber,
@@ -614,6 +613,13 @@ export default new Vuex.Store({
             seigs, // operatorSeigs, userSeigs, rootchainSeigs
             isCommissionRateNegative,
             commissionRate,
+            powerTONSeigRate,
+            daoSeigRate,
+            relativeSeigRate,
+            delayedCommissionRateNegative,
+            delayedCommissionRate,
+            delayedCommissionBlock,
+            withdrawalDelay,
           ] = await Promise.all([
             RootChain.methods.forks(currentForkNumber).call(),
             RootChain.methods.getEpoch(0, 0).call(),
@@ -627,6 +633,13 @@ export default new Vuex.Store({
             getExpectedSeigs(),
             SeigManager.methods.isCommissionRateNegative(rootchain).call(),
             SeigManager.methods.commissionRates(rootchain).call(),
+            SeigManager.methods.powerTONSeigRate().call(),
+            SeigManager.methods.daoSeigRate().call(),
+            SeigManager.methods.relativeSeigRate().call(),
+            SeigManager.methods.delayedCommissionRateNegative(rootchain).call(),
+            SeigManager.methods.delayedCommissionRate(rootchain).call(),
+            SeigManager.methods.delayedCommissionBlock(rootchain).call(),
+            DepositManager.methods.withdrawalDelay(rootchain).call(),
           ]);
           const deployedAt = firstEpoch.timestamp;
           const lastFinalizedEpochNumber = currentFork.lastFinalizedEpoch;
@@ -657,6 +670,12 @@ export default new Vuex.Store({
           operatorFromRootChain.isCommissionRateNegative = isCommissionRateNegative;
           operatorFromRootChain.commissionRate = _WTON(commissionRate, WTON_UNIT);
 
+          operatorFromRootChain.delayedCommissionRateNegative = delayedCommissionRateNegative;
+          operatorFromRootChain.delayedCommissionRate = _WTON(delayedCommissionRate, WTON_UNIT);
+          operatorFromRootChain.delayedCommissionBlock = delayedCommissionBlock;
+          operatorFromRootChain.powerTONSeigRate = _WTON(powerTONSeigRate, WTON_UNIT);
+          operatorFromRootChain.daoSeigRate = _WTON(daoSeigRate, WTON_UNIT);
+          operatorFromRootChain.relativeSeigRate = _WTON(relativeSeigRate, WTON_UNIT);
           operatorFromRootChain.withdrawalRequests = pendingRequests;
           operatorFromRootChain.notWithdrawableRequests = notWithdrawableRequests;
           operatorFromRootChain.withdrawableRequests = withdrawableRequests;
@@ -665,6 +684,7 @@ export default new Vuex.Store({
           operatorFromRootChain.userWithdrawable = userWithdrawable;
           operatorFromRootChain.userRedelegatable = userWithdrawable.add(userNotWithdrawable);
           operatorFromRootChain.userReward = userNotWithdrawable;
+          operatorFromRootChain.withdrawalDelay = withdrawalDelay;
           // = operatorFromRootChain.userStaked
           //   .add(userNotWithdrawable)
           //   .add(userWithdrawable)

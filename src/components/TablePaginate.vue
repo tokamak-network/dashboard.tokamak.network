@@ -61,7 +61,7 @@ export default {
 
 .page {
   font-family: Roboto;
-  font-size: 11px;
+  font-size: 13px;
   text-align: center;
   color: #7e8d93;
 

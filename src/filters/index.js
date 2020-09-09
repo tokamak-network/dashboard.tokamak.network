@@ -64,11 +64,11 @@ export function currencyAmount (amount) {
     } else if (amount.symbol === 'TON') {
       const tonAmount = amount.toBigNumber().toString();
       const index = tonAmount.indexOf('.');
-      return index > -1 ? `${tonAmount.slice(0, index + 3)} MTON` : tonAmount + '.00 MTON';
+      return index > -1 ? `${tonAmount.slice(0, index + 3)} TON` : tonAmount + '.00 TON';
     } else if (amount.symbol === 'WTON'){
       const wtonAmount = amount.toBigNumber().toString();
       const index = wtonAmount.indexOf('.');
-      return index > -1 ? `${wtonAmount.slice(0, index + 3)} MTON` : wtonAmount + '.00 MTON';
+      return index > -1 ? `${wtonAmount.slice(0, index + 3)} TON` : wtonAmount + '.00 TON';
     }
   } else {
     return amount;
@@ -81,12 +81,12 @@ export function currencyAmountFromNumberString (symbol, amount) {
     amount = _TON.wei(amount);
     const tonAmount = amount.toBigNumber().toString();
     const index = tonAmount.indexOf('.');
-    return index > -1 ? `${tonAmount.slice(0, index + 3)} MTON` : tonAmount + '.00 MTON';
+    return index > -1 ? `${tonAmount.slice(0, index + 3)} TON` : tonAmount + '.00 TON';
   } else {
     amount = _WTON.ray(amount);
     const wtonAmount = amount.toBigNumber().toString();
     const index = wtonAmount.indexOf('.');
-    return index > -1 ? `${wtonAmount.slice(0, index + 3)} MTON` : wtonAmount + '.00 MTON';
+    return index > -1 ? `${wtonAmount.slice(0, index + 3)} TON` : wtonAmount + '.00 TON';
   }
 }
 

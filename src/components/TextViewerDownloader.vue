@@ -44,7 +44,7 @@ export default {
 
 <style scoped>
 .text-viewer-downloader {
-  margin-bottom: 6px;
+  margin-bottom: 8px;
 }
 
 .row {
@@ -56,7 +56,7 @@ export default {
   padding-left: 16px;
   margin-right: 4px;
   font-family: Roboto;
-  font-size: 10px;
+  font-size: 12px;
   font-weight: normal;
   font-stretch: normal;
   font-style: normal;
@@ -72,7 +72,7 @@ export default {
   text-align: right;
   padding-right: 16px;
   font-family: Roboto;
-  font-size: 10px;
+  font-size: 12px;
   font-weight: 300;
   font-stretch: normal;
   font-style: normal;
@@ -106,7 +106,7 @@ export default {
   font-stretch: normal;
   font-style: normal;
   letter-spacing: normal;
-  font-size: 11px;
+  font-size: 12px;
   text-align: center;
   padding: 7px;
   border-radius: 6px;

@@ -2,7 +2,7 @@
   <div class="ton-input">
     <div class="label-container"><span class="amount">Amount</span></div>
     <div class="input-container"><input :value="amount" @keypress="isNumber" @input="updateAmount($event.target.value)"></div>
-    <div class="label-container"><span class="unit">MTON</span></div>
+    <div class="label-container"><span class="unit">TON</span></div>
   </div>
 </template>
 
@@ -73,9 +73,11 @@ input {
   border-right: solid 1px #ced6d9;
   padding-right: 6px;
 }
-
+input:focus {
+  outline: none;
+}
 span {
-  font-size: 10px;
+  font-size: 12px;
   font-weight: normal;
   font-stretch: normal;
   font-style: normal;

@@ -29,7 +29,7 @@ export default {
 
 .title {
   flex: 1;
-  font-size: 14px;
+  font-size: 17px;
   font-weight: normal;
   font-stretch: normal;
   font-style: normal;

@@ -115,7 +115,7 @@ html, body {
   box-shadow: 0 3px 14px 0 rgba(0, 0, 0, 0.03);
   border: solid 1px #dce2e5;
   background-color: #73a9c1;
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 500;
   font-stretch: normal;
   font-style: normal;
@@ -132,7 +132,7 @@ html, body {
   box-shadow: 0 3px 14px 0 rgba(0, 0, 0, 0.03);
   border: solid 1px #dce2e5;
   background-color: #ef8f78;
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 500;
   font-stretch: normal;
   font-style: normal;
