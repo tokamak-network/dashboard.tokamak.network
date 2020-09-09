@@ -15,6 +15,9 @@ switch (args[0]) {
 case 'rinkeby':
   dir = path.join(__dirname, '..', '..', 'db', 'rinkeby');
   break;
+case 'mton':
+  dir = path.join(__dirname, '..', '..', 'db', 'mton');
+  break;
 case 'development':
   dir = path.join(__dirname, '..', '..', 'db', 'development');
   break;
