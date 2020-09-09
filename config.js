@@ -5,6 +5,12 @@ const config = {
     'prefixAddress': 'https://etherscan.io/address/',
     'network': '1',
   },
+  'mton': {
+    'baseURL': 'https://dashboard-api.tokamak.network/mton',
+    'prefixTransactionHash': 'https://etherscan.io/tx/',
+    'prefixAddress': 'https://etherscan.io/address/',
+    'network': '1',
+  },
   'rinkeby': {
     'baseURL': 'https://dashboard-api.tokamak.network/rinkeby',
     'prefixTransactionHash': 'https://rinkeby.etherscan.io/tx/',
@@ -28,6 +34,8 @@ export function getConfig () {
     return config.rinkeby;
   case 'development':
     return config.development;
+  case 'mton':
+    return config.mton;
   default:
     return config.mainnet;
   }

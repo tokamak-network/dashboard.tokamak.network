@@ -18,6 +18,9 @@ case 'rinkeby':
 case 'development':
   app.use('/avatars', express.static(path.join(__dirname, '..', 'db', 'development', 'avatars')));
   break;
+case 'mton':
+  app.use('/avatars', express.static(path.join(__dirname, '..', 'db', 'mton', 'avatars')));
+  break;
 default:
   app.use('/avatars', express.static(path.join(__dirname, '..', 'db', 'mainnet', 'avatars')));
   break;
