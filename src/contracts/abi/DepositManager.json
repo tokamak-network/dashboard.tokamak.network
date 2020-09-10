@@ -7,7 +7,7 @@
         "type": "address"
       },
       {
-        "internalType": "contract RootChainRegistryI",
+        "internalType": "contract Layer2RegistryI",
         "name": "registry",
         "type": "address"
       },
@@ -27,7 +27,7 @@
       {
         "indexed": true,
         "internalType": "address",
-        "name": "rootchain",
+        "name": "layer2",
         "type": "address"
       },
       {
@@ -71,7 +71,7 @@
       {
         "indexed": true,
         "internalType": "address",
-        "name": "rootchain",
+        "name": "layer2",
         "type": "address"
       },
       {
@@ -96,7 +96,7 @@
       {
         "indexed": true,
         "internalType": "address",
-        "name": "rootchain",
+        "name": "layer2",
         "type": "address"
       },
       {
@@ -282,7 +282,7 @@
     "inputs": [
       {
         "internalType": "address",
-        "name": "rootchain",
+        "name": "layer2",
         "type": "address"
       },
       {
@@ -308,7 +308,7 @@
     "inputs": [
       {
         "internalType": "address",
-        "name": "rootchain",
+        "name": "layer2",
         "type": "address"
       }
     ],
@@ -329,7 +329,7 @@
     "inputs": [
       {
         "internalType": "address",
-        "name": "rootchain",
+        "name": "layer2",
         "type": "address"
       },
       {
@@ -355,7 +355,7 @@
     "inputs": [
       {
         "internalType": "address",
-        "name": "rootchain",
+        "name": "layer2",
         "type": "address"
       },
       {
@@ -421,7 +421,7 @@
     "inputs": [
       {
         "internalType": "address",
-        "name": "rootchain",
+        "name": "layer2",
         "type": "address"
       },
       {
@@ -447,7 +447,7 @@
     "inputs": [
       {
         "internalType": "address",
-        "name": "rootchain",
+        "name": "layer2",
         "type": "address"
       },
       {
@@ -473,7 +473,7 @@
     "inputs": [
       {
         "internalType": "address",
-        "name": "rootchain",
+        "name": "layer2",
         "type": "address"
       }
     ],
@@ -494,7 +494,7 @@
     "inputs": [
       {
         "internalType": "address",
-        "name": "rootchain",
+        "name": "layer2",
         "type": "address"
       },
       {
@@ -525,7 +525,7 @@
     "inputs": [
       {
         "internalType": "address",
-        "name": "rootchain",
+        "name": "layer2",
         "type": "address"
       },
       {
@@ -551,7 +551,7 @@
     "inputs": [
       {
         "internalType": "address",
-        "name": "rootchain",
+        "name": "layer2",
         "type": "address"
       },
       {
@@ -622,7 +622,7 @@
     "inputs": [
       {
         "internalType": "address",
-        "name": "rootchain",
+        "name": "layer2",
         "type": "address"
       },
       {
@@ -648,11 +648,11 @@
     "inputs": [
       {
         "internalType": "address",
-        "name": "rootchain",
+        "name": "layer2",
         "type": "address"
       }
     ],
-    "name": "accStakedRootChain",
+    "name": "accStakedLayer2",
     "outputs": [
       {
         "internalType": "uint256",
@@ -690,7 +690,7 @@
     "inputs": [
       {
         "internalType": "address",
-        "name": "rootchain",
+        "name": "layer2",
         "type": "address"
       },
       {
@@ -716,11 +716,11 @@
     "inputs": [
       {
         "internalType": "address",
-        "name": "rootchain",
+        "name": "layer2",
         "type": "address"
       }
     ],
-    "name": "pendingUnstakedRootChain",
+    "name": "pendingUnstakedLayer2",
     "outputs": [
       {
         "internalType": "uint256",
@@ -758,7 +758,7 @@
     "inputs": [
       {
         "internalType": "address",
-        "name": "rootchain",
+        "name": "layer2",
         "type": "address"
       },
       {
@@ -784,11 +784,11 @@
     "inputs": [
       {
         "internalType": "address",
-        "name": "rootchain",
+        "name": "layer2",
         "type": "address"
       }
     ],
-    "name": "accUnstakedRootChain",
+    "name": "accUnstakedLayer2",
     "outputs": [
       {
         "internalType": "uint256",
@@ -826,7 +826,7 @@
     "inputs": [
       {
         "internalType": "address",
-        "name": "rootchain",
+        "name": "layer2",
         "type": "address"
       },
       {
@@ -852,7 +852,7 @@
     "inputs": [
       {
         "internalType": "address",
-        "name": "rootchain",
+        "name": "layer2",
         "type": "address"
       },
       {

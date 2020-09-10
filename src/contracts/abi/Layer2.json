@@ -1209,14 +1209,8 @@
   },
   {
     "constant": true,
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "account",
-        "type": "address"
-      }
-    ],
-    "name": "isMapper",
+    "inputs": [],
+    "name": "isLayer2",
     "outputs": [
       {
         "internalType": "bool",
@@ -1230,8 +1224,14 @@
   },
   {
     "constant": true,
-    "inputs": [],
-    "name": "isRootChain",
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "account",
+        "type": "address"
+      }
+    ],
+    "name": "isMapper",
     "outputs": [
       {
         "internalType": "bool",
@@ -1494,7 +1494,7 @@
     "inputs": [
       {
         "internalType": "address",
-        "name": "_rootchain",
+        "name": "_layer2",
         "type": "address"
       },
       {

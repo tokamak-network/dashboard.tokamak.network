@@ -1,15 +1,15 @@
 const { toChecksumAddress } = require('web3-utils');
 
 const GET = (db, req) => {
-  let rootchain;
+  let layer2;
   try {
-    rootchain = toChecksumAddress(req.query.rootchain);
+    layer2 = toChecksumAddress(req.query.layer2);
   } catch (err) {
     throw new Error('Non-checksum address');
   }
 
   try {
-    const operator = db.get('operators').find({ rootchain: rootchain }).value();
+    const operator = db.get('operators').find({ layer2: layer2 }).value();
     if (operator) {
       return Promise.resolve(operator.genesis);
     } else {

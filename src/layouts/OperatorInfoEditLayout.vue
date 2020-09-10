@@ -82,7 +82,7 @@ export default {
       'DepositManager',
     ]),
     ...mapGetters([
-      'operatorByRootChain',
+      'operatorByLayer2',
     ]),
     filteredImgURL () {
       return name => {
@@ -94,7 +94,7 @@ export default {
     },
   },
   created () {
-    this.operator = this.operatorByRootChain(this.$route.params.rootchain);
+    this.operator = this.operatorByLayer2(this.$route.params.layer2);
     this.name = this.operator.name;
     this.website = this.operator.website;
     this.description = this.operator.description;
@@ -140,7 +140,7 @@ export default {
       const commissionRate = (new BN(Math.abs(parseInt(this.commissionRate))).mul(new BN(base))).toString(); // (0 ~ 100) * 1e25
 
       this.SeigManager.methods.setCommissionRate(
-        this.operator.rootchain,
+        this.operator.layer2,
         commissionRate,
         isCommissionRateNegative,
       ).send({
@@ -170,7 +170,7 @@ export default {
     },
     setNewWithdrawalDelay () {
       this.DepositManager.methods.setWithdrawalDelay(
-        this.operator.rootchain,
+        this.operator.layer2,
         this.withdrawalDelay
       ).send({
         from:this.user,
@@ -278,7 +278,7 @@ export default {
       formData.append('description', this.description);
 
       try {
-        const operator = await updateOperator(this.operator.rootchain, formData);
+        const operator = await updateOperator(this.operator.layer2, formData);
         this.$store.dispatch('updateOperator', operator);
       } catch (e) {
         //

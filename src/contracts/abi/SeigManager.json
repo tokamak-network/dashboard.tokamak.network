@@ -12,7 +12,7 @@
         "type": "address"
       },
       {
-        "internalType": "contract RootChainRegistryI",
+        "internalType": "contract Layer2RegistryI",
         "name": "registry",
         "type": "address"
       },
@@ -25,6 +25,11 @@
         "internalType": "uint256",
         "name": "seigPerBlock",
         "type": "uint256"
+      },
+      {
+        "internalType": "address",
+        "name": "factory_",
+        "type": "address"
       }
     ],
     "payable": false,
@@ -63,7 +68,7 @@
       {
         "indexed": true,
         "internalType": "address",
-        "name": "rootchain",
+        "name": "layer2",
         "type": "address"
       },
       {
@@ -82,7 +87,7 @@
       {
         "indexed": true,
         "internalType": "address",
-        "name": "rootchain",
+        "name": "layer2",
         "type": "address"
       }
     ],
@@ -95,7 +100,7 @@
       {
         "indexed": true,
         "internalType": "address",
-        "name": "rootchain",
+        "name": "layer2",
         "type": "address"
       },
       {
@@ -209,7 +214,7 @@
       {
         "indexed": true,
         "internalType": "address",
-        "name": "rootchain",
+        "name": "layer2",
         "type": "address"
       },
       {
@@ -234,6 +239,12 @@
         "indexed": false,
         "internalType": "uint256",
         "name": "powertonSeig",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "pseig",
         "type": "uint256"
       }
     ],
@@ -762,7 +773,7 @@
     "inputs": [
       {
         "internalType": "address",
-        "name": "rootchain",
+        "name": "layer2",
         "type": "address"
       }
     ],
@@ -783,7 +794,7 @@
     "inputs": [
       {
         "internalType": "address",
-        "name": "rootchain",
+        "name": "layer2",
         "type": "address"
       },
       {
@@ -807,6 +818,27 @@
     ],
     "payable": false,
     "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "layer2",
+        "type": "address"
+      }
+    ],
+    "name": "getOperatorAmount",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
     "type": "function"
   },
   {
@@ -860,7 +892,7 @@
     "inputs": [
       {
         "internalType": "address",
-        "name": "rootchain",
+        "name": "layer2",
         "type": "address"
       },
       {
@@ -891,7 +923,7 @@
     "inputs": [
       {
         "internalType": "address",
-        "name": "rootchain",
+        "name": "layer2",
         "type": "address"
       },
       {
@@ -997,7 +1029,36 @@
     "inputs": [
       {
         "internalType": "address",
-        "name": "rootchain",
+        "name": "newSeigManager",
+        "type": "address"
+      },
+      {
+        "internalType": "address[]",
+        "name": "coinages",
+        "type": "address[]"
+      }
+    ],
+    "name": "transferCoinageOwnership",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [],
+    "name": "renounceWTONMinter",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "layer2",
         "type": "address"
       },
       {
@@ -1023,7 +1084,7 @@
     "inputs": [
       {
         "internalType": "address",
-        "name": "rootchain",
+        "name": "layer2",
         "type": "address"
       },
       {
@@ -1084,7 +1145,7 @@
     "inputs": [
       {
         "internalType": "address",
-        "name": "rootchain",
+        "name": "layer2",
         "type": "address"
       },
       {
@@ -1110,7 +1171,7 @@
     "inputs": [
       {
         "internalType": "address",
-        "name": "rootchain",
+        "name": "layer2",
         "type": "address"
       },
       {
@@ -1226,7 +1287,7 @@
     "inputs": [
       {
         "internalType": "address",
-        "name": "rootchain",
+        "name": "layer2",
         "type": "address"
       }
     ],
@@ -1247,7 +1308,7 @@
     "inputs": [
       {
         "internalType": "address",
-        "name": "rootchain",
+        "name": "layer2",
         "type": "address"
       }
     ],
@@ -1268,7 +1329,7 @@
     "inputs": [
       {
         "internalType": "address",
-        "name": "rootchain",
+        "name": "layer2",
         "type": "address"
       }
     ],
@@ -1289,7 +1350,7 @@
     "inputs": [
       {
         "internalType": "address",
-        "name": "rootchain",
+        "name": "layer2",
         "type": "address"
       }
     ],

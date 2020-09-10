@@ -9,7 +9,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr v-for="(operator, index) in orderedOperators" :key="operator.rootchain">
+      <tr v-for="(operator, index) in orderedOperators" :key="operator.layer2">
         <td class="text-center">{{ index }}</td>
         <td class="clickable text-center name" @click="viewDetailedOperator(operator)"><span class="pointer name">{{ operator.name }}</span></td>
         <td class="text-center">{{ operator.userStaked | currencyAmount }} </td>
@@ -69,9 +69,9 @@ export default {
       return this.order === 'desc' ? 'asc' : 'desc';
     },
     viewDetailedOperator (operator) {
-      const rootchain = operator.rootchain;
+      const layer2 = operator.layer2;
       this.$router.push({
-        path: `/operators/${rootchain.toLowerCase()}`,
+        path: `/operators/${layer2.toLowerCase()}`,
         query: { network: this.$route.query.network },
       }).catch(err => {});
     },

@@ -2,11 +2,11 @@
   <div class="row">
     <operator-info-container
       class="left-container"
-      :rootchain="rootchain"
+      :layer2="layer2"
     />
     <delegate-manager-container
       class="right-container"
-      :rootchain="rootchain"
+      :layer2="layer2"
     />
   </div>
 </template>
@@ -22,11 +22,11 @@ export default {
   },
   data () {
     return {
-      rootchain: '',
+      layer2: '',
     };
   },
   created () {
-    this.rootchain = this.$route.params.rootchain;
+    this.layer2 = this.$route.params.layer2;
   },
 };
 </script>

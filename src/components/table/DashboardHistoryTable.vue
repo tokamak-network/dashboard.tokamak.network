@@ -4,7 +4,7 @@
       <tr>
         <th class="text-center">#</th>
         <th class="text-center pointer" @click="orderBy('transactionHash')">{{ withArrow('transactionHash', 'Transaction Hash') }}</th>
-        <th class="text-center pointer" @click="orderBy('rootchain')">{{ withArrow('rootchain', 'RootChain') }}</th>
+        <th class="text-center pointer" @click="orderBy('layer2')">{{ withArrow('layer2', 'Layer2') }}</th>
         <th class="text-center pointer" @click="orderBy('type')">{{ withArrow('type', 'Type') }}</th>
       </tr>
     </thead>
@@ -78,7 +78,7 @@ export default {
         return orderBy(this.transactions, (transaction) => transaction.receipt.state, [this.order]);
       case 'status':
         return orderBy(this.transactions, (transaction) => transaction.receipt.status, [this.order]);
-      case 'rootchain':
+      case 'layer2':
         return orderBy(this.transactions, (transaction) => transaction.target, [this.order]);
 
       default:

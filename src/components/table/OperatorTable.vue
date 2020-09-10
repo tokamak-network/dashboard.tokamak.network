@@ -4,14 +4,14 @@
       <tr>
         <th class="text-center">#</th>
         <th class="pointer text-center" @click="orderBy('name')">{{ withArrow('name', 'Operator Name') }}</th>
-        <th class="pointer text-center" @click="orderBy('rootchain')">{{ withArrow('rootchain', 'Operator Contract') }}</th>
+        <th class="pointer text-center" @click="orderBy('layer2')">{{ withArrow('layer2', 'Operator Contract') }}</th>
         <th class="pointer text-center" @click="orderBy('commissionRate')">{{ withArrow('commissionRate', 'Commission Rate') }}</th>
         <th class="pointer text-center" @click="orderBy('userStaked')">{{ withArrow('userStaked', 'My Staked') }}</th>
         <th class="pointer text-center" @click="orderBy('totalStaked')">{{ withArrow('totalStaked', 'Total Staked') }}</th>
       </tr>
     </thead>
     <tbody>
-      <tr v-for="(operator, index) in orderedOperators" :key="operator.rootchain">
+      <tr v-for="(operator, index) in orderedOperators" :key="operator.layer2">
         <td class="text-center">{{ index }}</td>
         <td class="clickable text-center name" @click="viewDetailedOperator(operator)"><span class="pointer name">{{ operator.name }}</span></td>
         <td class="text-center">
@@ -19,9 +19,9 @@
             class="link"
             target="_blank"
             rel="noopener noreferrer"
-            :href="toExplorer('address', operator.rootchain)"
+            :href="toExplorer('address', operator.layer2)"
           >
-            {{ operator.rootchain | hexSlicer }}
+            {{ operator.layer2 | hexSlicer }}
           </a>
         </td>
         <td class="text-center">{{ operator.isCommissionRateNegative ? '-' : '' }}{{ operator.commissionRate | rateOf }} </td>
@@ -57,8 +57,8 @@ export default {
         return orderBy(this.operators, (operator) => operator.name, [this.order]);
       case 'commissionRate':
         return orderBy(this.operators, (operator) => operator.commissionRate.toNumber(), [this.order]);
-      case 'rootchain':
-        return orderBy(this.operators, (operator) => operator.rootchain, [this.order]);
+      case 'layer2':
+        return orderBy(this.operators, (operator) => operator.layer2, [this.order]);
       case 'userStaked':
         return orderBy(this.operators, (operator) => operator.userStaked.toNumber(), [this.order]);
       case 'totalStaked':
@@ -101,9 +101,9 @@ export default {
       return this.order === 'desc' ? 'asc' : 'desc';
     },
     viewDetailedOperator (operator) {
-      const rootchain = operator.rootchain;
+      const layer2 = operator.layer2;
       this.$router.push({
-        path: `/operators/${rootchain.toLowerCase()}`,
+        path: `/operators/${layer2.toLowerCase()}`,
         query: { network: this.$route.query.network },
       }).catch(err => {});
     },

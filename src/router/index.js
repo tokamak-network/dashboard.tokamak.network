@@ -21,11 +21,11 @@ const routes = [
     component: OperatorListLayout,
   },
   {
-    path: '/operators/:rootchain',
+    path: '/operators/:layer2',
     component: OperatorInfoLayout,
   },
   {
-    path: '/operators/:rootchain/edit',
+    path: '/operators/:layer2/edit',
     component: OperatorInfoEditLayout,
   },
   {
