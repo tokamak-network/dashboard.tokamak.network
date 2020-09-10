@@ -23,11 +23,11 @@ const WTON_UNIT = 'ray';
 import TONABI from '@/contracts/abi/TON.json';
 import WTONABI from '@/contracts/abi/WTON.json';
 import DepositManagerABI from '@/contracts/abi/DepositManager.json';
-import RootChainRegistryABI from '@/contracts/abi/RootChainRegistry.json';
+import Layer2RegistryABI from '@/contracts/abi/Layer2Registry.json';
 import SeigManagerABI from '@/contracts/abi/SeigManager.json';
 import PowerTONABI from '@/contracts/abi/PowerTON.json';
-import RootChainABI from '@/contracts/abi/RootChain.json';
-import CustomIncrementCoinageABI from '@/contracts/abi/CustomIncrementCoinage.json';
+import Layer2ABI from '@/contracts/abi/Layer2.json';
+import AutoRefactorCoinageABI from '@/contracts/abi/AutoRefactorCoinage.json';
 
 const initialState = {
   loading: false,
@@ -235,7 +235,7 @@ export default new Vuex.Store({
         TONABI,
         WTONABI,
         DepositManagerABI,
-        RootChainRegistryABI,
+        Layer2RegistryABI,
         SeigManagerABI,
         PowerTONABI,
       };
@@ -354,7 +354,7 @@ export default new Vuex.Store({
       const DepositManager = context.state.DepositManager;
       const SeigManager = context.state.SeigManager;
       const Tot = createWeb3Contract(
-        CustomIncrementCoinageABI, await SeigManager.methods.tot().call());
+        AutoRefactorCoinageABI, await SeigManager.methods.tot().call());
 
       const [
         tonTotalSupply,
@@ -386,9 +386,9 @@ export default new Vuex.Store({
           //
           ///////////////////////////////////////////////////////////////////
           const rootchain = operatorFromRootChain.rootchain;
-          const RootChain = createWeb3Contract(RootChainABI, rootchain);
+          const RootChain = createWeb3Contract(Layer2ABI, rootchain);
           const Coinage = createWeb3Contract(
-            CustomIncrementCoinageABI, await SeigManager.methods.coinages(rootchain).call());
+            AutoRefactorCoinageABI, await SeigManager.methods.coinages(rootchain).call());
           const [
             operator,
             currentForkNumber,

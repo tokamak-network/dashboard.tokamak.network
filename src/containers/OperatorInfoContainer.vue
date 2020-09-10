@@ -160,7 +160,7 @@ import moment from 'moment';
 import { createCurrency } from '@makerdao/currency';
 const _TON = createCurrency('TON');
 
-import RootChainABI from '@/contracts/abi/RootChain.json';
+import Layer2ABI from '@/contracts/abi/Layer2.json';
 import { createWeb3Contract } from '@/helpers/Contract';
 import { BN } from 'web3-utils';
 
@@ -221,7 +221,7 @@ export default {
     },
     // only for mton version.
     async commit () {
-      const RootChain = createWeb3Contract(RootChainABI, this.operator.rootchain);
+      const RootChain = createWeb3Contract(Layer2ABI, this.operator.rootchain);
       const [
         costNRB,
         NRELength,
