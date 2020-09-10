@@ -73,7 +73,7 @@ export default {
     'text-viewer': TextViewer,
   },
   props: {
-    rootchain: {
+    layer2: {
       required: true,
       type: String,
     },
@@ -97,10 +97,10 @@ export default {
       'DepositManager',
     ]),
     ...mapGetters([
-      'operatorByRootChain',
+      'operatorByLayer2',
     ]),
     operator () {
-      return this.operatorByRootChain(this.rootchain);
+      return this.operatorByLayer2(this.layer2);
     },
     currencyAmount () {
       return amount => this.$options.filters.currencyAmount(amount);
@@ -180,7 +180,7 @@ export default {
               type: 'Delegated',
               amount: amount,
               transactionHash: hash,
-              target: this.operator.rootchain,
+              target: this.operator.layer2,
             };
             this.$store.dispatch('addPendingTransaction', transcation);
           })
@@ -199,7 +199,7 @@ export default {
       const amount = this.redelegatableAmount.toFixed('ray');
 
       this.DepositManager.methods.redepositMulti(
-        this.operator.rootchain,
+        this.operator.layer2,
         this.redelegatableRequests,
       ).send({ from: this.user })
         .on('transactionHash', async (hash) => {
@@ -208,7 +208,7 @@ export default {
             type: 'Redelegated',
             amount,
             transactionHash: hash,
-            target: this.operator.rootchain,
+            target: this.operator.layer2,
           };
           this.$store.dispatch('addPendingTransaction', transcation);
         })
@@ -227,7 +227,7 @@ export default {
 
       const amount = _WTON(this.amountToUndelegate).toFixed('ray');
       this.DepositManager.methods.requestWithdrawal(
-        this.operator.rootchain,
+        this.operator.layer2,
         amount,
       ).send({ from: this.user })
         .on('transactionHash', async (hash) => {
@@ -236,7 +236,7 @@ export default {
             type: 'Undelegated',
             amount: amount,
             transactionHash: hash,
-            target: this.operator.rootchain,
+            target: this.operator.layer2,
           };
           this.$store.dispatch('addPendingTransaction', transcation);
         })
@@ -258,7 +258,7 @@ export default {
 
       const amount = _WTON(userWithdrawable).toFixed('ray');
       this.DepositManager.methods.processRequests(
-        this.operator.rootchain,
+        this.operator.layer2,
         count,
         true,
       ).send({ from: this.user })
@@ -268,7 +268,7 @@ export default {
             type: 'Withdrawn',
             amount: amount,
             transactionHash: hash,
-            target: this.operator.rootchain,
+            target: this.operator.layer2,
           };
           this.$store.dispatch('addPendingTransaction', transcation);
         })
@@ -295,7 +295,7 @@ export default {
     },
     getData () {
       const data = this.marshalString(
-        [this.DepositManager._address, this.operator.rootchain]
+        [this.DepositManager._address, this.operator.layer2]
           .map(this.unmarshalString)
           .map(str => padLeft(str, 64))
           .join('')

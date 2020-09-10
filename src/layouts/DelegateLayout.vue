@@ -13,11 +13,11 @@
     <div class="second-row">
       <operator-info-container
         class="left-container"
-        :rootchain="rootchain"
+        :layer2="layer2"
       />
       <delegate-manager-container
         class="right-container"
-        :rootchain="rootchain"
+        :layer2="layer2"
       />
     </div>
   </div>
@@ -37,7 +37,7 @@ export default {
   },
   data () {
     return {
-      rootchain: '',
+      layer2: '',
       selectedOperator: '',
     };
   },
@@ -48,13 +48,13 @@ export default {
   },
   created () {
     this.selectedOperator = this.operators[0].name;
-    this.rootchain = this.operators[0].rootchain;
+    this.layer2 = this.operators[0].layer2;
   },
   methods :{
     onChange (event) {
       const operator =  this.operators.find(operator => operator.name === event.target.value);
-      const root = operator.rootchain;
-      this.rootchain = root;
+      const root = operator.layer2;
+      this.layer2 = root;
     },
   },
 };

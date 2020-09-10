@@ -44,7 +44,7 @@
     />
     <text-viewer-link :type="'address'"
                       :title="'Operator Contract'"
-                      :content="operator.rootchain"
+                      :content="operator.layer2"
                       :with-divider="false"
                       :tooltip="'Smart Contract Address to manage the staking'"
                       :tooltipWidth="'260px'"
@@ -180,7 +180,7 @@ export default {
     'base-button': BaseButton,
   },
   props: {
-    rootchain: {
+    layer2: {
       required: true,
       type: String,
     },
@@ -190,10 +190,10 @@ export default {
       'user',
     ]),
     ...mapGetters([
-      'operatorByRootChain',
+      'operatorByLayer2',
     ]),
     operator () {
-      return this.operatorByRootChain(this.rootchain);
+      return this.operatorByLayer2(this.layer2);
     },
     filteredImgURL () {
       return name => name !== '' ? `${getConfig().baseURL}/avatars/${name}` : '';
@@ -221,18 +221,18 @@ export default {
     },
     // only for mton version.
     async commit () {
-      const RootChain = createWeb3Contract(Layer2ABI, this.operator.rootchain);
+      const Layer2 = createWeb3Contract(Layer2ABI, this.operator.layer2);
       const [
         costNRB,
         NRELength,
         currentForkNumber,
       ] = await Promise.all([
-        RootChain.methods.COST_NRB().call(),
-        RootChain.methods.NRELength().call(),
-        RootChain.methods.currentFork().call(),
+        Layer2.methods.COST_NRB().call(),
+        Layer2.methods.NRELength().call(),
+        Layer2.methods.currentFork().call(),
       ]);
 
-      const fork = await RootChain.methods.forks(currentForkNumber).call();
+      const fork = await Layer2.methods.forks(currentForkNumber).call();
       const epochNumber = parseInt(fork.lastEpoch) + 1;
       const startBlockNumber = parseInt(fork.lastBlock) + 1;
       const endBlockNumber = parseInt(startBlockNumber) + parseInt(NRELength) - 1;
@@ -243,7 +243,7 @@ export default {
       const pos2 = this._makePos(startBlockNumber, endBlockNumber);
       const dummyBytes = '0xdb431b544b2f5468e3f771d7843d9c5df3b4edcf8bc1c599f18f0b4ea8709bc3';
 
-      RootChain.methods.submitNRE(
+      Layer2.methods.submitNRE(
         pos1,
         pos2,
         dummyBytes, // epochStateRoot

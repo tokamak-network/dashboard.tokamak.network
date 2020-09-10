@@ -63,13 +63,13 @@ export default {
     getKey (data) {
       switch (this.type) {
       case 'operator':
-        return data.rootchain;
+        return data.layer2;
       }
     },
     filtered (key, data, index) {
       switch (this.type) {
       case 'operator':
-        if (key === 'address' || key === 'rootchain') return this.$options.filters.hexSlicer(data);
+        if (key === 'address' || key === 'layer2') return this.$options.filters.hexSlicer(data);
         else if (key === 'totalStaked' || key === 'userStaked') return this.$options.filters.convertedTONFromWTON(data);
         else if (key === 'recentCommitTimestamp') return this.$options.filters.fromNow(data);
         else return data;

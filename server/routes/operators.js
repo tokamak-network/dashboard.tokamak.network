@@ -19,12 +19,12 @@ const GET = (db) => {
 const POST = async (db, req) => {
   const genesis = req.body.genesis;
 
-  let rootchain, chainId, operator;
+  let layer2, chainId, operator;
   try {
-    rootchain = toChecksumAddress(genesis.extraData);
+    layer2 = toChecksumAddress(genesis.extraData);
     chainId = genesis.config.chainId;
 
-    operator = db.get('operators').find({ rootchain: rootchain }).value();
+    operator = db.get('operators').find({ layer2: layer2 }).value();
     if (operator) {
       throw new Error('Already registered');
     }
@@ -44,7 +44,7 @@ const POST = async (db, req) => {
   newOperator.name = req.body.name;
   newOperator.website = req.body.website;
   newOperator.description = req.body.description;
-  newOperator.rootchain = rootchain; // use checksum address
+  newOperator.layer2 = layer2; // use checksum address
   newOperator.chainId = chainId;
   newOperator.avatar = '';
   newOperator.color = randomColor;
@@ -85,14 +85,14 @@ const PATCH = async (db, req) => {
     throw err;
   }
 
-  let rootchain;
+  let layer2;
   try {
-    rootchain = toChecksumAddress(req.query.rootchain);
+    layer2 = toChecksumAddress(req.query.layer2);
   } catch (err) {
     throw new Error('Non-checksum address');
   }
 
-  const operator = db.get('operators').find({ rootchain: rootchain }).value();
+  const operator = db.get('operators').find({ layer2: layer2 }).value();
   if (!operator) {
     throw new Error('Unregistered operator');
   }
@@ -106,7 +106,7 @@ const PATCH = async (db, req) => {
     await db
       .defaults({ operators: [] })
       .get('operators')
-      .find({ rootchain: rootchain })
+      .find({ layer2: layer2 })
       .assign(operator)
       .write();
 

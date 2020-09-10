@@ -47,7 +47,7 @@ const initialState = {
   TON: {},
   WTON: {},
   DepositManager: {},
-  RootChainRegistry: {},
+  Layer2Registry: {},
   SeigManager: {},
   PowerTON: {},
 
@@ -149,7 +149,7 @@ export default new Vuex.Store({
     },
     UPDATE_OPERATOR: (state, newOperator) => {
       const index = state.operators.indexOf(prevOperator);
-      const prevOperator = state.operators.find(operator => operator.rootchain === newOperator.rootchain);
+      const prevOperator = state.operators.find(operator => operator.layer2 === newOperator.layer2);
       for (const [key, value] of Object.entries(newOperator)) {
         prevOperator[key] = value;
       }
@@ -367,14 +367,14 @@ export default new Vuex.Store({
       ]);
 
       const operators = context.state.operators;
-      const operatorsFromRootChain = await Promise.all(
-        operators.map(async operatorFromRootChain => {
+      const operatorsFromLayer2 = await Promise.all(
+        operators.map(async operatorFromLayer2 => {
           ///////////////////////////////////////////////////////////////////
-          // NOTE: operatorFromRootChain has already have following property.
+          // NOTE: operatorFromLayer2 has already have following property.
           //
-          // operatorFromRootChain = {
+          // operatorFromLayer2 = {
           //   {
-          //     "rootchain": "0xc4bf071b54914221cc047f480293231e7df9f85b",
+          //     "layer2": "0xc4bf071b54914221cc047f480293231e7df9f85b",
           //     "name": "ONTHER_1",
           //     "website": "https://tokamak.network/",
           //     "description": "Tokamak Network is a platform that assures decentralized and secure property same as Ethereum Main chain while supporting high level of scalability and extendability.",
@@ -385,23 +385,23 @@ export default new Vuex.Store({
           // }
           //
           ///////////////////////////////////////////////////////////////////
-          const rootchain = operatorFromRootChain.rootchain;
-          const RootChain = createWeb3Contract(Layer2ABI, rootchain);
+          const layer2 = operatorFromLayer2.layer2;
+          const Layer2 = createWeb3Contract(Layer2ABI, layer2);
           const Coinage = createWeb3Contract(
-            AutoRefactorCoinageABI, await SeigManager.methods.coinages(rootchain).call());
+            AutoRefactorCoinageABI, await SeigManager.methods.coinages(layer2).call());
           const [
             operator,
             currentForkNumber,
           ] = await Promise.all([
-            RootChain.methods.operator().call(),
-            RootChain.methods.currentFork().call(),
+            Layer2.methods.operator().call(),
+            Layer2.methods.currentFork().call(),
           ]);
 
           const getLastFinalizedAt = async (lastFinalizedEpochNumber, lastFinalizedBlockNumber) => {
-            const epoch = await RootChain.methods.getEpoch(currentForkNumber, lastFinalizedEpochNumber).call();
+            const epoch = await Layer2.methods.getEpoch(currentForkNumber, lastFinalizedEpochNumber).call();
             const timestamp
                             = epoch.isRequest ?
-                              (await RootChain.methods.getBlock(currentForkNumber, lastFinalizedBlockNumber).call()).finalizedAt :
+                              (await Layer2.methods.getBlock(currentForkNumber, lastFinalizedBlockNumber).call()).finalizedAt :
                               epoch.NRE.finalizedAt;
             return timestamp;
           };
@@ -409,11 +409,11 @@ export default new Vuex.Store({
           const getDeposit = async (account) => {
             let accStaked, accUnstaked;
             if (typeof account === 'undefined') {
-              accStaked = await DepositManager.methods.accStakedRootChain(rootchain).call();
-              accUnstaked = await DepositManager.methods.accUnstakedRootChain(rootchain).call();
+              accStaked = await DepositManager.methods.accStakedLayer2(layer2).call();
+              accUnstaked = await DepositManager.methods.accUnstakedLayer2(layer2).call();
             } else {
-              accStaked = await DepositManager.methods.accStaked(rootchain, account).call(null, blockNumber);
-              accUnstaked = await DepositManager.methods.accUnstaked(rootchain, account).call(null, blockNumber);
+              accStaked = await DepositManager.methods.accStaked(layer2, account).call(null, blockNumber);
+              accUnstaked = await DepositManager.methods.accUnstaked(layer2, account).call(null, blockNumber);
             }
             const deposit = new BN(accStaked).sub(new BN(accUnstaked));
             if (deposit.cmp(new BN('0')) === -1) { // https://github.com/Onther-Tech/plasma-evm-contracts/issues/39
@@ -424,17 +424,17 @@ export default new Vuex.Store({
           };
 
           const getPendingRequests = async () => {
-            const numPendingRequests = await DepositManager.methods.numPendingRequests(rootchain, user).call();
+            const numPendingRequests = await DepositManager.methods.numPendingRequests(layer2, user).call();
             if (numPendingRequests === 0) {
               return [];
             }
 
             let requestIndex
-              = await DepositManager.methods.withdrawalRequestIndex(rootchain, user).call();
+              = await DepositManager.methods.withdrawalRequestIndex(layer2, user).call();
 
             const pendingRequests = [];
             for (const _ of range(numPendingRequests)) {
-              pendingRequests.push(DepositManager.methods.withdrawalRequest(rootchain, user, requestIndex).call());
+              pendingRequests.push(DepositManager.methods.withdrawalRequest(layer2, user, requestIndex).call());
               requestIndex++;
             }
             return Promise.all(pendingRequests);
@@ -468,7 +468,7 @@ export default new Vuex.Store({
               unpausedBlock,
               pausedBlock,
             ] = await Promise.all([
-              SeigManager.methods.isCommissionRateNegative(rootchain).call(),
+              SeigManager.methods.isCommissionRateNegative(layer2).call(),
               SeigManager.methods.paused().call(),
               SeigManager.methods.lastSeigBlock().call(),
               SeigManager.methods.unpausedBlock().call(),
@@ -485,9 +485,9 @@ export default new Vuex.Store({
               prevCoinageUserBalance,
             ] = await Promise.all([
               SeigManager.methods.seigPerBlock().call(),
-              SeigManager.methods.commissionRates(rootchain).call(),
+              SeigManager.methods.commissionRates(layer2).call(),
               Tot.methods.totalSupply().call(),
-              Tot.methods.balanceOf(rootchain).call(),
+              Tot.methods.balanceOf(layer2).call(),
               Coinage.methods.totalSupply().call(),
               Coinage.methods.balanceOf(operator).call(),
               Coinage.methods.balanceOf(user).call(),
@@ -525,19 +525,19 @@ export default new Vuex.Store({
             }
 
             const stakedSeigs = increaseTot();
-            let rootchainSeigs, operatorSeigs, usersSeigs;
+            let layer2Seigs, operatorSeigs, usersSeigs;
             if (prevTotTotalSupply.isEqual(_WTON('0'))) {
-              rootchainSeigs = _WTON('0', WTON_UNIT);
+              layer2Seigs = _WTON('0', WTON_UNIT);
             } else {
-              rootchainSeigs = stakedSeigs.times(prevTotBalance).div(prevTotTotalSupply);
+              layer2Seigs = stakedSeigs.times(prevTotBalance).div(prevTotTotalSupply);
             }
 
             if (prevCoinageTotalSupply.isEqual(_WTON('0'))) {
               operatorSeigs = _WTON('0', WTON_UNIT);
               usersSeigs = _WTON('0', WTON_UNIT);
             } else {
-              operatorSeigs = rootchainSeigs.times(prevCoinageOperatorBalance).div(prevCoinageTotalSupply);
-              usersSeigs = rootchainSeigs.times(prevCoinageUsersBalance).div(prevCoinageTotalSupply);
+              operatorSeigs = layer2Seigs.times(prevCoinageOperatorBalance).div(prevCoinageTotalSupply);
+              usersSeigs = layer2Seigs.times(prevCoinageUsersBalance).div(prevCoinageTotalSupply);
             }
 
             function _calcSeigsDistribution () {
@@ -596,7 +596,7 @@ export default new Vuex.Store({
             return {
               operatorSeigs: operatorSeigsWithCommissionRate,
               userSeigs: userSeigsWithCommissionRate,
-              rootchainSeigs: rootchainSeigs,
+              layer2Seigs: layer2Seigs,
             };
           };
 
@@ -610,7 +610,7 @@ export default new Vuex.Store({
             selfStaked,
             userStaked,
             pendingRequests,
-            seigs, // operatorSeigs, userSeigs, rootchainSeigs
+            seigs, // operatorSeigs, userSeigs, layer2Seigs
             isCommissionRateNegative,
             commissionRate,
             powerTONSeigRate,
@@ -621,8 +621,8 @@ export default new Vuex.Store({
             delayedCommissionBlock,
             withdrawalDelay,
           ] = await Promise.all([
-            RootChain.methods.forks(currentForkNumber).call(),
-            RootChain.methods.getEpoch(0, 0).call(),
+            Layer2.methods.forks(currentForkNumber).call(),
+            Layer2.methods.getEpoch(0, 0).call(),
             getDeposit(),
             getDeposit(operator),
             getDeposit(user),
@@ -631,15 +631,15 @@ export default new Vuex.Store({
             Coinage.methods.balanceOf(user).call(null, blockNumber),
             getPendingRequests(),
             getExpectedSeigs(),
-            SeigManager.methods.isCommissionRateNegative(rootchain).call(),
-            SeigManager.methods.commissionRates(rootchain).call(),
+            SeigManager.methods.isCommissionRateNegative(layer2).call(),
+            SeigManager.methods.commissionRates(layer2).call(),
             SeigManager.methods.powerTONSeigRate().call(),
             SeigManager.methods.daoSeigRate().call(),
             SeigManager.methods.relativeSeigRate().call(),
-            SeigManager.methods.delayedCommissionRateNegative(rootchain).call(),
-            SeigManager.methods.delayedCommissionRate(rootchain).call(),
-            SeigManager.methods.delayedCommissionBlock(rootchain).call(),
-            DepositManager.methods.withdrawalDelay(rootchain).call(),
+            SeigManager.methods.delayedCommissionRateNegative(layer2).call(),
+            SeigManager.methods.delayedCommissionRate(layer2).call(),
+            SeigManager.methods.delayedCommissionBlock(layer2).call(),
+            DepositManager.methods.withdrawalDelay(layer2).call(),
           ]);
           const deployedAt = firstEpoch.timestamp;
           const lastFinalizedEpochNumber = currentFork.lastFinalizedEpoch;
@@ -653,47 +653,47 @@ export default new Vuex.Store({
           const userWithdrawable = getUserWithdrawable(withdrawableRequests);
 
           // set vue state.
-          operatorFromRootChain.address = operator;
-          operatorFromRootChain.lastFinalizedAt = lastFinalizedAt;
-          operatorFromRootChain.finalizeCount = finalizeCount;
-          operatorFromRootChain.deployedAt = deployedAt;
-          operatorFromRootChain.totalDeposit = _WTON(totalDeposit, WTON_UNIT);
-          operatorFromRootChain.totalStaked = _WTON(totalStaked, WTON_UNIT);
-          operatorFromRootChain.selfDeposit = _WTON(selfDeposit, WTON_UNIT);
-          operatorFromRootChain.selfStaked = _WTON(selfStaked, WTON_UNIT);
+          operatorFromLayer2.address = operator;
+          operatorFromLayer2.lastFinalizedAt = lastFinalizedAt;
+          operatorFromLayer2.finalizeCount = finalizeCount;
+          operatorFromLayer2.deployedAt = deployedAt;
+          operatorFromLayer2.totalDeposit = _WTON(totalDeposit, WTON_UNIT);
+          operatorFromLayer2.totalStaked = _WTON(totalStaked, WTON_UNIT);
+          operatorFromLayer2.selfDeposit = _WTON(selfDeposit, WTON_UNIT);
+          operatorFromLayer2.selfStaked = _WTON(selfStaked, WTON_UNIT);
 
-          operatorFromRootChain.userDeposit = _WTON(userDeposit, WTON_UNIT);
-          operatorFromRootChain.userStaked = _WTON(userStaked, WTON_UNIT);
-          operatorFromRootChain.userSeigs
+          operatorFromLayer2.userDeposit = _WTON(userDeposit, WTON_UNIT);
+          operatorFromLayer2.userStaked = _WTON(userStaked, WTON_UNIT);
+          operatorFromLayer2.userSeigs
             = operator.toLowerCase() === user.toLowerCase() ? seigs.operatorSeigs : seigs.userSeigs;
 
-          operatorFromRootChain.isCommissionRateNegative = isCommissionRateNegative;
-          operatorFromRootChain.commissionRate = _WTON(commissionRate, WTON_UNIT);
+          operatorFromLayer2.isCommissionRateNegative = isCommissionRateNegative;
+          operatorFromLayer2.commissionRate = _WTON(commissionRate, WTON_UNIT);
 
-          operatorFromRootChain.delayedCommissionRateNegative = delayedCommissionRateNegative;
-          operatorFromRootChain.delayedCommissionRate = _WTON(delayedCommissionRate, WTON_UNIT);
-          operatorFromRootChain.delayedCommissionBlock = delayedCommissionBlock;
-          operatorFromRootChain.powerTONSeigRate = _WTON(powerTONSeigRate, WTON_UNIT);
-          operatorFromRootChain.daoSeigRate = _WTON(daoSeigRate, WTON_UNIT);
-          operatorFromRootChain.relativeSeigRate = _WTON(relativeSeigRate, WTON_UNIT);
-          operatorFromRootChain.withdrawalRequests = pendingRequests;
-          operatorFromRootChain.notWithdrawableRequests = notWithdrawableRequests;
-          operatorFromRootChain.withdrawableRequests = withdrawableRequests;
+          operatorFromLayer2.delayedCommissionRateNegative = delayedCommissionRateNegative;
+          operatorFromLayer2.delayedCommissionRate = _WTON(delayedCommissionRate, WTON_UNIT);
+          operatorFromLayer2.delayedCommissionBlock = delayedCommissionBlock;
+          operatorFromLayer2.powerTONSeigRate = _WTON(powerTONSeigRate, WTON_UNIT);
+          operatorFromLayer2.daoSeigRate = _WTON(daoSeigRate, WTON_UNIT);
+          operatorFromLayer2.relativeSeigRate = _WTON(relativeSeigRate, WTON_UNIT);
+          operatorFromLayer2.withdrawalRequests = pendingRequests;
+          operatorFromLayer2.notWithdrawableRequests = notWithdrawableRequests;
+          operatorFromLayer2.withdrawableRequests = withdrawableRequests;
           // already wrapped with WTON
-          operatorFromRootChain.userNotWithdrawable = userNotWithdrawable;
-          operatorFromRootChain.userWithdrawable = userWithdrawable;
-          operatorFromRootChain.userRedelegatable = userWithdrawable.add(userNotWithdrawable);
-          operatorFromRootChain.userReward = userNotWithdrawable;
-          operatorFromRootChain.withdrawalDelay = withdrawalDelay;
-          // = operatorFromRootChain.userStaked
+          operatorFromLayer2.userNotWithdrawable = userNotWithdrawable;
+          operatorFromLayer2.userWithdrawable = userWithdrawable;
+          operatorFromLayer2.userRedelegatable = userWithdrawable.add(userNotWithdrawable);
+          operatorFromLayer2.userReward = userNotWithdrawable;
+          operatorFromLayer2.withdrawalDelay = withdrawalDelay;
+          // = operatorFromLayer2.userStaked
           //   .add(userNotWithdrawable)
           //   .add(userWithdrawable)
-          //   .sub(operatorFromRootChain.userDeposit);
+          //   .sub(operatorFromLayer2.userDeposit);
 
-          return operatorFromRootChain;
+          return operatorFromLayer2;
         })
       );
-      context.commit('SET_OPERATORS', operatorsFromRootChain);
+      context.commit('SET_OPERATORS', operatorsFromLayer2);
     },
     async setBalance (context) {
       const web3 = context.state.web3;
@@ -727,22 +727,18 @@ export default new Vuex.Store({
       const currentRoundIndex = await PowerTON.methods.currentRound().call();
       const [
         currentRound,
-        REWARD_NUMERATOR,
-        REWARD_DENOMINATOR,
         balance,
         totalDeposits,
         power,
       ] = await Promise.all([
         PowerTON.methods.rounds(currentRoundIndex).call(),
-        PowerTON.methods.REWARD_NUMERATOR().call(),
-        PowerTON.methods.REWARD_DENOMINATOR().call(),
         WTON.methods.balanceOf(PowerTON._address).call(),
         PowerTON.methods.totalDeposits().call(),
         PowerTON.methods.powerOf(user).call(),
       ]);
       const userPower = _POWER.ray(power);
       const totalPower = _POWER.ray(totalDeposits);
-      const reward = new BN(balance).mul(new BN(REWARD_NUMERATOR)).div(new BN(REWARD_DENOMINATOR));
+      const reward = new BN(balance);
 
       currentRound.index = currentRoundIndex;
       currentRound.reward = _WTON.ray(reward);
@@ -816,8 +812,8 @@ export default new Vuex.Store({
       }
       else return [];
     },
-    operatorByRootChain: (state) => (rootchain) => {
-      return cloneDeep(state.operators.find(operator => operator.rootchain.toLowerCase() === rootchain.toLowerCase()));
+    operatorByLayer2: (state) => (layer2) => {
+      return cloneDeep(state.operators.find(operator => operator.layer2.toLowerCase() === layer2.toLowerCase()));
     },
     userTotalDeposit: (state) => {
       const initialAmount = _WTON.ray('0');

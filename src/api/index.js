@@ -21,13 +21,13 @@ export async function getOperators () {
   else return res.data;
 }
 
-export async function updateOperator (rootchain, formData) {
+export async function updateOperator (layer2, formData) {
   const res = await instance.patch(
     '/operators',
     formData,
     {
       params: {
-        rootchain: rootchain,
+        layer2: layer2,
       },
     });
   return res.data;
