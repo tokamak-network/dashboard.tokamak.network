@@ -37,7 +37,7 @@ export function getConfig () {
   case 'mton':
     return config.mton;
   default:
-    return config.mainnet;
+    return config.mton;
   }
 }
 
