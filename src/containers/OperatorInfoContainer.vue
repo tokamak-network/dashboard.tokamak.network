@@ -127,24 +127,6 @@
                  :tooltip="'New Commission Rate Changed At'"
                  :tooltipWidth="'220px'"
     />
-    <text-viewer :title="'Power TON Deduction Rate'"
-                 :content="`${rateOf(operator.powerTONSeigRate)}`"
-                 :with-divider="false"
-                 :tooltip="'Power TON Deduction Rate'"
-                 :tooltipWidth="'220px'"
-    />
-    <text-viewer :title="'DAO Fund Deduction Rate'"
-                 :content="`${rateOf(operator.daoSeigRate)}`"
-                 :with-divider="false"
-                 :tooltip="'DAO Fund Deduction Rate'"
-                 :tooltipWidth="'220px'"
-    />
-    <text-viewer :title="'Relative Seig Rate'"
-                 :content="`${rateOf(operator.relativeSeigRate)}`"
-                 :with-divider="false"
-                 :tooltip="'Relative Seig Rate'"
-                 :tooltipWidth="'220px'"
-    />
     <text-viewer :title="'Withdrawal Delay'"
                  :content="`${operator.withdrawalDelay}${' blocks'}`"
                  :with-divider="false"
