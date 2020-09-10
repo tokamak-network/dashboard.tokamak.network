@@ -118,19 +118,19 @@
     <text-viewer :title="'New Commission Rate'"
                  :content="`${operator.delayedCommissionRateNegative ? '-' : ''}${rateOf(operator.delayedCommissionRate)}`"
                  :with-divider="false"
-                 :tooltip="'New Commission Rate'"
+                 :tooltip="'Changed commission rate (current block height - block height when the commission rate was changed) blocks later'"
                  :tooltipWidth="'220px'"
     />
     <text-viewer :title="'New Commission Rate Changed At'"
                  :content="operator.delayedCommissionBlock"
                  :with-divider="false"
-                 :tooltip="'New Commission Rate Changed At'"
+                 :tooltip="'Block height when the new commission rate is changed.'"
                  :tooltipWidth="'220px'"
     />
     <text-viewer :title="'Withdrawal Delay'"
                  :content="`${operator.withdrawalDelay}${' blocks'}`"
                  :with-divider="false"
-                 :tooltip="'Withdrawal Delay'"
+                 :tooltip="'Withdrawal delay in order to withdraw your fund. There are global and local delay, and the greater value is applied. While your withdrawal request processing, the rewards for the requested amount is not given.'"
                  :tooltipWidth="'220px'"
     />
   </div>
