@@ -118,7 +118,7 @@
     <text-viewer :title="'New Commission Rate'"
                  :content="`${operator.delayedCommissionRateNegative ? '-' : ''}${rateOf(operator.delayedCommissionRate)}`"
                  :with-divider="false"
-                 :tooltip="'Changed commission rate (current block height - block height when the commission rate was changed) blocks later'"
+                 :tooltip="'Changed commission rate (New Commission Rate Changed At - current block height) blocks later'"
                  :tooltipWidth="'220px'"
     />
     <text-viewer :title="'New Commission Rate Changed At'"
