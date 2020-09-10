@@ -3,10 +3,11 @@
     <div class="delegate-layout">
       <div class="row">
         <container-header :title="'Delegate'" />
-        <div class="select-option"> Select Operator:
-        <select v-model="selectedOperator" class="unit-select" @change="onChange($event)">
-          <option v-for="(operator, index) in operators" :key="index" :value="operator.name">{{ operator.name }}</option>
-        </select>
+        <div class="select-option">
+          Select Operator:
+          <select v-model="selectedOperator" class="unit-select" @change="onChange($event)">
+            <option v-for="(operator, index) in operators" :key="index" :value="operator.name">{{ operator.name }}</option>
+          </select>
         </div>
       </div>
     </div>
