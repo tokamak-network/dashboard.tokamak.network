@@ -21,7 +21,7 @@
           class="header-link"
           target="_blank"
           rel="noopener noreferrer"
-          href="https://docs.google.com/presentation/d/154nxPwhyzCwFKgWWQKUV2upFk-Wpi4Vp0sOXTKD0h0A/edit#slide=id.g9598558ba8_0_498"
+          href="https://docs.google.com/presentation/d/154nxPwhyzCwFKgWWQKUV2upFk-Wpi4Vp0sOXTKD0h0A/edit#slide=id.g9722e47687_2_0"
           style="margin-left: 48px;"
         >Staking User Guide</a>
         <a
