@@ -353,6 +353,7 @@ export default new Vuex.Store({
       const WTON = context.state.WTON;
       const DepositManager = context.state.DepositManager;
       const SeigManager = context.state.SeigManager;
+      const l2Registry = context.state.Layer2Registry;
       const Tot = createWeb3Contract(
         AutoRefactorCoinageABI, await SeigManager.methods.tot().call());
 
@@ -367,6 +368,11 @@ export default new Vuex.Store({
       ]);
 
       const operators = context.state.operators;
+      for (let i=0; i < operators.length; i++) {
+        if (!await l2Registry.methods.layer2s(operators[i].layer2).call()) {
+          operators.splice(i, 1);
+        }
+      }
       const operatorsFromLayer2 = await Promise.all(
         operators.map(async operatorFromLayer2 => {
           ///////////////////////////////////////////////////////////////////
