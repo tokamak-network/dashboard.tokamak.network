@@ -5,12 +5,13 @@
     </div>
     <div class="title">[ NOTICE - End of MTON Staking (Beta) Service ]</div>
     <div class="content">
-      MTON Staking (Beta) Service is now terminated. Withdrawals are still available. For more information visit
+      MTON Staking (Beta) Service is now terminated. Withdrawals are still available.
+      Our TON staking service is now open at
       <a target="_blank"
          class="link"
          rel="noopener noreferrer"
-         href="https://medium.com/onther-tech/-30be674b30a1"
-      >https://medium.com/onther-tech/-30be674b30a1</a>
+         href="https://staking.tokamak.network/"
+      >https://staking.tokamak.network/</a>
     </div>
   </div>
 </template>
@@ -34,11 +35,11 @@ export default {
   flex-direction: column;
   width: 100%;
   z-index: 1;
-  height: 74px;
+  height: 75px;
   border-radius: 6px;
   border: solid 1px #cd0a0a;
   background-color: #ffffff;
-  margin-bottom: 8px;
+  margin-bottom: 30px;
   justify-content: center;
 }
 .button-container {
@@ -77,7 +78,7 @@ button:focus {
   color: #586064;
 }
 .link {
-  color: #586064;
+  color: #124b71;
   text-decoration: none;
 }
 </style>

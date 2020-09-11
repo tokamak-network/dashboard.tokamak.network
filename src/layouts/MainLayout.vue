@@ -1,6 +1,5 @@
 <template>
   <div class="main-layout">
-    <popup />
     <div class="main-container">
       <menu-container />
       <div class="main-body-container">
@@ -18,13 +17,11 @@
 import { mapState } from 'vuex';
 import WalletInfoContainer from '@/containers/WalletInfoContainer.vue';
 import MenuContainer from '@/containers/MenuContainer.vue';
-import Popup from '@/components/Popup.vue';
 
 export default {
   components: {
     'menu-container': MenuContainer,
     'wallet-info-container': WalletInfoContainer,
-    'popup': Popup,
   },
   data () {
     return {
