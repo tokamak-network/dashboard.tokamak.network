@@ -6,7 +6,7 @@ const config = {
     'network': '1',
   },
   'rinkeby': {
-    'baseURL': 'http://127.0.0.1:9002',
+    'baseURL': 'http://127.0.0.1:9000',
     'prefixTransactionHash': 'https://rinkeby.etherscan.io/tx/',
     'prefixAddress': 'https://rinkeby.etherscan.io/address/',
     'network': '4',
@@ -29,7 +29,7 @@ export function getConfig () {
   case 'development':
     return config.development;
   default:
-    return config.rinkeby;
+    return config.mainnet;
   }
 }
 

@@ -39,7 +39,7 @@ export default {
 }
 
 button {
-  width: 72px;
+  width: 80px;
   height: 30px;
   padding-top: 2px;
   font-family: Roboto;

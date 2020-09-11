@@ -77,7 +77,7 @@ export default {
 }
 
 .header {
-  width: 960px;
+  width: 1080px;
   height: 100%;
   align-items: center;
   display: flex;

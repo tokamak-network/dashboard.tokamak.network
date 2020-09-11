@@ -72,8 +72,8 @@ export default {
 <style scoped>
 .main-layout {
   display: flex;
-  min-width: 960px;
-  max-width: 960px;
+  min-width: 1080px;
+  max-width: 1080px;
   padding-top: 16px;
   padding-bottom: 2rem;
   flex-direction: column;
