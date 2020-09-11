@@ -626,6 +626,8 @@ export default new Vuex.Store({
             delayedCommissionRate,
             delayedCommissionBlock,
             withdrawalDelay,
+            globalWithdrawalDelay,
+            minimumAmount,
           ] = await Promise.all([
             Layer2.methods.forks(currentForkNumber).call(),
             Layer2.methods.getEpoch(0, 0).call(),
@@ -646,6 +648,8 @@ export default new Vuex.Store({
             SeigManager.methods.delayedCommissionRate(layer2).call(),
             SeigManager.methods.delayedCommissionBlock(layer2).call(),
             DepositManager.methods.withdrawalDelay(layer2).call(),
+            DepositManager.methods.globalWithdrawalDelay().call(),
+            SeigManager.methods.minimumAmount().call(),
           ]);
           const deployedAt = firstEpoch.timestamp;
           const lastFinalizedEpochNumber = currentFork.lastFinalizedEpoch;
@@ -691,6 +695,8 @@ export default new Vuex.Store({
           operatorFromLayer2.userRedelegatable = userWithdrawable.add(userNotWithdrawable);
           operatorFromLayer2.userReward = userNotWithdrawable;
           operatorFromLayer2.withdrawalDelay = withdrawalDelay;
+          operatorFromLayer2.globalWithdrawalDelay = globalWithdrawalDelay;
+          operatorFromLayer2.minimumAmount = minimumAmount;
           // = operatorFromLayer2.userStaked
           //   .add(userNotWithdrawable)
           //   .add(userWithdrawable)

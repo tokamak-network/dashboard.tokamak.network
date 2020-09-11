@@ -124,11 +124,11 @@
     <text-viewer :title="'New Commission Rate Changed At'"
                  :content="operator.delayedCommissionBlock"
                  :with-divider="false"
-                 :tooltip="'Block height when the new commission rate is changed.'"
+                 :tooltip="'Block height when the new commission rate is applied.'"
                  :tooltipWidth="'220px'"
     />
     <text-viewer :title="'Withdrawal Delay'"
-                 :content="`${operator.withdrawalDelay}${' blocks'}`"
+                 :content="`${delay()}${' blocks'}`"
                  :with-divider="false"
                  :tooltip="'Withdrawal delay in order to withdraw your fund. There are global and local delay, and the greater value is applied. While your withdrawal request processing, the rewards for the requested amount is not given.'"
                  :tooltipWidth="'220px'"
@@ -170,6 +170,7 @@ export default {
   computed: {
     ...mapState([
       'user',
+      'DepositManager',
     ]),
     ...mapGetters([
       'operatorByLayer2',
@@ -193,6 +194,9 @@ export default {
       return genesis => 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(genesis, undefined, 2));
     },
   },
+  created () {
+    this.delay();
+  },
   methods: {
     edit () {
       const path = this.$route.path;
@@ -200,6 +204,16 @@ export default {
         path: `${path}/edit`,
         query: { network: this.$route.query.network },
       }).catch(err => {});
+    },
+    delay () {
+      const operatorDelay = this.operator.withdrawalDelay;
+      const globalDelay = this.operator.globalWithdrawalDelay;
+      if(operatorDelay > globalDelay) {
+        return Number(operatorDelay);
+      }
+      else {
+        return Number(globalDelay);
+      }
     },
     // only for mton version.
     async commit () {
