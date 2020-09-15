@@ -11,9 +11,8 @@ const GET = (db, req) => {
   try {
     const history = db
       .get('history')
-      .filter(history => history.account === account)
+      // .filter(history => history.account === account)
       .value();
-
     return Promise.resolve(history);
   } catch (err) {
     throw err;
@@ -27,7 +26,7 @@ const POST = async (db, req) => {
   } catch (err) {
     throw new Error('Non-checksum address');
   }
-
+  console.log(req.body);
   try {
     await db
       .defaults({ history: [] })

@@ -247,7 +247,6 @@ export default new Vuex.Store({
     },
     async setTransactionsAndPendingTransactions (context, transactions) {
       context.commit('SET_TRANSACTIONS', transactions);
-
       const pendingTransactions = getPendingTransactions();
       context.commit('SET_PENDING_TRANSACTIONS', pendingTransactions);
     },
@@ -402,6 +401,26 @@ export default new Vuex.Store({
             Layer2.methods.operator().call(),
             Layer2.methods.currentFork().call(),
           ]);
+
+          const getRecentCommit = async (operator, layer2) => {
+            const web3 = context.state.web3;
+            const commitTransactions = [];
+            const blockNumbers = [];
+            const transactions = await getTransactions(operator);
+            for (const transaction of transactions) {
+              if (transaction.type === 'Commit' && transaction.target === layer2) {
+                commitTransactions.push(transaction);
+                blockNumbers.push(transaction.blockNumber);
+              }
+            }
+            if (blockNumbers.length === 0) {
+              return ['0', '1'];
+            } else {
+              const blockNumber = Math.max.apply(null, blockNumbers);
+              const block = await web3.eth.getBlock(blockNumber);
+              return [String(block.timestamp), String(blockNumbers.length + 1)];
+            }
+          };
 
           const getLastFinalizedAt = async (lastFinalizedEpochNumber, lastFinalizedBlockNumber) => {
             const epoch = await Layer2.methods.getEpoch(currentForkNumber, lastFinalizedEpochNumber).call();
@@ -656,6 +675,7 @@ export default new Vuex.Store({
           const lastFinalizedBlockNumber = currentFork.lastFinalizedBlock;
           const finalizeCount = parseInt(lastFinalizedEpochNumber) + 1;
           const lastFinalizedAt = await getLastFinalizedAt(lastFinalizedEpochNumber, lastFinalizedBlockNumber);
+          const lastFinalized = await getRecentCommit(operator, layer2);
 
           const notWithdrawableRequests = filterNotWithdrawableRequests(pendingRequests);
           const withdrawableRequests = filterWithdrawableRequests(pendingRequests);
@@ -664,8 +684,9 @@ export default new Vuex.Store({
 
           // set vue state.
           operatorFromLayer2.address = operator;
-          operatorFromLayer2.lastFinalizedAt = lastFinalizedAt;
-          operatorFromLayer2.finalizeCount = finalizeCount;
+          // operatorFromLayer2.lastFinalizedAt = lastFinalizedAt;
+          operatorFromLayer2.lastFinalizedAt = (lastFinalized[0]==='0') ? lastFinalizedAt : lastFinalized;
+          operatorFromLayer2.finalizeCount = lastFinalized[1];
           operatorFromLayer2.deployedAt = deployedAt;
           operatorFromLayer2.totalDeposit = _WTON(totalDeposit, WTON_UNIT);
           operatorFromLayer2.totalStaked = _WTON(totalStaked, WTON_UNIT);

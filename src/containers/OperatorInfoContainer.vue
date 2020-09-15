@@ -27,14 +27,14 @@
                  :tooltipWidth="'180px'"
                  :tooltipMarginTop="'-9px'"
     />
-    <text-viewer-downloader :title="'Genesis'"
+    <!-- <text-viewer-downloader :title="'Genesis'"
                             :content="'Download'"
                             :href="exported(operator.genesis)"
                             :download="'genesis.json'"
                             :tooltip="'Information on Genesis Block of Operator’s Plasma Chain'"
                             :tooltipWidth="'280px'"
                             :tooltipMarginTop="'-6px'"
-    />
+    /> -->
     <text-viewer-link :type="'address'"
                       :title="'Operator Address'"
                       :content="operator.address"
@@ -158,7 +158,7 @@ export default {
     'avatar': Avatar,
     'text-viewer': TextViewer,
     'text-viewer-link': TextViewerLink,
-    'text-viewer-downloader': TextViewerDownloader,
+    // 'text-viewer-downloader': TextViewerDownloader,
     'base-button': BaseButton,
   },
   props: {
@@ -248,23 +248,33 @@ export default {
       ).send({
         from: this.operator.address,
         value: costNRB,
-      }).on('receipt', (receipt) => {
-        if (receipt.status) {
-          this.$notify({
-            group: 'confirmed',
-            title: 'Transaction is confirmed',
-            type: 'success',
-            duration: 10000,
-          });
-        } else {
-          this.$notify({
-            group: 'reverted',
-            title: 'Transaction is reverted',
-            type: 'error',
-            duration: 10000,
-          });
-        }
-      });
+      }).on('transactionHash', async (hash) => {
+        const transcation = {
+          from: this.user,
+          type: 'Commit',
+          transactionHash: hash,
+          target: this.operator.layer2,
+          amount: 0,
+        };
+        this.$store.dispatch('addPendingTransaction', transcation);
+      })
+        .on('receipt', (receipt) => {
+          if (receipt.status) {
+            this.$notify({
+              group: 'confirmed',
+              title: 'Transaction is confirmed',
+              type: 'success',
+              duration: 10000,
+            });
+          } else {
+            this.$notify({
+              group: 'reverted',
+              title: 'Transaction is reverted',
+              type: 'error',
+              duration: 10000,
+            });
+          }
+        });
     },
     _makePos (v1, v2) {
       v1 = new BN(v1);
