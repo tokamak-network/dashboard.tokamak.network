@@ -416,11 +416,12 @@ export default new Vuex.Store({
               }
             }
             if (blockNumbers.length === 0) {
-              return ['0', '1', web3.eth.getBlock('latest')];
+              return ['0', '1'];
             } else {
-              const blockNumber = Math.max.apply(null, blockNumbers);
+              // const blockNumber = Math.max.apply(null, blockNumbers);
+              const blockNumber = await SeigManager.methods.lastCommitBlock(layer2).call();
               const block = await web3.eth.getBlock(blockNumber);
-              return [String(block.timestamp), String(blockNumbers.length + 1), blockNumber];
+              return [String(block.timestamp), String(blockNumbers.length + 1)];
             }
           };
 
