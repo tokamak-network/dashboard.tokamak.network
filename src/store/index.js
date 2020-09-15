@@ -681,11 +681,10 @@ export default new Vuex.Store({
           const withdrawableRequests = filterWithdrawableRequests(pendingRequests);
           const userNotWithdrawable = getUserNotWithdrawable(notWithdrawableRequests);
           const userWithdrawable = getUserWithdrawable(withdrawableRequests);
-
           // set vue state.
           operatorFromLayer2.address = operator;
           // operatorFromLayer2.lastFinalizedAt = lastFinalizedAt;
-          operatorFromLayer2.lastFinalizedAt = (lastFinalized[0]==='0') ? lastFinalizedAt : lastFinalized;
+          operatorFromLayer2.lastFinalizedAt = (lastFinalized[0]==='0') ? lastFinalizedAt : lastFinalized[0];
           operatorFromLayer2.finalizeCount = lastFinalized[1];
           operatorFromLayer2.deployedAt = deployedAt;
           operatorFromLayer2.totalDeposit = _WTON(totalDeposit, WTON_UNIT);
