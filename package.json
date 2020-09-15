@@ -30,6 +30,7 @@
     "ncp": "^2.0.0",
     "node-cron": "^2.0.3",
     "numeral": "^2.0.6",
+    "tokamak-staking-lib": "0.0.3",
     "vue": "^2.6.10",
     "vue-avatar-component": "^1.2.6",
     "vue-notification": "^1.3.20",
