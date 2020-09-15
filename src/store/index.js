@@ -11,8 +11,9 @@ import numeral from 'numeral';
 import { createWeb3Contract } from '@/helpers/Contract';
 import { BN } from 'web3-utils';
 import { setPendingTransactions, getPendingTransactions } from '@/helpers/localStorage';
-
 import { createCurrency } from '@makerdao/currency';
+import { calculateExpectedSeig } from 'tokamak-staking-lib';
+
 const _ETH = createCurrency('ETH');
 const _TON = createCurrency('TON');
 const _WTON = createCurrency('WTON');
@@ -350,6 +351,7 @@ export default new Vuex.Store({
 
       const TON = context.state.TON;
       const WTON = context.state.WTON;
+      // const web3 = context.state.web3;
       const DepositManager = context.state.DepositManager;
       const SeigManager = context.state.SeigManager;
       const l2Registry = context.state.Layer2Registry;
@@ -414,11 +416,11 @@ export default new Vuex.Store({
               }
             }
             if (blockNumbers.length === 0) {
-              return ['0', '1'];
+              return ['0', '1', web3.eth.getBlock('latest')];
             } else {
               const blockNumber = Math.max.apply(null, blockNumbers);
               const block = await web3.eth.getBlock(blockNumber);
-              return [String(block.timestamp), String(blockNumbers.length + 1)];
+              return [String(block.timestamp), String(blockNumbers.length + 1), blockNumber];
             }
           };
 
@@ -677,10 +679,31 @@ export default new Vuex.Store({
           const lastFinalizedAt = await getLastFinalizedAt(lastFinalizedEpochNumber, lastFinalizedBlockNumber);
           const lastFinalized = await getRecentCommit(operator, layer2);
 
+          // const result = calculateExpectedSeig(
+          //   fromBlockNumber, // the latest commited block number. You can get this using seigManager.lastCommitBlock(layer2)
+          //   toBlockNumber, // the target block number which you want to calculate seigniorage
+          //   userStakedAmount, // the staked WTON amount of user. You can get this using coinage.balanceOf(user)
+          //   totalStakedAmount, // the staked WTON amount in SeigManager. You can get this using tot.totalSupply()
+          //   totalSupplyOfTON, // the current totalSupply of TON in RAY unit. You can get this using ton.totalSupply() - ton.balanceOf(WTON) + tot.totalSupply()
+          //   pseigRate // pseig rate in RAY unit. the current value is 0.4. You can get this using seigManager.relativeSeigRate()
+          // )
+          const tos = _WTON(tonTotalSupply, TON_UNIT)
+            .plus(_WTON(totTotalSupply, WTON_UNIT))
+            .minus(_WTON(tonBalanceOfWTON, TON_UNIT));
+          const seigniorage = calculateExpectedSeig(
+            new BN(await SeigManager.methods.lastCommitBlock(layer2).call()),
+            new BN(blockNumber),
+            new BN(userStaked),
+            new BN(await Tot.methods.totalSupply().call()),
+            new BN(tos.toNumber()),
+            new BN(await SeigManager.methods.relativeSeigRate().call())
+          );
+
           const notWithdrawableRequests = filterNotWithdrawableRequests(pendingRequests);
           const withdrawableRequests = filterWithdrawableRequests(pendingRequests);
           const userNotWithdrawable = getUserNotWithdrawable(notWithdrawableRequests);
           const userWithdrawable = getUserWithdrawable(withdrawableRequests);
+
           // set vue state.
           operatorFromLayer2.address = operator;
           // operatorFromLayer2.lastFinalizedAt = lastFinalizedAt;
@@ -694,9 +717,9 @@ export default new Vuex.Store({
 
           operatorFromLayer2.userDeposit = _WTON(userDeposit, WTON_UNIT);
           operatorFromLayer2.userStaked = _WTON(userStaked, WTON_UNIT);
-          operatorFromLayer2.userSeigs
-            = operator.toLowerCase() === user.toLowerCase() ? seigs.operatorSeigs : seigs.userSeigs;
-
+          operatorFromLayer2.userSeigs = _WTON(seigniorage, WTON_UNIT);
+          // operatorFromLayer2.userSeigs
+          //   = operator.toLowerCase() === user.toLowerCase() ? seigs.operatorSeigs : _WTON(seigniorage, WTON_UNIT);
           operatorFromLayer2.isCommissionRateNegative = isCommissionRateNegative;
           operatorFromLayer2.commissionRate = _WTON(commissionRate, WTON_UNIT);
 

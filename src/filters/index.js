@@ -2,6 +2,7 @@ import moment from 'moment';
 const locale = window.navigator.userLanguage || window.navigator.language;
 moment.locale(locale);
 
+import { BN } from 'web3-utils';
 import { Currency, createCurrency } from '@makerdao/currency';
 const _TON = createCurrency('TON');
 const _WTON = createCurrency('WTON');
@@ -107,7 +108,8 @@ export function userSeigsRate (userStaked, userSeigs) {
 
   const sum = userStaked.add(userSeigs);
   const rate = sum.sub(userStaked).div(userStaked);
-  return `${numeral(Number(rate.toBigNumber().toString())).format('0.00%')}`;
+  // console.log(numeral(Number(rate.toBigNumber().toString())/1000000000000000000000000000).format('0.0000%'));
+  return `${numeral(Number(rate.toBigNumber().toString())/1000000000000000000000000000).format('0.0000%')}`;
 }
 
 export function rateOf (commission) {
