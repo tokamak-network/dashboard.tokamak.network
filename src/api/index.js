@@ -43,7 +43,6 @@ export async function getHistory (user) {
 }
 
 export async function addHistory (user, history) {
-  console.log(history);
   await instance.post(
     '/history',
     { history },
