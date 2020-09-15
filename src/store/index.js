@@ -406,10 +406,7 @@ export default new Vuex.Store({
             const web3 = context.state.web3;
             const commitTransactions = [];
             const blockNumbers = [];
-            console.log(operator);
-            console.log(layer2);
             const transactions = await getTransactions(operator);
-            console.log(transactions);
             for (const transaction of transactions) {
               if (transaction.type === 'Commit' && transaction.target === layer2) {
                 commitTransactions.push(transaction);
@@ -684,7 +681,6 @@ export default new Vuex.Store({
           const withdrawableRequests = filterWithdrawableRequests(pendingRequests);
           const userNotWithdrawable = getUserNotWithdrawable(notWithdrawableRequests);
           const userWithdrawable = getUserWithdrawable(withdrawableRequests);
-          console.log(lastFinalized);
           // set vue state.
           operatorFromLayer2.address = operator;
           // operatorFromLayer2.lastFinalizedAt = lastFinalizedAt;
