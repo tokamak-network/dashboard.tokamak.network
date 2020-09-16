@@ -105,11 +105,10 @@ export function userSeigsRate (userStaked, userSeigs) {
   if (userStaked.eq(_WTON('0'))) {
     return '0.00%';
   }
-  const ray = 1000000000000000000000000000;
   const sum = userStaked.add(userSeigs);
   const rate = sum.sub(userStaked).div(userStaked);
-  // console.log(numeral(Number(rate.toBigNumber().toString())/1000000000000000000000000000).format('0.0000%'));
-  return `${numeral(Number(rate.toBigNumber().toString())/ray).format('0.0000%')}`;
+
+  return `${numeral(Number(rate.toBigNumber().toString())).format('0.0000%')}`;
 }
 
 export function rateOf (commission) {

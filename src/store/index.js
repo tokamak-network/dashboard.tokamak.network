@@ -9,7 +9,7 @@ import { getManagers, getOperators, getHistory, getTransactions, addTransaction 
 import { cloneDeep, isEqual, range, uniq, orderBy } from 'lodash';
 import numeral from 'numeral';
 import { createWeb3Contract } from '@/helpers/Contract';
-import { BN } from 'web3-utils';
+import { BN, toBN } from 'web3-utils';
 import { setPendingTransactions, getPendingTransactions } from '@/helpers/localStorage';
 import { createCurrency } from '@makerdao/currency';
 import { calculateExpectedSeig } from 'tokamak-staking-lib';
@@ -688,15 +688,14 @@ export default new Vuex.Store({
           //   totalSupplyOfTON, // the current totalSupply of TON in RAY unit. You can get this using ton.totalSupply() - ton.balanceOf(WTON) + tot.totalSupply()
           //   pseigRate // pseig rate in RAY unit. the current value is 0.4. You can get this using seigManager.relativeSeigRate()
           // )
-          const tos = _WTON(tonTotalSupply, TON_UNIT)
-            .plus(_WTON(totTotalSupply, WTON_UNIT))
-            .minus(_WTON(tonBalanceOfWTON, TON_UNIT));
+          const tos = toBN(tonTotalSupply).mul(toBN('1000000000')).add(toBN(totTotalSupply)).sub(toBN(tonBalanceOfWTON));
+
           const seigniorage = calculateExpectedSeig(
             new BN(await SeigManager.methods.lastCommitBlock(layer2).call()),
             new BN(blockNumber),
             new BN(userStaked),
             new BN(await Tot.methods.totalSupply().call()),
-            new BN(tos.toNumber()),
+            new BN(tos),
             new BN(await SeigManager.methods.relativeSeigRate().call())
           );
 
