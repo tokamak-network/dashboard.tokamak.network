@@ -68,7 +68,7 @@ button:focus {
 }
 .content {
   padding-left: 12.9px;
-  font-family: Roboto;
+  font-family: "Noto Sans",sans-serif;
   font-weight: normal;
   font-stretch: normal;
   font-style: normal;

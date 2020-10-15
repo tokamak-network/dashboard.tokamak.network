@@ -312,7 +312,7 @@ form {
 }
 
 .title {
-  font-family: Roboto;
+  font-family: "Noto Sans",sans-serif;
   font-size: 12px;
   font-weight: bold;
   font-stretch: normal;
@@ -367,7 +367,7 @@ textarea:focus {
 }
 
 label {
-  font-family: Roboto;
+  font-family: "Noto Sans",sans-serif;
   font-size: 12px;
   font-stretch: normal;
   font-style: normal;

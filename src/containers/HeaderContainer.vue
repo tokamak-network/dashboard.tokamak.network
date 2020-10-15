@@ -26,9 +26,7 @@
         >Staking User Guide</a>
         <a
           class="header-link"
-          target="_blank"
-          rel="noopener noreferrer"
-          href="https://staking-simulator.tokamak.network"
+          c
           style="margin-left: 48px; margin-right: 36px;"
         >Staking Simulator</a>
       </div>

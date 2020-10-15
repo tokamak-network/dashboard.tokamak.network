@@ -1,13 +1,12 @@
 <template>
-  <div id="app">
-    <header-container />
+  <div id="app" class="app">
+    <new-header-container />
     <div class="body-container">
       <div v-if="!signIn">
         <loading-spinner v-if="loading" />
         <access-wallet-layout v-else />
       </div>
       <div v-else>
-        <tx-processor />
         <main-layout />
       </div>
     </div>
@@ -19,8 +18,8 @@
 import { mapState, mapGetters } from 'vuex';
 
 import LoadingSpinner from '@/components/LoadingSpinner.vue';
-import TxProcessor from '@/components/TxProcessor.vue';
-import HeaderContainer from '@/containers/HeaderContainer.vue';
+// import TxProcessor from '@/components/TxProcessor.vue';
+import NewHeaderContainer from '@/containers/NewHeaderContainer.vue';
 import FooterContainer from '@/containers/FooterContainer.vue';
 import AccessWalletLayout from '@/layouts/AccessWalletLayout.vue';
 import MainLayout from '@/layouts/MainLayout.vue';
@@ -30,11 +29,10 @@ import NetworkGuideLayout from '@/layouts/NetworkGuideLayout.vue';
 export default {
   components: {
     'loading-spinner': LoadingSpinner,
-    'header-container': HeaderContainer,
+    'new-header-container': NewHeaderContainer,
     'footer-container': FooterContainer,
     'access-wallet-layout': AccessWalletLayout,
     'main-layout': MainLayout,
-    'tx-processor': TxProcessor,
   },
   data () {
     return {
@@ -91,8 +89,8 @@ html, body {
 }
 
 .body-container {
-  min-width: 960px;
-  max-width: 960px;
+  min-width: 1200px;
+  max-width: 1200px;
   display: flex;
   flex: 1;
   justify-content: center;

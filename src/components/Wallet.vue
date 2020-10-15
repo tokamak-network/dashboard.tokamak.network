@@ -88,7 +88,7 @@ export default {
   flex: 1;
   padding-top: 4px;
   object-fit: contain;
-  font-family: Roboto;
+  font-family: "Noto Sans",sans-serif;
   font-size: 14px;
   font-weight: normal;
   font-stretch: normal;

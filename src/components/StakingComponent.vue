@@ -1,56 +1,47 @@
 <template>
-  <div class="delegate-manager-container">
-    <div class="row-reverse">
-      <base-tab :left-label="'Delegate'" :right-label="'Undelegate'" :tab="tab" @tab-changed="changeTab" />
+  <div class="staking-component-container">
+    <div class="button-container">
+      <button class="tab-button" @click="changeTab('Delegate')"><div class="button-name" :class="{ 'menu-button-selected': tab === 'Delegate'}">Delegate</div></button>
+      <button class="tab-button" @click="changeTab('Undelegate')"><div class="button-name" :class="{ 'menu-button-selected': tab === 'Undelegate'}">Undelegate</div></button>
+      <button class="tab-button" @click="changeTab('Withdraw')"><div class="button-name" :class="{ 'menu-button-selected': tab === 'Withdraw'}">Withdraw</div></button>
     </div>
-    <form v-if="tab === 'left'">
-      <div class="column">
-        <ton-input v-model="amountToDelegate" :amount="amountToDelegate" />
-        <div class="row">
-          <span class="available-amount-label">Available Amount</span>
-          <button type="button" class="available-amount" @click="setAvailableAmountToDelegate()">{{ currencyAmount(tonBalance) }}</button>
-        </div>
-        <div class="button-container" style="margin-top: 24px;">
-          <base-button-d v-if="operatorMinimumAmount" :label="'Delegate'" :func="delegate" />
-          <base-button v-else :label="'Delegate'" :func="delegate" />
-        </div>
-        <div class="divider" />
-        <div class="row">
-          <span class="available-amount-label">Available Amount</span>
-          <button type="button"
-                  class="available-amount"
-                  @click="increaseIndex()"
-          >
-            {{ redelegatableAmount | currencyAmount }}
-          </button>
-        </div>
-        <div class="button-container" style="margin-top: 24px;">
-          <base-button :label="'Re-Delegate'" :func="redelegate" />
-        </div>
+    <div v-if="tab === 'Delegate'" class="value-container">
+      <div class="total-balance">TON Balance: {{ currencyAmount(tonBalance) }}</div>
+      <div class="main-row">
+        <input v-model="amountToDelegate" class="value-input" autocomplete="off" minlength="1" maxlength="79" placeholder="0.00" @keypress="isNumber">
+        <button class="button-max" @click="setAvailableAmountToDelegate()">MAX</button>
+        <img class="logo" src="@/assets/images/TokamakLogo.png">
+        <div class="TON">TON</div>
       </div>
-    </form>
-    <form v-else>
-      <div class="column">
-        <ton-input v-model="amountToUndelegate" :amount="amountToUndelegate" />
-        <div class="row">
-          <span class="available-amount-label">Available Amount</span>
-          <button type="button" class="available-amount" @click="setAvailableAmountToUndelegate()">{{ currencyAmount(operator.userStaked) }}</button>
-        </div>
-        <div class="button-container" style="margin-top: 24px;"><base-button :label="'Undelegate'" :func="undelegate" /></div>
-        <div class="divider" />
-        <text-viewer :title="'Not Withdrawable'"
-                     :content="currencyAmount(operator.userNotWithdrawable)"
-                     :tooltip="operator.notWithdrawableRequests.length !== 0 ? notWithdrawableMessage(withdrawableBlockNumber(operator.notWithdrawableRequests)) : ''"
-                     :tooltipWidth="'200px'"
-                     :tooltipMarginTop="'-17px'"
-                     style="margin-bottom: -2px;"
-        />
-        <text-viewer :title="'Withdrawable'"
-                     :content="currencyAmount(operator.userWithdrawable)"
-        />
-        <div class="button-container" style="margin-top: 16px;"><base-button :label="'Withdraw'" :func="processRequests" /></div>
+    </div>
+     <div v-if="tab === 'Undelegate'" class="value-container">
+      <div class="total-balance">Available Balance: {{ currencyAmount(operator.userStaked) }}</div>
+      <div class="main-row">
+        <input v-model="amountToUndelegate" class="value-input" autocomplete="off" minlength="1" maxlength="79" placeholder="0.00" @keypress="isNumber">
+        <button class="button-max" @click="setAvailableAmountToUndelegate()">MAX</button>
+        <img class="logo" src="@/assets/images/TokamakLogo.png">
+        <div class="TON">TON</div>
       </div>
-    </form>
+    </div>
+     <div v-if="tab === 'Withdraw'" class="value-container">
+      <div class="main-row">
+        <div class="amount-title">Withdrawable Amount:</div>
+         <img class="logo" style="margin-right: 20px" src="@/assets/images/TokamakLogo.png">
+        <!-- <div class="amount-value">0.000</div> -->
+        <div class="TON">{{currencyAmount(operator.userNotWithdrawable)}}</div>
+      </div>
+    </div>
+    <img class="arrow" src="@/assets/images/arrow.png">
+    <div class="select-operator-container">
+      <div class="select-option">
+        <select v-model="selectedOperator" class="unit-select" @change="onChange($event)">
+          <option v-for="(op, index) in operators" :key="index" :value="op.name">{{ op.name }}</option>
+        </select>
+        Select Operator
+      </div>
+    </div>
+    <button class="stake-button">{{ tab }}</button>
+    <button v-if="tab === 'Delegate'" class="stake-button" style="margin-top:0px">Re-delegate</button>
   </div>
 </template>
 
@@ -58,34 +49,19 @@
 import { BN, padLeft } from 'web3-utils';
 import { range } from 'lodash';
 import { addHistory, addTransaction } from '@/api';
-import { createCurrency } from '@makerdao/currency';
 const _TON = createCurrency('TON');
 const _WTON = createCurrency('WTON');
 
 import { mapState, mapGetters } from 'vuex';
-import BaseButton from '@/components/BaseButton.vue';
-import BaseButtonDisable from '@/components/BaseButtonDisable.vue';
-import BaseTab from '@/components/BaseTab.vue';
-import TONInput from '@/components/TONInput.vue';
-import TextViewer from '@/components/TextViewer.vue';
+import { createCurrency } from '@makerdao/currency';
 
 export default {
-  components: {
-    'base-button': BaseButton,
-    'base-button-d': BaseButtonDisable,
-    'base-tab': BaseTab,
-    'ton-input': TONInput,
-    'text-viewer': TextViewer,
-  },
-  props: {
-    layer2: {
-      required: true,
-      type: String,
-    },
-  },
   data () {
     return {
-      tab: 'left',
+      tab: 'Delegate',
+      layer2: '',
+      selectedOperator: '',
+      amount: '',
       amountToDelegate: '',
       amountToUndelegate: '',
       index: 0,
@@ -93,10 +69,12 @@ export default {
   },
   computed: {
     ...mapState([
+      'operators',
+      'user',
+      'tonBalance',
       'web3',
       'blockNumber',
       'user',
-      'tonBalance',
       'TON',
       'WTON',
       'DepositManager',
@@ -146,13 +124,22 @@ export default {
       }
     },
   },
-  methods: {
+  created () {
+    this.selectedOperator = this.operators[0].name;
+    this.layer2 = this.operators[0].layer2;
+  },
+  methods:{
+    changeTab (tab) {
+      this.tab = tab;
+    },
+    onChange (event) {
+      const operator =  this.operators.find(operator => operator.name === event.target.value);
+      const root = operator.layer2;
+      this.layer2 = root;
+    },
     withdrawableBlockNumber (requests) {
       const numbers = requests.map(request => request.withdrawableBlockNumber);
       return Math.max(...numbers);
-    },
-    changeTab (tab) {
-      this.tab = tab;
     },
     setAvailableAmountToDelegate () {
       const tonAmount = this.tonBalance.toBigNumber().toString();
@@ -327,95 +314,180 @@ export default {
 </script>
 
 <style scoped>
-.delegate-manager-container {
+.staking-component-container {
+  width: 350px;
   display: flex;
-  height: 100%;
   flex-direction: column;
-  border-radius: 6px;
-  border: solid 1px #ced6d9;
-  background-color: #ffffff;
-  padding-bottom: 16px;
+  background-color:#e2e8eb;
+  border: solid 1px;
+  border-color: #ccd1d3;
+  border-radius: 12px;
+  box-shadow: inset 1px 1px 0px #e2e8eb;
+  padding: 10px;
+  justify-content: center;
 }
-
-.row-reverse {
-  display: flex;
-  flex-direction: row-reverse;
-  margin-right: 8px;
-}
-
-.row {
+.button-container {
   display: flex;
   flex-direction: row;
+  padding-top: 5px;
 }
-
-.column {
+.tab-button {
+  height: 25px;
+  width: 100%;
+  border: none;
+  background-color:#e2e8eb;
+  color: #8c8c8c;
+    font-size: 16px;
+}
+button:focus {
+  outline: none;
+}
+button:hover {
+  color: #555555;
+}
+.menu-button-selected {
+  color: #555555;
+}
+.button-name {
+  width: 100%;
+  border-bottom: solid #8c8c8c 2px;
+}
+.button-name:hover{
+   border-bottom: solid #555555 2px;
+}
+.value-container {
+  margin-top: 15px;
   display: flex;
+ padding: 8px 12px;
+  align-items: center;
+  border: solid 1px;
+  border-color: #ccd1d3;
+  border-radius: 12px;
   flex-direction: column;
 }
-
-.title {
-  flex: 1;
-  font-size: 18px;
-  line-height: 2;
-}
-
-.divider {
-  margin-top: 24px;
-  margin-bottom: 16px;
-  width: 100%;
-  height: 1px;
-  background: #b4b4b4;
-}
-
-.button-container {
-  color: #ffffff;
-  background-color: #6fc4b3;
-  border: 1px solid #6fc4b3;
-  text-align: center;
-  font-size: 10px;
-  padding-top: 4px;
-  padding-bottom: 4px;
-  margin-left: 16px;
-  margin-right: 16px;
-  border-radius: 6px;
-}
-
-.button-container:hover {
-  -webkit-filter: opacity(.8);
-  filter: opacity(.8);
-}
-
-.available-amount-label {
-  margin-top: 8px;
-  flex: 1;
-  padding-left: 16px;
-  margin-right: 24px;
-  font-family: "Noto Sans",sans-serif;
-  font-size: 12px;
-  font-weight: normal;
-  font-stretch: normal;
-  font-style: normal;
-  letter-spacing: normal;
-  color: #161819;
-}
-
-.available-amount {
-  margin-top: 8px;
-  margin-right: 12px;
-  outline:none;
-  border: none;
-  cursor: pointer;
-  font-family: "Noto Sans",sans-serif;
-  font-size: 12px;
-  font-weight: 300;
-  font-stretch: normal;
-  font-style: normal;
-  letter-spacing: normal;
-  color: #161819;
-}
-
-.popup {
+.total-balance {
   display: flex;
-  justify-content: center;
+  align-self: flex-end;
+  font-size: 12px;
+}
+.main-row {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  align-items: center;
+
+}
+.value-input {
+  height: 20px;
+  border: none;
+  background-color:#e2e8eb;
+  font-size: 18px;
+  white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 180px;
+    margin-right: 20px;
+    align-items: center;
+     color: #555555;
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+input:focus {
+  outline: none;
+}
+input:hover {
+  outline: none;
+}
+.logo {
+    height: 25px;
+    width: 36px;
+    margin-left: 20px;
+    margin-right: 8px;
+}
+
+.button-max {
+  background:  #ccd1d3;
+  opacity: 0.5;
+  padding: 5px 10px;
+  margin: 5px;
+  border: solid 1px;
+  border-color: #ccd1d3;
+  border-radius: 12px;
+}
+.TON {
+  font-size: 16px;
+  font-weight: 500;
+  color: #555555;
+}
+.arrow {
+  transform: rotate(270deg);
+  display: flex;
+  height: 15px;
+  width: 15px;
+  margin-top: 15px;
+  margin-left: 50%;
+}
+
+.select-option {
+  font-size: 16px;
+  display: flex;
+  text-align: right;
+  color: #555555;
+  align-items: center;
+}
+.unit-select {
+  width: 150px;
+  margin-left: 10px;
+  margin-right: 35px;
+  border: none;
+  background: #e2e8eb;
+  font-size: 16px;
+  font-weight: 700;
+  color: #555555;
+}
+select {
+  width: 100%;
+  border-radius: 4px;
+  border: 1px #f1f1f1;
+  height: 30px;
+  font-weight: solid;
+}
+select:focus {
+  outline: none;
+}
+.stake-button {
+   margin-top: 15px;
+width: 100%;
+    height: 35px;
+    border-radius: 12px;
+    border: none;
+    background:  #2a72e5;
+    color: #e2e2e2;
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+.select-operator-container {
+  margin-top: 15px;
+  display: flex;
+ padding: 2px 12px;
+  align-items: center;
+  border: solid 1px;
+  border-color: #ccd1d3;
+  border-radius: 12px;
+}
+.amount-title {
+  font-size: 14px;
+  margin-right: 10px;
+}
+.amount-value {
+  font-size: 16px;
 }
 </style>

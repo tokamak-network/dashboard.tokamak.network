@@ -57,7 +57,7 @@ img {
 .title {
   padding-left: 16px;
   margin-right: 4px;
-  font-family: Roboto;
+  font-family: "Noto Sans",sans-serif;
   font-size: 12px;
   font-weight: normal;
   font-stretch: normal;
@@ -71,7 +71,7 @@ img {
   flex: 1;
   text-align: right;
   padding-right: 16px;
-  font-family: Roboto;
+  font-family: "Noto Sans",sans-serif;
   font-size: 12px;
   font-weight: 300;
   font-stretch: normal;
@@ -103,7 +103,7 @@ img {
   visibility: hidden;
   background-color: black;
   color: #fff;
-  font-family: Roboto;
+  font-family: "Noto Sans",sans-serif;
   font-weight: normal;
   font-stretch: normal;
   font-style: normal;

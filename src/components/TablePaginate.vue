@@ -60,7 +60,7 @@ export default {
 }
 
 .page {
-  font-family: Roboto;
+  font-family: "Noto Sans",sans-serif;
   font-size: 13px;
   text-align: center;
   color: #7e8d93;

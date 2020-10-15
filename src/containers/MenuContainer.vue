@@ -119,7 +119,7 @@ export default {
 }
 
 .menu-title-container {
-  font-family: Roboto;
+  font-family: "Noto Sans",sans-serif;
   margin-left: 1px;
   margin-right: 1px;
   margin-top: 16px;
@@ -140,7 +140,7 @@ export default {
 }
 
 .menu-logout-container {
-  font-family: Roboto;
+  font-family: "Noto Sans",sans-serif;
   border-top: 0.7px solid rgb(238, 236, 236);
   margin-top: 16px;
   display: flex;
@@ -164,7 +164,7 @@ export default {
 }
 
 .sub-menu-title-container {
-  font-family: Roboto;
+  font-family: "Noto Sans",sans-serif;
   margin-left: 1px;
   margin-right: 1px;
   padding: 10px;

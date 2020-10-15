@@ -126,7 +126,7 @@ tbody .clickable {
 th {
   padding: 6px;
   background-color: #f6f8f9;
-  font-family: Roboto;
+  font-family: "Noto Sans",sans-serif;
   font-size: 11px;
   font-weight: normal;
   font-stretch: normal;
@@ -138,7 +138,7 @@ th {
 
 td {
   padding: 12px;
-  font-family: Roboto;
+  font-family: "Noto Sans",sans-serif;
   font-size: 11px;
   font-weight: 300;
   font-stretch: normal;

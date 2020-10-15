@@ -42,7 +42,7 @@ button {
   width: 80px;
   height: 30px;
   padding-top: 2px;
-  font-family: Roboto;
+  font-family: "Noto Sans",sans-serif;
   font-weight: normal;
   font-stretch: normal;
   font-style: normal;

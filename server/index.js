@@ -27,8 +27,8 @@ default:
 const routes = require('./routes');
 app.use('/', routes);
 
-const config = require('../config/default.json');
-const port = config[`port_${network}`];
-app.listen(port, () => {
-  console.log(`Server listening on http://localhost:${port}`);
+// const config = require('config');
+// const port = config.get(`port_${network}`);
+app.listen(9002, () => {
+  console.log(`Server listening on http://localhost:9002`);
 });

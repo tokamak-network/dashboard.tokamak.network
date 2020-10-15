@@ -108,7 +108,7 @@ select:focus {
   outline: none;
 }
 .select-option {
-  font-family: Roboto;
+  font-family: "Noto Sans",sans-serif;
   font-size: 15px;
   font-weight: 500;
   font-stretch: normal;

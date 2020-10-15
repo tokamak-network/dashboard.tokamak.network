@@ -140,7 +140,7 @@ export default {};
 
 .footer-name {
   opacity: 1;
-  font-family: Roboto;
+  font-family: "Noto Sans",sans-serif;
   font-size: 19px;
   font-weight: bold;
   font-stretch: normal;
@@ -152,7 +152,7 @@ export default {};
 
 .footer-address {
   margin-right: 70px;
-  font-family: Roboto;
+  font-family: "Noto Sans",sans-serif;
   font-size: 13px;
   font-stretch: normal;
   font-style: normal;

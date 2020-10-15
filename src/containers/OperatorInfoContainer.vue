@@ -312,7 +312,7 @@ export default {
   width: 200px;
   padding-left: 16px;
   padding-right: 8px;
-  font-family: Roboto;
+  font-family: "Noto Sans",sans-serif;
   font-size: 16px;
   font-weight: bold;
   font-stretch: normal;
