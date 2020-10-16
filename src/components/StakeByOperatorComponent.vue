@@ -260,7 +260,7 @@ export default {
     flex-direction: row;
     font-size: 14px;
     padding:5px 0px 15px 0px;
-    width: 90%;
+    width: 97%;
 }
 .input-container {
     background-color: white;
