@@ -14,7 +14,7 @@
           <div>TON</div>
         </div>
       </div>
-      <button class="select-button" @click="delegate()">Stake</button>
+      <button :disable="true" class="select-button" @click="delegate()">Stake</button>
     </div>
     <div v-if="user === operator.address">
       <button class="select-button" @click="showEditContainer">Edit</button>

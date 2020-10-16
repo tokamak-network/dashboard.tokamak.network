@@ -9,7 +9,7 @@
           <SwapComponent title="Your TON Balance" :balance="tonBalance | currencyAmount" rewards="Power TON Balance" :value="currencyAmount(power)" />
         </div>
         <div class="ton-balance">
-          <SwapComponent title="Total Staked TON" :balance="userTotalStaked | currencyAmount" rewards="Expected Rewards" :value="currencyAmount(userTotalSeigs)" />
+          <SwapComponent title="Total Staked Amount" :balance="userTotalStaked | currencyAmount" rewards="Expected Rewards" :value="currencyAmount(userTotalSeigs)" />
         </div>
       </div>
     </div>
@@ -83,7 +83,7 @@ export default {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    width: 660px;
+    width: 760px;
 }
 
 </style>

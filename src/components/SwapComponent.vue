@@ -20,7 +20,7 @@ export default {
 <style scoped>
 .swap-container {
     padding-top: 16px;
-  width: 290px;
+  width: 360px;
   margin-bottom: 50px;
   background-color:#e2e8eb;
   border: solid 1px;

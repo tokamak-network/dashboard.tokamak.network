@@ -27,14 +27,14 @@
     <div class="name-row">
       <div class="text">Commission Rate</div>
       <div class="input-text">
-        <input :value="operator.commissionRate | rateOf " class="value-input" autocomplete="off" @input="updateWebsite($event.target.value)">
+        <input :value="operator.commissionRate | rateOf " class="value-input" autocomplete="off" @input="updateCommissionRate($event.target.value)">
       </div>
     </div>
     <button class="set-button" style="margin-left:265px" @click="setNewCommissionRate()">Set new commission rate</button>
     <div class="name-row">
       <div class="text">Current Withdrawal Delay</div>
       <div class="input-text">
-        <input :value="`${delay()}${' blocks'}`" class="value-input" autocomplete="off" @input="updateWebsite($event.target.value)">
+        <input :value="`${delay()}${' blocks'}`" class="value-input" autocomplete="off" @input="updateWithdrawalDelay($event.target.value)">
       </div>
     </div>
     <button class="set-button" style="margin-left:265px" @click="setNewCommissionRate()">Set new withdrawal delay</button>
