@@ -34,7 +34,7 @@
     <div class="name-row">
       <div class="text">Current Withdrawal Delay</div>
       <div class="input-text">
-        <input :value="withdrawalDelay" class="value-input" autocomplete="off" @input="updateWebsite($event.target.value)">
+        <input :value="`${delay()}${' blocks'}`" class="value-input" autocomplete="off" @input="updateWebsite($event.target.value)">
       </div>
     </div>
     <button class="set-button" style="margin-left:265px" @click="setNewCommissionRate()">Set new withdrawal delay</button>
@@ -105,6 +105,7 @@ export default {
     this.avatar = this.operator.avatar;
     this.commissionRate = this.operator.commissionRate;
     this.withdrawalDelay = this.operator.withdrawalDelay;
+    this.delay();
   },
   beforeRouteEnter (to, from, next) {
     next(vm => {
@@ -112,6 +113,16 @@ export default {
     });
   },
   methods: {
+    delay () {
+      const operatorDelay = this.operator.withdrawalDelay;
+      const globalDelay = this.operator.globalWithdrawalDelay;
+      if(operatorDelay > globalDelay) {
+        return Number(operatorDelay);
+      }
+      else {
+        return Number(globalDelay);
+      }
+    },
     cancel (visibility) {
       this.$emit('showEditContainer', visibility);
     },
@@ -369,7 +380,6 @@ input:focus {
     overflow: hidden;
     text-overflow: ellipsis;
     width: 200px;
-    margin-right: 20px;
     align-items: center;
      color: #555555;
 }
