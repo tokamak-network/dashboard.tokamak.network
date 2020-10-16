@@ -16,7 +16,7 @@
       </div>
       <button class="select-button" @click="delegate()">Stake</button>
     </div>
-    <div v-if="user !== operator.address">
+    <div v-if="user === operator.address">
       <button class="select-button" @click="showEditContainer">Edit</button>
     </div>
     <transition v-if="showEdit" name="model">
