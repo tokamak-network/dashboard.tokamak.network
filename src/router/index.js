@@ -13,6 +13,7 @@ Vue.use(VueRouter);
 import HomeLayout from '@/layouts/HomeLayout.vue';
 import MenuLayout from '@/layouts/MenuLayout.vue';
 import StakingLayout from '@/layouts/StakingLayout.vue';
+import StakeByOperatorLayout from '@/layouts/StakeByOperatorLayout.vue';
 const routes = [
   // {
   //   path: '/dashboard',
@@ -38,14 +39,7 @@ const routes = [
   //   path: '/staking',
   //   component: StakeInfoLayout,
   // },
-  // {
-  //   path: '/history',
-  //   component: HistoryLayout,
-  // },
-  // {
-  //   path: '/delegate',
-  //   component: DelegateLayout,
-  // },
+  //
   {
     path: '/home',
     component: HomeLayout,
@@ -57,6 +51,10 @@ const routes = [
   {
     path: '/staking',
     component: StakingLayout,
+  },
+  {
+    path: '/staking/:layer2',
+    component: StakeByOperatorLayout,
   },
 ];
 

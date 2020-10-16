@@ -35,8 +35,16 @@
       </div>
       <div>
         <button v-if="!signIn" class="login" @click="login">Unlock Wallet</button>
-        <button v-else class="login" @click="logout">My Wallet</button>
+        <button v-else class="login" @click="showPopUp">My Wallet</button>
       </div>
+
+      <transition v-if="showModel" name="model">
+        <div class="model-mask">
+          <div class="model-container">
+            <WalletContainer @showPopUp="showPopUp" />
+          </div>
+        </div>
+      </transition>
     </div>
   </div>
 </template>
@@ -46,13 +54,15 @@ import { mapState } from 'vuex';
 import Web3 from 'web3';
 import { getConfig } from '../../config.js';
 import { setProvider } from '@/helpers/Contract';
-
+import WalletContainer from '@/containers/WalletContainer.vue';
 export default {
   components: {
+    WalletContainer,
   },
   data () {
     return {
       loading: false,
+      showModel: false,
     };
   },
   computed: {
@@ -70,14 +80,8 @@ export default {
         query: { network: this.$route.query.network },
       }).catch(err => {});
     },
-    logout () {
-      this.$store.dispatch('logout');
-      this.$router.replace({
-        path: '/',
-        query: { network: this.$route.query.network },
-      }).catch(err => {
-        console.log(err);
-      });
+    showPopUp () {
+      this.showModel = !this.showModel;
     },
     async login (){
       if (this.loading) return;
@@ -159,6 +163,7 @@ export default {
   background: #f6f8f9;
   display: flex;
   justify-content: center;
+  position:inherit;
 }
 
 .header {
@@ -224,5 +229,22 @@ button:hover {
 }
 .menu-button-selected {
   color: #1e4072;
+}
+.model-mask {
+  position: fixed;
+  z-index: 9999;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  transition: opacity 0.3s ease;
+
+}
+.model-container {
+  display: flex;
+  justify-content: center;
+    align-content: center;
+    margin-top: 50px;
 }
 </style>

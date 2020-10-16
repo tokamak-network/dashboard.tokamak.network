@@ -12,7 +12,7 @@
         <div>Commission Rate</div>
         <div>{{ operator.isCommissionRateNegative ? '-' : '' }}{{ rateOf(operator.commissionRate) }}</div>
       </div>
-      <button class="select-button">Select</button>
+      <button class="select-button" @click="viewDetailedOperator(operator)">Select</button>
     </div>
   </div>
 </template>
@@ -54,6 +54,15 @@ export default {
     },
     rateOf () {
       return commissionRate => this.$options.filters.rateOf(commissionRate);
+    },
+  },
+  methods :{
+    viewDetailedOperator (operator) {
+      const layer2 = operator.layer2;
+      this.$router.push({
+        path: `/staking/${layer2.toLowerCase()}`,
+        query: { network: this.$route.query.network },
+      }).catch(err => {});
     },
   },
 };

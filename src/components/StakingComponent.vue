@@ -14,7 +14,7 @@
         <div class="TON">TON</div>
       </div>
     </div>
-     <div v-if="tab === 'Undelegate'" class="value-container">
+    <div v-if="tab === 'Undelegate'" class="value-container">
       <div class="total-balance">Available Balance: {{ currencyAmount(operator.userStaked) }}</div>
       <div class="main-row">
         <input v-model="amountToUndelegate" class="value-input" autocomplete="off" minlength="1" maxlength="79" placeholder="0.00" @keypress="isNumber">
@@ -23,25 +23,32 @@
         <div class="TON">TON</div>
       </div>
     </div>
-     <div v-if="tab === 'Withdraw'" class="value-container">
+    <div v-if="tab === 'Withdraw'" class="value-container">
       <div class="main-row">
         <div class="amount-title">Withdrawable Amount:</div>
-         <img class="logo" style="margin-right: 20px" src="@/assets/images/TokamakLogo.png">
+        <img class="logo" style="margin-right: 15px; margin-left: 0px;" src="@/assets/images/TokamakLogo.png">
         <!-- <div class="amount-value">0.000</div> -->
-        <div class="TON">{{currencyAmount(operator.userNotWithdrawable)}}</div>
+        <div class="TON">{{ currencyAmount(operator.userNotWithdrawable) }}</div>
       </div>
     </div>
     <img class="arrow" src="@/assets/images/arrow.png">
     <div class="select-operator-container">
       <div class="select-option">
         <select v-model="selectedOperator" class="unit-select" @change="onChange($event)">
-          <option v-for="(op, index) in operators" :key="index" :value="op.name">{{ op.name }}</option>
+          <option v-for="(op, i) in operators" :key="i" :value="op.name">{{ op.name }}</option>
         </select>
         Select Operator
       </div>
     </div>
-    <button class="stake-button">{{ tab }}</button>
-    <button v-if="tab === 'Delegate'" class="stake-button" style="margin-top:0px">Re-delegate</button>
+    <button class="stake-button" @click="tab === 'Delegate' ? delegate() : tab === 'Undelegate'? undelegate() : processRequests()">{{ tab }}</button>
+    <div v-if="tab === 'Delegate'" class="value-container" style="margin-top:2px; margin-bottom:17px">
+      <div class="main-row">
+        <div class="amount-title">Re-delegate Amount:</div>
+        <img class="logo" style="margin-right: 15px; margin-left: 0px;" src="@/assets/images/TokamakLogo.png">
+        <div class="TON">{{ currencyAmount(operator.userNotWithdrawable) }}</div>
+      </div>
+    </div>
+    <button v-if="tab === 'Delegate'" class="stake-button" style="margin-top:0px" @click="redelegate">Re-delegate</button>
   </div>
 </template>
 
@@ -70,7 +77,6 @@ export default {
   computed: {
     ...mapState([
       'operators',
-      'user',
       'tonBalance',
       'web3',
       'blockNumber',
@@ -425,6 +431,7 @@ input:hover {
   font-size: 16px;
   font-weight: 500;
   color: #555555;
+  justify-self: flex-end;
 }
 .arrow {
   transform: rotate(270deg);
