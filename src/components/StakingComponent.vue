@@ -31,7 +31,6 @@
         <div class="TON">{{ currencyAmount(operator.userNotWithdrawable) }}</div>
       </div>
     </div>
-    <img class="arrow" src="@/assets/images/arrow.png">
     <div class="select-operator-container">
       <div class="select-option">
         <select v-model="selectedOperator" class="unit-select" @change="onChange($event)">
@@ -41,8 +40,8 @@
       </div>
     </div>
     <button class="stake-button" @click="tab === 'Delegate' ? delegate() : tab === 'Undelegate'? undelegate() : processRequests()">{{ tab }}</button>
-    <div v-if="tab === 'Delegate'" class="value-container" style="margin-top:2px; margin-bottom:17px">
-      <div class="main-row">
+    <div v-if="tab === 'Delegate'" class="value-container" style="margin-top:2px; margin-bottom:10px">
+      <div class="main-row" style="justify-content: space-between;">
         <div class="amount-title">Re-delegate Amount:</div>
         <img class="logo" style="margin-right: 15px; margin-left: 0px;" src="@/assets/images/TokamakLogo.png">
         <div class="TON">{{ currencyAmount(operator.userNotWithdrawable) }}</div>
@@ -329,7 +328,7 @@ export default {
   border-color: #ccd1d3;
   border-radius: 12px;
   box-shadow: inset 1px 1px 0px #e2e8eb;
-  padding: 10px;
+  padding: 5px 10px;
   justify-content: center;
 }
 .button-container {
@@ -364,7 +363,7 @@ button:hover {
 .value-container {
   margin-top: 15px;
   display: flex;
- padding: 8px 12px;
+ padding: 5px 12px;
   align-items: center;
   border: solid 1px;
   border-color: #ccd1d3;
@@ -432,6 +431,7 @@ input:hover {
   font-weight: 500;
   color: #555555;
   justify-self: flex-end;
+  text-align: right;
 }
 .arrow {
   transform: rotate(270deg);

@@ -22,7 +22,7 @@
       <div class="text">Description</div>
       <textarea class="description" :value="description" cols="40" rows="6" style="text-align:inherit; width:400px" @input="updateDescription($event.target.value)" />
     </div>
-    <button class="set-button" @click="update()">Update</button>
+    <button class="set-button" style="margin-left:380px" @click="update()">Update</button>
 
     <div class="name-row">
       <div class="text">Commission Rate</div>
@@ -30,14 +30,14 @@
         <input :value="operator.commissionRate | rateOf " class="value-input" autocomplete="off" @input="updateWebsite($event.target.value)">
       </div>
     </div>
-    <button class="set-button" @click="setNewCommissionRate()">Set new commission rate</button>
+    <button class="set-button" style="margin-left:265px" @click="setNewCommissionRate()">Set new commission rate</button>
     <div class="name-row">
       <div class="text">Current Withdrawal Delay</div>
       <div class="input-text">
         <input :value="withdrawalDelay" class="value-input" autocomplete="off" @input="updateWebsite($event.target.value)">
       </div>
     </div>
-    <button class="set-button" @click="setNewCommissionRate()">Set new withdrawal delay</button>
+    <button class="set-button" style="margin-left:265px" @click="setNewCommissionRate()">Set new withdrawal delay</button>
   </div>
 </template>
 
@@ -311,6 +311,7 @@ export default {
 .cancel-button {
     border: none;
     background-color: white;
+    margin-left: 450px;
 }
 .avatar-row {
     display: flex;
