@@ -36,7 +36,6 @@ export default {
         path: '/',
         query: { network: this.$route.query.network },
       }).catch(err => {
-        console.log(err);
       });
     },
     cancel (visibility) {
