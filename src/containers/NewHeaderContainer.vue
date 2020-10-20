@@ -116,13 +116,12 @@ export default {
           }).catch(err => {});
         });
         window.ethereum.on('accountsChanged', (account) => {
-          if (this.user.toLowerCase() !== account[0].toLowerCase()) {
-            this.$store.dispatch('logout');
-            this.$router.replace({
-              path: '/',
-              query: { network: this.$route.query.network },
-            }).catch(err => {});
-          }
+          this.$store.dispatch('logout');
+          this.$router.replace({
+            path: '/',
+            query: { network: this.$route.query.network },
+          }).catch(err => {});
+
         });
       } catch (e) {
         alert(e.message);
