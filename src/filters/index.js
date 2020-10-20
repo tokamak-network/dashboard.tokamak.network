@@ -61,7 +61,7 @@ export function currencyAmount (amount) {
     if (amount.symbol === 'POWER') {
       const tonAmount = amount.toBigNumber().toString();
       const index = tonAmount.indexOf('.');
-      return index > -1 ? `${ Math.trunc(tonAmount).toLocaleString('en-US').slice(0, index + 3)} POWER` : Math.trunc(tonAmount).toLocaleString('en-US') + ' POWER';
+      return index > -1 ? `${ Math.trunc(tonAmount).toLocaleString('en-US').slice(0, index + 7)} POWER` : Math.trunc(tonAmount).toLocaleString('en-US') + ' POWER';
     } else if (amount.symbol === 'TON') {
       const tonAmount = amount.toBigNumber().toString();
       const index = tonAmount.indexOf('.');
