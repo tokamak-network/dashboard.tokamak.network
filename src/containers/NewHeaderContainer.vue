@@ -4,7 +4,7 @@
       <div class="header-logo-container">
         <img
           class="header-logo"
-          src="@/assets/images/tokamak-staking.png"
+          src="@/assets/images/tokamak-staking-simple.png"
           width="260"
           height="45"
           @click="toMainPage"
@@ -23,7 +23,7 @@
           :class="{ 'menu-button-selected': $route.path === '/menu'}"
           @click="clickMenu('menu')"
         >
-          Menu
+          Operators
         </button>
         <button
           class="header-link"
@@ -31,6 +31,13 @@
           @click="clickMenu('staking')"
         >
           Staking
+        </button>
+        <button
+          class="header-link"
+          :class="{ 'menu-button-selected': $route.path === '/about'}"
+          @click="clickMenu('about')"
+        >
+          About Us
         </button>
       </div>
       <div>
@@ -179,7 +186,7 @@ export default {
 }
 
 .header-logo {
-  margin-top: 7px;
+  margin-top: -10px;
 }
 
 .header-logo:hover {

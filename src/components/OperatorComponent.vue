@@ -8,9 +8,15 @@
       <avatar class="avatar" fullname="O P R" :image="filteredImgURL(operator.avatar)" :size="50" :color="operator.color" />
       <div class="operator-name">{{ operator.name }}</div>
       <div style="font-size: 14px">Stake TON to earn rewards</div>
-      <div class="commission-rate-container">
-        <div>Commission Rate</div>
-        <div>{{ operator.isCommissionRateNegative ? '-' : '' }}{{ rateOf(operator.commissionRate) }}</div>
+      <div class="info-container">
+        <div class="container-row">
+          <div>Commission Rate</div>
+          <div>{{ operator.isCommissionRateNegative ? '-' : '' }}{{ rateOf(operator.commissionRate) }}</div>
+        </div>
+        <div class="container-row">
+          <div>Most Recent Commit</div>
+          <div>{{ fromNow(operator.lastFinalizedAt) }}</div>
+        </div>
       </div>
       <button class="select-button" @click="viewDetailedOperator(operator)">Select</button>
     </div>
@@ -109,17 +115,23 @@ export default {
     margin-top: -5px;
 
 }
-.commission-rate-container {
+.info-container {
     background-color: white;
     width: 90%;
     border-radius: 12px;
     padding: 0px 15px;
-    margin: 20px 5px 20px 5px;
+    margin: 10px 5px 15px 5px;
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    height: 40px;
+    flex-direction: column;
+    height: 60px;
+    justify-content: center;
     font-size: 14px;
+}
+.container-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+    align-items: center;
 }
 .select-button {
     width: 100%;
@@ -130,7 +142,6 @@ export default {
     color: #e2e2e2;
     font-size: 18px;
     font-weight: 700;
-    margin-bottom: 10px;
 }
 button:focus {
   outline: none;

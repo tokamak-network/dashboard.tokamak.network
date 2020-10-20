@@ -341,24 +341,24 @@ export default {
   width: 100%;
   border: none;
   background-color:#e2e8eb;
-  color: #8c8c8c;
+  color: #999797;
     font-size: 16px;
 }
-button:focus {
+.tab-button:focus {
   outline: none;
 }
-button:hover {
-  color: #555555;
+.tab-button:hover {
+  color: #adadad;
+  cursor: pointer;
 }
 .menu-button-selected {
-  color: #555555;
+  color: #444444;
 }
 .button-name {
   width: 100%;
-  border-bottom: solid #8c8c8c 2px;
 }
 .button-name:hover{
-   border-bottom: solid #555555 2px;
+  cursor: pointer;
 }
 .value-container {
   margin-top: 15px;
@@ -383,9 +383,9 @@ button:hover {
 
 }
 .value-input {
-  height: 20px;
+  height: 25px;
   border: none;
-  background-color:#e2e8eb;
+  background-color:#ffffff;
   font-size: 18px;
   white-space: nowrap;
     overflow: hidden;
@@ -394,6 +394,8 @@ button:hover {
     margin-right: 20px;
     align-items: center;
      color: #555555;
+     padding-left: 9px;
+    border-radius: 8px;
 }
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
@@ -425,6 +427,11 @@ input:hover {
   border: solid 1px;
   border-color: #ccd1d3;
   border-radius: 12px;
+}
+.button-max:hover {
+  outline: none;
+  cursor: pointer;
+  color: #3a3a3a;
 }
 .TON {
   font-size: 16px;
@@ -496,5 +503,11 @@ width: 100%;
 }
 .amount-value {
   font-size: 16px;
+}
+.stake-button:hover {
+  outline: none;
+}
+.stake-button:focus {
+  outline: none;
 }
 </style>

@@ -14,6 +14,7 @@ import HomeLayout from '@/layouts/HomeLayout.vue';
 import MenuLayout from '@/layouts/MenuLayout.vue';
 import StakingLayout from '@/layouts/StakingLayout.vue';
 import StakeByOperatorLayout from '@/layouts/StakeByOperatorLayout.vue';
+import AboutUsLayout from '@/layouts/AboutUsLayout.vue';
 const routes = [
   // {
   //   path: '/dashboard',
@@ -55,6 +56,10 @@ const routes = [
   {
     path: '/staking/:layer2',
     component: StakeByOperatorLayout,
+  },
+  {
+    path: '/about',
+    component: AboutUsLayout,
   },
 ];
 

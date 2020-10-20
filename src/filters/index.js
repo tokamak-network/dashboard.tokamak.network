@@ -61,15 +61,15 @@ export function currencyAmount (amount) {
     if (amount.symbol === 'POWER') {
       const tonAmount = amount.toBigNumber().toString();
       const index = tonAmount.indexOf('.');
-      return index > -1 ? `${tonAmount.slice(0, index + 3)} POWER` : amount;
+      return index > -1 ? `${ Math.trunc(tonAmount).toLocaleString('en-US').slice(0, index + 3)} POWER` : Math.trunc(tonAmount).toLocaleString('en-US') + ' POWER';
     } else if (amount.symbol === 'TON') {
       const tonAmount = amount.toBigNumber().toString();
       const index = tonAmount.indexOf('.');
-      return index > -1 ? `${tonAmount.slice(0, index + 3)} TON` : tonAmount + '.00 TON';
+      return index > -1 ? `${Math.trunc(tonAmount).toLocaleString('en-US').slice(0, index + 3)} TON` : Math.trunc(tonAmount).toLocaleString('en-US') + '. TON';
     } else if (amount.symbol === 'WTON'){
       const wtonAmount = amount.toBigNumber().toString();
       const index = wtonAmount.indexOf('.');
-      return index > -1 ? `${wtonAmount.slice(0, index + 3)} TON` : wtonAmount + '.00 TON';
+      return index > -1 ? `${(wtonAmount).toLocaleString('en-US').slice(0, index + 3)} TON` : Math.trunc(wtonAmount).toLocaleString('en-US') + ' TON';
     }
   } else {
     return amount;
