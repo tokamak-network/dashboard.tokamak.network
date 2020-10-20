@@ -827,7 +827,6 @@ export default new Vuex.Store({
           timestamp: block.timestamp,
         };
       });
-      console.log(await Promise.all(rounds));
       context.commit('SET_ROUNDS', await Promise.all(rounds));
     },
     async setAccountsDepositedWithPower (context) {
