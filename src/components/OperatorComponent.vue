@@ -148,5 +148,6 @@ button:focus {
 }
 button:hover {
   color: #555555;
+  cursor: pointer;
 }
 </style>

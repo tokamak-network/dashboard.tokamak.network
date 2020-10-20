@@ -506,6 +506,8 @@ width: 100%;
 }
 .stake-button:hover {
   outline: none;
+  cursor: pointer;
+  color: #555555;
 }
 .stake-button:focus {
   outline: none;

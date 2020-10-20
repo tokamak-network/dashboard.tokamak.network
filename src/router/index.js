@@ -15,6 +15,7 @@ import MenuLayout from '@/layouts/MenuLayout.vue';
 import StakingLayout from '@/layouts/StakingLayout.vue';
 import StakeByOperatorLayout from '@/layouts/StakeByOperatorLayout.vue';
 import AboutUsLayout from '@/layouts/AboutUsLayout.vue';
+import PowerLayout from '@/layouts/PowerLayout.vue';
 const routes = [
   // {
   //   path: '/dashboard',
@@ -60,6 +61,10 @@ const routes = [
   {
     path: '/about',
     component: AboutUsLayout,
+  },
+  {
+    path: '/powerton',
+    component: PowerLayout,
   },
 ];
 

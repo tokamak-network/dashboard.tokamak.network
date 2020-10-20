@@ -9,7 +9,7 @@
           <SwapComponent title="Your TON Balance" :balance="tonBalance | currencyAmount" rewards="Power TON Balance" :value="currencyAmount(power)" />
         </div>
         <div class="ton-balance">
-          <SwapComponent title="Total Staked Amount" :balance="currencyAmount(userTotalStaked)" rewards="Expected Rewards" :value="expectedRewards" />
+          <SwapComponent title="Total Staked Amount" :balance="currencyAmount(userTotalStaked)" rewards="Expected Rewards" :value="expectedRewards()" />
         </div>
       </div>
     </div>
@@ -40,13 +40,16 @@ export default {
     currencyAmount () {
       return amount => this.$options.filters.currencyAmount(amount);
     },
+  },
+  created () {
+    setInterval(() => this.expectedRewards(), 1000);
+  },
+  methods: {
     expectedRewards () {
       return this.currencyAmount(this.userTotalSeigs);
     },
   },
-  created () {
-    setInterval(() => this.expectedRewards, 1000);
-  },
+
 };
 </script>
 <style scoped>

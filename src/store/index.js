@@ -794,7 +794,6 @@ export default new Vuex.Store({
       const userPower = _POWER.ray(power);
       const totalPower = _POWER.ray(totalDeposits);
       const reward = new BN(balance);
-
       currentRound.index = currentRoundIndex;
       currentRound.reward = _WTON.ray(reward);
       // `.div` needs to check zero value
@@ -816,15 +815,20 @@ export default new Vuex.Store({
         toBlock: 'latest',
         topics: [roundEndEvent],
       });
-      const rounds = events.map(event => {
-        const returnValues = event.returnValues;
+      const rounds = events.map(async (event) => {
+        const blockNumber = event.blockNumber;
+        const web3 = context.state.web3;
+        const block = await web3.eth.getBlock(blockNumber);
+        // const returnValues = event.returnValues;
         return {
-          index: parseInt(returnValues.round),
-          winner: returnValues.winner,
-          reward: _WTON.ray(returnValues.reward),
+          index: parseInt(event.returnValues.round),
+          winner: event.returnValues.winner,
+          reward: _WTON.ray(event.returnValues.reward),
+          timestamp: block.timestamp,
         };
       });
-      context.commit('SET_ROUNDS', rounds);
+      console.log(await Promise.all(rounds));
+      context.commit('SET_ROUNDS', await Promise.all(rounds));
     },
     async setAccountsDepositedWithPower (context) {
       const PowerTON = context.state.PowerTON;

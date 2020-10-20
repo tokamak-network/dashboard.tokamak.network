@@ -1,13 +1,13 @@
 <template>
   <div class="table-paginate">
     <div class="row">
-      <button @click="prevPage()">
+      <button class="paginate-button" @click="prevPage()">
         ←
       </button>
       <div class="page">
         Page {{ currentPage }} out of {{ pages }}
       </div>
-      <button @click="nextPage()">
+      <button class="paginate-button" @click="nextPage()">
         →
       </button>
     </div>
@@ -63,22 +63,26 @@ export default {
   font-family: "Noto Sans",sans-serif;
   font-size: 13px;
   text-align: center;
-  color: #7e8d93;
+  color: #868686;
 
   margin-top: 1px;
   margin-left: 6px;
   margin-right: 6px;
 }
 
-button {
+.paginate-button {
   color: #ffffff;
-  background-color: #b6b7b7;
-  border: 1px solid #b6b7b7;
+  background-color: #2a72e5;
+  border: 1px solid #2a72e5;
   text-align: center;
   border-radius: 6px;
 }
 
 button:hover {
   cursor: pointer;
+  color: #555555;
+}
+button:focus {
+    outline: none;
 }
 </style>

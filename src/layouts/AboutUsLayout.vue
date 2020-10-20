@@ -2,7 +2,7 @@
   <div class="about-layout">
     <div class="about-content">
       <img class="logo" src="@/assets/images/TokamakLogo.png">
-      <div class="page-header">Get to know us more!!</div>
+      <div class="page-header">Get to know our services more!!</div>
       <div class="page-text">Tokamak Network is a platform that assures decentralized and secure property same as Ethereum Main chain while supporting high level of scalability and extendability. Each Dapp is built easily for specific purpose through Tokamak Network.</div>
       <div class="content-container">
         <ol class="list">
