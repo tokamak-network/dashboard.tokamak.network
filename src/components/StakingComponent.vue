@@ -1,11 +1,11 @@
 <template>
   <div class="staking-component-container">
     <div class="button-container">
-      <button class="tab-button" @click="changeTab('Delegate')"><div class="button-name" :class="{ 'menu-button-selected': tab === 'Delegate'}">Delegate</div></button>
-      <button class="tab-button" @click="changeTab('Undelegate')"><div class="button-name" :class="{ 'menu-button-selected': tab === 'Undelegate'}">Undelegate</div></button>
+      <button class="tab-button" @click="changeTab('Stake')"><div class="button-name" :class="{ 'menu-button-selected': tab === 'Stake'}">Stake</div></button>
+      <button class="tab-button" @click="changeTab('Unstake')"><div class="button-name" :class="{ 'menu-button-selected': tab === 'Unstake'}">Unstake</div></button>
       <button class="tab-button" @click="changeTab('Withdraw')"><div class="button-name" :class="{ 'menu-button-selected': tab === 'Withdraw'}">Withdraw</div></button>
     </div>
-    <div v-if="tab === 'Delegate'" class="value-container">
+    <div v-if="tab === 'Stake'" class="value-container">
       <div class="total-balance">TON Balance: {{ currencyAmount(tonBalance) }}</div>
       <div class="main-row">
         <input v-model="amountToDelegate" class="value-input" autocomplete="off" minlength="1" maxlength="79" placeholder="0.00" @keypress="isNumber">
@@ -14,7 +14,7 @@
         <div class="TON">TON</div>
       </div>
     </div>
-    <div v-if="tab === 'Undelegate'" class="value-container">
+    <div v-if="tab === 'Unstake'" class="value-container">
       <div class="total-balance">Available Balance: {{ currencyAmount(operator.userStaked) }}</div>
       <div class="main-row">
         <input v-model="amountToUndelegate" class="value-input" autocomplete="off" minlength="1" maxlength="79" placeholder="0.00" @keypress="isNumber">
@@ -24,11 +24,11 @@
       </div>
     </div>
     <div v-if="tab === 'Withdraw'" class="value-container">
-      <div class="main-row">
+      <div class="main-row" style="justify-content: space-between;">
         <div class="amount-title">Withdrawable Amount:</div>
-        <img class="logo" style="margin-right: 15px; margin-left: 0px;" src="@/assets/images/TokamakLogo.png">
-        <!-- <div class="amount-value">0.000</div> -->
-        <div class="TON">{{ currencyAmount(operator.userNotWithdrawable) }}</div>
+         <div class="TON" style="width: 75px;">{{ currencyAmount(operator.userWithdrawable).toString().replace('TON', '') }}</div>
+        <img class="logo" style="margin-right:0px; margin-left: 0px;" src="@/assets/images/TokamakLogo.png">
+          <div class="TON">TON</div>
       </div>
     </div>
     <div class="select-operator-container">
@@ -39,15 +39,16 @@
         Select Operator
       </div>
     </div>
-    <button class="stake-button" @click="tab === 'Delegate' ? delegate() : tab === 'Undelegate'? undelegate() : processRequests()">{{ tab }}</button>
-    <div v-if="tab === 'Delegate'" class="value-container" style="margin-top:2px; margin-bottom:10px">
+    <button class="stake-button" @click="tab === 'Stake' ? delegate() : tab === 'Unstake'? undelegate() : processRequests()">{{ tab }}</button>
+    <div v-if="tab === 'Stake'" class="value-container" style="margin-top:2px; margin-bottom:10px">
       <div class="main-row" style="justify-content: space-between;">
-        <div class="amount-title">Re-delegate Amount:</div>
-        <img class="logo" style="margin-right: 15px; margin-left: 0px;" src="@/assets/images/TokamakLogo.png">
-        <div class="TON">{{ currencyAmount(operator.userNotWithdrawable) }}</div>
+        <div class="amount-title">Re-stake Amount:</div>
+         <div class="TON" style="width: 100px;">{{ currencyAmount(operator.userNotWithdrawable).toString().replace('TON', '') }}</div>
+        <img class="logo" style="margin-right: 0px; margin-left: 0px;" src="@/assets/images/TokamakLogo.png">
+         <div class="TON">TON</div>
       </div>
     </div>
-    <button v-if="tab === 'Delegate'" class="stake-button" style="margin-top:0px" @click="redelegate">Re-delegate</button>
+    <button v-if="tab === 'Stake'" class="stake-button" style="margin-top:0px" @click="redelegate">Re-stake</button>
   </div>
 </template>
 
@@ -64,7 +65,7 @@ import { createCurrency } from '@makerdao/currency';
 export default {
   data () {
     return {
-      tab: 'Delegate',
+      tab: 'Stake',
       layer2: '',
       selectedOperator: '',
       amount: '',

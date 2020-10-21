@@ -2,8 +2,10 @@
   <div class="wallet-container">
     <div class="title">My Account</div>
     <img class="logo" style="margin-right: 15px; margin-left: 0px;" src="@/assets/images/TokamakLogo.png">
+   <div class="ton-title">TON Balance</div>
     <div class="ton-value">{{ tonBalance | currencyAmount }}</div>
-    <div class="ton-title">TON Balance</div>
+    <div class="ton-title">Power Balance</div>
+    <div class="power-value">{{ power | currencyAmount }}</div>
     <div class="wallet-button">
       <a class="text" target="_blank"
          rel="noopener noreferrer"
@@ -26,7 +28,11 @@ export default {
     ...mapState([
       'tonBalance',
       'user',
+      'power',
     ]),
+    currencyAmount () {
+      return amount => this.$options.filters.currencyAmount(amount);
+    },
   },
   methods: {
     logout (visibility) {
@@ -67,11 +73,17 @@ export default {
 .logo {
     height: 80px;
     width: 115px;
-    margin: 24px auto 16px;
+    margin: 12px auto 16px;
 }
 .ton-value {
     font-family: "Noto Sans",sans-serif;
     font-size: 36px;
+    font-weight: 700;
+     color: #555555;
+}
+.power-value {
+  font-family: "Noto Sans",sans-serif;
+    font-size: 16px;
     font-weight: 700;
      color: #555555;
 }
@@ -86,7 +98,7 @@ export default {
      background-color:#f6f8f9;
   border-radius: 12px;
   box-shadow:  #e2e8eb 6px 6px 12px,#e2e8eb -12px -12px 24px -2px;
-  margin-top: 30px;
+  margin-top: 20px;
   opacity: 0.8;
   height: 56px;
   justify-content: center;
