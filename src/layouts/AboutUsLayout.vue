@@ -25,6 +25,12 @@
             > https://staking-simulator.tokamak.network/</a>
           </li>
           <li>
+            Price Dashboard  → <a target="_blank" class="list-item"
+                                  rel="noopener noreferrer"
+                                  href="https://price.tokamak.network/#/"
+            > https://price.tokamak.network/#/</a>
+          </li>
+          <li>
             Tokamak Network Vesting Dashboard  → <a target="_blank" class="list-item"
                                                     rel="noopener noreferrer"
                                                     href="https://vesting.tokamak.network/#/"
@@ -35,12 +41,6 @@
                                        rel="noopener noreferrer"
                                        href="https://wton-swapper.tokamak.network/"
             > https://wton-swapper.tokamak.network/</a>
-          </li>
-          <li>
-            Price Dashboard  → <a target="_blank" class="list-item"
-                                  rel="noopener noreferrer"
-                                  href="https://price.tokamak.network/#/"
-            > https://price.tokamak.network/#/</a>
           </li>
           <!-- <li><a target="_blank"
        rel="noopener noreferrer"
