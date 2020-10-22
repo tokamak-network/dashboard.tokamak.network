@@ -59,17 +59,17 @@ export function nameOfNetwork (networkId) {
 export function currencyAmount (amount) {
   if (amount instanceof Currency) {
     if (amount.symbol === 'POWER') {
-      const tonAmount = amount.toBigNumber().toString();
-      const index = tonAmount.indexOf('.');
-      return index > -1 ? `${ Math.trunc(tonAmount).toLocaleString('en-US').slice(0, index + 3)} POWER` : Math.trunc(tonAmount).toLocaleString('en-US') + ' POWER';
+      const ton = Number(amount.toBigNumber()).toLocaleString('en-US');
+      const index = ton.indexOf('.');
+      return index > -1 ? `${ton.slice(0, index + 3)} POWER` : ton + ' POWER';
     } else if (amount.symbol === 'TON') {
-      const tonAmount = amount.toBigNumber().toString();
-      const index = tonAmount.indexOf('.');
-      return index > -1 ? `${Math.trunc(tonAmount).toLocaleString('en-US').slice(0, index + 3)} TON` : Math.trunc(tonAmount).toLocaleString('en-US') + '. TON';
+      const ton = Number(amount.toBigNumber()).toLocaleString('en-US');
+      const index = ton.indexOf('.');
+      return index > -1 ? `${ton.slice(0, index + 3)} TON` : ton + ' TON';
     } else if (amount.symbol === 'WTON'){
-      const wtonAmount = amount.toBigNumber().toString();
+      const wtonAmount = Number(amount.toBigNumber()).toLocaleString('en-US');
       const index = wtonAmount.indexOf('.');
-      return index > -1 ? `${(wtonAmount).toLocaleString('en-US').slice(0, index + 3)} TON` : Math.trunc(wtonAmount).toLocaleString('en-US') + ' TON';
+      return index > -1 ? `${wtonAmount.slice(0, index + 3)} TON` : wtonAmount + ' TON';
     }
   } else {
     return amount;
