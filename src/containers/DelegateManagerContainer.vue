@@ -5,14 +5,18 @@
     </div>
     <form v-if="tab === 'left'">
       <div class="column">
-        <ton-input v-model="amountToDelegate" :amount="amountToDelegate" />
-        <div class="row">
-          <span class="available-amount-label">Available Amount</span>
+        <ton-input v-model="amountToDelegate" :amount="amountToDelegate" @token="ChangeToken" />
+        <div v-if="selectedToken === 'TON'" class="row">
+          <span class="available-amount-label">Available TON Amount</span>
           <button type="button" class="available-amount" @click="setAvailableAmountToDelegate()">{{ currencyAmount(tonBalance) }}</button>
         </div>
+        <div v-if="selectedToken === 'WTON'" class="row">
+          <span class="available-amount-label">Available WTON Amount</span>
+          <button type="button" class="available-amount" @click="setAvailableWTONAmountToDelegate()">{{ currencyAmount(wtonBalance).slice(0,-4) }} WTON</button>
+        </div>
         <div class="button-container" style="margin-top: 24px;">
-          <base-button-d v-if="operatorMinimumAmount" :label="'Delegate'" :func="delegate" />
-          <base-button v-else :label="'Delegate'" :func="delegate" />
+          <base-button-d v-if="operatorMinimumAmount" :label="'Delegate'" :func="wtonApprove" />
+          <base-button v-else :label="'Delegate'" :func="wtonApprove" />
         </div>
         <div class="divider" />
         <div class="row">
@@ -31,7 +35,7 @@
     </form>
     <form v-else>
       <div class="column">
-        <ton-input v-model="amountToUndelegate" :amount="amountToUndelegate" />
+        <ton-input v-model="amountToUndelegate" :amount="amountToUndelegate" @token="ChangeToken" />
         <div class="row">
           <span class="available-amount-label">Available Amount</span>
           <button type="button" class="available-amount" @click="setAvailableAmountToUndelegate()">{{ currencyAmount(operator.userStaked) }}</button>
@@ -39,16 +43,16 @@
         <div class="button-container" style="margin-top: 24px;"><base-button :label="'Undelegate'" :func="undelegate" /></div>
         <div class="divider" />
         <text-viewer :title="'Not Withdrawable'"
-                     :content="currencyAmount(operator.userNotWithdrawable)"
+                     :content="selectedToken==='TON'?currencyAmount(operator.userNotWithdrawable) :`${currencyAmount(operator.userNotWithdrawable).slice(0,-4)} WTON`"
                      :tooltip="operator.notWithdrawableRequests.length !== 0 ? notWithdrawableMessage(withdrawableBlockNumber(operator.notWithdrawableRequests)) : ''"
                      :tooltipWidth="'200px'"
                      :tooltipMarginTop="'-17px'"
                      style="margin-bottom: -2px;"
         />
         <text-viewer :title="'Withdrawable'"
-                     :content="currencyAmount(operator.userWithdrawable)"
+                     :content="selectedToken==='TON'?currencyAmount(operator.userWithdrawable):`${currencyAmount(operator.userWithdrawable).slice(0,-4)} WTON`"
         />
-        <div class="button-container" style="margin-top: 16px;"><base-button :label="'Withdraw'" :func="processRequests" /></div>
+        <div class="button-container" style="margin-top: 16px;"><base-button :label="'Withdraw'" :func="selectedToken==='TON'?processRequests:processWtonRequests" /></div>
       </div>
     </form>
   </div>
@@ -89,6 +93,7 @@ export default {
       amountToDelegate: '',
       amountToUndelegate: '',
       index: 0,
+      selectedToken:'TON',
     };
   },
   computed: {
@@ -101,6 +106,7 @@ export default {
       'WTON',
       'DepositManager',
       'SeigManager',
+      'wtonBalance',
     ]),
     ...mapGetters([
       'operatorByLayer2',
@@ -147,6 +153,11 @@ export default {
     },
   },
   methods: {
+    ChangeToken (token) {
+      this.selectedToken = token;
+      this.amountToDelegate = '';
+      this.amountToUndelegate = '';
+    },
     withdrawableBlockNumber (requests) {
       const numbers = requests.map(request => request.withdrawableBlockNumber);
       return Math.max(...numbers);
@@ -162,6 +173,16 @@ export default {
       } else {
         this.amountToDelegate = tonAmount;
       }
+    },
+    setAvailableWTONAmountToDelegate () {
+      const wtonAmount = this.wtonBalance.toBigNumber().toString();
+      const index = wtonAmount.indexOf('.');
+      if (index === -1) {
+        this.amountToDelegate = wtonAmount + '.00';
+      } else {
+        this.amountToDelegate = wtonAmount;
+      }
+
     },
     setAvailableAmountToUndelegate () {
       const tonAmount = this.operator.userStaked.toBigNumber().toString();
@@ -210,6 +231,65 @@ export default {
 
         this.amountToDelegate = '';
       }
+    },
+    async wtonApprove () {
+      if (this.amountToDelegate === '' || parseFloat(this.amountToDelegate) === 0) {
+        return alert('Please check input amount.');
+      }
+      if (_WTON(this.amountToDelegate).gt(this.wtonBalance)) {
+        return alert('Please check your WTON amount.');
+      }
+      if(confirm('Current withdrawal delay is 2 weeks. Are you sure you want to delegate?')){
+        const data = this.getData();
+        const amount = _WTON(this.amountToDelegate).toFixed('ray');
+        this.WTON.methods.approve(
+          this.DepositManager._address,
+          amount,
+        ).send({ from: this.user })
+          .on(
+            'transactionHash', async (hash) => {
+              const transcation = {
+                from: this.user,
+                type: 'Delegated',
+                amount: amount,
+                transactionHash: hash,
+                target: this.operator.layer2,
+              };
+              this.$store.dispatch('addPendingTransaction', transcation);
+            }
+          )
+          .on('receipt', (receipt) => {
+            this.index = 0;
+            this.wtonDelegate();
+          });
+
+        this.amountToDelegate = '';
+      }
+    },
+    async wtonDelegate () {
+      const amount = await this.WTON.methods.allowance(this.user, this.DepositManager._address).call();
+      const bigAmount = new BN(amount);
+      const wtonAmount = _WTON(bigAmount.toString(), 'ray');
+      const delegateAmount = _WTON(wtonAmount).toFixed('ray');
+      this.DepositManager.methods.deposit(
+        this.operator.layer2,
+        delegateAmount,
+      ).send({ from: this.user })
+        .on(
+          'transactionHash', async (hash) => {
+            const transcation = {
+              from: this.user,
+              type: 'Delegated',
+              amount: delegateAmount,
+              transactionHash: hash,
+              target: this.operator.layer2,
+            };
+            this.$store.dispatch('addPendingTransaction', transcation);
+          }
+        )
+        .on('receipt', (receipt) => {
+          this.index = 0;
+        });
     },
     redelegate () {
       if (this.operator.withdrawalRequests.length === 0) {
@@ -281,6 +361,36 @@ export default {
         this.operator.layer2,
         count,
         true,
+      ).send({ from: this.user })
+        .on('transactionHash', async (hash) => {
+          const transcation = {
+            from: this.user,
+            type: 'Withdrawn',
+            amount: amount,
+            transactionHash: hash,
+            target: this.operator.layer2,
+          };
+          this.$store.dispatch('addPendingTransaction', transcation);
+        })
+        .on('receipt', async receipt => {
+          this.index = 0;
+        });
+    },
+    processWtonRequests () {
+      const userWithdrawable = this.operator.userWithdrawable;
+      if (userWithdrawable.isEqual(_WTON.ray('0'))) {
+        return alert('Withdrawable amount is 0.');
+      }
+      const count = this.operator.withdrawableRequests.length;
+      if (count === 0) {
+        return alert('Withdrawable amount is 0.');
+      }
+
+      const amount = _WTON(userWithdrawable).toFixed('ray');
+      this.DepositManager.methods.processRequests(
+        this.operator.layer2,
+        count,
+        false,
       ).send({ from: this.user })
         .on('transactionHash', async (hash) => {
           const transcation = {
