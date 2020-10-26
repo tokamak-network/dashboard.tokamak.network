@@ -4,12 +4,14 @@
     <div class="input-container"><input :value="amount" @keypress="isNumber" @input="updateAmount($event.target.value)"></div>
     <select v-model="selectedToken" class="ton-select" style="border:none; font-size:13px" @change="onChange($event)">
       <option class="select-option" :value="'TON'">TON</option>
-      <option class="select-option" :value="'WTON'">WTON</option>
+      <option v-if="currencyAmount(tonBalance).slice(0,-4) !=='0.00'" class="select-option" :value="'WTON'">WTON</option>
     </select>
   </div>
 </template>
 
 <script>
+import { mapState, mapGetters } from 'vuex';
+
 export default {
   props: {
     amount: {
@@ -21,6 +23,15 @@ export default {
     return {
       selectedToken: '',
     };
+  },
+  computed: {
+    ...mapState([
+      'tonBalance',
+      'wtonBalance',
+    ]),
+    currencyAmount () {
+      return amount => this.$options.filters.currencyAmount(amount);
+    },
   },
   created () {
     this.selectedToken = 'TON';
