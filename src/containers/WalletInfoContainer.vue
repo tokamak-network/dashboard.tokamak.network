@@ -72,6 +72,14 @@
       </div>
       <div class="wallet-assets-content">
         <div class="wallet-content">
+          WTON
+        </div>
+        <div class="wallet-content ton-balance">
+          {{ currencyAmount(wtonBalance).slice(0,-4) }} WTON
+        </div>
+      </div>
+      <div class="wallet-assets-content">
+        <div class="wallet-content">
           Total Staked
         </div>
         <div class="wallet-content wton-balance">
@@ -92,10 +100,14 @@ export default {
       'networkId',
       'tonBalance',
       'blockNumber',
+      'wtonBalance',
     ]),
     ...mapGetters([
       'userTotalStaked',
     ]),
+    currencyAmount () {
+      return amount => this.$options.filters.currencyAmount(amount);
+    },
   },
 };
 </script>

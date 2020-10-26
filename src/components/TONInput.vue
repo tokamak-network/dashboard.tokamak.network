@@ -2,7 +2,10 @@
   <div class="ton-input">
     <div class="label-container"><span class="amount">Amount</span></div>
     <div class="input-container"><input :value="amount" @keypress="isNumber" @input="updateAmount($event.target.value)"></div>
-    <div class="label-container"><span class="unit">TON</span></div>
+    <select v-model="selectedToken" class="ton-select" style="border:none; font-size:13px" @change="onChange($event)">
+      <option class="select-option" :value="'TON'">TON</option>
+      <option class="select-option" :value="'WTON'">WTON</option>
+    </select>
   </div>
 </template>
 
@@ -14,7 +17,19 @@ export default {
       default: '',
     },
   },
+  data () {
+    return {
+      selectedToken: '',
+    };
+  },
+  created () {
+    this.selectedToken = 'TON';
+  },
   methods: {
+    onChange (event) {
+      this.selectedToken = event.target.value;
+      this.$emit('token', event.target.value);
+    },
     isNumber (evt) {
       evt = (evt) ? evt : window.event;
       const charCode = (evt.which) ? evt.which : evt.keyCode;
@@ -64,7 +79,7 @@ span {
 
 input {
   display: table-cell;
-  width: 100%;
+  width: 95%;
   height: 100%;
   font-size: 14px;
   text-align: right;
@@ -93,5 +108,12 @@ span {
 .unit {
   margin-left: 12px;
   margin-right: 4px;
+}
+.select-option {
+  font-size: 13px;
+}
+
+select:focus {
+  outline: none;
 }
 </style>
