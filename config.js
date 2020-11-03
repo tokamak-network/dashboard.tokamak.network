@@ -6,7 +6,7 @@ const config = {
     'network': '1',
   },
   'rinkeby': {
-    'baseURL': 'https://dashboard-api.tokamak.network/rinkeby/',
+    'baseURL': 'https://dashboard-api.tokamak.network/rinkeby',
     'prefixTransactionHash': 'https://rinkeby.etherscan.io/tx/',
     'prefixAddress': 'https://rinkeby.etherscan.io/address/',
     'network': '4',

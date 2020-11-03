@@ -15,8 +15,8 @@
           <button type="button" class="available-amount" @click="setAvailableWTONAmountToDelegate()">{{ currencyAmount(wtonBalance).slice(0,-4) }} WTON</button>
         </div>
         <div class="button-container" style="margin-top: 24px;">
-          <base-button-d v-if="operatorMinimumAmount" :label="'Delegate'" :func="wtonApprove" />
-          <base-button v-else :label="'Delegate'" :func="wtonApprove" />
+          <base-button-d v-if="operatorMinimumAmount" :label="'Delegate'" :func="selectedToken === 'WTON'? wtonApprove:delegate" />
+          <base-button v-else :label="'Delegate'" :func="selectedToken === 'WTON'? wtonApprove:delegate" />
         </div>
         <div class="divider" />
         <div class="row">
