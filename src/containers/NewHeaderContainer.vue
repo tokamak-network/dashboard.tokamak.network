@@ -5,8 +5,8 @@
         <img
           class="header-logo"
           src="@/assets/images/tokamak-staking-simple.png"
-          width="260"
-          height="45"
+          width="258"
+          height="38"
           @click="toMainPage"
         >
       </div>
