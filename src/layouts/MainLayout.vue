@@ -60,8 +60,8 @@ export default {
 <style scoped>
 .main-layout {
   display: flex;
-  min-width: 1200px;
-  max-width: 1200px;
+  min-width: 1174px;
+  max-width: 1174px;
   padding-top: 16px;
   padding-bottom: 2rem;
   flex-direction: column;
@@ -69,8 +69,8 @@ export default {
 .main-container {
   display: flex;
   flex-direction: row;
-  min-width: 1200px;
-  max-width: 1200px;
+  min-width: 1174px;
+  max-width: 1174px;
 }
 .main-body-container {
   /* padding-left: 16px; */

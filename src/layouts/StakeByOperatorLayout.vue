@@ -28,8 +28,8 @@ export default {
 </script>
 <style scoped>
 .staking-layout {
-    min-width: 1200px;
-    max-width: 1200px;
+    min-width: 1174px;
+    max-width: 1174px;
     display: flex;
     /* align-items: center; */
     justify-content: center;

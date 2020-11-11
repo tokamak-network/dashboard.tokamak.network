@@ -171,7 +171,8 @@ export default {
 
 <style scoped>
 .header-container {
-  width: 100%;
+  min-width: 1174px;
+  max-width: 1174px;
   height: 75px;
   background: #f6f8f9;
   display: flex;
@@ -192,7 +193,7 @@ export default {
 }
 
 .header-logo {
-  margin-top: -10px;
+  margin-top: -5px;
 }
 
 .header-logo:hover {

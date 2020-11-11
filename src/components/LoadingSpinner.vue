@@ -11,7 +11,7 @@ export default {};
 <style scpoed>
 .loading-spinner-container {
   min-height: 100%;
-  width: 1200px;
+  width: 1174px;
   display: flex;
   justify-content: center;
   align-items: center;
