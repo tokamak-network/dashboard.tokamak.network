@@ -171,13 +171,12 @@ export default {
 
 <style scoped>
 .header-container {
-  min-width: 1174px;
-  max-width: 1174px;
+  width: 100%;
+  align-self: center;
   height: 75px;
   background: #f6f8f9;
   display: flex;
   justify-content: center;
-  position:inherit;
 }
 
 .header {
@@ -204,7 +203,6 @@ export default {
  -webkit-box-align: center;
   align-items: center;
   display: flex;
-  margin-left: -130px;
 }
 
 .header-link:hover {
