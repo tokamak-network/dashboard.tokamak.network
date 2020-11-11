@@ -177,6 +177,7 @@ export default {
   background: #f6f8f9;
   display: flex;
   justify-content: center;
+  position:inherit;
 }
 
 .header {
