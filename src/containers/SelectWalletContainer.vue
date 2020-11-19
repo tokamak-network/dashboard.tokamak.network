@@ -25,6 +25,11 @@ export default {
   components: {
     'wallet': Wallet,
   },
+  data () {
+    return {
+      currentAccount : null,
+    };
+  },
   computed: {
     ...mapState([
       'user',
@@ -34,9 +39,7 @@ export default {
     async useMetamask () {
       try {
         const web3 = await this.metamask();
-        await this.$store.dispatch('signIn', web3);
-
-        window.ethereum.on('chainIdChanged', (chainId) => {
+        window.ethereum.on('chainChanged', (chainId) => {
           this.$store.dispatch('logout');
           this.$router.replace({
             path: '/',
@@ -52,6 +55,15 @@ export default {
             }).catch(err => {});
           }
         });
+        window.ethereum.on('disconnect', (code, reason) => {
+          console.log(`Ethereum Provider connection closed: ${reason}. Code: ${code}`);
+          alert('Ethereum Provider connection lost');
+          this.$store.dispatch('logout');
+          this.$router.replace({
+            path: '/',
+            query: { network: this.$route.query.network },
+          }).catch(err => {});
+        });
       } catch (e) {
         alert(e.message);
       }
@@ -60,8 +72,16 @@ export default {
       let provider;
       if (typeof window.ethereum !== 'undefined') {
         try {
-          await window.ethereum.enable();
           provider = window.ethereum;
+          provider.request({ method: 'eth_requestAccounts' })
+            .then(this.handleAccountsChanged)
+            .catch((err) => {
+              if (err.code === 4001) {
+                console.log('Please connect to MetaMask.');
+              } else {
+                console.error(err);
+              }
+            });
         } catch (e) {
           if (e.stack.includes('Error: User denied account authorization')) {
             throw new Error('User denied account authorization');
@@ -74,12 +94,22 @@ export default {
       } else {
         throw new Error('No web3 provider detected');
       }
-
-      if (provider.networkVersion !== getConfig().network) {
+      const networkVersion = await provider.request({ method: 'net_version' });
+      if (networkVersion.toString() !== getConfig().network) {
         throw new Error(`Please connect to the '${this.$options.filters.nameOfNetwork(getConfig().network)}' network`);
       }
-
-      return new Web3(provider);
+      const web3 = new Web3(provider);
+      return web3;
+    },
+    async handleAccountsChanged (accounts){
+      if (accounts.length === 0) {
+        console.log('Please connect to MetaMask.');
+      } else if (accounts[0] !== this.currentAccount) {
+        const provider = window.ethereum;
+        const web3 = new Web3(provider);
+        await this.$store.dispatch('signIn', web3);
+        this.currentAccount = accounts[0];
+      }
     },
   },
 };
