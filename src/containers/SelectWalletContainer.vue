@@ -56,7 +56,6 @@ export default {
           }
         });
         window.ethereum.on('disconnect', (code, reason) => {
-          console.log(`Ethereum Provider connection closed: ${reason}. Code: ${code}`);
           alert('Ethereum Provider connection lost');
           this.$store.dispatch('logout');
           this.$router.replace({
@@ -77,9 +76,9 @@ export default {
             .then(this.handleAccountsChanged)
             .catch((err) => {
               if (err.code === 4001) {
-                console.log('Please connect to MetaMask.');
+                alert('Please connect to MetaMask.');
               } else {
-                console.error(err);
+                alert(err);
               }
             });
         } catch (e) {
@@ -103,10 +102,14 @@ export default {
     },
     async handleAccountsChanged (accounts){
       if (accounts.length === 0) {
-        console.log('Please connect to MetaMask.');
+        alert('Please connect to MetaMask.');
       } else if (accounts[0] !== this.currentAccount) {
         const provider = window.ethereum;
         const web3 = new Web3(provider);
+        const networkVersion = await provider.request({ method: 'net_version' });
+        if (networkVersion.toString() !== getConfig().network) {
+          throw new Error(`Please connect to the '${this.$options.filters.nameOfNetwork(getConfig().network)}' network`);
+        }
         await this.$store.dispatch('signIn', web3);
         this.currentAccount = accounts[0];
       }
