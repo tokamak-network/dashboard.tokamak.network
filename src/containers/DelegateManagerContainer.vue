@@ -295,9 +295,7 @@ export default {
       if (this.operator.withdrawalRequests.length === 0) {
         return alert('Redelegatable amount is 0.');
       }
-
       const amount = this.redelegatableAmount.toFixed('ray');
-
       this.DepositManager.methods.redepositMulti(
         this.operator.layer2,
         this.redelegatableRequests,
@@ -306,7 +304,7 @@ export default {
           const transcation = {
             from: this.user,
             type: 'Redelegated',
-            amount,
+            amount: amount,
             transactionHash: hash,
             target: this.operator.layer2,
           };
