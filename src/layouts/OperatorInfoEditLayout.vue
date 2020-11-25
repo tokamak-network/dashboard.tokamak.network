@@ -136,36 +136,59 @@ export default {
         isCommissionRateNegative = false;
       }
 
-      const base = '1000000000000000000000000'; // 1e24
-      const commissionRate = (new BN(Math.abs(parseFloat(this.commissionRate))*10).mul(new BN(base))).toString(); // (0 ~ 100) * 1e25
-      this.SeigManager.methods.setCommissionRate(
-        this.operator.layer2,
-        commissionRate,
-        isCommissionRateNegative,
-      ).send({
-        from: this.user,
-      }).on('receipt', (receipt) => {
-        if (receipt.status) {
-          this.$notify({
-            group: 'confirmed',
-            title: 'Transaction is confirmed',
-            type: 'success',
-            duration: 10000,
-          });
-        } else {
-          this.$notify({
-            group: 'reverted',
-            title: 'Transaction is reverted',
-            type: 'error',
-            duration: 10000,
-          });
-        }
+      const decimalPlaces = this.countDecimals(this.commissionRate);
+      let commissionRate;
+      if (decimalPlaces ===0) {
+        const base = '10000000000000000000000000'; // 1e25
+        commissionRate = (new BN(Math.abs(parseFloat(this.commissionRate))).mul(new BN(base))).toString(); // (0 ~ 100) * 1e25
+      }
+      else if (decimalPlaces === 1) {
+        const base = '1000000000000000000000000'; // 1e24
+        commissionRate = (new BN(Math.abs(parseFloat(this.commissionRate))*10).mul(new BN(base))).toString(); // (0 ~ 100) * 1e25
+      }
+      else if (decimalPlaces === 2) {
+        const base = '100000000000000000000000'; // 1e23
+        commissionRate = (new BN(Math.abs(parseFloat(this.commissionRate))*100).mul(new BN(base))).toString(); // (0 ~ 100) * 1e25
+      }
+      else {
+        alert('Please limit the rate to 2 decimal places');
+      }
+      if (commissionRate !== undefined){
+        this.SeigManager.methods.setCommissionRate(
+          this.operator.layer2,
+          commissionRate,
+          isCommissionRateNegative,
+        ).send({
+          from: this.user,
+        }).on('receipt', (receipt) => {
+          if (receipt.status) {
+            this.$notify({
+              group: 'confirmed',
+              title: 'Transaction is confirmed',
+              type: 'success',
+              duration: 10000,
+            });
+          } else {
+            this.$notify({
+              group: 'reverted',
+              title: 'Transaction is reverted',
+              type: 'error',
+              duration: 10000,
+            });
+          }
 
-        this.$router.replace({
-          path: this.from.path,
-          query: { network: this.$route.query.network },
-        }).catch(err => {});
-      });
+          this.$router.replace({
+            path: this.from.path,
+            query: { network: this.$route.query.network },
+          }).catch(err => {});
+        });
+      }
+    },
+    countDecimals (rate) {
+      if(Math.floor(rate).toString() === rate) return 0;
+      else {
+        return rate.toString().split('.')[1].length || 0;
+      }
     },
     setNewWithdrawalDelay () {
       this.DepositManager.methods.setWithdrawalDelay(
