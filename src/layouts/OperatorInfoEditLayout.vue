@@ -138,6 +138,7 @@ export default {
 
       const base = '1000000000000000000000000'; // 1e24
       const commissionRate = (new BN(Math.abs(parseFloat(this.commissionRate))*10).mul(new BN(base))).toString(); // (0 ~ 100) * 1e25
+      console.log(commissionRate);
       this.SeigManager.methods.setCommissionRate(
         this.operator.layer2,
         commissionRate,
