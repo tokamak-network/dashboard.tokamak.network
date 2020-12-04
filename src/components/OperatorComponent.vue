@@ -83,6 +83,7 @@ export default {
   border-color: #ccd1d3;
   border-radius: 12px;
   box-shadow: inset 1px 1px 0px #e2e8eb;
+  margin-bottom: 19px;
 }
 .information {
     text-decoration: none;
