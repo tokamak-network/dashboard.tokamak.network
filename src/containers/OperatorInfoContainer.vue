@@ -239,7 +239,18 @@ export default {
       const pos2 = this._makePos(startBlockNumber, endBlockNumber);
       const dummyBytes = '0xdb431b544b2f5468e3f771d7843d9c5df3b4edcf8bc1c599f18f0b4ea8709bc3';
 
-      Layer2.methods.submitNRE(
+      const gasLimit = await Layer2.methods.submitNRE(
+        pos1,
+        pos2,
+        dummyBytes, // epochStateRoot
+        dummyBytes, // epochTransactionsRoot
+        dummyBytes, // epochReceiptsRoot
+      ).estimateGas({
+        from: this.operator.address,
+        value: costNRB,
+      });
+
+      await Layer2.methods.submitNRE(
         pos1,
         pos2,
         dummyBytes, // epochStateRoot
@@ -248,7 +259,7 @@ export default {
       ).send({
         from: this.operator.address,
         value: costNRB,
-        gasLimit: 7000000,
+        gasLimit: Math.floor(gasLimit * 1.2),
       }).on('transactionHash', async (hash) => {
         const transcation = {
           from: this.user,

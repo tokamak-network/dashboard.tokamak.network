@@ -209,14 +209,21 @@ export default {
       }
       if(confirm('Current withdrawal delay is 2 weeks. Are you sure you want to delegate?')){
         const data = this.getData();
+        // let gasLimit;
         const amount = _TON(this.amountToDelegate).toFixed('wei');
-        this.TON.methods.approveAndCall(
+        const gasLimit = await this.TON.methods.approveAndCall(
+          this.WTON._address,
+          amount,
+          data,
+        ).estimateGas( { from: this.user } );
+
+        await this.TON.methods.approveAndCall(
           this.WTON._address,
           amount,
           data,
         ).send({
           from: this.user,
-          gasLimit: 7000000,
+          gasLimit: Math.floor(gasLimit * 1.2),
         }).on('transactionHash', async (hash) => {
           const transcation = {
             from: this.user,
@@ -244,12 +251,17 @@ export default {
       if(confirm('Current withdrawal delay is 2 weeks. Are you sure you want to delegate?')){
         const data = this.getData();
         const amount = _WTON(this.amountToDelegate).toFixed('ray');
+        const gasLimit = await this.WTON.methods.approve(
+          this.DepositManager._address,
+          amount,
+        ).estimateGas({ from: this.user });
+
         this.WTON.methods.approve(
           this.DepositManager._address,
           amount,
         ).send({
           from: this.user,
-          gasLimit: 7000000,
+          gasLimit: Math.floor(gasLimit * 1.2),
         }).on(
           'transactionHash', async (hash) => {
             const transcation = {
@@ -275,12 +287,20 @@ export default {
       const bigAmount = new BN(amount);
       const wtonAmount = _WTON(bigAmount.toString(), 'ray');
       const delegateAmount = _WTON(wtonAmount).toFixed('ray');
+
+      const gasLimit = await this.DepositManager.methods.deposit(
+        this.operator.layer2,
+        delegateAmount,
+      ).estimateGas({
+        from: this.user,
+      });
+
       this.DepositManager.methods.deposit(
         this.operator.layer2,
         delegateAmount,
       ).send({
         from: this.user,
-        gasLimit: 7000000,
+        gasLimit: Math.floor(gasLimit * 1.2),
       }).on(
         'transactionHash', async (hash) => {
           const transcation = {
@@ -297,17 +317,24 @@ export default {
           this.index = 0;
         });
     },
-    redelegate () {
+    async redelegate () {
       if (this.operator.withdrawalRequests.length === 0) {
         return alert('Redelegatable amount is 0.');
       }
       const amount = this.redelegatableAmount.toFixed('ray');
-      this.DepositManager.methods.redepositMulti(
+      const gasLimit = await this.DepositManager.methods.redepositMulti(
+        this.operator.layer2,
+        this.redelegatableRequests,
+      ).estimateGas({
+        from: this.user,
+      });
+
+      await this.DepositManager.methods.redepositMulti(
         this.operator.layer2,
         this.redelegatableRequests,
       ).send({
         from: this.user,
-        gasLimit: 7000000,
+        gasLimit: Math.floor(gasLimit * 1.2),
       }).on('transactionHash', async (hash) => {
         const transcation = {
           from: this.user,
@@ -323,7 +350,7 @@ export default {
           this.index = 0; // after contract state is updated, display max redelegatable amount.
         });
     },
-    undelegate () {
+    async undelegate () {
       if (this.amountToUndelegate === '' || parseFloat(this.amountToUndelegate) === 0) {
         return alert('Please check input amount.');
       }
@@ -332,12 +359,19 @@ export default {
       }
 
       const amount = _WTON(this.amountToUndelegate).toFixed('ray');
-      this.DepositManager.methods.requestWithdrawal(
+      const gasLimit = await this.DepositManager.methods.requestWithdrawal(
+        this.operator.layer2,
+        amount,
+      ).estimateGas({
+        from: this.user,
+      });
+
+      await this.DepositManager.methods.requestWithdrawal(
         this.operator.layer2,
         amount,
       ).send({
         from: this.user,
-        gasLimit: 7000000,
+        gasLimit: Math.floor(gasLimit * 1.2),
       }).on('transactionHash', async (hash) => {
         const transcation = {
           from: this.user,
@@ -354,7 +388,7 @@ export default {
 
       this.amountToUndelegate = '';
     },
-    processRequests () {
+    async processRequests () {
       const userWithdrawable = this.operator.userWithdrawable;
       if (userWithdrawable.isEqual(_WTON.ray('0'))) {
         return alert('Withdrawable amount is 0.');
@@ -365,13 +399,22 @@ export default {
       }
 
       const amount = _WTON(userWithdrawable).toFixed('ray');
-      this.DepositManager.methods.processRequests(
+
+      const gasLimit = await this.DepositManager.methods.processRequests(
         this.operator.layer2,
         count,
         true,
       ).send({
         from: this.user,
-        gasLimit: 7000000,
+      });
+
+      await this.DepositManager.methods.processRequests(
+        this.operator.layer2,
+        count,
+        true,
+      ).send({
+        from: this.user,
+        gasLimit: Math.floor(gasLimit * 1.2),
       }).on('transactionHash', async (hash) => {
         const transcation = {
           from: this.user,
@@ -386,7 +429,7 @@ export default {
           this.index = 0;
         });
     },
-    processWtonRequests () {
+    async processWtonRequests () {
       const userWithdrawable = this.operator.userWithdrawable;
       if (userWithdrawable.isEqual(_WTON.ray('0'))) {
         return alert('Withdrawable amount is 0.');
@@ -397,13 +440,22 @@ export default {
       }
 
       const amount = _WTON(userWithdrawable).toFixed('ray');
-      this.DepositManager.methods.processRequests(
+
+      const gasLimit = await this.DepositManager.methods.processRequests(
         this.operator.layer2,
         count,
         false,
       ).send({
         from: this.user,
-        gasLimit: 7000000,
+      });
+
+      await this.DepositManager.methods.processRequests(
+        this.operator.layer2,
+        count,
+        false,
+      ).send({
+        from: this.user,
+        gasLimit: Math.floor(gasLimit * 1.2),
       }).on('transactionHash', async (hash) => {
         const transcation = {
           from: this.user,

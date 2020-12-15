@@ -53,11 +53,17 @@ export default {
     },
   },
   methods: {
-    endRound () {
-      this.PowerTON.methods.endRound()
+    async endRound () {
+      const gasLimit = await this.PowerTON.methods.endRound()
+        .estimateGas({
+          from: this.user,
+          gasLimit: Math.floor(gasLimit * 1.2),
+        });
+
+      await this.PowerTON.methods.endRound()
         .send({
           from: this.user,
-          gasLimit: 7000000,
+          gasLimit: Math.floor(gasLimit * 1.2),
         }).on('receipt', (receipt) => {
           if (receipt.status) {
             this.$notify({

@@ -128,7 +128,7 @@ export default {
     updateWithdrawalDelay (withdrawalDelay) {
       this.withdrawalDelay = withdrawalDelay;
     },
-    setNewCommissionRate () {
+    async setNewCommissionRate () {
       let isCommissionRateNegative;
       if (parseInt(this.commissionRate) < 0) {
         isCommissionRateNegative = true;
@@ -154,13 +154,21 @@ export default {
         alert('Please limit the rate to 2 decimal places');
       }
       if (commissionRate !== undefined){
-        this.SeigManager.methods.setCommissionRate(
+        const gasLimit = await this.SeigManager.methods.setCommissionRate(
+          this.operator.layer2,
+          commissionRate,
+          isCommissionRateNegative,
+        ).estimateGas({
+          from: this.user,
+        });
+
+        await this.SeigManager.methods.setCommissionRate(
           this.operator.layer2,
           commissionRate,
           isCommissionRateNegative,
         ).send({
           from: this.user,
-          gasLimit: 7000000,
+          gasLimit: Math.floor(gasLimit * 1.2),
         }).on('receipt', (receipt) => {
           if (receipt.status) {
             this.$notify({
@@ -191,13 +199,20 @@ export default {
         return rate.toString().split('.')[1].length || 0;
       }
     },
-    setNewWithdrawalDelay () {
-      this.DepositManager.methods.setWithdrawalDelay(
+    async setNewWithdrawalDelay () {
+      const gasLimit = await this.DepositManager.methods.setWithdrawalDelay(
+        this.operator.layer2,
+        this.withdrawalDelay
+      ).estimateGas({
+        from:this.user,
+      });
+
+      await this.DepositManager.methods.setWithdrawalDelay(
         this.operator.layer2,
         this.withdrawalDelay
       ).send({
         from:this.user,
-        gasLimit: 7000000,
+        gasLimit: Math.floor(gasLimit * 1.2),
       }).on('receipt', (receipt) => {
         if (receipt.status) {
           this.$notify({
