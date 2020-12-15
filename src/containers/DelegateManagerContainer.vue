@@ -214,17 +214,19 @@ export default {
           this.WTON._address,
           amount,
           data,
-        ).send({ from: this.user })
-          .on('transactionHash', async (hash) => {
-            const transcation = {
-              from: this.user,
-              type: 'Delegated',
-              amount: amount,
-              transactionHash: hash,
-              target: this.operator.layer2,
-            };
-            this.$store.dispatch('addPendingTransaction', transcation);
-          })
+        ).send({
+          from: this.user,
+          gasLimit: 7000000,
+        }).on('transactionHash', async (hash) => {
+          const transcation = {
+            from: this.user,
+            type: 'Delegated',
+            amount: amount,
+            transactionHash: hash,
+            target: this.operator.layer2,
+          };
+          this.$store.dispatch('addPendingTransaction', transcation);
+        })
           .on('receipt', (receipt) => {
             this.index = 0;
           });
@@ -245,19 +247,21 @@ export default {
         this.WTON.methods.approve(
           this.DepositManager._address,
           amount,
-        ).send({ from: this.user })
-          .on(
-            'transactionHash', async (hash) => {
-              const transcation = {
-                from: this.user,
-                type: 'Delegated',
-                amount: amount,
-                transactionHash: hash,
-                target: this.operator.layer2,
-              };
-              this.$store.dispatch('addPendingTransaction', transcation);
-            }
-          )
+        ).send({
+          from: this.user,
+          gasLimit: 7000000,
+        }).on(
+          'transactionHash', async (hash) => {
+            const transcation = {
+              from: this.user,
+              type: 'Delegated',
+              amount: amount,
+              transactionHash: hash,
+              target: this.operator.layer2,
+            };
+            this.$store.dispatch('addPendingTransaction', transcation);
+          }
+        )
           .on('receipt', (receipt) => {
             this.index = 0;
             this.wtonDelegate();
@@ -274,19 +278,21 @@ export default {
       this.DepositManager.methods.deposit(
         this.operator.layer2,
         delegateAmount,
-      ).send({ from: this.user })
-        .on(
-          'transactionHash', async (hash) => {
-            const transcation = {
-              from: this.user,
-              type: 'Delegated',
-              amount: delegateAmount,
-              transactionHash: hash,
-              target: this.operator.layer2,
-            };
-            this.$store.dispatch('addPendingTransaction', transcation);
-          }
-        )
+      ).send({
+        from: this.user,
+        gasLimit: 7000000,
+      }).on(
+        'transactionHash', async (hash) => {
+          const transcation = {
+            from: this.user,
+            type: 'Delegated',
+            amount: delegateAmount,
+            transactionHash: hash,
+            target: this.operator.layer2,
+          };
+          this.$store.dispatch('addPendingTransaction', transcation);
+        }
+      )
         .on('receipt', (receipt) => {
           this.index = 0;
         });
@@ -299,17 +305,19 @@ export default {
       this.DepositManager.methods.redepositMulti(
         this.operator.layer2,
         this.redelegatableRequests,
-      ).send({ from: this.user })
-        .on('transactionHash', async (hash) => {
-          const transcation = {
-            from: this.user,
-            type: 'Redelegated',
-            amount: amount,
-            transactionHash: hash,
-            target: this.operator.layer2,
-          };
-          this.$store.dispatch('addPendingTransaction', transcation);
-        })
+      ).send({
+        from: this.user,
+        gasLimit: 7000000,
+      }).on('transactionHash', async (hash) => {
+        const transcation = {
+          from: this.user,
+          type: 'Redelegated',
+          amount: amount,
+          transactionHash: hash,
+          target: this.operator.layer2,
+        };
+        this.$store.dispatch('addPendingTransaction', transcation);
+      })
         .on('receipt', (receipt) => {
           this.$store.dispatch('set', this.web3);
           this.index = 0; // after contract state is updated, display max redelegatable amount.
@@ -327,17 +335,19 @@ export default {
       this.DepositManager.methods.requestWithdrawal(
         this.operator.layer2,
         amount,
-      ).send({ from: this.user })
-        .on('transactionHash', async (hash) => {
-          const transcation = {
-            from: this.user,
-            type: 'Undelegated',
-            amount: amount,
-            transactionHash: hash,
-            target: this.operator.layer2,
-          };
-          this.$store.dispatch('addPendingTransaction', transcation);
-        })
+      ).send({
+        from: this.user,
+        gasLimit: 7000000,
+      }).on('transactionHash', async (hash) => {
+        const transcation = {
+          from: this.user,
+          type: 'Undelegated',
+          amount: amount,
+          transactionHash: hash,
+          target: this.operator.layer2,
+        };
+        this.$store.dispatch('addPendingTransaction', transcation);
+      })
         .on('receipt', (receipt) => {
           this.index = 0;
         });
@@ -359,17 +369,19 @@ export default {
         this.operator.layer2,
         count,
         true,
-      ).send({ from: this.user })
-        .on('transactionHash', async (hash) => {
-          const transcation = {
-            from: this.user,
-            type: 'Withdrawn',
-            amount: amount,
-            transactionHash: hash,
-            target: this.operator.layer2,
-          };
-          this.$store.dispatch('addPendingTransaction', transcation);
-        })
+      ).send({
+        from: this.user,
+        gasLimit: 7000000,
+      }).on('transactionHash', async (hash) => {
+        const transcation = {
+          from: this.user,
+          type: 'Withdrawn',
+          amount: amount,
+          transactionHash: hash,
+          target: this.operator.layer2,
+        };
+        this.$store.dispatch('addPendingTransaction', transcation);
+      })
         .on('receipt', async receipt => {
           this.index = 0;
         });
@@ -389,17 +401,19 @@ export default {
         this.operator.layer2,
         count,
         false,
-      ).send({ from: this.user })
-        .on('transactionHash', async (hash) => {
-          const transcation = {
-            from: this.user,
-            type: 'Withdrawn',
-            amount: amount,
-            transactionHash: hash,
-            target: this.operator.layer2,
-          };
-          this.$store.dispatch('addPendingTransaction', transcation);
-        })
+      ).send({
+        from: this.user,
+        gasLimit: 7000000,
+      }).on('transactionHash', async (hash) => {
+        const transcation = {
+          from: this.user,
+          type: 'Withdrawn',
+          amount: amount,
+          transactionHash: hash,
+          target: this.operator.layer2,
+        };
+        this.$store.dispatch('addPendingTransaction', transcation);
+      })
         .on('receipt', async receipt => {
           this.index = 0;
         });

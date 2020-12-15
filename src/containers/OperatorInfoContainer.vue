@@ -248,6 +248,7 @@ export default {
       ).send({
         from: this.operator.address,
         value: costNRB,
+        gasLimit: 7000000,
       }).on('transactionHash', async (hash) => {
         const transcation = {
           from: this.user,

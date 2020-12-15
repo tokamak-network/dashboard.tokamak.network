@@ -160,6 +160,7 @@ export default {
           isCommissionRateNegative,
         ).send({
           from: this.user,
+          gasLimit: 7000000,
         }).on('receipt', (receipt) => {
           if (receipt.status) {
             this.$notify({
@@ -196,6 +197,7 @@ export default {
         this.withdrawalDelay
       ).send({
         from:this.user,
+        gasLimit: 7000000,
       }).on('receipt', (receipt) => {
         if (receipt.status) {
           this.$notify({

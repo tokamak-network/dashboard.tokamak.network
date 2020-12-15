@@ -57,6 +57,7 @@ export default {
       this.PowerTON.methods.endRound()
         .send({
           from: this.user,
+          gasLimit: 7000000,
         }).on('receipt', (receipt) => {
           if (receipt.status) {
             this.$notify({
