@@ -27,7 +27,7 @@ import { setProvider } from '@/helpers/Contract';
 import { mapState } from 'vuex';
 import Wallet from '@/components/Wallet.vue';
 import walletConnect from '@/components/WalletConnect.vue';
-import WalletConnect from '@walletconnect/client';
+// import WalletConnect from '@walletconnect/client';
 import WalletConnectProvider from '@walletconnect/web3-provider';
 
 export default {

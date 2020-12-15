@@ -16,7 +16,7 @@ test('short syntax for wei (1e18) amounts', () => {
 });
 
 test('short syntax for rad (1e45) amounts', () => {
-  const n = TON.rad('1470000000000000000000000000000000000000000000');
+  const n = TON.rad('14Math.floor(gasLimit * 1.2),0000000000000000000000000000000000000');
   expect(n).toEqual(TON(1.47));
 });
 
