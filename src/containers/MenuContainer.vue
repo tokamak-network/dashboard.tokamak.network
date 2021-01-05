@@ -74,6 +74,15 @@
       </div>
     </div>
     <div
+      class="sub-menu-title-container"
+      :class="{ 'menu-selected': $route.path === '/stakingdb'}"
+      @click="clickMenu('stakingdb')"
+    >
+      <div class="sub-menu-title">
+        Staking DB
+      </div>
+    </div>
+    <div
       class="menu-logout-container"
       @click="logout"
     >
@@ -112,8 +121,8 @@ export default {
   background: #ffffff;
   min-width: 210px;
   max-width: 210px;
-  min-height: 380px;
-  max-height: 380px;
+  min-height: 420px;
+  max-height: 420px;
   border-radius: 7px;
   border: solid 1px #ced6d9;
 }

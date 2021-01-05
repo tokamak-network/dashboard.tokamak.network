@@ -13,6 +13,7 @@ import { BN, toBN } from 'web3-utils';
 import { setPendingTransactions, getPendingTransactions } from '@/helpers/localStorage';
 import { createCurrency } from '@makerdao/currency';
 import { calculateExpectedSeig } from 'tokamak-staking-lib';
+import axios from 'axios';
 
 const _ETH = createCurrency('ETH');
 const _TON = createCurrency('TON');
@@ -60,6 +61,8 @@ const initialState = {
 
   // operator
   operators: [],
+
+  stakedOperators: [],
 
   // round
   currentRound: {},
@@ -126,6 +129,9 @@ export default new Vuex.Store({
     },
     SET_OPERATORS: (state, operators) => {
       state.operators = operators;
+    },
+    SET_STAKED_OPERATORS: (state, stakedOperators) => {
+      state.stakedOperators = stakedOperators;
     },
     SET_TRANSACTIONS: (state, transactions) => {
       state.transactions = transactions;
@@ -220,6 +226,7 @@ export default new Vuex.Store({
 
       await Promise.all([
         context.dispatch('setOperators', blockNumber),
+        // context.dispatch('setStakedOperators'),
         context.dispatch('setBalance'),
         context.dispatch('setCurrentRound'),
         context.dispatch('setRounds'),
@@ -346,6 +353,11 @@ export default new Vuex.Store({
     async setOperatorsWithRegistry (context, operators) {
       context.commit('SET_OPERATORS', operators);
     },
+    // async setStakedOperators (context) {
+    //   const operators = await axios.get('http://localhost:4500/staking/accumulative');
+    //   console.log(operators)
+    //   context.commit('setStaledOperators', operators),
+    // },
     async setOperators (context, blockNumber) {
       const user = context.state.user;
 
@@ -680,14 +692,6 @@ export default new Vuex.Store({
           const lastFinalizedAt = await getLastFinalizedAt(lastFinalizedEpochNumber, lastFinalizedBlockNumber);
           const lastFinalized = await getRecentCommit(operator, layer2);
 
-          // const result = calculateExpectedSeig(
-          //   fromBlockNumber, // the latest commited block number. You can get this using seigManager.lastCommitBlock(layer2)
-          //   toBlockNumber, // the target block number which you want to calculate seigniorage
-          //   userStakedAmount, // the staked WTON amount of user. You can get this using coinage.balanceOf(user)
-          //   totalStakedAmount, // the staked WTON amount in SeigManager. You can get this using tot.totalSupply()
-          //   totalSupplyOfTON, // the current totalSupply of TON in RAY unit. You can get this using ton.totalSupply() - ton.balanceOf(WTON) + tot.totalSupply()
-          //   pseigRate // pseig rate in RAY unit. the current value is 0.4. You can get this using seigManager.relativeSeigRate()
-          // )
           const tos = toBN(tonTotalSupply).mul(toBN('1000000000')).add(toBN(totTotalSupply)).sub(toBN(tonBalanceOfWTON));
 
           const seigniorage = calculateExpectedSeig(

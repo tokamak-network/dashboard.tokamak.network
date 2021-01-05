@@ -10,6 +10,8 @@ import HistoryLayout from '@/layouts/HistoryLayout.vue';
 import OperatorInfoEditLayout from '@/layouts/OperatorInfoEditLayout.vue';
 import PowerTONLayout from '@/layouts/PowerTONLayout.vue';
 import DelegateLayout from '@/layouts/DelegateLayout.vue';
+import ChartLayout from '@/layouts/ChartLayout.vue';
+import StakingDBLayout from '@/layouts/StakingDBLayout.vue';
 
 const routes = [
   {
@@ -43,6 +45,14 @@ const routes = [
   {
     path: '/delegate',
     component: DelegateLayout,
+  },
+  {
+    path: '/stakingdb',
+    component: StakingDBLayout,
+  },
+  {
+    path: '/stakingdb/:layer2',
+    component: ChartLayout,
   },
 ];
 
