@@ -14,21 +14,7 @@ export default {
       type: Object,
     },
   },
-  data () {
-    return {
-      datacollection: {
-        labels: this.label,
-        datasets: [
-          {
-            label: 'one',
-            data: this.data,
-          },
-        ],
-      },
-    };
-  },
   mounted () {
-    // console.log(this.chartData);
     this.renderChart(this.chartData, this.options);
   },
 };

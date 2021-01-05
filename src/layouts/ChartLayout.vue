@@ -1,15 +1,12 @@
 <template>
   <div class="delegation-state-layout">
-    <chart-container :selected="selectedData" />
+    <chart-container />
   </div>
 </template>
 
 <script>
 import ChartContainer from '@/containers/ChartContainer.vue';
 import axios from 'axios';
-import { BN } from 'web3-utils';
-import { createCurrency } from '@makerdao/currency';
-const _WTON = createCurrency('WTON');
 
 export default {
   components: {
@@ -17,20 +14,11 @@ export default {
   },
   data () {
     return {
-      selectedData: [],
       layer2: '',
     };
   },
   created () {
     this.layer2 = this.$route.params.layer2;
-    this.getData();
-  },
-  methods: {
-    async getData () {
-      const rawData = await axios.get('http://localhost:4500/staking/accumulative');
-      this.selectedData = rawData.data.filter(dailyData => dailyData.layer2.toLowerCase() === this.layer2);
-      console.log(this.selectedData);
-    },
   },
 };
 </script>

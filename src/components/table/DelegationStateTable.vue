@@ -102,7 +102,7 @@ export default {
       }).catch(err => {});
     },
     async getStakedInfo () {
-      const datas = await axios.get('http://localhost:4500/staking/accumulative/latest');
+      const datas = await axios.get('https://price-api.tokamak.network/staking/accumulative/latest');
       for (const data of datas.data) {
         const convertedData = {
           'operator': data.operator,

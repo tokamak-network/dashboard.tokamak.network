@@ -130,9 +130,6 @@ export default new Vuex.Store({
     SET_OPERATORS: (state, operators) => {
       state.operators = operators;
     },
-    SET_STAKED_OPERATORS: (state, stakedOperators) => {
-      state.stakedOperators = stakedOperators;
-    },
     SET_TRANSACTIONS: (state, transactions) => {
       state.transactions = transactions;
     },
@@ -353,11 +350,6 @@ export default new Vuex.Store({
     async setOperatorsWithRegistry (context, operators) {
       context.commit('SET_OPERATORS', operators);
     },
-    // async setStakedOperators (context) {
-    //   const operators = await axios.get('http://localhost:4500/staking/accumulative');
-    //   console.log(operators)
-    //   context.commit('setStaledOperators', operators),
-    // },
     async setOperators (context, blockNumber) {
       const user = context.state.user;
 
