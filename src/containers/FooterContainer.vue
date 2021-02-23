@@ -10,6 +10,25 @@
     </div>
     <div>
       <div class="footer-mail-container">
+        <dropup
+          :items="[
+            'Onther Inc',
+            'Tokamak Netowork',
+            'DAO governance',
+            'Original Staking',
+            'Simple Staking',
+            'Staking Simulator',
+            'Price Dashboard',
+            'Vesting Dashboard',
+            'TN Document'
+          ]"
+          :hint="'Family site'"
+          :button-type="'b'"
+          :selector-type="'a'"
+          class="dropdown"
+          style="margin-left: 20px; width: 130px;"
+          @on-selected="familyLink"
+        />
         <a
           class="footer-mail"
           href="mailto:info@onther.io"
@@ -124,7 +143,28 @@
 </template>
 
 <script>
-export default {};
+import DropupLink from '@/components/DropupLink.vue';
+
+export default {
+  components: {
+    'dropup': DropupLink,
+  },
+  methods: {
+    familyLink (item) {
+      switch (item) {
+      case 'Onther Inc': window.open('https://tokamak.network', '_blank'); // eslint-disable-line
+      // case 'Tokamak Netowork': window.open('https://tokamak.network', '_blank'); // eslint-disable-line
+      // case 'DAO governance': window.open('https://tokamak.network', '_blank'); // eslint-disable-line
+      case 'Original Staking': window.open('https://staking.tokamak.network', '_blank'); // eslint-disable-line
+      case 'Simple Staking': window.open('https://simple.staking.tokamak.network', '_blank'); // eslint-disable-line
+      case 'Staking Simulator': window.open('https://staking-simulator.tokamak.network', '_blank'); // eslint-disable-line
+      case 'Price Dashboard': window.open('https://price.tokamak.network', '_blank'); // eslint-disable-line
+      case 'Vesting Dashboard': window.open('https://vesting.tokamak.network', '_blank'); // eslint-disable-line
+      case 'TN Document': window.open('https://docs.tokamak.network', '_blank'); // eslint-disable-line
+      }
+    },
+  },
+};
 </script>
 
 <style scoped>
@@ -162,7 +202,7 @@ export default {};
 }
 
 .footer-mail-container {
-  padding-right: 6px;
+  /* padding-right: 6px; */
   display: flex;
   flex-direction: row-reverse;
   align-items: center;
