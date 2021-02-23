@@ -1,6 +1,13 @@
 import Vue from 'vue';
 import Notifications from 'vue-notification';
+import VueGtag from 'vue-gtag';
+
 Vue.use(Notifications);
+Vue.use(VueGtag, {
+  config: {
+    id: 'G-THXJF26LWP',  // Google Analytics의 Tracking ID를 넣어준다
+  },
+});
 
 import App from './App.vue';
 import router from './router';
