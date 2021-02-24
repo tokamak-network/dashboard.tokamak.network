@@ -1,12 +1,12 @@
 import Vue from 'vue';
 import Notifications from 'vue-notification';
 import VModal from 'vue-js-modal';
-import VueGtag from 'vue-gtag'
+import VueGtag from 'vue-gtag';
 
 Vue.use(VueGtag, {
-    config: {
-        id: 'G-E0YQDXW30R',
-    }
+  config: {
+    id: 'G-E0YQDXW30R',
+  },
 });
 Vue.use(Notifications);
 Vue.use(VModal);
