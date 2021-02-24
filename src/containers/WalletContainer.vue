@@ -2,7 +2,7 @@
   <div class="wallet-container">
     <div class="title">My Account</div>
     <img class="logo" style="margin-right: 15px; margin-left: 0px;" src="@/assets/images/TokamakLogo.png">
-   <div class="ton-title">TON Balance</div>
+    <div class="ton-title">TON Balance</div>
     <div class="ton-value">{{ tonBalance | currencyAmount }}</div>
     <div class="ton-title">Power Balance</div>
     <div class="power-value">{{ power | currencyAmount }}</div>

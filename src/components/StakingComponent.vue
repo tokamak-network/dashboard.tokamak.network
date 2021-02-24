@@ -26,9 +26,9 @@
     <div v-if="tab === 'Withdraw'" class="value-container">
       <div class="main-row" style="justify-content: space-between;">
         <div class="amount-title">Withdrawable Amount:</div>
-         <div class="TON" style="width: 75px;">{{ currencyAmount(operator.userWithdrawable).toString().replace('TON', '') }}</div>
+        <div class="TON" style="width: 75px;">{{ currencyAmount(operator.userWithdrawable).toString().replace('TON', '') }}</div>
         <img class="logo" style="margin-right:0px; margin-left: 0px;" src="@/assets/images/TokamakLogo.png">
-          <div class="TON">TON</div>
+        <div class="TON">TON</div>
       </div>
     </div>
     <div class="select-operator-container">
@@ -43,9 +43,9 @@
     <div v-if="tab === 'Stake'" class="value-container" style="margin-top:2px; margin-bottom:10px">
       <div class="main-row" style="justify-content: space-between;">
         <div class="amount-title">Re-stake Amount:</div>
-         <div class="TON" style="width: 100px;">{{ currencyAmount(operator.userNotWithdrawable).toString().replace('TON', '') }}</div>
+        <div class="TON" style="width: 100px;">{{ currencyAmount(operator.userNotWithdrawable).toString().replace('TON', '') }}</div>
         <img class="logo" style="margin-right: 0px; margin-left: 0px;" src="@/assets/images/TokamakLogo.png">
-         <div class="TON">TON</div>
+        <div class="TON">TON</div>
       </div>
     </div>
     <button v-if="tab === 'Stake'" class="stake-button" style="margin-top:0px" @click="redelegate">Re-stake</button>

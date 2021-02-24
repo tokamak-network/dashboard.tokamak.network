@@ -150,16 +150,15 @@ export default {
   },
   methods: {
     familyLink (item) {
-      switch (item) {
-      case 'Tokamak Netowork': window.open('https://tokamak.network', '_blank'); // eslint-disable-line
-      // case 'DAO governance': window.open('https://tokamak.network', '_blank'); // eslint-disable-line
-      case 'Original Staking': window.open('https://staking.tokamak.network', '_blank'); // eslint-disable-line
-      case 'Simple Staking': window.open('https://simple.staking.tokamak.network', '_blank'); // eslint-disable-line
-      case 'Staking Simulator': window.open('https://staking-simulator.tokamak.network', '_blank'); // eslint-disable-line
-      case 'Price Dashboard': window.open('https://price.tokamak.network', '_blank'); // eslint-disable-line
-      case 'Vesting Dashboard': window.open('https://vesting.tokamak.network', '_blank'); // eslint-disable-line
-      case 'Developer Guide': window.open('https://docs.tokamak.network', '_blank'); // eslint-disable-line
-      }
+      if (item === 'Tokamak Netowork') window.open('https://tokamak.network', '_blank'); // eslint-disable-line
+      else if (item === 'DAO governance') window.open('https://tokamak.network', '_blank'); // eslint-disable-line
+      else if (item === 'Original Staking') window.open('https://staking.tokamak.network', '_blank'); // eslint-disable-line
+      else if (item === 'Simple Staking') window.open('https://simple.staking.tokamak.network', '_blank'); // eslint-disable-line
+      else if (item === 'Original Staking') window.open('https://staking.tokamak.network', '_blank'); // eslint-disable-line
+      else if (item === 'Staking Simulator') window.open('https://staking-simulator.tokamak.network', '_blank'); // eslint-disable-line
+      else if (item === 'Price Dashboard') window.open('https://price.tokamak.network', '_blank'); // eslint-disable-line
+      else if (item === 'Vesting Dashboard') window.open('https://vesting.tokamak.network', '_blank'); // eslint-disable-line
+      else if (item === 'Developer Guide') window.open('https://docs.tokamak.network', '_blank'); // eslint-disable-line
     },
   },
 };
