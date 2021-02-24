@@ -13,7 +13,6 @@
         <dropup
           :items="[
             'Tokamak Netowork',
-            'DAO governance',
             'Original Staking',
             'Simple Staking',
             'Staking Simulator',
