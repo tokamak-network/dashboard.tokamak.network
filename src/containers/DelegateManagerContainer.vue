@@ -8,11 +8,11 @@
         <ton-input v-model="amountToDelegate" :amount="amountToDelegate" @token="ChangeToken" />
         <div v-if="selectedToken === 'TON'" class="row">
           <span class="available-amount-label">Available TON Amount</span>
-          <button type="button" class="available-amount" @click="setAvailableAmountToDelegate()">{{ currencyAmount(tonBalance) }}</button>
+          <button type="button" class="available-amount" @click="setAvailableAmountToDelegate()">{{ tonBalance }}</button>
         </div>
         <div v-if="selectedToken === 'WTON'" class="row">
           <span class="available-amount-label">Available WTON Amount</span>
-          <button type="button" class="available-amount" @click="setAvailableWTONAmountToDelegate()">{{ currencyAmount(wtonBalance).slice(0,-4) }} WTON</button>
+          <button type="button" class="available-amount" @click="setAvailableWTONAmountToDelegate()">{{ wtonBalance }}</button>
         </div>
         <div class="button-container" style="margin-top: 24px;">
           <base-button-d v-if="operatorMinimumAmount" :label="'Delegate'" :func="selectedToken === 'WTON'? wtonApprove:delegate" />
@@ -25,7 +25,7 @@
                   class="available-amount"
                   @click="increaseIndex()"
           >
-            {{ redelegatableAmount | currencyAmount }}
+            {{ redelegatableAmount }}
           </button>
         </div>
         <div class="button-container" style="margin-top: 24px;">
@@ -38,19 +38,19 @@
         <ton-input v-model="amountToUndelegate" :amount="amountToUndelegate" @token="ChangeToken" />
         <div class="row">
           <span class="available-amount-label">Available Amount</span>
-          <button type="button" class="available-amount" @click="setAvailableAmountToUndelegate()">{{ currencyAmount(operator.userStaked) }}</button>
+          <button type="button" class="available-amount" @click="setAvailableAmountToUndelegate()">{{ operator.userStaked }}</button>
         </div>
         <div class="button-container" style="margin-top: 24px;"><base-button :label="'Undelegate'" :func="undelegate" /></div>
         <div class="divider" />
         <text-viewer :title="'Not Withdrawable'"
-                     :content="selectedToken==='TON'?currencyAmount(operator.userNotWithdrawable) :`${currencyAmount(operator.userNotWithdrawable).slice(0,-4)} WTON`"
+                     :content="selectedToken === 'TON' ? operator.userNotWithdrawable :`${operator.userNotWithdrawable}`"
                      :tooltip="operator.notWithdrawableRequests.length !== 0 ? notWithdrawableMessage(withdrawableBlockNumber(operator.notWithdrawableRequests)) : ''"
                      :tooltipWidth="'200px'"
                      :tooltipMarginTop="'-17px'"
                      style="margin-bottom: -2px;"
         />
         <text-viewer :title="'Withdrawable'"
-                     :content="selectedToken==='TON'?currencyAmount(operator.userWithdrawable):`${currencyAmount(operator.userWithdrawable).slice(0,-4)} WTON`"
+                     :content="selectedToken === 'TON' ? operator.userWithdrawable : `${operator.userWithdrawable}`"
         />
         <div class="button-container" style="margin-top: 16px;"><base-button :label="'Withdraw'" :func="selectedToken==='TON'?processRequests:processWtonRequests" /></div>
       </div>
@@ -166,7 +166,7 @@ export default {
       this.tab = tab;
     },
     setAvailableAmountToDelegate () {
-      const tonAmount = this.tonBalance.toBigNumber().toString();
+      const tonAmount = this.tonBalance.toBigNumber().toFixed();
       const index = tonAmount.indexOf('.');
       if (index === -1) {
         this.amountToDelegate = tonAmount + '.00';
@@ -175,7 +175,7 @@ export default {
       }
     },
     setAvailableWTONAmountToDelegate () {
-      const wtonAmount = this.wtonBalance.toBigNumber().toString();
+      const wtonAmount = this.wtonBalance.toBigNumber().toFixed();
       const index = wtonAmount.indexOf('.');
       if (index === -1) {
         this.amountToDelegate = wtonAmount + '.00';
@@ -185,7 +185,7 @@ export default {
 
     },
     setAvailableAmountToUndelegate () {
-      const tonAmount = this.operator.userStaked.toBigNumber().toString();
+      const tonAmount = this.operator.userStaked.toBigNumber().toFixed();
       const index = tonAmount.indexOf('.');
       if (index === -1) {
         this.amountToUndelegate = tonAmount + '.00';
