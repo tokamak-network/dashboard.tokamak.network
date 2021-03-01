@@ -75,7 +75,7 @@
           WTON
         </div>
         <div class="wallet-content ton-balance">
-          {{ currencyAmount(wtonBalance).slice(0,-4) }} WTON
+          {{ wtonBalance }}
         </div>
       </div>
       <div class="wallet-assets-content">
@@ -83,7 +83,7 @@
           Total Staked
         </div>
         <div class="wallet-content wton-balance">
-          {{ userTotalStaked | currencyAmount }}
+          {{ userTotalStaked }}
         </div>
       </div>
     </div>
