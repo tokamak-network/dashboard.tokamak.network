@@ -15,8 +15,8 @@
           <button type="button" class="available-amount" @click="setAvailableWTONAmountToDelegate()">{{ wtonBalance }}</button>
         </div>
         <div class="button-container" style="margin-top: 24px;">
-          <base-button-d v-if="operatorMinimumAmount" :label="'Delegate'" :func="selectedToken === 'WTON'? wtonApprove:delegate" />
-          <base-button v-else :label="'Delegate'" :func="selectedToken === 'WTON'? wtonApprove:delegate" />
+          <base-button-d v-if="operatorMinimumAmount" :label="'Delegate'" :func="selectedToken === 'WTON'? wtonApprove : delegate" />
+          <base-button v-else :label="'Delegate'" :func="selectedToken === 'WTON'? wtonApprove : delegate" />
         </div>
         <div class="divider" />
         <div class="row">
@@ -140,11 +140,11 @@ export default {
     minimumAmount () {
       return this.SeigManager.methods.minimumAmount().call();
     },
-    operatorMinimumAmount (){
+    operatorMinimumAmount () {
       const operatorDeposit = this.operator.selfDeposit;
       const minimumAmount = this.operator.minimumAmount;
-      const lessThan = operatorDeposit < minimumAmount;
-      if (this.user !== this.operator.address ) {
+      const lessThan = operatorDeposit.gt(minimumAmount);
+      if (this.user !== this.operator.address) {
         return lessThan;
       }
       else {
