@@ -921,5 +921,10 @@ export default new Vuex.Store({
       const orderedTransactions = orderBy(state.transactions, (transaction) => transaction.blockNumber, ['desc']);
       return orderedTransactions.slice(0, 5);
     },
+    coinageContract: (_) => (coinage) => {
+      return createWeb3Contract(
+        AutoRefactorCoinageABI, coinage
+      );
+    },
   },
 });

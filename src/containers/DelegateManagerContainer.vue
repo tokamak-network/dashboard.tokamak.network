@@ -58,7 +58,7 @@
 </template>
 
 <script>
-import { BN, padLeft } from 'web3-utils';
+import { BN, toBN, padLeft } from 'web3-utils';
 import { range } from 'lodash';
 import { addHistory, addTransaction } from '@/api';
 import { createCurrency } from '@makerdao/currency';
@@ -107,6 +107,7 @@ export default {
     ]),
     ...mapGetters([
       'operatorByLayer2',
+      'coinageContract',
     ]),
     operator () {
       return this.operatorByLayer2(this.layer2);
@@ -187,6 +188,25 @@ export default {
       }
     },
     async delegate () {
+      if (this.user === this.operator.address) {
+        const [
+          coinage, minimumAmount,
+        ] = await Promise.all([
+          this.SeigManager.methods.coinages(this.operator.layer2).call(),
+          this.SeigManager.methods.minimumAmount().call(),
+        ]);
+        const coinageContract = this.coinageContract(coinage);
+
+        const operatorAmount = await coinageContract.methods.balanceOf(this.operator.address).call();
+        const amount = _WTON(this.amountToDelegate).toFixed('ray');
+        const amountDelegateBN = toBN(operatorAmount).add(toBN(amount));
+        const minimumAmountBN = toBN(minimumAmount);
+
+        if (amountDelegateBN.lt(minimumAmountBN)) {
+          return alert('Operator must deposit more than minimum amount.');
+        }
+      }
+
       if (this.amountToDelegate === '' || parseFloat(this.amountToDelegate) === 0) {
         return alert('Please check input amount.');
       }
