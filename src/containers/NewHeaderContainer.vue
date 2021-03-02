@@ -49,7 +49,7 @@
       </div>
       <div>
         <button v-if="!signIn" class="login" @click="login">Unlock Wallet</button>
-        <button v-else class="login" @click="showPopUp">My Wallet</button>
+        <button v-else class="login" @click="showPopUp">Connect Wallet</button>
       </div>
 
       <transition v-if="showModel" name="model">

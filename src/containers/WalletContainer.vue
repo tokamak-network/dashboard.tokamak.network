@@ -1,28 +1,45 @@
 <template>
   <div class="wallet-container">
     <div class="title">My Account</div>
-    <img class="logo" style="margin-right: 15px; margin-left: 0px;" src="@/assets/images/TokamakLogo.png">
-    <div class="ton-title">TON Balance</div>
-    <div class="ton-value">{{ tonBalance | currencyAmount }}</div>
-    <div class="ton-title">Power Balance</div>
-    <div class="power-value">{{ power | currencyAmount }}</div>
-    <div class="wallet-button">
-      <a class="text" target="_blank"
-         rel="noopener noreferrer"
-         :href="'https://etherscan.io/address/' + user"
-      >View on Etherscan</a>
+    <div class="ton-title">#10</div>
+    <div class="ton-value">{{ user }}</div>
+    <div class="ton-title">#11</div>
+    <div
+      v-clipboard:copy="user"
+      v-clipboard:success="onCopy"
+      v-clipboard:error="onError"
+    >
+      Copy
     </div>
-    <div class="wallet-button" @click="logout">
-      <button class="text">Sign Out</button>
+    <div class="ton-title">#12</div>
+    <a class="text" target="_blank"
+       rel="noopener noreferrer"
+       :href="'https://etherscan.io/address/' + user"
+    >View on Etherscan</a>
+    <div class="ton-title">#9</div>
+    <div class="ton-title">#13</div>
+    <div class="" @click="logout">
+      Logout
     </div>
-    <div class="wallet-button" @click="cancel(false)">
-      <button class="text">Cancel</button>
+    <div @click="cancel(false)">
+      Close
+    </div>
+    <div @click="cancel(false)">
+      Test
     </div>
   </div>
 </template>
 
 <script>
+import Vue from 'vue';
+import VueClipboard from 'vue-clipboard2';
 import { mapState, mapGetters } from 'vuex';
+import WalletConnect from '@walletconnect/client';
+import QRCodeModal from '@walletconnect/qrcode-modal';
+
+VueClipboard.config.autoSetContainer = true;
+Vue.use(VueClipboard);
+
 export default {
   computed: {
     ...mapState([
@@ -47,6 +64,26 @@ export default {
     cancel (visibility) {
       this.$emit('showPopUp', visibility);
     },
+    onCopy: function (e) {
+      alert('You just copied: ' + e.text);
+    },
+    onError: function (e) {
+      alert('Failed to copy texts');
+    },
+    // async walletConnectInit () {
+    //   // bridge url
+    //   const bridge = 'https://bridge.walletconnect.org';
+    //   // create new connector
+    //   const connector = new WalletConnect({ bridge, qrcodeModal: QRCodeModal });
+
+    //   await this.setState({ connector });
+
+    //   // check if already connected
+    //   if (!connector.connected) {
+    //   // create new session
+    //     await connector.createSession();
+    //   }
+    // },
   },
 };
 </script>
