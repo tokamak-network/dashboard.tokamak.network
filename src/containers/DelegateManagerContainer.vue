@@ -15,8 +15,7 @@
           <button type="button" class="available-amount" @click="setAvailableWTONAmountToDelegate()">{{ wtonBalance }}</button>
         </div>
         <div class="button-container" style="margin-top: 24px;">
-          <base-button-d v-if="operatorMinimumAmount" :label="'Delegate'" :func="selectedToken === 'WTON'? wtonApprove:delegate" />
-          <base-button v-else :label="'Delegate'" :func="selectedToken === 'WTON'? wtonApprove:delegate" />
+          <base-button :label="'Delegate'" :func="selectedToken === 'WTON'? wtonApprove : delegate" />
         </div>
         <div class="divider" />
         <div class="row">
@@ -68,7 +67,6 @@ const _WTON = createCurrency('WTON');
 
 import { mapState, mapGetters } from 'vuex';
 import BaseButton from '@/components/BaseButton.vue';
-import BaseButtonDisable from '@/components/BaseButtonDisable.vue';
 import BaseTab from '@/components/BaseTab.vue';
 import TONInput from '@/components/TONInput.vue';
 import TextViewer from '@/components/TextViewer.vue';
@@ -76,7 +74,6 @@ import TextViewer from '@/components/TextViewer.vue';
 export default {
   components: {
     'base-button': BaseButton,
-    'base-button-d': BaseButtonDisable,
     'base-tab': BaseTab,
     'ton-input': TONInput,
     'text-viewer': TextViewer,
@@ -139,17 +136,6 @@ export default {
     },
     minimumAmount () {
       return this.SeigManager.methods.minimumAmount().call();
-    },
-    operatorMinimumAmount (){
-      const operatorDeposit = this.operator.selfDeposit;
-      const minimumAmount = this.operator.minimumAmount;
-      const lessThan = operatorDeposit < minimumAmount;
-      if (this.user !== this.operator.address ) {
-        return lessThan;
-      }
-      else {
-        return false;
-      }
     },
   },
   methods: {
