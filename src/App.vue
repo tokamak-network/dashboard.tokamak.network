@@ -2,13 +2,7 @@
   <div id="app" class="app">
     <new-header-container />
     <div class="body-container">
-      <div v-if="!signIn">
-        <loading-spinner v-if="loading" />
-        <access-wallet-layout v-else />
-      </div>
-      <div v-else>
-        <main-layout />
-      </div>
+      <main-layout />
     </div>
     <footer-container />
   </div>
@@ -17,24 +11,18 @@
 <script>
 import { mapState, mapGetters } from 'vuex';
 
-import LoadingSpinner from '@/components/LoadingSpinner.vue';
 // import TxProcessor from '@/components/TxProcessor.vue';
 import NewHeaderContainer from '@/containers/NewHeaderContainer.vue';
 import FooterContainer from '@/containers/FooterContainer.vue';
-import AccessWalletLayout from '@/layouts/AccessWalletLayout.vue';
 import MainLayout from '@/layouts/MainLayout.vue';
-import AccessWalletLayoutVue from '@/layouts/AccessWalletLayout.vue';
-import NetworkGuideLayout from '@/layouts/NetworkGuideLayout.vue';
 
 export default {
   components: {
-    'loading-spinner': LoadingSpinner,
     'new-header-container': NewHeaderContainer,
     'footer-container': FooterContainer,
-    'access-wallet-layout': AccessWalletLayout,
     'main-layout': MainLayout,
   },
-  data () {
+  data() {
     return {
       message: '',
     };
@@ -48,7 +36,7 @@ export default {
       'initialState',
     ]),
   },
-  created () {
+  created() {
     if (this.initialState && this.$route.path !== '/') {
       this.$router.replace({
         path: '/',

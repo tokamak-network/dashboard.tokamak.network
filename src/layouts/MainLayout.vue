@@ -14,7 +14,7 @@ import { mapState } from 'vuex';
 export default {
   components: {
   },
-  data () {
+  data() {
     return {
       depositedEventSubscription: null,
       polling: null,
@@ -26,23 +26,23 @@ export default {
       'DepositManager',
     ]),
   },
-  async created () {
+  async created() {
     this.poll();
     this.subscribe();
   },
-  beforeDestroy () {
+  beforeDestroy() {
     clearInterval(this.polling);
     this.depositedEventSubscription.unsubscribe();
   },
   methods: {
-    poll () {
+    poll() {
       this.polling = setInterval(() => {
         if (this.$store.state.signIn) {
           this.$store.dispatch('set', this.web3);
         }
       }, 13000); // 13s
     },
-    subscribe () {
+    subscribe() {
       this.depositedEventSubscription = this.DepositManager.events.Deposited({
         fromBlock: 'latest',
       }, (error, event) => {
