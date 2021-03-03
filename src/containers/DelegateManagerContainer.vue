@@ -8,11 +8,11 @@
         <ton-input v-model="amountToDelegate" :amount="amountToDelegate" @token="ChangeToken" />
         <div v-if="selectedToken === 'TON'" class="row">
           <span class="available-amount-label">Available TON Amount</span>
-          <button type="button" class="available-amount" @click="setAvailableAmountToDelegate()">{{ tonBalance }}</button>
+          <button type="button" class="available-amount" @click="setAvailableAmountToDelegate()">{{ tonBalance | currencyAmount }}</button>
         </div>
         <div v-if="selectedToken === 'WTON'" class="row">
           <span class="available-amount-label">Available WTON Amount</span>
-          <button type="button" class="available-amount" @click="setAvailableWTONAmountToDelegate()">{{ wtonBalance }}</button>
+          <button type="button" class="available-amount" @click="setAvailableWTONAmountToDelegate()">{{ currencyAmount(wtonBalance).slice(0,-4) }} WTON</button>
         </div>
         <div class="button-container" style="margin-top: 24px;">
           <base-button :label="'Delegate'" :func="selectedToken === 'WTON'? wtonApprove : delegate" />
@@ -24,7 +24,7 @@
                   class="available-amount"
                   @click="increaseIndex()"
           >
-            {{ redelegatableAmount }}
+            {{ redelegatableAmount | currencyAmount }}
           </button>
         </div>
         <div class="button-container" style="margin-top: 24px;">
@@ -37,19 +37,19 @@
         <ton-input v-model="amountToUndelegate" :amount="amountToUndelegate" @token="ChangeToken" />
         <div class="row">
           <span class="available-amount-label">Available Amount</span>
-          <button type="button" class="available-amount" @click="setAvailableAmountToUndelegate()">{{ operator.userStaked }}</button>
+          <button type="button" class="available-amount" @click="setAvailableAmountToUndelegate()">{{ operator.userStaked | currencyAmount }}</button>
         </div>
         <div class="button-container" style="margin-top: 24px;"><base-button :label="'Undelegate'" :func="undelegate" /></div>
         <div class="divider" />
         <text-viewer :title="'Not Withdrawable'"
-                     :content="selectedToken === 'TON' ? operator.userNotWithdrawable :`${operator.userNotWithdrawable}`"
+                     :content="selectedToken==='TON' ? currencyAmount(operator.userNotWithdrawable) : `${currencyAmount(operator.userNotWithdrawable).slice(0,-4)} WTON`"
                      :tooltip="operator.notWithdrawableRequests.length !== 0 ? notWithdrawableMessage(withdrawableBlockNumber(operator.notWithdrawableRequests)) : ''"
                      :tooltipWidth="'200px'"
                      :tooltipMarginTop="'-17px'"
                      style="margin-bottom: -2px;"
         />
         <text-viewer :title="'Withdrawable'"
-                     :content="selectedToken === 'TON' ? operator.userWithdrawable : `${operator.userWithdrawable}`"
+                     :content="selectedToken==='TON' ? currencyAmount(operator.userWithdrawable) : `${currencyAmount(operator.userWithdrawable).slice(0,-4)} WTON`"
         />
         <div class="button-container" style="margin-top: 16px;"><base-button :label="'Withdraw'" :func="selectedToken==='TON'?processRequests:processWtonRequests" /></div>
       </div>

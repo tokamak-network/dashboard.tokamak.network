@@ -59,15 +59,15 @@ export function nameOfNetwork (networkId) {
 export function currencyAmount (amount) {
   if (amount instanceof Currency) {
     if (amount.symbol === 'POWER') {
-      const tonAmount = amount.toBigNumber().toString();
+      const tonAmount = amount.toBigNumber().toFixed();
       const index = tonAmount.indexOf('.');
       return index > -1 ? `${tonAmount.slice(0, index + 3)} POWER` : amount;
     } else if (amount.symbol === 'TON') {
-      const tonAmount = amount.toBigNumber().toString();
+      const tonAmount = amount.toBigNumber().toFixed();
       const index = tonAmount.indexOf('.');
       return index > -1 ? `${tonAmount.slice(0, index + 3)} TON` : tonAmount + '.00 TON';
     } else if (amount.symbol === 'WTON'){
-      const wtonAmount = amount.toBigNumber().toString();
+      const wtonAmount = amount.toBigNumber().toFixed();
       const index = wtonAmount.indexOf('.');
       return index > -1 ? `${wtonAmount.slice(0, index + 3)} TON` : wtonAmount + '.00 TON';
     }
@@ -80,12 +80,12 @@ export function currencyAmount (amount) {
 export function currencyAmountFromNumberString (symbol, amount) {
   if (symbol === 'TON') {
     amount = _TON.wei(amount);
-    const tonAmount = amount.toBigNumber().toString();
+    const tonAmount = amount.toBigNumber().toFixed();
     const index = tonAmount.indexOf('.');
     return index > -1 ? `${tonAmount.slice(0, index + 3)} TON` : tonAmount + '.00 TON';
   } else {
     amount = _WTON.ray(amount);
-    const wtonAmount = amount.toBigNumber().toString();
+    const wtonAmount = amount.toBigNumber().toFixed();
     const index = wtonAmount.indexOf('.');
     return index > -1 ? `${wtonAmount.slice(0, index + 3)} TON` : wtonAmount + '.00 TON';
   }
@@ -108,7 +108,7 @@ export function userSeigsRate (userStaked, userSeigs) {
   const sum = userStaked.add(userSeigs);
   const rate = sum.sub(userStaked).div(userStaked);
 
-  return `${numeral(Number(rate.toBigNumber().toString())).format('0.0000%')}`;
+  return `${numeral(Number(rate.toBigNumber().toFixed())).format('0.0000%')}`;
 }
 
 export function rateOf (commission) {
