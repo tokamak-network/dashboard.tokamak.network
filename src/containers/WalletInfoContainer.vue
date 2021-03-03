@@ -83,7 +83,7 @@
           Total Staked
         </div>
         <div class="wallet-content wton-balance">
-          {{ userTotalStaked }}
+          {{ userTotalStaked | currencyAmount }}
         </div>
       </div>
     </div>

@@ -296,9 +296,9 @@ export default new Vuex.Store({
       }
 
       function getUnstakedRate () {
-        return _WTON(_TON(tonBalanceOfDepositManager, TON_UNIT).toBigNumber().toString(), WTON_UNIT)
+        return _WTON(_TON(tonBalanceOfDepositManager, TON_UNIT).toBigNumber().toFixed(), WTON_UNIT)
           .add(_WTON(wtonBalanceOfDepositManager, WTON_UNIT))
-          .div(_WTON(_TON(tonTotalSupply, TON_UNIT).toBigNumber().toString()), WTON_UNIT);
+          .div(_WTON(_TON(tonTotalSupply, TON_UNIT).toBigNumber().toFixed()), WTON_UNIT);
       }
 
       const numBlocks = calcNumSeigBlocks();
