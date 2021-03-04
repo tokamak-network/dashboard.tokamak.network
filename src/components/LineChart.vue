@@ -6,14 +6,14 @@ const { reactiveProp } = mixins;
 export default {
   extends: Line,
   mixins: [reactiveProp],
-  props: ['datasets'],
+  props: ['chartData'],
   data () {
     return {
       options: {
         scales: {
           yAxes: [{
             ticks: {
-              beginAtZero: true,
+              beginAtZero: false,
             },
             gridLines: {
               display: true,
@@ -34,7 +34,7 @@ export default {
     };
   },
   mounted () {
-    this.renderChart(this.datasets, this.options);
+    this.renderChart(this.chartData, this.options);
   },
 };
 </script>

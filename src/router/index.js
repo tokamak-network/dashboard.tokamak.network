@@ -43,7 +43,7 @@ const routes = [
   // },
   //
   {
-    path: '/',
+    path: '/home',
     component: HomeLayout,
   },
   {
@@ -66,6 +66,7 @@ const routes = [
     path: '/powerton',
     component: PowerLayout,
   },
+  { path: '*', redirect: '/home' },
 ];
 
 const router = new VueRouter({

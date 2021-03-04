@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="signIn" class="home-layout">
+    <!-- <div v-if="signIn" class="home-layout">
       <div class="home-content">
         <img class="logo" alt="Tokamak Logo" src="@/assets/images/TokamakLogo.png">
         <div class="page-header">Stake tokens now!!</div>
@@ -24,8 +24,8 @@
           </div>
         </div>
       </div>
-    </div>
-    <div v-else class="home-layout">
+    </div> -->
+    <div class="home-layout">
       <div class="home-content">
         <div class="home-stats">
           <div>
@@ -33,10 +33,23 @@
             <h4 class="home-stats__amount">1000 <small>TON</small></h4>
           </div>
           <line-chart
-            :datasets="data"
+            :chartData="data"
             :width="500"
             :height="200"
           />
+          <div v-if="signIn" class="home-body">
+            <div class="home-body__stats">
+              <div class="home-body__balance">
+                <div class="body-balance__title">Your TON Balance</div>
+                <span class="body-balance__amount">{{ currencyAmount(power) }}</span>
+              </div>
+              <div class="home-body__balance">
+                <div class="body-balance__title">Your TON Staked</div>
+                <span class="body-balance__amount">{{ currencyAmount(userTotalStaked) }}</span>
+              </div>
+            </div>
+          </div>
+          <div v-else />
           <div class="home-footer">
             <div class="footer-items">
               <div class="footer-items__card">
@@ -60,7 +73,7 @@
   </div>
 </template>
 <script>
-import SwapComponent from '@/components/SwapComponent.vue';
+// import SwapComponent from '@/components/SwapComponent.vue';
 import { mapState, mapGetters } from 'vuex';
 import LineChart from '@/components/LineChart.vue';
 // import { createCurrency } from '@makerdao/currency';
@@ -85,7 +98,7 @@ const datasets = {
 
 export default {
   components: {
-    SwapComponent,
+    // SwapComponent,
     LineChart,
   },
   data () {
@@ -123,7 +136,6 @@ export default {
   align-items: center;
   justify-content: center;
   width: 85vw;
-  height: 70vh;
 }
 .logo {
   height: 100px;
@@ -156,7 +168,6 @@ export default {
 .home-stats {
   display: flex;
   flex-direction: column;
-  height: 100vh;
 }
 
 .home-stats__title {
@@ -178,10 +189,28 @@ export default {
   margin: 0;
 }
 
+.home-body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  max-width: 100vw;
+  margin-top: 2rem;
+}
+
+.home-body__stats {
+  display: flex;
+  justify-content: space-between;
+  width: 40vw;
+}
+
+.home-body__balance {
+  text-align: center;
+}
+
 .home-footer {
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
+  margin-top: 2rem;
 }
 
 .footer-items {
