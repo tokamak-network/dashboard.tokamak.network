@@ -22,7 +22,7 @@ export default {
     'footer-container': FooterContainer,
     'main-layout': MainLayout,
   },
-  data() {
+  data () {
     return {
       message: '',
     };
@@ -36,7 +36,7 @@ export default {
       'initialState',
     ]),
   },
-  created() {
+  created () {
     if (this.initialState && this.$route.path !== '/') {
       this.$router.replace({
         path: '/',

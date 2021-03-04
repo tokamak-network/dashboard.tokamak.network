@@ -2,7 +2,7 @@
   <div>
     <div v-if="signIn" class="home-layout">
       <div class="home-content">
-        <img class="logo" alt="Tokamak Logo" src="@/assets/images/TokamakLogo.png" />
+        <img class="logo" alt="Tokamak Logo" src="@/assets/images/TokamakLogo.png">
         <div class="page-header">Stake tokens now!!</div>
         <div class="page-text">Stake your TON to earn Power TON and other rewards</div>
         <div class="balance-container">
@@ -32,23 +32,25 @@
             <h4 class="home-stats__title">Total Staked</h4>
             <h4 class="home-stats__amount">1000 <small>TON</small></h4>
           </div>
-
+          <line-chart
+            :datasets="data"
+            :width="500"
+            :height="200"
+          />
           <div class="home-footer">
             <div class="footer-items">
               <div class="footer-items__card">
-                <div class="items-card__title">Nominal APY</div>
-                <span>Description Description Description</span>
-                <p class="items-card__percentage">19%</p>
+                <div class="items-card__title">Round Start</div>
+                <span>2021.1.2. 8:00:00(GMT+9) </span>
               </div>
               <div class="footer-items__card">
-                <div class="items-card__title">Actual APY</div>
-                <span>Description Description Description</span>
-                <p class="items-card__percentage">5%</p>
+                <div class="items-card__title">Reward</div>
+                <span>1,000,000 TON</span>
               </div>
               <div class="footer-items__card">
-                <div class="items-card__title">XX Round</div>
-                <span>Reward</span>
-                <p class="items-card__percentage">5%</p>
+                <div class="items-card__title">Round end</div>
+                <span>3D 2:20:30  </span>
+                <p class="items-card__date">2021.1.2. 8:00:00(GMT+9)</p>
               </div>
             </div>
           </div>
@@ -60,25 +62,49 @@
 <script>
 import SwapComponent from '@/components/SwapComponent.vue';
 import { mapState, mapGetters } from 'vuex';
+import LineChart from '@/components/LineChart.vue';
 // import { createCurrency } from '@makerdao/currency';
 // const _TON = createCurrency('TON');
+
+// mock data
+const datasets = {
+  labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+  datasets: [{
+    label: '2018 Sales',
+    borderColor: 'rgba(50, 115, 220, 0.5)',
+    backgroundColor: 'rgba(50, 115, 220, 0.1)',
+    data: [300, 700, 450, 750, 450, 300, 700, 450, 750, 450, 750, 450],
+  },
+  {
+    label: '2017 Sales',
+    borderColor: 'rgba(255, 56, 96, 0.5)',
+    backgroundColor: 'rgba(255, 56, 96, 0.1)',
+    data: [600, 550, 750, 250, 700, 600, 550, 750, 250, 700, 600, 550],
+  }],
+};
 
 export default {
   components: {
     SwapComponent,
+    LineChart,
+  },
+  data () {
+    return {
+      data: datasets,
+    };
   },
   computed: {
     ...mapState(['user', 'networkId', 'tonBalance', 'blockNumber', 'power', 'signIn']),
     ...mapGetters(['userTotalStaked', 'userTotalSeigs']),
-    currencyAmount() {
+    currencyAmount () {
       return amount => this.$options.filters.currencyAmount(amount);
     },
   },
-  created() {
+  created () {
     setInterval(() => this.expectedRewards(), 1000);
   },
   methods: {
-    expectedRewards() {
+    expectedRewards () {
       return this.currencyAmount(this.userTotalSeigs);
     },
   },
@@ -89,7 +115,6 @@ export default {
   min-width: 1174px;
   max-width: 1174px;
   display: flex;
-  /* align-items: center; */
   justify-content: center;
 }
 .home-content {
@@ -156,7 +181,6 @@ export default {
 .home-footer {
   display: flex;
   flex-direction: column;
-  height: 50vh;
   justify-content: flex-end;
 }
 
@@ -177,7 +201,7 @@ export default {
   font-size: 1.2rem;
 }
 
-.items-card__percentage {
+.items-card__date {
   font-weight: 600;
   font-size: .9rem;
   margin: 0;
