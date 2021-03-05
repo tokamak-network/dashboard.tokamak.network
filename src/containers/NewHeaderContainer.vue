@@ -3,6 +3,7 @@
     <div class="header">
       <div class="header-logo-container">
         <img
+          alt="Tokamak Network Logo"
           class="header-logo"
           src="@/assets/images/tokamak-staking-simple.png"
           width="258"
@@ -40,6 +41,14 @@
           Power TON
         </button>
         <button
+          v-if="signIn"
+          class="header-link"
+          :class="{ 'menu-button-selected': $route.path === '/powerton'}"
+          @click="clickMenu('wallet')"
+        >
+          Wallet
+        </button>
+        <button
           class="header-link"
           :class="{ 'menu-button-selected': $route.path === '/about'}"
           @click="clickMenu('about')"
@@ -49,7 +58,7 @@
       </div>
       <div>
         <button v-if="!signIn" class="login" @click="login">Unlock Wallet</button>
-        <button v-else class="login" @click="showPopUp">My Wallet</button>
+        <button v-else class="login" @click="showPopUp">{{ userAddress }}</button>
       </div>
 
       <transition v-if="showModel" name="model">
@@ -67,7 +76,8 @@
 import { mapState } from 'vuex';
 import Web3 from 'web3';
 import { getConfig } from '../../config.js';
-import { setProvider } from '@/helpers/Contract';
+import { truncateAddress } from '../helpers/truncate';
+// import { setProvider } from '@/helpers/Contract';
 import WalletContainer from '@/containers/WalletContainer.vue';
 export default {
   components: {
@@ -82,7 +92,11 @@ export default {
   computed: {
     ...mapState([
       'signIn',
+      'user',
     ]),
+    userAddress () {
+      return this.user && truncateAddress(this.user);
+    },
   },
   methods: {
     clickMenu (path) {
@@ -207,19 +221,20 @@ export default {
 }
 
 .header-link:hover {
-  color: #555555;;
+  color: #555555;
 }
 
 .header-link {
   border: none;
+  cursor: pointer;
   font-weight: 550;
-    padding-left: 16px;
-    padding-right: 16px;
-    text-decoration: none;
-    background: #f6f8f9;
-    color: #2a72e5;
-    font-size: 16px;
-    font-family: "Noto Sans",sans-serif;
+  padding-left: 16px;
+  padding-right: 16px;
+  text-decoration: none;
+  background: #f6f8f9;
+  color: #2a72e5;
+  font-size: 16px;
+  font-family: "Noto Sans",sans-serif;
 }
 button:focus {
   outline: none;
@@ -239,6 +254,7 @@ button:hover {
   font-weight: 700;
   font-family: "Noto Sans",sans-serif;
   width: 150px;
+  cursor: pointer;
 }
 .menu-button-selected {
   color: #1e4072;
