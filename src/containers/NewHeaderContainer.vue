@@ -48,8 +48,12 @@
         </button>
       </div>
       <div>
-        <button v-if="!signIn" class="login" @click="login">Unlock Wallet</button>
-        <button v-else class="login" @click="showPopUp">Connect Wallet</button>
+        <button v-if="!signIn" class="login" @click="login">Connect Wallet</button>
+        <button v-else class="login" @click="showPopUp">Wallet Menu</button>
+      </div>
+      <div>
+        <button v-if="!signIn" class="login" @click="walletConnect">Wallet Connect</button>
+        <button v-else class="login" @click="showPopUp">Wallet Menu</button>
       </div>
 
       <transition v-if="showModel" name="model">
@@ -66,6 +70,7 @@
 <script>
 import { mapState } from 'vuex';
 import Web3 from 'web3';
+import WalletConnectProvider from '@walletconnect/web3-provider';
 import { getConfig } from '../../config.js';
 import { setProvider } from '@/helpers/Contract';
 import WalletContainer from '@/containers/WalletContainer.vue';
@@ -163,6 +168,88 @@ export default {
           path: '/',
           query: { network: this.$route.query.network },
         }).catch(err => {});
+      }
+    },
+    async walletConnect () {
+      const provider = new WalletConnectProvider({
+        infuraId: '34448178b25e4fbda6d80f4da62afba2',
+        // bridge: 'https://bridge.walletconnect.org',
+        qrcode: true,
+      });
+      await provider.enable();
+      try {
+        this.handleAccountsChanged(provider.accounts[0], provider);
+      } catch (e) {
+        throw new Error(e.message);
+      }
+      // if (typeof provider !== 'undefined') {
+      //   try {
+      //     provider.request({ method: 'eth_requestAccounts' })
+      //       .then(this.handleAccountsChanged)
+      //       .catch((err) => {
+      //         if (err.code === 4001) {
+      //           alert('Please connect to WalletConnect.');
+      //         } else {
+      //           alert(err);
+      //         }
+      //       });
+      //   } catch (e) {
+      //     if (e.stack.includes('Error: User denied account authorization')) {
+      //       throw new Error('User denied account authorization');
+      //     } else {
+      //       throw new Error(e.message);
+      //     }
+      //   }
+      // } else {
+      //   throw new Error('No web3 provider detected');
+      // }
+      const networkVersion = await provider.request({ method: 'net_version' });
+      if (networkVersion.toString() !== getConfig().network) {
+        throw new Error(`Please connect to the '${this.$options.filters.nameOfNetwork(getConfig().network)}' network`);
+      }
+      const web3 = new Web3(provider);
+      try {
+        provider.on('chainChanged', (chainId) => {
+          this.$store.dispatch('logout');
+          this.$router.replace({
+            path: '/',
+            query: { network: this.$route.query.network },
+          }).catch(err => {});
+        });
+        provider.on('accountsChanged', (account) => {
+          if (this.user.toLowerCase() !== account[0].toLowerCase()) {
+            this.$store.dispatch('logout');
+            this.$router.replace({
+              path: '/',
+              query: { network: this.$route.query.network },
+            }).catch(err => {});
+          }
+        });
+        provider.on('disconnect', (code, reason) => {
+          alert('Ethereum Provider connection lost');
+          this.$store.dispatch('logout');
+          this.$router.replace({
+            path: '/',
+            query: { network: this.$route.query.network },
+          }).catch(err => {});
+        });
+      } catch (e) {
+        alert(e.message);
+      }
+      // provider.disconnect();
+    },
+    async handleAccountsChanged (accounts, provider){
+      if (accounts.length === 0) {
+        alert('Please connect to MetaMask.');
+      } else if (accounts[0] !== this.currentAccount) {
+        // const provider = window.ethereum;
+        const web3 = new Web3(provider);
+        const networkVersion = await provider.request({ method: 'net_version' });
+        if (networkVersion.toString() !== getConfig().network) {
+          throw new Error(`Please connect to the '${this.$options.filters.nameOfNetwork(getConfig().network)}' network`);
+        }
+        await this.$store.dispatch('signIn', web3);
+        this.currentAccount = accounts[0];
       }
     },
   },

@@ -1,19 +1,43 @@
 <template>
   <div class="power-layout">
     <div class="power-content">
-      <img class="logo" src="@/assets/images/TokamakLogo.png">
-      <div class="page-header">Win Power by staking TON!!</div>
-      <div class="page-text">Be a winner of our Power TON game by staking TON. More TON you delegate, more Power you win.</div>
-      <PowerWinnerTable />
+      <h1>PowerTON</h1>
+      <div class="power-current">
+        <!-- <div>{{ currentRound }}</div> -->
+        <div class="power-current-text">
+          <span>Round</span>
+          <span>{{ currentRound.index }}</span>
+        </div>
+        <div class="power-current-text">
+          <span>Round Reward</span>
+          <span>{{ currentRound.reward }}</span>
+        </div>
+        <div class="power-current-text">
+          <span>24H</span>
+          <span>Round</span>
+        </div>
+        <div class="power-current-text">
+          <span>Round Start</span>
+          <span>{{ formattedTimestamp(currentRound.endTime) }}</span>
+        </div>
+      </div>
+      <div class="power-current-display">
+        <h2>Round End</h2>
+        <span>3D 2:20:30</span>
+        <span>{{ formattedTimestamp(currentRound.endTime) }}</span>
+      </div>
+      <PowerTonLayout />
     </div>
   </div>
 </template>
 <script>
 import { mapState, mapGetters } from 'vuex';
-import PowerWinnerTable from '@/components/table/PowerWinnerTable.vue';
+import PowerTonLayout from './PowerTONLayout';
+import moment from 'moment';
+
 export default {
   components: {
-    PowerWinnerTable,
+    PowerTonLayout,
   },
   computed: {
     ...mapState([
@@ -26,49 +50,36 @@ export default {
       'rankedAccountsWithPower',
     ]),
   },
+  methods: {
+    formattedTimestamp (timestamp) {
+      return moment.unix(timestamp).format('LLL');
+    },
+  },
 };
 </script>
 <style scoped>
 .power-layout {
-    min-width: 1174px;
-    max-width: 1174px;
-    display: flex;
-    /* align-items: center; */
-    justify-content: center;
+  display: flex;
 }
 .power-content {
-    display: flex;
-    flex-direction: column;
-     align-items: center;
-     width: 850px;
-
+  width: 100%;
+  display: flex;
+  flex-direction: column;
 }
-.logo {
-    height: 100px;
-    width: 144px;
+.power-current {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
-.page-header {
-    margin-top: 10px;
-    margin-bottom: 15px;
-    font-family: cursive;
-    color: #555555;
-    font-size: 36px;
-    text-align: center;
-    font-weight: 700;
-    padding: 0px;
+.power-current-text {
+  display: flex;
+  flex-direction: column;
 }
-.page-text{
-    margin-bottom: 30px;
-    color: #8c8c8c;
-    font-size: 16px;
-    text-align: center;
-    font-weight: 400;
- }
-.balance-container {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    width: 760px;
+.power-current-display {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 </style>

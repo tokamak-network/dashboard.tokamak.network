@@ -3,15 +3,13 @@
     <table class="rank-table">
       <thead>
         <tr>
-          <th class="text-center">#</th>
           <th class="text-center">Rank</th>
           <th class="text-center">Account</th>
           <th class="text-center">Power</th>
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(account, index) in accounts" :key="account.address">
-          <td class="text-center">{{ index }}</td>
+        <tr v-for="(account) in accounts" :key="account.address">
           <td class="text-center">{{ account.rank }}</td>
           <td class="text-center">
             <a

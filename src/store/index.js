@@ -92,6 +92,9 @@ export default new Vuex.Store({
     SIGN_IN: (state) => {
       state.signIn = true;
     },
+    SIGN_OUT: (state) => {
+      state.signIn = false;
+    },
     SET_WEB3: (state, web3) => {
       state.web3 = web3;
     },
@@ -183,7 +186,7 @@ export default new Vuex.Store({
     },
   },
   actions: {
-    logout (context) {
+    async logout (context) {
       context.commit('SET_INITIAL_STATE');
     },
     async signIn (context, web3) {

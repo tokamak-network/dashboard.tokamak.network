@@ -24,18 +24,16 @@
     <div @click="cancel(false)">
       Close
     </div>
-    <div @click="cancel(false)">
-      Test
-    </div>
   </div>
 </template>
 
 <script>
 import Vue from 'vue';
 import VueClipboard from 'vue-clipboard2';
+import Web3 from 'web3';
+import WalletConnectProvider from '@walletconnect/web3-provider';
+import { getConfig } from '../../config.js';
 import { mapState, mapGetters } from 'vuex';
-import WalletConnect from '@walletconnect/client';
-import QRCodeModal from '@walletconnect/qrcode-modal';
 
 VueClipboard.config.autoSetContainer = true;
 Vue.use(VueClipboard);
@@ -46,13 +44,21 @@ export default {
       'tonBalance',
       'user',
       'power',
+      'signIn',
     ]),
     currencyAmount () {
       return amount => this.$options.filters.currencyAmount(amount);
     },
   },
   methods: {
-    logout (visibility) {
+    async logout (visibility) {
+      const provider = new WalletConnectProvider({
+        infuraId: '34448178b25e4fbda6d80f4da62afba2',
+        // bridge: 'https://bridge.walletconnect.org',
+        qrcode: true,
+      });
+      this.$store.dispatch('SIGN_OUT');
+      await provider.disconnect();
       this.cancel(visibility);
       this.$store.dispatch('logout');
       this.$router.replace({
@@ -70,20 +76,6 @@ export default {
     onError: function (e) {
       alert('Failed to copy texts');
     },
-    // async walletConnectInit () {
-    //   // bridge url
-    //   const bridge = 'https://bridge.walletconnect.org';
-    //   // create new connector
-    //   const connector = new WalletConnect({ bridge, qrcodeModal: QRCodeModal });
-
-    //   await this.setState({ connector });
-
-    //   // check if already connected
-    //   if (!connector.connected) {
-    //   // create new session
-    //     await connector.createSession();
-    //   }
-    // },
   },
 };
 </script>

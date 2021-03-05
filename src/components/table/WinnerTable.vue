@@ -3,15 +3,13 @@
     <table class="winner-table">
       <thead>
         <tr>
-          <th class="text-center">#</th>
           <th class="text-center">Round</th>
           <th class="text-center">Winner</th>
           <th class="text-center">Reward</th>
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(round, index) in filteredRounds" :key="round.index">
-          <td class="text-center">{{ index }}</td>
+        <tr v-for="(round) in filteredRounds" :key="round.index">
           <td class="text-center">{{ round.index }}</td>
           <td class="text-center">
             <a
