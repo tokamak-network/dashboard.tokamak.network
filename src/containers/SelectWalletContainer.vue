@@ -93,7 +93,7 @@ export default {
       const engine = new ProviderEngine();
       // console.log(engine);
       const transport = await this.withTransport();
-      // console.log(transport);
+      console.log(transport); // eslint-disable-line
       // TransportWebUSB.create().then(transport => {
       //   const a = new AppEth(transport);
       //   console.log(a);
@@ -109,12 +109,12 @@ export default {
       // console.log(AppEth);
       // console.log(AppEth.default);
       // console.log(engine);
-      const web3 = new Web3(engine);
-      // console.log(await web3.eth.getAccounts());
-      // console.log(await engine.currentBlock);
-      // console.log(ledger);
-      // console.log(await ledger.getAccounts());
-      // console.log(web3);
+      const web3 = new Web3(engine); // eslint-disable-line
+      console.log(await web3.eth.getAccounts()); // eslint-disable-line
+      console.log(await engine.currentBlock); // eslint-disable-line
+      console.log(ledger); // eslint-disable-line
+      console.log(await ledger.getAccounts()); // eslint-disable-line
+      console.log(web3); // eslint-disable-line
       const eth = new AppEth(transport);
       // console.log(eth);
 
