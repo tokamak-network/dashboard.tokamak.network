@@ -37,7 +37,7 @@ import WalletConnectProvider from '@walletconnect/web3-provider';
 import EthereumTx from 'ethereumjs-tx';
 import AppEth from '@ledgerhq/hw-app-eth';
 import createLedgerSubprovider from '@ledgerhq/web3-subprovider';
-import TransportWebUSB from '@ledgerhq/hw-transport';
+import TransportWebUSB from '@ledgerhq/hw-transport-u2f';
 import ProviderEngine from 'web3-provider-engine';
 import FetchSubprovider from 'web3-provider-engine/subproviders/rpc';
 
