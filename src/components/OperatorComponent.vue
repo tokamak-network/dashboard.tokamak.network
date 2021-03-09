@@ -34,7 +34,7 @@
           <operator-text-view :title="'Withdraw processed'" :value="'0 TON'" />
         </div>
         <div class="column">
-          <staking-component :layer2="operator.layer2" @selectFunc="selectFunc" @openStakeModal="openStakeModal"/>
+          <staking-component :layer2="operator.layer2" @selectFunc="selectFunc" @openStakeModal="openStakeModal" />
         </div>
         <div class="column">
           <operator-text-view :title="'Recent Commit'" :value="date" />
