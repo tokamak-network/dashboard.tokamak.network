@@ -7,6 +7,7 @@ const config = {
   },
   'rinkeby': {
     'baseURL': 'https://dashboard-api.tokamak.network/rinkeby',
+    'daoURL' : 'https://daoapi.tokamak.network/v1',
     'prefixTransactionHash': 'https://rinkeby.etherscan.io/tx/',
     'prefixAddress': 'https://rinkeby.etherscan.io/address/',
     'network': '4',
@@ -29,7 +30,7 @@ export function getConfig () {
   case 'development':
     return config.development;
   default:
-    return config.mainnet;
+    return config.rinkeby;
   }
 }
 

@@ -5,7 +5,7 @@ Vue.use(Vuex);
 import router from '@/router';
 import web3EthABI from 'web3-eth-abi';
 
-import { getManagers, getOperators, getHistory, getTransactions, addTransaction } from '@/api';
+import { getManagers, getOperators, getHistory, getTransactions, addTransaction, getCandidates } from '@/api';
 import { cloneDeep, isEqual, range, uniq, orderBy } from 'lodash';
 import numeral from 'numeral';
 import { createWeb3Contract } from '@/helpers/Contract';
@@ -61,6 +61,9 @@ const initialState = {
   // operator
   operators: [],
 
+  //candidates
+  candidates: [],
+
   // round
   currentRound: {},
   rounds: [],
@@ -73,6 +76,7 @@ const initialState = {
 
   // not yet committed
   uncommittedCurrentRoundReward: _WTON('0'),
+  selectedOperator: '',
 };
 
 const getInitialState = () => initialState;
@@ -123,6 +127,9 @@ export default new Vuex.Store({
       for (const [name, contract] of Object.entries(managers)) {
         state[name] = contract;
       }
+    },
+    SET_CANDIDATES: (state, candidates) => {
+      state.candidates = candidates;
     },
     SET_OPERATORS: (state, operators) => {
       state.operators = operators;
@@ -181,6 +188,10 @@ export default new Vuex.Store({
     SET_UNCOMMITTED_CURRENT_ROUND_REWARD: (state, reward) => {
       state.uncommittedCurrentRoundReward = reward;
     },
+    SET_SELECTED_OPERATOR:(state, selected) =>{
+      state.selectedOperator = selected;
+
+    },
   },
   actions: {
     logout (context) {
@@ -197,10 +208,12 @@ export default new Vuex.Store({
 
       const managers = await getManagers();
       const operators = await getOperators();
+      const candidates = await getCandidates();
+
       const transactions = await getTransactions(user);
       await context.dispatch('setManagers', managers);
       await context.dispatch('setOperatorsWithRegistry', operators);
-
+      await context.dispatch('setCandidates', candidates);
       await Promise.all([
         context.dispatch('setTransactionsAndPendingTransactions', transactions),
         context.dispatch('setAccountsDepositedWithPower'),
@@ -247,6 +260,12 @@ export default new Vuex.Store({
       context.commit('SET_MANAGERS', managers);
     },
     async setTransactionsAndPendingTransactions (context, transactions) {
+      const web3 = context.state.web3;
+      transactions.forEach(async transaction => {
+        const block = await web3.eth.getBlock(transaction.blockNumber);
+        const timestamp = block.timestamp;
+        transaction.timestamp = timestamp;
+      });
       context.commit('SET_TRANSACTIONS', transactions);
       const pendingTransactions = getPendingTransactions();
       context.commit('SET_PENDING_TRANSACTIONS', pendingTransactions);
@@ -345,6 +364,9 @@ export default new Vuex.Store({
     },
     async setOperatorsWithRegistry (context, operators) {
       context.commit('SET_OPERATORS', operators);
+    },
+    async setCandidates (context, candidates) {
+      context.commit('SET_CANDIDATES', candidates);
     },
     async setOperators (context, blockNumber) {
       const user = context.state.user;
@@ -467,7 +489,15 @@ export default new Vuex.Store({
             }
             return Promise.all(pendingRequests);
           };
-
+          const isCandidateOperator = () => {
+            const candidates = context.state.candidates;
+            if(candidates.some(el => el.candidate === layer2.toLowerCase())){
+              return true;
+            }
+            else {
+              return false;
+            }
+          };
           const filterNotWithdrawableRequests = (requests) => {
             return requests.filter(request => parseInt(request.withdrawableBlockNumber) > blockNumber);
           };
@@ -679,7 +709,6 @@ export default new Vuex.Store({
           const finalizeCount = parseInt(lastFinalizedEpochNumber) + 1;
           const lastFinalizedAt = await getLastFinalizedAt(lastFinalizedEpochNumber, lastFinalizedBlockNumber);
           const lastFinalized = await getRecentCommit(operator, layer2);
-
           // const result = calculateExpectedSeig(
           //   fromBlockNumber, // the latest commited block number. You can get this using seigManager.lastCommitBlock(layer2)
           //   toBlockNumber, // the target block number which you want to calculate seigniorage
@@ -740,6 +769,7 @@ export default new Vuex.Store({
           operatorFromLayer2.withdrawalDelay = withdrawalDelay;
           operatorFromLayer2.globalWithdrawalDelay = globalWithdrawalDelay;
           operatorFromLayer2.minimumAmount = minimumAmount;
+          operatorFromLayer2.isCandidate = isCandidateOperator();
           // = operatorFromLayer2.userStaked
           //   .add(userNotWithdrawable)
           //   .add(userWithdrawable)
@@ -859,6 +889,9 @@ export default new Vuex.Store({
         power: _POWER.ray(power.toString()),
       });
     },
+    setSelectedOperator (context, selected) {
+      context.commit('SET_SELECTED_OPERATOR', selected);
+    },
   },
   getters: {
     initialState: (state) => {
@@ -872,6 +905,9 @@ export default new Vuex.Store({
     },
     operatorByLayer2: (state) => (layer2) => {
       return cloneDeep(state.operators.find(operator => operator.layer2.toLowerCase() === layer2.toLowerCase()));
+    },
+    transactionsByOperator: (state) => (operator) => {
+      return state.transactions.filter(transaction => transaction.target.toLowerCase()=== operator.toLowerCase());
     },
     userTotalDeposit: (state) => {
       const initialAmount = _WTON.ray('0');

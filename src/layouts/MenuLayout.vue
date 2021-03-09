@@ -1,12 +1,12 @@
 <template>
   <div class="menu-layout">
     <div class="menu-content">
-      <img class="logo" src="@/assets/images/TokamakLogo.png">
+      <!-- <img class="logo" src="@/assets/images/TokamakLogo.png"> -->
       <h1 class="page-header">Select your favorite operator!!</h1>
       <div class="page-text">Earn rewards by staking your TON with our operators. Select an operator to stake, unstake, or withdraw your tokens.</div>
       <div class="balance-container">
         <div v-for="(operator, index) in operators" :key="index">
-          <OperatorComponent :layer2="operator.layer2" rewards="Expected rewards" value="0.000" />
+          <OperatorComponent :layer2="operator.layer2" />
         </div>
         <!-- <OperatorComponent title="Total Staked TON" balance="0.000" rewards="New rewards per block" value="0.000" /> -->
       </div>
@@ -20,10 +20,24 @@ export default {
   components: {
     OperatorComponent,
   },
+  data () {
+    return {
+      selected: false,
+      selectedOp:'',
+    };
+  },
   computed: {
     ...mapState([
       'operators',
+      'selectedOperator',
     ]),
+  },
+  methods: {
+    setOperator (operator) {
+      this.$store.dispatch('setSelectedOperator', operator);
+      this.selected = !this.selected;
+      this.selectedOp = operator;
+    },
   },
 };
 </script>
@@ -66,10 +80,10 @@ export default {
  }
 .balance-container {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: space-evenly;
-    width: 660px;
-    flex-flow: row wrap;
+    width: 1060px;
+    /* flex-flow: row wrap; */
 }
 .ton-balance {
     padding-bottom: 35px;

@@ -1,46 +1,37 @@
 <template>
-  <table class="history-table">
-    <thead>
-      <tr>
-        <th class="text-center">#</th>
-        <th class="text-center pointer" @click="orderBy('transactionHash')">{{ withArrow('transactionHash', 'Transaction Hash') }}</th>
-        <th class="text-center pointer" @click="orderBy('layer2')">{{ withArrow('layer2', 'Operator Contract') }}</th>
-        <th class="text-center pointer" @click="orderBy('type')">{{ withArrow('type', 'Type') }}</th>
-        <th class="text-center pointer" @click="orderBy('amount')">{{ withArrow('amount', 'Amount') }}</th>
-        <th class="text-center pointer" @click="orderBy('blockNumber')">{{ withArrow('blockNumber', 'Block Number') }}</th>
-        <th class="text-center pointer" @click="orderBy('status')">{{ withArrow('status', 'Status') }}</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr v-for="(transaction, index) in orderedTransaction" :key="transaction.transactionHash">
-        <td class="text-center">{{ index }}</td>
-        <td class="text-center">
-          <a
-            class="link"
-            target="_blank"
-            rel="noopener noreferrer"
-            :href="toExplorer('transactionHash', transaction.transactionHash)"
-          >
-            {{ transaction.transactionHash | hexSlicer }}
-          </a>
-        </td>
-        <td class="text-center">
-          <a
-            class="link"
-            target="_blank"
-            rel="noopener noreferrer"
-            :href="toExplorer('address', transaction.target)"
-          >
-            {{ transaction.target | hexSlicer }}
-          </a>
-        </td>
-        <td class="text-center">{{ transaction.type }}</td>
-        <td class="text-center">{{ currencyAmountFromNumberString(transaction.type, transaction.amount) }}</td>
-        <td class="text-center">{{ transaction.blockNumber }}</td>
-        <td class="text-center">{{ transaction.status }}</td>
-      </tr>
-    </tbody>
-  </table>
+  <div>
+    <table class="history-table">
+      <thead>
+        <tr>
+          <th class="text-center">Transaction Hash</th>
+          <th class="text-center">Type</th>
+          <th class="text-center">Amount</th>
+          <th class="text-center">Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="(transaction) in filteredTransactions" :key="transaction.transactionHash">
+          <td class="text-center">
+            <a
+              class="link"
+              target="_blank"
+              rel="noopener noreferrer"
+              :href="toExplorer('transactionHash', transaction.transactionHash)"
+            >
+              {{ transaction.transactionHash | hexSlicer }}
+            </a>
+          </td>
+          <td class="text-center">{{ transaction.type }}</td>
+          <td class="text-center">{{ currencyAmountFromNumberString(transaction.type, transaction.amount) }}</td>
+          <td class="text-center">{{ transaction.timestamp | formattedTimestamp }}</td>
+        </tr>
+      </tbody>
+    </table>
+    <table-paginate
+      :pages="pages"
+      @update-page="updateTableByPage"
+    />
+  </div>
 </template>
 
 <script>
@@ -49,23 +40,44 @@ import { orderBy } from 'lodash';
 import { createCurrency } from '@makerdao/currency';
 const _TON = createCurrency('TON');
 const _WTON = createCurrency('WTON');
+import TablePaginate from '@/components/TablePaginate.vue';
 
-import { mapState } from 'vuex';
+import { mapState, mapGetters } from 'vuex';
 
 export default {
+  components: {
+    'table-paginate': TablePaginate,
+  },
+  props: {
+    layer2: {
+      required: true,
+      type: String,
+    },
+  },
   data () {
     return {
       from: 'blockNumber',
       order: 'desc',
+      base: 5,
+      pages: 0,
+      updatedTransactions: [],
+      orderedRounds: [],
+      filteredTransactions: [],
     };
   },
   computed: {
     ...mapState([
       'web3',
-      'transactions',
     ]),
+    ...mapGetters(['transactionsByOperator']),
     toExplorer () {
       return (type, param) => this.$options.filters.toExplorer(type, param);
+    },
+    transactions (){
+      return this.transactionsByOperator(this.layer2);
+    },
+    formattedTimestamp () {
+      return timestamp => this.$options.filters.formattedTimestamp(timestamp);
     },
     currencyAmountFromNumberString () {
       return (type, amount) => {
@@ -86,11 +98,10 @@ export default {
         return orderBy(this.transactions, (transaction) => transaction.amount, [this.order]);
       case 'blockNumber':
         return orderBy(this.transactions, (transaction) => transaction.blockNumber, [this.order]);
-      case 'status':
-        return orderBy(this.transactions, (transaction) => transaction.status, [this.order]);
       case 'layer2':
         return orderBy(this.transactions, (transaction) => transaction.target, [this.order]);
-
+      case 'date':
+        return orderBy(this.transactions, (transaction) => transaction.blockNumber, [this.order]);
       default:
         return [];
       }
@@ -117,6 +128,12 @@ export default {
         e.preventDefault();
       });
     });
+    this.pages = parseInt(this.transactions.length / this.base) + 1;
+    if (this.pages > 1 && this.transactions.length % this.base === 0) {
+      this.pages = this.pages - 1;
+
+    }
+    this.filteredTransactions = this.orderedTransaction.slice(0, this.base);
   },
   methods: {
     orderBy (from) {
@@ -129,6 +146,9 @@ export default {
     },
     changedOrder () {
       return this.order === 'desc' ? 'asc' : 'desc';
+    },
+    updateTableByPage (page) {
+      this.filteredTransactions = this.orderedTransaction.slice((page - 1) * this.base, page * this.base);
     },
   },
 };

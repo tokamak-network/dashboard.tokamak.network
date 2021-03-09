@@ -7,8 +7,23 @@ function createInstance () {
   });
 }
 
+function createinst () {
+  return axios.create({
+    baseURL: getConfig().daoURL,
+  });
+}
 const instance = createInstance();
+const chainId = 4;
+const inst = createinst();
 
+export async function getCandidates () {
+  const res = await inst.get('/layer2s/dao_candidates', {
+    params: {
+      chainId,
+    },
+  });
+  return res.data.datas;
+}
 export async function getManagers () {
   const res = await instance.get('/managers');
   if (res.data === '') return [];

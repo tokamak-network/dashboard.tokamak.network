@@ -1,24 +1,92 @@
 <template>
   <div class="operator-container">
-    <a class="information" target="_blank"
-       rel="noopener noreferrer"
-       href="https://staking.tokamak.network/"
-    >More Information</a>
-    <div class="operator-title">
-      <avatar class="avatar" fullname="O P R" :image="filteredImgURL(operator.avatar)" :size="50" :color="operator.color" />
+    <div class="operator-header">
+      <avatar
+        class="avatar"
+        fullname="O P R"
+        :image="filteredImgURL(operator.avatar)"
+        :size="50"
+        :color="operator.color"
+      />
       <div class="operator-name">{{ operator.name }}</div>
-      <div style="font-size: 14px">Stake TON to earn rewards</div>
-      <div class="info-container">
-        <div class="container-row">
-          <div>Commission Rate</div>
-          <div>{{ operator.isCommissionRateNegative ? '-' : '' }}{{ rateOf(operator.commissionRate) }}</div>
+      <div>{{ operator.totalDeposit | currencyAmount }}</div>
+      <div>
+        {{ operator.isCommissionRateNegative ? "-" : ""
+        }}{{ rateOf(operator.commissionRate) }}
+      </div>
+
+      <sticker v-if="operator.isCandidate" :title="'Candidate'" />
+      <sticker :title="'Operator'" />
+
+      <img
+        :class="{ 'arrow-down': !pressed, 'arrow-up': pressed }"
+        src="@/assets/images/arrow-unfolded.png"
+        @click="openStaking()"
+      >
+    </div>
+    <div
+      v-if="pressed && selectedOperator === operator.layer2"
+      class="operator-details"
+    >
+      <div class="row">
+        <div class="column">
+          <operator-text-view :title="'Total Delegates'" :value="'100'" />
+          <operator-text-view :title="'Withdraw processed'" :value="'0 TON'" />
         </div>
-        <div class="container-row">
-          <div>Most Recent Commit</div>
-          <div>{{ fromNow(operator.lastFinalizedAt) }}</div>
+        <div class="column">
+          <staking-component :layer2="operator.layer2" @selectFunc="selectFunc" @openStakeModal="openStakeModal"/>
+        </div>
+        <div class="column">
+          <operator-text-view :title="'Recent Commit'" :value="date" />
+
+          <operator-text-view
+            :title="'Commit Count'"
+            :value="operator.finalizeCount"
+          />
         </div>
       </div>
-      <button class="select-button" @click="viewDetailedOperator(operator)">Select</button>
+      <div class="row">
+        <div class="column">
+          Staking
+          <div>
+            <history-table :layer2="layer2" />
+          </div>
+        </div>
+        <div class="column">
+          Commit
+          <div>
+            <history-table :layer2="layer2" />
+          </div>
+        </div>
+      </div>
+      <transition v-if="showStake" name="model">
+        <div class="model-mask">
+          <div class="model-container">
+            <stake-modal :layer2="operator.layer2" :amount="stakeAmount" @closePopup="closePopup" />
+          </div>
+        </div>
+      </transition>
+      <transition v-if="showRestake" name="model">
+        <div class="model-mask">
+          <div class="model-container">
+            <restake-modal :layer2="operator.layer2" @closePopup="closePopup" />
+          </div>
+        </div>
+      </transition>
+      <transition v-if="showUnstake" name="model">
+        <div class="model-mask">
+          <div class="model-container">
+            <unstake-modal :layer2="operator.layer2" @closePopup="closePopup" />
+          </div>
+        </div>
+      </transition>
+      <transition v-if="showWithdraw" name="model">
+        <div class="model-mask">
+          <div class="model-container">
+            <withdraw-modal :layer2="operator.layer2" @closePopup="closePopup" />
+          </div>
+        </div>
+      </transition>
     </div>
   </div>
 </template>
@@ -26,49 +94,124 @@
 <script>
 import { mapState, mapGetters } from 'vuex';
 import { getConfig } from '../../config.js';
-
+import moment from 'moment';
+import OperatorTextView from '../components/OperatorTextView';
+import StakingComponent from '../components/StakingComponent';
+import HistroyTable from '../components/table/HistoryTable';
+import StakeModel from '../components/StakeModel';
+import RestakeModal from '../components/RestakeModal';
+import UnstakeModal from '../components/UnstakeModal';
+import WithdrawModal from '../components/WithdrawModal';
+import Sticker from '../components/Sticker';
 import Avatar from 'vue-avatar-component';
 export default {
   components: {
-    'avatar': Avatar,
+    avatar: Avatar,
+    'operator-text-view': OperatorTextView,
+    'staking-component': StakingComponent,
+    'history-table' : HistroyTable,
+    'stake-modal': StakeModel,
+    'restake-modal': RestakeModal,
+    'unstake-modal' : UnstakeModal,
+    'withdraw-modal': WithdrawModal,
+    'sticker': Sticker,
   },
-  props:{
+  props: {
     layer2: {
       required: true,
       type: String,
     },
   },
+  data () {
+    return {
+      pressed: false,
+      showStake:false,
+      showUnstake:false,
+      showRestake: false,
+      showWithdraw: false,
+      stakeAmount: '0',
+    };
+  },
   computed: {
-    ...mapState([
-      'user',
-      'DepositManager',
-    ]),
-    ...mapGetters([
-      'operatorByLayer2',
-    ]),
+    ...mapState(['user', 'DepositManager', 'selectedOperator']),
+    ...mapGetters(['operatorByLayer2', 'transactionsByOperator']),
     operator () {
       return this.operatorByLayer2(this.layer2);
     },
     filteredImgURL () {
-      return name => name !== '' ? `${getConfig().baseURL}/avatars/${name}` : '';
+      return (name) =>
+        name !== '' ? `${getConfig().baseURL}/avatars/${name}` : '';
+    },
+    transactions (){
+      return this.transactionsByOperator(this.layer2);
     },
     currencyAmount () {
-      return amount => this.$options.filters.currencyAmount(amount);
+      return (amount) => this.$options.filters.currencyAmount(amount);
     },
     fromNow () {
-      return (timestamp, suffix = false) => this.$options.filters.fromNow(timestamp, suffix);
+      return (timestamp, suffix = false) =>
+        this.$options.filters.fromNow(timestamp, suffix);
     },
     rateOf () {
-      return commissionRate => this.$options.filters.rateOf(commissionRate);
+      return (commissionRate) => this.$options.filters.rateOf(commissionRate);
+    },
+    date () {
+      const zone = moment().utcOffset(this.operator.lastFinalizedAt);
+      return moment
+        .unix(this.operator.lastFinalizedAt)
+        .format('YYYY.MM.DD HH:mm:ss (Z)');
     },
   },
-  methods :{
+  methods: {
+    openStaking () {
+      if (this.pressed) {
+        this.pressed = false;
+        this.$store.dispatch('setSelectedOperator', '');
+      } else {
+        this.pressed = true;
+        this.$store.dispatch('setSelectedOperator', this.operator.layer2);
+      }
+    },
     viewDetailedOperator (operator) {
       const layer2 = operator.layer2;
-      this.$router.push({
-        path: `/staking/${layer2.toLowerCase()}`,
-        query: { network: this.$route.query.network },
-      }).catch(err => {});
+      this.$router
+        .push({
+          path: `/staking/${layer2.toLowerCase()}`,
+          query: { network: this.$route.query.network },
+        })
+        .catch((err) => {});
+    },
+    selectFunc (method) {
+      if (method === 'stake') {
+        this.showStake = true;
+      }
+      else if (method === 'unstake') {
+        this.showUnstake = true;
+      }
+      else if (method === 'restake') {
+        this.showRestake = true;
+      }
+      else if (method === 'withdraw') {
+        this.showWithdraw = true;
+      }
+    },
+    openStakeModal (amount){
+      this.stakeAmount = amount;
+      this.showStake = true;
+    },
+    closePopup (method) {
+      if (method === 'stake') {
+        this.showStake = false;
+      }
+      else if (method === 'unstake') {
+        this.showUnstake = false;
+      }
+      else if (method === 'restake') {
+        this.showRestake = false;
+      }
+      else if (method === 'withdraw') {
+        this.showWithdraw = false;
+      }
     },
   },
 };
@@ -77,78 +220,72 @@ export default {
 <style scoped>
 .operator-container {
   padding: 10px;
-  width: 280px;
-  background-color:#e2e8eb;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  /* align-items: center; */
+  background-color: #e2e8eb;
   border: solid 1px;
   border-color: #ccd1d3;
   border-radius: 12px;
   box-shadow: inset 1px 1px 0px #e2e8eb;
   margin-bottom: 19px;
 }
-.information {
-    text-decoration: none;
-    color: #555555;
-    display: flex;
-    float: right;
-   /* justify-content:flex-end; */
-   font-size: 10px;
-   padding: 5px;
-   background: #e2e2e2;
-   border: solid 1px;
-  border-color: #ccd1d3;
-  border-radius: 12px;
-  box-shadow: inset 1px 1px 0px #e2e8eb;
+.operator-header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
-.operator-title {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding-bottom: 5px;
-    width: 100%;
-    color: #555555;
+.arrow-down {
+  transform: rotate(180deg);
+}
+.arrow-up {
+  transform: rotate(0deg);
+}
+.arrow-up:hover,
+.arrow-down:hover {
+  cursor: pointer;
+}
+
+.operator-details {
+  display: flex;
+  flex-direction: column;
 }
 .operator-name {
-    font-size: 23px;
-    font-weight: 700;
-    padding: 10px;
+  font-size: 20px;
+  /* font-weight: 700; */
+  margin-left: 10px;
+  padding: 10px;
 }
 .avatar {
-    margin-top: -5px;
-
+  margin-top: -5px;
 }
-.info-container {
-    background-color: white;
-    width: 90%;
-    border-radius: 12px;
-    padding: 0px 15px;
-    margin: 10px 5px 15px 5px;
-    display: flex;
-    flex-direction: column;
-    height: 60px;
-    justify-content: center;
-    font-size: 14px;
+.column {
+  display: flex;
+  flex-direction: column;
+  margin: 20px;
 }
-.container-row {
+.row {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-    align-items: center;
+  /* margin: 20px; */
 }
-.select-button {
-    width: 100%;
-    height: 40px;
-    border-radius: 12px;
-    border: none;
-    background:  #2a72e5;
-    color: #e2e2e2;
-    font-size: 18px;
-    font-weight: 700;
+.model-mask {
+  position: fixed;
+  z-index: 9999;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  transition: opacity 0.3s ease;
+
 }
-button:focus {
-  outline: none;
-}
-button:hover {
-  color: #555555;
-  cursor: pointer;
+.model-container {
+  display: flex;
+  justify-content: center;
+    align-content: center;
+    margin-top: 150px;
 }
 </style>
