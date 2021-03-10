@@ -10,26 +10,54 @@ export default {
   data () {
     return {
       options: {
+        tooltips: {
+          enabled: true,
+          mode: 'nearest',
+          backgroundColor: 'black',
+        },
         scales: {
+          layout: {
+            padding: {
+              left: 50,
+              right: 0,
+              top: 0,
+              bottom: 0,
+            },
+          },
           yAxes: [{
+            stacked: true,
             ticks: {
-              beginAtZero: false,
+              userCallback: function (value, index, values) {
+                if (value > 999) {
+                  value = (value / 1000).toLocaleString('en-US') + 'k';
+                }
+                return value;
+              },
             },
             gridLines: {
               display: false,
+            },
+            scaleLabel: {
+              display: true,
+              labelString: 'Staked (TON)',
             },
           }],
           xAxes: [ {
             gridLines: {
               display: false,
             },
+            scaleLabel: {
+              display: true,
+              labelString: 'Years',
+            },
           }],
         },
         legend: {
           display: true,
+          position: 'left',
         },
         responsive: true,
-        maintainAspectRatio: true,
+        maintainAspectRatio: false,
       },
     };
   },

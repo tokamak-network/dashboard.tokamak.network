@@ -17,7 +17,7 @@
             <div class="home-stats__description">Staked in the</div>
             <div class="home-stats__tokamak">Tokamak Network</div>
           </div>
-          <line-chart :chartData="data" :width="1200" :height="200" />
+          <line-chart :chartData="data" :width="1000" :height="400" />
           <div v-if="loaded" class="home-footer">
             <div class="footer-items">
               <div class="footer-items__card">
@@ -85,13 +85,19 @@ const datasets = {
     {
       label: '2018 Sales',
       borderColor: 'rgba(50, 115, 220, 0.5)',
-      backgroundColor: 'rgba(50, 115, 220, 0.1)',
+      borderWidth: 2,
+      lineTension: 0.1,
+      backgroundColor: 'transparent',
+      pointStyle: 'cross',
       data: [300, 700, 450, 750, 450, 300, 700, 450, 750, 450, 750, 450],
     },
     {
       label: '2017 Sales',
       borderColor: 'rgba(255, 56, 96, 0.5)',
-      backgroundColor: 'rgba(255, 56, 96, 0.1)',
+      borderWidth: 2,
+      lineTension: 0.1,
+      backgroundColor: 'transparent',
+      pointStyle: 'cross',
       data: [600, 550, 750, 250, 700, 600, 550, 750, 250, 700, 600, 550],
     },
   ],
