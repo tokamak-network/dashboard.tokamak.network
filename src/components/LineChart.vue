@@ -16,7 +16,7 @@ export default {
               beginAtZero: false,
             },
             gridLines: {
-              display: true,
+              display: false,
             },
           }],
           xAxes: [ {

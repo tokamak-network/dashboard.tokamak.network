@@ -29,9 +29,11 @@ import SeigManagerABI from '@/contracts/abi/SeigManager.json';
 import PowerTONABI from '@/contracts/abi/PowerTON.json';
 import Layer2ABI from '@/contracts/abi/Layer2.json';
 import AutoRefactorCoinageABI from '@/contracts/abi/AutoRefactorCoinage.json';
+import axios from 'axios';
 
 const initialState = {
   loading: false,
+  loaded:false,
   signIn: false,
 
   // transactionss (based on receipt: getTransactionReceipt)
@@ -43,7 +45,7 @@ const initialState = {
   networkId: '',
   blockNumber: 0,
   blockTimestamp: 0,
-
+  totalStaked: 0,
   // contract of managers
   TON: {},
   WTON: {},
@@ -88,6 +90,9 @@ export default new Vuex.Store({
     },
     IS_LOADING: (state, isLoading) => {
       state.loading = isLoading;
+    },
+    IS_LOADED: (state, loaded) => {
+      state.loaded = loaded;
     },
     SIGN_IN: (state) => {
       state.signIn = true;
@@ -181,12 +186,15 @@ export default new Vuex.Store({
     SET_UNCOMMITTED_CURRENT_ROUND_REWARD: (state, reward) => {
       state.uncommittedCurrentRoundReward = reward;
     },
+    SET_TOTALSTAKED: (state, totalStaked) =>{
+      state.totalStaked = totalStaked;
+    },
   },
   actions: {
     logout (context) {
       context.commit('SET_INITIAL_STATE');
     },
-    async signIn (context, web3) {
+    async load (context, web3) {
       context.commit('IS_LOADING', true);
       context.commit('SET_WEB3', web3);
 
@@ -208,9 +216,13 @@ export default new Vuex.Store({
       ]);
 
       await new Promise(resolve => setTimeout(resolve, 1000)); // https://github.com/Onther-Tech/dashboard.tokamak.network/issues/81
-      context.commit('SIGN_IN');
       context.commit('IS_LOADING', false);
+      context.commit('IS_LOADED', true);
       router.replace({ path: 'home', query: { network: router.app.$route.query.network } }).catch(err => {});
+    },
+
+    signIn (context) {
+      context.commit('SIGN_IN');
     },
     async set (context, web3) {
       const blockNumber = await web3.eth.getBlockNumber();
@@ -226,6 +238,7 @@ export default new Vuex.Store({
         context.dispatch('setHistory'),
         context.dispatch('setUncommittedCurrentRoundReward', blockNumber),
         context.dispatch('checkPendingTransactions'),
+        context.dispatch('getTotalStaked'),
       ]).catch(err => {
         // after logout, error can be happened
       });
@@ -309,6 +322,14 @@ export default new Vuex.Store({
         .times(0.8)
         .times(0.5);
       context.commit('SET_UNCOMMITTED_CURRENT_ROUND_REWARD', uncommittedCurrentRoundReward);
+    },
+
+    async getTotalStaked (context) {
+      await axios
+        .get('https://price-api.tokamak.network/staking/current')
+        .then((response) => {
+          context.commit('SET_TOTALSTAKED', response.data);
+        });
     },
     async checkPendingTransactions (context) {
       const web3 = context.state.web3;

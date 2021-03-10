@@ -141,7 +141,7 @@ export default {
   height: 25px;
 
   /* text wtyles */
-  font-family: Roboto;
+  font-family: "TitilliumWeb";
   font-size: 11px;
   font-weight: 500;
   font-stretch: normal;
@@ -223,7 +223,7 @@ export default {
   height: 25px;
   width: 125px;
 
-  font-family: Roboto;
+  font-family: "TitilliumWeb";
   font-size: 11px;
   font-weight: normal;
   font-stretch: normal;

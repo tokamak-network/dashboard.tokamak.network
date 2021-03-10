@@ -173,7 +173,7 @@ export default {
 .header-container {
   width: 100%;
   align-self: center;
-  height: 75px;
+  height: 84px;
   background: #f6f8f9;
   display: flex;
   justify-content: center;
