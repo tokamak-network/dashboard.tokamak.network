@@ -5,10 +5,10 @@
       <div class="name">{{ operator.name }}</div>
       <div class="space" style="flex: 1;" />
       <div class="row">
-        <div v-if="user === operator.address" class="button">
+        <div v-if="user.toLowerCase() === operator.address.toLowerCase()" class="button">
           <base-button :label="'edit'" :func="edit" />
         </div>
-        <div v-if="user === operator.address">
+        <div v-if="user.toLowerCase() === operator.address.toLowerCase()">
           <button class="button-commit" @click="commit">commit</button>
           <button class="button-register"
                   :class="{ 'disable': isAlreadyCandidate }"
@@ -209,7 +209,7 @@ export default {
   watch: {
     operator: {
       handler: async function (op) {
-        if (op.address === this.user) {
+        if (op.address.toLowerCase() === this.user.toLowerCase()) {
           this.isAlreadyCandidate = await this.CommitteeProxy.methods.isCandidate(op.layer2).call();
         }
       },
