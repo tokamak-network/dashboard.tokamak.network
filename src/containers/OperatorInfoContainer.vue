@@ -10,6 +10,12 @@
         </div>
         <div v-if="user === operator.address">
           <button class="button-commit" @click="commit">commit</button>
+          <button class="button-register"
+                  :class="{ 'disable': isAlreadyCandidate }"
+                  @click="register"
+          >
+            register candidate
+          </button>
         </div>
       </div>
     </div>
@@ -167,10 +173,16 @@ export default {
       type: String,
     },
   },
+  data () {
+    return {
+      isAlreadyCandidate: true,
+    };
+  },
   computed: {
     ...mapState([
       'user',
       'DepositManager',
+      'CommitteeProxy',
     ]),
     ...mapGetters([
       'operatorByLayer2',
@@ -192,6 +204,17 @@ export default {
     },
     exported () {
       return genesis => 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(genesis, undefined, 2));
+    },
+  },
+  watch: {
+    operator: {
+      handler: async function (op) {
+        if (op.address === this.user) {
+          this.isAlreadyCandidate = await this.CommitteeProxy.methods.isCandidate(op.layer2).call();
+        }
+      },
+      deep: true,
+      immediate: true,
     },
   },
   created () {
@@ -295,6 +318,51 @@ export default {
       const a = v1.mul(new BN(2).pow(new BN(128)));
       return a.add(v2).toString();
     },
+    async register () {
+      if (this.isAlreadyCandidate) {
+        return;
+      }
+
+      const gasLimit = await this.CommitteeProxy.methods.registerLayer2Candidate(this.layer2, this.operator.name)
+        .estimateGas({
+          from: this.user,
+        });
+
+      await this.CommitteeProxy.methods.registerLayer2Candidate(this.layer2, this.operator.name)
+        .send({
+          from: this.user,
+          gasLimit: Math.floor(gasLimit * 1.2),
+        })
+        .on('transactionHash', async (hash) => {
+          const transcation = {
+            from: this.user,
+            type: 'Register Candidate',
+            transactionHash: hash,
+            target: this.CommitteeProxy._address,
+            amount: 0,
+          };
+          this.$store.dispatch('addPendingTransaction', transcation);
+        })
+        .on('receipt', (receipt) => {
+          if (receipt.status) {
+            this.$notify({
+              group: 'confirmed',
+              title: 'Transaction is confirmed',
+              type: 'success',
+              duration: 10000,
+            });
+            this.isAlreadyCandidate = true;
+          } else {
+            this.$notify({
+              group: 'reverted',
+              title: 'Transaction is reverted',
+              type: 'error',
+              duration: 10000,
+            });
+            this.isAlreadyCandidate = false;
+          }
+        });
+    },
   },
 };
 </script>
@@ -357,7 +425,31 @@ export default {
   margin-right: 16px;
 }
 
+.button-register {
+  color: #ffffff;
+  background-color: #4c88e9;
+  border: 1px solid #4c88e9;
+  text-align: center;
+  font-size: 14px;
+  border-radius: 4px;
+  height: 24px;
+  margin-right: 16px;
+}
+
 .button-commit:hover {
   cursor: pointer;
+}
+
+.button-register:hover {
+  cursor: pointer;
+}
+
+.disable {
+  background-color: #dde2ed;
+  border: 1px solid #dde2ed;
+}
+
+.disable:hover {
+  cursor: not-allowed;
 }
 </style>
