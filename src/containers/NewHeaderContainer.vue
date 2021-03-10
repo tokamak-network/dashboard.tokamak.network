@@ -58,7 +58,7 @@
       </div>
       <div>
         <button v-if="!signIn" class="login" @click="login">Unlock Wallet</button>
-        <button v-else class="login" @click="showPopUp">{{ userAddress }}</button>
+        <button v-else class="login" @click="showPopUp">{{ user | hexSlicer }}</button>
       </div>
 
       <transition v-if="showModel" name="model">
@@ -76,7 +76,6 @@
 import { mapState } from 'vuex';
 import Web3 from 'web3';
 import { getConfig } from '../../config.js';
-import { truncateAddress } from '../helpers/truncate';
 // import { setProvider } from '@/helpers/Contract';
 import WalletContainer from '@/containers/WalletContainer.vue';
 export default {
@@ -94,8 +93,8 @@ export default {
       'signIn',
       'user',
     ]),
-    userAddress () {
-      return this.user && truncateAddress(this.user);
+    hexSlicer () {
+      return address => this.$options.filters.hexSlicer(address);
     },
   },
   methods: {

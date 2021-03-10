@@ -2,7 +2,8 @@
   <table>
     <thead>
       <th
-        v-for="column in columns"
+        v-for="(column, index) in columns"
+        :id="index"
         :key="column.name"
         :class="{ 'round': rounded }"
       >
@@ -56,6 +57,11 @@ export default {
       default: false,
     },
   },
+  computed: {
+    prettifyTransactionHash () {
+      return address => this.$options.filters.prettifyTransactionHash(address, 20);
+    },
+  },
   methods: {
     clickTableData (data) {
       this.$emit('tableDataClicked', data);
@@ -75,7 +81,7 @@ export default {
         else return data;
 
       case 'history':
-        if (key === 'transactionHash') return this.$options.filters.hexSlicer(data);
+        if (key === 'transactionHash') return this.$options.filters.prettifyTransactionHash(data);
         else if (key === 'amount') return this.$options.filters.stringToTON(data);
         else return data;
 

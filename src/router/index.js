@@ -16,7 +16,7 @@ import StakingLayout from '@/layouts/StakingLayout.vue';
 import StakeByOperatorLayout from '@/layouts/StakeByOperatorLayout.vue';
 import AboutUsLayout from '@/layouts/AboutUsLayout.vue';
 import PowerLayout from '@/layouts/PowerLayout.vue';
-import WalletLayout from '@/layouts/Wallet.vue';
+import WalletLayout from '@/layouts/WalletLayout.vue';
 const routes = [
   // {
   //   path: '/dashboard',
