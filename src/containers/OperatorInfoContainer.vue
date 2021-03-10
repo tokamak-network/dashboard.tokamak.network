@@ -5,10 +5,13 @@
       <div class="name">{{ operator.name }}</div>
       <div class="space" style="flex: 1;" />
       <div class="row">
-        <div v-if="user.toLowerCase() === operator.address.toLowerCase()" class="button">
-          <base-button :label="'edit'" :func="edit" />
-        </div>
-        <div v-if="user.toLowerCase() === operator.address.toLowerCase()">
+        <div v-if="user.toLowerCase() === operator.address.toLowerCase()"
+             class="button-container"
+        >
+          <base-button class="button-edit"
+                       :label="'edit'"
+                       :func="edit"
+          />
           <button class="button-commit" @click="commit">commit</button>
           <button class="button-register"
                   :class="{ 'disable': isAlreadyCandidate }"
@@ -414,6 +417,10 @@ export default {
   margin-right: 16px;
 }
 
+.button-container {
+  display: flex;
+}
+
 .button-commit {
   color: #ffffff;
   background-color: #f38776;
@@ -426,6 +433,7 @@ export default {
 }
 
 .button-register {
+  width: 130px;
   color: #ffffff;
   background-color: #4c88e9;
   border: 1px solid #4c88e9;
