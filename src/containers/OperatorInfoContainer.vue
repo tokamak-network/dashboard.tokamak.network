@@ -17,7 +17,7 @@
                   :class="{ 'disable': isAlreadyCandidate }"
                   @click="register"
           >
-            register candidate
+            register
           </button>
         </div>
       </div>
@@ -433,7 +433,6 @@ export default {
 }
 
 .button-register {
-  width: 130px;
   color: #ffffff;
   background-color: #4c88e9;
   border: 1px solid #4c88e9;
