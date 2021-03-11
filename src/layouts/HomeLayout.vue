@@ -17,7 +17,9 @@
             <div class="home-stats__description">Staked in the</div>
             <div class="home-stats__tokamak">Tokamak Network</div>
           </div>
-          <line-chart :chartData="data" :width="1024" :height="400" />
+          <div class="home-stats__chart">
+            <line-chart :chartData="data" :width="1024" :height="400" />
+          </div>
           <div v-if="loaded" class="home-footer">
             <div class="footer-items">
               <div class="footer-items__card">
@@ -25,7 +27,7 @@
                   Round
                   <span class="items-card__title-span">start</span>
                 </div>
-                <span class="items-card__date">{{ formattedTimestamp(currentRound.startTime) }}
+                <span class="items-card__text">{{ formattedTimestamp(currentRound.startTime) }}
                 </span>
               </div>
               <div class="footer-items__card">
@@ -33,7 +35,7 @@
                   PowerTON
                   <span class="items-card__title-span">Reward</span>
                 </div>
-                <span class="items-card__date">{{
+                <span class="items-card__text">{{
                   currencyAmount(
                     currentRound.reward.add(uncommittedCurrentRoundReward)
                   )
@@ -44,9 +46,9 @@
                   Round
                   <span class="items-card__title-span">End</span>
                 </div>
-                <span>3D 2:20:30 </span>
-                <div class="items-card__date">
-                  {{ formattedTimestamp(currentRound.endTime) }}
+                <div class="items-card__text">
+                  3D 2:20:30
+                  <small class="item-date-small">{{ formattedTimestamp(currentRound.endTime) }}</small>
                 </div>
               </div>
             </div>
@@ -57,14 +59,8 @@
   </div>
 </template>
 <script>
-// import SwapComponent from '@/components/SwapComponent.vue';
 import { mapState, mapGetters } from 'vuex';
 import LineChart from '@/components/LineChart.vue';
-import moment from 'moment';
-
-// import { createCurrency } from '@makerdao/currency';
-// const _TON = createCurrency('TON');
-
 // mock data
 const datasets = {
   labels: [
@@ -83,21 +79,21 @@ const datasets = {
   ],
   datasets: [
     {
-      label: '2018 Sales',
+      label: 'Total Stake',
       borderColor: 'rgba(50, 115, 220, 0.5)',
       borderWidth: 2,
       lineTension: 0,
       backgroundColor: 'transparent',
-      data: [0, 700, 450, 750, 450, 300, 700, 450, 750, 450, 750, 450],
+      data: [0, 2, 5, 1, 0, 3, 0, 4, 7, 5, 7, 4],
       pointRadius: 0,
     },
     {
-      label: '2017 Sales',
+      label: 'Actual APY',
       borderColor: 'rgba(255, 56, 96, 0.5)',
       borderWidth: 2,
       lineTension: 0,
       backgroundColor: 'transparent',
-      data: [0, 550, 750, 250, 700, 600, 550, 750, 250, 700, 600, 550],
+      data: [0, 5, 5, 2, 7, 6, 5, 7, 2, 7, 6, 5],
       pointRadius: 0,
     },
   ],
@@ -105,7 +101,6 @@ const datasets = {
 
 export default {
   components: {
-    // SwapComponent,
     LineChart,
   },
   data () {
@@ -150,11 +145,13 @@ export default {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 85vw;
+  width: 100vw;
 }
+
 .home-stats {
   display: flex;
   flex-direction: column;
+  background-image: url('../assets/images/map.png');
 }
 .home-stats__title {
   margin-bottom: 25px;
@@ -167,11 +164,6 @@ export default {
   text-align: center;
   color: #3d495d;
   line-height: 0.47;
-  /* line-height: 1; */
-  /* width: 284px; */
-  /* height: 58px; */
-  /* font-weight: 300; */
-  /* letter-spacing: 2; */
 }
 
 .home-stats__amount {
@@ -184,7 +176,6 @@ export default {
   letter-spacing: 1.25px;
   text-align: center;
   color: #2a72e5;
-  /* line-height: 0.36; */
 }
 .home-stats__description {
   font-family: "Titillium Web", sans-serif;
@@ -198,6 +189,7 @@ export default {
   color: #3d495d;
   line-height: 1.88;
 }
+
 .home-stats__tokamak {
   font-family: "NanumSquare", sans-serif;
   font-size: 38px;
@@ -210,6 +202,11 @@ export default {
   color: #3d495d;
   margin-bottom: 30px;
 }
+
+.home-stats__chart {
+  width: 100vw;
+}
+
 .home-stats__amount small {
   font-weight: 800;
   margin: 0;
@@ -235,7 +232,9 @@ export default {
 
 .home-footer {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
   margin-top: 2rem;
 }
 
@@ -246,37 +245,33 @@ export default {
 }
 
 .footer-items__card {
-  /* border-radius: 1rem;
-  border: 1px solid #d4d3d3; */
-  /* padding: 1rem 2rem; */
+  text-align: center;
 }
 
 .items-card__title {
   font-family: "Titillium Web", sans-serif;
-  font-size: 13px;
+  font-size: 1.2rem;
   font-weight: 800;
   font-stretch: normal;
   font-style: normal;
-  /* line-height: 1.54; */
   letter-spacing: 0.26px;
-  text-align: left;
   color: #3d495d;
 }
+
 .items-card__title-span {
   font-family: "Titillium Web", sans-serif;
-  font-size: 13px;
+  font-size: 1.2rem;
   font-weight: 800;
   font-stretch: normal;
   font-style: normal;
-  /* line-height: 1.54; */
   letter-spacing: 0.26px;
   text-align: left;
   color: #0060c7;
 }
-.items-card__date {
-  font-family: "Titillium Web", sans-serif;
-  font-size: 18px;
 
+.items-card__text {
+  font-family: "Titillium Web", sans-serif;
+  font-size: 1.5rem;
   font-weight: bold;
   font-stretch: normal;
   font-style: normal;

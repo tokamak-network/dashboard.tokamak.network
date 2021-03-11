@@ -11,9 +11,8 @@ export default {
     return {
       options: {
         tooltips: {
-          enabled: true,
           mode: 'nearest',
-          backgroundColor: 'black',
+          backgroundColor: '#2a72e5',
         },
         scales: {
           ticks: { min: 0 },
@@ -26,16 +25,7 @@ export default {
             },
           },
           yAxes: [{
-            stacked: true,
-            ticks: {
-              beginAtZero: true,
-              userCallback: function (value, index, values) {
-                if (value > 999) {
-                  value = (value / 1000).toLocaleString('en-US') + 'k';
-                }
-                return value;
-              },
-            },
+            display: false,
             gridLines: {
               display: false,
             },
@@ -45,6 +35,7 @@ export default {
             },
           }],
           xAxes: [ {
+            display: false,
             gridLines: {
               display: false,
             },
@@ -56,7 +47,6 @@ export default {
         },
         legend: {
           display: true,
-          position: 'left',
         },
         responsive: true,
         maintainAspectRatio: false,

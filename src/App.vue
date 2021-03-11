@@ -133,8 +133,7 @@ html, body {
 }
 
 .body-container {
-  min-width: 1174px;
-  max-width: 1174px;
+  width: 100vw;
   display: flex;
   flex: 1;
   justify-content: center;
