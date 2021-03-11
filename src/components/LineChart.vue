@@ -16,6 +16,7 @@ export default {
           backgroundColor: 'black',
         },
         scales: {
+          ticks: { min: 0 },
           layout: {
             padding: {
               left: 50,
@@ -27,6 +28,7 @@ export default {
           yAxes: [{
             stacked: true,
             ticks: {
+              beginAtZero: true,
               userCallback: function (value, index, values) {
                 if (value > 999) {
                   value = (value / 1000).toLocaleString('en-US') + 'k';
