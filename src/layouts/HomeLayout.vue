@@ -17,7 +17,7 @@
             <div class="home-stats__description">Staked in the</div>
             <div class="home-stats__tokamak">Tokamak Network</div>
           </div>
-          <line-chart :chartData="data" :width="1000" :height="400" />
+          <line-chart :chartData="data" :width="1024" :height="400" />
           <div v-if="loaded" class="home-footer">
             <div class="footer-items">
               <div class="footer-items__card">
