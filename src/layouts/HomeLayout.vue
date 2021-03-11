@@ -80,8 +80,9 @@ const datasets = {
   datasets: [
     {
       label: 'Total Stake',
-      borderColor: 'rgba(50, 115, 220, 0.5)',
+      borderColor: '#2a72e5',
       borderWidth: 2,
+      pointStyle: 'line',
       lineTension: 0,
       backgroundColor: 'transparent',
       data: [0, 2, 5, 1, 0, 3, 0, 4, 7, 5, 7, 4],
@@ -89,9 +90,10 @@ const datasets = {
     },
     {
       label: 'Actual APY',
-      borderColor: 'rgba(255, 56, 96, 0.5)',
+      borderColor: '#84919e',
       borderWidth: 2,
       lineTension: 0,
+      pointStyle: 'line',
       backgroundColor: 'transparent',
       data: [0, 5, 5, 2, 7, 6, 5, 7, 2, 7, 6, 5],
       pointRadius: 0,
@@ -153,6 +155,7 @@ export default {
   flex-direction: column;
   background-image: url('../assets/images/map.png');
 }
+
 .home-stats__title {
   margin-bottom: 25px;
   font-family: "Titillium Web", sans-serif;
@@ -177,6 +180,7 @@ export default {
   text-align: center;
   color: #2a72e5;
 }
+
 .home-stats__description {
   font-family: "Titillium Web", sans-serif;
   margin-bottom: 20px;
@@ -217,7 +221,7 @@ export default {
   justify-content: center;
   align-items: center;
   max-width: 100vw;
-  margin-top: 2rem;
+  margin-top: 2px;
 }
 
 .home-body__stats {
@@ -235,13 +239,14 @@ export default {
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  margin-top: 2rem;
+  margin-top: 20px;
 }
 
 .footer-items {
   display: grid;
+  margin-top: 49px;
   grid-template-columns: repeat(3, 1fr);
-  column-gap: 1rem;
+  column-gap: 80px;
 }
 
 .footer-items__card {
@@ -250,7 +255,7 @@ export default {
 
 .items-card__title {
   font-family: "Titillium Web", sans-serif;
-  font-size: 1.2rem;
+  font-size: 15px;
   font-weight: 800;
   font-stretch: normal;
   font-style: normal;
@@ -260,7 +265,7 @@ export default {
 
 .items-card__title-span {
   font-family: "Titillium Web", sans-serif;
-  font-size: 1.2rem;
+  font-size: 15px;
   font-weight: 800;
   font-stretch: normal;
   font-style: normal;
@@ -271,7 +276,7 @@ export default {
 
 .items-card__text {
   font-family: "Titillium Web", sans-serif;
-  font-size: 1.5rem;
+  font-size: 22px;
   font-weight: bold;
   font-stretch: normal;
   font-style: normal;

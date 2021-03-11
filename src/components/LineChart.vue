@@ -26,27 +26,32 @@ export default {
           },
           yAxes: [{
             display: false,
-            gridLines: {
-              display: false,
-            },
-            scaleLabel: {
-              display: true,
-              labelString: 'Staked (TON)',
-            },
+            // gridLines: {
+            //   display: false,
+            // },
+            // scaleLabel: {
+            //   display: true,
+            //   labelString: 'Staked (TON)',
+            // },
           }],
           xAxes: [ {
             display: false,
-            gridLines: {
-              display: false,
-            },
-            scaleLabel: {
-              display: true,
-              labelString: 'Years',
-            },
+            // gridLines: {
+            //   display: false,
+            // },
+            // scaleLabel: {
+            //   display: true,
+            //   labelString: 'Years',
+            // },
           }],
         },
         legend: {
           display: true,
+          align: 'center',
+          fullWidth: true,
+          labels: {
+            usePointStyle: true,
+          },
         },
         responsive: true,
         maintainAspectRatio: false,
