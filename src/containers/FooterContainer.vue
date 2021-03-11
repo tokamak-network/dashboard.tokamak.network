@@ -15,7 +15,7 @@
             src="@/assets/images/Mail.png"
             width="14;"
             height="10;"
-            style="margin-right: 0.5rem;"
+            style="margin-right: 5px;"
           >
           <a
             class="footer-mail"
@@ -177,13 +177,13 @@ export default {
 <style scoped>
 .footer {
   display: flex;
-  height: 5rem;
+  height: 76px;
   align-items: center;
   justify-content: center;
   background-color: #f6f8f9;
   font-family: "Titillium Web", sans-serif;
   border-top: 1px solid #f4f6f8;
-  padding: 0 2rem;
+  padding: 0 40px;
 }
 
 .footer-container {
@@ -196,8 +196,8 @@ export default {
 .flex-row {
   display: flex;
   flex-direction: row;
+  align-items: center;
   justify-content: space-between;
-  width: 45%;
 }
 
 .social-links {
@@ -210,20 +210,22 @@ export default {
 .footer-name {
   font-weight: bold;
   font-stretch: normal;
-  font-size: 1rem;
+  font-size: 14px;
   font-style: normal;
   letter-spacing: normal;
   text-align: left;
   color: #3e495c;
+  margin-right: 20px;
 }
 
 .footer-address {
   font-stretch: normal;
   font-style: normal;
-  font-size: 1rem;
+  font-size: 13px;
   letter-spacing: normal;
   text-align: left;
   color: #86929d;
+  margin-right: 15.8px;
 }
 
 .footer-mail-container {
@@ -233,7 +235,7 @@ export default {
 }
 
 .footer-mail {
-  font-size: 0.9rem;
+  font-size: 13px;
   font-weight: 300;
   letter-spacing: normal;
   text-align: left;
