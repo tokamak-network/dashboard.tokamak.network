@@ -63,12 +63,16 @@ export default {
 <style scoped>
 .main-layout {
   display: flex;
+  min-width: 100%;
+  max-width: 100%;
   padding-bottom: 2rem;
   flex-direction: column;
 }
 .main-container {
   display: flex;
   flex-direction: row;
+ min-width: 100%;
+  max-width: 100%;
 }
 .main-body-container {
   width: 100%;

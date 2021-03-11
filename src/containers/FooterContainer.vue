@@ -187,7 +187,7 @@ export default {
 }
 
 .footer-container {
-  width: 100vw;
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -197,14 +197,14 @@ export default {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  width: 45vw;
+  width: 45%;
 }
 
 .social-links {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  width: 30vw;
+  width: 30%;
 }
 
 .footer-name {
