@@ -17,8 +17,8 @@
             <div class="home-stats__description">Staked in the</div>
             <div class="home-stats__tokamak">Tokamak Network</div>
           </div>
-          <div class="home-stats__chart">
-            <line-chart :chartData="data" :width="1024" :height="400" />
+          <div class="home-stats__chart" style="position: relative; height:45vh; width:98.99vw">
+            <line-chart :chartData="data" />
           </div>
           <div v-if="loaded" class="home-footer">
             <div class="footer-items">
@@ -27,7 +27,11 @@
                   Round
                   <span class="items-card__title-span">start</span>
                 </div>
-                <span class="items-card__text">{{ formattedTimestamp(currentRound.startTime) }}
+                <span class="items-card__text">{{ formatTimeString(currentRound.startTime) }}
+                </span>
+                <span class="items-card__subtext">{{ formatTimeSeconds(currentRound.startTime) }}
+                </span>
+                <span class="items-card__subtext">(GMT {{ timezone(currentRound.startTime) }})
                 </span>
               </div>
               <div class="footer-items__card">
@@ -47,8 +51,10 @@
                   <span class="items-card__title-span">End</span>
                 </div>
                 <div class="items-card__text">
-                  3D 2:20:30
-                  <small class="item-date-small">{{ formattedTimestamp(currentRound.endTime) }}</small>
+                  {{ durationTime.days() + "D "+ durationTime.hours()+ ":"+ durationTime.minutes()+ ":"+ durationTime.seconds() }}
+                  <span class="items-card__subtext">{{ date }}</span>
+                  <span class="items-card__subtext">(GMT {{ timezone(currentRound.endTime) }})
+                  </span>
                 </div>
               </div>
             </div>
@@ -61,6 +67,8 @@
 <script>
 import { mapState, mapGetters } from 'vuex';
 import LineChart from '@/components/LineChart.vue';
+import moment from 'moment';
+
 // mock data
 const datasets = {
   labels: [
@@ -85,8 +93,8 @@ const datasets = {
       pointStyle: 'line',
       lineTension: 0,
       backgroundColor: 'transparent',
-      data: [0, 2, 5, 1, 0, 3, 0, 4, 7, 5, 7, 4],
-      pointRadius: 0,
+      data: [0, 1, 3, 5, 6, 8, 9, 10, 10, 12, 15, 16],
+      pointRadius: 1,
     },
     {
       label: 'Actual APY',
@@ -95,8 +103,8 @@ const datasets = {
       lineTension: 0,
       pointStyle: 'line',
       backgroundColor: 'transparent',
-      data: [0, 5, 5, 2, 7, 6, 5, 7, 2, 7, 6, 5],
-      pointRadius: 0,
+      data: [0, 2, 4, 5, 7, 9, 11, 13, 14, 16, 17, 18],
+      pointRadius: 1,
     },
   ],
 };
@@ -108,6 +116,7 @@ export default {
   data () {
     return {
       data: datasets,
+      durationTime: moment.duration(0),
     };
   },
   computed: {
@@ -127,12 +136,31 @@ export default {
     currencyAmount () {
       return (amount) => this.$options.filters.currencyAmount(amount);
     },
-    formattedTimestamp () {
-      return (timestamp) => this.$options.filters.formattedTimestamp(timestamp);
+    formatTimeString () {
+      return (timestamp) => this.$options.filters.formatTimeString(timestamp);
+    },
+    formatTimeSeconds () {
+      return (timestamp) => this.$options.filters.formatTimeSeconds(timestamp);
+    },
+    timezone () {
+      return (timestamp) => this.$options.filters.timezone(timestamp);
+    },
+    date () {
+      return moment.unix(this.currentRound.endTime).format('MM.DD hh:mm ');
     },
   },
-  created () {},
-  methods: {},
+  created () {
+    setInterval(()=> this.calcDuration(), 1000);
+  },
+  methods: {
+    calcDuration () {
+      const now = moment().unix();
+      const endTime = this.currentRound.endTime;
+      const leftTime = endTime - now;
+      const duration = moment.duration(leftTime*1000, 'milliseconds');
+      this.durationTime = duration;
+    },
+  },
 };
 </script>
 <style scoped>
@@ -251,7 +279,7 @@ export default {
 
 .footer-items__card {
   text-align: center;
-  width:240px;
+  width:250px;
   /* margin-right: 40px; */
   /* border-radius: 1rem;
   border: 1px solid #d4d3d3; */
@@ -283,6 +311,17 @@ export default {
   font-family: "Titillium Web", sans-serif;
   font-size: 22px;
   font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 0.89;
+  letter-spacing: normal;
+  text-align: right;
+  color: #3d495d;
+}
+.items-card__subtext {
+  font-family: "Titillium Web", sans-serif;
+  font-size: 11px;
+  font-weight: 600;
   font-stretch: normal;
   font-style: normal;
   line-height: 0.89;
