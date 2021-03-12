@@ -17,6 +17,7 @@ export async function getManagers () {
 
 export async function getOperators () {
   const res = await instance.get('/operators');
+  console.log(res.data);
   if (res.data === '') return [];
   else return res.data;
 }

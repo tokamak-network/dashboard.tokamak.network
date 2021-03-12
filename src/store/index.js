@@ -212,6 +212,35 @@ export default new Vuex.Store({
       context.commit('IS_LOADING', false);
       router.replace({ path: 'dashboard', query: { network: router.app.$route.query.network } }).catch(err => {});
     },
+    async signInLedger (context, web3, account) {
+      context.commit('IS_LOADING', true);
+      context.commit('SET_WEB3', web3);
+
+      const user = account;
+      console.log(user);
+      console.log(await web3.eth.getAccounts());
+      const networkId = await web3.eth.net.getId();
+      context.commit('SET_USER', user);
+      context.commit('SET_NETWORK_ID', networkId);
+
+      const managers = await getManagers();
+      const operators = await getOperators();
+      const transactions = await getTransactions(user);
+
+      await context.dispatch('setManagers', managers);
+      await context.dispatch('setOperatorsWithRegistry', operators);
+
+      await Promise.all([
+        context.dispatch('setTransactionsAndPendingTransactions', transactions),
+        context.dispatch('setAccountsDepositedWithPower'),
+        context.dispatch('set', web3),
+      ]);
+
+      await new Promise(resolve => setTimeout(resolve, 1000)); // https://github.com/Onther-Tech/dashboard.tokamak.network/issues/81
+      context.commit('SIGN_IN');
+      context.commit('IS_LOADING', false);
+      router.replace({ path: 'dashboard', query: { network: router.app.$route.query.network } }).catch(err => {});
+    },
     async set (context, web3) {
       const blockNumber = await web3.eth.getBlockNumber();
       const block = await web3.eth.getBlock(blockNumber);
@@ -232,6 +261,7 @@ export default new Vuex.Store({
     },
     async setManagers (context, managers) {
       const user = context.state.user;
+
       const managerABIs = {
         TONABI,
         WTONABI,
@@ -403,6 +433,8 @@ export default new Vuex.Store({
             Layer2.methods.operator().call(),
             Layer2.methods.currentFork().call(),
           ]);
+          const testCoinage = createWeb3Contract(AutoRefactorCoinageABI, '0x0273cD08B80733f1C627F0Cad7985aa77b507787');
+          const totBalance = await testCoinage.methods.totalSupply().call();
 
           const getRecentCommit = async (operator, layer2) => {
             const web3 = context.state.web3;
@@ -680,6 +712,9 @@ export default new Vuex.Store({
           const lastFinalizedAt = await getLastFinalizedAt(lastFinalizedEpochNumber, lastFinalizedBlockNumber);
           const lastFinalized = await getRecentCommit(operator, layer2);
 
+          // console.log(totBalance);
+          // console.log(_WTON(totBalance, WTON_UNIT));
+
           // const result = calculateExpectedSeig(
           //   fromBlockNumber, // the latest commited block number. You can get this using seigManager.lastCommitBlock(layer2)
           //   toBlockNumber, // the target block number which you want to calculate seigniorage
@@ -703,7 +738,7 @@ export default new Vuex.Store({
           const withdrawableRequests = filterWithdrawableRequests(pendingRequests);
           const userNotWithdrawable = getUserNotWithdrawable(notWithdrawableRequests);
           const userWithdrawable = getUserWithdrawable(withdrawableRequests);
-
+          console.log(_WTON(totalStaked, WTON_UNIT));
           // set vue state.
           operatorFromLayer2.address = operator;
           // operatorFromLayer2.lastFinalizedAt = lastFinalizedAt;
@@ -879,6 +914,7 @@ export default new Vuex.Store({
     userTotalStaked: (state) => {
       const initialAmount = _WTON.ray('0');
       const reducer = (amount, operator) => amount.add(operator.userStaked);
+      console.log(state.operators.reduce(reducer, initialAmount));
 
       return state.operators.reduce(reducer, initialAmount);
     },

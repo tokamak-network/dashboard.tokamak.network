@@ -34,12 +34,19 @@ import walletConnect from '@/components/WalletConnect.vue';
 import ledgerConnect from '@/components/LedgerConnect.vue';
 
 import WalletConnectProvider from '@walletconnect/web3-provider';
+
 import EthereumTx from 'ethereumjs-tx';
 import AppEth from '@ledgerhq/hw-app-eth';
+
+import HookedWalletSubprovider from 'web3-provider-engine/dist/es5/subproviders/hooked-wallet';
+
 import createLedgerSubprovider from '@ledgerhq/web3-subprovider';
 import TransportWebUSB from '@ledgerhq/hw-transport-u2f';
 import ProviderEngine from 'web3-provider-engine';
-import FetchSubprovider from 'web3-provider-engine/subproviders/rpc';
+import RpcSubprovider from 'web3-provider-engine/subproviders/rpc';
+import * as HDKey from 'hdkey';
+// import LedgerWalletSubproviderFactory from 'ledger-wallet-provider';
+
 
 export default {
   components: {
@@ -91,61 +98,90 @@ export default {
     },
     async ledger () {
       const engine = new ProviderEngine();
-      // console.log(engine);
-      const transport = await this.withTransport();
-      console.log(transport); // eslint-disable-line
-      // TransportWebUSB.create().then(transport => {
-      //   const a = new AppEth(transport);
-      //   console.log(a);
+
+      const transport = await TransportWebUSB.create();
+      transport.setDebugMode(true);
+      const appEth = new AppEth(transport);
+      // let address;
+      // let derivedKey, accountPath;
+
+      const isSupported = await TransportWebUSB.isSupported();
+      console.log(isSupported);
+
+      const rootPub = await appEth.getAddress('44\'/60\'/0\'/0/0', false, true);
+      // .then(o => {
+      //   address = o.address;
       // });
-      // console.log(transport);
+
+      const hdKey = new HDKey();
+      hdKey.publicKey = Buffer.from(rootPub.publicKey, 'hex');
+      hdKey.chainCode = Buffer.from(rootPub.chainCode, 'hex');
+      const derivedKey = hdKey.derive('m/0/0');
+      console.log(derivedKey);
+
+      const address = rootPub.address;
+
       const ledger = createLedgerSubprovider(transport, {
         networkId: 1,
         accountsLength: 5,
+        paths:  ['44\'/60\'/x\'/0/0'],
       });
+      // console.log(ledger);
+      // const addresses = await new Promise((resolve, reject) =>
+      //   ledger.getAccounts((err, addresses) =>
+      //     err ? reject(err) : resolve(addresses)
+      //   )
+      // );
+      // console.log(addresses);
+      // console.log(ledger.getAccounts);
       engine.addProvider(ledger);
-      engine.addProvider(new FetchSubprovider({ rpcUrl: 'https://mainnet.infura.io/v3/3c55b12f39c549c7911f6488d8888260' }));
+      engine.addProvider(new RpcSubprovider({ rpcUrl: 'https://mainnet.infura.io/v3/3c55b12f39c549c7911f6488d8888260' }));
       engine.start();
-      // console.log(AppEth);
-      // console.log(AppEth.default);
-      // console.log(engine);
+      // console.log(engine); // eslint-disable-line
       const web3 = new Web3(engine); // eslint-disable-line
-      console.log(await web3.eth.getAccounts()); // eslint-disable-line
-      console.log(await engine.currentBlock); // eslint-disable-line
-      console.log(ledger); // eslint-disable-line
-      console.log(await ledger.getAccounts()); // eslint-disable-line
-      console.log(web3); // eslint-disable-line
-      const eth = new AppEth(transport);
-      // console.log(eth);
+      // console.log((await web3.eth.getAccounts())[0]);
+      // web3.eth.getAccounts(console.log);
+      console.log(await web3.eth.net.getId());
+      console.log(web3);
+      console.log(web3.currentProvider);
+      console.log(await web3.eth.getBalance(address));
+      await this.$store.dispatch('signInLedger', web3, address);
+      this.currentAccount = address;
+      // try {
+      //   await this.$store.dispatch('signIn', web3);
+      //   this.currentAccount = address;
+      // } catch (e) {
+      //   throw new Error(e.message);
+      // }
 
-      try {
-        engine.on('chainChanged', (chainId) => {
-          this.$store.dispatch('logout');
-          this.$router.replace({
-            path: '/',
-            query: { network: this.$route.query.network },
-          }).catch(err => {});
-        });
-        engine.on('accountsChanged', (account) => {
-          if (this.user.toLowerCase() !== account[0].toLowerCase()) {
-            this.$store.dispatch('logout');
-            this.$router.replace({
-              path: '/',
-              query: { network: this.$route.query.network },
-            }).catch(err => {});
-          }
-        });
-        engine.on('disconnect', (code, reason) => {
-          alert('Ethereum Provider connection lost');
-          this.$store.dispatch('logout');
-          this.$router.replace({
-            path: '/',
-            query: { network: this.$route.query.network },
-          }).catch(err => {});
-        });
-      } catch (e) {
-        alert(e.message);
-      }
+      // try {
+      //   engine.on('chainChanged', (chainId) => {
+      //     this.$store.dispatch('logout');
+      //     this.$router.replace({
+      //       path: '/',
+      //       query: { network: this.$route.query.network },
+      //     }).catch(err => {});
+      //   });
+      //   engine.on('accountsChanged', (account) => {
+      //     if (this.user.toLowerCase() !== account[0].toLowerCase()) {
+      //       this.$store.dispatch('logout');
+      //       this.$router.replace({
+      //         path: '/',
+      //         query: { network: this.$route.query.network },
+      //       }).catch(err => {});
+      //     }
+      //   });
+      //   engine.on('disconnect', (code, reason) => {
+      //     alert('Ethereum Provider connection lost');
+      //     this.$store.dispatch('logout');
+      //     this.$router.replace({
+      //       path: '/',
+      //       query: { network: this.$route.query.network },
+      //     }).catch(err => {});
+      //   });
+      // } catch (e) {
+      //   alert(e.message);
+      // }
     },
     async walletConnect () {
       const provider = new WalletConnectProvider({
@@ -235,29 +271,15 @@ export default {
         alert('Please connect to MetaMask.');
       } else if (accounts[0] !== this.currentAccount) {
         // const provider = window.ethereum;
+        // console.log(await provider.request());
         const web3 = new Web3(provider);
+        console.log((await web3.eth.getAccounts())[0]);
         const networkVersion = await provider.request({ method: 'net_version' });
         if (networkVersion.toString() !== getConfig().network) {
           throw new Error(`Please connect to the '${this.$options.filters.nameOfNetwork(getConfig().network)}' network`);
         }
         await this.$store.dispatch('signIn', web3);
         this.currentAccount = accounts[0];
-      }
-    },
-    async withTransport () {
-      try {
-        const transport = await TransportWebUSB.create();
-        return transport;
-      } catch (e) {
-        if (e.message) {
-          if (e.message === 'No device selected.') {
-            e.message = 'Select your device in the WebUSB dialog box. Make sure it\'s plugged in, unlocked, and has the Bitcoin app open.';
-          }
-          if (e.message === 'undefined is not an object (evaluating \'navigator.usb.getDevices\')') {
-            e.message = 'Safari is not a supported browser.';
-          }
-        }
-        throw new Error(e.message);
       }
     },
   },
