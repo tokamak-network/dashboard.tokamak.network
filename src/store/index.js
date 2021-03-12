@@ -30,6 +30,8 @@ import PowerTONABI from '@/contracts/abi/PowerTON.json';
 import Layer2ABI from '@/contracts/abi/Layer2.json';
 import AutoRefactorCoinageABI from '@/contracts/abi/AutoRefactorCoinage.json';
 
+import CommitteeABI from '@/contracts/abi/DAOCommittee.json';
+
 const initialState = {
   loading: false,
   signIn: false,
@@ -51,6 +53,8 @@ const initialState = {
   Layer2Registry: {},
   SeigManager: {},
   PowerTON: {},
+
+  CommitteeProxy: {},
 
   // balance
   ethBalance: _ETH('0'),
@@ -123,6 +127,9 @@ export default new Vuex.Store({
       for (const [name, contract] of Object.entries(managers)) {
         state[name] = contract;
       }
+    },
+    SET_COMMITTEE_PROXY: (state, committeeProxyContract) => {
+      state.CommitteeProxy = committeeProxyContract;
     },
     SET_OPERATORS: (state, operators) => {
       state.operators = operators;
@@ -198,6 +205,7 @@ export default new Vuex.Store({
       const managers = await getManagers();
       const operators = await getOperators();
       const transactions = await getTransactions(user);
+      context.dispatch('setCommitteeProxy');
       await context.dispatch('setManagers', managers);
       await context.dispatch('setOperatorsWithRegistry', operators);
 
@@ -229,6 +237,12 @@ export default new Vuex.Store({
       ]).catch(err => {
         // after logout, error can be happened
       });
+    },
+    setCommitteeProxy (context) {
+      const committeeProxy = '0xDD9f0cCc044B0781289Ee318e5971b0139602C26';
+      const user = context.state.user;
+      const contract = createWeb3Contract(CommitteeABI, committeeProxy, user); // use `Committee` contract abi and `CommitteeProxy` address.
+      context.commit('SET_COMMITTEE_PROXY', contract);
     },
     async setManagers (context, managers) {
       const user = context.state.user;
