@@ -36,6 +36,9 @@ export default {
       availableAmountToDelegate: 0,
     };
   },
+  created (){
+    this.availableAmountToDelegate = this.amount;
+  },
   computed: {
     ...mapState([
       'power',
@@ -91,10 +94,6 @@ export default {
         return false;
       }
     },
-  },
-
-  created (){
-    this.availableAmountToDelegate = this.amount;
   },
   methods:{
     closeModal (method) {
