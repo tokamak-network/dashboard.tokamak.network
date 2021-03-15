@@ -390,7 +390,12 @@ export default new Vuex.Store({
         TON.methods.balanceOf(WTON._address).call(),
       ]);
 
-      const operators = context.state.operators;
+      const operators = context.state.operators.slice(0, 2);
+      // const operators2 = context.state.operators.slice(3);
+      // console.log(context.state.operators);
+      // console.log(operators1);
+      // console.log(operators2);
+      // const operators = operators1.concat(operators2);
       for (let i=0; i < operators.length; i++) {
         if (!await l2Registry.methods.layer2s(operators[i].layer2).call()) {
           operators.splice(i, 1);
@@ -924,7 +929,6 @@ export default new Vuex.Store({
     userTotalSeigs: (state) => {
       const initialAmount = _WTON.ray('0');
       const reducer = (amount, operator) => amount.add(operator.userSeigs);
-
       return state.operators.reduce(reducer, initialAmount);
     },
     userTotalNotWithdrawable: (state) => {

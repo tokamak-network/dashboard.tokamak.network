@@ -9,13 +9,12 @@
 ----------------------------------------------------------------------------------------------------*/
 
 body {
-  font: 13px/1.5 "Helvetica Neue", "Kaushan Script", Arial, "Liberation Sans", FreeSans, sans-serif;
+  font: 13px/1.5 "TitilliumWeb", sans-serif;
 }
 
 pre,
 code {
-  font-family: "DejaVu Sans Mono", Menlo, Consolas, monospace;
-}
+  font-family: "TitilliumWeb", Menlo, Consolas, monospace;}
 
 hr {
   border: 0 solid #ccc;

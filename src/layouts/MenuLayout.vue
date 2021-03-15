@@ -1,11 +1,28 @@
 <template>
   <div class="menu-layout">
     <div class="menu-content">
-      <!-- <img class="logo" src="@/assets/images/TokamakLogo.png"> -->
-      <h1 class="page-header">Select your favorite operator!!</h1>
-      <div class="page-text">Earn rewards by staking your TON with our operators. Select an operator to stake, unstake, or withdraw your tokens.</div>
+      <div class="menu-page-header">Select your operator</div>
+      <div class="page-text">Select an operator to stake, unstake, or withdraw your tokens.</div>
+      <div class="sort-container">
+        <div class="candidate-container">
+          <Dot :title="'DAO'" />
+          <div class="candidate-text">DAO Candidate</div>
+          <Dot :title="'Operator'" />
+          <div class="candidate-text">Operator</div>
+        </div>
+        <div class="sort">
+          <DropDown :items="['Name', 'Total Staked', 'Recent Commit', 'Participation']"
+                    :hint="'Name'"
+                    :button-type="'a'"
+                    :selector-type="'a'"
+                    class="dropdown"
+                    @on-selected="select"
+          />
+        </div>
+      </div>
+
       <div class="balance-container">
-        <div v-for="(operator, index) in operators" :key="index">
+        <div v-for="(operator, index) in orderedOperators" :key="index">
           <OperatorComponent :layer2="operator.layer2" />
         </div>
         <!-- <OperatorComponent title="Total Staked TON" balance="0.000" rewards="New rewards per block" value="0.000" /> -->
@@ -16,14 +33,23 @@
 <script>
 import { mapState } from 'vuex';
 import OperatorComponent from '@/components/OperatorComponent.vue';
+import Dot from '@/components/Dot.vue';
+import DropDown from '@/components/DropDown.vue';
+import { orderBy } from 'lodash';
+
 export default {
   components: {
     OperatorComponent,
+    DropDown,
+    Dot,
   },
   data () {
     return {
       selected: false,
       selectedOp:'',
+      filteredOperators:[],
+      from: 'name',
+      order: 'desc',
     };
   },
   computed: {
@@ -31,6 +57,20 @@ export default {
       'operators',
       'selectedOperator',
     ]),
+    orderedOperators () {
+      switch (this.from) {
+      case 'name':
+        return orderBy(this.operators, (operator) => operator.name, [this.order]);
+      case 'userStaked':
+        return orderBy(this.operators, (operator) => operator.userStaked.toNumber(), [this.order]);
+      case 'totalStaked':
+        return orderBy(this.operators, (operator) => operator.totalStaked.toNumber(), [this.order]);
+      case 'commit':
+        return orderBy(this.operators, (operator) => operator.lastFinalizedAt, [this.order]);
+      default:
+        return this.operators;
+      }
+    },
   },
   methods: {
     setOperator (operator) {
@@ -38,54 +78,106 @@ export default {
       this.selected = !this.selected;
       this.selectedOp = operator;
     },
+    orderBy (from) {
+      if (this.from === from) {
+        this.order = this.changedOrder();
+      } else {
+        this.from = from;
+        this.order = 'asc';
+      }
+    },
+    changedOrder () {
+      return this.order === 'desc' ? 'asc' : 'desc';
+    },
+    select (item) {
+      if (item === 'Total Staked') {
+        this.orderBy('totalStaked');
+      } else if (item === 'Name') {
+        this.orderBy('name');
+      }
+      else if (item === 'Recent Commit'){
+        this.orderBy('commit');
+      }
+      else {
+        this.orderBy('');
+      }
+    },
   },
 };
 </script>
 <style scoped>
 .menu-layout {
-    min-width: 1174px;
-    max-width: 1174px;
     display: flex;
-    /* align-items: center; */
     justify-content: center;
+  background-color: #fafbfc;
+  margin-top: 70px;
+  width: 100%;
 }
 .menu-content {
-    display: flex;
-    flex-direction: column;
-     align-items: center;
-     width: 850px;
-
+  display: flex;
+  flex-direction: column;
+  /* align-items: center; */
+  justify-content: center;
+  /* width: 100%; */
 }
-.logo {
-    height: 100px;
-    width: 144px;
-}
-.page-header {
-    margin-top: 10px;
-    margin-bottom: 10px;
-    font-family: cursive;
-    color: #555555;
-    font-size: 36px;
-    text-align: center;
-    font-weight: 700;
-    padding: 0px;
+.menu-page-header {
+  font-family: "NanumSquare", sans-serif;
+  margin-bottom: 15px;
+    font-size: 38px;
+    font-weight: 600;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.58;
+  letter-spacing: normal;
+  text-align: center;
+  color: #3d495d;
 }
 .page-text{
-    max-width: 600px;
-    margin-bottom: 20px;
-    color: #8c8c8c;
+   font-family: "Titillium Web", sans-serif;
     font-size: 16px;
-    text-align: center;
-    font-weight: 400;
+  /* font-weight:lighter; */
+  font-stretch: normal;
+  font-style: normal;
+  margin-bottom: 60px;
+  letter-spacing: 0.4px;
+  text-align: center;
+  color: #808992;
  }
 .balance-container {
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
-    width: 1060px;
+    width: 100%;
     /* flex-flow: row wrap; */
 }
-.ton-balance {
-    padding-bottom: 35px;
+.sort-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-bottom: 15px;
 }
+.candidate-container {
+  margin-top: 17px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+.candidate-dot {
+  height: 8px;
+  width: 8px;
+  border-radius: 4px;
+  margin-right:7px;
+}
+.candidate-text {
+  margin-right: 20px;
+}
+.sort {
+  display: flex;
+  justify-content: flex-end;
+
+}
+ .dropdown {
+    align-items:flex-end;
+  }
 </style>

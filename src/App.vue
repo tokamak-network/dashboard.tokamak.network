@@ -76,7 +76,7 @@ export default {
 }
 
 html, body {
-  background: #f6f8f9;
+ background-color: #fafbfc;
   position: relative;
   margin: 0;
   min-height: 100%;
@@ -90,8 +90,8 @@ html, body {
 }
 
 .body-container {
-  min-width: 1174px;
-  max-width: 1174px;
+ min-width: 100%;
+  max-width: 100%;
   display: flex;
   flex: 1;
   justify-content: center;

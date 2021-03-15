@@ -72,8 +72,8 @@ export default {
     width: 144px;
 }
 .page-header {
-    margin-top: 10px;
-    margin-bottom: 15px;
+    /* margin-top: 10px; */
+    /* margin-bottom: 15px; */
     font-family: cursive;
     color: #555555;
     font-size: 36px;

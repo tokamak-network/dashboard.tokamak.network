@@ -1,12 +1,15 @@
 <template>
   <div class="operator-container">
     <div class="operator-header">
+      <div>
+        <dot v-if="operator.isCandidate" :title="'DAO'" style="margin-bottom:4px; margin-left:6px" />
+        <dot :title="'Operator'" style="margin-left:6px" />
+      </div>
       <avatar
         class="avatar"
         fullname="O P R"
         :image="filteredImgURL(operator.avatar)"
-        :size="50"
-        :color="operator.color"
+        :size="48"
       />
       <div class="operator-name">{{ operator.name }}</div>
       <div>{{ operator.totalDeposit | currencyAmount }}</div>
@@ -19,8 +22,8 @@
       <sticker :title="'Operator'" />
 
       <img
-        :class="{ 'arrow-down': !pressed, 'arrow-up': pressed }"
-        src="@/assets/images/arrow-unfolded.png"
+        :class="{ 'arrow-up': !pressed, 'arrow-down': pressed }"
+        src="@/assets/images/arrow_open_icon.png"
         @click="openStaking()"
       >
     </div>
@@ -34,7 +37,7 @@
           <operator-text-view :title="'Withdraw processed'" :value="'0 TON'" />
         </div>
         <div class="column">
-          <staking-component :layer2="operator.layer2" @selectFunc="selectFunc" @openStakeModal="openStakeModal"/>
+          <staking-component :layer2="operator.layer2" @selectFunc="selectFunc" @openStakeModal="openStakeModal" />
         </div>
         <div class="column">
           <operator-text-view :title="'Recent Commit'" :value="date" />
@@ -102,8 +105,9 @@ import StakeModel from '../components/StakeModel';
 import RestakeModal from '../components/RestakeModal';
 import UnstakeModal from '../components/UnstakeModal';
 import WithdrawModal from '../components/WithdrawModal';
+import Dot from '../components/Dot';
 import Sticker from '../components/Sticker';
-import Avatar from 'vue-avatar-component';
+import Avatar from '../components/Avatar';
 export default {
   components: {
     avatar: Avatar,
@@ -115,6 +119,7 @@ export default {
     'unstake-modal' : UnstakeModal,
     'withdraw-modal': WithdrawModal,
     'sticker': Sticker,
+    'dot':Dot,
   },
   props: {
     layer2: {
@@ -220,16 +225,17 @@ export default {
 <style scoped>
 .operator-container {
   padding: 10px;
-  width: 100%;
+  width: 1078px;
   display: flex;
   flex-direction: column;
   /* align-items: center; */
-  background-color: #e2e8eb;
-  border: solid 1px;
-  border-color: #ccd1d3;
+  background-color: #ffffff;
+  /* border: solid 1px;
+  border-color: #ccd1d3; */
   border-radius: 12px;
-  box-shadow: inset 1px 1px 0px #e2e8eb;
+  box-shadow: 0 1px 1px 0 rgba(96, 97, 112, 0.16);
   margin-bottom: 19px;
+  /* height: 74px; */
 }
 .operator-header {
   display: flex;
@@ -252,13 +258,20 @@ export default {
   flex-direction: column;
 }
 .operator-name {
-  font-size: 20px;
   /* font-weight: 700; */
-  margin-left: 10px;
-  padding: 10px;
+  margin-left: 12px;
+  font-family: Roboto;
+  font-size: 20px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1;
+  letter-spacing: normal;
+  text-align: left;
+  color: #304156;
 }
 .avatar {
-  margin-top: -5px;
+  margin-left: 3px;
 }
 .column {
   display: flex;
