@@ -2,6 +2,7 @@ import Vue from 'vue';
 import Notifications from 'vue-notification';
 import VModal from 'vue-js-modal';
 import VueGtag from 'vue-gtag';
+import VueClipboard from 'vue-clipboard2';
 
 Vue.use(VueGtag, {
   config: {
@@ -11,6 +12,8 @@ Vue.use(VueGtag, {
 Vue.use(Notifications);
 Vue.use(VModal);
 
+VueClipboard.config.autoSetContainer = true;
+Vue.use(VueClipboard);
 
 import App from './App.vue';
 import router from './router';

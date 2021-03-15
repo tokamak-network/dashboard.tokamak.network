@@ -28,15 +28,8 @@
 </template>
 
 <script>
-import Vue from 'vue';
-import VueClipboard from 'vue-clipboard2';
-import Web3 from 'web3';
 import WalletConnectProvider from '@walletconnect/web3-provider';
-import { getConfig } from '../../config.js';
-import { mapState, mapGetters } from 'vuex';
-
-VueClipboard.config.autoSetContainer = true;
-Vue.use(VueClipboard);
+import { mapState } from 'vuex';
 
 export default {
   computed: {
@@ -54,7 +47,7 @@ export default {
     async logout (visibility) {
       const provider = new WalletConnectProvider({
         infuraId: '34448178b25e4fbda6d80f4da62afba2',
-        // bridge: 'https://bridge.walletconnect.org',
+        bridge: 'https://bridge.walletconnect.org',
         qrcode: true,
       });
       this.$store.dispatch('SIGN_OUT');
@@ -64,8 +57,7 @@ export default {
       this.$router.replace({
         path: '/',
         query: { network: this.$route.query.network },
-      }).catch(err => {
-      });
+      }).catch(err => {});
     },
     cancel (visibility) {
       this.$emit('showPopUp', visibility);
