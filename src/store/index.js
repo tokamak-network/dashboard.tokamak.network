@@ -65,6 +65,8 @@ const initialState = {
   // operator
   operators: [],
 
+  //candidates
+  candidates: [],
   // round
   currentRound: {},
   rounds: [],
@@ -133,6 +135,9 @@ export default new Vuex.Store({
     },
     SET_OPERATORS: (state, operators) => {
       state.operators = operators;
+    },
+    SET_CANDIDATES: (state, candidates) => {
+      state.candidates = candidates;
     },
     SET_TRANSACTIONS: (state, transactions) => {
       state.transactions = transactions;
@@ -205,10 +210,12 @@ export default new Vuex.Store({
       const managers = await getManagers();
       const operators = await getOperators();
       const transactions = await getTransactions(user);
+      const candidates = await getCandidates();
+
       context.dispatch('setCommitteeProxy');
       await context.dispatch('setManagers', managers);
       await context.dispatch('setOperatorsWithRegistry', operators);
-
+      await context.dispatch('setCandidates', candidates);
       await Promise.all([
         context.dispatch('setTransactionsAndPendingTransactions', transactions),
         context.dispatch('setAccountsDepositedWithPower'),
@@ -360,6 +367,9 @@ export default new Vuex.Store({
     async setOperatorsWithRegistry (context, operators) {
       context.commit('SET_OPERATORS', operators);
     },
+    async setCandidates (context, candidates) {
+      context.commit('SET_CANDIDATES', candidates);
+    },
     async setOperators (context, blockNumber) {
       const user = context.state.user;
 
@@ -487,11 +497,12 @@ export default new Vuex.Store({
           };
           const isCandidateOperator = () => {
             const candidates = context.state.candidates;
-            if(candidates.some(el => el.candidate === layer2.toLowerCase())){
-              return true;
+            const isCandidate = candidates.find(candidate => candidate.layer2 === layer2.toLowerCase());
+            if(isCandidate.kind === ''){
+              return false;
             }
             else {
-              return false;
+              return true;
             }
           };
           const filterNotWithdrawableRequests = (requests) => {
