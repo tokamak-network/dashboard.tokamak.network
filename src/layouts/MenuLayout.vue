@@ -135,7 +135,7 @@ export default {
 .page-text{
    font-family: "Titillium Web", sans-serif;
     font-size: 16px;
-  /* font-weight:lighter; */
+  font-weight:normal;
   font-stretch: normal;
   font-style: normal;
   margin-bottom: 60px;
@@ -158,6 +158,7 @@ export default {
 }
 .candidate-container {
   margin-top: 17px;
+  margin-left: 16px;
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -170,6 +171,15 @@ export default {
   margin-right:7px;
 }
 .candidate-text {
+  font-family: Roboto;
+  font-size: 11px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.82;
+  letter-spacing: normal;
+  text-align: left;
+  color: #304156;
   margin-right: 20px;
 }
 .sort {

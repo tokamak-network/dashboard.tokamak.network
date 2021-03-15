@@ -7,23 +7,31 @@ function createInstance () {
   });
 }
 
-function createinst () {
+function createInstatnceCandidate () {
   return axios.create({
-    baseURL: getConfig().daoURL,
+    baseURL: getConfig().candidate,
   });
 }
-const instance = createInstance();
-const chainId = 4;
-const inst = createinst();
 
-export async function getCandidates () {
-  const res = await inst.get('/layer2s/dao_candidates', {
+const candidate = createInstatnceCandidate();
+const instance = createInstance();
+
+export async function getCandidateCreateEvent () {
+  const res = await candidate.get('/events', {
     params: {
-      chainId,
+      eventNames: 'CandidateContractCreated',
     },
   });
-  return res.data.datas;
+  if (res.data === '') return [];
+  else return res.data.datas;
 }
+
+export async function getCandidates () {
+  const res = await candidate.get('/layer2s/operators');
+  if (res.data === '') return [];
+  else return res.data.datas;
+}
+
 export async function getManagers () {
   const res = await instance.get('/managers');
   if (res.data === '') return [];

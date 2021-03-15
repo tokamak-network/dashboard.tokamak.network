@@ -1,30 +1,30 @@
 <template>
   <div class="operator-container">
     <div class="operator-header">
-      <div>
-        <dot v-if="operator.isCandidate" :title="'DAO'" style="margin-bottom:4px; margin-left:6px" />
-        <dot :title="'Operator'" style="margin-left:6px" />
+      <div class="header-column">
+        <div>
+          <dot v-if="operator.isCandidate" :title="'DAO'" style="margin-bottom:4px; margin-left:6px" />
+          <dot :title="'Operator'" style="margin-left:6px" />
+        </div>
+        <avatar
+          class="avatar"
+          fullname="O P R"
+          :image="filteredImgURL(operator.avatar)"
+          :size="48"
+        />
+        <div class="operator-name">{{ operator.name }}</div>
+        <div class="operator-amount">Total Staked</div>
+        <div class="operator-amount" style="margin-right:60px"> {{ currencyAmount(operator.totalDeposit) }}</div>
+        <div class="operator-amount">Commission Rate</div>
+        <div class="operator-amount">
+          {{ operator.isCommissionRateNegative ? "-" : ""
+          }}{{ rateOf(operator.commissionRate) }}
+        </div>
       </div>
-      <avatar
-        class="avatar"
-        fullname="O P R"
-        :image="filteredImgURL(operator.avatar)"
-        :size="48"
-      />
-      <div class="operator-name">{{ operator.name }}</div>
-      <div>{{ operator.totalDeposit | currencyAmount }}</div>
-      <div>
-        {{ operator.isCommissionRateNegative ? "-" : ""
-        }}{{ rateOf(operator.commissionRate) }}
-      </div>
-
-      <sticker v-if="operator.isCandidate" :title="'Candidate'" />
-      <sticker :title="'Operator'" />
-
-      <img
-        :class="{ 'arrow-up': !pressed, 'arrow-down': pressed }"
-        src="@/assets/images/arrow_open_icon.png"
-        @click="openStaking()"
+      <img class="arrow"
+           :class="{ 'arrow-up': !pressed, 'arrow-down': pressed }"
+           src="@/assets/images/arrow_open_icon.png"
+           @click="openStaking()"
       >
     </div>
     <div
@@ -106,7 +106,6 @@ import RestakeModal from '../components/RestakeModal';
 import UnstakeModal from '../components/UnstakeModal';
 import WithdrawModal from '../components/WithdrawModal';
 import Dot from '../components/Dot';
-import Sticker from '../components/Sticker';
 import Avatar from '../components/Avatar';
 export default {
   components: {
@@ -118,7 +117,6 @@ export default {
     'restake-modal': RestakeModal,
     'unstake-modal' : UnstakeModal,
     'withdraw-modal': WithdrawModal,
-    'sticker': Sticker,
     'dot':Dot,
   },
   props: {
@@ -241,6 +239,30 @@ export default {
   display: flex;
   flex-direction: row;
   align-items: center;
+  justify-content: space-between;
+}
+.header-column {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.operator-amount {
+  display: flex;
+  font-family: Roboto;
+  font-size: 13px;
+  font-weight: 300;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.54;
+  letter-spacing: 0.33px;
+  text-align: left;
+  color: #86929d;
+  margin-right: 10px;
+}
+.arrow {
+  margin-right: 20px;
+  display: flex;
+  justify-content: flex-end;
 }
 .arrow-down {
   transform: rotate(180deg);
@@ -262,13 +284,14 @@ export default {
   margin-left: 12px;
   font-family: Roboto;
   font-size: 20px;
-  font-weight: bold;
+  font-weight: 500;
   font-stretch: normal;
   font-style: normal;
   line-height: 1;
   letter-spacing: normal;
   text-align: left;
   color: #304156;
+  width: 180px;
 }
 .avatar {
   margin-left: 3px;

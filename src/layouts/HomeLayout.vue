@@ -6,7 +6,7 @@
       <div class="page-text">Stake your TON to earn Power TON and other rewards</div>
       <div class="balance-container">
         <div class="ton-balance">
-          <SwapComponent title="Your TON Balance" :balance="tonBalance | currencyAmount" rewards="Power TON Balance" :value="currencyAmount(power)" />
+          <SwapComponent title="Your TON Balance" :balance="currencyAmount(tonBalance)" rewards="Power TON Balance" :value="currencyAmount(power)" />
         </div>
         <div class="ton-balance">
           <SwapComponent title="Total Staked Amount" :balance="currencyAmount(userTotalStaked)" rewards="Expected Rewards" :value="expectedRewards()" />

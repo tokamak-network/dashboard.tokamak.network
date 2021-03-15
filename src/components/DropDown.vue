@@ -133,6 +133,7 @@ export default {
   position: relative;
   display: inline-block;
   width: 200px;
+  z-index: 1000;
 }
 
 .dropdown-btn {
@@ -147,7 +148,7 @@ export default {
   font-style: normal;
   letter-spacing: 0.2px;
   text-align: left;
-  color: #3E495C;
+  color: #86929d;
 
   border-radius: 4px;
   outline: none;
@@ -234,13 +235,12 @@ export default {
 
   font-family: Roboto;
   font-size: 12px;
-  font-weight: normal;
+  font-weight: lighter;
   font-stretch: normal;
   font-style: normal;
   letter-spacing: 0.2px;
   text-align: left;
   color: #3e495c;
-
   background: #ffffff;
   border: none;
   outline: none;
