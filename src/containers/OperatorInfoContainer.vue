@@ -275,6 +275,9 @@ export default {
         from: this.operator.address,
         value: costNRB,
       });
+      console.log(costNRB);
+      console.log(pos1);
+      console.log(pos2);
 
       await Layer2.methods.submitNRE(
         pos1,
