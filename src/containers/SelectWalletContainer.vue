@@ -14,6 +14,10 @@
         :image="'walletConnect.svg'"
         :connect="walletConnect"
       />
+      <!-- <ledger-connect
+        :title="'Ledger'"
+        :connect="ledger"
+      /> -->
     </div>
   </div>
 </template>
@@ -27,13 +31,15 @@ import { setProvider } from '@/helpers/Contract';
 import { mapState } from 'vuex';
 import Wallet from '@/components/Wallet.vue';
 import walletConnect from '@/components/WalletConnect.vue';
-// import WalletConnect from '@walletconnect/client';
+// import ledgerConnect from '@/components/LedgerConnect.vue';
+
 import WalletConnectProvider from '@walletconnect/web3-provider';
 
 export default {
   components: {
     'wallet': Wallet,
     'wallet-connect': walletConnect,
+    // 'ledger-connect': ledgerConnect,
   },
   data () {
     return {
@@ -90,28 +96,6 @@ export default {
       } catch (e) {
         throw new Error(e.message);
       }
-
-      // if (typeof provider !== 'undefined') {
-      //   try {
-      //     provider.request({ method: 'eth_requestAccounts' })
-      //       .then(this.handleAccountsChanged)
-      //       .catch((err) => {
-      //         if (err.code === 4001) {
-      //           alert('Please connect to WalletConnect.');
-      //         } else {
-      //           alert(err);
-      //         }
-      //       });
-      //   } catch (e) {
-      //     if (e.stack.includes('Error: User denied account authorization')) {
-      //       throw new Error('User denied account authorization');
-      //     } else {
-      //       throw new Error(e.message);
-      //     }
-      //   }
-      // } else {
-      //   throw new Error('No web3 provider detected');
-      // }
       const networkVersion = await provider.request({ method: 'net_version' });
       if (networkVersion.toString() !== getConfig().network) {
         throw new Error(`Please connect to the '${this.$options.filters.nameOfNetwork(getConfig().network)}' network`);
@@ -182,7 +166,7 @@ export default {
       const web3 = new Web3(provider);
       return web3;
     },
-    async handleAccountsChanged (accounts, provider){
+    async handleAccountsChanged (accounts, provider) {
       if (accounts.length === 0) {
         alert('Please connect to MetaMask.');
       } else if (accounts[0] !== this.currentAccount) {

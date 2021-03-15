@@ -5,7 +5,7 @@ Vue.use(Vuex);
 import router from '@/router';
 import web3EthABI from 'web3-eth-abi';
 
-import { getManagers, getOperators, getHistory, getTransactions, addTransaction } from '@/api';
+import { getManagers, getOperators, getHistory, getTransactions, addTransaction, getCandidates, getCandidateCreateEvent } from '@/api';
 import { cloneDeep, isEqual, range, uniq, orderBy } from 'lodash';
 import numeral from 'numeral';
 import { createWeb3Contract } from '@/helpers/Contract';
@@ -383,6 +383,10 @@ export default new Vuex.Store({
       ]);
 
       const operators = context.state.operators;
+      const candidates = await getCandidates();
+      const events = await getCandidateCreateEvent();
+      const candidateContractCreated = events.filter(event => event.eventName === 'CandidateContractCreated');
+
       for (let i=0; i < operators.length; i++) {
         if (!await l2Registry.methods.layer2s(operators[i].layer2).call()) {
           operators.splice(i, 1);
@@ -643,8 +647,6 @@ export default new Vuex.Store({
           };
 
           const [
-            currentFork,
-            firstEpoch,
             totalDeposit,
             selfDeposit,
             userDeposit,
@@ -665,8 +667,6 @@ export default new Vuex.Store({
             globalWithdrawalDelay,
             minimumAmount,
           ] = await Promise.all([
-            Layer2.methods.forks(currentForkNumber).call(),
-            Layer2.methods.getEpoch(0, 0).call(),
             getDeposit(),
             getDeposit(operator),
             getDeposit(user),
@@ -687,12 +687,36 @@ export default new Vuex.Store({
             DepositManager.methods.globalWithdrawalDelay().call(),
             SeigManager.methods.minimumAmount().call(),
           ]);
-          const deployedAt = firstEpoch.timestamp;
-          const lastFinalizedEpochNumber = currentFork.lastFinalizedEpoch;
-          const lastFinalizedBlockNumber = currentFork.lastFinalizedBlock;
-          const finalizeCount = parseInt(lastFinalizedEpochNumber) + 1;
-          const lastFinalizedAt = await getLastFinalizedAt(lastFinalizedEpochNumber, lastFinalizedBlockNumber);
+
           const lastFinalized = await getRecentCommit(operator, layer2);
+
+          const isCandidate = candidates.find(candidate => candidate.layer2 === layer2.toLowerCase());
+          if (isCandidate.kind !== 'candidate' || isCandidate.kind === '' || isCandidate.kind === 'layer2') {
+            const [
+              currentFork,
+              firstEpoch,
+            ] = await Promise.all([
+              Layer2.methods.forks(currentForkNumber).call(),
+              Layer2.methods.getEpoch(0, 0).call(),
+            ]);
+
+            const deployedAt = firstEpoch.timestamp;
+            const lastFinalizedEpochNumber = currentFork.lastFinalizedEpoch;
+            const lastFinalizedBlockNumber = currentFork.lastFinalizedBlock;
+            // const finalizeCount = parseInt(lastFinalizedEpochNumber) + 1;
+            // const lastFinalizedAt = await getLastFinalizedAt(lastFinalizedEpochNumber, lastFinalizedBlockNumber);
+
+            operatorFromLayer2.deployedAt = deployedAt;
+            operatorFromLayer2.lastFinalizedAt = lastFinalized[0] === '0' ? deployedAt : lastFinalized[0];
+          } else if (isCandidate.kind === 'candidate') {
+            const web3 = context.state.web3;
+            const candi = candidateContractCreated.filter(candidate => candidate.data.candidateContract.toLowerCase() === layer2);
+            const block = await web3.eth.getBlock(candi[0].txInfo.blockNumber);
+
+            operatorFromLayer2.deployedAt = block.timestamp;
+            operatorFromLayer2.lastFinalizedAt = lastFinalized[0] === '0' ? block.timestamp : lastFinalized[0];
+          }
+
 
           // const result = calculateExpectedSeig(
           //   fromBlockNumber, // the latest commited block number. You can get this using seigManager.lastCommitBlock(layer2)
@@ -712,7 +736,6 @@ export default new Vuex.Store({
             new BN(tos),
             new BN(await SeigManager.methods.relativeSeigRate().call())
           );
-
           const notWithdrawableRequests = filterNotWithdrawableRequests(pendingRequests);
           const withdrawableRequests = filterWithdrawableRequests(pendingRequests);
           const userNotWithdrawable = getUserNotWithdrawable(notWithdrawableRequests);
@@ -720,10 +743,8 @@ export default new Vuex.Store({
 
           // set vue state.
           operatorFromLayer2.address = operator;
-          // operatorFromLayer2.lastFinalizedAt = lastFinalizedAt;
-          operatorFromLayer2.lastFinalizedAt = (lastFinalized[0]==='0') ? lastFinalizedAt : lastFinalized[0];
           operatorFromLayer2.finalizeCount = lastFinalized[1];
-          operatorFromLayer2.deployedAt = deployedAt;
+          // operatorFromLayer2.deployedAt = deployedAt;
           operatorFromLayer2.totalDeposit = _WTON(totalDeposit, WTON_UNIT);
           operatorFromLayer2.totalStaked = _WTON(totalStaked, WTON_UNIT);
           operatorFromLayer2.selfDeposit = _WTON(selfDeposit, WTON_UNIT);

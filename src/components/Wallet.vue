@@ -44,10 +44,10 @@ export default {
   ]),
   methods: {
     selectImage () {
-      if (this.image==='metamask') {
+      if (this.title==='MetaMask') {
         return '@/assets/images/Metamask.jpg';
-      } else if (this.imgae === 'walletConnect') {
-        return '@@/assets/images/walletConnect.svg';
+      } else if (this.title === 'WalletConnect') {
+        return '@/assets/images/walletConnect.svg';
       }
     },
     async connectWallet () {
