@@ -1,58 +1,70 @@
 <template>
   <div>
-    <div v-if="!signIn" class="wallet-connect" @click="showConnectModal = true">Connect Wallet</div>
-    <div v-else class="wallet-connect" @click="showConnectModal = true">
+    <div v-if="!signIn" class="wallet-connect" @click="openWalletOptions()">Connect Wallet</div>
+    <div v-else class="wallet-connect" @click="openWallet()">
       <blockies :address="user" />
       {{ user | hexSlicer }}
     </div>
     <transition v-if="showConnectModal" name="modal">
       <div class="modal-mask w100">
-        <div v-if="!signIn" class="modal-wrapper" @click="$emit('close')">
-          <div class="modal-container" @click.stop>
-            <div class="modal-header">
-              <h3>Connect Wallet</h3>
-              <span>To start using Staking</span>
-            </div>
+        <div class="">
+          <div v-if="!signIn">
+            <div v-if="connectType === 'connect'" class="modal-wrapper">
+              <div class="modal-container">
+                <div class="modal-header">
+                  <h3>Connect Wallet</h3>
+                  <span>To start using Staking</span>
+                </div>
 
-            <div class="modal-body">
-              <div class="wallet-options">
-                <div v-for="(wallet, index) in wallets" :key="index" class="wallet-option" @click="wallet.onClick()">
-                  <img class="wallet-option__image" :src="wallet.img" :alt="wallet.name">
-                  <div class="wallet-option__inner w100">
-                    <span>{{ wallet.name }}</span>
-                    <img class="wallet-option__arrow" src="@/assets/images/right_arrow.png" alt="Right Arrow">
+                <div class="modal-body">
+                  <div class="wallet-options">
+                    <div v-for="(wallet, index) in wallets" :key="index" class="wallet-option" @click="wallet.onClick()">
+                      <img class="wallet-option__image" :src="wallet.img" :alt="wallet.name">
+                      <div class="wallet-option__inner w100">
+                        <span>{{ wallet.name }}</span>
+                        <img class="wallet-option__arrow" src="@/assets/images/right_arrow.png" alt="Right Arrow">
+                      </div>
+                    </div>
                   </div>
+                </div>
+
+                <div class="modal-footer">
+                  <h3>New to Ethereum?</h3>
+                  <a href="#">Learn more about wallets</a>
                 </div>
               </div>
             </div>
+            <div v-else-if="connectType === 'wallet'" class="modal-wrapper">
+              <div class="modal-container">
+                <div class="modal-header">
+                  <h3>Account</h3>
+                  <span>My account & connect change</span>
+                </div>
 
-            <div class="modal-footer">
-              <h3>New to Ethereum?</h3>
-              <a href="#">Learn more about wallets</a>
-            </div>
-          </div>
-        </div>
-        <div v-else class="modal-wrapper">
-          <div class="modal-container">
-            <div class="modal-header">
-              <h3>Account</h3>
-              <span>My account & connect change</span>
-            </div>
-
-            <div class="modal-body">
-              <div class="wallet-options">
-                <div class="wallet-option">
-                  <div class="wallet-option__inner">
-                    <span>{{ user | hexSlicer }}</span>
-                    <img src="@/assets/images/account_copy_icon.png" alt="Right Arrow" @click="copyToClipboard">
-                    <img src="@/assets/images/etherscan_link_icon.png" alt="Right Arrow" @click="openEtherscanLink">
+                <div class="modal-body">
+                  <div class="wallet-options">
+                    <div class="wallet-option">
+                      <div class="wallet-option__inner">
+                        <span>{{ user | hexSlicer }}</span>
+                        <img src="@/assets/images/account_copy_icon.png" alt="Right Arrow" @click="copyToClipboard">
+                        <img src="@/assets/images/etherscan_link_icon.png" alt="Right Arrow" @click="openEtherscanLink">
+                      </div>
+                    </div>
+                    <div class="wallet-option">
+                      <div class="wallet-option__inner">
+                        <div class="connection-type">
+                          Connected with {{ walletType }}
+                          <button class="change-cta" @click="setConnectType('connect')">Change</button>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </div>
 
-            <div class="modal-footer">
-              <div class="logout" @click="logout()">Logout</div>
+                <div class="modal-footer">
+                  <div class="logout" @click="logout()">Logout</div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -76,6 +88,7 @@ export default {
   data () {
     return {
       showConnectModal: false,
+      connectType: 'connect',
       wallets: [{
         name: 'Metamask',
         img: MetamaskIcon,
@@ -92,6 +105,18 @@ export default {
       'signIn',
       'user',
     ]),
+    walletType () {
+      return window.ethereum.isMetaMask ? 'Metamask' : 'WalletConnect';
+    },
+  },
+  beforeMount () {
+    window.addEventListener('mousedown', (event) => {
+      if (!event.target.closest('.wallet-connect')) {
+        if (!event.target.closest('.modal-mask')) {
+          this.showConnectModal = false;
+        }
+      }
+    });
   },
   methods: {
     async handleMetamask () {
@@ -177,12 +202,22 @@ export default {
         console.log(e);
       });
     },
+    openWalletOptions () {
+      this.showConnectModal = true;
+      this.connectType = 'connect';
+    },
+    openWallet () {
+      this.showConnectModal = true;
+      this.connectType = 'wallet';
+    },
+    setConnectType (connectType) {
+      this.connectType = connectType;
+    },
   },
 };
 </script>
 
 <style scoped>
-
 .wallet-connect {
   border: 1px solid #d7d9df;
   border-radius: 12px;
@@ -337,6 +372,31 @@ export default {
 
 .w100 {
   width: 100%;
+}
+
+.connection-type {
+  font-size: 13px;
+  font-weight: normal;
+  color: #3d495d;
+  cursor: default;
+}
+
+.change-cta {
+  width: 58px;
+  height: 22px;
+  border-radius: 4px;
+  background-color: #257eee;
+  box-shadow: none;
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0 3px 14px 0 rgba(0, 0, 0, 0.03);
+  border: solid 1px #dce2e5;
+  font-size: 12px;
+  font-weight: 600;
+  font-stretch: normal;
+  font-style: normal;
+  letter-spacing: normal;
+  color: #ffffff;
 }
 
 </style>

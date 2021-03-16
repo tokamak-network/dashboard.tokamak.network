@@ -3,6 +3,8 @@ import Notifications from 'vue-notification';
 import VModal from 'vue-js-modal';
 import VueGtag from 'vue-gtag';
 import VueClipboard from 'vue-clipboard2';
+import vClickOutside from 'v-click-outside';
+
 
 Vue.use(VueGtag, {
   config: {
@@ -11,6 +13,7 @@ Vue.use(VueGtag, {
 });
 Vue.use(Notifications);
 Vue.use(VModal);
+Vue.use(vClickOutside);
 
 VueClipboard.config.autoSetContainer = true;
 Vue.use(VueClipboard);
