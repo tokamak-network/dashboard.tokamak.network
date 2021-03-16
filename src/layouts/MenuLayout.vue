@@ -3,27 +3,29 @@
     <div class="menu-content">
       <div class="menu-page-header">Select your operator</div>
       <div class="page-text">Select an operator to stake, unstake, or withdraw your tokens.</div>
-      <div class="sort-container">
-        <div class="candidate-container">
-          <Dot :title="'DAO'" />
-          <div class="candidate-text">DAO Candidate</div>
-          <Dot :title="'Operator'" />
-          <div class="candidate-text">Operator</div>
+      <div class="operator-container">
+        <div class="sort-container">
+          <div class="candidate-container">
+            <Dot :title="'DAO'" />
+            <div class="candidate-text">DAO Candidate</div>
+            <Dot :title="'Operator'" />
+            <div class="candidate-text">Operator</div>
+          </div>
+          <div class="sort">
+            <DropDown :items="['Name', 'Total Staked', 'Recent Commit', 'User Staked']"
+                      :hint="'Name'"
+                      :button-type="'a'"
+                      :selector-type="'a'"
+                      class="dropdown"
+                      @on-selected="select"
+            />
+          </div>
         </div>
-        <div class="sort">
-          <DropDown :items="['Name', 'Total Staked', 'Recent Commit', 'User Staked']"
-                    :hint="'Name'"
-                    :button-type="'a'"
-                    :selector-type="'a'"
-                    class="dropdown"
-                    @on-selected="select"
-          />
-        </div>
-      </div>
 
-      <div class="balance-container">
-        <div v-for="(operator, index) in orderedOperators" :key="index">
-          <OperatorComponent :layer2="operator.layer2" />
+        <div class="balance-container">
+          <div v-for="(operator, index) in orderedOperators" :key="index">
+            <OperatorComponent :layer2="operator.layer2" />
+          </div>
         </div>
       </div>
     </div>
@@ -106,9 +108,9 @@ export default {
 </script>
 <style scoped>
 .menu-layout {
-    display: flex;
-    flex: 1;
-    justify-content: center;
+  display: flex;
+  flex: 1;
+  justify-content: center;
   background-color: #fafbfc;
   margin-top: 70px;
 }
@@ -119,8 +121,8 @@ export default {
 .menu-page-header {
   font-family: "NanumSquare", sans-serif;
   margin-bottom: 15px;
-    font-size: 38px;
-    font-weight: 600;
+  font-size: 38px;
+  font-weight: 600;
   font-stretch: normal;
   font-style: normal;
   line-height: 1.58;
@@ -129,8 +131,8 @@ export default {
   color: #3d495d;
 }
 .page-text{
-   font-family: "Titillium Web", sans-serif;
-    font-size: 16px;
+  font-family: "Titillium Web", sans-serif;
+  font-size: 16px;
   font-weight:normal;
   font-stretch: normal;
   font-style: normal;
@@ -138,13 +140,14 @@ export default {
   letter-spacing: 0.4px;
   text-align: center;
   color: #808992;
- }
+}
+
 .balance-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-evenly;
-      position:inherit;
-      align-self: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  position:inherit;
+  align-self: center;
 
 }
 .sort-container {
@@ -182,9 +185,8 @@ export default {
 .sort {
   display: flex;
   justify-content: flex-end;
-
 }
- .dropdown {
-    align-items:flex-end;
-  }
+.dropdown {
+  align-items:flex-end;
+}
 </style>

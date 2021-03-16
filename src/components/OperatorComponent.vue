@@ -32,7 +32,7 @@
       v-if="pressed && selectedOperator === operator.layer2"
       class="operator-details"
     >
-    <div class="divider"/>
+      <div class="divider" />
       <div class="row">
         <div class="column">
           <operator-text-view :title="'Total Delegates'" :value="'100'" />
@@ -225,7 +225,6 @@ export default {
 <style scoped>
 .operator-container {
   /* padding: 10px; */
-  width: 1078px;
   display: flex;
   flex-direction: column;
   /* align-items: center; */
