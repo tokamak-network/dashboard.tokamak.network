@@ -11,7 +11,7 @@
           <div class="candidate-text">Operator</div>
         </div>
         <div class="sort">
-          <DropDown :items="['Name', 'Total Staked', 'Recent Commit', 'Participation']"
+          <DropDown :items="['Name', 'Total Staked', 'Recent Commit', 'User Staked']"
                     :hint="'Name'"
                     :button-type="'a'"
                     :selector-type="'a'"
@@ -25,7 +25,6 @@
         <div v-for="(operator, index) in orderedOperators" :key="index">
           <OperatorComponent :layer2="operator.layer2" />
         </div>
-        <!-- <OperatorComponent title="Total Staked TON" balance="0.000" rewards="New rewards per block" value="0.000" /> -->
       </div>
     </div>
   </div>
@@ -99,7 +98,7 @@ export default {
         this.orderBy('commit');
       }
       else {
-        this.orderBy('');
+        this.orderBy('userStaked');
       }
     },
   },
@@ -108,17 +107,14 @@ export default {
 <style scoped>
 .menu-layout {
     display: flex;
+    flex: 1;
     justify-content: center;
   background-color: #fafbfc;
   margin-top: 70px;
-  width: 100%;
 }
 .menu-content {
   display: flex;
   flex-direction: column;
-  /* align-items: center; */
-  justify-content: center;
-  /* width: 100%; */
 }
 .menu-page-header {
   font-family: "NanumSquare", sans-serif;
@@ -147,8 +143,9 @@ export default {
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
-    width: 100%;
-    /* flex-flow: row wrap; */
+      position:inherit;
+      align-self: center;
+
 }
 .sort-container {
   display: flex;

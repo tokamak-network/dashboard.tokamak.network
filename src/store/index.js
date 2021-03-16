@@ -79,6 +79,7 @@ const initialState = {
 
   // not yet committed
   uncommittedCurrentRoundReward: _WTON('0'),
+  selectedOperator: '',
 };
 
 const getInitialState = () => initialState;
@@ -193,6 +194,9 @@ export default new Vuex.Store({
     SET_UNCOMMITTED_CURRENT_ROUND_REWARD: (state, reward) => {
       state.uncommittedCurrentRoundReward = reward;
     },
+    SET_SELECTED_OPERATOR:(state, selected) =>{
+      state.selectedOperator = selected;
+    },
   },
   actions: {
     logout (context) {
@@ -225,7 +229,7 @@ export default new Vuex.Store({
       await new Promise(resolve => setTimeout(resolve, 1000)); // https://github.com/Onther-Tech/dashboard.tokamak.network/issues/81
       context.commit('SIGN_IN');
       context.commit('IS_LOADING', false);
-      router.replace({ path: 'dashboard', query: { network: router.app.$route.query.network } }).catch(err => {});
+      router.replace({ path: 'home', query: { network: router.app.$route.query.network } }).catch(err => {});
     },
     async set (context, web3) {
       const blockNumber = await web3.eth.getBlockNumber();
@@ -392,7 +396,7 @@ export default new Vuex.Store({
         TON.methods.balanceOf(WTON._address).call(),
       ]);
 
-      const operators = context.state.operators;
+      const operators = context.state.operators.slice(0, 2);
       const candidates = await getCandidates();
       const events = await getCandidateCreateEvent();
       const candidateContractCreated = events.filter(event => event.eventName === 'CandidateContractCreated');
@@ -911,6 +915,9 @@ export default new Vuex.Store({
         power: _POWER.ray(power.toString()),
       });
     },
+    setSelectedOperator (context, selected) {
+      context.commit('SET_SELECTED_OPERATOR', selected);
+    },
   },
   getters: {
     initialState: (state) => {
@@ -924,6 +931,9 @@ export default new Vuex.Store({
     },
     operatorByLayer2: (state) => (layer2) => {
       return cloneDeep(state.operators.find(operator => operator.layer2.toLowerCase() === layer2.toLowerCase()));
+    },
+    transactionsByOperator: (state) => (operator) => {
+      return state.transactions.filter(transaction => transaction.target.toLowerCase()=== operator.toLowerCase());
     },
     userTotalDeposit: (state) => {
       const initialAmount = _WTON.ray('0');

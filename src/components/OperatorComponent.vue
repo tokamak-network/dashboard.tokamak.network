@@ -1,10 +1,10 @@
 <template>
   <div class="operator-container">
-    <div class="operator-header">
+    <div class="operator-header" @click="openStaking()">
       <div class="header-column">
         <div>
-          <dot v-if="operator.isCandidate" :title="'DAO'" style="margin-bottom:4px; margin-left:6px" />
-          <dot :title="'Operator'" style="margin-left:6px" />
+          <dot v-if="operator.isCandidate" :title="'DAO'" style="margin-bottom:4px; margin-left:16px" />
+          <dot :title="'Operator'" style="margin-left:16px" />
         </div>
         <avatar
           class="avatar"
@@ -14,23 +14,25 @@
         />
         <div class="operator-name">{{ operator.name }}</div>
         <div class="operator-amount">Total Staked</div>
-        <div class="operator-amount" style="margin-right:60px"> {{ currencyAmount(operator.totalDeposit) }}</div>
+        <div class="operator-amount" style="width:139px"> {{ currencyAmount(operator.totalDeposit) }}</div>
         <div class="operator-amount">Commission Rate</div>
-        <div class="operator-amount">
+        <div class="operator-amount" style="width:37px; margin-right:50px">
           {{ operator.isCommissionRateNegative ? "-" : ""
           }}{{ rateOf(operator.commissionRate) }}
         </div>
+        <div class="operator-amount">Your Staked</div>
+        <div class="operator-amount" style="width:139px"> {{ currencyAmount(operator.userStaked) }}</div>
       </div>
       <img class="arrow"
            :class="{ 'arrow-up': !pressed, 'arrow-down': pressed }"
            src="@/assets/images/arrow_open_icon.png"
-           @click="openStaking()"
       >
     </div>
     <div
       v-if="pressed && selectedOperator === operator.layer2"
       class="operator-details"
     >
+    <div class="divider"/>
       <div class="row">
         <div class="column">
           <operator-text-view :title="'Total Delegates'" :value="'100'" />
@@ -222,7 +224,7 @@ export default {
 
 <style scoped>
 .operator-container {
-  padding: 10px;
+  /* padding: 10px; */
   width: 1078px;
   display: flex;
   flex-direction: column;
@@ -232,7 +234,7 @@ export default {
   border-color: #ccd1d3; */
   border-radius: 12px;
   box-shadow: 0 1px 1px 0 rgba(96, 97, 112, 0.16);
-  margin-bottom: 19px;
+  margin-bottom: 12px;
   /* height: 74px; */
 }
 .operator-header {
@@ -275,6 +277,13 @@ export default {
   cursor: pointer;
 }
 
+.divider {
+  width: 100%;
+  height: 1px;
+  /* margin: 12px 0 60px; */
+  margin-bottom: 60px;
+  background-color: #f4f6f8;
+}
 .operator-details {
   display: flex;
   flex-direction: column;
@@ -291,10 +300,12 @@ export default {
   letter-spacing: normal;
   text-align: left;
   color: #304156;
-  width: 180px;
+  width: 120px;
+  margin-right: 60px;
 }
 .avatar {
-  margin-left: 3px;
+  margin:13px 0px 13px 3px;
+  /* margin-left: 3px; */
 }
 .column {
   display: flex;

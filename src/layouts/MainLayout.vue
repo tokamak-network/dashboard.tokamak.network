@@ -60,22 +60,16 @@ export default {
 <style scoped>
 .main-layout {
   display: flex;
-  min-width: 100%;
-  max-width: 100%;
   padding-bottom: 2rem;
   flex-direction: column;
   background-color: #fafbfc;
+  align-items: center;
 }
 .main-container {
   display: flex;
   flex-direction: row;
-  min-width: 100%;
-  max-width: 100%;
 }
 .main-body-container {
-  /* padding-left: 16px; */
-  width: 100%;
-  position: relative;
   background-color: #fafbfc;
     align-items: center;
 
