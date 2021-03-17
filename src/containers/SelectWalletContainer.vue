@@ -18,6 +18,10 @@
         :title="'Ledger'"
         :connect="ledger"
       />
+      <network-and-address-modal
+        ref="networkandaddressModal"
+        :hardware-wallet="hardwareWallet"
+      />
     </div>
   </div>
 </template>
@@ -32,6 +36,7 @@ import { mapState } from 'vuex';
 import Wallet from '@/components/Wallet.vue';
 import walletConnect from '@/components/WalletConnect.vue';
 import ledgerConnect from '@/components/LedgerConnect.vue';
+import NetworkAndAddressModal from '@/layouts/AccessWalletLayout/NetworkAndAddressModal';
 
 import WalletConnectProvider from '@walletconnect/web3-provider';
 
@@ -53,6 +58,7 @@ export default {
     'wallet': Wallet,
     'wallet-connect': walletConnect,
     'ledger-connect': ledgerConnect,
+    'network-and-address-modal': NetworkAndAddressModal,
   },
   data () {
     return {
@@ -97,91 +103,7 @@ export default {
       }
     },
     async ledger () {
-      const engine = new ProviderEngine();
-
-      const transport = await TransportWebUSB.create();
-      transport.setDebugMode(true);
-      const appEth = new AppEth(transport);
-      // let address;
-      // let derivedKey, accountPath;
-
-      const isSupported = await TransportWebUSB.isSupported();
-      console.log(isSupported);
-
-      const rootPub = await appEth.getAddress('44\'/60\'/0\'/0/0', false, true);
-      // .then(o => {
-      //   address = o.address;
-      // });
-
-      const hdKey = new HDKey();
-      hdKey.publicKey = Buffer.from(rootPub.publicKey, 'hex');
-      hdKey.chainCode = Buffer.from(rootPub.chainCode, 'hex');
-      const derivedKey = hdKey.derive('m/0/0');
-      console.log(derivedKey);
-
-      const address = rootPub.address;
-
-      const ledger = createLedgerSubprovider(transport, {
-        networkId: 1,
-        accountsLength: 5,
-        paths:  ['44\'/60\'/x\'/0/0'],
-      });
-      // console.log(ledger);
-      // const addresses = await new Promise((resolve, reject) =>
-      //   ledger.getAccounts((err, addresses) =>
-      //     err ? reject(err) : resolve(addresses)
-      //   )
-      // );
-      // console.log(addresses);
-      // console.log(ledger.getAccounts);
-      engine.addProvider(ledger);
-      engine.addProvider(new RpcSubprovider({ rpcUrl: 'https://mainnet.infura.io/v3/3c55b12f39c549c7911f6488d8888260' }));
-      engine.start();
-      // console.log(engine); // eslint-disable-line
-      const web3 = new Web3(engine); // eslint-disable-line
-      // console.log((await web3.eth.getAccounts())[0]);
-      // web3.eth.getAccounts(console.log);
-      console.log(await web3.eth.net.getId());
-      console.log(web3);
-      console.log(web3.currentProvider);
-      console.log(await web3.eth.getBalance(address));
-      await this.$store.dispatch('signInLedger', web3, address);
-      this.currentAccount = address;
-      // try {
-      //   await this.$store.dispatch('signIn', web3);
-      //   this.currentAccount = address;
-      // } catch (e) {
-      //   throw new Error(e.message);
-      // }
-
-      // try {
-      //   engine.on('chainChanged', (chainId) => {
-      //     this.$store.dispatch('logout');
-      //     this.$router.replace({
-      //       path: '/',
-      //       query: { network: this.$route.query.network },
-      //     }).catch(err => {});
-      //   });
-      //   engine.on('accountsChanged', (account) => {
-      //     if (this.user.toLowerCase() !== account[0].toLowerCase()) {
-      //       this.$store.dispatch('logout');
-      //       this.$router.replace({
-      //         path: '/',
-      //         query: { network: this.$route.query.network },
-      //       }).catch(err => {});
-      //     }
-      //   });
-      //   engine.on('disconnect', (code, reason) => {
-      //     alert('Ethereum Provider connection lost');
-      //     this.$store.dispatch('logout');
-      //     this.$router.replace({
-      //       path: '/',
-      //       query: { network: this.$route.query.network },
-      //     }).catch(err => {});
-      //   });
-      // } catch (e) {
-      //   alert(e.message);
-      // }
+      this.$refs.networkandaddressModal.$refs.networkAndAddress.show();
     },
     async walletConnect () {
       const provider = new WalletConnectProvider({

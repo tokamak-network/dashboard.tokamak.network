@@ -153,6 +153,7 @@ export default {
       else {
         alert('Please limit the rate to 2 decimal places');
       }
+      console.log(commissionRate);
       if (commissionRate !== undefined){
         const gasLimit = await this.SeigManager.methods.setCommissionRate(
           this.operator.layer2,

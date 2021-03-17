@@ -215,10 +215,11 @@ export default new Vuex.Store({
     async signInLedger (context, web3, account) {
       context.commit('IS_LOADING', true);
       context.commit('SET_WEB3', web3);
-
-      const user = account;
+      const accounts = await web3.eth.getAccounts();
+      const user = accounts[0];
       console.log(user);
-      console.log(await web3.eth.getAccounts());
+      console.log(await web3.eth.getBalance(user));
+
       const networkId = await web3.eth.net.getId();
       context.commit('SET_USER', user);
       context.commit('SET_NETWORK_ID', networkId);
@@ -738,7 +739,7 @@ export default new Vuex.Store({
           const withdrawableRequests = filterWithdrawableRequests(pendingRequests);
           const userNotWithdrawable = getUserNotWithdrawable(notWithdrawableRequests);
           const userWithdrawable = getUserWithdrawable(withdrawableRequests);
-          console.log(_WTON(totalStaked, WTON_UNIT));
+
           // set vue state.
           operatorFromLayer2.address = operator;
           // operatorFromLayer2.lastFinalizedAt = lastFinalizedAt;
@@ -914,7 +915,6 @@ export default new Vuex.Store({
     userTotalStaked: (state) => {
       const initialAmount = _WTON.ray('0');
       const reducer = (amount, operator) => amount.add(operator.userStaked);
-      console.log(state.operators.reduce(reducer, initialAmount));
 
       return state.operators.reduce(reducer, initialAmount);
     },
