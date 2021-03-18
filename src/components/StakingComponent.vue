@@ -128,7 +128,7 @@ export default {
     },
   },
 };
-</script>
+</script>``
 
 <style scoped>
 .staking-component-container {
@@ -243,5 +243,6 @@ export default {
   /* padding: 10px 57px 9px; */
   /* border-radius: 4px; */
   background-color: #257eee;
+  height: 100%;
 }
 </style>

@@ -349,7 +349,6 @@ export default {
   align-content: center;
   height: 100%;
 }
-
 .title {
   font-family: Roboto;
   font-size: 15px;
