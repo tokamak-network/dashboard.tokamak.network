@@ -128,7 +128,7 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 .dropdown {
   position: relative;
   display: inline-block;
@@ -232,7 +232,6 @@ export default {
 
 .dropdown-item {
   height: 32px;
-
   font-family: Roboto;
   font-size: 12px;
   font-weight: lighter;

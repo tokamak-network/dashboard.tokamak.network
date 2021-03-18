@@ -25,7 +25,16 @@ export async function getCandidateCreateEvent () {
   if (res.data === '') return [];
   else return res.data.datas;
 }
-
+export async function getDelegators (chainId, layer2) {
+  const res = await candidate.get('/layer2users', {
+    params: {
+      chainId: chainId,
+      layer2: layer2,
+    },
+  });
+  if (res.data === '') return [];
+  else return res.data.datas;
+}
 export async function getCandidates () {
   const res = await candidate.get('/layer2s/operators');
   if (res.data === '') return [];

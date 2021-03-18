@@ -5,7 +5,7 @@ Vue.use(Vuex);
 import router from '@/router';
 import web3EthABI from 'web3-eth-abi';
 
-import { getManagers, getOperators, getHistory, getTransactions, addTransaction, getCandidates, getCandidateCreateEvent } from '@/api';
+import { getManagers, getOperators, getHistory, getTransactions, addTransaction, getCandidates, getCandidateCreateEvent, getDelegators } from '@/api';
 import { cloneDeep, isEqual, range, uniq, orderBy } from 'lodash';
 import numeral from 'numeral';
 import { createWeb3Contract } from '@/helpers/Contract';
@@ -272,6 +272,12 @@ export default new Vuex.Store({
       context.commit('SET_MANAGERS', managers);
     },
     async setTransactionsAndPendingTransactions (context, transactions) {
+      const web3 = context.state.web3;
+      transactions.forEach(async transaction => {
+        const block = await web3.eth.getBlock(transaction.blockNumber);
+        const timestamp = block.timestamp;
+        transaction.timestamp = timestamp;
+      });
       context.commit('SET_TRANSACTIONS', transactions);
       const pendingTransactions = getPendingTransactions();
       context.commit('SET_PENDING_TRANSACTIONS', pendingTransactions);
@@ -739,8 +745,8 @@ export default new Vuex.Store({
             operatorFromLayer2.deployedAt = block.timestamp;
             operatorFromLayer2.lastFinalizedAt = lastFinalized[0] === '0' ? block.timestamp : lastFinalized[0];
           }
-
-
+          const delegators = await getDelegators(context.state.networkId, layer2 );
+          operatorFromLayer2.delegators = delegators;
           // const result = calculateExpectedSeig(
           //   fromBlockNumber, // the latest commited block number. You can get this using seigManager.lastCommitBlock(layer2)
           //   toBlockNumber, // the target block number which you want to calculate seigniorage

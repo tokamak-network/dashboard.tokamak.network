@@ -20,11 +20,13 @@
           {{ operator.isCommissionRateNegative ? "-" : ""
           }}{{ rateOf(operator.commissionRate) }}
         </div>
-        <div class="operator-amount">Your Staked</div>
-        <div class="operator-amount" style="width:139px"> {{ currencyAmount(operator.userStaked) }}</div>
+        <div v-if="Number(operator.userStaked.toBigNumber())" class="user-staked">
+          <div class="operator-amount">Your Staked</div>
+          <div class="operator-amount" style="width:139px"> {{ currencyAmount(operator.userStaked) }}</div>
+        </div>
       </div>
       <img class="arrow"
-           :class="{ 'arrow-up': !pressed, 'arrow-down': pressed }"
+           :class="{ 'arrow-up': !pressed && selectedOperator !== operator.layer2, 'arrow-down': pressed && selectedOperator === operator.layer2 }"
            src="@/assets/images/arrow_open_icon.png"
       >
     </div>
@@ -34,34 +36,35 @@
     >
       <div class="divider" />
       <div class="row">
-        <div class="column">
-          <operator-text-view :title="'Total Delegates'" :value="'100'" />
-          <operator-text-view :title="'Withdraw processed'" :value="'0 TON'" />
+        <div class="column" style="margin-top:30px">
+          <operator-text-view :title="'Total Delegates'" :value="operator.delegators.length.toString()" :date="false" :tonValue="false" />
+          <operator-text-view :title="'Withdraw processed'" :value="'0'" :date="false" :tonValue="true" style="margin-top:40px" />
         </div>
         <div class="column">
           <staking-component :layer2="operator.layer2" @selectFunc="selectFunc" @openStakeModal="openStakeModal" />
         </div>
-        <div class="column">
-          <operator-text-view :title="'Recent Commit'" :value="date" />
+        <div class="column" style="margin-top:30px">
+          <operator-text-view :title="'Recent Commit'" :value="date" :date="true" :tonValue="false" />
 
           <operator-text-view
             :title="'Commit Count'"
             :value="operator.finalizeCount"
+            :date="false"
+            :tonValue="false"
+            style="margin-top:40px"
           />
         </div>
       </div>
       <div class="row">
-        <div class="column">
-          Staking
-          <div>
-            <history-table :layer2="layer2" />
-          </div>
+        <div class="column" style="margin-right:30px">
+          <div class="title">Staking</div>
+
+          <history-table :layer2="layer2" />
         </div>
         <div class="column">
-          Commit
-          <div>
-            <history-table :layer2="layer2" />
-          </div>
+          <div class="title">Commit</div>
+
+          <commit-table :layer2="layer2" />
         </div>
       </div>
       <transition v-if="showStake" name="model">
@@ -107,6 +110,7 @@ import StakeModel from '../components/StakeModel';
 import RestakeModal from '../components/RestakeModal';
 import UnstakeModal from '../components/UnstakeModal';
 import WithdrawModal from '../components/WithdrawModal';
+import CommitTable from '../components/table/CommitTable';
 import Dot from '../components/Dot';
 import Avatar from '../components/Avatar';
 export default {
@@ -115,6 +119,7 @@ export default {
     'operator-text-view': OperatorTextView,
     'staking-component': StakingComponent,
     'history-table' : HistroyTable,
+    'commit-table' :CommitTable,
     'stake-modal': StakeModel,
     'restake-modal': RestakeModal,
     'unstake-modal' : UnstakeModal,
@@ -169,9 +174,13 @@ export default {
   },
   methods: {
     openStaking () {
-      if (this.pressed) {
+      if (this.setSelectedOperator === this.operator.layer2) {
         this.pressed = false;
         this.$store.dispatch('setSelectedOperator', '');
+      }
+      if(this.pressed){
+        this.pressed = false;
+
       } else {
         this.pressed = true;
         this.$store.dispatch('setSelectedOperator', this.operator.layer2);
@@ -224,6 +233,7 @@ export default {
 
 <style scoped>
 .operator-container {
+  width: 1100px;
   /* padding: 10px; */
   display: flex;
   flex-direction: column;
@@ -276,6 +286,10 @@ export default {
   cursor: pointer;
 }
 
+.user-staked {
+  display: flex;
+  flex-direction: row;
+}
 .divider {
   width: 100%;
   height: 1px;
@@ -286,6 +300,7 @@ export default {
 .operator-details {
   display: flex;
   flex-direction: column;
+  /* padding:70px; */
 }
 .operator-name {
   /* font-weight: 700; */
@@ -309,13 +324,13 @@ export default {
 .column {
   display: flex;
   flex-direction: column;
-  margin: 20px;
 }
 .row {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  /* margin: 20px; */
+  padding: 0px 70px;
+  margin-bottom: 60px;
 }
 .model-mask {
   position: fixed;
@@ -333,5 +348,18 @@ export default {
   justify-content: center;
     align-content: center;
     margin-top: 150px;
+}
+
+.title {
+  font-family: Roboto;
+  font-size: 15px;
+  font-weight: bolder;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.33;
+  letter-spacing: 0.38px;
+  text-align: left;
+  color: #3d495d;
+  margin-bottom: 5px;
 }
 </style>
