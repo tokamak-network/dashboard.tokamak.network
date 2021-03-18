@@ -91,6 +91,7 @@ export default {
       return this.order === 'desc' ? 'asc' : 'desc';
     },
     select (item) {
+      this.$store.dispatch('setSelectedOperator', '');
       if (item === 'Total Staked') {
         this.orderBy('totalStaked');
       } else if (item === 'Name') {

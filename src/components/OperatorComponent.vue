@@ -26,19 +26,19 @@
         </div>
       </div>
       <img class="arrow"
-           :class="{ 'arrow-up': !pressed && selectedOperator !== operator.layer2, 'arrow-down': pressed && selectedOperator === operator.layer2 }"
+           :class="{ 'arrow-up': !isPressed, 'arrow-down': isPressed }"
            src="@/assets/images/arrow_open_icon.png"
       >
     </div>
     <div
-      v-if="pressed && selectedOperator === operator.layer2"
+      v-if="isPressed"
       class="operator-details"
     >
       <div class="divider" />
       <div class="row">
         <div class="column" style="margin-top:30px">
           <operator-text-view :title="'Total Delegates'" :value="operator.delegators.length.toString()" :date="false" :tonValue="false" />
-          <operator-text-view :title="'Withdraw processed'" :value="'0'" :date="false" :tonValue="true" style="margin-top:40px" />
+          <operator-text-view :title="'Pending Withdrawal'" :value="'0'" :date="false" :tonValue="true" style="margin-top:40px" />
         </div>
         <div class="column">
           <staking-component :layer2="operator.layer2" @selectFunc="selectFunc" @openStakeModal="openStakeModal" />
@@ -140,6 +140,7 @@ export default {
       showRestake: false,
       showWithdraw: false,
       stakeAmount: '0',
+      selectedOp: '',
     };
   },
   computed: {
@@ -171,18 +172,24 @@ export default {
         .unix(this.operator.lastFinalizedAt)
         .format('YYYY.MM.DD HH:mm:ss (Z)');
     },
+    isPressed () {
+      if (this.selectedOperator === this.operator.layer2) {
+        return true;
+      }
+      else {
+        return false;
+      }
+    },
+  },
+  mounted () {
+    this.selectedOp = this.selectedOperator;
   },
   methods: {
     openStaking () {
-      if (this.setSelectedOperator === this.operator.layer2) {
-        this.pressed = false;
+      if (this.isPressed) {
         this.$store.dispatch('setSelectedOperator', '');
       }
-      if(this.pressed){
-        this.pressed = false;
-
-      } else {
-        this.pressed = true;
+      else {
         this.$store.dispatch('setSelectedOperator', this.operator.layer2);
       }
     },
@@ -293,17 +300,14 @@ export default {
 .divider {
   width: 100%;
   height: 1px;
-  /* margin: 12px 0 60px; */
   margin-bottom: 60px;
   background-color: #f4f6f8;
 }
 .operator-details {
   display: flex;
   flex-direction: column;
-  /* padding:70px; */
 }
 .operator-name {
-  /* font-weight: 700; */
   margin-left: 12px;
   font-family: Roboto;
   font-size: 20px;
@@ -319,7 +323,6 @@ export default {
 }
 .avatar {
   margin:13px 0px 13px 3px;
-  /* margin-left: 3px; */
 }
 .column {
   display: flex;

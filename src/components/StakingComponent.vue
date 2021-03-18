@@ -243,6 +243,6 @@ export default {
   /* padding: 10px 57px 9px; */
   /* border-radius: 4px; */
   background-color: #257eee;
-  height: 100%;
+  /* height: 100%; */
 }
 </style>
