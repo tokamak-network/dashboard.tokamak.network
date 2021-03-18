@@ -1,7 +1,7 @@
 <template>
-<div class="model-wrapper">
-  <div class="simulator-container">
-    <div class="model-close">
+  <div class="model-wrapper">
+    <div class="model-container">
+      <div class="model-close">
         <img
           class="model-close-btn"
           :src="require(`@/assets/images/popup-close-icon.svg`)"
@@ -9,20 +9,41 @@
         >
       </div>
       <div class="model-content">
-    <div class="model-content-title">Staking Simulator</div>
-    <div class="model-content-subTitle">Calculate how much TON you can earn</div>
-      <div class="model-line" />
-      <div class="model-second-container">
-        <div class="row">
-          <div class="simulator-text">Stake</div>
-          <div style="display:flex; flex-direction:row; height: 32px;">
-          <div class="input-container">
-            <input v-model="myStaked" @keypress="isNumber">
-            <div class="ton-text"> TON </div>
-          </div>
-          <button>MAX</button>
+        <h1 class="model-content-title">Staking Simulator</h1>
+        <h2 class="model-content-subTitle">Calculating how much you can earn</h2>
+        <div class="model-line" />
+        <div class="model-ton-balance">
+          <h3 class="model-ton-balance-title">Stake</h3>
+          <div class="model-ton-balance-inner">
+            <input class="model-ton-balance-input">
+            <button class="model-ton-stake-btn" @click="makeInputMax">MAX</button>
           </div>
         </div>
+        <div class="model-ton-balance">
+          <h3 class="model-ton-balance-title">Stake</h3>
+          <span class="model-ton-balance-amount" />
+        </div>
+        <div class="model-ton-balance">
+          <h3 class="model-ton-balance-title">Stake</h3>
+          <span class="model-ton-balance-amount" />
+        </div>
+        <div class="model-line" />
+        <button class="model-btn"
+                :class="{'model-btn-notavailable' : inputTon === '0' || inputTon === ''}"
+                click="redelegate"
+        >
+          Re-Stake
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- <div class="simulator-container">
+    <button @click="closePopup()">X</button>
+    <div>Staking Simulator</div>
+    <div>Lorem ipsum dolor sit amet</div>
+    <div>Stake</div>
+    <input v-model="myStaked" @keypress="isNumber">
     <div>Total Staked</div>
     <div>{{ totalStaked }}</div>
     <div class="content-name">
@@ -33,15 +54,12 @@
         <option value="WEEK">WEEK</option>
       </select>
     </div>
-    </div>
     <button @click="calculate">calculate</button>
-  </div>
-  </div>
-</div>
+  </div> -->
 </template>
 <script>
+import Vue from 'vue';
 import axios from 'axios';
-import { mapState } from 'vuex';
 export default {
   data () {
     return {
@@ -58,12 +76,8 @@ export default {
       rewardTON:0,
       rewardUSD:0,
       rewardKRW:0,
+      inputTon: '0',
     };
-  },
-  computed: {
-    ...mapState([
-      'tonBalance',
-    ])
   },
   async created () {
     this.getTotalSupply();
@@ -168,6 +182,10 @@ export default {
 };
 </script>
 <style scoped>
+
+textarea:focus, input:focus{
+    outline: none;
+}
 .model-wrapper {
   width: 100%;
   height: 100%;
@@ -175,8 +193,8 @@ export default {
   align-items: center;
   justify-content: center;
 }
-.simulator-container {
-display: flex;
+.model-container {
+  display: flex;
   flex-direction: column;
   width: 390px;
 }
@@ -192,7 +210,7 @@ display: flex;
 }
 .model-content {
   width: 350px;
-height: 323px;
+  height: 360px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -202,15 +220,10 @@ height: 323px;
   padding-bottom: 20px;
 }
 .model-content-title {
-font-family: "Titillium Web", sans-serif;
   font-size: 20px;
   font-weight: bold;
-  font-stretch: normal;
-  font-style: normal;
-  line-height: 1.5;
-  letter-spacing: 0.5px;
-  text-align: center;
-  color: #3d495d;
+  font-family: "Titillium Web", sans-serif;
+  margin-bottom: 0px;
 }
 .model-content-subTitle {
   font-size: 12px;
@@ -218,7 +231,6 @@ font-family: "Titillium Web", sans-serif;
   font-family: Roboto;
   margin-bottom: 0px;
 }
-
 .model-line {
   width: 100%;
   height: 1px;
@@ -244,52 +256,69 @@ font-family: "Titillium Web", sans-serif;
   font-family: Roboto;
   font-weight: 500;
 }
-.model-second-container {
-  width: 290px;
-  padding: 25px 30px 24px 30px;
-  display: flex;
-  flex-direction: column;
+.model-ton-stake-input-blink {
+  border-bottom: solid 2px #2a72e5;
+  animation: blink 1s;
+  animation-iteration-count: infinite;
 }
-.row {
+@keyframes blink { 50% { border-color:#fff ; }  }
+.model-ton-stake-btn {
+  width: 56px;
+  height: 25px;
+  border-radius: 4px;
+  border: solid 1px #dfe4ee;
+  background-color: #ffffff;
+  font-size: 12px;
+  color: #86929d;
+  cursor: pointer;
+}
+.model-ton-balance {
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
+  width: 82.8%;
   height: 55px;
 }
-.simulator-text {
-  font-family: Roboto;
+.model-ton-balance-title {
   font-size: 14px;
-  font-weight: 500;
-  font-stretch: normal;
-  font-style: normal;
-  line-height: 2.14;
-  letter-spacing: normal;
-  text-align: left;
   color: #3d495d;
+  font-family: Roboto;
+  font-weight: 500;
+  margin: 0;
 }
-.input-container {
-   border: solid 1px;
-  border-color: #dfe4ee;
+.model-ton-balance-amount {
   display: flex;
   flex-direction: row;
-  padding: 7px 10px;
-  width: 120px;
-  margin-right: 5px;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  color: #3d495d;
+  font-weight: 500;
 }
-input {
+.model-description {
+  font-size: 12px;
+  font-weight: 500;
+  color: #2a72e5;
+  margin-top: 25px;
+  margin-bottom: 25px;
+}
+.model-btn {
+  width: 150px;
+  height: 38px;
+  border-radius: 4px;
+  background-color: #257eee;
+  color: #ffffff;
   border: none;
-  width: 100%;
+  cursor: pointer;
 }
-.ton-text {
-  font-family: Roboto;
-  font-size: 13px;
-  font-weight: normal;
-  font-stretch: normal;
-  font-style: normal;
-  line-height: 1.23;
-  letter-spacing: normal;
-  text-align: right;
-  color: #3e495c;
+.model-btn-notavailable {
+  background-color: #e9edf1;
+}
+.model-ton-balance-inner {
+  display: flex;
+}
+.model-ton-balance-input {
+  border: 1px solid #dfe4ee;
 }
 </style>
