@@ -346,8 +346,8 @@ export default {
 .model-container {
   display: flex;
   justify-content: center;
-    align-content: center;
-    margin-top: 150px;
+  align-content: center;
+  height: 100%;
 }
 
 .title {
