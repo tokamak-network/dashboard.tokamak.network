@@ -294,6 +294,10 @@ export default {
       const wtonAmount = _WTON(bigAmount.toString(), 'ray');
       const delegateAmount = _WTON(wtonAmount).toFixed('ray');
 
+      if (!confirm('Are you sure you want to delegate?')) {
+        return;
+      }
+
       const gasLimit = await this.DepositManager.methods.deposit(
         this.operator.layer2,
         delegateAmount,
@@ -327,6 +331,11 @@ export default {
       if (this.operator.withdrawalRequests.length === 0) {
         return alert('Redelegatable amount is 0.');
       }
+
+      if (!confirm('Are you sure you want to redelegate?')) {
+        return;
+      }
+
       const amount = this.redelegatableAmount.toFixed('ray');
       const gasLimit = await this.DepositManager.methods.redepositMulti(
         this.operator.layer2,
@@ -362,6 +371,10 @@ export default {
       }
       if (_WTON(this.amountToUndelegate).gt(this.operator.userStaked)){
         return alert('Please check your TON amount.');
+      }
+
+      if (!confirm('Are you sure you want to undelegate?')) {
+        return;
       }
 
       const amount = _WTON(this.amountToUndelegate).toFixed('ray');
@@ -404,6 +417,10 @@ export default {
         return alert('Withdrawable amount is 0.');
       }
 
+      if (!confirm('Are you sure you want to withdraw?')) {
+        return;
+      }
+
       const amount = _WTON(userWithdrawable).toFixed('ray');
 
       const gasLimit = await this.DepositManager.methods.processRequests(
@@ -443,6 +460,10 @@ export default {
       const count = this.operator.withdrawableRequests.length;
       if (count === 0) {
         return alert('Withdrawable amount is 0.');
+      }
+
+      if (!confirm('Are you sure you want to withdraw?')) {
+        return;
       }
 
       const amount = _WTON(userWithdrawable).toFixed('ray');
