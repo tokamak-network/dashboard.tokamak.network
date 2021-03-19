@@ -11,12 +11,7 @@
       <button class="button-stake" @click="selectFunction('stake')">
         Stake
       </button>
-      <div
-        v-if="
-          parseInt(operator.userStaked) !== 0 &&
-            operator.withdrawalRequests.length === 0
-        "
-      >
+      <div>
         <div>
           <button class="button-stake" @click="selectFunction('unstake')">Unstake</button>
         </div>

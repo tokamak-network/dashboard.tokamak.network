@@ -34,7 +34,7 @@
         <span class="model-description">Minimum staking amount is 5</span>
         <button class="model-btn"
                 :class="{'model-btn-notavailable' : inputTon === '0' || inputTon === ''}"
-                click="delegate"
+                @click="delegate"
         >
           Stake
         </button>
@@ -185,6 +185,7 @@ export default {
       return data;
     },
     async delegate () {
+      console.log('--test--');
       if (this.availableAmountToDelegate === '' || parseFloat(this.amountToDelegate) === 0) {
         return alert('Please check input amount.');
       }
@@ -193,8 +194,7 @@ export default {
       }
       if(confirm('Current withdrawal delay is 2 weeks. Are you sure you want to delegate?')){
         const data = this.getData();
-        const amount = _TON(this.availableAmountToDelegate).toFixed('wei');
-        console.log(this.availableAmountToDelegate);
+        console.log(amount);
         this.TON.methods.approveAndCall(
           this.WTON._address,
           amount,
