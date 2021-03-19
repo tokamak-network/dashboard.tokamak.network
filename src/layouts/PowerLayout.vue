@@ -1,19 +1,44 @@
 <template>
   <div class="power-layout">
-    <div class="power-content">
-      <img class="logo" src="@/assets/images/TokamakLogo.png">
-      <div class="page-header">Win Power by staking TON!!</div>
-      <div class="page-text">Be a winner of our Power TON game by staking TON. More TON you delegate, more Power you win.</div>
-      <PowerWinnerTable />
+    <div class="power-title-container" @click="test">
+      <h1>PowerTON</h1>
+      <h2>Be a winner of our Power TON game by staking TON.</h2>
     </div>
+    <div class="power-current">
+      <div class="power-current-detail">
+        <h3>Round</h3>
+        <span>{{ currentRound.index }}</span>
+      </div>
+      <div class="power-current-detail">
+        <h3>Round Reward</h3>
+        <span>{{ currentRound.reward | currencyAmount }}</span>
+      </div>
+      <div class="power-current-detail">
+        <h3>24 Hour</h3>
+        <span>{{ currentRound.index }}</span>
+      </div>
+      <div class="power-current-detail">
+        <h3>Round Start</h3>
+        <span>{{ formattedTimestamp(currentRound.startTime) }}</span>
+      </div>
+    </div>
+    <div class="power-current-display">
+      <h2>Round End</h2>
+      <h1>3D 02:20:30</h1>
+      <h3>
+        {{ formattedTimestamp(currentRound.endTime) }}
+      </h3>
+    </div>
+    <PowerTonTable />
   </div>
 </template>
 <script>
 import { mapState, mapGetters } from 'vuex';
-import PowerWinnerTable from '@/components/table/PowerWinnerTable.vue';
+import moment from 'moment';
+import PowerTonTable from '@/components/PowerTonTable.vue';
 export default {
   components: {
-    PowerWinnerTable,
+    PowerTonTable,
   },
   computed: {
     ...mapState([
@@ -26,49 +51,88 @@ export default {
       'rankedAccountsWithPower',
     ]),
   },
+  methods: {
+    test () {
+      console.log(this.currentRound);
+    },
+    formattedTimestamp (timestamp) {
+      return moment.unix(timestamp).format('LLL');
+    },
+  },
 };
 </script>
 <style scoped>
 .power-layout {
-    min-width: 1174px;
-    max-width: 1174px;
-    display: flex;
-    /* align-items: center; */
-    justify-content: center;
-}
-.power-content {
     display: flex;
     flex-direction: column;
-     align-items: center;
-     width: 850px;
-
+    justify-content: center;
+    padding-top: 70px;
 }
-.logo {
-    height: 100px;
-    width: 144px;
+.power-title-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
-.page-header {
-    /* margin-top: 10px; */
-    /* margin-bottom: 15px; */
-    font-family: cursive;
-    color: #555555;
-    font-size: 36px;
-    text-align: center;
-    font-weight: 700;
-    padding: 0px;
+.power-title-container h1 {
+  font-size: 36px;
+  color: #3d495d;
+  font-weight: 700;
+  margin-bottom: 15px;
 }
-.page-text{
-    margin-bottom: 30px;
-    color: #8c8c8c;
-    font-size: 16px;
-    text-align: center;
-    font-weight: 400;
- }
-.balance-container {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    width: 760px;
+.power-title-container h2 {
+  font-size: 16px;
+  color: #808992;
+  font-weight: normal;
+  margin-bottom: 60px;
 }
-
+.power-current {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 130px;
+}
+.power-current-detail {
+  display: flex;
+  flex-direction: column;
+  width: 256px;
+  height: 84px;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 1px 3px 0 rgba(96, 97, 112, 0.16);
+  border-radius: 10px;
+  margin-left: 30px;
+}
+.power-current-detail h3 {
+  font-size: 13px;
+  color: #808992;
+  font-weight: 500;
+}
+.power-current-display {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 137px;
+}
+.power-current-display h2 {
+  font-size: 30px;
+  color: #3d495d;
+  font-weight: 600;
+  font-family: "Titillium Web", sans-serif;
+  margin: 0;
+}
+.power-current-display h1 {
+  font-size: 65px;
+  font-weight: 600;
+  color: #2a72e5;
+  margin: 0;
+}
+.power-current-display h3 {
+  font-size: 16px;
+  font-weight: normal;
+  color: #94a5b7;
+  margin: 0;
+}
 </style>
+

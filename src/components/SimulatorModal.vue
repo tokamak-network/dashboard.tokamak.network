@@ -1,43 +1,99 @@
 <template>
   <div class="model-wrapper">
-    <div class="model-container">
-      <div class="model-close">
-        <img
-          class="model-close-btn"
-          :src="require(`@/assets/images/popup-close-icon.svg`)"
-          @click="closePopup()"
-        >
+    <div v-if="currentView === 'calculate'" class="model-wrapper">
+      <div class="model-container">
+        <div class="model-close">
+          <img
+            class="model-close-btn"
+            :src="require(`@/assets/images/popup-close-icon.svg`)"
+            @click="closePopup()"
+          >
+        </div>
+        <div class="model-content">
+          <h1 class="model-content-title">Staking Simulator</h1>
+          <h2 class="model-content-subTitle">Calculating how much you can earn</h2>
+          <div class="model-line" />
+          <div class="model-ton-balance">
+            <h3 class="model-ton-balance-title">Stake</h3>
+            <div class="model-ton-balance-inner">
+              <input
+                v-model="inputTon"
+                class="model-ton-balance-input model-ton-balance-input-stake"
+              >
+              <button class="model-ton-stake-btn" @click="makeInputMax">MAX</button>
+            </div>
+          </div>
+          <div class="model-ton-balance">
+            <h3 class="model-ton-balance-title">Total Staked</h3>
+            <div class="model-ton-total">
+              <span class="model-ton-total-text">{{ totalStaked | current }}</span>
+            </div>
+          </div>
+          <div class="model-ton-balance">
+            <h3 class="model-ton-balance-title">Duration</h3>
+            <select v-model="selected" class="model-ton-selectbox">
+              <option>Year</option>
+              <option>Month</option>
+              <option>Week</option>
+            </select>
+          </div>
+          <div class="model-line" />
+          <button class="model-btn"
+                  :class="{'model-btn-notavailable' : inputTon === '0' || inputTon === ''}"
+                  @click="calculate()"
+          >
+            Calculate
+          </button>
+        </div>
       </div>
-      <div class="model-content">
-        <h1 class="model-content-title">Staking Simulator</h1>
-        <h2 class="model-content-subTitle">Calculating how much you can earn</h2>
-        <div class="model-line" />
-        <div class="model-ton-balance">
-          <h3 class="model-ton-balance-title">Stake</h3>
-          <div class="model-ton-balance-inner">
-            <input class="model-ton-balance-input">
-            <button class="model-ton-stake-btn" @click="makeInputMax">MAX</button>
+    </div>
+    <div v-else class="model-wrapper">
+      <div class="model-container">
+        <div class="model-close">
+          <img
+            class="model-close-btn"
+            :src="require(`@/assets/images/popup-close-icon.svg`)"
+            @click="closePopup()"
+          >
+        </div>
+        <div class="model-content">
+          <h1 class="model-content-title">Staking Simulator</h1>
+          <h2 class="model-content-subTitle">
+            Estimated reward of TON you can earn
+          </h2>
+          <div class="model-line" />
+          <h2 class="model-description">You can earn about</h2>
+          <div class="model-result-container">
+            <div class="model-result-ton">
+              <span class="model-result-ton-amount">{{ rewardTON }}</span>
+              <span class="model-result-ton-type">TON</span>
+            </div>
+            <div class="model-result-detail">
+              <span class="model-result-detail-info">{{ rewardUSD }}</span>
+              <span class="model-result-detail-info">{{ roi }}</span>
+              <span class="model-result-detail-info">{{ rewardKRW }}</span>
+            </div>
+          </div>
+          <div class="model-line" />
+          <div class="model-btn-container">
+            <button class="model-btn"
+                    :class="{'model-btn-notavailable' : inputTon === '0' || inputTon === ''}"
+                    style="marginRight: 5px"
+                    @click="test()"
+            >
+              Stake
+            </button>
+            <button class="model-btn"
+                    :class="{'model-btn-notavailable' : inputTon === '0' || inputTon === ''}"
+                    @click="changeView('calculate')"
+            >
+              Recalculate
+            </button>
           </div>
         </div>
-        <div class="model-ton-balance">
-          <h3 class="model-ton-balance-title">Stake</h3>
-          <span class="model-ton-balance-amount" />
-        </div>
-        <div class="model-ton-balance">
-          <h3 class="model-ton-balance-title">Stake</h3>
-          <span class="model-ton-balance-amount" />
-        </div>
-        <div class="model-line" />
-        <button class="model-btn"
-                :class="{'model-btn-notavailable' : inputTon === '0' || inputTon === ''}"
-                click="redelegate"
-        >
-          Re-Stake
-        </button>
       </div>
     </div>
   </div>
-
   <!-- <div class="simulator-container">
     <button @click="closePopup()">X</button>
     <div>Staking Simulator</div>
@@ -61,6 +117,9 @@
 import Vue from 'vue';
 import axios from 'axios';
 export default {
+  props: {
+    func: { type: Function },
+  },
   data () {
     return {
       maxCompensateTokenPerDay: '26027.39726',
@@ -77,6 +136,8 @@ export default {
       rewardUSD:0,
       rewardKRW:0,
       inputTon: '0',
+      selected: 'Year',
+      currentView: 'result',
     };
   },
   async created () {
@@ -86,11 +147,22 @@ export default {
     this.getUSDInfo();
   },
   methods: {
+    makeInputMax () {
+      const tonAmount = this.tonBalance.toBigNumber().toString();
+      this.inputTon = tonAmount;
+      console.log(this.inputTon);
+    },
+    changeView (args) {
+      this.currentView = args;
+    },
     closePopup () {
       this.$emit('closePopup');
     },
     currencyChange (event) {
       this.currency = event.target.value;
+    },
+    currencyAmount () {
+      return amount => this.$options.filters.currencyAmount(amount);
     },
     onChange (event) {
       this.durationUnit = event.target.value;
@@ -105,12 +177,12 @@ export default {
       }
     },
     calculate () {
-      if (Number(this.myStaked) <= 0 || this.myStaked === '') {
+      if (Number(this.inputTon) <= 0 || this.inputTon === '') {
         alert('Staked TON must be bigger than 0');
         return 'error';
       }
       this.getTotalSupply();
-      let my = Number(this.myStaked);
+      let my = Number(this.inputTon);
       let unit = 0;
       let stakedRatio = 0;
       const maxCompensate = Number(this.maxCompensateTokenPerDay);
@@ -133,14 +205,16 @@ export default {
 
       this.expectedSeig = (my/total) * (Number(this.compensatePerDay) + proportionalSeig) * unit;
       my = my + this.expectedSeig;
-      this.returnRate = (my/Number(this.myStaked)*100 - 100);
+      this.returnRate = (my/Number(this.inputTon)*100 - 100);
 
       const rewardPrice = this.expectedSeig;
       this.roi = this.returnRate.toLocaleString(undefined, { maximumFractionDigits:2 })+' %';
       this.rewardTON = this.expectedSeig.toLocaleString(undefined, { maximumFractionDigits:4 })+' TON ';
       this.rewardUSD = ' $ ' + (rewardPrice * USD).toLocaleString(undefined, { maximumFractionDigits:2 });
       this.rewardKRW = ' ₩ ' + (rewardPrice * KRW).toLocaleString(undefined, { maximumFractionDigits:0 });
-      this.$emit('openResultModal', this.roi, this.rewardTON, this.rewardUSD, this.rewardKRW, this.myStaked);
+      // this.$emit('openResultModal', this.roi, this.rewardTON, this.rewardUSD, this.rewardKRW, this.myStaked);
+      console.log(this.roi, this.rewardTON, this.rewardUSD, this.rewardKRW, this.myStaked);
+      return this.changeView('result');
     },
     getCurrentStakedAmount () {
       axios
@@ -210,7 +284,7 @@ textarea:focus, input:focus{
 }
 .model-content {
   width: 350px;
-  height: 360px;
+  height: 330px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -264,13 +338,13 @@ textarea:focus, input:focus{
 @keyframes blink { 50% { border-color:#fff ; }  }
 .model-ton-stake-btn {
   width: 56px;
-  height: 25px;
+  height: 32px;
   border-radius: 4px;
   border: solid 1px #dfe4ee;
   background-color: #ffffff;
   font-size: 12px;
   color: #86929d;
-  cursor: pointer;
+  cursor: pointer
 }
 .model-ton-balance {
   display: flex;
@@ -297,20 +371,21 @@ textarea:focus, input:focus{
   font-weight: 500;
 }
 .model-description {
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 500;
   color: #2a72e5;
-  margin-top: 25px;
-  margin-bottom: 25px;
+  margin-top: 18px;
+  margin-bottom: 30px;
 }
 .model-btn {
-  width: 150px;
+  width: 130px;
   height: 38px;
   border-radius: 4px;
   background-color: #257eee;
   color: #ffffff;
   border: none;
   cursor: pointer;
+  margin-top: 25px;
 }
 .model-btn-notavailable {
   background-color: #e9edf1;
@@ -320,5 +395,69 @@ textarea:focus, input:focus{
 }
 .model-ton-balance-input {
   border: 1px solid #dfe4ee;
+  border-radius: 4px;
+  height: 30px;
+  padding: 0;
+  width: 181px;
+}
+.model-ton-balance-input-stake {
+  width: 120px;
+  margin-right: 5px;
+}
+.model-ton-selectbox {
+  width: 183px;
+  height: 32px;
+  border-radius: 4px;
+  border: 1px solid #dfe4ee;
+  padding-left: 15px;
+  padding-top: 2px;
+  padding-right: 15px;
+  font-size: 13px;
+}
+.model-ton-total {
+  width: 183px;
+  height: 32px;
+  border: 1px solid #dfe4ee;
+  border-radius: 4px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+.model-ton-total-text {
+  font-size: 13px;
+  font-family: Roboto;
+  margin-right: 10px;
+}
+.model-result-container {
+  display: flex;
+  flex-direction: column;
+}
+.model-result-ton {
+  display: flex;
+  align-items: center;
+  margin-bottom: 30px;
+}
+.model-result-ton-amount {
+  font-size: 32px;
+  font-weight: 500;
+  color: #304156;
+  margin-right: 5px;
+}
+.model-result-ton-type {
+  font-size: 13px;
+  font-weight: 500;
+  color: #3d495d;
+}
+.model-result-detail {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.model-result-detail-info {
+  font-size: 12px;
+  color: #808992;
+}
+.model-btn-container {
+  display: flex;
 }
 </style>

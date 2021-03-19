@@ -128,6 +128,7 @@ export default {
 <style scoped>
 .staking-component-container {
   width: 350px;
+  height: 100%;
   display: flex;
   flex-direction: column;
   background-color: #ffffff;
@@ -215,7 +216,7 @@ export default {
   display: flex;
   justify-content: center;
   align-content: center;
-  margin-top: 150px;
+  height: 100%;
 }
 
 .button-stake {
