@@ -18,5 +18,5 @@ export {
   netVersion,
   ethGetTransactionReceipt,
   ethGetBlockByNumber,
-  ethGetBlockNumber
+  ethGetBlockNumber,
 };

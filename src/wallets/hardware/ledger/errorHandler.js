@@ -35,13 +35,13 @@ const ERRORS = {
   'The transfer was cancelled': 'ledgerError.denied-by-user',
   'Unable to claim interface.': 'ledgerError.unable-to-claim',
   'No WebUSB interface found for your Ledger device. Please upgrade firmware or contact techsupport.':
-    'ledgerError.no-interface-found'
+    'ledgerError.no-interface-found',
 };
 const WARNING = {
   'Ledger device: Condition of use not satisfied (denied by the user?) (0x6985)':
     'ledgerError.denied-by-user-0x6985',
-  "U2F browser support is needed for Ledger. Please use Chrome, Opera or Firefox with a U2F extension. Also make sure you're on an HTTPS connection":
-    'ledgerError.unsupported-browser-u2f'
+  'U2F browser support is needed for Ledger. Please use Chrome, Opera or Firefox with a U2F extension. Also make sure you\'re on an HTTPS connection':
+    'ledgerError.unsupported-browser-u2f',
 };
 
 export default err => {

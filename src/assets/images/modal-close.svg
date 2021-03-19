@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30">
+    <defs>
+        <style>
+            .cls-3{fill:none;stroke:#000;stroke-linejoin:round;stroke-width:2px}
+        </style>
+    </defs>
+    <g id="popup_close_icon" transform="translate(-81 -81)">
+        <path id="Base" fill="none" d="M0 0H30V30H0z" transform="translate(81 81)"/>
+        <g id="icon" transform="translate(1 -5.5)">
+            <path id="선_3" d="M0 0L20 0" class="cls-3" transform="rotate(135 31.25 68.3)"/>
+            <path id="선_4" d="M0 0L20 0" class="cls-3" transform="rotate(45 -70.322 152.872)"/>
+        </g>
+    </g>
+</svg>

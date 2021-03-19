@@ -12,13 +12,13 @@ export default async (
   if (payload.method !== 'eth_signTransaction') return next();
   const tx = payload.params[0];
   const localTx = Object.assign({}, tx);
-  delete localTx['gas'];
-  delete localTx['nonce'];
+  delete localTx.gas;
+  delete localTx.nonce;
   const ethCalls = new EthCalls(requestManager);
   tx.nonce = !tx.nonce
     ? await store.state.web3.eth.getTransactionCount(
-        store.state.wallet.getAddressString()
-      )
+      store.state.wallet.getAddressString()
+    )
     : tx.nonce;
   tx.gas = !tx.gas ? await ethCalls.estimateGas(localTx) : tx.gas;
   tx.chainId = !tx.chainId ? store.state.network.type.chainID : tx.chainId;

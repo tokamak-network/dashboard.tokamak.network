@@ -1,12 +1,12 @@
 import axios from 'axios';
 import { Manager as Web3RequestManager } from 'web3-core-requestmanager';
 class HttpRequestManager {
-  constructor(host, options) {
+  constructor (host, options) {
     options = options || {};
     this.host = host;
     const config = {
       timeout: options.timeout || 15000,
-      headers: { 'Content-Type': 'application/json' }
+      headers: { 'Content-Type': 'application/json' },
     };
     if (options.headers) {
       options.headers.forEach(header => {
@@ -16,7 +16,7 @@ class HttpRequestManager {
     this.request = axios.create(config);
     return new Web3RequestManager(this);
   }
-  send(payload, callback) {
+  send (payload, callback) {
     this.request
       .post(this.host, payload)
       .then(result => {
@@ -26,6 +26,6 @@ class HttpRequestManager {
         callback(err);
       });
   }
-  disconnect() {}
+  disconnect () {}
 }
 export default HttpRequestManager;

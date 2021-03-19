@@ -13,6 +13,8 @@ import { BN, toBN } from 'web3-utils';
 import { setPendingTransactions, getPendingTransactions } from '@/helpers/localStorage';
 import { createCurrency } from '@makerdao/currency';
 import { calculateExpectedSeig } from 'tokamak-staking-lib';
+import MEWProvider from '@/wallets/web3-provider';
+import web3 from 'web3';
 
 const _ETH = createCurrency('ETH');
 const _TON = createCurrency('TON');
@@ -39,6 +41,13 @@ const initialState = {
   pendingTransactions: [],
 
   web3: {},
+  account: {
+    balance: 0,
+    address: null,
+    isHardWare: null,
+    identifier: '',
+  },
+  web3Instance: {},
   user: '',
   networkId: '',
   blockNumber: 0,
@@ -122,6 +131,19 @@ export default new Vuex.Store({
     SET_MANAGERS: (state, managers) => {
       for (const [name, contract] of Object.entries(managers)) {
         state[name] = contract;
+      }
+    },
+    SET_WEB3_INSTANCE: (state, web3Instance) => {
+      state.web3Instance = web3Instance;
+    },
+    DECRYPT_WALLET: (state, wallet) => {
+      state.wallet = wallet;
+      state.account.address = wallet.getAddressString();
+      state.account.isHardware = wallet.isHardware;
+      state.account.identifier = wallet.identifier;
+      if (!wallet.hasOwnProperty('isHardWare')) {
+        state.account.nickname = wallet.getNickname();
+        state.account.keystore = wallet.getKeystore();
       }
     },
     SET_OPERATORS: (state, operators) => {
@@ -217,8 +239,8 @@ export default new Vuex.Store({
       context.commit('SET_WEB3', web3);
       const accounts = await web3.eth.getAccounts();
       const user = accounts[0];
-      console.log(user);
-      console.log(await web3.eth.getBalance(user));
+      // console.log(user);
+      // console.log(await web3.eth.getBalance(user));
 
       const networkId = await web3.eth.net.getId();
       context.commit('SET_USER', user);
@@ -245,6 +267,11 @@ export default new Vuex.Store({
     async set (context, web3) {
       const blockNumber = await web3.eth.getBlockNumber();
       const block = await web3.eth.getBlock(blockNumber);
+      try {
+        console.log(await web3.eth.getBlock('latest'));  // eslint-disable-line
+      } catch (e) {
+        console.log(e);  // eslint-disable-line
+      }
       context.commit('SET_BLOCK_NUMBER', blockNumber);
       context.commit('SET_BLOCK_TIMESTAMP', block.timestamp);
 
@@ -260,6 +287,110 @@ export default new Vuex.Store({
         // after logout, error can be happened
       });
     },
+    decryptWallet ({ commit, dispatch }, params) {
+      // if the wallet param (param[0]) is undefined or null then all the subsequent setup steps will also fail.
+      // just explicitly stop it here.
+      if (params[0] !== undefined && params[0] !== null) {
+        commit('DECRYPT_WALLET', params[0]);
+        dispatch('setWeb3Instance', params[1]);
+      } else {
+        // Could replace this (sentry gets triggered) with a toast, to handle more gracefully
+        // Or some means of informing the user of an issue
+        return Promise.reject(
+          Error(
+            'Received null or undefined wallet parameter. Please refresh the page and try again'
+          )
+        );
+      }
+    },
+    setWeb3Instance ({ dispatch, commit, state }, provider) {
+      // const hostUrl = state.network.url
+      //   ? url.parse(state.network.url)
+      //   : state.Networks.ETH[0];
+      const options = {};
+      // // eslint-disable-next-line
+      // const parsedUrl = `${hostUrl.protocol}//${hostUrl.host}${
+      //   state.network.port ? ':' + state.network.port : ''
+      // }${hostUrl.pathname}`;
+      // state.network.username !== '' && state.network.password !== ''
+      //   ? (options.headers = {
+      //     authorization: `Basic: ${btoa(
+      //       state.network.username + ':' + state.network.password
+      //     )}`,
+      //   })
+      //   : {};
+      provider = 'https://rinkeby.rpc.tokamak.network';
+      const web3Instance = new web3(
+        new MEWProvider(
+          provider,
+          options,
+          {
+            state,
+            dispatch,
+          },
+          this._vm.$eventHub
+        )
+      );
+      console.log(web3Instance);  // eslint-disable-line
+      web3Instance.currentProvider.sendAsync = web3Instance.currentProvider.send;
+      // if (BUILD_TYPE !== MEW_CX) {
+      //   web3Instance.mew = {};
+      // web3Instance.mew.sendBatchTransactions = arr => {
+      //   // eslint-disable-next-line no-async-promise-executor
+      //   return new Promise(async resolve => {
+      //     for (let i = 0; i < arr.length; i++) {
+      //       const localTx = {
+      //         to: arr[i].to,
+      //         data: arr[i].data,
+      //         from: arr[i].from,
+      //         value: arr[i].value,
+      //         gasPrice: arr[i].gasPrice,
+      //       };
+      //       const gas = await (arr[i].gas === undefined
+      //         ? web3Instance.eth.estimateGas(localTx)
+      //         : arr[i].gas);
+      //       const nonce = await (arr[i].nonce === undefined
+      //         ? web3Instance.eth.getTransactionCount(state.account.address)
+      //         : arr[i].nonce);
+      //       arr[i].nonce = new BigNumber(nonce + i).toFixed();
+      //       arr[i].gas = gas;
+      //       arr[i].chainId = !arr[i].chainId
+      //         ? state.network.type.chainID
+      //         : arr[i].chainId;
+      //       arr[i].gasPrice =
+      //         arr[i].gasPrice === undefined
+      //           ? unit.toWei(state.gasPrice, 'gwei')
+      //           : arr[i].gasPrice;
+      //       arr[i] = formatters.inputCallFormatter(arr[i]);
+      //     }
+
+      //     const batchSignCallback = promises => {
+      //       resolve(promises);
+      //     };
+      //     this._vm.$eventHub.$emit(
+      //       'showTxCollectionConfirmModal',
+      //       arr,
+      //       batchSignCallback,
+      //       state.wallet.isHardware
+      //     );
+      //   });
+      // };
+      // }
+      commit('SET_WEB3_INSTANCE', web3Instance);
+    },
+
+    addCustomPath ({ commit, state }, val) {
+      const newPaths = { ...state.customPaths };
+      newPaths[val.label] = { label: val.label, path: val.path };
+      commit('ADD_CUSTOM_PATH', newPaths);
+    },
+
+    removeCustomPath ({ commit, state }, val) {
+      const newPaths = { ...state.customPaths };
+      delete newPaths[val.label];
+      commit('ADD_CUSTOM_PATH', newPaths);
+    },
+
     async setManagers (context, managers) {
       const user = context.state.user;
 

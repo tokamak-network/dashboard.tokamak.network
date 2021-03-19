@@ -5,43 +5,43 @@ const networks = [
   {
     mainnet: {
       ticker: 'ETH',
-      netid: '1'
-    }
+      netid: '1',
+    },
   },
   {
     rinkeby: {
       ticker: 'ETH',
-      netid: '4'
-    }
+      netid: '4',
+    },
   },
   {
     ropsten: {
       ticker: 'ETH',
-      netid: '3'
-    }
+      netid: '3',
+    },
   },
   {
     kovan: {
       ticker: 'ETH',
-      netid: '42'
-    }
+      netid: '42',
+    },
   },
   {
     poa: {
       ticker: 'POA',
-      netid: '99'
-    }
+      netid: '99',
+    },
   },
   {
     goerli: {
       ticker: 'ETH',
-      netid: '5'
-    }
-  }
+      netid: '5',
+    },
+  },
 ];
 
 class PocketRequestManager {
-  constructor(host) {
+  constructor (host) {
     if (host.includes('mainnet')) {
       this.query = 'mainnet';
     } else if (host.includes('rinkeby')) {
@@ -63,10 +63,10 @@ class PocketRequestManager {
     );
     return new Web3RequestManager(this);
   }
-  send(payload, callback) {
+  send (payload, callback) {
     this.provider.send(payload, callback);
     // TODO handle callback?
   }
-  disconnect() {}
+  disconnect () {}
 }
 export default PocketRequestManager;

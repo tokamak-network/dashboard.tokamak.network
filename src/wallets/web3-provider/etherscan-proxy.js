@@ -9,11 +9,11 @@ const toQueryString = params => {
     .join('&');
 };
 class EtherscanProxy {
-  constructor(url, apikey) {
+  constructor (url, apikey) {
     this.url = url;
     this.apikey = apikey;
   }
-  etherscanXHR(isGET, params) {
+  etherscanXHR (isGET, params) {
     return new Promise((resolve, reject) => {
       Object.keys(params).forEach(
         key => params[key] === undefined && delete params[key]
@@ -24,7 +24,7 @@ class EtherscanProxy {
       axios({
         method: isGET ? 'get' : 'post',
         data: isGET ? {} : params,
-        url: this.url + qString
+        url: this.url + qString,
       })
         .then(res => {
           if (!res.data.error) resolve(res.data);
@@ -33,170 +33,170 @@ class EtherscanProxy {
         .catch(reject);
     });
   }
-  request(payload) {
+  request (payload) {
     return new Promise((resolve, reject) => {
       switch (payload.method) {
-        case 'eth_blockNumber':
-          this.etherscanXHR(true, {
+      case 'eth_blockNumber':
+        this.etherscanXHR(true, {
+          module: 'proxy',
+          action: 'eth_blockNumber',
+        })
+          .then(body => {
+            resolve(toPayload(payload.id, body.result));
+          })
+          .catch(reject);
+        break;
+      case 'eth_getBlockByNumber':
+        this.etherscanXHR(true, {
+          module: 'proxy',
+          action: 'eth_getBlockByNumber',
+          tag: payload.params[0],
+          boolean: payload.params[1],
+        })
+          .then(body => {
+            resolve(toPayload(payload.id, body.result));
+          })
+          .catch(reject);
+        break;
+      case 'eth_getBlockTransactionCountByNumber':
+        this.etherscanXHR(true, 'eth_getBlockTransactionCountByNumber', {
+          module: 'proxy',
+          action: 'eth_getBlockTransactionCountByNumber',
+          tag: payload.params[0],
+        })
+          .then(body => {
+            resolve(toPayload(payload.id, body.result));
+          })
+          .catch(reject);
+        break;
+      case 'eth_getTransactionByHash':
+        this.etherscanXHR(true, {
+          module: 'proxy',
+          action: 'eth_getTransactionByHash',
+          txhash: payload.params[0],
+        })
+          .then(body => {
+            resolve(toPayload(payload.id, body.result));
+          })
+          .catch(reject);
+        break;
+      case 'eth_getBalance':
+        this.etherscanXHR(true, {
+          module: 'account',
+          action: 'balance',
+          address: payload.params[0],
+          tag: payload.params[1],
+        })
+          .then(body => {
+            resolve(toPayload(payload.id, body.result));
+          })
+          .catch(reject);
+        break;
+      case 'eth_call':
+        Object.keys(payload.params[0]).forEach(key =>
+          payload.params[0][key] === undefined
+            ? delete payload.params[0][key]
+            : ''
+        );
+        this.etherscanXHR(
+          true,
+          Object.assign(payload.params[0], {
             module: 'proxy',
-            action: 'eth_blockNumber'
+            action: 'eth_call',
           })
-            .then(body => {
-              resolve(toPayload(payload.id, body.result));
-            })
-            .catch(reject);
-          break;
-        case 'eth_getBlockByNumber':
-          this.etherscanXHR(true, {
-            module: 'proxy',
-            action: 'eth_getBlockByNumber',
-            tag: payload.params[0],
-            boolean: payload.params[1]
+        )
+          .then(body => {
+            resolve(toPayload(payload.id, body.result));
           })
-            .then(body => {
-              resolve(toPayload(payload.id, body.result));
-            })
-            .catch(reject);
-          break;
-        case 'eth_getBlockTransactionCountByNumber':
-          this.etherscanXHR(true, 'eth_getBlockTransactionCountByNumber', {
-            module: 'proxy',
-            action: 'eth_getBlockTransactionCountByNumber',
-            tag: payload.params[0]
-          })
-            .then(body => {
-              resolve(toPayload(payload.id, body.result));
-            })
-            .catch(reject);
-          break;
-        case 'eth_getTransactionByHash':
-          this.etherscanXHR(true, {
-            module: 'proxy',
-            action: 'eth_getTransactionByHash',
-            txhash: payload.params[0]
-          })
-            .then(body => {
-              resolve(toPayload(payload.id, body.result));
-            })
-            .catch(reject);
-          break;
-        case 'eth_getBalance':
-          this.etherscanXHR(true, {
-            module: 'account',
-            action: 'balance',
-            address: payload.params[0],
-            tag: payload.params[1]
-          })
-            .then(body => {
-              resolve(toPayload(payload.id, body.result));
-            })
-            .catch(reject);
-          break;
-        case 'eth_call':
-          Object.keys(payload.params[0]).forEach(key =>
-            payload.params[0][key] === undefined
-              ? delete payload.params[0][key]
-              : ''
-          );
-          this.etherscanXHR(
-            true,
-            Object.assign(payload.params[0], {
+          .catch(reject);
+        break;
+      case 'eth_estimateGas':
+        this.etherscanXHR(
+          true,
+          Object.assign(
+            {
               module: 'proxy',
-              action: 'eth_call'
-            })
+              action: 'eth_estimateGas',
+            },
+            payload.params[0]
           )
-            .then(body => {
-              resolve(toPayload(payload.id, body.result));
-            })
-            .catch(reject);
-          break;
-        case 'eth_estimateGas':
-          this.etherscanXHR(
-            true,
-            Object.assign(
-              {
-                module: 'proxy',
-                action: 'eth_estimateGas'
-              },
-              payload.params[0]
-            )
-          )
-            .then(body => {
-              resolve(toPayload(payload.id, body.result));
-            })
-            .catch(reject);
-          break;
-        case 'eth_sendRawTransaction':
-          this.etherscanXHR(true, {
-            hex: payload.params[0],
-            module: 'proxy',
-            action: 'eth_sendRawTransaction'
+        )
+          .then(body => {
+            resolve(toPayload(payload.id, body.result));
           })
-            .then(body => {
-              resolve(toPayload(payload.id, body.result));
-            })
-            .catch(reject);
-          break;
-        case 'eth_getTransactionReceipt':
-          this.etherscanXHR(true, {
-            txhash: payload.params[0],
-            module: 'proxy',
-            action: 'eth_getTransactionReceipt'
+          .catch(reject);
+        break;
+      case 'eth_sendRawTransaction':
+        this.etherscanXHR(true, {
+          hex: payload.params[0],
+          module: 'proxy',
+          action: 'eth_sendRawTransaction',
+        })
+          .then(body => {
+            resolve(toPayload(payload.id, body.result));
           })
-            .then(body => {
-              resolve(toPayload(payload.id, body.result));
-            })
-            .catch(reject);
-          break;
-        case 'eth_getTransactionCount':
-          this.etherscanXHR(true, {
-            address: payload.params[0],
-            tag: payload.params[1],
-            module: 'proxy',
-            action: 'eth_getTransactionCount'
+          .catch(reject);
+        break;
+      case 'eth_getTransactionReceipt':
+        this.etherscanXHR(true, {
+          txhash: payload.params[0],
+          module: 'proxy',
+          action: 'eth_getTransactionReceipt',
+        })
+          .then(body => {
+            resolve(toPayload(payload.id, body.result));
           })
-            .then(body => {
-              resolve(toPayload(payload.id, body.result));
-            })
-            .catch(reject);
-          break;
-        case 'eth_gasPrice':
-          this.etherscanXHR(true, {
-            module: 'proxy',
-            action: 'eth_gasPrice'
+          .catch(reject);
+        break;
+      case 'eth_getTransactionCount':
+        this.etherscanXHR(true, {
+          address: payload.params[0],
+          tag: payload.params[1],
+          module: 'proxy',
+          action: 'eth_getTransactionCount',
+        })
+          .then(body => {
+            resolve(toPayload(payload.id, body.result));
           })
-            .then(body => {
-              resolve(toPayload(payload.id, body.result));
-            })
-            .catch(reject);
-          break;
-        case 'eth_getCode':
-          this.etherscanXHR(true, {
-            address: payload.params[0],
-            tag: payload.params[1],
-            module: 'proxy',
-            action: 'eth_getCode'
+          .catch(reject);
+        break;
+      case 'eth_gasPrice':
+        this.etherscanXHR(true, {
+          module: 'proxy',
+          action: 'eth_gasPrice',
+        })
+          .then(body => {
+            resolve(toPayload(payload.id, body.result));
           })
-            .then(body => {
-              resolve(toPayload(payload.id, body.result));
-            })
-            .catch(reject);
-          break;
-        case 'eth_getStorageAt':
-          this.etherscanXHR(true, {
-            address: payload.params[0],
-            position: payload.params[1],
-            tag: payload.params[2],
-            module: 'proxy',
-            action: 'eth_getStorageAt'
+          .catch(reject);
+        break;
+      case 'eth_getCode':
+        this.etherscanXHR(true, {
+          address: payload.params[0],
+          tag: payload.params[1],
+          module: 'proxy',
+          action: 'eth_getCode',
+        })
+          .then(body => {
+            resolve(toPayload(payload.id, body.result));
           })
-            .then(body => {
-              resolve(toPayload(payload.id, body.result));
-            })
-            .catch(reject);
-          break;
-        default:
-          reject(new Error('Not supported'));
+          .catch(reject);
+        break;
+      case 'eth_getStorageAt':
+        this.etherscanXHR(true, {
+          address: payload.params[0],
+          position: payload.params[1],
+          tag: payload.params[2],
+          module: 'proxy',
+          action: 'eth_getStorageAt',
+        })
+          .then(body => {
+            resolve(toPayload(payload.id, body.result));
+          })
+          .catch(reject);
+        break;
+      default:
+        reject(new Error('Not supported'));
       }
     });
   }

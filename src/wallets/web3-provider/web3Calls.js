@@ -2,47 +2,47 @@ import Method from 'web3-core-method';
 import utils from 'web3-utils';
 import { formatters } from 'web3-core-helpers';
 class Web3Calls {
-  constructor(requestManager) {
+  constructor (requestManager) {
     const ethereumCalls = [
       new Method({
         name: 'getId',
         call: 'net_version',
         params: 0,
-        outputFormatter: utils.hexToNumber
+        outputFormatter: utils.hexToNumber,
       }),
       new Method({
         name: 'getGasPrice',
         call: 'eth_gasPrice',
-        params: 0
+        params: 0,
       }),
       new Method({
         name: 'getBlockNumber',
         call: 'eth_blockNumber',
-        params: 0
+        params: 0,
       }),
       new Method({
         name: 'getBlockByNumber',
         call: 'eth_getBlockByNumber',
-        params: 2
+        params: 2,
       }),
       new Method({
         name: 'estimateGas',
         call: 'eth_estimateGas',
         params: 1,
         inputFormatter: [formatters.inputCallFormatter],
-        outputFormatter: utils.hexToNumber
+        outputFormatter: utils.hexToNumber,
       }),
       new Method({
         name: 'sendSignedTransaction',
         call: 'eth_sendRawTransaction',
         params: 1,
-        inputFormatter: [null]
+        inputFormatter: [null],
       }),
       new Method({
         name: 'getTransactionReceipt',
         call: 'eth_getTransactionReceipt',
         params: 1,
-        inputFormatter: [null]
+        inputFormatter: [null],
       }),
       new Method({
         name: 'getTransactionCount',
@@ -61,9 +61,9 @@ class Web3Calls {
           },
           function () {
             return 'latest';
-          }
-        ]
-      })
+          },
+        ],
+      }),
     ];
     this.ethereumCalls = {};
     ethereumCalls.forEach(call => {

@@ -10,10 +10,10 @@ import {
   ethGetTransactionReceipt,
   ethGetBlockByNumber,
   ethGetBlockNumber,
-  netVersion
+  netVersion,
 } from '../methods';
 class PocketProvider {
-  constructor(host, options, store, eventHub) {
+  constructor (host, options, store, eventHub) {
     const requestManager = new PocketRequestManger(host);
     this.PocketProvider = {
       send: (payload, callback) => {
@@ -21,7 +21,7 @@ class PocketProvider {
           payload,
           store,
           requestManager,
-          eventHub
+          eventHub,
         };
         const middleware = new MiddleWare();
         middleware.use(ethSendTransaction);
@@ -37,7 +37,7 @@ class PocketProvider {
         middleware.run(req, callback).then(() => {
           requestManager.provider.send(payload, callback);
         });
-      }
+      },
     };
     return this.PocketProvider;
   }

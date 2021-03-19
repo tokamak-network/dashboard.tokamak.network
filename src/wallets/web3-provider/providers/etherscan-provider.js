@@ -10,11 +10,11 @@ import {
   netVersion,
   ethGetBlockByNumber,
   ethGetTransactionReceipt,
-  ethGetBlockNumber
+  ethGetBlockNumber,
 } from '../methods';
 import EtherscanProxy from '../etherscan-proxy';
 class EtherscanProvider {
-  constructor(host, options, store, eventHub) {
+  constructor (host, options, store, eventHub) {
     this.host = host;
     this.apikey = options.apikey || 'UDJW3ARXWN9EHMTFUA2FW4V1KA7QZGAGCB';
     options.apikey = this.apikey;
@@ -41,18 +41,18 @@ class EtherscanProvider {
       }, 400),
       reset: setInterval(() => {
         this.requestThrottler.remaining = 5;
-      }, 5500)
+      }, 5500),
     };
   }
-  send(payload, callback) {
+  send (payload, callback) {
     this.requestThrottler.requests.push({ payload, callback });
   }
-  send_(payload, callback) {
+  send_ (payload, callback) {
     const req = {
       payload,
       store: this.store,
       requestManager: this.requestManager_,
-      eventHub: this.eventHub
+      eventHub: this.eventHub,
     };
     const middleware = new MiddleWare();
     middleware.use(ethSendTransaction);
@@ -81,6 +81,6 @@ class EtherscanProvider {
       callback(new Error('Etherscan doesnt support this function'));
     });
   }
-  disconnect() {}
+  disconnect () {}
 }
 export default EtherscanProvider;

@@ -1,17 +1,17 @@
 class Middleware {
-  constructor() {
+  constructor () {
     this.middlewares = [];
   }
-  use(fn) {
+  use (fn) {
     this.middlewares.push(fn);
   }
-  executeMiddleware(req, res, done) {
+  executeMiddleware (req, res, done) {
     this.middlewares.reduceRight(
       (done, next) => () => next(req, res, done),
       done
     )(req, res);
   }
-  run(req, res) {
+  run (req, res) {
     return new Promise(resolve => {
       this.executeMiddleware(req, res, resolve);
     });

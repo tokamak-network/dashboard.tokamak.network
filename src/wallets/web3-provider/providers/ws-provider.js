@@ -9,11 +9,11 @@ import {
   ethAccounts,
   ethCoinbase,
   ethGetTransactionCount,
-  netVersion
+  netVersion,
 } from '../methods';
 const MAX_RETRIES = 10;
 class WSProvider {
-  constructor(host, options, store, eventHub) {
+  constructor (host, options, store, eventHub) {
     this.wsProvider = new Web3WSProvider(host, options);
     this.oWSProvider = new Web3WSProvider(host, options);
     this.lastMessage = new Date().getTime();
@@ -33,7 +33,7 @@ class WSProvider {
       Math.random() * 1000
     )}`;
     this.keepAliveTimer = workerTimer.setInterval(keepAlive, 5000);
-    delete this.wsProvider['send'];
+    delete this.wsProvider.send;
     this.wsProvider.send = (payload, callback) => {
       this.lastMessage = new Date().getTime();
       if (
@@ -52,7 +52,7 @@ class WSProvider {
         ) {
           this.connectionRetries++;
           const tempConn = new Web3WSProvider(host, options);
-          delete tempConn['send'];
+          delete tempConn.send;
           Object.assign(this.wsProvider, tempConn);
           setTimeout(() => {
             this.wsProvider.send(payload, callback);
@@ -86,7 +86,7 @@ class WSProvider {
         payload,
         store,
         requestManager: new Web3RequestManager(this.oWSProvider),
-        eventHub
+        eventHub,
       };
       const middleware = new MiddleWare();
       middleware.use(ethSendTransaction);

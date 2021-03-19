@@ -1,4 +1,4 @@
-'use strict';
+
 
 const _ = require('underscore');
 const errors = require('web3-core-helpers').errors;
@@ -14,7 +14,7 @@ _btoa = btoa;
 parseURL = function (url) {
   return new URL(url);
 };
-const WebsocketProvider = function WebsocketProvider(url, options) {
+const WebsocketProvider = function WebsocketProvider (url, options) {
   const _this = this;
   this.responseCallbacks = {};
   this.notificationCallbacks = [];
@@ -75,7 +75,7 @@ const WebsocketProvider = function WebsocketProvider(url, options) {
       );
     },
     set: function () {},
-    enumerable: true
+    enumerable: true,
   });
 };
 WebsocketProvider.prototype.addDefaultEvents = function () {
@@ -179,53 +179,53 @@ WebsocketProvider.prototype.on = function (type, callback) {
     throw new Error('The second parameter callback must be a function.');
 
   switch (type) {
-    case 'data':
-      this.notificationCallbacks.push(callback);
-      break;
+  case 'data':
+    this.notificationCallbacks.push(callback);
+    break;
 
-    case 'connect':
-      this.connection.onopen = callback;
-      break;
+  case 'connect':
+    this.connection.onopen = callback;
+    break;
 
-    case 'end':
-      this.connection.onclose = callback;
-      break;
+  case 'end':
+    this.connection.onclose = callback;
+    break;
 
-    case 'error':
-      this.connection.onerror = callback;
-      break;
+  case 'error':
+    this.connection.onerror = callback;
+    break;
   }
 };
 WebsocketProvider.prototype.removeListener = function (type, callback) {
   const _this = this;
 
   switch (type) {
-    case 'data':
-      this.notificationCallbacks.forEach(function (cb, index) {
-        if (cb === callback) _this.notificationCallbacks.splice(index, 1);
-      });
-      break;
+  case 'data':
+    this.notificationCallbacks.forEach(function (cb, index) {
+      if (cb === callback) _this.notificationCallbacks.splice(index, 1);
+    });
+    break;
   }
 };
 WebsocketProvider.prototype.removeAllListeners = function (type) {
   switch (type) {
-    case 'data':
-      this.notificationCallbacks = [];
-      break;
-    case 'connect':
-      this.connection.onopen = null;
-      break;
+  case 'data':
+    this.notificationCallbacks = [];
+    break;
+  case 'connect':
+    this.connection.onopen = null;
+    break;
 
-    case 'end':
-      this.connection.onclose = null;
-      break;
+  case 'end':
+    this.connection.onclose = null;
+    break;
 
-    case 'error':
-      this.connection.onerror = null;
-      break;
+  case 'error':
+    this.connection.onerror = null;
+    break;
 
-    default:
-      break;
+  default:
+    break;
   }
 };
 

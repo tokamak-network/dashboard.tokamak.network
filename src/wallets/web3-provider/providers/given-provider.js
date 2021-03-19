@@ -4,10 +4,10 @@ import {
   ethSendTransaction,
   ethSign,
   ethSignTransaction,
-  ethGetTransactionCount
+  ethGetTransactionCount,
 } from '../methods';
 class GivenProvider {
-  constructor(host, options, store, eventHub) {
+  constructor (host, options, store, eventHub) {
     this.givenProvider = Object.assign({}, host);
     const requestManager = new Web3RequestManager(host);
     options = options ? options : null;
@@ -22,7 +22,7 @@ class GivenProvider {
         payload,
         store,
         requestManager,
-        eventHub
+        eventHub,
       };
       const middleware = new MiddleWare();
       middleware.use(ethSendTransaction);

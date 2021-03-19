@@ -2,15 +2,15 @@ import { Manager as Web3RequestManager } from 'web3-core-requestmanager';
 import MiddleWare from '../middleware';
 import EtherscanProxy from '../etherscan-proxy';
 class EtherscanRequestManager {
-  constructor(host, options) {
+  constructor (host, options) {
     this.host = host;
     this.apikey = options.apikey;
     this.proxy = new EtherscanProxy(this.host, this.apikey);
     return new Web3RequestManager(this);
   }
-  send(payload, callback) {
+  send (payload, callback) {
     const req = {
-      payload
+      payload,
     };
     const middleware = new MiddleWare();
     middleware.use(async ({ payload }, res) => {
@@ -29,6 +29,6 @@ class EtherscanRequestManager {
       callback(new Error('Etherscan doesnt support this function'));
     });
   }
-  disconnect() {}
+  disconnect () {}
 }
 export default EtherscanRequestManager;

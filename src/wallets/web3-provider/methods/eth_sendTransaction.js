@@ -30,14 +30,14 @@ export default async (
   const tx = Object.assign({}, payload.params[0]);
   tx.gasPrice = unit.toWei(store.state.gasPrice, 'gwei').toString();
   const localTx = Object.assign({}, tx);
-  delete localTx['gas'];
-  delete localTx['nonce'];
+  delete localTx.gas;
+  delete localTx.nonce;
   const ethCalls = new EthCalls(requestManager);
   try {
     tx.nonce = !tx.nonce
       ? await store.state.web3.eth.getTransactionCount(
-          store.state.wallet.getAddressString()
-        )
+        store.state.wallet.getAddressString()
+      )
       : tx.nonce;
     tx.gas = !tx.gas ? await ethCalls.estimateGas(localTx) : tx.gas;
   } catch (e) {
@@ -79,7 +79,7 @@ export default async (
                     nonce: Misc.sanitizeHex(
                       new BigNumber(localStoredObj.nonce).plus(1).toString(16)
                     ),
-                    timestamp: localStoredObj.timestamp
+                    timestamp: localStoredObj.timestamp,
                   }
                 );
               }

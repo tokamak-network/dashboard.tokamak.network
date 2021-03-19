@@ -16,12 +16,29 @@
       />
       <ledger-connect
         :title="'Ledger'"
-        :connect="ledger"
+        :connect="show"
       />
-      <network-and-address-modal
-        ref="networkandaddressModal"
-        :hardware-wallet="hardwareWallet"
-      />
+      <modal v-if="showModalAccounts"
+             :width="'30%'"
+      >
+        <template #body>
+          <modal-accounts
+            :hardwareWallet="hardwareWallet"
+            :accounts="HDAccounts"
+            @on-closed="showModalAccounts=false"
+          />
+        </template>
+      </modal>
+      <modal v-if="showModalClaim"
+             :width="'30%'"
+      >
+        <template #body>
+          <ledger-modal
+            @on-closed="showModalClaim=false"
+            @hardwareWalletOpen="hardwareWalletOpen"
+          />
+        </template>
+      </modal>
     </div>
   </div>
 </template>
@@ -32,11 +49,14 @@ import Web3 from 'web3';
 import { getConfig } from '../../config.js';
 import { setProvider } from '@/helpers/Contract';
 
-import { mapState } from 'vuex';
+import { mapState, mapActions } from 'vuex';
 import Wallet from '@/components/Wallet.vue';
 import walletConnect from '@/components/WalletConnect.vue';
 import ledgerConnect from '@/components/LedgerConnect.vue';
 import NetworkAndAddressModal from '@/layouts/AccessWalletLayout/NetworkAndAddressModal';
+import Modal from '@/components/Modal.vue';
+import ModalAccount from '@/containers/ModalAccounts.vue';
+import LedgerModal from '@/layouts/AccessWalletLayout/LedgerAppModal/LedgerModal.vue';
 
 import WalletConnectProvider from '@walletconnect/web3-provider';
 
@@ -58,19 +78,31 @@ export default {
     'wallet': Wallet,
     'wallet-connect': walletConnect,
     'ledger-connect': ledgerConnect,
-    'network-and-address-modal': NetworkAndAddressModal,
+    'modal': Modal,
+    'ledger-modal': LedgerModal,
+    'modal-accounts': ModalAccount,
+    // 'network-and-address-modal': NetworkAndAddressModal,
   },
   data () {
     return {
       currentAccount : null,
+      showModalClaim: false,
+      showModalAccounts: false,
+      hardwareWallet: {},
+      hardwareAddresses: [],
+      HDAccounts: [],
     };
   },
   computed: {
     ...mapState([
       'user',
+      'web3',
     ]),
   },
   methods: {
+    ...mapActions([
+      'setWeb3Instance',
+    ]),
     async useMetamask () {
       try {
         const web3 = await this.metamask();
@@ -102,8 +134,46 @@ export default {
         alert(e.message);
       }
     },
-    async ledger () {
-      this.$refs.networkandaddressModal.$refs.networkAndAddress.show();
+    async hardwareWalletOpen (wallet) {
+      const path = 'm/44\'/60\'';
+      try {
+        this.hardwareWallet = wallet;
+        // console.log(this.hardwareWallet);
+        this.hardwareWallet.init(path).then(() => {
+          this.getPaths();
+          this.currentIndex = 0;
+          this.setHDAccounts();
+        });
+        this.networkAndAddressOpen();
+      } catch (e) {
+        alert(e);
+      }
+    },
+    async setHDAccounts () {
+      try {
+        if (!this.web3.eth) this.setWeb3Instance();
+        this.HDAccounts = [];
+        for (let i = 0; i < 10; i++) {
+          const account = await this.hardwareWallet.getAccount(i);
+          this.HDAccounts.push({
+            index: i,
+            account: account,
+          });
+        }
+        this.currentIndex += 5;
+      } catch (e) {
+        console.log(e);  // eslint-disable-line
+      }
+    },
+    getPaths () {
+      this.selectedPath = this.hardwareWallet.getCurrentPath();
+      this.availablePaths = this.hardwareWallet.getSupportedPaths();
+    },
+    networkAndAddressOpen () {
+      this.showModalAccounts = true;
+    },
+    show () {
+      this.showModalClaim = true;
     },
     async walletConnect () {
       const provider = new WalletConnectProvider({
@@ -192,10 +262,7 @@ export default {
       if (accounts.length === 0) {
         alert('Please connect to MetaMask.');
       } else if (accounts[0] !== this.currentAccount) {
-        // const provider = window.ethereum;
-        // console.log(await provider.request());
         const web3 = new Web3(provider);
-        console.log((await web3.eth.getAccounts())[0]);
         const networkVersion = await provider.request({ method: 'net_version' });
         if (networkVersion.toString() !== getConfig().network) {
           throw new Error(`Please connect to the '${this.$options.filters.nameOfNetwork(getConfig().network)}' network`);

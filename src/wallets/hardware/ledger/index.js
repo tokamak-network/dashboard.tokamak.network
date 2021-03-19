@@ -116,6 +116,7 @@ class ledgerWallet {
     const displayAddress = async () => {
       await this.ledger.getAddress(accountPath, true, false);
     };
+
     return new HDWalletInterface(
       accountPath,
       derivedKey.publicKey,
