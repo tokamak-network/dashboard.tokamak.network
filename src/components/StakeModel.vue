@@ -30,8 +30,7 @@
             <span class="model-ton-balance-amount-number">{{ tonBalance }}</span>
           </div>
         </div>
-        <div class="model-line" />
-        <span class="model-description">Minimum staking amount is 5</span>
+        <div class="model-line model-line-bottom" />
         <button class="model-btn"
                 :class="{'model-btn-notavailable' : inputTon === '0' || inputTon === ''}"
                 @click="delegate"
@@ -129,7 +128,6 @@ export default {
       }
     },
   },
-
   watch: {
     inputTon: function (newValue) {
       const result = newValue.replace(/\D/g, '')
@@ -254,7 +252,7 @@ textarea:focus, input:focus{
 }
 .model-content {
   width: 350px;
-  height: 360px;
+  height: 300px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -359,6 +357,8 @@ textarea:focus, input:focus{
 }
 .model-btn-notavailable {
   background-color: #e9edf1;
-
+}
+.model-line-bottom {
+  margin-bottom: 17px;
 }
 </style>
