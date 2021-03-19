@@ -194,6 +194,7 @@ export default {
       }
       if(confirm('Current withdrawal delay is 2 weeks. Are you sure you want to delegate?')){
         const data = this.getData();
+        const amount = _TON(this.inputTon).toFixed('wei');
         console.log(amount);
         this.TON.methods.approveAndCall(
           this.WTON._address,
