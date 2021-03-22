@@ -84,7 +84,7 @@ export default {
     return {
       base: 5,
       pages: 0,
-
+      page: 0,
       orderedAccounts: [],
       accounts: [],
     };
@@ -107,6 +107,7 @@ export default {
         e.preventDefault();
       });
     });
+
 
     this.pages = parseInt(this.rankedAccountsWithPower.length / this.base) + 1;
     if (this.pages > 1 && this.rankedAccountsWithPower.length % this.base === 0) {
