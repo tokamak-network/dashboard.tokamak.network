@@ -8,24 +8,24 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(transaction) in filteredTransactions" :key="transaction.transactionHash">
+        <tr v-for="(commit) in sorted" :key="commit.transactionHash">
           <td class="text-center" style="width:111px; text-align: left; padding-left:2px">
             <a
               class="link"
               target="_blank"
               rel="noopener noreferrer"
-              :href="toExplorer('transactionHash', transaction.transactionHash)"
+              :href="toExplorer('transactionHash', commit.transactionHash)"
             >
-              {{ transaction.transactionHash | hexSlicer }}
+              {{ commit.transactionHash | hexSlicer }}
             </a>
           </td>
-          <td class="text-center" style="width:237px">{{ transaction.timestamp | formattedTimestamp }}</td>
+          <td class="text-center" style="width:237px; text-align: left; padding-left: 33px">{{ commit.blockTimestamp | formattedTimestamp }}</td>
         </tr>
       </tbody>
     </table>
     <table-paginate
-      :pages="pages"
-      @update-page="updateTableByPage"
+      :datas="commitHistory"
+      @on-selected="updateTableByPage"
     />
   </div>
 </template>
@@ -45,32 +45,24 @@ export default {
     'table-paginate': TablePaginate,
   },
   props: {
-    layer2: {
+    commitHistory: {
       required: true,
-      type: String,
+      type: Array,
     },
   },
   data () {
     return {
       from: 'blockNumber',
       order: 'desc',
-      base: 5,
-      pages: 0,
-      updatedTransactions: [],
-      orderedRounds: [],
-      filteredTransactions: [],
+      page: 0,
     };
   },
   computed: {
     ...mapState([
       'web3',
     ]),
-    ...mapGetters(['transactionsByOperator']),
     toExplorer () {
       return (type, param) => this.$options.filters.toExplorer(type, param);
-    },
-    transactions (){
-      return this.transactionsByOperator(this.layer2);
     },
     formattedTimestamp () {
       return timestamp => this.$options.filters.formattedTimestamp(timestamp);
@@ -84,53 +76,13 @@ export default {
         }
       };
     },
-    orderedTransaction () {
-      // switch (this.from) {
-      // case 'transactionHash':
-      //   return orderBy(this.transactions, (transaction) => transaction.transactionHash, [this.order]);
-      // case 'type':
-      //   return orderBy(this.transactions, (transaction) => transaction.type, [this.order]);
-      // case 'amount':
-      //   return orderBy(this.transactions, (transaction) => transaction.amount, [this.order]);
-      // case 'blockNumber':
-      //   return orderBy(this.transactions, (transaction) => transaction.blockNumber, [this.order]);
-      // case 'layer2':
-      //   return orderBy(this.transactions, (transaction) => transaction.target, [this.order]);
-      // case 'date':
-      //   return orderBy(this.transactions, (transaction) => transaction.blockNumber, [this.order]);
-      // default:
-      //   return [];
-      // }
-      return orderBy(this.transactions, (transaction) => transaction.blockNumber, [this.order]);
+    sorted () {
+      const first = this.page * 5;
+      return this.commitHistory.slice(first, first + 5);
     },
-    // withArrow () {
-    //   return (from, label) => {
-    //     if (this.from === from) {
-    //       return this.order === 'desc' ? `${label} ↑` : `${label} ↓`;
-    //     }
-    //     return label;
-    //   };
-    // },
     currencyAmount () {
       return amount => this.$options.filters.currencyAmount(amount);
     },
-  },
-  mounted () {
-    const addressLinks = this.$el.getElementsByClassName('link');
-
-    Object.values(addressLinks).map(link => {
-      const address = this.$options.filters.addressExtractor(link.href);
-      link.addEventListener('copy', e => {
-        e.clipboardData.setData('text/plain', address);
-        e.preventDefault();
-      });
-    });
-    this.pages = parseInt(this.transactions.length / this.base) + 1;
-    if (this.pages > 1 && this.transactions.length % this.base === 0) {
-      this.pages = this.pages - 1;
-
-    }
-    this.filteredTransactions = this.orderedTransaction.slice(0, this.base);
   },
   methods: {
     orderBy (from) {
@@ -145,7 +97,7 @@ export default {
       return this.order === 'desc' ? 'asc' : 'desc';
     },
     updateTableByPage (page) {
-      this.filteredTransactions = this.orderedTransaction.slice((page - 1) * this.base, page * this.base);
+      this.page = page;
     },
   },
 };

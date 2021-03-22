@@ -19,7 +19,7 @@ const instance = createInstance();
 export async function getCandidateCreateEvent () {
   const res = await candidate.get('/events', {
     params: {
-      eventNames: 'CandidateContractCreated',
+      eventNames: 'CandidateContractCreated,Layer2Registered',
     },
   });
   if (res.data === '') return [];
@@ -30,6 +30,19 @@ export async function getDelegators (chainId, layer2) {
     params: {
       chainId: chainId,
       layer2: layer2,
+    },
+  });
+  if (res.data === '') return [];
+  else return res.data.datas;
+}
+export async function getCommitHistory (chainId, layer2) {
+  const res = await candidate.get('/events', {
+    params: {
+      chainId: chainId,
+      eventName: 'Comitted',
+      layer2: layer2,
+      page: 1,
+      pagesize: 100,
     },
   });
   if (res.data === '') return [];

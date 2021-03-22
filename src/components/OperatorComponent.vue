@@ -64,7 +64,7 @@
         <div class="column">
           <div class="title">Commit</div>
 
-          <commit-table :layer2="layer2" />
+          <commit-table :commitHistory="operator.commitHistory" />
         </div>
       </div>
       <transition v-if="showStake" name="model">
@@ -184,6 +184,9 @@ export default {
   mounted () {
     this.selectedOp = this.selectedOperator;
   },
+  // created () {
+  //   console.log(this.operator.commitHistory);
+  // },
   methods: {
     openStaking () {
       if (this.isPressed) {

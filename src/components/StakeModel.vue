@@ -54,6 +54,7 @@ import { BN, padLeft } from 'web3-utils';
 import { range } from 'lodash';
 import { addHistory, addTransaction } from '@/api';
 import { createCurrency } from '@makerdao/currency';
+import moment from 'moment';
 const _TON = createCurrency('TON');
 const _WTON = createCurrency('WTON');
 
@@ -149,7 +150,6 @@ export default {
     makeInputMax () {
       const tonAmount = this.tonBalance.toBigNumber().toString();
       this.inputTon = tonAmount;
-      console.log(this.inputTon);
     },
     closeModal (method) {
       this.$emit('closePopup', method);
@@ -190,17 +190,16 @@ export default {
       return data;
     },
     async delegate () {
-      console.log('--test--');
-      if (this.availableAmountToDelegate === '' || parseFloat(this.amountToDelegate) === 0) {
+      const value = parseFloat(this.inputTon.replace(/,/g, ''));
+      if (value === 0) {
         return alert('Please check input amount.');
       }
-      if (_TON(this.availableAmountToDelegate).gt(this.tonBalance)) {
+      if (_TON(value).gt(this.tonBalance)) {
         return alert('Please check your TON amount.');
       }
       if(confirm('Current withdrawal delay is 2 weeks. Are you sure you want to delegate?')){
         const data = this.getData();
-        const amount = _TON(this.inputTon).toFixed('wei');
-        console.log(amount);
+        const amount = _TON(value).toFixed('wei');
         this.TON.methods.approveAndCall(
           this.WTON._address,
           amount,
@@ -213,6 +212,7 @@ export default {
               amount: amount,
               transactionHash: hash,
               target: this.operator.layer2,
+              timestamp: moment().unix(),
             };
             this.$store.dispatch('addPendingTransaction', transcation);
           })

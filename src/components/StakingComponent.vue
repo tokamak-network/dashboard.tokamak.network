@@ -13,17 +13,15 @@
       </button>
       <div>
         <div>
-          <button class="button-stake" @click="selectFunction('unstake')">Unstake</button>
+          <button class="button-stake" :class="{'model-btn-notavailable' : parseInt(operator.userStaked) === 0 && operator.withdrawalRequests.length !== 0}" :disabled="parseInt(operator.userStaked) === 0 && operator.withdrawalRequests.length !== 0" @click="selectFunction('unstake')">Unstake</button>
         </div>
       </div>
-      <div v-if="operator.withdrawalRequests.length !== 0">
-        <div>
-          <button class="button-stake" @click="selectFunction('restake')">Re-stake</button>
-        </div>
+
+      <div>
+        <button class="button-stake" :class="{'model-btn-notavailable' : operator.withdrawalRequests.length === 0}" :disabled="operator.withdrawalRequests.length === 0" @click="selectFunction('restake')">Re-stake</button>
       </div>
-      <div v-if="!operator.userWithdrawable.isEqual(balance)">
-        <button class="button-stake" @click="selectFunction('withdraw')">Withdraw</button>
-      </div>
+
+      <button class="button-stake" :class="{'model-btn-notavailable' : operator.userWithdrawable.isEqual(balance)}" :disabled="operator.userWithdrawable.isEqual(balance)" @click="selectFunction('withdraw')">Withdraw</button>
     </div>
     <transition v-if="showSim" name="model">
       <div class="model-mask">
@@ -239,5 +237,10 @@ export default {
   /* border-radius: 4px; */
   background-color: #257eee;
   /* height: 100%; */
+}
+.model-btn-notavailable {
+  background-color: #e9edf1;
+  border: solid 1px #e9edf1;
+  cursor: default;
 }
 </style>
