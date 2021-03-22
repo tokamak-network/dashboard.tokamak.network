@@ -18,7 +18,7 @@
             <div class="home-stats__tokamak">Tokamak Network</div>
           </div>
           <div class="home-stats__chart" style="position: relative; height:45vh; width:98.99vw">
-            <line-chart :chartData="dailyTotalStaked.datas" />
+            <graph-container v-if="dailyTotalStaked" :dailyStakedTotal="dailyTotalStaked" />
           </div>
           <div v-if="loaded" class="home-footer">
             <div class="footer-items">
@@ -66,13 +66,13 @@
 </template>
 <script>
 import { mapState, mapGetters } from 'vuex';
-import LineChart from '@/components/LineChart.vue';
+import GraphContainer from '@/containers/GraphContainer.vue';
 import moment from 'moment';
 
 
 export default {
   components: {
-    LineChart,
+    GraphContainer,
   },
   data () {
     return {

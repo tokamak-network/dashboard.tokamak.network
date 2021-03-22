@@ -5,7 +5,7 @@ Vue.use(Vuex);
 import router from '@/router';
 import web3EthABI from 'web3-eth-abi';
 
-import { getManagers, getOperators, getHistory, getTransactions, addTransaction } from '@/api';
+import { getManagers, getOperators, getHistory, getTransactions, addTransaction, getDailyStakedTotal } from '@/api';
 import { cloneDeep, isEqual, range, uniq, orderBy } from 'lodash';
 import numeral from 'numeral';
 import { createWeb3Contract } from '@/helpers/Contract';
@@ -69,6 +69,7 @@ const initialState = {
 
   // user transaction history
   history: [],
+  dailyTotalStaked: {},
 
   // rank
   accountsDepositedWithPower: [],
@@ -242,7 +243,7 @@ export default new Vuex.Store({
         context.dispatch('setUncommittedCurrentRoundReward', blockNumber),
         context.dispatch('checkPendingTransactions'),
         context.dispatch('getTotalStaked'),
-        context.dispatch('getDailyStakedTotal'),
+        context.dispatch('getDailyStakedTokenStats'),
       ]).catch(err => {
         // after logout, error can be happened
       });
@@ -328,8 +329,9 @@ export default new Vuex.Store({
       context.commit('SET_UNCOMMITTED_CURRENT_ROUND_REWARD', uncommittedCurrentRoundReward);
     },
 
-    async getDailyStakedTotal (context) {
-      await axios.get('https://api-dev.tokamak.network/v1/stakedtotals?chainId=4').then((response) => context.commit('SET_DAILY_STAKED_TOTAL', response.data));
+    async getDailyStakedTokenStats (context) {
+      const dailyStakedTotal = await getDailyStakedTotal(context.state.networkId);
+      context.commit('SET_DAILY_STAKED_TOTAL', dailyStakedTotal);
     },
 
     async getTotalStaked (context) {

@@ -1,66 +1,32 @@
 <script>
+//Importing Line class from the vue-chartjs wrapper
 import { Line, mixins } from 'vue-chartjs';
-
-const { reactiveProp } = mixins;
-
+const { reactiveProp, reactiveData } = mixins;
+//Exporting this so it can be used in other components
 export default {
   extends: Line,
   mixins: [reactiveProp],
-  props: ['chartData'],
+  props: {
+    chartData: {
+      type: Number,
+    },
+    datacollection: {
+      // eslint-disable-next-line vue/require-prop-type-constructor
+      type: Object | Array,
+      required: false,
+      // default: null,
+    },
+    option: {
+      // eslint-disable-next-line vue/require-prop-type-constructor
+      type: Object | Array,
+    },
+  },
   data () {
-    return {
-      options: {
-        tooltips: {
-          mode: 'nearest',
-          backgroundColor: '#2a72e5',
-        },
-        scales: {
-          ticks: { min: 0 },
-          layout: {
-            padding: {
-              left: 50,
-              right: 0,
-              top: 0,
-              bottom: 0,
-            },
-          },
-          yAxes: [{
-            display: false,
-            // gridLines: {
-            //   display: false,
-            // },
-            // scaleLabel: {
-            //   display: true,
-            //   labelString: 'Staked (TON)',
-            // },
-          }],
-          xAxes: [ {
-            display: false,
-            // gridLines: {
-            //   display: false,
-            // },
-            // scaleLabel: {
-            //   display: true,
-            //   labelString: 'Years',
-            // },
-          }],
-        },
-        legend: {
-          display: true,
-          position: 'top',
-          align: 'center',
-          fullWidth: true,
-          labels: {
-            usePointStyle: true,
-          },
-        },
-        responsive: true,
-        maintainAspectRatio: false,
-      },
-    };
+    return {};
   },
   mounted () {
-    this.renderChart(this.chartData, this.options);
+    //renderChart function renders the chart with the datacollection and options object.
+    this.renderChart(this.datacollection, this.option);
   },
 };
 </script>
