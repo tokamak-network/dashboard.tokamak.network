@@ -33,8 +33,8 @@
         <div class="model-line model-line-bottom" />
         <button class="model-btn"
                 :class="{'model-btn-notavailable' : inputTon === '0' || inputTon === ''}"
-                @click="delegate"
                 :disabled="inputTon === '0' || inputTon === ''"
+                @click="delegate"
         >
           Stake
         </button>
@@ -131,8 +131,14 @@ export default {
   },
   watch: {
     inputTon: function (newValue) {
-      const result = newValue.replace(/\D/g, '')
-        .replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+      let result;
+      if(newValue === '.') {
+        console.log('dot');
+        result = newValue;
+      } else {
+        result = newValue.replace(/[^0-9a-zA-Z.]/g, '')
+          .replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+      }
       Vue.nextTick(() => this.inputTon = result);
     },
   },

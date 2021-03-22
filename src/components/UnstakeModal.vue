@@ -34,8 +34,8 @@
         <span class="model-description">Withdrawal delay is about 2 weeks</span>
         <button class="model-btn"
                 :class="{'model-btn-notavailable' : inputTon === '0' || inputTon === ''}"
-                @click="undelegate"
                 :disabled="inputTon === '0' || inputTon === ''"
+                @click="undelegate"
         >
           Unstake
         </button>
@@ -111,6 +111,7 @@ export default {
   methods:{
     makeInputMax () {
       const tonAmount = this.operator.userStaked.toBigNumber().toString();
+      console.log(tonAmount);
       this.inputTon = tonAmount;
       console.log(this.inputTon);
     },
