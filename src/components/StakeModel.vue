@@ -33,8 +33,8 @@
         <div class="model-line model-line-bottom" />
         <button class="model-btn"
                 :class="{'model-btn-notavailable' : inputTon === '0' || inputTon === ''}"
-                @click="delegate"
                 :disabled="inputTon === '0' || inputTon === ''"
+                @click="delegate"
         >
           Stake
         </button>
@@ -54,6 +54,7 @@ import { BN, padLeft } from 'web3-utils';
 import { range } from 'lodash';
 import { addHistory, addTransaction } from '@/api';
 import { createCurrency } from '@makerdao/currency';
+import moment from 'moment';
 const _TON = createCurrency('TON');
 const _WTON = createCurrency('WTON');
 
@@ -184,7 +185,6 @@ export default {
       return data;
     },
     async delegate () {
-      console.log('--test--');
       if (this.availableAmountToDelegate === '' || parseFloat(this.amountToDelegate) === 0) {
         return alert('Please check input amount.');
       }
@@ -194,7 +194,6 @@ export default {
       if(confirm('Current withdrawal delay is 2 weeks. Are you sure you want to delegate?')){
         const data = this.getData();
         const amount = _TON(this.inputTon).toFixed('wei');
-        console.log(amount);
         this.TON.methods.approveAndCall(
           this.WTON._address,
           amount,
@@ -207,6 +206,7 @@ export default {
               amount: amount,
               transactionHash: hash,
               target: this.operator.layer2,
+              timestamp: moment().unix(),
             };
             this.$store.dispatch('addPendingTransaction', transcation);
           })

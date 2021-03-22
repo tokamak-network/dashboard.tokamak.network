@@ -34,8 +34,8 @@
         <span class="model-description">Withdrawal delay is about 2 weeks</span>
         <button class="model-btn"
                 :class="{'model-btn-notavailable' : inputTon === '0' || inputTon === ''}"
-                @click="undelegate"
                 :disabled="inputTon === '0' || inputTon === ''"
+                @click="undelegate"
         >
           Unstake
         </button>
@@ -64,6 +64,7 @@
 import Vue from 'vue';
 import { mapState, mapGetters } from 'vuex';
 import { createCurrency } from '@makerdao/currency';
+import moment from 'moment';
 
 const _WTON = createCurrency('WTON');
 export default {
