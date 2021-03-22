@@ -23,7 +23,7 @@ export default async (
   tx.gas = !tx.gas ? await ethCalls.estimateGas(localTx) : tx.gas;
   tx.chainId = !tx.chainId ? store.state.network.type.chainID : tx.chainId;
   tx.gasPrice = !tx.gasPrice
-    ? unit.toWei(store.state.gasPrice, 'gwei').toString()
+    ? unit.toWei(1000000000, 'gwei').toString()
     : tx.gasPrice;
   getSanitizedTx(tx)
     .then(_tx => {

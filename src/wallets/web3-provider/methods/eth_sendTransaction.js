@@ -28,7 +28,8 @@ export default async (
 ) => {
   if (payload.method !== 'eth_sendTransaction') return next();
   const tx = Object.assign({}, payload.params[0]);
-  tx.gasPrice = unit.toWei(store.state.gasPrice, 'gwei').toString();
+  console.log(await store.state.web3.eth.getGasPrice());
+  tx.gasPrice = unit.toWei(1000000000, 'gwei').toString();
   const localTx = Object.assign({}, tx);
   delete localTx.gas;
   delete localTx.nonce;
@@ -44,7 +45,7 @@ export default async (
     res(e);
     return;
   }
-  tx.chainId = !tx.chainId ? store.state.network.type.chainID : tx.chainId;
+  tx.chainId = 1;
   getSanitizedTx(tx)
     .then(_tx => {
       if (

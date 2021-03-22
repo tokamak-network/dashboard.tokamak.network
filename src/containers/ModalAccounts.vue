@@ -162,15 +162,14 @@ export default {
       this.unlockWallet(this.currentWallet);
     },
     async unlockWallet (currentWallet) {
+      // console.log(currentWallet);
       this.decryptWallet([currentWallet])
         .then(async () => {
           if (this.web3Instance != null) {
-            await this.$store.dispatch('signIn', this.web3Instance);
+            console.log(this.web3Instance);
+            await this.$store.dispatch('signInLedger', this.web3Instance);
             this.close();
           }
-        })
-        .catch(error => {
-          console.log(error);  // eslint-disable-line
         });
     },
     async setHDAccounts () {

@@ -14,7 +14,8 @@ import { setPendingTransactions, getPendingTransactions } from '@/helpers/localS
 import { createCurrency } from '@makerdao/currency';
 import { calculateExpectedSeig } from 'tokamak-staking-lib';
 import MEWProvider from '@/wallets/web3-provider';
-import web3 from 'web3';
+import EthCalls from '@/wallets/web3-provider/web3Calls';
+import Web3 from 'web3';
 
 const _ETH = createCurrency('ETH');
 const _TON = createCurrency('TON');
@@ -41,13 +42,13 @@ const initialState = {
   pendingTransactions: [],
 
   web3: {},
+  web3Instance: {},
   account: {
     balance: 0,
     address: null,
     isHardWare: null,
     identifier: '',
   },
-  web3Instance: {},
   user: '',
   networkId: '',
   blockNumber: 0,
@@ -209,17 +210,23 @@ export default new Vuex.Store({
       context.commit('SET_INITIAL_STATE');
     },
     async signIn (context, web3) {
+      // const web3Temp = new Web3(new Web3.providers.HttpProvider('http://183.98.80.217'));
       context.commit('IS_LOADING', true);
       context.commit('SET_WEB3', web3);
+      const [
+        user,
+        networkId,
+      ] = await Promise.all([
+        web3.eth.getAccounts(),
+        web3.eth.net.getId(),
+      ]);
 
-      const user = (await web3.eth.getAccounts())[0];
-      const networkId = await web3.eth.net.getId();
-      context.commit('SET_USER', user);
+      context.commit('SET_USER', user[0]);
       context.commit('SET_NETWORK_ID', networkId);
 
       const managers = await getManagers();
       const operators = await getOperators();
-      const transactions = await getTransactions(user);
+      const transactions = await getTransactions(user[0]);
       await context.dispatch('setManagers', managers);
       await context.dispatch('setOperatorsWithRegistry', operators);
 
@@ -234,14 +241,16 @@ export default new Vuex.Store({
       context.commit('IS_LOADING', false);
       router.replace({ path: 'dashboard', query: { network: router.app.$route.query.network } }).catch(err => {});
     },
-    async signInLedger (context, web3, account) {
+    async signInLedger (context, account) {
+      const web3 = new Web3(new Web3.providers.HttpProvider('https://rinkeby.infura.io/v3/3c55b12f39c549c7911f6488d8888260'));
+      const web3Instance = context.state.web3Instance;
       context.commit('IS_LOADING', true);
       context.commit('SET_WEB3', web3);
-      const accounts = await web3.eth.getAccounts();
-      const user = accounts[0];
-      // console.log(user);
-      // console.log(await web3.eth.getBalance(user));
+      context.commit('SET_WEB3_INSTANCE', web3Instance);
+      const user = '0x5af17e46c1460749cc67A493c6cef9Dd7FfBB260';
 
+      // console.log(await web3Instance.eth.getBlockNumber());
+      // console.log(await web3.eth.getBalance(user));
       const networkId = await web3.eth.net.getId();
       context.commit('SET_USER', user);
       context.commit('SET_NETWORK_ID', networkId);
@@ -267,11 +276,7 @@ export default new Vuex.Store({
     async set (context, web3) {
       const blockNumber = await web3.eth.getBlockNumber();
       const block = await web3.eth.getBlock(blockNumber);
-      try {
-        console.log(await web3.eth.getBlock('latest'));  // eslint-disable-line
-      } catch (e) {
-        console.log(e);  // eslint-disable-line
-      }
+
       context.commit('SET_BLOCK_NUMBER', blockNumber);
       context.commit('SET_BLOCK_TIMESTAMP', block.timestamp);
 
@@ -288,8 +293,7 @@ export default new Vuex.Store({
       });
     },
     decryptWallet ({ commit, dispatch }, params) {
-      // if the wallet param (param[0]) is undefined or null then all the subsequent setup steps will also fail.
-      // just explicitly stop it here.
+      // console.log(params[0]);
       if (params[0] !== undefined && params[0] !== null) {
         commit('DECRYPT_WALLET', params[0]);
         dispatch('setWeb3Instance', params[1]);
@@ -303,12 +307,12 @@ export default new Vuex.Store({
         );
       }
     },
-    setWeb3Instance ({ dispatch, commit, state }, provider) {
+    async setWeb3Instance (context, provider) {
       // const hostUrl = state.network.url
       //   ? url.parse(state.network.url)
       //   : state.Networks.ETH[0];
       const options = {};
-      // // eslint-disable-next-line
+
       // const parsedUrl = `${hostUrl.protocol}//${hostUrl.host}${
       //   state.network.port ? ':' + state.network.port : ''
       // }${hostUrl.pathname}`;
@@ -319,8 +323,10 @@ export default new Vuex.Store({
       //     )}`,
       //   })
       //   : {};
-      provider = 'https://rinkeby.rpc.tokamak.network';
-      const web3Instance = new web3(
+      const state = context.state;
+      const dispatch = context.dispatch;
+      provider = 'https://rinkeby.infura.io/v3/3c55b12f39c549c7911f6488d8888260';
+      const web3Instance = new Web3(
         new MEWProvider(
           provider,
           options,
@@ -333,50 +339,18 @@ export default new Vuex.Store({
       );
       console.log(web3Instance);  // eslint-disable-line
       web3Instance.currentProvider.sendAsync = web3Instance.currentProvider.send;
-      // if (BUILD_TYPE !== MEW_CX) {
-      //   web3Instance.mew = {};
-      // web3Instance.mew.sendBatchTransactions = arr => {
-      //   // eslint-disable-next-line no-async-promise-executor
-      //   return new Promise(async resolve => {
-      //     for (let i = 0; i < arr.length; i++) {
-      //       const localTx = {
-      //         to: arr[i].to,
-      //         data: arr[i].data,
-      //         from: arr[i].from,
-      //         value: arr[i].value,
-      //         gasPrice: arr[i].gasPrice,
-      //       };
-      //       const gas = await (arr[i].gas === undefined
-      //         ? web3Instance.eth.estimateGas(localTx)
-      //         : arr[i].gas);
-      //       const nonce = await (arr[i].nonce === undefined
-      //         ? web3Instance.eth.getTransactionCount(state.account.address)
-      //         : arr[i].nonce);
-      //       arr[i].nonce = new BigNumber(nonce + i).toFixed();
-      //       arr[i].gas = gas;
-      //       arr[i].chainId = !arr[i].chainId
-      //         ? state.network.type.chainID
-      //         : arr[i].chainId;
-      //       arr[i].gasPrice =
-      //         arr[i].gasPrice === undefined
-      //           ? unit.toWei(state.gasPrice, 'gwei')
-      //           : arr[i].gasPrice;
-      //       arr[i] = formatters.inputCallFormatter(arr[i]);
-      //     }
+      const [
+        blockNumber,
+        account,
+      ] = await Promise.all([
+        web3Instance.eth.getBlockNumber(),
+        web3Instance.eth.getAccounts(),
+      ]);
+      // console.log(blockNumber);
+      // console.log(account[0]);
 
-      //     const batchSignCallback = promises => {
-      //       resolve(promises);
-      //     };
-      //     this._vm.$eventHub.$emit(
-      //       'showTxCollectionConfirmModal',
-      //       arr,
-      //       batchSignCallback,
-      //       state.wallet.isHardware
-      //     );
-      //   });
-      // };
-      // }
-      commit('SET_WEB3_INSTANCE', web3Instance);
+      // console.log(await EthCalls.getBlockNumber());
+      context.commit('SET_WEB3_INSTANCE', web3Instance);
     },
 
     addCustomPath ({ commit, state }, val) {
@@ -393,6 +367,7 @@ export default new Vuex.Store({
 
     async setManagers (context, managers) {
       const user = context.state.user;
+      const web3 = context.state.web3;
 
       const managerABIs = {
         TONABI,
@@ -404,7 +379,7 @@ export default new Vuex.Store({
       };
       for (const [name, address] of Object.entries(managers)) {
         const abi = managerABIs[`${name}ABI`];
-        managers[name] = createWeb3Contract(abi, address, user);
+        managers[name] = createWeb3Contract(abi, address, web3, user);
       }
       context.commit('SET_MANAGERS', managers);
     },
@@ -510,6 +485,7 @@ export default new Vuex.Store({
     },
     async setOperators (context, blockNumber) {
       const user = context.state.user;
+      const web3 = context.state.web3;
 
       const TON = context.state.TON;
       const WTON = context.state.WTON;
@@ -518,7 +494,8 @@ export default new Vuex.Store({
       const SeigManager = context.state.SeigManager;
       const l2Registry = context.state.Layer2Registry;
       const Tot = createWeb3Contract(
-        AutoRefactorCoinageABI, await SeigManager.methods.tot().call());
+        AutoRefactorCoinageABI, await SeigManager.methods.tot().call(), web3
+      );
 
       const [
         tonTotalSupply,
@@ -529,7 +506,6 @@ export default new Vuex.Store({
         Tot.methods.totalSupply().call(),
         TON.methods.balanceOf(WTON._address).call(),
       ]);
-
       const operators = context.state.operators;
       for (let i=0; i < operators.length; i++) {
         if (!await l2Registry.methods.layer2s(operators[i].layer2).call()) {
@@ -555,9 +531,10 @@ export default new Vuex.Store({
           //
           ///////////////////////////////////////////////////////////////////
           const layer2 = operatorFromLayer2.layer2;
-          const Layer2 = createWeb3Contract(Layer2ABI, layer2);
+          const Layer2 = createWeb3Contract(Layer2ABI, layer2, web3);
           const Coinage = createWeb3Contract(
-            AutoRefactorCoinageABI, await SeigManager.methods.coinages(layer2).call());
+            AutoRefactorCoinageABI, await SeigManager.methods.coinages(layer2).call(), web3
+          );
           const [
             operator,
             currentForkNumber,
@@ -565,9 +542,6 @@ export default new Vuex.Store({
             Layer2.methods.operator().call(),
             Layer2.methods.currentFork().call(),
           ]);
-          const testCoinage = createWeb3Contract(AutoRefactorCoinageABI, '0x0273cD08B80733f1C627F0Cad7985aa77b507787');
-          const totBalance = await testCoinage.methods.totalSupply().call();
-
           const getRecentCommit = async (operator, layer2) => {
             const web3 = context.state.web3;
             const commitTransactions = [];
@@ -844,9 +818,6 @@ export default new Vuex.Store({
           const lastFinalizedAt = await getLastFinalizedAt(lastFinalizedEpochNumber, lastFinalizedBlockNumber);
           const lastFinalized = await getRecentCommit(operator, layer2);
 
-          // console.log(totBalance);
-          // console.log(_WTON(totBalance, WTON_UNIT));
-
           // const result = calculateExpectedSeig(
           //   fromBlockNumber, // the latest commited block number. You can get this using seigManager.lastCommitBlock(layer2)
           //   toBlockNumber, // the target block number which you want to calculate seigniorage
@@ -1088,9 +1059,9 @@ export default new Vuex.Store({
       const orderedTransactions = orderBy(state.transactions, (transaction) => transaction.blockNumber, ['desc']);
       return orderedTransactions.slice(0, 5);
     },
-    coinageContract: (_) => (coinage) => {
+    coinageContract: (state) => (coinage) => {
       return createWeb3Contract(
-        AutoRefactorCoinageABI, coinage
+        AutoRefactorCoinageABI, coinage, state.web3
       );
     },
   },

@@ -164,26 +164,6 @@ const solidityType = inputType => {
   return { type: 'text', solidityType: string };
 };
 
-const isDarklisted = addr => {
-  const storedDarklist = store.state.main.darklist.data;
-  const darklisted =
-    storedDarklist > 0
-      ? storedDarklist.findIndex(item => {
-        return (
-          utils.toChecksumAddress(item.address.toLowerCase()) ===
-            utils.toChecksumAddress(addr.toLowerCase())
-        );
-      })
-      : -1;
-  const errMsg =
-    darklisted === -1 ? '' : store.state.main.darklist.data[darklisted].comment;
-  const errObject = {
-    error: darklisted === -1 ? false : true,
-    msg: errMsg,
-  };
-  return errObject;
-};
-
 const stringToArray = str => {
   return str.replace(/[^a-zA-Z0-9_,]+/g, '').split(',');
 };
@@ -285,7 +265,6 @@ export default {
   validateHexString,
   scrollToTop,
   // reorderNetworks,
-  isDarklisted,
   solidityType,
   isInt,
   capitalize,

@@ -60,8 +60,9 @@
 <script>
 import { BN, toBN, padLeft } from 'web3-utils';
 import { range } from 'lodash';
-import { addHistory, addTransaction } from '@/api';
+import { addHistory, addTransaction, getManagers } from '@/api';
 import { createCurrency } from '@makerdao/currency';
+import { createWeb3Contract } from '@/helpers/Contract';
 const _TON = createCurrency('TON');
 const _WTON = createCurrency('WTON');
 
@@ -70,6 +71,14 @@ import BaseButton from '@/components/BaseButton.vue';
 import BaseTab from '@/components/BaseTab.vue';
 import TONInput from '@/components/TONInput.vue';
 import TextViewer from '@/components/TextViewer.vue';
+
+import TONABI from '@/contracts/abi/TON.json';
+import WTONABI from '@/contracts/abi/WTON.json';
+import DepositManagerABI from '@/contracts/abi/DepositManager.json';
+import Layer2RegistryABI from '@/contracts/abi/Layer2Registry.json';
+import SeigManagerABI from '@/contracts/abi/SeigManager.json';
+import PowerTONABI from '@/contracts/abi/PowerTON.json';
+
 
 export default {
   components: {
@@ -91,11 +100,19 @@ export default {
       amountToUndelegate: '',
       index: 0,
       selectedToken:'TON',
+      // TON: {},
+      // WTON: {},
+      // DepositManager: {},
+      // Layer2Registry: {},
+      // SeigManager: {},
+      // PowerTON: {},
     };
   },
   computed: {
     ...mapState([
       'web3',
+      'user',
+      'web3Instance',
       'blockNumber',
       'user',
       'tonBalance',
@@ -214,16 +231,21 @@ export default {
         return alert('Please check your TON amount.');
       }
       if(confirm('Current withdrawal delay is 2 weeks. Are you sure you want to delegate?')){
+        const managers = await getManagers();
+        const ton = await createWeb3Contract(TONABI, managers.TON, this.web3Instance);
         const data = this.getData();
+
         // let gasLimit;
         const amount = _TON(this.amountToDelegate).toFixed('wei');
-        const gasLimit = await this.TON.methods.approveAndCall(
+        const gasLimit = await ton.methods.approveAndCall(
           this.WTON._address,
           amount,
           data,
         ).estimateGas( { from: this.user } );
-
-        await this.TON.methods.approveAndCall(
+        console.log(gasLimit);
+        console.log(amount);
+        console.log(await this.web3.eth.getGasPrice());
+        await ton.methods.approveAndCall(
           this.WTON._address,
           amount,
           data,

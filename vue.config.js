@@ -15,5 +15,6 @@ module.exports = {
     port: 8085, // CHANGE YOUR PORT HERE!
     https: true,
     hotOnly: false,
+    proxy: 'http://localhost:1290',
   },
 };
