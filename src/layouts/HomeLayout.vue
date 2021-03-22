@@ -18,7 +18,7 @@
             <div class="home-stats__tokamak">Tokamak Network</div>
           </div>
           <div class="home-stats__chart" style="position: relative; height:45vh; width:98.99vw">
-            <line-chart :chartData="data" />
+            <line-chart :chartData="dailyTotalStaked.datas" />
           </div>
           <div v-if="loaded" class="home-footer">
             <div class="footer-items">
@@ -69,45 +69,6 @@ import { mapState, mapGetters } from 'vuex';
 import LineChart from '@/components/LineChart.vue';
 import moment from 'moment';
 
-// mock data
-const datasets = {
-  labels: [
-    'January',
-    'February',
-    'March',
-    'April',
-    'May',
-    'June',
-    'July',
-    'August',
-    'September',
-    'October',
-    'November',
-    'December',
-  ],
-  datasets: [
-    {
-      label: 'Total Stake',
-      borderColor: '#2a72e5',
-      borderWidth: 2,
-      pointStyle: 'line',
-      lineTension: 0,
-      backgroundColor: 'transparent',
-      data: [0, 1, 3, 5, 6, 8, 9, 10, 10, 12, 15, 16],
-      pointRadius: 1,
-    },
-    {
-      label: 'Actual APY',
-      borderColor: '#84919e',
-      borderWidth: 2,
-      lineTension: 0,
-      pointStyle: 'line',
-      backgroundColor: 'transparent',
-      data: [0, 2, 4, 5, 7, 9, 11, 13, 14, 16, 17, 18],
-      pointRadius: 1,
-    },
-  ],
-};
 
 export default {
   components: {
@@ -115,7 +76,6 @@ export default {
   },
   data () {
     return {
-      data: datasets,
       durationTime: moment.duration(0),
     };
   },
