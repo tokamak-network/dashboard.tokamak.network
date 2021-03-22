@@ -47,6 +47,7 @@ export default {
         },
         legend: {
           display: true,
+          position: 'top',
           align: 'center',
           fullWidth: true,
           labels: {
