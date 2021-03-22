@@ -691,30 +691,29 @@ export default new Vuex.Store({
           const lastFinalized = await getRecentCommit(operator, layer2);
 
           const isCandidate = candidates.find(candidate => candidate.layer2 === layer2.toLowerCase());
-          if (isCandidate.kind !== 'candidate' || isCandidate.kind === '' || isCandidate.kind === 'layer2') {
+          if (isCandidate.kind === 'candidate') {
+            const web3 = context.state.web3;
+            const candi = candidateContractCreated.filter(candidate => candidate.data.candidateContract.toLowerCase() === layer2);
+            const block = await web3.eth.getBlock(candi[0].txInfo.blockNumber);
+            operatorFromLayer2.deployedAt = block.timestamp;
+            operatorFromLayer2.lastFinalizedAt = lastFinalized[0] === '0' ? block.timestamp : lastFinalized[0];
+          } else if (isCandidate.kind !== 'candidate' || isCandidate.kind === '' || isCandidate.kind === 'layer2') {
             const [
-              currentFork,
+              // currentFork,
               firstEpoch,
             ] = await Promise.all([
-              Layer2.methods.forks(currentForkNumber).call(),
+              // Layer2.methods.forks(currentForkNumber).call(),
               Layer2.methods.getEpoch(0, 0).call(),
             ]);
 
             const deployedAt = firstEpoch.timestamp;
-            const lastFinalizedEpochNumber = currentFork.lastFinalizedEpoch;
-            const lastFinalizedBlockNumber = currentFork.lastFinalizedBlock;
+            // const lastFinalizedEpochNumber = currentFork.lastFinalizedEpoch;
+            // const lastFinalizedBlockNumber = currentFork.lastFinalizedBlock;
             // const finalizeCount = parseInt(lastFinalizedEpochNumber) + 1;
             // const lastFinalizedAt = await getLastFinalizedAt(lastFinalizedEpochNumber, lastFinalizedBlockNumber);
 
             operatorFromLayer2.deployedAt = deployedAt;
             operatorFromLayer2.lastFinalizedAt = lastFinalized[0] === '0' ? deployedAt : lastFinalized[0];
-          } else if (isCandidate.kind === 'candidate') {
-            const web3 = context.state.web3;
-            const candi = candidateContractCreated.filter(candidate => candidate.data.candidateContract.toLowerCase() === layer2);
-            const block = await web3.eth.getBlock(candi[0].txInfo.blockNumber);
-
-            operatorFromLayer2.deployedAt = block.timestamp;
-            operatorFromLayer2.lastFinalizedAt = lastFinalized[0] === '0' ? block.timestamp : lastFinalized[0];
           }
 
 
@@ -779,7 +778,6 @@ export default new Vuex.Store({
           //   .add(userNotWithdrawable)
           //   .add(userWithdrawable)
           //   .sub(operatorFromLayer2.userDeposit);
-
           return operatorFromLayer2;
         })
       );

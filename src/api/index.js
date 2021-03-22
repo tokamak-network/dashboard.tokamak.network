@@ -19,7 +19,7 @@ const instance = createInstance();
 export async function getCandidateCreateEvent () {
   const res = await candidate.get('/events', {
     params: {
-      eventNames: 'CandidateContractCreated',
+      eventNames: 'CandidateContractCreated,Layer2Registered',
     },
   });
   if (res.data === '') return [];
