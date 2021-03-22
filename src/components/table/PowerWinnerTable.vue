@@ -11,7 +11,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(round, index) in filteredRounds" :key="round.index">
+        <tr v-for="(round, index) in sorted" :key="round.index">
           <td class="text-center">{{ index }}</td>
           <td class="text-center">
             {{ round.index }}
@@ -31,8 +31,8 @@
       </tbody>
     </table>
     <table-paginate
-      :pages="pages"
-      @update-page="updateTableByPage"
+      :datas="orderedRounds"
+      @on-selected="updateTableByPage"
     />
   </div>
 </template>
@@ -51,9 +51,8 @@ export default {
     return {
       base: 5,
       pages: 0,
-
-      orderedRounds: [],
-      filteredRounds: [],
+      page: 0,
+      from: 'index',
     };
   },
   computed: {
@@ -66,30 +65,34 @@ export default {
     formattedTimestamp () {
       return timestamp => this.$options.filters.formattedTimestamp(timestamp);
     },
-  },
-  mounted () {
-    const addressLinks = this.$el.getElementsByClassName('link');
-
-    Object.values(addressLinks).map(link => {
-      const address = this.$options.filters.addressExtractor(link.href);
-      link.addEventListener('copy', e => {
-        e.clipboardData.setData('text/plain', address);
-        e.preventDefault();
-      });
-    });
-
-    this.pages = parseInt(this.rounds.length / this.base) + 1;
-    if (this.pages > 1 && this.rounds.length % this.base === 0) {
-      this.pages = this.pages - 1;
-    }
-
-    this.orderedRounds = orderBy(this.rounds, (round) => round.index, 'desc');
-    this.filteredRounds = this.orderedRounds.slice(0, this.base);
-  },
-  methods: {
-    test () {
-      console.log(this.rounds);
+    orderedRounds () {
+      return orderBy(this.rounds, (round) => round.index, 'desc');
     },
+    sorted () {
+      const first = this.page * 5;
+      return this.orderedRounds.slice(first, first + 5);
+    },
+  },
+  // mounted () {
+  //   const addressLinks = this.$el.getElementsByClassName('link');
+
+  //   Object.values(addressLinks).map(link => {
+  //     const address = this.$options.filters.addressExtractor(link.href);
+  //     link.addEventListener('copy', e => {
+  //       e.clipboardData.setData('text/plain', address);
+  //       e.preventDefault();
+  //     });
+  //   });
+
+  //   this.pages = parseInt(this.rounds.length / this.base) + 1;
+  //   if (this.pages > 1 && this.rounds.length % this.base === 0) {
+  //     this.pages = this.pages - 1;
+  //   }
+
+  //   this.orderedRounds = orderBy(this.rounds, (round) => round.index, 'desc');
+  //   this.filteredRounds = this.orderedRounds.slice(0, this.base);
+  // },
+  methods: {
     orderBy (from) {
       if (this.from === from) {
         this.order = this.changedOrder();
@@ -102,7 +105,7 @@ export default {
       return this.order === 'desc' ? 'asc' : 'desc';
     },
     updateTableByPage (page) {
-      this.filteredRounds = this.orderedRounds.slice((page - 1) * this.base, page * this.base);
+      this.page = page;
     },
   },
 };

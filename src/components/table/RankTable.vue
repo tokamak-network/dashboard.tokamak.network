@@ -11,7 +11,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(account, index) in accounts" :key="account.address">
+        <tr v-for="(account, index) in sorted" :key="account.address">
           <td class="text-center">{{ index }}</td>
           <td class="text-center">
             {{ account.rank }}
@@ -31,43 +31,10 @@
       </tbody>
     </table>
     <table-paginate
-      :pages="pages"
-      @update-page="updateTableByPage"
+      :datas="accounts"
+      @on-selected="updateTableByPage"
     />
   </div>
-  <!-- <div>
-    <table class="rank-table">
-      <thead>
-        <tr>
-          <th class="text-center">#</th>
-          <th class="text-center">Rank</th>
-          <th class="text-center">Account</th>
-          <th class="text-center">Power</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="(account, index) in accounts" :key="account.address">
-          <td class="text-center">{{ index }}</td>
-          <td class="text-center">{{ account.rank }}</td>
-          <td class="text-center">
-            <a
-              class="link"
-              target="_blank"
-              rel="noopener noreferrer"
-              :href="toExplorer('address', account.address)"
-            >
-              {{ account.address | hexSlicer }}
-            </a>
-          </td>
-          <td class="text-center">{{ account.power | currencyAmount }}</td>
-        </tr>
-      </tbody>
-    </table>
-    <table-paginate
-      :pages="pages"
-      @update-page="updateTableByPage"
-    />
-  </div> -->
 </template>
 
 <script>
@@ -83,10 +50,11 @@ export default {
   data () {
     return {
       base: 5,
+      from: 'rank',
       pages: 0,
       page: 0,
       orderedAccounts: [],
-      accounts: [],
+      // accounts: [],
     };
   },
   computed: {
@@ -96,27 +64,34 @@ export default {
     toExplorer () {
       return (type, param) => this.$options.filters.toExplorer(type, param);
     },
+    accounts () {
+      return orderBy(this.rankedAccountsWithPower, (account) => account.rank, 'asc');
+    },
+    sorted () {
+      const first = this.page * 5;
+      return this.accounts.slice(first, first + 5);
+    },
   },
-  mounted () {
-    const addressLinks = this.$el.getElementsByClassName('link');
+  // mounted () {
+  //   const addressLinks = this.$el.getElementsByClassName('link');
 
-    Object.values(addressLinks).map(link => {
-      const address = this.$options.filters.addressExtractor(link.href);
-      link.addEventListener('copy', e => {
-        e.clipboardData.setData('text/plain', address);
-        e.preventDefault();
-      });
-    });
+  //   Object.values(addressLinks).map(link => {
+  //     const address = this.$options.filters.addressExtractor(link.href);
+  //     link.addEventListener('copy', e => {
+  //       e.clipboardData.setData('text/plain', address);
+  //       e.preventDefault();
+  //     });
+  //   });
 
 
-    this.pages = parseInt(this.rankedAccountsWithPower.length / this.base) + 1;
-    if (this.pages > 1 && this.rankedAccountsWithPower.length % this.base === 0) {
-      this.pages = this.pages - 1;
-    }
+  //   this.pages = parseInt(this.rankedAccountsWithPower.length / this.base) + 1;
+  //   if (this.pages > 1 && this.rankedAccountsWithPower.length % this.base === 0) {
+  //     this.pages = this.pages - 1;
+  //   }
 
-    this.orderedAccounts = orderBy(this.rankedAccountsWithPower, (account) => account.rank, 'asc');
-    this.accounts = this.orderedAccounts.slice(0, this.base);
-  },
+  //   this.orderedAccounts = orderBy(this.rankedAccountsWithPower, (account) => account.rank, 'asc');
+  //   this.accounts = this.orderedAccounts.slice(0, this.base);
+  // },
   methods: {
     orderBy (from) {
       if (this.from === from) {
@@ -130,7 +105,7 @@ export default {
       return this.order === 'desc' ? 'asc' : 'desc';
     },
     updateTableByPage (page) {
-      this.accounts = this.orderedAccounts.slice((page - 1) * this.base, page * this.base);
+      this.page = page;
     },
   },
 };

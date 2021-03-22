@@ -53,7 +53,6 @@ export default {
         return;
       }
       if (this.currentPage % this.pageSize === 0) {
-
         this.pages = [];
         const page = this.currentPage - 5;
         for (let i = 0; i < 5; i++) {
@@ -87,24 +86,20 @@ export default {
   margin-bottom: 12px;
   width: 100%;
 }
-
 .row {
   display: flex;
   flex-direction: row;
   justify-content: center;
 }
-
 .page {
   font-family: "Noto Sans",sans-serif;
   font-size: 13px;
   text-align: center;
   color: #868686;
-
   margin-top: 1px;
   margin-left: 6px;
   margin-right: 6px;
 }
-
 .paginate-button-left, .paginate-button-right {
   color: #ffffff;
   border: 1px solid #e6eaee;
@@ -144,11 +139,9 @@ button:focus {
 .page {
   width: 24px;
   height: 24px;
-
   display: flex;
   justify-content: center;
   align-items: center;
-
   font-family: Roboto;
   font-size: 13px;
   font-weight: normal;

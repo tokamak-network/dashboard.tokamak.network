@@ -11,7 +11,9 @@
       </div>
       <div class="power-current-detail">
         <h3>Round Reward</h3>
-        <span class="power-current-detail-content">{{ currentRound.reward | currencyAmount }}</span>
+        <span class="power-current-detail-content">{{ currencyAmount(
+          currentRound.reward.add(uncommittedCurrentRoundReward)
+        ) }}</span>
       </div>
       <div class="power-current-detail">
         <h3>24 Hour</h3>
@@ -54,10 +56,14 @@ export default {
       'power',
       'currentRound',
       'rounds',
+      'uncommittedCurrentRoundReward',
     ]),
     ...mapGetters([
       'rankedAccountsWithPower',
     ]),
+    currencyAmount () {
+      return (amount) => this.$options.filters.currencyAmount(amount);
+    },
   },
   mounted () {
     this.second = setInterval(() => {

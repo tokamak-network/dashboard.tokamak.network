@@ -10,7 +10,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(round, index) in filteredRounds" :key="round.index">
+        <tr v-for="(round, index) in rounds" :key="round.index">
           <td class="text-center">{{ index }}</td>
           <td class="text-center">{{ round.index }}</td>
           <td class="text-center">
@@ -28,8 +28,8 @@
       </tbody>
     </table>
     <table-paginate
-      :pages="pages"
-      @update-page="updateTableByPage"
+      :datas="rounds"
+      @on-selected="updateTableByPage"
     />
   </div>
 </template>
@@ -48,7 +48,7 @@ export default {
     return {
       base: 10,
       pages: 0,
-
+      from: 'index',
       orderedRounds: [],
       filteredRounds: [],
     };
@@ -60,26 +60,33 @@ export default {
     toExplorer () {
       return (type, param) => this.$options.filters.toExplorer(type, param);
     },
+    rounds () {
+      return orderBy(this.rounds, (round) => round.index, 'desc');
+    },
+    sorted () {
+      const first = this.page * 5;
+      return this.rounds.slice(first, first + 5);
+    },
   },
-  mounted () {
-    const addressLinks = this.$el.getElementsByClassName('link');
+  // mounted () {
+  //   const addressLinks = this.$el.getElementsByClassName('link');
 
-    Object.values(addressLinks).map(link => {
-      const address = this.$options.filters.addressExtractor(link.href);
-      link.addEventListener('copy', e => {
-        e.clipboardData.setData('text/plain', address);
-        e.preventDefault();
-      });
-    });
+  //   Object.values(addressLinks).map(link => {
+  //     const address = this.$options.filters.addressExtractor(link.href);
+  //     link.addEventListener('copy', e => {
+  //       e.clipboardData.setData('text/plain', address);
+  //       e.preventDefault();
+  //     });
+  //   });
 
-    this.pages = parseInt(this.rounds.length / this.base) + 1;
-    if (this.pages > 1 && this.rounds.length % this.base === 0) {
-      this.pages = this.pages - 1;
-    }
+  //   this.pages = parseInt(this.rounds.length / this.base) + 1;
+  //   if (this.pages > 1 && this.rounds.length % this.base === 0) {
+  //     this.pages = this.pages - 1;
+  //   }
 
-    this.orderedRounds = orderBy(this.rounds, (round) => round.index, 'desc');
-    this.filteredRounds = this.orderedRounds.slice(0, this.base);
-  },
+  //   this.orderedRounds = orderBy(this.rounds, (round) => round.index, 'desc');
+  //   this.filteredRounds = this.orderedRounds.slice(0, this.base);
+  // },
   methods: {
     orderBy (from) {
       if (this.from === from) {
@@ -93,7 +100,7 @@ export default {
       return this.order === 'desc' ? 'asc' : 'desc';
     },
     updateTableByPage (page) {
-      this.filteredRounds = this.orderedRounds.slice((page - 1) * this.base, page * this.base);
+      this.page = page;
     },
   },
 };
