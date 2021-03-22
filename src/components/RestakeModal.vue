@@ -109,8 +109,13 @@ export default {
   },
   watch: {
     inputTon: function (newValue) {
-      const result = newValue.replace(/\D/g, '')
-        .replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+      let result;
+      if(newValue === '.') {
+        result = newValue;
+      } else {
+        result = newValue.replace(/[^0-9a-zA-Z.]/g, '')
+          .replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+      }
       Vue.nextTick(() => this.inputTon = result);
     },
   },

@@ -26,11 +26,11 @@
         </div>
         <div class="model-ton-balance">
           <h3 class="model-ton-balance-title">Staked Balance</h3>
-          <span class="model-ton-balance-amount">{{ operator.userWithdrawable | currencyAmount }}</span>
+          <span class="model-ton-balance-amount">{{ operator.userStaked | currencyAmount }}</span>
         </div>
         <div class="model-ton-balance">
           <h3 class="model-ton-balance-title">Withdrawable Balance</h3>
-          <span class="model-ton-balance-amount">{{ operator.availableAmountToWithdraw | currencyAmount }}</span>
+          <span class="model-ton-balance-amount">{{ availableAmountToWithdraw + ' TON' }}</span>
         </div>
         <div class="model-line model-line-bottom" />
         <button class="model-btn"
@@ -97,14 +97,19 @@ export default {
   },
   watch: {
     inputTon: function (newValue) {
-      const result = newValue.replace(/\D/g, '')
-        .replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+      let result;
+      if(newValue === '.') {
+        result = newValue;
+      } else {
+        result = newValue.replace(/[^0-9a-zA-Z.]/g, '')
+          .replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+      }
       Vue.nextTick(() => this.inputTon = result);
     },
   },
   methods:{
     makeInputMax () {
-      const tonAmount = this.tonBalance.toBigNumber().toString();
+      const tonAmount = this.availableAmountToWithdraw.toBigNumber().toString();
       this.inputTon = tonAmount;
     },
     isNumber (evt) {

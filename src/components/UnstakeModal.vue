@@ -104,20 +104,22 @@ export default {
   },
   watch: {
     inputTon: function (newValue) {
-      const result = newValue.replace(/\D/g, '')
-        .replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-      Vue.nextTick(() => this.inputTon = result);
+      let result;
+      if(newValue === '.') {
+        result = newValue;
+      } else {
+        result = newValue.replace(/[^0-9a-zA-Z.]/g, '')
+          .replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+      }
+      Vue.nextTick(() => this.inputTon = newValue);
     },
   },
   methods:{
     makeInputMax () {
+      console.log(this.operator.userStaked.toBigNumber().toString());
       const tonAmount = this.operator.userStaked.toBigNumber().toString();
-      const index = tonAmount.indexOf('.');
-      if (index === -1) {
-        this.inputTon = tonAmount + '.00';
-      } else {
-        this.inputTon = tonAmount;
-      }
+      console.log(tonAmount);
+      this.inputTon = tonAmount;
     },
     undelegate () {
       const tonAmount = this.inputTon;

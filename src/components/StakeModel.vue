@@ -134,7 +134,6 @@ export default {
     inputTon: function (newValue) {
       let result;
       if(newValue === '.') {
-        console.log('dot');
         result = newValue;
       } else {
         result = newValue.replace(/[^0-9a-zA-Z.]/g, '')
