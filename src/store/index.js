@@ -189,6 +189,9 @@ export default new Vuex.Store({
     SET_TOTALSTAKED: (state, totalStaked) =>{
       state.totalStaked = totalStaked;
     },
+    SET_DAILY_STAKED_TOTAL: (state, dailyTotalStaked) => {
+      state.dailyTotalStaked = dailyTotalStaked;
+    },
   },
   actions: {
     logout (context) {
@@ -239,6 +242,7 @@ export default new Vuex.Store({
         context.dispatch('setUncommittedCurrentRoundReward', blockNumber),
         context.dispatch('checkPendingTransactions'),
         context.dispatch('getTotalStaked'),
+        context.dispatch('getDailyStakedTotal'),
       ]).catch(err => {
         // after logout, error can be happened
       });
@@ -322,6 +326,10 @@ export default new Vuex.Store({
         .times(0.8)
         .times(0.5);
       context.commit('SET_UNCOMMITTED_CURRENT_ROUND_REWARD', uncommittedCurrentRoundReward);
+    },
+
+    async getDailyStakedTotal (context) {
+      await axios.get('https://api-dev.tokamak.network/v1/stakedtotals?chainId=4').then((response) => context.commit('SET_DAILY_STAKED_TOTAL', response.data));
     },
 
     async getTotalStaked (context) {

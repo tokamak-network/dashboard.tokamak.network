@@ -18,7 +18,7 @@
             <div class="home-stats__tokamak">Tokamak Network</div>
           </div>
           <div class="home-stats__chart">
-            <line-chart :chartData="data" :width="1024" :height="400" />
+            <line-chart :chartData="dailyTotalStaked.datas" :width="1024" :height="400" />
           </div>
           <div v-if="loaded" class="home-footer">
             <div class="footer-items">
@@ -61,54 +61,11 @@
 <script>
 import { mapState, mapGetters } from 'vuex';
 import LineChart from '@/components/LineChart.vue';
-// mock data
-const datasets = {
-  labels: [
-    'January',
-    'February',
-    'March',
-    'April',
-    'May',
-    'June',
-    'July',
-    'August',
-    'September',
-    'October',
-    'November',
-    'December',
-  ],
-  datasets: [
-    {
-      label: 'Total Stake',
-      borderColor: '#2a72e5',
-      borderWidth: 2,
-      pointStyle: 'line',
-      lineTension: 0,
-      backgroundColor: 'transparent',
-      data: [0, 2, 5, 1, 0, 3, 0, 4, 7, 5, 7, 4],
-      pointRadius: 0,
-    },
-    {
-      label: 'Actual APY',
-      borderColor: '#84919e',
-      borderWidth: 2,
-      lineTension: 0,
-      pointStyle: 'line',
-      backgroundColor: 'transparent',
-      data: [0, 5, 5, 2, 7, 6, 5, 7, 2, 7, 6, 5],
-      pointRadius: 0,
-    },
-  ],
-};
+
 
 export default {
   components: {
     LineChart,
-  },
-  data () {
-    return {
-      data: datasets,
-    };
   },
   computed: {
     ...mapState([
@@ -122,6 +79,7 @@ export default {
       'uncommittedCurrentRoundReward',
       'loaded',
       'totalStaked',
+      'dailyTotalStaked',
     ]),
     ...mapGetters(['userTotalStaked', 'userTotalSeigs']),
     currencyAmount () {
