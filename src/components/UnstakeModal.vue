@@ -25,7 +25,7 @@
           <button class="model-ton-stake-btn" @click="makeInputMax">MAX</button>
         </div>
         <div class="model-ton-balance">
-          <h3 class="model-ton-balance-title">Ton Balance</h3>
+          <h3 class="model-ton-balance-title">Available Balance</h3>
           <div class="model-ton-balance-amount">
             <span class="model-ton-balance-amount-number"> {{ operator.userStaked | currencyAmount }} </span>
           </div>
@@ -112,18 +112,22 @@ export default {
   methods:{
     makeInputMax () {
       const tonAmount = this.operator.userStaked.toBigNumber().toString();
-      this.inputTon = tonAmount;
-      console.log(this.inputTon);
+      const index = tonAmount.indexOf('.');
+      if (index === -1) {
+        this.inputTon = tonAmount + '.00';
+      } else {
+        this.inputTon = tonAmount;
+      }
     },
     undelegate () {
       const tonAmount = this.inputTon;
+      console.log(tonAmount);
       if (tonAmount === '' || parseFloat(tonAmount) === 0) {
         return alert('Please check input amount.');
       }
       if (_WTON(tonAmount).gt(this.operator.userStaked)){
         return alert('Please check your TON amount.');
       }
-
       const amount = _WTON(tonAmount).toFixed('ray');
       this.DepositManager.methods.requestWithdrawal(
         this.operator.layer2,

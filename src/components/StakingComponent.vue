@@ -13,15 +13,15 @@
       </button>
       <div>
         <div>
-          <button class="button-stake" :class="{'model-btn-notavailable' : parseInt(operator.userStaked) === 0 && operator.withdrawalRequests.length !== 0}" @click="selectFunction('unstake')">Unstake</button>
+          <button class="button-stake" :class="{'model-btn-notavailable' : parseInt(operator.userStaked) === 0 && operator.withdrawalRequests.length !== 0}" :disabled="parseInt(operator.userStaked) === 0 && operator.withdrawalRequests.length !== 0" @click="selectFunction('unstake')">Unstake</button>
         </div>
       </div>
 
       <div>
-        <button class="button-stake" :class="{'model-btn-notavailable' : operator.withdrawalRequests.length === 0}">Re-stake</button>
+        <button class="button-stake" :class="{'model-btn-notavailable' : operator.withdrawalRequests.length === 0}" :disabled="operator.withdrawalRequests.length === 0" @click="selectFunction('restake')">Re-stake</button>
       </div>
 
-      <button class="button-stake" :class="{'model-btn-notavailable' : operator.userWithdrawable.isEqual(balance)}" @click="selectFunction('withdraw')">Withdraw</button>
+      <button class="button-stake" :class="{'model-btn-notavailable' : operator.userWithdrawable.isEqual(balance)}" :disabled="operator.userWithdrawable.isEqual(balance)" @click="selectFunction('withdraw')">Withdraw</button>
     </div>
     <transition v-if="showSim" name="model">
       <div class="model-mask">

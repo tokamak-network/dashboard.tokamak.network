@@ -166,7 +166,6 @@ export default {
     makeInputMax () {
       const tonAmount = this.redelegatableAmount.toBigNumber().toString();
       this.inputTon = tonAmount;
-      console.log(this.inputTon);
     },
   },
 };
