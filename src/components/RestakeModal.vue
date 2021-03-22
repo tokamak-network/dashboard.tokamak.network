@@ -9,7 +9,7 @@
         >
       </div>
       <div class="model-content">
-        <h1 class="model-content-title">Re-staking</h1>
+        <h1 class="model-content-title">Re-stake</h1>
         <h2 class="model-content-subTitle">You can earn TON and Power</h2>
         <div class="model-line" />
         <div class="model-ton-stake">

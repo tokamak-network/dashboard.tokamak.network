@@ -35,8 +35,9 @@
         <button class="model-btn"
                 :class="{'model-btn-notavailable' : inputTon === '0' || inputTon === ''}"
                 @click="undelegate"
+                :disabled="inputTon === '0' || inputTon === ''"
         >
-          UnStake
+          Unstake
         </button>
 
         <!-- <div>{{ availableAmountToDelegate | currencyAmount }}</div> -->
@@ -212,7 +213,7 @@ textarea:focus, input:focus{
 .model-content-title {
   font-size: 20px;
   font-weight: bold;
-  font-family: TitilliumWeb;
+font-family: "Titillium Web", sans-serif;
   margin-bottom: 0px;
 }
 .model-content-subTitle {
@@ -305,6 +306,8 @@ textarea:focus, input:focus{
 }
 .model-btn-notavailable {
   background-color: #e9edf1;
+    cursor: default;
+
 
 }
 </style>

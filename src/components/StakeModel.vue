@@ -9,7 +9,7 @@
         >
       </div>
       <div class="model-content">
-        <h1 class="model-content-title">staking</h1>
+        <h1 class="model-content-title">Staking</h1>
         <h2 class="model-content-subTitle">You can earn TON and Power</h2>
         <div class="model-line" />
         <div class="model-ton-stake">
@@ -34,6 +34,7 @@
         <button class="model-btn"
                 :class="{'model-btn-notavailable' : inputTon === '0' || inputTon === ''}"
                 @click="delegate"
+                :disabled="inputTon === '0' || inputTon === ''"
         >
           Stake
         </button>
@@ -264,7 +265,7 @@ textarea:focus, input:focus{
 .model-content-title {
   font-size: 20px;
   font-weight: bold;
-  font-family: TitilliumWeb;
+font-family: "Titillium Web", sans-serif;
   margin-bottom: 0px;
 }
 .model-content-subTitle {
@@ -357,6 +358,7 @@ textarea:focus, input:focus{
 }
 .model-btn-notavailable {
   background-color: #e9edf1;
+  cursor: default;
 }
 .model-line-bottom {
   margin-bottom: 17px;
