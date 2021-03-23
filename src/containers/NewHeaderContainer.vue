@@ -38,7 +38,7 @@
           :class="{ 'menu-button-selected': $route.path === '/powerton'}"
           @click="clickMenu('powerton')"
         >
-          Power TON
+          PowerTON
         </button>
         <button
           class="header-link"

@@ -5,20 +5,9 @@
       <h2>Be a winner of our Power TON game by staking TON.</h2>
     </div>
     <div class="power-current">
-      <div class="power-current-detail">
-        <h3>Round</h3>
-        <span class="power-current-detail-content">{{ currentRound.index }}</span>
-      </div>
-      <div class="power-current-detail">
-        <h3>Round Reward</h3>
-        <span class="power-current-detail-content">{{ currencyAmount(
-          currentRound.reward.add(uncommittedCurrentRoundReward)
-        ) }}</span>
-      </div>
-      <div class="power-current-detail">
-        <h3>24 Hour</h3>
-        <span class="power-current-detail-content">{{ currentRound.index }}</span>
-      </div>
+      <ValueView :title="'Round'" :value="currentRound.index" />
+      <ValueView :title="'Round Reward'" :value="currencyAmount(currentRound.reward.add(uncommittedCurrentRoundReward))" />
+      <ValueView :title="'24 Hour'" :value="currentRound.index" />
       <div class="power-current-detail">
         <h3>Round Start</h3>
         <span class="power-current-detail-content">{{ formattedTimestamp(currentRound.startTime) }} <span class="power-current-detail-gmt">(GMT+9)</span></span>
@@ -38,9 +27,11 @@
 import { mapState, mapGetters } from 'vuex';
 import moment from 'moment';
 import PowerTonTable from '@/components/PowerTonTable.vue';
+import ValueView from '@/components/ValueView.vue';
 export default {
   components: {
     PowerTonTable,
+    ValueView,
   },
   data () {
     return {
