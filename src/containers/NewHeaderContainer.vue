@@ -42,6 +42,13 @@
         </button>
         <button
           class="header-link"
+          :class="{ 'menu-button-selected': $route.path === '/wallet'}"
+          @click="clickMenu('wallet')"
+        >
+          Wallet
+        </button>
+        <button
+          class="header-link"
           :class="{ 'menu-button-selected': $route.path === '/about'}"
           @click="clickMenu('about')"
         >

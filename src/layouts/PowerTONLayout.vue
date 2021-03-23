@@ -19,7 +19,7 @@ import RankContainer from '@/containers/RankContainer.vue';
 
 export default {
   components: {
-    // 'viewer-round-container': ViewerRoundContainer,
+    'viewer-round-container': ViewerRoundContainer,
     // 'viewer-power-container': ViewerPowerContainer,
     'winner-list-container': WinnerListContainer,
     'rank-container': RankContainer,

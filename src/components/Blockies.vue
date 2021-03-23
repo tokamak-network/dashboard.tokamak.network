@@ -16,7 +16,6 @@ export default {
   props: ['address'],
   computed: {
     imgURL () {
-      console.log(this.address);
       return createIcon({
         seed: this.address.toLowerCase(),
         size: 8,
