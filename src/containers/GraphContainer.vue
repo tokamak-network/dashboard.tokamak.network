@@ -6,6 +6,10 @@
 
 <script>
 import LineChart from '@/components/LineChart.vue';
+import moment from 'moment';
+import { createCurrency } from '@makerdao/currency';
+const _TON = createCurrency('TON');
+
 export default {
   components: {
     LineChart,
@@ -33,6 +37,7 @@ export default {
           }],
           xAxes: [ {
             display: false,
+
           }],
         },
         legend: {
@@ -48,7 +53,7 @@ export default {
         maintainAspectRatio: false,
       },
       datacollection: {
-        labels: this.dailyStakedTotal.map(item => item.blockTime).sort(),
+        labels: this.dailyStakedTotal.map(item =>this.formatDate(item.blockTime)).sort(),
         datasets: [
           {
             label: 'Total Stake',
@@ -57,11 +62,22 @@ export default {
             pointStyle: 'line',
             lineTension: 0,
             backgroundColor: 'transparent',
-            data: this.dailyStakedTotal.map(item => item.totalSupply).sort(),
+            data: this.dailyStakedTotal.map(item => this.displayAmount(item.totalSupply)).sort(),
           },
         ],
       },
     };
+  },
+  methods: {
+
+    displayAmount (amount) {
+      const displayAmounts = parseFloat(amount) / (Math.pow(10, 27));
+      console.log(displayAmounts);
+      return Math.round(displayAmounts * 10) / 10;
+    },
+    formatDate (date) {
+      return moment.utc(date).format('MM/DD/YYYY HH:mm');
+    },
   },
 };
 </script>

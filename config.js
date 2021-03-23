@@ -1,7 +1,7 @@
 const config = {
   'mainnet': {
     'baseURL': 'https://dashboard-api.tokamak.network',
-    'candidate': 'https://daoapi.tokamak.network/v1',
+    'candidate': 'https://api-dev.tokamak.network/v1',
     'prefixTransactionHash': 'https://etherscan.io/tx/',
     'prefixAddress': 'https://etherscan.io/address/',
     'network': '1',
@@ -32,7 +32,7 @@ export function getConfig () {
   case 'development':
     return config.development;
   default:
-    return config.rinkeby;
+    return config.mainnet;
   }
 }
 

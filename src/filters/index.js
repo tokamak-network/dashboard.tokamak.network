@@ -67,6 +67,7 @@ export function nameOfNetwork (networkId) {
 // https://github.com/Onther-Tech/dashboard.tokamak.network/issues/49
 export function currencyAmount (amount) {
   if (amount instanceof Currency) {
+    console.log(amount);
     if (amount.symbol === 'POWER') {
       const ton = Number(amount.toBigNumber()).toLocaleString('en-US');
       const index = ton.indexOf('.');

@@ -107,7 +107,7 @@ export default {
       return (timestamp) => this.$options.filters.timezone(timestamp);
     },
     date () {
-      return moment.unix(this.currentRound.endTime).format('MM.DD hh:mm ');
+      return moment.unix(this.currentRound.endTime).format('MM.DD HH:mm ');
     },
   },
   created () {
