@@ -13,7 +13,7 @@
         <h2 class="model-content-subTitle">Do you really want to withdraw your TON now?</h2>
         <div class="model-line" />
         <div class="model-ton-stake">
-          <input
+          <!-- <input
             id="inputTonFiled"
             v-model="inputTon"
             class="model-ton-stake-input"
@@ -22,7 +22,7 @@
             step="0.01"
             :style="{width: (inputTon.length * 22) + 'px'}"
             @keypress="onlyForTon"
-          >
+          > -->
           <button class="model-ton-stake-btn" @click="makeInputMax">MAX</button>
         </div>
         <div class="model-ton-balance">
@@ -31,7 +31,7 @@
         </div>
         <div class="model-ton-balance">
           <h3 class="model-ton-balance-title">Withdrawable Balance</h3>
-          <span class="model-ton-balance-amount">{{ availableAmountToWithdraw + ' TON' }}</span>
+          <span class="model-ton-balance-amount">{{ operator.userWithdrawable + ' TON' }}</span>
         </div>
         <div class="model-line model-line-bottom" />
         <button class="model-btn"
@@ -182,7 +182,7 @@ export default {
 };
 </script>
 <style scoped>
-textarea:focus, input:focus{
+textarea:focus, input:focus, button:focus{
     outline: none;
 }
 .model-wrapper {

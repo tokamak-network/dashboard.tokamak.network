@@ -196,7 +196,7 @@ export default {
 };
 </script>
 <style scoped>
-textarea:focus, input:focus{
+textarea:focus, input:focus, button:focus{
     outline: none;
 }
 .model-wrapper {

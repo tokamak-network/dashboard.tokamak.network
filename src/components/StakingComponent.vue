@@ -18,7 +18,7 @@
       </div>
 
       <div>
-        <button class="button-stake" :class="{'model-btn-notavailable' : operator.withdrawalRequests.length === 0}" :disabled="operator.withdrawalRequests.length === 0" @click="selectFunction('restake')">Re-stake</button>
+        <button class="button-stake" :class="{'model-btn-notavailable' :parseInt(operator.userNotWithdrawable) === 0}" :disabled="parseInt(operator.userNotWithdrawable) === 0" @click="selectFunction('restake')">Re-stake</button>
       </div>
 
       <button class="button-stake" :class="{'model-btn-notavailable' : operator.userWithdrawable.isEqual(balance)}" :disabled="operator.userWithdrawable.isEqual(balance)" @click="selectFunction('withdraw')">Withdraw</button>
@@ -146,6 +146,9 @@ export default {
   text-align: right;
   color: #2a72e5;
 }
+.sim:hover {
+  cursor: pointer;
+}
 .sim-container {
   display: flex;
   flex-direction: row;
@@ -185,6 +188,12 @@ export default {
   height: 100%;
   background-color: rgba(0, 0, 0, 0.6);
   transition: opacity 0.3s ease;
+}
+button:focus {
+  outline: none;
+}
+button:hover {
+  cursor: pointer;
 }
 .model-mask-second {
   position: fixed;
