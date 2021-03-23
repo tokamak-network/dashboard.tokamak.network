@@ -95,6 +95,7 @@ export default {
     ]),
     ...mapGetters(['userTotalStaked', 'userTotalSeigs']),
     currencyAmount () {
+      console.log(this.dailyTotalStaked.map(item => item.blockNumber));
       return (amount) => this.$options.filters.currencyAmount(amount);
     },
     formatTimeString () {

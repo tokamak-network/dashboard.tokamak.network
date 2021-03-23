@@ -64,15 +64,22 @@ export default {
             backgroundColor: 'transparent',
             data: this.dailyStakedTotal.map(item => this.displayAmount(item.totalSupply)).sort(),
           },
+          {
+            label: 'Actual APY',
+            borderColor: 'gray',
+            borderWidth: 2,
+            pointStyle: 'line',
+            lineTension: 0,
+            backgroundColor: 'transparent',
+            data: this.dailyStakedTotal.map(item => item.blockNumber).sort(),
+          },
         ],
       },
     };
   },
   methods: {
-
     displayAmount (amount) {
       const displayAmounts = parseFloat(amount) / (Math.pow(10, 27));
-      console.log(displayAmounts);
       return Math.round(displayAmounts * 10) / 10;
     },
     formatDate (date) {
