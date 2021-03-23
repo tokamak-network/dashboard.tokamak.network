@@ -9,7 +9,6 @@
           <th class="text-center">Type</th>
           <th class="text-center">Amount</th>
           <th class="text-center">Block Number</th>
-          <th class="text-center">Date</th>
         <th class="text-center">Status</th>
         </tr>
       </thead>
@@ -37,7 +36,6 @@
           <td class="text-center">{{ transaction.type }}</td>
           <td class="text-center">{{ currencyAmountFromNumberString(transaction.type, transaction.amount) }}</td>
           <td class="text-center">{{ transaction.blockNumber }}</td>
-          <td class="text-center">{{ transaction.timestamp | formattedTimestamp }}</td>
             <td class="text-center">{{ transaction.status }}</td>
         </tr>
       </tbody>
