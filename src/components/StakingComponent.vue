@@ -213,7 +213,7 @@ export default {
   display: flex;
   justify-content: center;
   align-content: center;
-  margin-top: 150px;
+  height: 100%;
 }
 
 .button-stake {
