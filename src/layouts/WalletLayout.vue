@@ -10,6 +10,10 @@
       <ValueView :title="'Total Accumulated Reward'" :value="currencyAmount(reward)" />
       <ValueView :title="'POWER'" :value="currencyAmount(power)" />
     </div>
+    <div class="table-container">
+    <div style="margin-bottom: 20px;">History</div>
+    <WalletHistoryTable />
+    </div>
   </div>
 </template>
 <script>
@@ -17,12 +21,14 @@ import { mapState, mapGetters } from 'vuex';
 import ValueView from '@/components/ValueView.vue';
 import { getAccumulatedReward } from '@/api';
 import { createCurrency } from '@makerdao/currency';
+import WalletHistoryTable from '@/components/table/WalletHistoryTable.vue';
 const _TON = createCurrency('TON');
 const _WTON = createCurrency('WTON');
 
 export default {
   components: {
     ValueView,
+    WalletHistoryTable,
   },
   data () {
     return {
@@ -100,5 +106,20 @@ export default {
   margin-left: 30px;
   padding-top: 18px;
   padding-bottom: 15px;
+}
+
+.table-container {
+   display: flex;
+    align-items: center;
+    flex-direction: column;
+    font-family: Roboto;
+  font-size: 18px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.11;
+  letter-spacing: 0.45px;
+  text-align: center;
+  color: #3d495d;
 }
 </style>
