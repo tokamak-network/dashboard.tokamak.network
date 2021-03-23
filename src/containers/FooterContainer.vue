@@ -6,15 +6,13 @@
           ONTHER PTE.LTD.
         </div>
         <div class="footer-address">
-          10 ANSON ROAD #23-140 INTERNATIONAL PLAZA SINGAPORE
+          10 Anson Road #23-140 International Plaza Signapore
         </div>
         <div>
           <img
             alt="Onther Mail"
-            class="filter-grey"
+            class="filter-grey mail-icon"
             src="@/assets/images/Mail.png"
-            width="14;"
-            height="10;"
             style="margin-right: 5px;"
           >
           <a
@@ -234,6 +232,11 @@ export default {
   align-items: center;
 }
 
+.mail-icon {
+  width: 10.5px !important;
+  height: 7.9px !important;
+}
+
 .footer-mail {
   font-size: 13px;
   font-weight: 300;
@@ -249,6 +252,8 @@ export default {
 }
 
 .filter-grey {
+  width: 20px;
+  height: 20px;
   -webkit-filter: invert(30%) grayscale(100%) brightness(85%) contrast(4);
   filter: invert(30%) grayscale(100%) brightness(85%) contrast(4);
 }
