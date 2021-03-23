@@ -14,7 +14,10 @@
           <span class="available-amount-label">Available WTON Amount</span>
           <button type="button" class="available-amount" @click="setAvailableWTONAmountToDelegate()">{{ currencyAmount(wtonBalance).slice(0,-4) }} WTON</button>
         </div>
-        <div class="button-container" style="margin-top: 24px;">
+        <div v-if="layer2==dxm.toLowerCase()" class="button-container" style="margin-top: 24px;">
+          <base-button-disable :label="'Delegate'" :func="selectedToken === 'WTON'? wtonApprove : delegate" />
+        </div>
+        <div v-else class="button-container" style="margin-top: 24px;">
           <base-button :label="'Delegate'" :func="selectedToken === 'WTON'? wtonApprove : delegate" />
         </div>
         <div class="divider" />
@@ -27,7 +30,10 @@
             {{ redelegatableAmount | currencyAmount }}
           </button>
         </div>
-        <div class="button-container" style="margin-top: 24px;">
+        <div v-if="layer2==dxm.toLowerCase()" class="button-container" style="margin-top: 24px;">
+          <base-button-disable :label="'Re-Delegate'" :func="redelegate" />
+        </div>
+        <div v-else class="button-container" style="margin-top: 24px;">
           <base-button :label="'Re-Delegate'" :func="redelegate" />
         </div>
       </div>
@@ -67,6 +73,7 @@ const _WTON = createCurrency('WTON');
 
 import { mapState, mapGetters } from 'vuex';
 import BaseButton from '@/components/BaseButton.vue';
+import BaseButtonDisable from '@/components/BaseButtonDisable.vue';
 import BaseTab from '@/components/BaseTab.vue';
 import TONInput from '@/components/TONInput.vue';
 import TextViewer from '@/components/TextViewer.vue';
@@ -74,6 +81,7 @@ import TextViewer from '@/components/TextViewer.vue';
 export default {
   components: {
     'base-button': BaseButton,
+    'base-button-disable': BaseButtonDisable,
     'base-tab': BaseTab,
     'ton-input': TONInput,
     'text-viewer': TextViewer,
@@ -91,6 +99,7 @@ export default {
       amountToUndelegate: '',
       index: 0,
       selectedToken:'TON',
+      dxm: '0x41fb4bAD6fbA9e9b6E45F3f96bA3ad7Ec2fF5b3C',
     };
   },
   computed: {
@@ -110,6 +119,8 @@ export default {
       'coinageContract',
     ]),
     operator () {
+      console.log(this.layer2);
+      console.log(this.layer2 === this.dxm.toLowerCase());
       return this.operatorByLayer2(this.layer2);
     },
     currencyAmount () {
