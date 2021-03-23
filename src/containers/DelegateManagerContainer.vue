@@ -119,8 +119,6 @@ export default {
       'coinageContract',
     ]),
     operator () {
-      console.log(this.layer2);
-      console.log(this.layer2 === this.dxm.toLowerCase());
       return this.operatorByLayer2(this.layer2);
     },
     currencyAmount () {
