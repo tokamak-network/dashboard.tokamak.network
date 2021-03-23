@@ -150,11 +150,23 @@ export default {
       const tonAmount = this.tonBalance.toBigNumber().toString();
       const spliedTonAmount = tonAmount.split('.');
       const beforeDecimalNumber = spliedTonAmount[0];
+
+      if(spliedTonAmount[1] === undefined) {
+        return this.inputTon = `${beforeDecimalNumber}.00`;
+      }
+
       const afterDecimalNumber = spliedTonAmount[1].slice(0, 2);
+
       if(afterDecimalNumber[1] < 5 || afterDecimalNumber[1] === undefined) {
         return this.inputTon = `${beforeDecimalNumber}.${afterDecimalNumber[0]}0`;
+      } else {
+        if(afterDecimalNumber[1] < 9) {
+          return this.inputTon = `${beforeDecimalNumber}.${Number(afterDecimalNumber[0]) + 1}0`;
+        } else {
+          console.log('go');
+          return this.inputTon = `${Number(beforeDecimalNumber)+1}.00`;
+        }
       }
-      return this.inputTon = `${beforeDecimalNumber}.${Number(afterDecimalNumber[0]) + 1}0`;
     },
     onlyForTon ($event) {
       // console.log($event.keyCode); //keyCodes value
