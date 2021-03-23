@@ -19,6 +19,7 @@ class HDWalletInterface extends WalletInterface {
     this.displayAddress = displayAddress;
   }
   signTransaction (txParams) {
+    console.log(txParams);
     return super.signTransaction(txParams, this.txSigner);
   }
   signMessage (msg) {

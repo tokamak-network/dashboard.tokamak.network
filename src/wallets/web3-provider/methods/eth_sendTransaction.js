@@ -28,8 +28,9 @@ export default async (
 ) => {
   if (payload.method !== 'eth_sendTransaction') return next();
   const tx = Object.assign({}, payload.params[0]);
-  console.log(await store.state.web3.eth.getGasPrice());
-  tx.gasPrice = unit.toWei(1000000000, 'gwei').toString();
+  const gasPrice = await store.state.web3.eth.getGasPrice();
+  // tx.gasPrice = unit.toWei(gasPrice, 'gwei').toString();
+  tx.gasPrice = gasPrice;
   const localTx = Object.assign({}, tx);
   delete localTx.gas;
   delete localTx.nonce;
@@ -45,9 +46,9 @@ export default async (
     res(e);
     return;
   }
-  tx.chainId = 1;
+  tx.chainId = 4;
   getSanitizedTx(tx)
-    .then(_tx => {
+    .then(async (_tx) => {
       if (
         store.state.wallet.identifier === WEB3_WALLET ||
         store.state.wallet.identifier === WALLET_CONNECT
@@ -63,37 +64,30 @@ export default async (
             });
         });
       } else {
-        eventHub.$emit(EventNames.SHOW_TX_CONFIRM_MODAL, _tx, _response => {
-          const _promiObj = store.state.web3.eth.sendSignedTransaction(
-            _response.rawTransaction
-          );
-
-          _promiObj
-            .once('transactionHash', hash => {
-              if (store.state.wallet !== null) {
-                const localStoredObj = locStore.get(
-                  utils.sha3(store.state.wallet.getChecksumAddressString())
-                );
-                locStore.set(
-                  utils.sha3(store.state.wallet.getChecksumAddressString()),
-                  {
-                    nonce: Misc.sanitizeHex(
-                      new BigNumber(localStoredObj.nonce).plus(1).toString(16)
-                    ),
-                    timestamp: localStoredObj.timestamp,
-                  }
-                );
-              }
-              res(null, toPayload(payload.id, hash));
-            })
-            .on('error', err => {
-              res(err);
-            });
-          setEvents(_promiObj, _tx, store.dispatch);
+        const signPromise = await store.state.wallet.signTransaction(_tx);
+        const _promiObj = store.state.web3Instance.eth.sendSignedTransaction(
+          signPromise.rawTransaction
+        );
+        _promiObj.once('transactionHash', async (hash) => {
+          if (store.state.wallet !== null) {
+            console.log(hash);
+            // const transcation = {
+            //   from: store.state.user,
+            //   type: 'Delegated',
+            //   amount: amount,
+            //   transactionHash: hash,
+            //   target: store.state.operator.layer2,
+            // };
+            // store.dispatch('addPendingTransaction', transcation);
+          }
+          // res(null, toPayload(payload.id, hash));
+        }).on('error', err => {
+          console.log(err);
         });
+        // setEvents(_promiObj, _tx, store.dispatch);
       }
     })
     .catch(e => {
-      res(e);
+      console.log(e);
     });
 };

@@ -49,6 +49,7 @@ const initialState = {
     isHardWare: null,
     identifier: '',
   },
+  wallet: null,
   user: '',
   networkId: '',
   blockNumber: 0,
@@ -138,6 +139,7 @@ export default new Vuex.Store({
       state.web3Instance = web3Instance;
     },
     DECRYPT_WALLET: (state, wallet) => {
+      console.log(wallet);
       state.wallet = wallet;
       state.account.address = wallet.getAddressString();
       state.account.isHardware = wallet.isHardware;
@@ -242,7 +244,7 @@ export default new Vuex.Store({
       router.replace({ path: 'dashboard', query: { network: router.app.$route.query.network } }).catch(err => {});
     },
     async signInLedger (context, account) {
-      const web3 = new Web3(new Web3.providers.HttpProvider('https://rinkeby.infura.io/v3/3c55b12f39c549c7911f6488d8888260'));
+      const web3 = new Web3(new Web3.providers.HttpProvider('http://183.98.80.217:8545'));
       const web3Instance = context.state.web3Instance;
       context.commit('IS_LOADING', true);
       context.commit('SET_WEB3', web3);
@@ -325,7 +327,7 @@ export default new Vuex.Store({
       //   : {};
       const state = context.state;
       const dispatch = context.dispatch;
-      provider = 'https://rinkeby.infura.io/v3/3c55b12f39c549c7911f6488d8888260';
+      provider = 'http://183.98.80.217:8545';
       const web3Instance = new Web3(
         new MEWProvider(
           provider,
@@ -767,8 +769,6 @@ export default new Vuex.Store({
           };
 
           const [
-            currentFork,
-            firstEpoch,
             totalDeposit,
             selfDeposit,
             userDeposit,
@@ -789,8 +789,6 @@ export default new Vuex.Store({
             globalWithdrawalDelay,
             minimumAmount,
           ] = await Promise.all([
-            Layer2.methods.forks(currentForkNumber).call(),
-            Layer2.methods.getEpoch(0, 0).call(),
             getDeposit(),
             getDeposit(operator),
             getDeposit(user),
@@ -811,11 +809,11 @@ export default new Vuex.Store({
             DepositManager.methods.globalWithdrawalDelay().call(),
             SeigManager.methods.minimumAmount().call(),
           ]);
-          const deployedAt = firstEpoch.timestamp;
-          const lastFinalizedEpochNumber = currentFork.lastFinalizedEpoch;
-          const lastFinalizedBlockNumber = currentFork.lastFinalizedBlock;
-          const finalizeCount = parseInt(lastFinalizedEpochNumber) + 1;
-          const lastFinalizedAt = await getLastFinalizedAt(lastFinalizedEpochNumber, lastFinalizedBlockNumber);
+          // const deployedAt = firstEpoch.timestamp;
+          // const lastFinalizedEpochNumber = currentFork.lastFinalizedEpoch;
+          // const lastFinalizedBlockNumber = currentFork.lastFinalizedBlock;
+          // const finalizeCount = parseInt(lastFinalizedEpochNumber) + 1;
+          // const lastFinalizedAt = await getLastFinalizedAt(lastFinalizedEpochNumber, lastFinalizedBlockNumber);
           const lastFinalized = await getRecentCommit(operator, layer2);
 
           // const result = calculateExpectedSeig(
@@ -845,9 +843,9 @@ export default new Vuex.Store({
           // set vue state.
           operatorFromLayer2.address = operator;
           // operatorFromLayer2.lastFinalizedAt = lastFinalizedAt;
-          operatorFromLayer2.lastFinalizedAt = (lastFinalized[0]==='0') ? lastFinalizedAt : lastFinalized[0];
+          operatorFromLayer2.lastFinalizedAt = (lastFinalized[0]==='0') ? '0' : lastFinalized[0];
           operatorFromLayer2.finalizeCount = lastFinalized[1];
-          operatorFromLayer2.deployedAt = deployedAt;
+          // operatorFromLayer2.deployedAt = deployedAt;
           operatorFromLayer2.totalDeposit = _WTON(totalDeposit, WTON_UNIT);
           operatorFromLayer2.totalStaked = _WTON(totalStaked, WTON_UNIT);
           operatorFromLayer2.selfDeposit = _WTON(selfDeposit, WTON_UNIT);

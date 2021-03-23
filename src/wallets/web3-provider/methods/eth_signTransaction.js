@@ -21,7 +21,7 @@ export default async (
     )
     : tx.nonce;
   tx.gas = !tx.gas ? await ethCalls.estimateGas(localTx) : tx.gas;
-  tx.chainId = !tx.chainId ? store.state.network.type.chainID : tx.chainId;
+  tx.chainId = 4;
   tx.gasPrice = !tx.gasPrice
     ? unit.toWei(1000000000, 'gwei').toString()
     : tx.gasPrice;
