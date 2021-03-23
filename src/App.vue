@@ -76,7 +76,7 @@ export default {
 }
 
 html, body {
-  background: #f6f8f9;
+ background-color: #fafbfc;
   position: relative;
   margin: 0;
   min-height: 100%;
@@ -90,77 +90,12 @@ html, body {
 }
 
 .body-container {
-  min-width: 1174px;
-  max-width: 1174px;
+ min-width: 100%;
+  max-width: 100%;
   display: flex;
   flex: 1;
   justify-content: center;
   margin-left: auto;
   margin-right: auto;
-}
-
-/* GLOBAL CSS */
-.delegate-button-container {
-  display: flex;
-}
-
-.delegate-button {
-  width: 102px;
-  height: 30px;
-  line-height: 30px;
-  border-top-left-radius: 12px;
-  border-bottom-left-radius: 12px;
-  text-align: center;
-  box-shadow: 0 3px 14px 0 rgba(0, 0, 0, 0.03);
-  border: solid 1px #dce2e5;
-  background-color: #73a9c1;
-  font-size: 14px;
-  font-weight: 500;
-  font-stretch: normal;
-  font-style: normal;
-  letter-spacing: normal;
-  color: #ffffff;
-}
-
-.undelegate-button {
-  width: 102px;
-  height: 30px;
-  line-height: 30px;
-  border-top-right-radius: 12px;
-  border-bottom-right-radius: 12px;
-  box-shadow: 0 3px 14px 0 rgba(0, 0, 0, 0.03);
-  border: solid 1px #dce2e5;
-  background-color: #ef8f78;
-  font-size: 14px;
-  font-weight: 500;
-  font-stretch: normal;
-  font-style: normal;
-  letter-spacing: normal;
-  color: #ffffff;
-  text-align: center;
-  margin-right: 20px;
-}
-
-.delegate-button:hover {
-  -webkit-filter: opacity(.8);
-  filter: opacity(.8);
-}
-
-.undelegate-button:hover {
-  -webkit-filter: opacity(.8);
-  filter: opacity(.8);
-}
-
-/* GLOBAL CONTAINER */
-.table-container {
-  min-height: 264px;
-  max-height: 264px;
-}
-
-.loading-container-in-dashboard {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 284px;
 }
 </style>

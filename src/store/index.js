@@ -770,6 +770,7 @@ export default new Vuex.Store({
 
           operatorFromLayer2.address = operator;
           operatorFromLayer2.finalizeCount = lastFinalized[1];
+          // operatorFromLayer2.deployedAt = deployedAt;
           operatorFromLayer2.totalDeposit = _WTON(totalDeposit, WTON_UNIT);
           operatorFromLayer2.totalStaked = _WTON(totalStaked, WTON_UNIT);
           operatorFromLayer2.selfDeposit = _WTON(selfDeposit, WTON_UNIT);
