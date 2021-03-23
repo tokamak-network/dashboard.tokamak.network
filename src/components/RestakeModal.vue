@@ -20,7 +20,7 @@
             :class="{'model-ton-stake-input-blink' : inputTon === '0' || inputTon === ''}"
             value="0"
             :style="{width: (inputTon.length * 22) + 'px'}"
-            @keypress="isNumber"
+            @keypress="onlyForTon"
           >
           <button class="model-ton-stake-btn" @click="makeInputMax">MAX</button>
         </div>
@@ -170,7 +170,27 @@ export default {
     },
     makeInputMax () {
       const tonAmount = this.redelegatableAmount.toBigNumber().toString();
-      this.inputTon = tonAmount;
+      const spliedTonAmount = tonAmount.split('.');
+      const beforeDecimalNumber = spliedTonAmount[0];
+      const afterDecimalNumber = spliedTonAmount[1].slice(0, 2);
+      if(afterDecimalNumber[1] < 5 || afterDecimalNumber[1] === undefined) {
+        return this.inputTon = `${beforeDecimalNumber}.${afterDecimalNumber[0]}0`;
+      }
+      return this.inputTon = `${beforeDecimalNumber}.${Number(afterDecimalNumber[0]) + 1}0`;
+    },
+    onlyForTon ($event) {
+      // console.log($event.keyCode); //keyCodes value
+      const keyCode = ($event.keyCode ? $event.keyCode : $event.which);
+
+      // only allow number and one dot
+      if ((keyCode < 48 || keyCode > 57) && (keyCode !== 46 || this.inputTon.indexOf('.') !== -1)) { // 46 is dot
+        $event.preventDefault();
+      }
+
+      // restrict to 2 decimal places
+      if(this.inputTon!=null && this.inputTon.indexOf('.')>-1 && (this.inputTon.split('.')[1].length > 1)){
+        $event.preventDefault();
+      }
     },
   },
 };
