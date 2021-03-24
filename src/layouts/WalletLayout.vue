@@ -5,14 +5,17 @@
       <h2>Check the status of your assets in the wallet</h2>
     </div>
     <div class="wallet-current">
-      <ValueView :title="'Total Staked'" :value="currencyAmount(userTotalStaked)" />
-      <ValueView :title="'Pending Withdrawal'" :value="currencyAmount(userTotalWithdrawable)" />
-      <ValueView :title="'Total Accumulated Reward'" :value="currencyAmount(reward)" />
-      <ValueView :title="'POWER'" :value="currencyAmount(power)" />
+      <ValueView :title="'Total Staked'" :value="currencyAmount(userTotalStaked).toString().replace('TON', '')" :ton="true" />
+      <ValueView :title="'Pending Withdrawal'" :value="currencyAmount(userTotalWithdrawable).toString().replace('TON', '')" :ton="true" />
+      <ValueView :title="'Total Accumulated Reward'" :value="currencyAmount(reward).toString().replace('TON', '')" :ton="true" />
+      <div class="wallet-current-detail">
+        <h3>Power</h3>
+        <span class="wallet-current-detail-content">{{ currencyAmount(power).replace('POWER', '') }} <span class="wallet-current-detail-span">POWER </span><span class="wallet-current-detail-span" style="color: #2a72e5">({{ currentRound.winningProbability }})</span></span>
+      </div>
     </div>
     <div class="table-container">
-    <div style="margin-bottom: 20px;">History</div>
-    <WalletHistoryTable />
+      <div style="margin-bottom: 20px;">History</div>
+      <WalletHistoryTable />
     </div>
   </div>
 </template>
@@ -41,6 +44,7 @@ export default {
       'power',
       'user',
       'networkId',
+      'currentRound',
     ]),
     ...mapGetters([
       'userTotalStaked',
@@ -77,15 +81,25 @@ export default {
   align-items: center;
 }
 .wallet-title-container h1 {
-  font-size: 36px;
+  font-family: "NanumSquare", sans-serif;
+  font-size: 38px;
+font-weight: 600;
+  font-stretch: normal;
+  font-style: normal;
+  letter-spacing: normal;
+  text-align: center;
   color: #3d495d;
-  font-weight: 700;
   margin-bottom: 15px;
 }
 .wallet-title-container h2 {
+  font-family: "Titillium Web", sans-serif;
   font-size: 16px;
-  color: #808992;
   font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  letter-spacing: 0.4px;
+  text-align: center;
+  color: #808992;
   margin-bottom: 60px;
 }
 .wallet-current {
@@ -108,6 +122,40 @@ export default {
   padding-bottom: 15px;
 }
 
+.wallet-current-detail h3 {
+  font-family: Roboto;
+  font-size: 13px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.54;
+  letter-spacing: 0.33px;
+  text-align: center;
+  color: #808992;
+  margin-bottom: 7px;
+}
+.wallet-current-detail-content {
+  font-family: Roboto;
+  font-size: 20px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1;
+  letter-spacing: normal;
+  text-align: right;
+  color: #304156;
+}
+.wallet-current-detail-span {
+  font-family: Roboto;
+  font-size: 12px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.67;
+  letter-spacing: normal;
+  text-align: left;
+  color: #3d495d;
+}
 .table-container {
    display: flex;
     align-items: center;

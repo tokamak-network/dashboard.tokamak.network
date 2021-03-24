@@ -111,7 +111,7 @@ export default {
     makeInputMax () {
       const tonAmount = this.operator.userStaked.toBigNumber().toString();
       this.inputTon = tonAmount;
-      console.log(this.inputTon);
+      // console.log(this.inputTon);
     },
     undelegate () {
       const tonAmount = this.inputTon;

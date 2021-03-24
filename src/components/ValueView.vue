@@ -1,7 +1,8 @@
 <template>
-  <div class="power-current-detail">
+  <div class="current-detail">
     <h3>{{ title }}</h3>
-    <span class="power-current-detail-content">{{ value }}</span>
+    <span v-if="ton" class="current-detail-content">{{ value }}<span class="current-detail-span">TON</span></span>
+    <span v-else class="current-detail-content">{{ value }}</span>
   </div>
 </template>
 <script>
@@ -13,17 +14,16 @@ export default {
     value:{
       required: true,
     },
+    ton:{
+      type: Boolean,
+      required: true,
+    },
   },
 };
 </script>
 <style scoped>
-.power-current {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 130px;
-}
-.power-current-detail {
+
+.current-detail {
   display: flex;
   flex-direction: column;
   width: 256px;
@@ -36,16 +36,38 @@ export default {
   padding-top: 18px;
   padding-bottom: 15px;
 }
-.power-current-detail h3 {
+.current-detail h3 {
+  font-family: Roboto;
   font-size: 13px;
-  color: #808992;
   font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.54;
+  letter-spacing: 0.33px;
+  text-align: center;
+  color: #808992;
   margin-bottom: 7px;
 }
-.power-current-detail-content {
+.current-detail-content {
+  font-family: Roboto;
   font-size: 20px;
   font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1;
+  letter-spacing: normal;
+  text-align: right;
   color: #304156;
+}
+.current-detail-span {
   font-family: Roboto;
+  font-size: 12px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.67;
+  letter-spacing: normal;
+  text-align: left;
+  color: #3d495d;
 }
 </style>

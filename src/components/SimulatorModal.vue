@@ -150,7 +150,6 @@ export default {
     makeInputMax () {
       const tonAmount = this.tonBalance.toBigNumber().toString();
       this.inputTon = tonAmount;
-      console.log(this.inputTon);
     },
     changeView (args) {
       this.currentView = args;
@@ -213,7 +212,6 @@ export default {
       this.rewardUSD = ' $ ' + (rewardPrice * USD).toLocaleString(undefined, { maximumFractionDigits:2 });
       this.rewardKRW = ' ₩ ' + (rewardPrice * KRW).toLocaleString(undefined, { maximumFractionDigits:0 });
       // this.$emit('openResultModal', this.roi, this.rewardTON, this.rewardUSD, this.rewardKRW, this.myStaked);
-      console.log(this.roi, this.rewardTON, this.rewardUSD, this.rewardKRW, this.myStaked);
       return this.changeView('result');
     },
     getCurrentStakedAmount () {

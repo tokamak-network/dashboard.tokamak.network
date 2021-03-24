@@ -142,7 +142,7 @@ export default {
     makeInputMax () {
       const tonAmount = this.tonBalance.toBigNumber().toString();
       this.inputTon = tonAmount;
-      console.log(this.inputTon);
+      // console.log(this.inputTon);
     },
     closeModal (method) {
       this.$emit('closePopup', method);
@@ -183,7 +183,7 @@ export default {
       return data;
     },
     async delegate () {
-      console.log('--test--');
+      // console.log('--test--');
       if (this.availableAmountToDelegate === '' || parseFloat(this.amountToDelegate) === 0) {
         return alert('Please check input amount.');
       }
@@ -193,7 +193,7 @@ export default {
       if(confirm('Current withdrawal delay is 2 weeks. Are you sure you want to delegate?')){
         const data = this.getData();
         const amount = _TON(this.inputTon).toFixed('wei');
-        console.log(amount);
+        // console.log(amount);
         this.TON.methods.approveAndCall(
           this.WTON._address,
           amount,

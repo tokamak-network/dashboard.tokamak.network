@@ -3,13 +3,13 @@
     <table class="history-table">
       <thead>
         <tr>
-             <th class="text-center" style="width:70px">#</th>
+          <th class="text-center" style="width:70px">#</th>
           <th class="text-center">Transaction Hash</th>
-             <th class="text-center">Operator Contract</th>
+          <th class="text-center">Operator Contract</th>
           <th class="text-center">Type</th>
           <th class="text-center">Amount</th>
           <th class="text-center">Block Number</th>
-        <th class="text-center">Status</th>
+          <th class="text-center">Status</th>
         </tr>
       </thead>
       <tbody>
@@ -25,18 +25,20 @@
               {{ transaction.transactionHash | hexSlicer }}
             </a>
           </td>
-          <td class="text-center"><a
+          <td class="text-center">
+            <a
               class="link"
               target="_blank"
               rel="noopener noreferrer"
               :href="toExplorer('transactionHash', transaction.transactionHash)"
             >
               {{ transaction.target | hexSlicer }}
-            </a></td>
+            </a>
+          </td>
           <td class="text-center">{{ transaction.type }}</td>
           <td class="text-center">{{ currencyAmountFromNumberString(transaction.type, transaction.amount) }}</td>
           <td class="text-center">{{ transaction.blockNumber }}</td>
-            <td class="text-center">{{ transaction.status }}</td>
+          <td class="text-center">{{ transaction.status }}</td>
         </tr>
       </tbody>
     </table>
