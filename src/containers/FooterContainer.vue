@@ -217,9 +217,12 @@ export default {
 }
 
 .footer-address {
+  font-family:  "Titillium Web", sans-serif;
+  font-size: 13px;
+  font-weight: lighter;
   font-stretch: normal;
   font-style: normal;
-  font-size: 13px;
+  line-height: 1.54;
   letter-spacing: normal;
   text-align: left;
   color: #86929d;

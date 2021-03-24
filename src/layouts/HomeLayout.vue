@@ -68,7 +68,7 @@
 import { mapState, mapGetters } from 'vuex';
 import GraphContainer from '@/containers/GraphContainer.vue';
 import moment from 'moment';
-
+import axios from 'axios';
 
 export default {
   components: {
@@ -77,6 +77,10 @@ export default {
   data () {
     return {
       durationTime: moment.duration(0),
+      dailyStaked: this.dailyTotalStaked,
+      maxCompensateTokenPerDay: '26027.39726',
+      pSeigDeduction: '40',
+      totalSupply: 40000000,
     };
   },
   computed: {
@@ -112,6 +116,7 @@ export default {
   },
   created () {
     setInterval(()=> this.calcDuration(), 1000);
+    console.log(this.dailyTotalStaked);
   },
   methods: {
     calcDuration () {

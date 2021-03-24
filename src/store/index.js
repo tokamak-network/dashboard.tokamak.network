@@ -5,7 +5,7 @@ Vue.use(Vuex);
 import router from '@/router';
 import web3EthABI from 'web3-eth-abi';
 
-import { getManagers, getOperators, getHistory, getTransactions, addTransaction, getDailyStakedTotal } from '@/api';
+import { getManagers, getOperators, getHistory, getTransactions, addTransaction, getDailyStakedTotal, getTotalSupply } from '@/api';
 import { cloneDeep, isEqual, range, uniq, orderBy } from 'lodash';
 import numeral from 'numeral';
 import { createWeb3Contract } from '@/helpers/Contract';
@@ -218,7 +218,6 @@ export default new Vuex.Store({
         context.dispatch('setAccountsDepositedWithPower'),
         context.dispatch('set', web3),
       ]);
-
       await new Promise(resolve => setTimeout(resolve, 1000)); // https://github.com/Onther-Tech/dashboard.tokamak.network/issues/81
       context.commit('IS_LOADING', false);
       context.commit('IS_LOADED', true);
@@ -331,6 +330,23 @@ export default new Vuex.Store({
 
     async getDailyStakedTokenStats (context) {
       const dailyStakedTotal = await getDailyStakedTotal(context.state.networkId);
+      const totalSup = await getTotalSupply();
+      dailyStakedTotal.forEach((item) => {
+        const totalStaked = parseFloat(item.totalSupply) / Math.pow(10, 27);
+        let my = Number(1000);
+        let stakedRatio = 0;
+        const unit = 365;
+        const maxCompensate = Number('26027.39726');
+        const total = Number(totalStaked) + my;
+        stakedRatio = total/totalSup;
+        const compensatePerDay = stakedRatio * 26027.39726;
+        const dailyNotMintedSeig = maxCompensate - maxCompensate*(total/totalSup);
+        const proportionalSeig = dailyNotMintedSeig * (40 / 100);
+        const expectedSeig = (my/total) * (Number(compensatePerDay) + proportionalSeig) * unit;
+        my = my + expectedSeig;
+        this.returnRate = (my/Number(1000)*100 - 100);
+        item.roi = (my/Number(1000)*100 - 100);
+      });
       context.commit('SET_DAILY_STAKED_TOTAL', dailyStakedTotal);
     },
 

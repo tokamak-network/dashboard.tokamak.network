@@ -1,7 +1,11 @@
 <template>
   <div class="chart">
     <!-- <div>{{dailyStakedTotal}}</div> -->
-    <line-chart :chartData="1" :datacollection="getData()" :option="getOptions()" />
+    <line-chart
+      :chartData="1"
+      :datacollection="getData()"
+      :option="getOptions()"
+    />
   </div>
 </template>
 
@@ -10,6 +14,8 @@ import LineChart from '@/components/LineChart.vue';
 import moment from 'moment';
 import { createCurrency } from '@makerdao/currency';
 const _TON = createCurrency('TON');
+import { orderBy } from 'lodash';
+import axios from 'axios';
 
 export default {
   components: {
@@ -18,81 +24,33 @@ export default {
   props: {
     dailyStakedTotal: {
       required: true,
+      type:Array,
     },
   },
   data () {
     return {
-    //   options: {
-    //     tooltips: {
-    //       mode: 'nearest',
-    //       backgroundColor: '#2a72e5',
-    //     },
-    //     scales: {
-    //       ticks: { min: 0 },
-    //       layout: {
-    //         padding: {
-    //           left: 50,
-    //           right: 0,
-    //           top: 0,
-    //           bottom: 0,
-    //         },
-    //       },
-    //       yAxes: [{
-    //         display: false,
-    //       }],
-    //       xAxes: [ {
-    //         display: false,
-
-    //       }],
-    //     },
-    //     legend: {
-    //       display: true,
-    //       position: 'top',
-    //       align: 'center',
-    //       fullWidth: true,
-    //       labels: {
-    //         usePointStyle: true,
-    //       },
-    //     },
-    //     responsive: true,
-    //     maintainAspectRatio: false,
-    //   },
-    //   datacollection: {
-    //     labels: this.dailyStakedTotal.map(item =>this.formatDate(item.blockTime)).sort(),
-    //     datasets: [
-    //       {
-    //         label: 'Total Stake',
-    //         borderColor: '#2a72e5',
-    //         borderWidth: 2,
-    //         pointStyle: 'line',
-    //         lineTension: 0,
-    //         backgroundColor: 'transparent',
-    //         data: this.dailyStakedTotal.map(item => this.displayAmount(item.totalSupply)).sort(),
-    //       },
-    //       {
-    //         label: 'Actual APY',
-    //         borderColor: 'gray',
-    //         borderWidth: 2,
-    //         pointStyle: 'line',
-    //         lineTension: 0,
-    //         backgroundColor: 'transparent',
-    //         data: this.dailyStakedTotal.map(item => item.blockNumber).sort(),
-    //       },
-    //     ],
-    //   },
+      dailyStaked: this.dailyStakedTotal,
     };
+  },
+  computed: {
+    orderedStaked () {
+      return orderBy(this.dailyStaked, (staked) => staked.blockTime, ['asc']);
+    },
   },
   methods: {
     displayAmount (amount) {
-      const displayAmounts = parseFloat(amount) / (Math.pow(10, 27));
+      const displayAmounts = parseFloat(amount) / Math.pow(10, 27);
       return Math.round(displayAmounts * 10) / 10;
     },
     formatDate (date) {
       return moment.utc(date).format('MM/DD/YYYY HH:mm');
     },
+
     getData () {
       return {
-        labels: this.dailyStakedTotal.map(item =>this.formatDate(item.blockTime)).sort(),
+        labels: this.orderedStaked.map((item) =>
+          this.formatDate(item.blockTime)
+        ),
         datasets: [
           {
             label: 'Total Stake',
@@ -101,16 +59,17 @@ export default {
             pointStyle: 'line',
             lineTension: 0,
             backgroundColor: 'transparent',
-            data: this.dailyStakedTotal.map(item => this.displayAmount(item.totalSupply)).sort(),
+            data: this.orderedStaked.map((item) =>
+              this.displayAmount(item.totalSupply)),
           },
           {
             label: 'Actual APY',
-            borderColor: 'gray',
+            borderColor: '#3d495d',
             borderWidth: 2,
             pointStyle: 'line',
             lineTension: 0,
             backgroundColor: 'transparent',
-            data: this.dailyStakedTotal.map(item => item.blockNumber).sort(),
+            data: this.orderedStaked.map(item => (item.roi* 100000)),
           },
         ],
       };
@@ -131,13 +90,16 @@ export default {
               bottom: 0,
             },
           },
-          yAxes: [{
-            display: false,
-          }],
-          xAxes: [ {
-            display: false,
-
-          }],
+          yAxes: [
+            {
+              display: false,
+            },
+          ],
+          xAxes: [
+            {
+              display: false,
+            },
+          ],
         },
         legend: {
           display: true,
