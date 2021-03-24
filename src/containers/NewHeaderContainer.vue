@@ -41,13 +41,6 @@
           PowerTON
         </button>
         <button
-          class="header-link"
-          :class="{ 'menu-button-selected': $route.path === '/wallet'}"
-          @click="clickMenu('wallet')"
-        >
-          Wallet
-        </button>
-        <button
           v-if="signIn"
           class="header-link"
           :class="{ 'menu-button-selected': $route.path === '/powerton'}"

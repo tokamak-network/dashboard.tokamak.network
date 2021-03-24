@@ -13,6 +13,9 @@
         <span class="wallet-current-detail-content">{{ currencyAmount(power).replace('POWER', '') }} <span class="wallet-current-detail-span">POWER </span><span class="wallet-current-detail-span" style="color: #2a72e5">({{ currentRound.winningProbability }})</span></span>
       </div>
     </div>
+    <div class="chart-container">
+      <line-chart />
+    </div>
     <div class="table-container">
       <div style="margin-bottom: 20px;">History</div>
       <WalletHistoryTable />
@@ -22,9 +25,10 @@
 <script>
 import { mapState, mapGetters } from 'vuex';
 import ValueView from '@/components/ValueView.vue';
-import { getAccumulatedReward } from '@/api';
+import { getAccumulatedReward, getWalletTotalStaked } from '@/api';
 import { createCurrency } from '@makerdao/currency';
 import WalletHistoryTable from '@/components/table/WalletHistoryTable.vue';
+import LineChart from '@/components/LineChart.vue';
 const _TON = createCurrency('TON');
 const _WTON = createCurrency('WTON');
 
@@ -32,10 +36,12 @@ export default {
   components: {
     ValueView,
     WalletHistoryTable,
+    LineChart,
   },
   data () {
     return {
       reward: 0,
+      walletTotalStaked: []
     };
   },
   computed: {
@@ -57,12 +63,17 @@ export default {
   },
   created () {
     this.getAccumulatedReward();
+    this.getWalletTotalStakedFn();
   },
   methods:{
     async getAccumulatedReward () {
       const reward = await getAccumulatedReward(this.networkId, this.user.toLowerCase());
       const rewarded =  (reward[0].rewards).toLocaleString('fullwide', { useGrouping:false });
       this.reward = _WTON.ray(rewarded.toString());
+    },
+    async getWalletTotalStakedFn () {
+      this.walletTotalStaked = await getWalletTotalStaked(this.networkId, this.user);
+      console.log('Result ', this.walletTotalStaked);
     },
   },
 };
@@ -156,11 +167,16 @@ font-weight: 600;
   text-align: left;
   color: #3d495d;
 }
+
+.chart-container {
+  height: 51px;
+}
+
 .table-container {
-   display: flex;
-    align-items: center;
-    flex-direction: column;
-    font-family: Roboto;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  font-family: Roboto;
   font-size: 18px;
   font-weight: bold;
   font-stretch: normal;
