@@ -69,7 +69,7 @@ const initialState = {
 
   // user transaction history
   history: [],
-  dailyTotalStaked: {},
+  dailyTotalStaked: [],
 
   // rank
   accountsDepositedWithPower: [],
