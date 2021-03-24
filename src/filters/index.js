@@ -124,3 +124,13 @@ export function addressExtractor (url) {
   const lastIndex = url.lastIndexOf('/');
   return url.substring(lastIndex + 1);
 }
+
+export function withComma (n) {
+  try {
+    n = parseFloat(n);
+  } catch (err) {
+    if (err) console.log('bug', 'parse float'); // eslint-disable-line
+  }
+
+  return n.toLocaleString('en-US', { minimumFractionDigits: 2 });
+}

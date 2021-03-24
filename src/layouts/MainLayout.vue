@@ -30,7 +30,7 @@ export default {
     this.poll();
     this.subscribe();
   },
-  beforeDestroy () {
+  deactivated () {
     clearInterval(this.polling);
     this.depositedEventSubscription.unsubscribe();
   },
@@ -60,21 +60,18 @@ export default {
 <style scoped>
 .main-layout {
   display: flex;
-  min-width: 1174px;
-  max-width: 1174px;
-  padding-top: 16px;
   padding-bottom: 2rem;
   flex-direction: column;
+  background-color: #fafbfc;
+  align-items: center;
 }
 .main-container {
   display: flex;
   flex-direction: row;
-  min-width: 1174px;
-  max-width: 1174px;
 }
 .main-body-container {
-  /* padding-left: 16px; */
-  width: 100%;
-  position: relative;
+  background-color: #fafbfc;
+    align-items: center;
+
 }
 </style>

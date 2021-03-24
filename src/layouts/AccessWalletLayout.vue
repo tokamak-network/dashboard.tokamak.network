@@ -11,12 +11,10 @@ import { getConfig } from '../../config.js';
 
 export default {
   computed: {
-    ...mapState([
-      'signIn',
-    ]),
+    ...mapState(['signIn']),
   },
   methods: {
-    async login (){
+    async login () {
       if (this.loading) return;
       this.loading = true;
       await this.useMetamask();
@@ -29,17 +27,21 @@ export default {
 
         window.ethereum.on('chainIdChanged', (chainId) => {
           this.$store.dispatch('logout');
-          this.$router.replace({
-            path: '/',
-            query: { network: this.$route.query.network },
-          }).catch(err => {});
+          this.$router
+            .replace({
+              path: '/',
+              query: { network: this.$route.query.network },
+            })
+            .catch((err) => {});
         });
         window.ethereum.on('accountsChanged', (account) => {
           this.$store.dispatch('logout');
-          this.$router.replace({
-            path: '/',
-            query: { network: this.$route.query.network },
-          }).catch(err => {});
+          this.$router
+            .replace({
+              path: '/',
+              query: { network: this.$route.query.network },
+            })
+            .catch((err) => {});
         });
       } catch (e) {
         alert(e.message);
@@ -65,7 +67,11 @@ export default {
       }
 
       if (provider.networkVersion !== getConfig().network) {
-        throw new Error(`Please connect to the '${this.$options.filters.nameOfNetwork(getConfig().network)}' network`);
+        throw new Error(
+          `Please connect to the '${this.$options.filters.nameOfNetwork(
+            getConfig().network
+          )}' network`
+        );
       }
 
       return new Web3(provider);
@@ -76,12 +82,12 @@ export default {
 
 <style scoped>
 .access-wallet-layout {
-    min-width: 1174px;
-    max-width: 1174px;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  min-width: 1174px;
+  max-width: 1174px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .login {
   border: 1px solid #1e4072;
@@ -93,7 +99,7 @@ export default {
   color: #2a72e5;
   font-size: 14px;
   font-weight: 700;
-  font-family: "Noto Sans",sans-serif;
+  font-family: "Noto Sans", sans-serif;
   width: 150px;
 }
 

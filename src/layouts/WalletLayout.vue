@@ -1,208 +1,173 @@
 <template>
   <div class="wallet-layout">
-    <div class="wallet-container">
-      <div class="wallet-wrapper">
-        <h4>Wallet Details</h4>
-        <div class="wallet-stats">
-          <div class="wallet-stats__title">Total Staked</div>
-          <div class="wallet-stats__count">{{ userTotalStaked }}</div>
-        </div><div class="wallet-stats-wrapper">
-          <div class="wallet-stats__title">Pending Withdrawal</div>
-          <div class="wallet-stats__count">{{ userTotalWithdrawable }} </div>
-        </div><div class="wallet-stats-wrapper">
-          <div class="wallet-stats__title">Total Accumulated Reward</div>
-          <div class="wallet-stats__count">{{ currencyAmount(userTotalSeigs) }}</div>
-        </div><div class="wallet-stats-wrapper">
-          <div class="wallet-stats__title">Power</div>
-          <div class="wallet-stats__count">{{ currencyAmount(power) }} (probability win)</div>
-        </div>
+    <div class="wallet-title-container">
+      <h1>Wallet</h1>
+      <h2>Check the status of your assets in the wallet</h2>
+    </div>
+    <div class="wallet-current">
+      <ValueView :title="'Total Staked'" :value="currencyAmount(userTotalStaked).toString().replace('TON', '')" :ton="true" />
+      <ValueView :title="'Pending Withdrawal'" :value="currencyAmount(userTotalWithdrawable).toString().replace('TON', '')" :ton="true" />
+      <ValueView :title="'Total Accumulated Reward'" :value="currencyAmount(reward).toString().replace('TON', '')" :ton="true" />
+      <div class="wallet-current-detail">
+        <h3>Power</h3>
+        <span class="wallet-current-detail-content">{{ currencyAmount(power).replace('POWER', '') }} <span class="wallet-current-detail-span">POWER </span><span class="wallet-current-detail-span" style="color: #2a72e5">({{ currentRound.winningProbability }})</span></span>
       </div>
-      <div class="wallet-body">
-        <h4>Reward</h4>
-
-        <line-chart
-          :chartData="data"
-          :width="500"
-          :height="200"
-        />
-
-
-        <div class="wallet-body__information">
-          <div class="wallet-body--analysis">
-            <div>Analysis of Reward</div>
-            <div>Total Reward: {{ userTotalReward }}</div>
-            <div>Total Staked: {{ userTotalStaked }}</div>
-            <div>Total withdraw: {{ userTotalWithdrawable }}</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="wallet-footer">
-        <h4>History</h4>
-      </div>
-
-      <table class="wallet-history-table">
-        <thead>
-          <tr>
-            <th class="text-center">#</th>
-            <th class="text-center pointer">TX Hash</th>
-            <th class="text-center pointer">Type</th>
-            <th class="text-center pointer">Amount</th>
-            <th class="text-center pointer">Block Number</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="(recentTransaction, index) in recentTransactions" :key="index">
-            <td class="text-center">{{ index + 1 }}</td>
-            <td class="text-center">{{ recentTransaction.transactionHash }}</td>
-            <td class="text-center">{{ recentTransaction.type }} </td>
-            <td class="text-center">{{ recentTransaction.amount | currencyAmount }} </td>
-            <td class="text-center">{{ recentTransaction.blockNumber }} </td>
-          </tr>
-        </tbody>
-      </table>
+    </div>
+    <div class="table-container">
+      <div style="margin-bottom: 20px;">History</div>
+      <WalletHistoryTable />
     </div>
   </div>
 </template>
-
 <script>
 import { mapState, mapGetters } from 'vuex';
-import LineChart from '@/components/LineChart.vue';
+import ValueView from '@/components/ValueView.vue';
+import { getAccumulatedReward } from '@/api';
+import { createCurrency } from '@makerdao/currency';
+import WalletHistoryTable from '@/components/table/WalletHistoryTable.vue';
+const _TON = createCurrency('TON');
+const _WTON = createCurrency('WTON');
 
 export default {
   components: {
-    LineChart,
+    ValueView,
+    WalletHistoryTable,
   },
   data () {
     return {
-      columns: [
-        { name: 'Tx Hash', key: 'transactionHash' },
-        { name: 'Type', key: 'type' },
-        { name: 'Amount', key: 'amount' },
-        { name: 'Block Number', key: 'blockNumber' } ],
+      reward: 0,
     };
   },
   computed: {
     ...mapState([
+      'operators',
+      'power',
       'user',
       'networkId',
-      'tonBalance',
-      'blockNumber',
-      'power',
+      'currentRound',
     ]),
     ...mapGetters([
       'userTotalStaked',
-      'recentTransactions',
-      'userTotalWithdrawable',
-      'userTotalReward',
       'userTotalSeigs',
-      'userTotalReward',
+      'userTotalWithdrawable',
     ]),
     currencyAmount () {
       return amount => this.$options.filters.currencyAmount(amount);
     },
-    hexSlicer () {
-      return address => this.$options.filters.hexSlicer(address, 20);
+  },
+  created () {
+    this.getAccumulatedReward();
+  },
+  methods:{
+    async getAccumulatedReward () {
+      const reward = await getAccumulatedReward(this.networkId, this.user.toLowerCase());
+      const rewarded =  (reward[0].rewards).toLocaleString('fullwide', { useGrouping:false });
+      this.reward = _WTON.ray(rewarded.toString());
     },
   },
 };
 </script>
-
 <style scoped>
 .wallet-layout {
     display: flex;
-    width: 100vw;
-    justify-content: center;
-}
-.wallet-container {
-    display: flex;
     flex-direction: column;
-    width: 70vw;
+    justify-content: center;
+    padding-top: 70px;
 }
-
-.wallet-wrapper {
-    display: flex;
-    justify-content: space-between;
+.wallet-title-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
-
-.text-center {
+.wallet-title-container h1 {
+  font-family: "NanumSquare", sans-serif;
+  font-size: 38px;
+font-weight: 600;
+  font-stretch: normal;
+  font-style: normal;
+  letter-spacing: normal;
   text-align: center;
+  color: #3d495d;
+  margin-bottom: 15px;
 }
-
-.wallet-history-table {
-  width: 100%;
-  table-layout: auto;
-  border-collapse: collapse;
-  border-spacing: 0;
-  background: #ffffff;
-}
-
-.wallet-history-table td, .wallet-history-table th {
-  border-top: solid 1px #dce2e5;
-}
-
-tbody tr:hover {
-  background-color: #f8f8f8;
-}
-
-.pointer {
-  cursor: pointer;
-}
-
-tbody .clickable {
-  font-weight: bolder;
-  text-decoration: underline;
-}
-
-.wallet-history-table th {
-  text-align: left;
-}
-
-.wallet-history-table td {
-  text-align: left;
-}
-
-.wallet-history-table .text-center {
-  text-align: center;
-}
-
-.wallet-history-table .text-right {
-  text-align: right;
-}
-
-th {
-  padding: 6px;
-  background-color: #f6f8f9;
-  font-family: "Noto Sans",sans-serif;
-  font-size: 11px;
+.wallet-title-container h2 {
+  font-family: "Titillium Web", sans-serif;
+  font-size: 16px;
   font-weight: normal;
   font-stretch: normal;
   font-style: normal;
-  letter-spacing: normal;
+  letter-spacing: 0.4px;
   text-align: center;
-  color: #7e8d93;
+  color: #808992;
+  margin-bottom: 60px;
+}
+.wallet-current {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 30px;
+}
+.wallet-current-detail {
+  display: flex;
+  flex-direction: column;
+  width: 256px;
+  height: 51px;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 1px 3px 0 rgba(96, 97, 112, 0.16);
+  border-radius: 10px;
+  margin-left: 30px;
+  padding-top: 18px;
+  padding-bottom: 15px;
 }
 
-td {
-  padding: 12px;
-  font-family: "Noto Sans",sans-serif;
-  font-size: 12px;
-  font-weight: 300;
+.wallet-current-detail h3 {
+  font-family: Roboto;
+  font-size: 13px;
+  font-weight: 500;
   font-stretch: normal;
   font-style: normal;
-  letter-spacing: normal;
+  line-height: 1.54;
+  letter-spacing: 0.33px;
   text-align: center;
-  color: #161819;
+  color: #808992;
+  margin-bottom: 7px;
 }
-
-.link {
-  color: black;
+.wallet-current-detail-content {
+  font-family: Roboto;
+  font-size: 20px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1;
+  letter-spacing: normal;
+  text-align: right;
+  color: #304156;
 }
-
-.wallet-body__information {
-  border-radius: 1rem;
-  border: 1px solid #7e8d93;
-  width: 10rem;
-  padding: 2rem;
+.wallet-current-detail-span {
+  font-family: Roboto;
+  font-size: 12px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.67;
+  letter-spacing: normal;
+  text-align: left;
+  color: #3d495d;
+}
+.table-container {
+   display: flex;
+    align-items: center;
+    flex-direction: column;
+    font-family: Roboto;
+  font-size: 18px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.11;
+  letter-spacing: 0.45px;
+  text-align: center;
+  color: #3d495d;
 }
 </style>

@@ -4,13 +4,11 @@
       <thead>
         <tr>
           <th class="text-center" style="width:111px">Transaction Hash</th>
-          <th class="text-center" style="width:97px">Type</th>
-          <th class="text-center" style="width:117px">Amount</th>
           <th class="text-center" style="width:237px">Date</th>
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(transaction) in sorted" :key="transaction.transactionHash">
+        <tr v-for="(transaction) in filteredTransactions" :key="transaction.transactionHash">
           <td class="text-center" style="width:111px; text-align: left; padding-left:2px">
             <a
               class="link"
@@ -21,15 +19,13 @@
               {{ transaction.transactionHash | hexSlicer }}
             </a>
           </td>
-          <td class="text-center" style="width:97px">{{ transaction.type }}</td>
-          <td class="text-center" style="width:117px">{{ currencyAmountFromNumberString(transaction.type, transaction.amount) }}</td>
           <td class="text-center" style="width:237px">{{ transaction.timestamp | formattedTimestamp }}</td>
         </tr>
       </tbody>
     </table>
     <table-paginate
-      :datas="orderedTransaction"
-      @on-selected="updateTableByPage"
+      :pages="pages"
+      @update-page="updateTableByPage"
     />
   </div>
 </template>
@@ -62,7 +58,7 @@ export default {
       pages: 0,
       updatedTransactions: [],
       orderedRounds: [],
-      page: 0,
+      filteredTransactions: [],
     };
   },
   computed: {
@@ -107,10 +103,6 @@ export default {
       // }
       return orderBy(this.transactions, (transaction) => transaction.blockNumber, [this.order]);
     },
-    sorted () {
-      const first = this.page * 5;
-      return this.orderedTransaction.slice(first, first + 5);
-    },
     // withArrow () {
     //   return (from, label) => {
     //     if (this.from === from) {
@@ -122,6 +114,23 @@ export default {
     currencyAmount () {
       return amount => this.$options.filters.currencyAmount(amount);
     },
+  },
+  mounted () {
+    const addressLinks = this.$el.getElementsByClassName('link');
+
+    Object.values(addressLinks).map(link => {
+      const address = this.$options.filters.addressExtractor(link.href);
+      link.addEventListener('copy', e => {
+        e.clipboardData.setData('text/plain', address);
+        e.preventDefault();
+      });
+    });
+    this.pages = parseInt(this.transactions.length / this.base) + 1;
+    if (this.pages > 1 && this.transactions.length % this.base === 0) {
+      this.pages = this.pages - 1;
+
+    }
+    this.filteredTransactions = this.orderedTransaction.slice(0, this.base);
   },
   methods: {
     orderBy (from) {
@@ -136,7 +145,7 @@ export default {
       return this.order === 'desc' ? 'asc' : 'desc';
     },
     updateTableByPage (page) {
-      this.page = page;
+      this.filteredTransactions = this.orderedTransaction.slice((page - 1) * this.base, page * this.base);
     },
   },
 };

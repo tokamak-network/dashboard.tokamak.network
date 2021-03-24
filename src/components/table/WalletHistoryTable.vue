@@ -1,17 +1,21 @@
 <template>
-  <div style="margin-left:-4px">
+  <div style="padding-left: 20px">
     <table class="history-table">
       <thead>
         <tr>
-          <th class="text-center" style="width:111px">Transaction Hash</th>
-          <th class="text-center" style="width:97px">Type</th>
-          <th class="text-center" style="width:117px">Amount</th>
-          <th class="text-center" style="width:237px">Date</th>
+          <th class="text-center" style="width:70px">#</th>
+          <th class="text-center">Transaction Hash</th>
+          <th class="text-center">Operator Contract</th>
+          <th class="text-center">Type</th>
+          <th class="text-center">Amount</th>
+          <th class="text-center">Block Number</th>
+          <th class="text-center">Status</th>
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(transaction) in sorted" :key="transaction.transactionHash">
-          <td class="text-center" style="width:111px; text-align: left; padding-left:2px">
+        <tr v-for="(transaction, index) in sorted" :key="transaction.transactionHash">
+          <td class="text-center" style="width:70px">{{ index }}</td>
+          <td class="text-center">
             <a
               class="link"
               target="_blank"
@@ -21,9 +25,20 @@
               {{ transaction.transactionHash | hexSlicer }}
             </a>
           </td>
-          <td class="text-center" style="width:97px">{{ transaction.type }}</td>
-          <td class="text-center" style="width:117px">{{ currencyAmountFromNumberString(transaction.type, transaction.amount) }}</td>
-          <td class="text-center" style="width:237px">{{ transaction.timestamp | formattedTimestamp }}</td>
+          <td class="text-center">
+            <a
+              class="link"
+              target="_blank"
+              rel="noopener noreferrer"
+              :href="toExplorer('transactionHash', transaction.transactionHash)"
+            >
+              {{ transaction.target | hexSlicer }}
+            </a>
+          </td>
+          <td class="text-center">{{ transaction.type }}</td>
+          <td class="text-center">{{ currencyAmountFromNumberString(transaction.type, transaction.amount) }}</td>
+          <td class="text-center">{{ transaction.blockNumber }}</td>
+          <td class="text-center">{{ transaction.status }}</td>
         </tr>
       </tbody>
     </table>
@@ -48,12 +63,6 @@ export default {
   components: {
     'table-paginate': TablePaginate,
   },
-  props: {
-    layer2: {
-      required: true,
-      type: String,
-    },
-  },
   data () {
     return {
       from: 'blockNumber',
@@ -68,13 +77,10 @@ export default {
   computed: {
     ...mapState([
       'web3',
+      'transactions',
     ]),
-    ...mapGetters(['transactionsByOperator']),
     toExplorer () {
       return (type, param) => this.$options.filters.toExplorer(type, param);
-    },
-    transactions (){
-      return this.transactionsByOperator(this.layer2);
     },
     formattedTimestamp () {
       return timestamp => this.$options.filters.formattedTimestamp(timestamp);
@@ -144,11 +150,11 @@ export default {
 
 <style scoped>
 .history-table {
-  width: 100%;
+  width: 1114px;
   table-layout: auto;
   border-collapse: collapse;
   border-spacing: 0;
-  background: #ffffff;
+  /* background: #ffffff; */
   /* margin-left: -5px; */
 }
 
