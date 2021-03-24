@@ -148,6 +148,7 @@ export default {
   methods:{
     makeInputMax () {
       const tonAmount = this.tonBalance.toBigNumber().toString();
+      console.log(tonAmount);
       const spliedTonAmount = tonAmount.split('.');
       const beforeDecimalNumber = spliedTonAmount[0];
 
@@ -382,6 +383,9 @@ font-family: "Titillium Web", sans-serif;
   color: #2a72e5;
   margin-top: 25px;
   margin-bottom: 25px;
+}
+button:focus {
+  outline: none;
 }
 .model-btn {
   width: 150px;

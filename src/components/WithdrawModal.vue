@@ -13,7 +13,9 @@
         <h2 class="model-content-subTitle">Do you really want to withdraw your TON now?</h2>
         <div class="model-line" />
         <div class="model-ton-stake">
-          <span id="test" class="model-ton-stake-amount">{{ operator.userWithdrawable | currencyAmountWithoutUnit }}</span>
+          <span class="model-ton-stake-amount">{{
+            operator.userWithdrawable | currencyAmountWithoutUnit
+          }}</span>
         </div>
         <div class="model-ton-balance">
           <h3 class="model-ton-balance-title">Staked Balance</h3>
@@ -21,13 +23,20 @@
         </div>
         <div class="model-ton-balance">
           <h3 class="model-ton-balance-title">Withdrawable Balance</h3>
-          <span class="model-ton-balance-amount">{{ operator.userWithdrawable | currencyAmount }}</span>
+          <span class="model-ton-balance-amount">{{
+            operator.userWithdrawable | currencyAmount
+          }}</span>
         </div>
         <div class="model-line model-line-bottom" />
         <span class="model-description">Withdrawal delay is about 2 weeks</span>
-        <button class="model-btn"
-                :class="{'model-btn-notavailable' : operator.userWithdrawable | currencyAmountWithoutUnit === '0' || operator.userWithdrawable | currencyAmountWithoutUnit === ''}"
-                @click="withdraw"
+        <button
+          class="model-btn"
+          :class="{
+            'model-btn-notavailable':
+              operator.userWithdrawable | (currencyAmountWithoutUnit === '0') ||
+              operator.userWithdrawable | (currencyAmountWithoutUnit === ''),
+          }"
+          @click="withdraw"
         >
           Withdraw
         </button>
@@ -64,7 +73,7 @@ export default {
     return {
       availableAmountToWithdraw: 0,
       inputTon: '0',
-      withDrawableAmount : 0,
+      withDrawableAmount: 0,
     };
   },
   computed: {
@@ -78,20 +87,18 @@ export default {
       'DepositManager',
       'SeigManager',
     ]),
-    ...mapGetters([
-      'operatorByLayer2',
-    ]),
+    ...mapGetters(['operatorByLayer2']),
     operator () {
       return this.operatorByLayer2(this.layer2);
     },
     currencyAmount () {
-      return amount => this.$options.filters.currencyAmount(amount);
+      return (amount) => this.$options.filters.currencyAmount(amount);
     },
     currencyAmountWithoutUnit () {
-      return amount => this.$options.filters.currencyAmountWithoutUnit(amount);
+      return (amount) => this.$options.filters.currencyAmountWithoutUnit(amount);
     },
   },
-  methods:{
+  methods: {
     withdraw () {
       const userWithdrawable = this.operator.userWithdrawable;
       if (userWithdrawable.isEqual(_WTON.ray('0'))) {
@@ -103,11 +110,9 @@ export default {
       }
 
       const amount = _WTON(userWithdrawable).toFixed('ray');
-      this.DepositManager.methods.processRequests(
-        this.operator.layer2,
-        count,
-        true,
-      ).send({ from: this.user })
+      this.DepositManager.methods
+        .processRequests(this.operator.layer2, count, true)
+        .send({ from: this.user })
         .on('transactionHash', async (hash) => {
           const transcation = {
             from: this.user,
@@ -118,7 +123,7 @@ export default {
           };
           this.$store.dispatch('addPendingTransaction', transcation);
         })
-        .on('receipt', async receipt => {
+        .on('receipt', async (receipt) => {
           this.index = 0;
         });
     },
@@ -132,8 +137,10 @@ export default {
 };
 </script>
 <style scoped>
-textarea:focus, input:focus{
-    outline: none;
+textarea:focus,
+input:focus,
+button:focus {
+  outline: none;
 }
 .model-wrapper {
   width: 100%;
