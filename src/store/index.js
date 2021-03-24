@@ -344,8 +344,8 @@ export default new Vuex.Store({
         const proportionalSeig = dailyNotMintedSeig * (40 / 100);
         const expectedSeig = (my/total) * (Number(compensatePerDay) + proportionalSeig) * unit;
         my = my + expectedSeig;
-        this.returnRate = (my/Number(1000)*100 - 100);
-        item.roi = (my/Number(1000)*100 - 100);
+        // item.roi = (my/Number(1000)*100 - 100)/100;
+        item.roi = ((my/Number(1000)*100 - 100)/100).toLocaleString(undefined, { maximumFractionDigits: 2, minimumFractionDigits: 2 }) ;
       });
       context.commit('SET_DAILY_STAKED_TOTAL', dailyStakedTotal);
     },

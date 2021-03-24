@@ -18,6 +18,12 @@
             <div class="home-stats__tokamak">Tokamak Network</div>
           </div>
           <div class="home-stats__chart" style="position: relative; height:45vh; width:98.99vw">
+          <div class="legend-container">
+           <div class="legend"></div>
+            <div :style="'margin-right:20px;'">Total Stake</div>
+            <div class="legend" style="background-color:#C7D1D8"></div>
+            <div>Actual APY</div>
+          </div>
             <graph-container v-if="dailyTotalStaked" :dailyStakedTotal="dailyTotalStaked" />
           </div>
           <div v-if="loaded" class="home-footer">
@@ -116,7 +122,6 @@ export default {
   },
   created () {
     setInterval(()=> this.calcDuration(), 1000);
-    console.log(this.dailyTotalStaked);
   },
   methods: {
     calcDuration () {
@@ -210,19 +215,27 @@ export default {
   margin: 0;
 }
 
-/* .home-body {
+.legend-container {
   display: flex;
+  flex-direction: row;
   justify-content: center;
   align-items: center;
-  max-width: 100vw;
-  margin-top: 2px;
+  font-family: "Titillium Web", sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  font-stretch: normal;
+  font-style: normal;
+  letter-spacing: 0.26px;
+  text-align: left;
+  color: #84919e;
 }
 
-.home-body__stats {
-  display: flex;
-  justify-content: space-between;
-  width: 40vw;
-} */
+.legend {
+  height: 2px;
+  width: 15px;
+  background: #2a72e5;
+  margin-right: 10px;
+}
 
 .home-body__balance {
   text-align: center;
@@ -246,10 +259,6 @@ export default {
 .footer-items__card {
   text-align: center;
   width:250px;
-  /* margin-right: 40px; */
-  /* border-radius: 1rem;
-  border: 1px solid #d4d3d3; */
-  /* padding: 1rem 2rem; */
 }
 
 .items-card__title {

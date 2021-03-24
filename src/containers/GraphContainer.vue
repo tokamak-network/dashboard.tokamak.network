@@ -24,7 +24,7 @@ export default {
   props: {
     dailyStakedTotal: {
       required: true,
-      type:Array,
+      type: Array,
     },
   },
   data () {
@@ -60,16 +60,19 @@ export default {
             lineTension: 0,
             backgroundColor: 'transparent',
             data: this.orderedStaked.map((item) =>
-              this.displayAmount(item.totalSupply)),
+              this.displayAmount(item.totalSupply)
+            ),
+            yAxisID: 'y',
           },
           {
             label: 'Actual APY',
-            borderColor: '#3d495d',
+            borderColor: '#C7D1D8',
             borderWidth: 2,
             pointStyle: 'line',
             lineTension: 0,
             backgroundColor: 'transparent',
-            data: this.orderedStaked.map(item => (item.roi* 100000)),
+            data: this.orderedStaked.map((item) => item.roi.toString() + ''),
+            yAxisID: 'y1',
           },
         ],
       };
@@ -92,7 +95,16 @@ export default {
           },
           yAxes: [
             {
+              type: 'linear',
               display: false,
+              position: 'left',
+              id: 'y',
+            },
+            {
+              type: 'linear',
+              display: false,
+              position: 'right',
+              id: 'y1',
             },
           ],
           xAxes: [
@@ -102,7 +114,7 @@ export default {
           ],
         },
         legend: {
-          display: true,
+          display: false,
           position: 'top',
           align: 'center',
           fullWidth: true,
