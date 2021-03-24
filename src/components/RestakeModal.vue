@@ -13,16 +13,7 @@
         <h2 class="model-content-subTitle">You can earn TON and Power</h2>
         <div class="model-line" />
         <div class="model-ton-stake">
-          <input
-            id="inputTonFiled"
-            v-model="inputTon"
-            class="model-ton-stake-input"
-            :class="{'model-ton-stake-input-blink' : inputTon === '0' || inputTon === ''}"
-            value="0"
-            :style="{width: (inputTon.length * 22) + 'px'}"
-            @keypress="onlyForTon"
-          >
-          <button class="model-ton-stake-btn" @click="makeInputMax">MAX</button>
+          <span id="test" class="model-ton-stake-amount">{{ redelegatableAmount | currencyAmountWithoutUnit }}</span>
         </div>
         <div class="model-ton-balance">
           <h3 class="model-ton-balance-title">Ton Balance</h3>
@@ -32,8 +23,8 @@
         </div>
         <div class="model-line model-line-bottom" />
         <button class="model-btn"
-                :class="{'model-btn-notavailable' : inputTon === '0' || inputTon === ''}"
-                click="redelegate"
+                :class="{'model-btn-notavailable' : redelegatableAmount | currencyAmountWithoutUnit=== '0' || redelegatableAmount | currencyAmountWithoutUnit === ''}"
+                @click="redelegate"
         >
           Re-Stake
         </button>
@@ -92,6 +83,9 @@ export default {
     },
     currencyAmount () {
       return amount => this.$options.filters.currencyAmount(amount);
+    },
+    currencyAmountWithoutUnit () {
+      return amount => this.$options.filters.currencyAmountWithoutUnit(amount);
     },
     withdrawableRequests () {
       return this.operator.withdrawalRequests.length;
@@ -258,23 +252,11 @@ textarea:focus, input:focus{
   align-items: center;
   justify-content: center;
 }
-.model-ton-stake-input {
-  border: none;
-  width: 22px;
-  min-width: 22px;
-  max-width: 184px;
-  height: 50px;
+.model-ton-stake-amount {
   font-size: 38px;
   color: #304156;
-  font-family: Roboto;
   font-weight: 500;
 }
-.model-ton-stake-input-blink {
-  border-bottom: solid 2px #2a72e5;
-  animation: blink 1s;
-  animation-iteration-count: infinite;
-}
-@keyframes blink { 50% { border-color:#fff ; }  }
 .model-ton-stake-btn {
   width: 56px;
   height: 25px;

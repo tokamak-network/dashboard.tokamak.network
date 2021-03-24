@@ -76,6 +76,26 @@ export function currencyAmount (amount) {
   }
 }
 
+export function currencyAmountWithoutUnit (amount) {
+  if (amount instanceof Currency) {
+    if (amount.symbol === 'POWER') {
+      const ton = Number(amount.toBigNumber()).toLocaleString('en-US');
+      const index = ton.indexOf('.');
+      return index > -1 ? `${ton.slice(0, index + 3)} POWER` : ton + ' POWER';
+    } else if (amount.symbol === 'TON') {
+      const ton = Number(amount.toBigNumber()).toLocaleString('en-US');
+      const index = ton.indexOf('.');
+      return index > -1 ? `${ton.slice(0, index + 3)}` : ton + '';
+    } else if (amount.symbol === 'WTON'){
+      const wtonAmount = Number(amount.toBigNumber()).toLocaleString('en-US');
+      const index = wtonAmount.indexOf('.');
+      return index > -1 ? `${wtonAmount.slice(0, index + 3)}` : wtonAmount + '';
+    }
+  } else {
+    return amount;
+  }
+}
+
 // deprecated (will be deleted)
 export function currencyAmountFromNumberString (symbol, amount) {
   if (symbol === 'TON') {

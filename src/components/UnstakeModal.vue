@@ -30,8 +30,7 @@
             <span class="model-ton-balance-amount-number"> {{ operator.userStaked | currencyAmount }} </span>
           </div>
         </div>
-        <div class="model-line" />
-        <span class="model-description">Withdrawal delay is about 2 weeks</span>
+        <div class="model-line model-line-bottom" />
         <button class="model-btn"
                 :class="{'model-btn-notavailable' : inputTon === '0' || inputTon === ''}"
                 :disabled="inputTon === '0' || inputTon === ''"
@@ -141,8 +140,7 @@ export default {
       }
     },
     undelegate () {
-      const tonAmount = this.inputTon;
-      console.log(tonAmount);
+      const tonAmount = parseFloat(this.inputTon.replace(/,/g, ''));
       if (tonAmount === '' || parseFloat(tonAmount) === 0) {
         return alert('Please check input amount.');
       }
@@ -227,7 +225,7 @@ textarea:focus, input:focus{
 }
 .model-content {
   width: 350px;
-  height: 360px;
+  height: 300px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -332,8 +330,9 @@ font-family: "Titillium Web", sans-serif;
 }
 .model-btn-notavailable {
   background-color: #e9edf1;
-    cursor: default;
-
-
+  cursor: default;
+}
+.model-line-bottom {
+  margin-bottom: 17px;
 }
 </style>

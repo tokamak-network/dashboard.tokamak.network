@@ -163,7 +163,6 @@ export default {
         if(afterDecimalNumber[1] < 9) {
           return this.inputTon = `${beforeDecimalNumber}.${Number(afterDecimalNumber[0]) + 1}0`;
         } else {
-          console.log('go');
           return this.inputTon = `${Number(beforeDecimalNumber)+1}.00`;
         }
       }

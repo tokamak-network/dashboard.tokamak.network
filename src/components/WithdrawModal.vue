@@ -13,17 +13,7 @@
         <h2 class="model-content-subTitle">Do you really want to withdraw your TON now?</h2>
         <div class="model-line" />
         <div class="model-ton-stake">
-          <input
-            id="inputTonFiled"
-            v-model="inputTon"
-            class="model-ton-stake-input"
-            :class="{'model-ton-stake-input-blink' : inputTon === '0' || inputTon === ''}"
-            value="0"
-            step="0.01"
-            :style="{width: (inputTon.length * 22) + 'px'}"
-            @keypress="onlyForTon"
-          >
-          <button class="model-ton-stake-btn" @click="makeInputMax">MAX</button>
+          <span id="test" class="model-ton-stake-amount">{{ operator.userWithdrawable | currencyAmountWithoutUnit }}</span>
         </div>
         <div class="model-ton-balance">
           <h3 class="model-ton-balance-title">Staked Balance</h3>
@@ -31,12 +21,13 @@
         </div>
         <div class="model-ton-balance">
           <h3 class="model-ton-balance-title">Withdrawable Balance</h3>
-          <span class="model-ton-balance-amount">{{ availableAmountToWithdraw + ' TON' }}</span>
+          <span class="model-ton-balance-amount">{{ operator.userWithdrawable | currencyAmount }}</span>
         </div>
         <div class="model-line model-line-bottom" />
+        <span class="model-description">Withdrawal delay is about 2 weeks</span>
         <button class="model-btn"
-                :class="{'model-btn-notavailable' : inputTon === '0' || inputTon === ''}"
-                click="withdraw"
+                :class="{'model-btn-notavailable' : operator.userWithdrawable | currencyAmountWithoutUnit === '0' || operator.userWithdrawable | currencyAmountWithoutUnit === ''}"
+                @click="withdraw"
         >
           Withdraw
         </button>
@@ -73,6 +64,7 @@ export default {
     return {
       availableAmountToWithdraw: 0,
       inputTon: '0',
+      withDrawableAmount : 0,
     };
   },
   computed: {
@@ -95,53 +87,11 @@ export default {
     currencyAmount () {
       return amount => this.$options.filters.currencyAmount(amount);
     },
-  },
-  watch: {
-    inputTon: function (newValue) {
-      let result;
-      if(newValue === '.') {
-        result = newValue;
-      } else {
-        result = newValue.replace(/[^0-9a-zA-Z.]/g, '')
-          .replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-      }
-      Vue.nextTick(() => this.inputTon = result);
+    currencyAmountWithoutUnit () {
+      return amount => this.$options.filters.currencyAmountWithoutUnit(amount);
     },
   },
   methods:{
-    makeInputMax () {
-      const tonAmount = this.availableAmountToWithdraw.toBigNumber().toString();
-      const spliedTonAmount = tonAmount.split('.');
-      const beforeDecimalNumber = spliedTonAmount[0];
-      const afterDecimalNumber = spliedTonAmount[1].slice(0, 2);
-      if(afterDecimalNumber[1] < 5 || afterDecimalNumber[1] === undefined) {
-        return this.inputTon = `${beforeDecimalNumber}.${afterDecimalNumber[0]}0`;
-      }
-      return this.inputTon = `${beforeDecimalNumber}.${Number(afterDecimalNumber[0]) + 1}0`;
-    },
-    onlyForTon ($event) {
-      // console.log($event.keyCode); //keyCodes value
-      const keyCode = ($event.keyCode ? $event.keyCode : $event.which);
-
-      // only allow number and one dot
-      if ((keyCode < 48 || keyCode > 57) && (keyCode !== 46 || this.inputTon.indexOf('.') !== -1)) { // 46 is dot
-        $event.preventDefault();
-      }
-
-      // restrict to 2 decimal places
-      if(this.inputTon!=null && this.inputTon.indexOf('.')>-1 && (this.inputTon.split('.')[1].length > 1)){
-        $event.preventDefault();
-      }
-    },
-    isNumber (evt) {
-      evt = (evt) ? evt : window.event;
-      const charCode = (evt.which) ? evt.which : evt.keyCode;
-      if ((charCode > 31 && (charCode < 48 || charCode > 57)) && charCode !== 46) {
-        evt.preventDefault();
-      } else {
-        return true;
-      }
-    },
     withdraw () {
       const userWithdrawable = this.operator.userWithdrawable;
       if (userWithdrawable.isEqual(_WTON.ray('0'))) {
@@ -244,23 +194,11 @@ textarea:focus, input:focus{
   align-items: center;
   justify-content: center;
 }
-.model-ton-stake-input {
-  border: none;
-  width: 22px;
-  min-width: 22px;
-  max-width: 184px;
-  height: 50px;
+.model-ton-stake-amount {
   font-size: 38px;
   color: #304156;
-  font-family: Roboto;
   font-weight: 500;
 }
-.model-ton-stake-input-blink {
-  border-bottom: solid 2px #2a72e5;
-  animation: blink 1s;
-  animation-iteration-count: infinite;
-}
-@keyframes blink { 50% { border-color:#fff ; }  }
 .model-ton-stake-btn {
   width: 56px;
   height: 25px;
