@@ -185,12 +185,12 @@ export default {
       });
       this.showConnectModal = false;
       // this.$store.dispatch('SIGN_OUT');
-      await provider.disconnect();
+      // await provider.disconnect();
       this.$store.dispatch('logout');
-      this.$router.replace({
-        path: '/',
-        query: { network: this.$route.query.network },
-      }).catch(err => {});
+      // this.$router.replace({
+      //   path: '/',
+      //   query: { network: this.$route.query.network },
+      // }).catch(err => {});
     },
     openEtherscanLink () {
       window.open(`https://etherscan.io/address/${this.user}`);

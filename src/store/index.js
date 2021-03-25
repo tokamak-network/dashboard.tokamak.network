@@ -95,8 +95,8 @@ export default new Vuex.Store({
     IS_LOADED: (state, loaded) => {
       state.loaded = loaded;
     },
-    SIGN_IN: (state) => {
-      state.signIn = true;
+    SIGN_IN: (state, status) => {
+      state.signIn = status;
     },
     SET_WEB3: (state, web3) => {
       state.web3 = web3;
@@ -196,7 +196,8 @@ export default new Vuex.Store({
   },
   actions: {
     logout (context) {
-      context.commit('SET_INITIAL_STATE');
+      context.commit('SIGN_IN', false);
+      context.commit('SET_USER', '');
     },
     async load (context, web3) {
       context.commit('IS_LOADING', true);
@@ -225,8 +226,10 @@ export default new Vuex.Store({
       router.replace({ path: 'home', query: { network: router.app.$route.query.network } }).catch(err => {});
     },
 
-    signIn (context) {
-      context.commit('SIGN_IN');
+    async signIn (context, web3) {
+      context.commit('SIGN_IN', true);
+      const user = (await web3.eth.getAccounts())[0];
+      context.commit('SET_USER', user);
     },
     async set (context, web3) {
       const blockNumber = await web3.eth.getBlockNumber();

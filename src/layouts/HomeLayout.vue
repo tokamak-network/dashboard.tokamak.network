@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="home-layout">
+    <div v-if="loaded" class="home-layout">
       <div class="home-content">
         <div class="home-stats">
           <div>
@@ -24,9 +24,9 @@
               <div class="legend" style="background-color:#C7D1D8" />
               <div>Actual APY</div>
             </div>
-            <graph-container v-if="dailyTotalStaked" :dailyStakedTotal="dailyTotalStaked" />
+            <GraphContainer v-if="dailyTotalStaked" :dailyStakedTotal="dailyTotalStaked" />
           </div>
-          <div v-if="loaded" class="home-footer">
+          <div class="home-footer">
             <div class="footer-items">
               <div class="footer-items__card">
                 <div class="items-card__title">
@@ -91,12 +91,6 @@ export default {
   },
   computed: {
     ...mapState([
-      'user',
-      'networkId',
-      'tonBalance',
-      'blockNumber',
-      'power',
-      'signIn',
       'currentRound',
       'uncommittedCurrentRoundReward',
       'loaded',
