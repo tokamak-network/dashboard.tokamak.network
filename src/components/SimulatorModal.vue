@@ -198,12 +198,10 @@ export default {
     onlyForTon ($event) {
       // console.log($event.keyCode); //keyCodes value
       const keyCode = ($event.keyCode ? $event.keyCode : $event.which);
-
       // only allow number and one dot
       if ((keyCode < 48 || keyCode > 57) && (keyCode !== 46 || this.inputTon.indexOf('.') !== -1)) { // 46 is dot
         $event.preventDefault();
       }
-
       // restrict to 2 decimal places
       if(this.inputTon!=null && this.inputTon.indexOf('.')>-1 && (this.inputTon.split('.')[1].length > 1)){
         $event.preventDefault();
@@ -228,7 +226,6 @@ export default {
       let unit = 0;
       let stakedRatio = 0;
       const maxCompensate = Number(this.maxCompensateTokenPerDay);
-
       const total = Number(this.totalStaked) + my;
       if (this.durationUnit === 'Year') {
         unit = 365;
@@ -241,14 +238,11 @@ export default {
       const KRW = this.currentPrice;
       stakedRatio = total/this.totalSupply;
       this.compensatePerDay = stakedRatio * this.maxCompensateTokenPerDay;
-
       const dailyNotMintedSeig = maxCompensate - maxCompensate*(total/this.totalSupply);
       const proportionalSeig = dailyNotMintedSeig * (this.pSeigDeduction / 100);
-
       this.expectedSeig = (my/total) * (Number(this.compensatePerDay) + proportionalSeig) * unit;
       my = my + this.expectedSeig;
       this.returnRate = (my/Number(this.inputTon.replace(',', ''))*100 - 100);
-
       const rewardPrice = this.expectedSeig;
       this.roi = this.returnRate.toLocaleString(undefined, { maximumFractionDigits:2 })+' %';
       this.rewardTON = this.expectedSeig.toLocaleString(undefined, { maximumFractionDigits:4 })+' TON ';
@@ -297,7 +291,6 @@ export default {
 };
 </script>
 <style scoped>
-
 textarea:focus, input:focus, button:focus{
     outline: none;
 }

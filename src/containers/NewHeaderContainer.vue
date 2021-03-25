@@ -37,7 +37,14 @@
           :class="{ 'menu-button-selected': $route.path === '/powerton'}"
           @click="clickMenu('powerton')"
         >
-          Power TON
+          PowerTON
+        </button>
+        <button
+          class="header-link"
+          :class="{ 'menu-button-selected': $route.path === '/wallet'}"
+          @click="clickMenu('wallet')"
+        >
+          Wallet
         </button>
       </div>
       <div>
@@ -61,13 +68,16 @@ export default {
   data () {
     return {
       loading: false,
-      showModel: false,
     };
   },
   computed: {
     ...mapState([
       'signIn',
+      'user',
     ]),
+    hexSlicer () {
+      return address => this.$options.filters.hexSlicer(address);
+    },
   },
   methods: {
     clickMenu (path) {
@@ -212,44 +222,29 @@ export default {
   text-align: center;
   color: #3e495c;
 }
+
 button:focus {
   outline: none;
 }
+
 button:hover {
   color: #555555;
 }
+
 .login {
-  border: 1px #519ae8;
-  background: #e2e8eb;
+  border: 1px solid #d7d9df;
   border-radius: 12px;
-  box-shadow: 6px 6px 12px #d1d1d1;
   padding: 0px 16px;
   height: 36px;
-  color: #2a72e5;
+  color: #86929d;
+  background-color: transparent;
   font-size: 14px;
-  font-weight: 700;
   font-family: "Noto Sans",sans-serif;
   width: 150px;
   margin-right: 39px;
 }
+
 .menu-button-selected {
   color: #2a72e5;
-}
-.model-mask {
-  position: fixed;
-  z-index: 9999;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.6);
-  transition: opacity 0.3s ease;
-
-}
-.model-container {
-  display: flex;
-  justify-content: center;
-    align-content: center;
-    margin-top: 50px;
 }
 </style>

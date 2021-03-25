@@ -1,14 +1,14 @@
 <template>
   <div>
     <div v-if="!signIn" class="wallet-connect" @click="openWalletOptions()">Connect Wallet</div>
-    <div v-else ref="text" class="wallet-connect" @click="openWallet()">
+    <div v-else class="wallet-connect" @click="openWallet()">
       <blockies :address="user" />
       {{ user | hexSlicer }}
     </div>
     <transition v-if="showConnectModal" name="modal">
       <div class="modal-mask w100">
         <div class="">
-          <div>
+          <div >
             <div v-if="connectType === 'connect'" class="modal-wrapper">
               <div class="modal-container">
                 <div class="modal-header">
@@ -201,7 +201,6 @@ export default {
       }, function (e) {
         console.log(e);
       });
-
     },
     openWalletOptions () {
       this.showConnectModal = true;

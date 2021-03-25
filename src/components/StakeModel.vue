@@ -57,7 +57,6 @@ import { createCurrency } from '@makerdao/currency';
 import moment from 'moment';
 const _TON = createCurrency('TON');
 const _WTON = createCurrency('WTON');
-
 export default {
   props: {
     layer2: {
@@ -98,7 +97,6 @@ export default {
     notWithdrawableMessage () {
       return withdrawableBlockNumber => `You have to wait for ${withdrawableBlockNumber - this.blockNumber} blocks to withdraw all the tokens.`;
     },
-
     withdrawableRequests () {
       return this.operator.withdrawalRequests.length;
     },
@@ -167,12 +165,10 @@ export default {
     onlyForTon ($event) {
       // console.log($event.keyCode); //keyCodes value
       const keyCode = ($event.keyCode ? $event.keyCode : $event.which);
-
       // only allow number and one dot
       if ((keyCode < 48 || keyCode > 57) && (keyCode !== 46 || this.inputTon.indexOf('.') !== -1)) { // 46 is dot
         $event.preventDefault();
       }
-
       // restrict to 2 decimal places
       if(this.inputTon!=null && this.inputTon.indexOf('.')>-1 && (this.inputTon.split('.')[1].length > 1)){
         $event.preventDefault();
@@ -250,7 +246,6 @@ export default {
           .on('receipt', (receipt) => {
             this.index = 0;
           });
-
         this.availableAmountToDelegate = '';
       }
     },

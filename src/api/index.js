@@ -58,12 +58,30 @@ export async function getCommitHistory (chainId, layer2) {
   if (res.data === '') return [];
   else return res.data.datas;
 }
+export async function getAccumulatedReward (chainId, user) {
+  const res = await candidate.get('/stakedl2accounts/totalRewards', {
+    params: {
+      chainId: chainId,
+      account: user,
+    },
+  });
+  if (res.data === '') return [];
+  else return res.data.datas;
+}
 export async function getCandidates () {
   const res = await candidate.get('/layer2s/operators');
   if (res.data === '') return [];
   else return res.data.datas;
 }
-
+export async function getRoundReward (chainId) {
+  const res = await candidate.get('/powertons', {
+    params: {
+      chainId: chainId,
+    },
+  });
+  if (res.data === '') return [];
+  else return res.data.datas;
+}
 export async function getManagers () {
   const res = await instance.get('/managers');
   if (res.data === '') return [];

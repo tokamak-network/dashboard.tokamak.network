@@ -72,7 +72,6 @@ import Vue from 'vue';
 import { mapState, mapGetters } from 'vuex';
 import { createCurrency } from '@makerdao/currency';
 import moment from 'moment';
-
 const _WTON = createCurrency('WTON');
 export default {
   props: {
@@ -139,7 +138,6 @@ export default {
     onlyForTon ($event) {
       // console.log($event.keyCode); //keyCodes value
       const keyCode = $event.keyCode ? $event.keyCode : $event.which;
-
       // only allow number and one dot
       if (
         (keyCode < 48 || keyCode > 57) &&
@@ -148,7 +146,6 @@ export default {
         // 46 is dot
         $event.preventDefault();
       }
-
       // restrict to 2 decimal places
       if (
         this.inputTon != null &&
@@ -184,7 +181,6 @@ export default {
         .on('receipt', (receipt) => {
           this.index = 0;
         });
-
       this.availableAmountToUndelegate = '';
     },
     closeModal (method) {

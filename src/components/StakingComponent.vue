@@ -127,6 +127,7 @@ export default {
 <style scoped>
 .staking-component-container {
   width: 350px;
+  height: 100%;
   display: flex;
   flex-direction: column;
   background-color: #ffffff;
