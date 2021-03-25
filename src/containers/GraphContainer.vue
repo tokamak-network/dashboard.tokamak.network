@@ -56,7 +56,7 @@ export default {
             label: 'Total Stake',
             borderColor: '#2a72e5',
             borderWidth: 2,
-            pointStyle: 'line',
+            pointRadius: 0,
             lineTension: 0,
             backgroundColor: 'transparent',
             data: this.orderedStaked.map((item) =>
@@ -68,7 +68,7 @@ export default {
             label: 'Actual APY',
             borderColor: '#C7D1D8',
             borderWidth: 2,
-            pointStyle: 'line',
+            pointRadius: 0,
             lineTension: 0,
             backgroundColor: 'transparent',
             data: this.orderedStaked.map((item) => item.roi.toString() + ''),
