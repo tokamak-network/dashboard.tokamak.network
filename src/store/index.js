@@ -199,6 +199,13 @@ export default new Vuex.Store({
     },
   },
   actions: {
+    getActualAmount (amount) {
+      console.log(amount);
+      const spliedTonAmount = amount.split('.');
+      const beforeDecimalNumber = spliedTonAmount[0];
+      const afterDecimalNumber = spliedTonAmount[1].slice(0, 2);
+      return `${beforeDecimalNumber}.${afterDecimalNumber}`;
+    },
     logout (context) {
       context.commit('SET_INITIAL_STATE');
     },

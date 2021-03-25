@@ -14,7 +14,7 @@
         <div class="model-line" />
         <div class="model-ton-stake">
           <span class="model-ton-stake-amount">{{
-            operator.userWithdrawable | currencyAmountWithoutUnit
+            getMaxBalance()
           }}</span>
         </div>
         <div class="model-ton-balance">
@@ -24,7 +24,7 @@
         <div class="model-ton-balance">
           <h3 class="model-ton-balance-title">Withdrawable Balance</h3>
           <span class="model-ton-balance-amount">{{
-            operator.userWithdrawable | currencyAmount
+            getMaxBalance()
           }}</span>
         </div>
         <div class="model-line model-line-bottom" />
@@ -100,6 +100,21 @@ export default {
     },
   },
   methods: {
+    getMaxBalance (args) {
+      let afterDecimalNumber;
+      const tonAmount = this.operator.userWithdrawable.toBigNumber().toString();
+      const spliedTonAmount = tonAmount.split('.');
+      const beforeDecimalNumber = spliedTonAmount[0];
+      if(spliedTonAmount[1] === undefined) {
+        afterDecimalNumber = '00';
+      } else {
+        afterDecimalNumber = spliedTonAmount[1].slice(0, 2);
+      }
+      if(args === 'max') {
+        return this.inputTon = `${beforeDecimalNumber}.${afterDecimalNumber}`;
+      }
+      return `${beforeDecimalNumber}.${afterDecimalNumber}`;
+    },
     withdraw () {
       const userWithdrawable = this.operator.userWithdrawable;
       if (userWithdrawable.isEqual(_WTON.ray('0'))) {

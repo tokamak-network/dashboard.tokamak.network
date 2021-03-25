@@ -27,23 +27,21 @@
             :style="{ width: inputTon.length * 22 + 'px' }"
             @keypress="onlyForTon"
           >
-          <button class="model-ton-stake-btn" @click="makeInputMax">MAX</button>
+          <button class="model-ton-stake-btn" @click="getMaxBalance('max')">MAX</button>
         </div>
         <div class="model-ton-balance">
           <h3 class="model-ton-balance-title">Available Balance</h3>
           <div class="model-ton-balance-amount">
             <span class="model-ton-balance-amount-number">
-              {{ operator.userStaked | currencyAmount }}
+              {{ getMaxBalance(operator.userStaked) }}
             </span>
           </div>
         </div>
         <div class="model-line model-line-bottom" />
         <button
           class="model-btn"
-          :class="{
-            'model-btn-notavailable': inputTon === '0' || inputTon === '',
-          }"
-          :disabled="inputTon === '0' || inputTon === ''"
+          :class="{'model-btn-notavailable' : inputTon === '0' || inputTon === '0.' || inputTon === '0.0' || inputTon === '0.00' || inputTon === '' }"
+          :disabled="inputTon === '0' || inputTon === '0.' || inputTon === '0.0' || inputTon === '0.00' || inputTon === ''"
           @click="undelegate"
         >
           Unstake
@@ -123,17 +121,20 @@ export default {
     },
   },
   methods: {
-    makeInputMax () {
+    getMaxBalance (args) {
+      let afterDecimalNumber;
       const tonAmount = this.operator.userStaked.toBigNumber().toString();
       const spliedTonAmount = tonAmount.split('.');
       const beforeDecimalNumber = spliedTonAmount[0];
-      const afterDecimalNumber = spliedTonAmount[1].slice(0, 3);
-      if (afterDecimalNumber[1] < 5 || afterDecimalNumber[1] === undefined) {
-        return (this.inputTon = `${beforeDecimalNumber}.${afterDecimalNumber[0]}0`);
+      if(spliedTonAmount[1] === undefined) {
+        afterDecimalNumber = '00';
+      } else {
+        afterDecimalNumber = spliedTonAmount[1].slice(0, 2);
       }
-      return (this.inputTon = `${beforeDecimalNumber}.${
-        Number(afterDecimalNumber[0]) + 1
-      }0`);
+      if(args === 'max') {
+        return this.inputTon = `${beforeDecimalNumber}.${afterDecimalNumber}`;
+      }
+      return `${beforeDecimalNumber}.${afterDecimalNumber}`;
     },
     onlyForTon ($event) {
       // console.log($event.keyCode); //keyCodes value

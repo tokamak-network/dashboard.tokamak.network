@@ -13,12 +13,12 @@
         <h2 class="model-content-subTitle">You can earn TON and Power</h2>
         <div class="model-line" />
         <div class="model-ton-stake">
-          <span id="test" class="model-ton-stake-amount">{{ redelegatableAmount | currencyAmountWithoutUnit }}</span>
+          <span id="test" class="model-ton-stake-amount">{{ getMaxBalance() }}</span>
         </div>
         <div class="model-ton-balance">
           <h3 class="model-ton-balance-title">Ton Balance</h3>
           <div class="model-ton-balance-amount">
-            <span class="model-ton-balance-amount-number">{{ redelegatableAmount | currencyAmount }}</span>
+            <span class="model-ton-balance-amount-number">{{ getMaxBalance() }}</span>
           </div>
         </div>
         <div class="model-line model-line-bottom" />
@@ -115,6 +115,21 @@ export default {
     },
   },
   methods:{
+    getMaxBalance (args) {
+      let afterDecimalNumber;
+      const tonAmount = this.redelegatableAmount.toBigNumber().toString();
+      const spliedTonAmount = tonAmount.split('.');
+      const beforeDecimalNumber = spliedTonAmount[0];
+      if(spliedTonAmount[1] === undefined) {
+        afterDecimalNumber = '00';
+      } else {
+        afterDecimalNumber = spliedTonAmount[1].slice(0, 2);
+      }
+      if(args === 'max') {
+        return this.inputTon = `${beforeDecimalNumber}.${afterDecimalNumber}`;
+      }
+      return `${beforeDecimalNumber}.${afterDecimalNumber}`;
+    },
     increaseIndex () {
       this.index++;
       if (this.operator.withdrawalRequests.length === 0 ||

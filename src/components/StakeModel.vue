@@ -22,18 +22,18 @@
             :style="{width: (inputTon.length * 22) + 'px'}"
             @keypress="onlyForTon"
           >
-          <button class="model-ton-stake-btn" @click="makeInputMax">MAX</button>
+          <button class="model-ton-stake-btn" @click="getMaxBalance('max')">MAX</button>
         </div>
         <div class="model-ton-balance">
           <h3 class="model-ton-balance-title">Ton Balance</h3>
           <div class="model-ton-balance-amount">
-            <span class="model-ton-balance-amount-number">{{ tonBalance }}</span>
+            <span class="model-ton-balance-amount-number">{{ getMaxBalance(tonBalance) }}</span>
           </div>
         </div>
         <div class="model-line model-line-bottom" />
         <button class="model-btn"
-                :class="{'model-btn-notavailable' : inputTon === '0' || inputTon === ''}"
-                :disabled="inputTon === '0' || inputTon === ''"
+                :class="{'model-btn-notavailable' : inputTon === '0' || inputTon === '0.' || inputTon === '0.0' || inputTon === '0.00' || inputTon === '' }"
+                :disabled="inputTon === '0' || inputTon === '0.' || inputTon === '0.0' || inputTon === '0.00' || inputTon === ''"
                 @click="delegate"
         >
           Stake
@@ -149,29 +149,20 @@ export default {
     this.inputTon = this.amount;
   },
   methods:{
-    makeInputMax () {
+    getMaxBalance (args) {
+      let afterDecimalNumber;
       const tonAmount = this.tonBalance.toBigNumber().toString();
-      const test = this.tonBalance.toBigNumber().toLocaleString('en-US');
-      console.log(tonAmount);
-      console.log(test);
       const spliedTonAmount = tonAmount.split('.');
       const beforeDecimalNumber = spliedTonAmount[0];
-
       if(spliedTonAmount[1] === undefined) {
-        return this.inputTon = `${beforeDecimalNumber}.00`;
-      }
-
-      const afterDecimalNumber = spliedTonAmount[1].slice(0, 2);
-
-      if(afterDecimalNumber[1] < 5 || afterDecimalNumber[1] === undefined) {
-        return this.inputTon = `${beforeDecimalNumber}.${afterDecimalNumber[0]}0`;
+        afterDecimalNumber = '00';
       } else {
-        if(afterDecimalNumber[1] < 9) {
-          return this.inputTon = `${beforeDecimalNumber}.${Number(afterDecimalNumber[0]) + 1}0`;
-        } else {
-          return this.inputTon = `${Number(beforeDecimalNumber)+1}.00`;
-        }
+        afterDecimalNumber = spliedTonAmount[1].slice(0, 2);
       }
+      if(args === 'max') {
+        return this.inputTon = `${beforeDecimalNumber}.${afterDecimalNumber}`;
+      }
+      return `${beforeDecimalNumber}.${afterDecimalNumber}`;
     },
     onlyForTon ($event) {
       // console.log($event.keyCode); //keyCodes value
@@ -226,7 +217,11 @@ export default {
       return data;
     },
     async delegate () {
-      const value = parseFloat(this.inputTon.replace(/,/g, ''));
+      const stringInputTon = this.inputTon.replace(/,/g, '');
+      let value = parseFloat(stringInputTon);
+      if(stringInputTon === this.getMaxBalance(this.tonBalance)) {
+        value = parseFloat(this.tonBalance.toBigNumber().toString());
+      }
       if (value === 0) {
         return alert('Please check input amount.');
       }
