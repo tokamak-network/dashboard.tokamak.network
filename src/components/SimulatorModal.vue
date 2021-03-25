@@ -95,6 +95,7 @@
         </div>
       </div>
     </div>
+    <!-- <StakeModal v-if="currentView === 'stake'" :simulatedAmount="Number(inputTon.replace(',', ''))" /> -->
   </div>
   <!-- <div class="simulator-container">
     <button @click="closePopup()">X</button>
@@ -165,8 +166,12 @@ export default {
     this.getUSDInfo();
   },
   methods: {
+    test () {
+      const tonAmount = this.inputTon;
+      console.log(tonAmount);
+      this.$emit('openStake', tonAmount);
+    },
     makeInputMax () {
-
       const tonAmount = this.tonBalance.toBigNumber().toString();
       const spliedTonAmount = tonAmount.split('.');
       const beforeDecimalNumber = spliedTonAmount[0];

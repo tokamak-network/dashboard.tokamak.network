@@ -29,6 +29,7 @@
           <simulator-modal
             @closePopup="closePopup"
             @openResultModal="openResultModal"
+            @openStake="openStake"
           />
         </div>
       </div>
@@ -101,6 +102,7 @@ export default {
       this.$emit('selectFunc', method);
     },
     closePopup () {
+      console.log('gogogo');
       this.showSim = false;
     },
     closeModal () {
@@ -114,14 +116,13 @@ export default {
       this.myStaked = myStaked;
       this.showResultModal = true;
     },
-    openStake () {
-      this.showResultModal = false;
+    openStake (amount) {
       this.showSim = false;
-      this.$emit('openStakeModal', this.myStaked);
+      this.$emit('openStakeModal', amount);
     },
   },
 };
-</script>``
+</script>
 
 <style scoped>
 .staking-component-container {

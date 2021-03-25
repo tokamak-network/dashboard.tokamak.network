@@ -10,16 +10,21 @@
       </div>
       <div class="model-content">
         <h1 class="model-content-title">Unstake</h1>
-        <h2 class="model-content-subTitle">Are you really want unstake your TON now?</h2>
+        <h2 class="model-content-subTitle">
+          Are you really want unstake your TON now?
+        </h2>
         <div class="model-line" />
         <div class="model-ton-stake">
           <input
             id="inputTonFiled"
             v-model="inputTon"
             class="model-ton-stake-input"
-            :class="{'model-ton-stake-input-blink' : inputTon === '0' || inputTon === ''}"
+            :class="{
+              'model-ton-stake-input-blink':
+                inputTon === '0' || inputTon === '',
+            }"
             value="0"
-            :style="{width: (inputTon.length * 22) + 'px'}"
+            :style="{ width: inputTon.length * 22 + 'px' }"
             @keypress="onlyForTon"
           >
           <button class="model-ton-stake-btn" @click="makeInputMax">MAX</button>
@@ -27,14 +32,19 @@
         <div class="model-ton-balance">
           <h3 class="model-ton-balance-title">Available Balance</h3>
           <div class="model-ton-balance-amount">
-            <span class="model-ton-balance-amount-number"> {{ operator.userStaked | currencyAmount }} </span>
+            <span class="model-ton-balance-amount-number">
+              {{ operator.userStaked | currencyAmount }}
+            </span>
           </div>
         </div>
         <div class="model-line model-line-bottom" />
-        <button class="model-btn"
-                :class="{'model-btn-notavailable' : inputTon === '0' || inputTon === ''}"
-                :disabled="inputTon === '0' || inputTon === ''"
-                @click="undelegate"
+        <button
+          class="model-btn"
+          :class="{
+            'model-btn-notavailable': inputTon === '0' || inputTon === '',
+          }"
+          :disabled="inputTon === '0' || inputTon === ''"
+          @click="undelegate"
         >
           Unstake
         </button>
@@ -91,51 +101,59 @@ export default {
       'user',
       'power',
     ]),
-    ...mapGetters([
-      'operatorByLayer2',
-    ]),
+    ...mapGetters(['operatorByLayer2']),
     operator () {
       return this.operatorByLayer2(this.layer2);
     },
     currencyAmount () {
-      return amount => this.$options.filters.currencyAmount(amount);
+      return (amount) => this.$options.filters.currencyAmount(amount);
     },
   },
   watch: {
     inputTon: function (newValue) {
       let result;
-      if(newValue === '.') {
+      if (newValue === '.') {
         result = newValue;
       } else {
-        result = newValue.replace(/[^0-9a-zA-Z.]/g, '')
+        result = newValue
+          .replace(/[^0-9a-zA-Z.]/g, '')
           .replace(/\B(?=(\d{3})+(?!\d))/g, ',');
       }
-      Vue.nextTick(() => this.inputTon = result);
+      Vue.nextTick(() => (this.inputTon = result));
     },
   },
-  methods:{
+  methods: {
     makeInputMax () {
       const tonAmount = this.operator.userStaked.toBigNumber().toString();
       const spliedTonAmount = tonAmount.split('.');
       const beforeDecimalNumber = spliedTonAmount[0];
-      const afterDecimalNumber = spliedTonAmount[1].slice(0, 2);
-      if(afterDecimalNumber[1] < 5 || afterDecimalNumber[1] === undefined) {
-        return this.inputTon = `${beforeDecimalNumber}.${afterDecimalNumber[0]}0`;
+      const afterDecimalNumber = spliedTonAmount[1].slice(0, 3);
+      if (afterDecimalNumber[1] < 5 || afterDecimalNumber[1] === undefined) {
+        return (this.inputTon = `${beforeDecimalNumber}.${afterDecimalNumber[0]}0`);
       }
-      return this.inputTon = `${beforeDecimalNumber}.${Number(afterDecimalNumber[0]) + 1}0`;
-
+      return (this.inputTon = `${beforeDecimalNumber}.${
+        Number(afterDecimalNumber[0]) + 1
+      }0`);
     },
     onlyForTon ($event) {
       // console.log($event.keyCode); //keyCodes value
-      const keyCode = ($event.keyCode ? $event.keyCode : $event.which);
+      const keyCode = $event.keyCode ? $event.keyCode : $event.which;
 
       // only allow number and one dot
-      if ((keyCode < 48 || keyCode > 57) && (keyCode !== 46 || this.inputTon.indexOf('.') !== -1)) { // 46 is dot
+      if (
+        (keyCode < 48 || keyCode > 57) &&
+        (keyCode !== 46 || this.inputTon.indexOf('.') !== -1)
+      ) {
+        // 46 is dot
         $event.preventDefault();
       }
 
       // restrict to 2 decimal places
-      if(this.inputTon!=null && this.inputTon.indexOf('.')>-1 && (this.inputTon.split('.')[1].length > 1)){
+      if (
+        this.inputTon != null &&
+        this.inputTon.indexOf('.') > -1 &&
+        this.inputTon.split('.')[1].length > 1
+      ) {
         $event.preventDefault();
       }
     },
@@ -144,14 +162,13 @@ export default {
       if (tonAmount === '' || parseFloat(tonAmount) === 0) {
         return alert('Please check input amount.');
       }
-      if (_WTON(tonAmount).gt(this.operator.userStaked)){
+      if (_WTON(tonAmount).gt(this.operator.userStaked)) {
         return alert('Please check your TON amount.');
       }
       const amount = _WTON(tonAmount).toFixed('ray');
-      this.DepositManager.methods.requestWithdrawal(
-        this.operator.layer2,
-        amount,
-      ).send({ from: this.user })
+      this.DepositManager.methods
+        .requestWithdrawal(this.operator.layer2, amount)
+        .send({ from: this.user })
         .on('transactionHash', async (hash) => {
           const transcation = {
             from: this.user,
@@ -181,9 +198,13 @@ export default {
       }
     },
     isNumber (evt) {
-      evt = (evt) ? evt : window.event;
-      const charCode = (evt.which) ? evt.which : evt.keyCode;
-      if ((charCode > 31 && (charCode < 48 || charCode > 57)) && charCode !== 46) {
+      evt = evt ? evt : window.event;
+      const charCode = evt.which ? evt.which : evt.keyCode;
+      if (
+        charCode > 31 &&
+        (charCode < 48 || charCode > 57) &&
+        charCode !== 46
+      ) {
         evt.preventDefault();
       } else {
         return true;
@@ -193,8 +214,10 @@ export default {
 };
 </script>
 <style scoped>
-textarea:focus, input:focus, button:focus{
-    outline: none;
+textarea:focus,
+input:focus,
+button:focus {
+  outline: none;
 }
 .model-wrapper {
   width: 100%;
@@ -237,7 +260,7 @@ textarea:focus, input:focus, button:focus{
 .model-content-title {
   font-size: 20px;
   font-weight: bold;
-font-family: "Titillium Web", sans-serif;
+  font-family: "Titillium Web", sans-serif;
   margin-bottom: 0px;
 }
 .model-content-subTitle {
@@ -276,7 +299,11 @@ font-family: "Titillium Web", sans-serif;
   animation: blink 1s;
   animation-iteration-count: infinite;
 }
-@keyframes blink { 50% { border-color:#fff ; }  }
+@keyframes blink {
+  50% {
+    border-color: #fff;
+  }
+}
 .model-ton-stake-btn {
   width: 56px;
   height: 25px;

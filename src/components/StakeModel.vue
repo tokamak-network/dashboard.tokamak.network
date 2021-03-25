@@ -141,14 +141,19 @@ export default {
       }
       Vue.nextTick(() => this.inputTon = result);
     },
+    simulatedAmount: function () {
+      this.inputTon = this.simulatedAmount;
+    },
   },
   created (){
-    this.availableAmountToDelegate = this.amount;
+    this.inputTon = this.amount;
   },
   methods:{
     makeInputMax () {
       const tonAmount = this.tonBalance.toBigNumber().toString();
+      const test = this.tonBalance.toBigNumber().toLocaleString('en-US');
       console.log(tonAmount);
+      console.log(test);
       const spliedTonAmount = tonAmount.split('.');
       const beforeDecimalNumber = spliedTonAmount[0];
 
