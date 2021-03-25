@@ -18,12 +18,12 @@
             <div class="home-stats__tokamak">Tokamak Network</div>
           </div>
           <div class="home-stats__chart" style="position: relative; height:45vh; width:98.99vw">
-          <div class="legend-container">
-           <div class="legend"></div>
-            <div :style="'margin-right:20px;'">Total Stake</div>
-            <div class="legend" style="background-color:#C7D1D8"></div>
-            <div>Actual APY</div>
-          </div>
+            <div class="legend-container">
+              <div class="legend" />
+              <div :style="'margin-right:20px;'">Total Stake</div>
+              <div class="legend" style="background-color:#C7D1D8" />
+              <div>Actual APY</div>
+            </div>
             <graph-container v-if="dailyTotalStaked" :dailyStakedTotal="dailyTotalStaked" />
           </div>
           <div v-if="loaded" class="home-footer">

@@ -4,9 +4,9 @@
       <div class="header-logo-container">
         <img
           class="header-logo"
-          src="@/assets/images/tokamak-staking-simple.png"
-          width="258"
-          height="38"
+          src="@/assets/images/tnss_bi.png"
+          width="365px"
+          heigh="39px"
           @click="toMainPage"
         >
       </div>
@@ -39,13 +39,13 @@
         >
           Power TON
         </button>
-        <button
+        <!-- <button
           class="header-link"
           :class="{ 'menu-button-selected': $route.path === '/about'}"
           @click="clickMenu('about')"
         >
           About Us
-        </button>
+        </button> -->
       </div>
       <div>
         <button v-if="!signIn" class="login" @click="login">Unlock Wallet</button>
@@ -174,7 +174,7 @@ export default {
   width: 100%;
   align-self: center;
   height: 84px;
-  background: #f6f8f9;
+  background: #fafbfc;
   display: flex;
   justify-content: center;
   position:inherit;
@@ -185,7 +185,7 @@ export default {
     display: flex;
      width: 100%;
   height: 100%;
-    justify-content: space-around;
+    justify-content: space-between;
 }
 
 .header-logo-container {
@@ -194,6 +194,8 @@ export default {
 
 .header-logo {
   margin-top: -5px;
+  margin-left: 40px;
+
 }
 
 .header-logo:hover {
@@ -207,19 +209,23 @@ export default {
 }
 
 .header-link:hover {
-  color: #555555;;
+  color: #2a72e5;;
 }
 
 .header-link {
   border: none;
-  font-weight: 550;
-    padding-left: 16px;
-    padding-right: 16px;
-    text-decoration: none;
-    background: #f6f8f9;
-    color: #2a72e5;
-    font-size: 16px;
-    font-family: "Noto Sans",sans-serif;
+    padding-left: 24px;
+    padding-right: 24px;
+    background: #fafbfc;
+  font-family: "TitilliumWeb",sans-serif;
+  font-size: 18px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  /* line-height: 1.5; */
+  letter-spacing: normal;
+  text-align: center;
+  color: #3e495c;
 }
 button:focus {
   outline: none;
@@ -239,9 +245,10 @@ button:hover {
   font-weight: 700;
   font-family: "Noto Sans",sans-serif;
   width: 150px;
+  margin-right: 39px;
 }
 .menu-button-selected {
-  color: #1e4072;
+  color: #2a72e5;
 }
 .model-mask {
   position: fixed;
