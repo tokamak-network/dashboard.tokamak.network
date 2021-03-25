@@ -5,7 +5,7 @@ Vue.use(Vuex);
 import router from '@/router';
 import web3EthABI from 'web3-eth-abi';
 
-import { getManagers, getOperators, getHistory, getTransactions, addTransaction } from '@/api';
+import { getManagers, getOperators, getHistory, getTransactions, addTransaction, getDailyStakedTotal, getTotalSupply } from '@/api';
 import { cloneDeep, isEqual, range, uniq, orderBy } from 'lodash';
 import numeral from 'numeral';
 import { createWeb3Contract } from '@/helpers/Contract';
@@ -29,9 +29,11 @@ import SeigManagerABI from '@/contracts/abi/SeigManager.json';
 import PowerTONABI from '@/contracts/abi/PowerTON.json';
 import Layer2ABI from '@/contracts/abi/Layer2.json';
 import AutoRefactorCoinageABI from '@/contracts/abi/AutoRefactorCoinage.json';
+import axios from 'axios';
 
 const initialState = {
   loading: false,
+  loaded:false,
   signIn: false,
 
   // transactionss (based on receipt: getTransactionReceipt)
@@ -43,7 +45,7 @@ const initialState = {
   networkId: '',
   blockNumber: 0,
   blockTimestamp: 0,
-
+  totalStaked: 0,
   // contract of managers
   TON: {},
   WTON: {},
@@ -67,6 +69,7 @@ const initialState = {
 
   // user transaction history
   history: [],
+  dailyTotalStaked: [],
 
   // rank
   accountsDepositedWithPower: [],
@@ -88,6 +91,9 @@ export default new Vuex.Store({
     },
     IS_LOADING: (state, isLoading) => {
       state.loading = isLoading;
+    },
+    IS_LOADED: (state, loaded) => {
+      state.loaded = loaded;
     },
     SIGN_IN: (state) => {
       state.signIn = true;
@@ -181,12 +187,18 @@ export default new Vuex.Store({
     SET_UNCOMMITTED_CURRENT_ROUND_REWARD: (state, reward) => {
       state.uncommittedCurrentRoundReward = reward;
     },
+    SET_TOTALSTAKED: (state, totalStaked) =>{
+      state.totalStaked = totalStaked;
+    },
+    SET_DAILY_STAKED_TOTAL: (state, dailyTotalStaked) => {
+      state.dailyTotalStaked = dailyTotalStaked;
+    },
   },
   actions: {
     logout (context) {
       context.commit('SET_INITIAL_STATE');
     },
-    async signIn (context, web3) {
+    async load (context, web3) {
       context.commit('IS_LOADING', true);
       context.commit('SET_WEB3', web3);
 
@@ -207,11 +219,14 @@ export default new Vuex.Store({
         context.dispatch('setAccountsDepositedWithPower'),
         context.dispatch('set', web3),
       ]);
-
       await new Promise(resolve => setTimeout(resolve, 1000)); // https://github.com/Onther-Tech/dashboard.tokamak.network/issues/81
-      context.commit('SIGN_IN');
       context.commit('IS_LOADING', false);
+      context.commit('IS_LOADED', true);
       router.replace({ path: 'home', query: { network: router.app.$route.query.network } }).catch(err => {});
+    },
+
+    signIn (context) {
+      context.commit('SIGN_IN');
     },
     async set (context, web3) {
       const blockNumber = await web3.eth.getBlockNumber();
@@ -227,6 +242,8 @@ export default new Vuex.Store({
         context.dispatch('setHistory'),
         context.dispatch('setUncommittedCurrentRoundReward', blockNumber),
         context.dispatch('checkPendingTransactions'),
+        context.dispatch('getTotalStaked'),
+        context.dispatch('getDailyStakedTokenStats'),
       ]).catch(err => {
         // after logout, error can be happened
       });
@@ -310,6 +327,36 @@ export default new Vuex.Store({
         .times(0.8)
         .times(0.5);
       context.commit('SET_UNCOMMITTED_CURRENT_ROUND_REWARD', uncommittedCurrentRoundReward);
+    },
+
+    async getDailyStakedTokenStats (context) {
+      const dailyStakedTotal = await getDailyStakedTotal(context.state.networkId);
+      const totalSup = await getTotalSupply();
+      dailyStakedTotal.forEach((item) => {
+        const totalStaked = parseFloat(item.totalSupply) / Math.pow(10, 27);
+        let my = Number(1000);
+        let stakedRatio = 0;
+        const unit = 365;
+        const maxCompensate = Number('26027.39726');
+        const total = Number(totalStaked) + my;
+        stakedRatio = total/totalSup;
+        const compensatePerDay = stakedRatio * 26027.39726;
+        const dailyNotMintedSeig = maxCompensate - maxCompensate*(total/totalSup);
+        const proportionalSeig = dailyNotMintedSeig * (40 / 100);
+        const expectedSeig = (my/total) * (Number(compensatePerDay) + proportionalSeig) * unit;
+        my = my + expectedSeig;
+        // item.roi = (my/Number(1000)*100 - 100)/100;
+        item.roi = ((my/Number(1000)*100 - 100)/100).toLocaleString(undefined, { maximumFractionDigits: 2, minimumFractionDigits: 2 }) ;
+      });
+      context.commit('SET_DAILY_STAKED_TOTAL', dailyStakedTotal);
+    },
+
+    async getTotalStaked (context) {
+      await axios
+        .get('https://price-api.tokamak.network/staking/current')
+        .then((response) => {
+          context.commit('SET_TOTALSTAKED', response.data);
+        });
     },
     async checkPendingTransactions (context) {
       const web3 = context.state.web3;

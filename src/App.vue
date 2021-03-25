@@ -2,13 +2,8 @@
   <div id="app" class="app">
     <new-header-container />
     <div class="body-container">
-      <div v-if="!signIn">
-        <loading-spinner v-if="loading" />
-        <access-wallet-layout v-else />
-      </div>
-      <div v-else>
-        <main-layout />
-      </div>
+      <loading-spinner v-if="loading" />
+      <main-layout v-else />
     </div>
     <footer-container />
   </div>
@@ -16,23 +11,20 @@
 
 <script>
 import { mapState, mapGetters } from 'vuex';
-
 import LoadingSpinner from '@/components/LoadingSpinner.vue';
+
 // import TxProcessor from '@/components/TxProcessor.vue';
 import NewHeaderContainer from '@/containers/NewHeaderContainer.vue';
 import FooterContainer from '@/containers/FooterContainer.vue';
-import AccessWalletLayout from '@/layouts/AccessWalletLayout.vue';
 import MainLayout from '@/layouts/MainLayout.vue';
-import AccessWalletLayoutVue from '@/layouts/AccessWalletLayout.vue';
-import NetworkGuideLayout from '@/layouts/NetworkGuideLayout.vue';
-
+import Web3 from 'web3';
+import { getConfig } from '../config';
 export default {
   components: {
-    'loading-spinner': LoadingSpinner,
     'new-header-container': NewHeaderContainer,
     'footer-container': FooterContainer,
-    'access-wallet-layout': AccessWalletLayout,
     'main-layout': MainLayout,
+    'loading-spinner': LoadingSpinner,
   },
   data () {
     return {
@@ -48,7 +40,8 @@ export default {
       'initialState',
     ]),
   },
-  created () {
+  async created () {
+    await this.useMetamask();
     if (this.initialState && this.$route.path !== '/') {
       this.$router.replace({
         path: '/',
@@ -67,6 +60,56 @@ export default {
       },
     );
   },
+  methods:{
+    async useMetamask () {
+      try {
+        const web3 = await this.metamask();
+        await this.$store.dispatch('load', web3);
+        window.ethereum.on('chainIdChanged', (chainId) => {
+          this.$store.dispatch('logout');
+          this.$router.replace({
+            path: '/',
+            query: { network: this.$route.query.network },
+          }).catch(err => {});
+        });
+        window.ethereum.on('accountsChanged', (account) => {
+          this.$store.dispatch('logout');
+          this.$router.replace({
+            path: '/',
+            query: { network: this.$route.query.network },
+          }).catch(err => {});
+
+        });
+      } catch (e) {
+        alert(e.message);
+      }
+    },
+    async metamask () {
+      let provider;
+      if (typeof window.ethereum !== 'undefined') {
+        try {
+          await window.ethereum.enable();
+          provider = window.ethereum;
+        } catch (e) {
+          if (e.stack.includes('Error: User denied account authorization')) {
+            throw new Error('User denied account authorization');
+          } else {
+            throw new Error(e.message);
+          }
+        }
+      } else if (window.web3) {
+        provider = window.web3.currentProvider;
+      } else {
+        throw new Error('No web3 provider detected');
+      }
+
+      if (provider.networkVersion !== getConfig().network) {
+        throw new Error(`Please connect to the '${this.$options.filters.nameOfNetwork(getConfig().network)}' network`);
+      }
+
+      return new Web3(provider);
+    },
+  },
 };
 </script>
 
@@ -76,8 +119,8 @@ export default {
 }
 
 html, body {
-  background: #f6f8f9;
-  position: relative;
+ background-color: #fafbfc;
+   position: relative;
   margin: 0;
   min-height: 100%;
 }
@@ -90,8 +133,8 @@ html, body {
 }
 
 .body-container {
-  min-width: 1174px;
-  max-width: 1174px;
+  min-width: 100%;
+  max-width: 100%;
   display: flex;
   flex: 1;
   justify-content: center;

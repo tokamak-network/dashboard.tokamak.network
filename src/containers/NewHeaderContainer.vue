@@ -4,9 +4,9 @@
       <div class="header-logo-container">
         <img
           class="header-logo"
-          src="@/assets/images/tokamak-staking-simple.png"
-          width="258"
-          height="38"
+          src="@/assets/images/tnss_bi.png"
+          width="365px"
+          heigh="39px"
           @click="toMainPage"
         >
       </div>
@@ -27,38 +27,15 @@
         </button>
         <button
           class="header-link"
-          :class="{ 'menu-button-selected': $route.path === '/staking'}"
-          @click="clickMenu('staking')"
-        >
-          Staking
-        </button>
-        <button
-          class="header-link"
           :class="{ 'menu-button-selected': $route.path === '/powerton'}"
           @click="clickMenu('powerton')"
         >
           Power TON
         </button>
-        <button
-          class="header-link"
-          :class="{ 'menu-button-selected': $route.path === '/about'}"
-          @click="clickMenu('about')"
-        >
-          About Us
-        </button>
       </div>
       <div>
-        <button v-if="!signIn" class="login" @click="login">Unlock Wallet</button>
-        <button v-else class="login" @click="showPopUp">Connect Wallet</button>
+        <connect-modal />
       </div>
-
-      <transition v-if="showModel" name="model">
-        <div class="model-mask">
-          <div class="model-container">
-            <WalletContainer @showPopUp="showPopUp" />
-          </div>
-        </div>
-      </transition>
     </div>
   </div>
 </template>
@@ -68,10 +45,11 @@ import { mapState } from 'vuex';
 import Web3 from 'web3';
 import { getConfig } from '../../config.js';
 import { setProvider } from '@/helpers/Contract';
-import WalletContainer from '@/containers/WalletContainer.vue';
+import ConnectModal from '@/components/ConnectModal.vue';
+
 export default {
   components: {
-    WalletContainer,
+    ConnectModal,
   },
   data () {
     return {
@@ -97,61 +75,61 @@ export default {
     showPopUp () {
       this.showModel = !this.showModel;
     },
-    async login (){
-      if (this.loading) return;
-      this.loading = true;
-      await this.useMetamask();
-      this.loading = false;
-    },
-    async useMetamask () {
-      try {
-        const web3 = await this.metamask();
-        await this.$store.dispatch('signIn', web3);
+    // async login (){
+    //   if (this.loading) return;
+    //   this.loading = true;
+    //   await this.useMetamask();
+    //   this.loading = false;
+    // },
+    // async useMetamask () {
+    //   try {
+    //     const web3 = await this.metamask();
+    //     await this.$store.dispatch('signIn', web3);
 
-        window.ethereum.on('chainIdChanged', (chainId) => {
-          this.$store.dispatch('logout');
-          this.$router.replace({
-            path: '/',
-            query: { network: this.$route.query.network },
-          }).catch(err => {});
-        });
-        window.ethereum.on('accountsChanged', (account) => {
-          this.$store.dispatch('logout');
-          this.$router.replace({
-            path: '/',
-            query: { network: this.$route.query.network },
-          }).catch(err => {});
+    //     window.ethereum.on('chainIdChanged', (chainId) => {
+    //       this.$store.dispatch('logout');
+    //       this.$router.replace({
+    //         path: '/',
+    //         query: { network: this.$route.query.network },
+    //       }).catch(err => {});
+    //     });
+    //     window.ethereum.on('accountsChanged', (account) => {
+    //       this.$store.dispatch('logout');
+    //       this.$router.replace({
+    //         path: '/',
+    //         query: { network: this.$route.query.network },
+    //       }).catch(err => {});
 
-        });
-      } catch (e) {
-        alert(e.message);
-      }
-    },
-    async metamask () {
-      let provider;
-      if (typeof window.ethereum !== 'undefined') {
-        try {
-          await window.ethereum.enable();
-          provider = window.ethereum;
-        } catch (e) {
-          if (e.stack.includes('Error: User denied account authorization')) {
-            throw new Error('User denied account authorization');
-          } else {
-            throw new Error(e.message);
-          }
-        }
-      } else if (window.web3) {
-        provider = window.web3.currentProvider;
-      } else {
-        throw new Error('No web3 provider detected');
-      }
+    //     });
+    //   } catch (e) {
+    //     alert(e.message);
+    //   }
+    // },
+    // async metamask () {
+    //   let provider;
+    //   if (typeof window.ethereum !== 'undefined') {
+    //     try {
+    //       await window.ethereum.enable();
+    //       provider = window.ethereum;
+    //     } catch (e) {
+    //       if (e.stack.includes('Error: User denied account authorization')) {
+    //         throw new Error('User denied account authorization');
+    //       } else {
+    //         throw new Error(e.message);
+    //       }
+    //     }
+    //   } else if (window.web3) {
+    //     provider = window.web3.currentProvider;
+    //   } else {
+    //     throw new Error('No web3 provider detected');
+    //   }
 
-      if (provider.networkVersion !== getConfig().network) {
-        throw new Error(`Please connect to the '${this.$options.filters.nameOfNetwork(getConfig().network)}' network`);
-      }
+    //   if (provider.networkVersion !== getConfig().network) {
+    //     throw new Error(`Please connect to the '${this.$options.filters.nameOfNetwork(getConfig().network)}' network`);
+    //   }
 
-      return new Web3(provider);
-    },
+    //   return new Web3(provider);
+    // },
     toMainPage () {
       if (this.signIn && this.$route.path !== '/home') {
         this.$router.push({
@@ -173,8 +151,8 @@ export default {
 .header-container {
   width: 100%;
   align-self: center;
-  height: 75px;
-  background: #f6f8f9;
+  height: 84px;
+  background: #fafbfc;
   display: flex;
   justify-content: center;
   position:inherit;
@@ -185,7 +163,7 @@ export default {
     display: flex;
      width: 100%;
   height: 100%;
-    justify-content: space-around;
+    justify-content: space-between;
 }
 
 .header-logo-container {
@@ -194,6 +172,8 @@ export default {
 
 .header-logo {
   margin-top: -5px;
+  margin-left: 40px;
+
 }
 
 .header-logo:hover {
@@ -207,19 +187,23 @@ export default {
 }
 
 .header-link:hover {
-  color: #555555;;
+  color: #2a72e5;;
 }
 
 .header-link {
   border: none;
-  font-weight: 550;
-    padding-left: 16px;
-    padding-right: 16px;
-    text-decoration: none;
-    background: #f6f8f9;
-    color: #2a72e5;
-    font-size: 16px;
-    font-family: "Noto Sans",sans-serif;
+    padding-left: 24px;
+    padding-right: 24px;
+    background: #fafbfc;
+  font-family: "TitilliumWeb",sans-serif;
+  font-size: 18px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  /* line-height: 1.5; */
+  letter-spacing: normal;
+  text-align: center;
+  color: #3e495c;
 }
 button:focus {
   outline: none;
@@ -239,9 +223,10 @@ button:hover {
   font-weight: 700;
   font-family: "Noto Sans",sans-serif;
   width: 150px;
+  margin-right: 39px;
 }
 .menu-button-selected {
-  color: #1e4072;
+  color: #2a72e5;
 }
 .model-mask {
   position: fixed;

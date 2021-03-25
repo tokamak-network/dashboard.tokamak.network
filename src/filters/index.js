@@ -25,6 +25,15 @@ export function formattedTimestamp (timestamp) {
   return moment.unix(timestamp).format('LLL');
 }
 
+export function formatTimeString (timestamp) {
+  return moment.unix(timestamp).format('YYYY.MM.DD');
+}
+export function formatTimeSeconds (timestamp) {
+  return moment.unix(timestamp).format('hh:mm:ss');
+}
+export function timezone (timestamp) {
+  return moment.unix(timestamp).format('ZZ');
+}
 export function fromNow (timestamp, suffix) {
   return moment.unix(timestamp).fromNow(suffix);
 }

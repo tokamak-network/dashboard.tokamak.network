@@ -1,15 +1,131 @@
 <template>
-  <div class="footer-container">
-    <div>
-      <div class="footer-name">
-        ONTHER PTE.LTD.
+  <div class="footer">
+    <div class="footer-container">
+      <div class="flex-row">
+        <div class="footer-name">
+          ONTHER PTE.LTD.
+        </div>
+        <div class="footer-address">
+          10 Anson Road #23-140 International Plaza Signapore
+        </div>
+        <div>
+          <img
+            alt="Onther Mail"
+            class="filter-grey mail-icon"
+            src="@/assets/images/Mail.png"
+            style="margin-right: 5px;"
+          >
+          <a
+            class="footer-mail"
+            href="mailto:info@onther.io"
+          >info@onther.io</a>
+        </div>
       </div>
-      <div class="footer-address">
-        10 ANSON ROAD #23-140 INTERNATIONAL PLAZA SINGAPORE
-      </div>
-    </div>
-    <div>
-      <div class="footer-mail-container">
+      <div class="social-links">
+        <a
+          href="https://medium.com/onther-tech/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <img
+            alt="Onther Medium"
+            class="footer-channel-image filter-grey"
+            src="@/assets/images/community/medium.png"
+            width="28x;"
+            height="28px;"
+          >
+        </a>
+        <a
+          href="https://www.linkedin.com/company/onther-tech/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <img
+            alt="Onther LinkedIN"
+            class="footer-channel-image filter-grey"
+            src="@/assets/images/community/linkedin.png"
+            width="28x;"
+            height="28px;"
+          >
+        </a>
+        <a
+          href="https://twitter.com/tokamak_network/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <img
+            alt="Onther Twitter"
+            class="footer-channel-image filter-grey"
+            src="@/assets/images/community/twitter.png"
+            width="28x;"
+            height="28px;"
+          >
+        </a>
+        <a
+          href="https://www.youtube.com/channel/UCF6vtIKF_0QQVRG983czVEQ/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <img
+            alt="Onther Youtube"
+            class="footer-channel-image filter-grey"
+            src="@/assets/images/community/youtube.png"
+            width="28x;"
+            height="28px;"
+          >
+        </a>
+        <a
+          href="https://www.facebook.com/OntherInc/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <img
+            alt="Onther Facebook"
+            class="footer-channel-image filter-grey"
+            src="@/assets/images/community/facebook.png"
+            width="28x;"
+            height="28px;"
+          >
+        </a>
+        <a
+          href="https://github.com/Onther-Tech/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <img
+            alt="Onther GitHub"
+            class="footer-channel-image filter-grey"
+            src="@/assets/images/community/github.png"
+            width="28x;"
+            height="28px;"
+          >
+        </a>
+        <a
+          href="https://discord.gg/8wSpJKz"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <img
+            alt="Onther Discord"
+            class="footer-channel-image filter-grey"
+            src="@/assets/images/community/discord.png"
+            width="28x;"
+            height="28px;"
+          >
+        </a>
+        <a
+          href="https://t.me/tokamak_network/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <img
+            alt="Onther Telegram"
+            class="footer-channel-image filter-grey"
+            src="@/assets/images/community/telegram.png"
+            width="28x;"
+            height="28px;"
+          >
+        </a>
         <dropup
           :items="[
             'Tokamak Netowork',
@@ -28,114 +144,6 @@
           style="margin-left: 20px; width: 130px;"
           @on-selected="familyLink"
         />
-        <a
-          class="footer-mail"
-          href="mailto:info@onther.io"
-        >info@onther.io</a>
-        <img
-          class="filter-grey"
-          src="@/assets/images/Mail.png"
-          width="14;"
-          height="10;"
-        >
-      </div>
-      <div class="footer-channel-container">
-        <a
-          href="https://medium.com/onther-tech/"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <img
-            class="footer-channel-image filter-grey"
-            src="@/assets/images/community/medium.png"
-            width="28x;"
-            height="28px;"
-          >
-        </a>
-        <a
-          href="https://www.linkedin.com/company/onther-tech/"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <img
-            class="footer-channel-image filter-grey"
-            src="@/assets/images/community/linkedin.png"
-            width="28x;"
-            height="28px;"
-          >
-        </a>
-        <a
-          href="https://twitter.com/tokamak_network/"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <img
-            class="footer-channel-image filter-grey"
-            src="@/assets/images/community/twitter.png"
-            width="28x;"
-            height="28px;"
-          >
-        </a>
-        <a
-          href="https://www.youtube.com/channel/UCF6vtIKF_0QQVRG983czVEQ/"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <img
-            class="footer-channel-image filter-grey"
-            src="@/assets/images/community/youtube.png"
-            width="28x;"
-            height="28px;"
-          >
-        </a>
-        <a
-          href="https://www.facebook.com/OntherInc/"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <img
-            class="footer-channel-image filter-grey"
-            src="@/assets/images/community/facebook.png"
-            width="28x;"
-            height="28px;"
-          >
-        </a>
-        <a
-          href="https://github.com/Onther-Tech/"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <img
-            class="footer-channel-image filter-grey"
-            src="@/assets/images/community/github.png"
-            width="28x;"
-            height="28px;"
-          >
-        </a>
-        <a
-          href="https://discord.gg/8wSpJKz"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <img
-            class="footer-channel-image filter-grey"
-            src="@/assets/images/community/discord.png"
-            width="28x;"
-            height="28px;"
-          >
-        </a>
-        <a
-          href="https://t.me/tokamak_network/"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <img
-            class="footer-channel-image filter-grey"
-            src="@/assets/images/community/telegram.png"
-            width="28x;"
-            height="28px;"
-          >
-        </a>
       </div>
     </div>
   </div>
@@ -154,7 +162,6 @@ export default {
       else if (item === 'DAO governance') window.open('https://tokamak.network', '_blank'); // eslint-disable-line
       else if (item === 'Original Staking') window.open('https://staking.tokamak.network', '_blank'); // eslint-disable-line
       else if (item === 'Simple Staking') window.open('https://simple.staking.tokamak.network', '_blank'); // eslint-disable-line
-      else if (item === 'Original Staking') window.open('https://staking.tokamak.network', '_blank'); // eslint-disable-line
       else if (item === 'Staking Simulator') window.open('https://staking-simulator.tokamak.network', '_blank'); // eslint-disable-line
       else if (item === 'Price Dashboard') window.open('https://price.tokamak.network', '_blank'); // eslint-disable-line
       else if (item === 'Vesting Dashboard') window.open('https://vesting.tokamak.network', '_blank'); // eslint-disable-line
@@ -166,51 +173,76 @@ export default {
 </script>
 
 <style scoped>
+.footer {
+  display: flex;
+  height: 76px;
+  align-items: center;
+  justify-content: center;
+  background-color: #f6f8f9;
+  font-family: "Titillium Web", sans-serif;
+  border-top: 1px solid #f4f6f8;
+  padding: 0 40px;
+}
+
 .footer-container {
   width: 100%;
   display: flex;
   align-items: center;
-  justify-content: center;
-  padding-bottom: 1rem;
-  background-color: #f6f8f9;
-  text-align: center;
+  justify-content: space-between;
+}
+
+.flex-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.social-links {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 30%;
 }
 
 .footer-name {
-  opacity: 1;
-  font-family: Roboto;
-  font-size: 19px;
   font-weight: bold;
   font-stretch: normal;
+  font-size: 14px;
   font-style: normal;
   letter-spacing: normal;
   text-align: left;
-  color: #b2b7b9;
+  color: #3e495c;
+  margin-right: 20px;
 }
 
 .footer-address {
-  margin-right: 70px;
-  font-family: Roboto;
+  font-family:  "Titillium Web", sans-serif;
   font-size: 13px;
+  font-weight: lighter;
   font-stretch: normal;
   font-style: normal;
+  line-height: 1.54;
   letter-spacing: normal;
   text-align: left;
-  color: #6d848e;
+  color: #86929d;
+  margin-right: 15.8px;
 }
 
 .footer-mail-container {
-  /* padding-right: 6px; */
   display: flex;
-  flex-direction: row-reverse;
+  flex-direction: row;
   align-items: center;
 }
 
+.mail-icon {
+  width: 10.5px !important;
+  height: 7.9px !important;
+}
+
 .footer-mail {
-  padding-left: 4.5px;
   font-size: 13px;
-  font-stretch: normal;
-  font-style: normal;
+  font-weight: 300;
   letter-spacing: normal;
   text-align: left;
   color: #6d848e;
@@ -223,6 +255,8 @@ export default {
 }
 
 .filter-grey {
+  width: 20px;
+  height: 20px;
   -webkit-filter: invert(30%) grayscale(100%) brightness(85%) contrast(4);
   filter: invert(30%) grayscale(100%) brightness(85%) contrast(4);
 }

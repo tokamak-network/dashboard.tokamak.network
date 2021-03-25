@@ -7,7 +7,24 @@ function createInstance () {
   });
 }
 
+function createInstatnceCandidate () {
+  return axios.create({
+    baseURL: getConfig().candidate,
+  });
+}
+
+const candidate = createInstatnceCandidate();
 const instance = createInstance();
+
+export async function getDailyStakedTotal (chainId) {
+  const res = await candidate.get('/stakedtotals', {
+    params: {
+      chainId: chainId,
+    },
+  });
+  if (res.data === '') return [];
+  else return res.data.datas;
+}
 
 export async function getManagers () {
   const res = await instance.get('/managers');
@@ -42,6 +59,10 @@ export async function getHistory (user) {
   return res.data;
 }
 
+export async function getTotalSupply () {
+  const res =  await axios.get('https://price-api.tokamak.network/totalsupply');
+  return res.data;
+}
 export async function addHistory (user, history) {
   await instance.post(
     '/history',
