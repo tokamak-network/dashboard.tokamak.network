@@ -27,38 +27,15 @@
         </button>
         <button
           class="header-link"
-          :class="{ 'menu-button-selected': $route.path === '/staking'}"
-          @click="clickMenu('staking')"
-        >
-          Staking
-        </button>
-        <button
-          class="header-link"
           :class="{ 'menu-button-selected': $route.path === '/powerton'}"
           @click="clickMenu('powerton')"
         >
           Power TON
         </button>
-        <!-- <button
-          class="header-link"
-          :class="{ 'menu-button-selected': $route.path === '/about'}"
-          @click="clickMenu('about')"
-        >
-          About Us
-        </button> -->
       </div>
       <div>
-        <button v-if="!signIn" class="login" @click="login">Unlock Wallet</button>
-        <button v-else class="login" @click="showPopUp">My Wallet</button>
+        <connect-modal />
       </div>
-
-      <transition v-if="showModel" name="model">
-        <div class="model-mask">
-          <div class="model-container">
-            <WalletContainer @showPopUp="showPopUp" />
-          </div>
-        </div>
-      </transition>
     </div>
   </div>
 </template>
@@ -68,10 +45,11 @@ import { mapState } from 'vuex';
 import Web3 from 'web3';
 import { getConfig } from '../../config.js';
 import { setProvider } from '@/helpers/Contract';
-import WalletContainer from '@/containers/WalletContainer.vue';
+import ConnectModal from '@/components/ConnectModal.vue';
+
 export default {
   components: {
-    WalletContainer,
+    ConnectModal,
   },
   data () {
     return {
