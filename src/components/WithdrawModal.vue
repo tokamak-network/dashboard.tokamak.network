@@ -59,6 +59,7 @@
 import Vue from 'vue';
 import { mapState, mapGetters } from 'vuex';
 import { createCurrency } from '@makerdao/currency';
+import moment from 'moment';
 const _TON = createCurrency('TON');
 const _WTON = createCurrency('WTON');
 
@@ -120,6 +121,8 @@ export default {
             amount: amount,
             transactionHash: hash,
             target: this.operator.layer2,
+            timestamp: moment().unix(),
+
           };
           this.$store.dispatch('addPendingTransaction', transcation);
         })

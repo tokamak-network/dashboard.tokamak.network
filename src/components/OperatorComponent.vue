@@ -38,7 +38,7 @@
       <div class="row">
         <div class="column" style="margin-top:30px">
           <operator-text-view :title="'Total Delegates'" :value="operator.delegators.length.toString()" :date="false" :tonValue="false" />
-          <operator-text-view :title="'Pending Withdrawal'" :value="currencyAmount(operator.userWithdrawable)" :date="false" :tonValue="true" style="margin-top:40px" />
+          <operator-text-view :title="'Pending Withdrawal'" :value="currencyAmount(operator.userWithdrawable).replace('TON','')" :date="false" :tonValue="true" style="margin-top:40px" />
         </div>
         <div class="column">
           <staking-component :layer2="operator.layer2" @selectFunc="selectFunc" @openStakeModal="openStakeModal" />
