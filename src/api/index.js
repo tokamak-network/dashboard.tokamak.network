@@ -63,7 +63,15 @@ export async function getCandidates () {
   if (res.data === '') return [];
   else return res.data.datas;
 }
-
+export async function getRoundReward (chainId) {
+  const res = await candidate.get('/powertons', {
+    params: {
+      chainId: chainId,
+    },
+  });
+  if (res.data === '') return [];
+  else return res.data.datas;
+}
 export async function getManagers () {
   const res = await instance.get('/managers');
   if (res.data === '') return [];

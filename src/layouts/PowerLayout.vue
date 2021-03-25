@@ -7,7 +7,18 @@
     <div class="power-current">
       <ValueView :title="'Round'" :value="currentRound.index" :ton="false" />
       <ValueView :title="'Round Reward'" :value="currencyAmount(currentRound.reward.add(uncommittedCurrentRoundReward)).toString().replace('TON', '')" :ton="true" />
-      <ValueView :title="'24 Hour'" :value="currentRound.index" :ton="false" />
+      <div class="power-current-detail">
+        <h3>24 Hour</h3>
+        <span class="power-current-detail-content">{{ powerTONReward.difference }} <span class="power-current-detail-percentage" :class="{'power-current-detail-percentage-positive':powerTONReward.isNegative === false, 'power-current-detail-percentage-negative':powerTONReward.isNegative === true}">{{ powerTONReward.percentage }}</span>
+          <span v-if="powerTONReward.isNegative === true">
+            <img src="@/assets/images/arrow_down_icon.png" style="margin-bottom: -3px;" alt="">
+          </span>
+          <span v-if="powerTONReward.isNegative === false">
+            <img src="@/assets/images/arrow_up_icon.png" style="margin-bottom: -3px;" alt="">
+          </span>
+        </span>
+      </div>
+      <!-- <ValueView :title="'24 Hour'" :value="powerTONReward.percentage" :ton="false" /> -->
       <div class="power-current-detail">
         <h3>Round Start</h3>
         <span class="power-current-detail-content">{{ formattedTimestamp(currentRound.startTime) }} <span class="power-current-detail-gmt">(GMT+9)</span></span>
@@ -28,6 +39,9 @@ import { mapState, mapGetters } from 'vuex';
 import moment from 'moment';
 import PowerTonTable from '@/components/PowerTonTable.vue';
 import ValueView from '@/components/ValueView.vue';
+import { createCurrency } from '@makerdao/currency';
+const _TON = createCurrency('TON');
+
 export default {
   components: {
     PowerTonTable,
@@ -49,12 +63,27 @@ export default {
       'currentRound',
       'rounds',
       'uncommittedCurrentRoundReward',
+      'powerReward',
     ]),
     ...mapGetters([
       'rankedAccountsWithPower',
     ]),
     currencyAmount () {
       return (amount) => this.$options.filters.currencyAmount(amount);
+    },
+    powerTONReward () {
+      const reward = {};
+      const ton = Number((this.powerReward[0].rewards - this.powerReward[1].rewards)/Math.pow(10, 27));
+      // const ton = Number((this.powerReward[1].rewards - this.powerReward[0].rewards)/Math.pow(10, 27));
+      const index = ton.toString().indexOf('.');
+      const rewardInTON = index > -1 ? ton.toLocaleString('en-US', { minimumFractionDigits: 2 }).slice(0, index + 4): ton;
+      const percentage = (this.powerReward[0].rewards - this.powerReward[1].rewards)/this.powerReward[1].rewards;
+      // const percentage = (this.powerReward[1].rewards - this.powerReward[0].rewards)/this.powerReward[1].rewards;
+      const isNegative = ton < 0? true : ton === 0 ? '': false;
+      reward.difference = rewardInTON;
+      reward.percentage = percentage.toFixed(2).toString() + '%';
+      reward.isNegative = isNegative;
+      return reward;
     },
   },
   mounted () {
@@ -77,44 +106,6 @@ export default {
       const duration = moment.duration(leftTime*1000, 'milliseconds');
       this.durationTime = duration;
     },
-    // formmatedEndTime (timestamp) {
-    //   const endDay = {
-    //     year : moment.unix(timestamp).format('YYYY'),
-    //     month : moment.unix(timestamp).format('MM'),
-    //     day : moment.unix(timestamp).format('DD'),
-    //     hour : moment.unix(timestamp).format('hh'),
-    //     minute : moment.unix(timestamp).format('mm'),
-    //     second :moment.unix(timestamp).format('ss'),
-    //   };
-
-    //   const today = {
-    //     year : moment().format('YYYY'),
-    //     month: moment().format('MM'),
-    //     day: moment().format('DD'),
-    //     hour : moment().format('hh'),
-    //     minute : moment().format('mm'),
-    //     second :moment().format('ss'),
-    //   };
-
-    //   const trimedEndDay = moment([endDay.year, endDay.month, endDay.day, endDay.hour, endDay.minute, endDay.second]);
-    //   const trimedToday = moment([today.year, today.month, today.day, today.hour, today.minute, today.second]);
-
-    //   const dayGap = trimedEndDay.diff(trimedToday, 'days');
-    //   const hourGap = trimedEndDay.diff(trimedToday, 'hours');
-    //   const minGap = trimedEndDay.diff(trimedToday, 'minutes');
-    //   const secGap = trimedEndDay.diff(trimedToday, 'seconds');
-
-    //   const trimedHourGap = hourGap % 24;
-    //   const triemdMinGap = (minGap % 1440) - (trimedHourGap * 60);
-    //   const triemdSecGap = (secGap % 86400) % 60;
-
-    //   this.day = dayGap;
-    //   this.hour = trimedHourGap < 10 ? `0${trimedHourGap}`: trimedHourGap;
-    //   this.minute = triemdMinGap < 10 ? `0${triemdMinGap}`: triemdMinGap;
-    //   this.second = triemdSecGap < 10 ? `0${triemdSecGap}`: triemdSecGap;
-
-    //   return `${this.day}D ${this.hour}:${this.minute}:${this.second}`;
-    // },
   },
 };
 </script>
@@ -205,6 +196,22 @@ font-family: "Titillium Web", sans-serif;
   letter-spacing: normal;
   text-align: left;
   color: #94a5b7;
+}
+.power-current-detail-percentage {
+  font-family: Roboto;
+  font-size: 12px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.67;
+  letter-spacing: normal;
+  text-align: right;
+}
+.power-current-detail-percentage-positive {
+  color: #ff2d78;
+}
+.power-current-detail-percentage-negative {
+  color: #45d800;
 }
 .power-current-display {
   display: flex;

@@ -5,7 +5,7 @@ Vue.use(Vuex);
 import router from '@/router';
 import web3EthABI from 'web3-eth-abi';
 
-import { getManagers, getOperators, getHistory, getTransactions, addTransaction, getCandidates, getCandidateCreateEvent, getDelegators, getCommitHistory } from '@/api';
+import { getManagers, getOperators, getHistory, getTransactions, addTransaction, getCandidates, getCandidateCreateEvent, getDelegators, getCommitHistory, getRoundReward } from '@/api';
 import { cloneDeep, isEqual, range, uniq, orderBy } from 'lodash';
 import numeral from 'numeral';
 import { createWeb3Contract } from '@/helpers/Contract';
@@ -80,6 +80,7 @@ const initialState = {
   // not yet committed
   uncommittedCurrentRoundReward: _WTON('0'),
   selectedOperator: '',
+  powerReward: [],
 };
 
 const getInitialState = () => initialState;
@@ -197,6 +198,9 @@ export default new Vuex.Store({
     SET_SELECTED_OPERATOR:(state, selected) =>{
       state.selectedOperator = selected;
     },
+    SET_POWER_REWARD:(state, powerReward) =>{
+      state.powerReward = powerReward;
+    },
   },
   actions: {
     logout (context) {
@@ -244,6 +248,7 @@ export default new Vuex.Store({
         context.dispatch('setHistory'),
         context.dispatch('setUncommittedCurrentRoundReward', blockNumber),
         context.dispatch('checkPendingTransactions'),
+        context.dispatch('getPowerReward'),
       ]).catch(err => {
         // after logout, error can be happened
       });
@@ -900,6 +905,11 @@ export default new Vuex.Store({
         };
       });
       context.commit('SET_ACCOUNTS_DEPOSITED_WITH_POWER', await Promise.all(accounts));
+    },
+    async getPowerReward (context) {
+      const networks = context.state.networkId;
+      const rewards = await getRoundReward(networks);
+      context.commit('SET_POWER_REWARD', rewards.slice(0, 2));
     },
     async addAccountDepositedWithPower (context, depositor) {
       const PowerTON = context.state.PowerTON;
