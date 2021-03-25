@@ -8,7 +8,7 @@
     <transition v-if="showConnectModal" name="modal">
       <div class="modal-mask w100">
         <div class="">
-          <div v-if="!signIn">
+          <div >
             <div v-if="connectType === 'connect'" class="modal-wrapper">
               <div class="modal-container">
                 <div class="modal-header">
@@ -34,7 +34,7 @@
                 </div>
               </div>
             </div>
-            <div v-else-if="connectType === 'wallet'" class="modal-wrapper">
+            <div v-else class="modal-wrapper">
               <div class="modal-container">
                 <div class="modal-header">
                   <h3>Account</h3>
@@ -184,7 +184,7 @@ export default {
         qrcode: true,
       });
       this.showConnectModal = false;
-      this.$store.dispatch('SIGN_OUT');
+      // this.$store.dispatch('SIGN_OUT');
       await provider.disconnect();
       this.$store.dispatch('logout');
       this.$router.replace({
@@ -211,6 +211,7 @@ export default {
       this.connectType = 'wallet';
     },
     setConnectType (connectType) {
+      // this.logout();
       this.connectType = connectType;
     },
   },
@@ -399,4 +400,7 @@ export default {
   color: #ffffff;
 }
 
+button:focus {
+outline: none;
+}
 </style>
