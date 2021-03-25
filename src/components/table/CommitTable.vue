@@ -4,31 +4,27 @@
       <thead>
         <tr>
           <th class="text-center" style="width:111px">Transaction Hash</th>
-          <th class="text-center" style="width:97px">Type</th>
-          <th class="text-center" style="width:117px">Amount</th>
           <th class="text-center" style="width:237px">Date</th>
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(transaction) in sorted" :key="transaction.transactionHash">
+        <tr v-for="(commit) in sorted" :key="commit.transactionHash">
           <td class="text-center" style="width:111px; text-align: left; padding-left:2px">
             <a
               class="link"
               target="_blank"
               rel="noopener noreferrer"
-              :href="toExplorer('transactionHash', transaction.transactionHash)"
+              :href="toExplorer('transactionHash', commit.transactionHash)"
             >
-              {{ transaction.transactionHash | hexSlicer }}
+              {{ commit.transactionHash | hexSlicer }}
             </a>
           </td>
-          <td class="text-center" style="width:97px">{{ transaction.type }}</td>
-          <td class="text-center" style="width:117px">{{ currencyAmountFromNumberString(transaction.type, transaction.amount) }}</td>
-          <td class="text-center" style="width:237px">{{ transaction.timestamp | formattedTimestamp }}</td>
+          <td class="text-center" style="width:237px; text-align: left; padding-left: 33px">{{ commit.blockTimestamp | formattedTimestamp }}</td>
         </tr>
       </tbody>
     </table>
     <table-paginate
-      :datas="orderedTransaction"
+      :datas="commitHistory"
       @on-selected="updateTableByPage"
     />
   </div>
@@ -49,19 +45,15 @@ export default {
     'table-paginate': TablePaginate,
   },
   props: {
-    layer2: {
+    commitHistory: {
       required: true,
-      type: String,
+      type: Array,
     },
   },
   data () {
     return {
       from: 'blockNumber',
       order: 'desc',
-      base: 5,
-      pages: 0,
-      updatedTransactions: [],
-      orderedRounds: [],
       page: 0,
     };
   },
@@ -69,12 +61,8 @@ export default {
     ...mapState([
       'web3',
     ]),
-    ...mapGetters(['transactionsByOperator']),
     toExplorer () {
       return (type, param) => this.$options.filters.toExplorer(type, param);
-    },
-    transactions (){
-      return this.transactionsByOperator(this.layer2);
     },
     formattedTimestamp () {
       return timestamp => this.$options.filters.formattedTimestamp(timestamp);
@@ -88,37 +76,10 @@ export default {
         }
       };
     },
-    orderedTransaction () {
-      // switch (this.from) {
-      // case 'transactionHash':
-      //   return orderBy(this.transactions, (transaction) => transaction.transactionHash, [this.order]);
-      // case 'type':
-      //   return orderBy(this.transactions, (transaction) => transaction.type, [this.order]);
-      // case 'amount':
-      //   return orderBy(this.transactions, (transaction) => transaction.amount, [this.order]);
-      // case 'blockNumber':
-      //   return orderBy(this.transactions, (transaction) => transaction.blockNumber, [this.order]);
-      // case 'layer2':
-      //   return orderBy(this.transactions, (transaction) => transaction.target, [this.order]);
-      // case 'date':
-      //   return orderBy(this.transactions, (transaction) => transaction.blockNumber, [this.order]);
-      // default:
-      //   return [];
-      // }
-      return orderBy(this.transactions, (transaction) => transaction.blockNumber, [this.order]);
-    },
     sorted () {
       const first = this.page * 5;
-      return this.orderedTransaction.slice(first, first + 5);
+      return this.commitHistory.slice(first, first + 5);
     },
-    // withArrow () {
-    //   return (from, label) => {
-    //     if (this.from === from) {
-    //       return this.order === 'desc' ? `${label} ↑` : `${label} ↓`;
-    //     }
-    //     return label;
-    //   };
-    // },
     currencyAmount () {
       return amount => this.$options.filters.currencyAmount(amount);
     },

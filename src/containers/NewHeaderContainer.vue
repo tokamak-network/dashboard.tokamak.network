@@ -20,11 +20,18 @@
         </button>
         <button
           class="header-link"
-          :class="{ 'menu-button-selected': $route.path === '/menu'}"
-          @click="clickMenu('menu')"
+          :class="{ 'menu-button-selected': $route.path === '/staking'}"
+          @click="clickMenu('staking')"
         >
-          Operators
+          Staking
         </button>
+        <!-- <button
+          class="header-link"
+          :class="{ 'menu-button-selected': $route.path === '/staking'}"
+          @click="clickMenu('staking')"
+        >
+          Staking
+        </button> -->
         <button
           class="header-link"
           :class="{ 'menu-button-selected': $route.path === '/powerton'}"

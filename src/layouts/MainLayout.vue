@@ -67,6 +67,8 @@ export default {
   max-width: 100%;
   padding-bottom: 2rem;
   flex-direction: column;
+  background-color: #fafbfc;
+  align-items: center;
 }
 .main-container {
   display: flex;

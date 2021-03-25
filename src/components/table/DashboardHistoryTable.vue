@@ -164,7 +164,7 @@ tbody .clickable {
 }
 
 th {
-  padding: 6px;
+  /* padding: 6px; */
   background-color: #f6f8f9;
   font-family: "Noto Sans",sans-serif;
   font-size: 11px;
