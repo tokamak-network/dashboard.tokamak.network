@@ -8,8 +8,8 @@
       <ValueView :title="'Round'" :value="currentRound.index" :ton="false" />
       <ValueView :title="'Round Reward'" :value="currencyAmount(currentRound.reward.add(uncommittedCurrentRoundReward)).toString().replace('TON', '')" :ton="true" />
       <div class="power-current-detail">
-        <h3>24 Hour</h3>
-        <span class="power-current-detail-content">{{ powerTONReward.difference }} <span class="power-current-detail-percentage" :class="{'power-current-detail-percentage-positive':powerTONReward.isNegative === false, 'power-current-detail-percentage-negative':powerTONReward.isNegative === true}">{{ powerTONReward.percentage }}</span>
+        <h3>24 Hour (Compared to yesterday)</h3>
+        <span class="power-current-detail-content">{{ powerTONReward.difference }} <span class="current-detail-span">TON</span> <span class="power-current-detail-percentage" :class="{'power-current-detail-percentage-positive':powerTONReward.isNegative === false, 'power-current-detail-percentage-negative':powerTONReward.isNegative === true}">{{ powerTONReward.percentage }}</span>
           <span v-if="powerTONReward.isNegative === true">
             <img src="@/assets/images/arrow_down_icon.png" style="margin-bottom: -3px;" alt="">
           </span>
@@ -235,6 +235,17 @@ font-family: "Titillium Web", sans-serif;
   font-weight: normal;
   color: #94a5b7;
   margin: 0;
+}
+.current-detail-span {
+  font-family: Roboto;
+  font-size: 12px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.67;
+  letter-spacing: normal;
+  text-align: left;
+  color: #3d495d;
 }
 </style>
 
