@@ -20,18 +20,18 @@
           {{ operator.isCommissionRateNegative ? "-" : ""
           }}{{ rateOf(operator.commissionRate) }}
         </div>
-        <div v-if="Number(operator.userStaked.toBigNumber())" class="user-staked">
+        <div v-if="Number(operator.userStaked.toBigNumber()) && signIn" class="user-staked">
           <div class="operator-amount">Your Staked</div>
           <div class="operator-amount" style="width:139px"> {{ currencyAmount(operator.userStaked) }}</div>
         </div>
       </div>
-      <img class="arrow"
+      <img v-if="signIn" class="arrow"
            :class="{ 'arrow-up': !isPressed, 'arrow-down': isPressed }"
            src="@/assets/images/arrow_open_icon.png"
       >
     </div>
     <div
-      v-if="isPressed"
+      v-if="isPressed && signIn"
       class="operator-details"
     >
       <div class="divider" />
@@ -144,7 +144,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(['user', 'DepositManager', 'selectedOperator']),
+    ...mapState(['user', 'DepositManager', 'selectedOperator', 'signIn']),
     ...mapGetters(['operatorByLayer2', 'transactionsByOperator']),
     operator () {
       return this.operatorByLayer2(this.layer2);

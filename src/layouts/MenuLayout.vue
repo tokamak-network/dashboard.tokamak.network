@@ -57,6 +57,7 @@ export default {
     ...mapState([
       'operators',
       'selectedOperator',
+      'signIn'
     ]),
     orderedOperators () {
       switch (this.from) {
