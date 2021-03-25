@@ -47,6 +47,7 @@ import { mapState, mapGetters } from 'vuex';
 import { BN, padLeft } from 'web3-utils';
 import { range } from 'lodash';
 import { createCurrency } from '@makerdao/currency';
+import moment from 'moment';
 const _TON = createCurrency('TON');
 const _WTON = createCurrency('WTON');
 export default {
@@ -139,6 +140,7 @@ export default {
             amount,
             transactionHash: hash,
             target: this.operator.layer2,
+            timestamp: moment().unix(),
           };
           this.$store.dispatch('addPendingTransaction', transcation);
         })

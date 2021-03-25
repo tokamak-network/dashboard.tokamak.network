@@ -159,6 +159,7 @@ export default {
             amount: amount,
             transactionHash: hash,
             target: this.operator.layer2,
+            timestamp: moment().unix(),
           };
           this.$store.dispatch('addPendingTransaction', transcation);
         })
