@@ -18,7 +18,6 @@
           </span>
         </span>
       </div>
-      <!-- <ValueView :title="'24 Hour'" :value="powerTONReward.percentage" :ton="false" /> -->
       <div class="power-current-detail">
         <h3>Round Start</h3>
         <span class="power-current-detail-content">{{ formattedTimestamp(currentRound.startTime) }} <span class="power-current-detail-gmt">(GMT+9)</span></span>
@@ -74,11 +73,9 @@ export default {
     powerTONReward () {
       const reward = {};
       const ton = Number((this.powerReward[0].rewards - this.powerReward[1].rewards)/Math.pow(10, 27));
-      // const ton = Number((this.powerReward[1].rewards - this.powerReward[0].rewards)/Math.pow(10, 27));
       const index = ton.toString().indexOf('.');
       const rewardInTON = index > -1 ? ton.toLocaleString('en-US', { minimumFractionDigits: 2 }).slice(0, index + 4): ton;
       const percentage = (this.powerReward[0].rewards - this.powerReward[1].rewards)/this.powerReward[1].rewards;
-      // const percentage = (this.powerReward[1].rewards - this.powerReward[0].rewards)/this.powerReward[1].rewards;
       const isNegative = ton < 0? true : ton === 0 ? '': false;
       reward.difference = rewardInTON;
       reward.percentage = percentage.toFixed(2).toString() + '%';
