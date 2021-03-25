@@ -15,13 +15,14 @@
         {{ selectedItem }}
         <img v-if="unfolded"
              class="dropdown-icon"
-             src="@/assets/images/select_arrow_active.png" alt=""
-             width="9" height="8"
+             src="@/assets/images/icon_arrow.png" style="transform: rotate(180deg);
+" alt=""
+             width="20" height="20"
         >
         <img v-else
              class="dropdown-icon"
-             src="@/assets/images/select_arrow_inactive.png" alt=""
-             width="10" height="9"
+             src="@/assets/images/icon_arrow.png" alt=""
+             width="20" height="20"
         >
       </button>
     </div>
@@ -132,16 +133,15 @@ export default {
 .dropdown {
   position: relative;
   display: inline-block;
-
-  width: 130px;
+  width: 135px;
 }
 
 .dropdown-btn {
-  width: 130px;
+  width: 135px;
   height: 25px;
 
   /* text wtyles */
-  font-family: "TitilliumWeb";
+  font-family: "TitilliumWeb",sans-serif;
   font-size: 11px;
   font-weight: 500;
   font-stretch: normal;
@@ -192,9 +192,8 @@ export default {
 
 .dropdown-icon {
   position: absolute;
-  top: 37%;
   right: 0;
-
+  margin-top: -3px;
   margin-right: 10px;
 }
 
@@ -203,11 +202,11 @@ export default {
   position: absolute;
   background: #ffffff;
 
-  width: 128px;
+  width: 133px;
   top: -191px;
   padding: 5px 0 5px;
   height: 180px;
-  border: solid 1px #555555;
+  border: solid 1px #dfe4ee;
   background-color: #ffffff;
   /* margin-top: 5px; */
 }
@@ -221,9 +220,8 @@ export default {
 
 .dropdown-item {
   height: 25px;
-  width: 125px;
-
-  font-family: "TitilliumWeb";
+  width: 130px;
+  font-family: "TitilliumWeb",sans-serif;
   font-size: 11px;
   font-weight: normal;
   font-stretch: normal;
@@ -252,9 +250,13 @@ export default {
   color: #2A72E5;
 }
 .dropdown-btn-unfolded-b {
-  border: solid 1px #555555;
+  border: solid 1px #dfe4ee;
 }
 .dropdown-btn-unfolded-b:hover {
-  border: solid 1px;
+  border: solid 1px #dfe4ee;
+}
+
+button:focus {
+  outline: none;
 }
 </style>
