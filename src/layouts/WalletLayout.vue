@@ -76,7 +76,8 @@ export default {
       this.reward = _WTON.ray(rewarded.toString());
     },
     async getDailyWalletRewardsFn (chartType) {
-      const dailyWalletRewards = await getDailyWalletRewards(this.networkId, this.user);
+      const dailyWalletRewards = await getDailyWalletRewards(this.networkId, this.user.toLowerCase());
+      console.log(dailyWalletRewards);
       this.dailyWalletRewards = {
         labels: chartType,
         datasets: [{
