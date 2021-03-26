@@ -14,7 +14,7 @@
         />
         <div class="operator-name">{{ operator.name }}</div>
         <div class="operator-amount">Total Staked</div>
-        <div class="operator-amount" style="width:139px"> {{ currencyAmount(operator.totalDeposit) }}</div>
+        <div class="operator-amount" style="width:139px"> {{ currencyAmount(operator.totalStaked) }}</div>
         <div class="operator-amount">Commission Rate</div>
         <div class="operator-amount" style="width:37px; margin-right:50px">
           {{ operator.isCommissionRateNegative ? "-" : ""
