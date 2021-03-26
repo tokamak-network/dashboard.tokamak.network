@@ -13,9 +13,7 @@
         <span class="wallet-current-detail-content">{{ currencyAmount(power).replace('POWER', '') }} <span class="wallet-current-detail-span">POWER </span><span class="wallet-current-detail-span" style="color: #2a72e5">({{ currentRound.winningProbability }})</span></span>
       </div>
     </div>
-    <div class="chart-container">
-      <line-chart />
-    </div>
+    <wallet-graph :chartType="chartType" :toggleChartType="toggleChartType" :chartData="walletTotalStaked" :options="options" />
     <div class="table-container">
       <div style="margin-bottom: 20px;">History</div>
       <WalletHistoryTable />
@@ -25,10 +23,10 @@
 <script>
 import { mapState, mapGetters } from 'vuex';
 import ValueView from '@/components/ValueView.vue';
-import { getAccumulatedReward, getWalletTotalStaked } from '@/api';
+import { getAccumulatedReward, getWalletTotalStaked, getDailyWalletRewards } from '@/api';
 import { createCurrency } from '@makerdao/currency';
 import WalletHistoryTable from '@/components/table/WalletHistoryTable.vue';
-import LineChart from '@/components/LineChart.vue';
+import WalletGraph from '@/containers/WalletGraph.vue';
 const _TON = createCurrency('TON');
 const _WTON = createCurrency('WTON');
 
@@ -36,12 +34,18 @@ export default {
   components: {
     ValueView,
     WalletHistoryTable,
-    LineChart,
+    WalletGraph,
   },
   data () {
     return {
       reward: 0,
-      walletTotalStaked: []
+      walletTotalStaked: {},
+      dailyWalletRewards: [],
+      chartType: 'week',
+      weekLabels: ['Week 01', 'Week 02', 'Week 03', 'Week 04', 'Week 05'],
+      monthLabels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'],
+      yearLabels: [],
+      options: {},
     };
   },
   computed: {
@@ -63,7 +67,7 @@ export default {
   },
   created () {
     this.getAccumulatedReward();
-    this.getWalletTotalStakedFn();
+    this.getWalletTotalStakedFn(this.weekLabels);
   },
   methods:{
     async getAccumulatedReward () {
@@ -71,9 +75,27 @@ export default {
       const rewarded =  (reward[0].rewards).toLocaleString('fullwide', { useGrouping:false });
       this.reward = _WTON.ray(rewarded.toString());
     },
-    async getWalletTotalStakedFn () {
-      this.walletTotalStaked = await getWalletTotalStaked(this.networkId, this.user);
-      console.log('Result ', this.walletTotalStaked);
+    async getWalletTotalStakedFn (chartType) {
+      const walletTotalStaked = await getWalletTotalStaked(this.networkId, this.user);
+      this.walletTotalStaked = {
+        labels: chartType,
+        datasets: [{
+          label: 'Total Staked',
+          backgroundColor: 'transparent',
+          borderColor: '#2a72e5',
+          data: walletTotalStaked.map((item) => (item.balanceOf).toFixed()),
+        }],
+      };
+    },
+    toggleChartType (chartType) {
+      this.chartType = chartType;
+      if (chartType === 'week') {
+        this.getWalletTotalStakedFn(this.weekLabels);
+      } else if (chartType === 'month') {
+        this.getWalletTotalStakedFn(this.monthLabels);
+      } else if (chartType === 'year') {
+        this.getWalletTotalStakedFn(this.yearLabels);
+      }
     },
   },
 };

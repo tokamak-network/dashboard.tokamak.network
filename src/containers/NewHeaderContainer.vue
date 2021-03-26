@@ -20,6 +20,7 @@
           Home
         </button>
         <button
+          v-if="signIn"
           class="header-link"
           :class="{ 'menu-button-selected': $route.path === '/staking'}"
           @click="clickMenu('staking')"
@@ -34,6 +35,7 @@
           Staking
         </button> -->
         <button
+          v-if="signIn"
           class="header-link"
           :class="{ 'menu-button-selected': $route.path === '/powerton'}"
           @click="clickMenu('powerton')"
