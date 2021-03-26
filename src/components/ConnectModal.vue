@@ -202,11 +202,7 @@ export default {
       window.open(`https://etherscan.io/address/${this.user}`);
     },
     copyToClipboard () {
-      this.$copyText(this.user).then(function (e) {
-        console.log(e);
-      }, function (e) {
-        console.log(e);
-      });
+      this.$copyText(this.user);
     },
     openWalletOptions () {
       this.showConnectModal = true;

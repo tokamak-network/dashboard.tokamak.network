@@ -12,7 +12,7 @@
             <div class="candidate-text">Operator</div>
           </div>
           <div class="sort">
-            <DropDown :items="['Name', 'Total Staked', 'Recent Commit', 'User Staked']"
+            <DropDown :items="signIn?['Name', 'Total Staked', 'Recent Commit', 'User Staked'] : ['Name', 'Total Staked', 'Recent Commit']"
                       :hint="'Name'"
                       :button-type="'a'"
                       :selector-type="'a'"

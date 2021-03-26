@@ -36,22 +36,26 @@ export async function getCandidateCreateEvent () {
   else return res.data.datas;
 }
 
-export async function getWalletTotalStaked (chainId, account) {
+export async function getWalletTotalStaked (chainId, account, fromDate, toDate) {
   const res = await candidate.get('/stakedl2accounts/sum', {
     params: {
-      chainId,
-      account,
+      chainId: chainId,
+      account: account,
+      fromDate: fromDate,
+      toDate: toDate,
     },
   });
   if (res.data === '') return [];
   else return res.data.datas;
 }
 
-export async function getDailyWalletRewards (chainId, account) {
+export async function getDailyWalletRewards (chainId, account, fromDate, toDate) {
   const res = await candidate.get('/stakedl2accounts/rewards', {
     params: {
       chainId,
       account: account.toLowerCase(),
+      fromDate: fromDate,
+      toDate: toDate,
     },
   });
   if (res.data === '') return [];

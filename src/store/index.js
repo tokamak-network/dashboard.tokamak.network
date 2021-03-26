@@ -84,6 +84,7 @@ const initialState = {
   uncommittedCurrentRoundReward: _WTON('0'),
   selectedOperator: '',
   powerReward: [],
+  totalWithdraw: _TON('0'),
 };
 
 const getInitialState = () => initialState;
@@ -213,6 +214,9 @@ export default new Vuex.Store({
     SET_POWER_REWARD:(state, powerReward) =>{
       state.powerReward = powerReward;
     },
+    SET_TOTAL_WITHDRAW:(state, withdraw) => {
+      state.totalWithdraw = withdraw;
+    },
   },
   actions: {
     getActualAmount (amount) {
@@ -276,6 +280,7 @@ export default new Vuex.Store({
         context.dispatch('getTotalStaked'),
         context.dispatch('getDailyStakedTokenStats'),
         context.dispatch('getPowerReward'),
+        context.dispatch('getWithdraw'),
       ]).catch(err => {
         // after logout, error can be happened
       });
@@ -920,6 +925,13 @@ export default new Vuex.Store({
       }
       context.commit('SET_CURRENT_ROUND', currentRound);
     },
+    async getWithdraw (context) {
+      const DepositManager = context.state.DepositManager;
+      const user = context.state.user;
+      const withdraw = await DepositManager.methods.accUnstakedAccount(user).call();
+      context.commit('SET_TOTAL_WITHDRAW', _WTON.ray(withdraw.toString()));
+    },
+
     async setRounds (context) {
       const PowerTON = context.state.PowerTON;
       const roundEndEvent = web3EthABI.encodeEventSignature('RoundEnd(uint256,address,uint256)');

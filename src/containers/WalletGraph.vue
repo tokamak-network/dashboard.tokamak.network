@@ -13,18 +13,18 @@
         <datepicker v-model="periodStart" input-class="Search__input" placeholder="Start Date" name="start-date" />
         <span>~</span>
         <datepicker v-model="periodEnd" input-class="Search__input" placeholder="End Date" name="end-date" />
-        <div class="button">Search</div>
+        <div class="button" @click="getDailyWalletRewardsFn()">Search</div>
       </div>
     </div>
     <div class="body">
       <div class="chart">
-        <wallet-line-chart v-if="chartData" :height="300" :width="900" :chartData="chartData" />
+        <wallet-line-chart v-if="dailyWalletRewards" :height="300" :width="900" :chartData="dailyWalletRewards" />
       </div>
       <div class="analysis">
         <h4>Analysis of Reward</h4>
         <div class="section">
           <div class="title">Total Reward</div>
-          <div class="text">10,000</div>
+          <div class="text">{{ currencyAmount(totalReward()) }}</div>
         </div>
         <div class="section">
           <div class="title">Total Staked</div>
@@ -32,7 +32,7 @@
         </div>
         <div class="section">
           <div class="title">Total withdraw</div>
-          <div class="text">0</div>
+          <div class="text">{{ currencyAmount(totalWithdraw) }}</div>
         </div>
       </div>
     </div>
@@ -42,17 +42,74 @@
 <script>
 import Datepicker from 'vuejs-datepicker';
 import WalletLineChart from '@/components/WalletLineChart.vue';
+import moment from 'moment';
+import { mapState } from 'vuex';
+const _WTON = createCurrency('WTON');
+import { createCurrency } from '@makerdao/currency';
+import { getAccumulatedReward, getDailyWalletRewards } from '@/api';
+
 export default {
   components: {
     Datepicker,
     'wallet-line-chart': WalletLineChart,
   },
-  props: ['chartType', 'chartData', 'toggleChartType'],
+  // props: ['chartType', 'chartData', 'toggleChartType'],
   data () {
     return {
-      periodStart: '',
+      periodStart: new Date(),
       periodEnd: new Date(),
+      dailyWalletRewardsList: [],
+      dailyWalletRewards: {},
+      chartType: 'week',
+      weekLabels: ['Week 01', 'Week 02', 'Week 03', 'Week 04', 'Week 05'],
+      monthLabels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'],
+
     };
+  },
+  created () {
+    // this.getDailyWalletRewardsFn();
+  },
+  computed: {
+    ...mapState(['totalWithdraw', 'user']),
+    currencyAmount () {
+      return (amount) => this.$options.filters.currencyAmount(amount);
+    },
+  },
+  methods: {
+    customFormatter (date) {
+      return moment(date).format('YYYYMMDD');
+    },
+    totalReward () {
+      const initialAmount = 0;
+      const reducer = (amount, day) => amount + day.rewards;
+      return _WTON.ray(this.dailyWalletRewardsList.reduce(reducer, initialAmount).toString());
+    },
+    displayAmount (amount) {
+      const displayAmounts = parseFloat(amount) / Math.pow(10, 27);
+      return Math.round(displayAmounts * 10) / 10;
+    },
+    async getDailyWalletRewardsFn (chartType) {
+      const dailyWalletRewards = await getDailyWalletRewards(this.networkId, this.user.toLowerCase(), this.customFormatter(this.periodStart), this.customFormatter(this.periodEnd) );
+      this.dailyWalletRewardsList = dailyWalletRewards;
+      this.dailyWalletRewards = {
+        labels: chartType,
+        datasets: [{
+          backgroundColor: 'transparent',
+          borderColor: '#2a72e5',
+          data: dailyWalletRewards.map((item) => (this.displayAmount(item.rewards))),
+        }],
+      };
+    },
+    toggleChartType (chartType) {
+      this.chartType = chartType;
+      if (chartType === 'week') {
+        this.getDailyWalletRewardsFn(this.weekLabels);
+      } else if (chartType === 'month') {
+        this.getDailyWalletRewardsFn(this.monthLabels);
+      } else if (chartType === 'year') {
+        this.getDailyWalletRewardsFn(this.yearLabels);
+      }
+    },
   },
 };
 </script>
