@@ -22,7 +22,7 @@
                 @keypress="onlyForTon"
               >
               <span class="model-ton-balance-input-stake-unit">TON</span>
-              <button class="model-ton-stake-btn" @click="makeInputMax">MAX</button>
+              <button class="model-ton-stake-btn" @click="getMaxBalance('max')">MAX</button>
             </div>
           </div>
           <div class="model-ton-balance">
@@ -67,7 +67,7 @@
           <h2 class="model-description">You can earn about</h2>
           <div class="model-result-container">
             <div class="model-result-ton">
-              <span class="model-result-ton-amount">{{ Number(rewardTON.replace(',', '').replace('TON', '')).toFixed(2) }}</span>
+              <span class="model-result-ton-amount">{{ getRewardTon(rewardTON) }}</span>
               <span class="model-result-ton-unit">TON</span>
             </div>
             <div class="model-result-detail">
@@ -81,7 +81,7 @@
             <button class="model-btn"
                     :class="{'model-btn-notavailable' : inputTon === '0' || inputTon === ''}"
                     style="marginRight: 5px"
-                    @click="test()"
+                    @click="openStake()"
             >
               Stake
             </button>
@@ -166,19 +166,36 @@ export default {
     this.getUSDInfo();
   },
   methods: {
-    test () {
+    openStake () {
       const tonAmount = this.inputTon;
       this.$emit('openStake', tonAmount);
     },
-    makeInputMax () {
+    getRewardTon (rewardTon) {
+      const strRewardTon = rewardTon.replace('TON', '');
+      let afterDecimalNumber;
+      const spliedTonAmount = strRewardTon.split('.');
+      const beforeDecimalNumber = spliedTonAmount[0];
+      if(spliedTonAmount[1] === undefined) {
+        afterDecimalNumber = '00';
+      } else {
+        afterDecimalNumber = spliedTonAmount[1].slice(0, 2);
+      }
+      return `${beforeDecimalNumber}.${afterDecimalNumber}`;
+    },
+    getMaxBalance (args) {
+      let afterDecimalNumber;
       const tonAmount = this.tonBalance.toBigNumber().toString();
       const spliedTonAmount = tonAmount.split('.');
       const beforeDecimalNumber = spliedTonAmount[0];
-      const afterDecimalNumber = spliedTonAmount[1].slice(0, 2);
-      if(afterDecimalNumber[1] < 5 || afterDecimalNumber[1] === undefined) {
-        return this.inputTon = `${beforeDecimalNumber}.${afterDecimalNumber[0]}0`;
+      if(spliedTonAmount[1] === undefined) {
+        afterDecimalNumber = '00';
+      } else {
+        afterDecimalNumber = spliedTonAmount[1].slice(0, 2);
       }
-      return this.inputTon = `${beforeDecimalNumber}.${Number(afterDecimalNumber[0]) + 1}0`;
+      if(args === 'max') {
+        return this.inputTon = `${beforeDecimalNumber}.${afterDecimalNumber}`;
+      }
+      return `${beforeDecimalNumber}.${afterDecimalNumber}`;
     },
     changeView (args) {
       this.currentView = args;
@@ -282,9 +299,6 @@ export default {
         });
     },
     closeModal () {
-      this.showResultModal = false;
-    },
-    openStake () {
       this.showResultModal = false;
     },
   },
