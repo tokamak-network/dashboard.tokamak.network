@@ -41,7 +41,7 @@ export async function getDailyWalletRewards (chainId, account) {
   const res = await candidate.get('/stakedl2accounts/rewards', {
     params: {
       chainId,
-      account,
+      account: account.toLowerCase(),
     },
   });
   if (res.data === '') return [];
