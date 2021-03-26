@@ -133,7 +133,7 @@ export default {
   position: relative;
   display: inline-block;
   width: 200px;
-  z-index: 1000;
+  z-index: 100;
 }
 
 .dropdown-btn {

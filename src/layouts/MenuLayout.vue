@@ -50,14 +50,14 @@ export default {
       selectedOp:'',
       filteredOperators:[],
       from: 'name',
-      order: 'desc',
+      order: 'asc',
     };
   },
   computed: {
     ...mapState([
       'operators',
       'selectedOperator',
-      'signIn'
+      'signIn',
     ]),
     orderedOperators () {
       switch (this.from) {
@@ -85,7 +85,7 @@ export default {
         this.order = this.changedOrder();
       } else {
         this.from = from;
-        this.order = 'asc';
+        this.order = 'desc';
       }
     },
     changedOrder () {

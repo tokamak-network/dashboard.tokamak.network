@@ -465,7 +465,7 @@ export default new Vuex.Store({
         TON.methods.balanceOf(WTON._address).call(),
       ]);
 
-      const operators = context.state.operators.slice(0, 2);
+      const operators = context.state.operators;
       const candidates = await getCandidates();
       const events = await getCandidateCreateEvent();
       const candidateContractCreated = events.filter(event => event.eventName === 'CandidateContractCreated');

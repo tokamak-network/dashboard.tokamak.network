@@ -8,12 +8,15 @@
     <transition v-if="showConnectModal" name="modal">
       <div class="modal-mask w100">
         <div class="">
-          <div >
+          <div>
             <div v-if="connectType === 'connect'" class="modal-wrapper">
               <div class="modal-container">
                 <div class="modal-header">
-                  <h3>Connect Wallet</h3>
-                  <span>To start using Staking</span>
+                  <div class="modal-header-container">
+                    <h3>Connect Wallet</h3>
+                    <img class="close-icon" src="@/assets/images/popup_close_s_icon.png" @click="close()">
+                  </div>
+                  <span>To start Staking</span>
                 </div>
 
                 <div class="modal-body">
@@ -30,14 +33,17 @@
 
                 <div class="modal-footer">
                   <h3>New to Ethereum?</h3>
-                  <a href="#">Learn more about wallets</a>
+                  <a href="https://ethereum.org/en/wallets/" target="_blank" class="link">Learn more about wallets</a>
                 </div>
               </div>
             </div>
             <div v-else class="modal-wrapper">
               <div class="modal-container">
                 <div class="modal-header">
+                  <div class="modal-header-container">
                   <h3>Account</h3>
+                   <img class="close-icon" src="@/assets/images/popup_close_s_icon.png" @click="close()">
+                  </div>
                   <span>My account & connect change</span>
                 </div>
 
@@ -214,6 +220,9 @@ export default {
       // this.logout();
       this.connectType = connectType;
     },
+    close () {
+      this.showConnectModal= false;
+    },
   },
 };
 </script>
@@ -229,22 +238,27 @@ export default {
   color: #86929d;
   background-color: transparent;
   font-size: 14px;
-  font-family: "Noto Sans",sans-serif;
+font-family: "Titillium Web", sans-serif;
   cursor: pointer;
   margin-right: 40px;
   /* width: 102px; */
   justify-content: center;
 }
 
+.modal {
+  z-index: 10000;
+}
+
 .modal-mask {
   position: fixed;
-  z-index: 100;
+  z-index: 1000;
   top: 0;
   left: 0;
   height: 100%;
   display: table;
   transition: opacity 0.3s ease;
-}
+  border-radius: 4px;
+  box-shadow: 0 2px 4px 0 rgba(96, 97, 112, 0.14);}
 
 .modal-wrapper {
   position: fixed;
@@ -289,6 +303,18 @@ export default {
   padding: 15px 25px;
 }
 
+.link {
+  text-decoration: underline;
+font-family: "Titillium Web", sans-serif;
+  font-size: 13px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 2.31;
+  letter-spacing: normal;
+  text-align: left;
+  color: #2a72e5;
+}
 .modal-footer h3 {
   margin: 0;
   font-size: 13px;
@@ -311,7 +337,11 @@ export default {
 .modal-leave-active {
   opacity: 0;
 }
-
+.modal-header-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
 .modal-enter .modal-container,
 .modal-leave-active .modal-container {
   -webkit-transform: scale(1.1);
@@ -346,6 +376,10 @@ export default {
   justify-content: space-between;
 }
 
+.close-icon {
+  height: 22px;
+  width: 22px;
+}
 .wallet-option__inner span {
   font-family: "Noto Sans",sans-serif;
   font-size: 13px;
@@ -390,7 +424,6 @@ export default {
   height: 22px;
   border-radius: 4px;
   background-color: #257eee;
-  box-shadow: none;
   border-radius: 12px;
   text-align: center;
   box-shadow: 0 3px 14px 0 rgba(0, 0, 0, 0.03);
