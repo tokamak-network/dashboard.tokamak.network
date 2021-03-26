@@ -3,6 +3,7 @@
     <div class="header">
       <div class="header-logo-container">
         <img
+          alt="Tokamak Network Logo"
           class="header-logo"
           src="@/assets/images/tnss_bi.png"
           width="365px"
@@ -19,6 +20,7 @@
           Home
         </button>
         <button
+          v-if="signIn"
           class="header-link"
           :class="{ 'menu-button-selected': $route.path === '/staking'}"
           @click="clickMenu('staking')"
@@ -33,15 +35,17 @@
           Staking
         </button> -->
         <button
+          v-if="signIn"
           class="header-link"
           :class="{ 'menu-button-selected': $route.path === '/powerton'}"
           @click="clickMenu('powerton')"
         >
           PowerTON
         </button>
-        <button v-if="signIn"
+        <button
+          v-if="signIn"
           class="header-link"
-          :class="{ 'menu-button-selected': $route.path === '/wallet'}"
+          :class="{ 'menu-button-selected': $route.path === '/powerton'}"
           @click="clickMenu('wallet')"
         >
           Wallet

@@ -1,4 +1,5 @@
 import moment from 'moment';
+import Web3 from 'web3';
 const locale = window.navigator.userLanguage || window.navigator.language;
 moment.locale(locale);
 
@@ -11,11 +12,12 @@ const _POWER = createCurrency('POWER');
 import { getConfig } from '../../config.js';
 import numeral from 'numeral';
 
-export function hexSlicer (address = '') {
-  if (address.length < 11) {
-    return address;
-  }
+export function hexSlicer (address, chars = 4) {
+  return Web3.utils.isAddress(address) && `${address.substring(0, chars + 2)}...${address.substring(42 - chars)}`;
+}
 
+export function prettifyTransactionHash (address) {
+  console.log('address ', address);
   return `${address.slice(0, 6)}...${address.slice(-4)}`;
 }
 
