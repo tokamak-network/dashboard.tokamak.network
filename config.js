@@ -33,7 +33,7 @@ export function getConfig () {
   case 'development':
     return config.development;
   default:
-    return config.rinkeby;
+    return config.mainnet;
   }
 }
 

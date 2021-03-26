@@ -189,12 +189,15 @@ export default {
   // },
   methods: {
     openStaking () {
-      if (this.isPressed) {
-        this.$store.dispatch('setSelectedOperator', '');
+      if (this.signIn){
+        if (this.isPressed) {
+          this.$store.dispatch('setSelectedOperator', '');
+        }
+        else {
+          this.$store.dispatch('setSelectedOperator', this.operator.layer2);
+        }
       }
-      else {
-        this.$store.dispatch('setSelectedOperator', this.operator.layer2);
-      }
+
     },
     viewDetailedOperator (operator) {
       const layer2 = operator.layer2;

@@ -1,38 +1,32 @@
 <script>
+//Importing Line class from the vue-chartjs wrapper
 import { Line, mixins } from 'vue-chartjs';
-const { reactiveProp } = mixins;
+const { reactiveProp, reactiveData } = mixins;
+//Exporting this so it can be used in other components
 export default {
   extends: Line,
   mixins: [reactiveProp],
-  props: ['chartData'],
+  props: {
+    chartData: {
+      type: Number,
+    },
+    datacollection: {
+      // eslint-disable-next-line vue/require-prop-type-constructor
+      type: Object | Array,
+      required: false,
+      // default: null,
+    },
+    option: {
+      // eslint-disable-next-line vue/require-prop-type-constructor
+      type: Object | Array,
+    },
+  },
   data () {
-    return {
-      options: {
-        scales: {
-          yAxes: [{
-            ticks: {
-              beginAtZero: false,
-            },
-            gridLines: {
-              display: true,
-            },
-          }],
-          xAxes: [ {
-            gridLines: {
-              display: false,
-            },
-          }],
-        },
-        legend: {
-          display: false,
-        },
-        responsive: true,
-        maintainAspectRatio: true,
-      },
-    };
+    return {};
   },
   mounted () {
-    this.renderChart(this.chartData, this.options);
+    //renderChart function renders the chart with the datacollection and options object.
+    this.renderChart(this.datacollection, this.option);
   },
 };
 </script>

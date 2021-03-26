@@ -18,7 +18,7 @@
     </div>
     <div class="body">
       <div class="chart">
-        <line-chart v-if="chartData" :height="300" :width="1200" :chartData="chartData" />
+        <wallet-line-chart v-if="chartData" :height="300" :width="900" :chartData="chartData" />
       </div>
       <div class="analysis">
         <h4>Analysis of Reward</h4>
@@ -41,11 +41,11 @@
 
 <script>
 import Datepicker from 'vuejs-datepicker';
-import LineChart from '@/components/LineChart.vue';
+import WalletLineChart from '@/components/WalletLineChart.vue';
 export default {
   components: {
     Datepicker,
-    LineChart,
+    'wallet-line-chart': WalletLineChart,
   },
   props: ['chartType', 'chartData', 'toggleChartType'],
   data () {
@@ -64,6 +64,7 @@ export default {
         padding: 20px;
         border-radius: 10px;
         margin: 4px 0 23px 30px;
+        width: 1114px;
     }
     .header {
         display: flex;
