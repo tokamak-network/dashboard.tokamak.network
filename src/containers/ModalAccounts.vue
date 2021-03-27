@@ -7,30 +7,29 @@
       Address to Interact With
     </div>
     <div class="line" />
-    <div v-for="account in accounts" :key="account.index" class="account-container">
+    <div v-for="account in HDAccounts" :key="account.index" class="account-container">
       <div class="select-container">
         <div
           :data-address="'address' + account.index"
           class="account"
-          @click="setAccount(account)"
         >
           {{ account.account.getChecksumAddressString() | hexSlicer }}
         </div>
         <div class="select-button">
-          <base-button :label="'Select'" class="button" @click.prevent="unlockWallet" />
+          <button :label="'Select'" class="button" @click="setAccount(account)">Select</button>
         </div>
       </div>
       <div class="line" />
     </div>
     <div class="button-container">
-      <button-step :type="'prev'" class="prev" @on-clicked="prev" />
-      <button-step :type="'next'" class="next" @on-clicked="next" />
+      <button-step :type="'prev'" class="prev" @on-clicked="previousAddressSet" />
+      <button-step :type="'next'" class="next" @on-clicked="nextAddressSet" />
     </div>
   </div>
 </template>
 
 <script>
-import BaseButton from '@/components/BaseButton.vue';
+// import BaseButton from '@/components/BaseButton.vue';
 import ButtonStep from '@/components/ButtonStep.vue';
 
 import { mapState, mapActions } from 'vuex';
@@ -43,7 +42,7 @@ const MAX_ADDRESSES = 10;
 export default {
   components: {
     'button-step': ButtonStep,
-    'base-button': BaseButton,
+    // 'base-button': BaseButton,
   },
   props: {
     hardwareWallet: {
@@ -55,6 +54,10 @@ export default {
     accounts: {
       type: Array,
       default: () => [],
+    },
+    path: {
+      type: String,
+      default: '',
     },
   },
   data () {
@@ -90,6 +93,9 @@ export default {
       this.getPaths();
       this.setHDAccounts();
     },
+  },
+  created () {
+    this.changePath(this.hardwareWallet);
   },
   methods: {
     ...mapActions([
@@ -141,18 +147,8 @@ export default {
       }
     },
     changePath (key) {
-      this.resetPaginationValues();
-      let selectedPath;
-      if (this.availablePaths[key]) {
-        selectedPath = this.availablePaths[key].path;
-      } else if (this.customPaths[key]) {
-        selectedPath = this.customPaths[key].path;
-      } else {
-        selectedPath = this.selectedPath;
-      }
-
       this.hardwareWallet
-        .init(selectedPath)
+        .init(this.hardwareWallet.basePath)
         .then(() => {
           this.getPaths();
           this.currentIndex = 0;
@@ -172,7 +168,6 @@ export default {
       this.unlockWallet(this.currentWallet);
     },
     async unlockWallet (currentWallet) {
-      // console.log(currentWallet);
       this.decryptWallet([currentWallet])
         .then(async () => {
           if (this.web3Instance != null) {
@@ -195,7 +190,6 @@ export default {
             index: i,
             account: account,
           });
-          this.setBalances();
         }
         this.currentIndex += MAX_ADDRESSES;
       } catch (e) {
@@ -312,6 +306,8 @@ export default {
           text-align: center;
           color: #86929d;
           padding-top: 4px;
+          background-color: #ffffff;
+          border: none;
         }
       }
       > .select-button:hover {
@@ -332,8 +328,10 @@ export default {
     > .prev {
       // padding-right: 3px;
       width: 40px;
+      margin-right: 5px;
     }
     > .next {
+      margin-left: 5px;
       width: 40px;
     }
   }

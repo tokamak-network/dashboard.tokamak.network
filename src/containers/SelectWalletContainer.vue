@@ -18,11 +18,14 @@
         :title="'Ledger'"
         :connect="show"
       />
+
+      <!-- modal section -->
       <modal v-if="showModalAccounts" :width="'280px'">
         <template #body>
           <modal-accounts
             :hardwareWallet="hardwareWallet"
             :accounts="HDAccounts"
+            :path="path"
             @on-closed="showModalAccounts=false"
           />
         </template>
@@ -55,18 +58,6 @@ import ModalAccount from '@/containers/ModalAccounts.vue';
 import LedgerModal from '@/layouts/AccessWalletLayout/LedgerAppModal/LedgerModal.vue';
 
 import WalletConnectProvider from '@walletconnect/web3-provider';
-
-import EthereumTx from 'ethereumjs-tx';
-import AppEth from '@ledgerhq/hw-app-eth';
-
-import HookedWalletSubprovider from 'web3-provider-engine/dist/es5/subproviders/hooked-wallet';
-
-import createLedgerSubprovider from '@ledgerhq/web3-subprovider';
-import TransportWebUSB from '@ledgerhq/hw-transport-u2f';
-import ProviderEngine from 'web3-provider-engine';
-import RpcSubprovider from 'web3-provider-engine/subproviders/rpc';
-import * as HDKey from 'hdkey';
-// import LedgerWalletSubproviderFactory from 'ledger-wallet-provider';
 
 
 export default {
@@ -131,31 +122,31 @@ export default {
       }
     },
     async hardwareWalletOpen (wallet) {
-      const path = 'm/44\'/60\'';
-      try {
-        this.hardwareWallet = wallet;
-        this.hardwareWallet.init(path).then(() => {
-          this.getPaths();
-          this.currentIndex = 0;
-          this.setHDAccounts();
-        });
-        this.networkAndAddressOpen();
-      } catch (e) {
-        alert(e);
-      }
+      this.hardwareWallet = wallet;
+      this.networkAndAddressOpen();
+      // try {
+      //   this.hardwareWallet = wallet;
+      //   this.hardwareWallet.init(path).then(() => {
+      //     this.getPaths();
+      //     this.currentIndex = 0;
+      //     this.setHDAccounts();
+      //   });
+      // } catch (e) {
+      //   alert(e);
+      // }
     },
     async setHDAccounts () {
       try {
         if (!this.web3.eth) this.setWeb3Instance();
         this.HDAccounts = [];
-        for (let i = 0; i < 10; i++) {
+        for (let i = this.currentIndex; i < this.currentIndex + 10; i++) {
           const account = await this.hardwareWallet.getAccount(i);
           this.HDAccounts.push({
             index: i,
             account: account,
           });
         }
-        this.currentIndex += 5;
+        this.currentIndex += 10;
       } catch (e) {
         alert(e);  // eslint-disable-line
       }
