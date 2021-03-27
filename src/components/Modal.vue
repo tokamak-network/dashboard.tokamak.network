@@ -5,7 +5,9 @@
       <div class="modal-wrapper">
         <div class="modal-container"
              :class="{ mobile: mobile }"
-             :style="{ width: width }"
+             :style="{
+               width: width
+             }"
              @mousedown.stop
         >
           <div class="modal-body">
@@ -55,7 +57,7 @@ export default {
   width: 300px;
   margin: 0px auto;
   background-color: #fff;
-  border-radius: 5px;
+  border-radius: 15px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, .33);
   transition: all .3s ease;
   font-family: Helvetica, Arial, sans-serif;

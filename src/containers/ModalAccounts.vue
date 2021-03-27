@@ -4,25 +4,34 @@
          @click="close"
     >
     <div class="block-title">
-      <h4>Address to Interact With</h4>
+      Address to Interact With
     </div>
-    <div
-      v-for="account in accounts"
-      :key="account.index"
-      :data-address="'address' + account.index"
-      class="account-container"
-      @click="setAccount(account)"
-    >
-      {{ account.account.getChecksumAddressString() | hexSlicer }}
+    <div class="line" />
+    <div v-for="account in accounts" :key="account.index" class="account-container">
+      <div class="select-container">
+        <div
+          :data-address="'address' + account.index"
+          class="account"
+          @click="setAccount(account)"
+        >
+          {{ account.account.getChecksumAddressString() | hexSlicer }}
+        </div>
+        <div class="select-button">
+          <base-button :label="'Select'" class="button" @click.prevent="unlockWallet" />
+        </div>
+      </div>
+      <div class="line" />
     </div>
     <div class="button-container">
-      <base-button :label="'Access Wallet'" @click.prevent="unlockWallet" />
+      <button-step :type="'prev'" class="prev" @on-clicked="prev" />
+      <button-step :type="'next'" class="next" @on-clicked="next" />
     </div>
   </div>
 </template>
 
 <script>
 import BaseButton from '@/components/BaseButton.vue';
+import ButtonStep from '@/components/ButtonStep.vue';
 
 import { mapState, mapActions } from 'vuex';
 import { Misc, pathHelpers } from '@/helpers';
@@ -33,6 +42,7 @@ import { LEDGER as LEDGER_TYPE } from '@/wallets/bip44/walletTypes';
 const MAX_ADDRESSES = 10;
 export default {
   components: {
+    'button-step': ButtonStep,
     'base-button': BaseButton,
   },
   props: {
@@ -166,7 +176,6 @@ export default {
       this.decryptWallet([currentWallet])
         .then(async () => {
           if (this.web3Instance != null) {
-            console.log(this.web3Instance);
             await this.$store.dispatch('signInLedger', this.web3Instance);
             this.close();
           }
@@ -229,7 +238,7 @@ export default {
 <style lang="scss" scoped>
 .modal-accounts {
   position: relative;
-  padding: 0 15px 15px 15px;
+  padding: 0 0 15px 0;
 
   font-family: Roboto;
   font-stretch: normal;
@@ -250,20 +259,88 @@ export default {
   }
 
   > .block-title {
-    font-size: 24px;
+    margin: 25px 45px 24px 25px;
+    font-family: Roboto;
+    font-size: 16px;
     font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.25;
+    letter-spacing: normal;
     text-align: left;
-    color: #3e495c;
-
-    padding-top: 30px;
-    margin-bottom: 5px;
+    color: #3d495d;
   }
+
   > .account-container {
-    font-size: 15px;
-    border: solid 1px #3e495c;
+    font-size: 14px;
     border-radius: 4px;
-    padding: 10px 0 10px 10px;
-    margin-bottom: 7px;
+    height: 40px;
+
+    > .select-container {
+      display: flex;
+      justify-content: space-between;
+
+      .account {
+        padding: 10px 0px 10px 25px;
+        font-size: 14px;
+        font-weight: 500;
+        font-stretch: normal;
+        font-style: normal;
+        // line-height: 2.14;
+        letter-spacing: 0.35px;
+        text-align: left;
+        color: #3d495d;
+      }
+
+      > .select-button {
+        border-radius: 4px;
+        border: solid 1px #dfe4ee;
+        background-color: #ffffff;
+        height: 22px;
+        margin: 9px 20px 0 0;
+        padding: 0 15px 0;
+        color: #86929d;
+        font-size: 12px;
+
+        > .button {
+          font-size: 12px;
+          font-weight: 500;
+          font-stretch: normal;
+          font-style: normal;
+          line-height: 1.33;
+          letter-spacing: normal;
+          text-align: center;
+          color: #86929d;
+          padding-top: 4px;
+        }
+      }
+      > .select-button:hover {
+        border: solid 1px #2a72e5;
+        background-color: #ffffff;
+
+        > .button {
+          color: #2a72e5;
+        }
+      }
+    }
+  }
+
+  > .button-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 16px;
+    > .prev {
+      // padding-right: 3px;
+      width: 40px;
+    }
+    > .next {
+      width: 40px;
+    }
   }
 }
+.line {
+  width: 280px;
+  height: 1px;
+  background-color: #f4f6f8;
+  }
 </style>

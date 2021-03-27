@@ -139,7 +139,6 @@ export default new Vuex.Store({
       state.web3Instance = web3Instance;
     },
     DECRYPT_WALLET: (state, wallet) => {
-      console.log(wallet);
       state.wallet = wallet;
       state.account.address = wallet.getAddressString();
       state.account.isHardware = wallet.isHardware;
@@ -249,10 +248,8 @@ export default new Vuex.Store({
       context.commit('IS_LOADING', true);
       context.commit('SET_WEB3', web3);
       context.commit('SET_WEB3_INSTANCE', web3Instance);
-      const user = '0x5af17e46c1460749cc67A493c6cef9Dd7FfBB260';
+      const user = (await web3Instance.eth.getAccounts())[0];
 
-      // console.log(await web3Instance.eth.getBlockNumber());
-      // console.log(await web3.eth.getBalance(user));
       const networkId = await web3.eth.net.getId();
       context.commit('SET_USER', user);
       context.commit('SET_NETWORK_ID', networkId);
@@ -295,7 +292,6 @@ export default new Vuex.Store({
       });
     },
     decryptWallet ({ commit, dispatch }, params) {
-      // console.log(params[0]);
       if (params[0] !== undefined && params[0] !== null) {
         commit('DECRYPT_WALLET', params[0]);
         dispatch('setWeb3Instance', params[1]);
@@ -327,7 +323,7 @@ export default new Vuex.Store({
       //   : {};
       const state = context.state;
       const dispatch = context.dispatch;
-      provider = 'http://183.98.80.217:8545';
+      provider = 'https://rinkeby.infura.io/v3/34448178b25e4fbda6d80f4da62afba2';
       const web3Instance = new Web3(
         new MEWProvider(
           provider,
@@ -339,19 +335,8 @@ export default new Vuex.Store({
           this._vm.$eventHub
         )
       );
-      console.log(web3Instance);  // eslint-disable-line
       web3Instance.currentProvider.sendAsync = web3Instance.currentProvider.send;
-      const [
-        blockNumber,
-        account,
-      ] = await Promise.all([
-        web3Instance.eth.getBlockNumber(),
-        web3Instance.eth.getAccounts(),
-      ]);
-      // console.log(blockNumber);
-      // console.log(account[0]);
 
-      // console.log(await EthCalls.getBlockNumber());
       context.commit('SET_WEB3_INSTANCE', web3Instance);
     },
 
@@ -843,8 +828,8 @@ export default new Vuex.Store({
           // set vue state.
           operatorFromLayer2.address = operator;
           // operatorFromLayer2.lastFinalizedAt = lastFinalizedAt;
-          operatorFromLayer2.lastFinalizedAt = (lastFinalized[0]==='0') ? '0' : lastFinalized[0];
-          operatorFromLayer2.finalizeCount = lastFinalized[1];
+          // operatorFromLayer2.lastFinalizedAt = (lastFinalized[0]==='0') ? '0' : lastFinalized[0];
+          // operatorFromLayer2.finalizeCount = lastFinalized[1];
           // operatorFromLayer2.deployedAt = deployedAt;
           operatorFromLayer2.totalDeposit = _WTON(totalDeposit, WTON_UNIT);
           operatorFromLayer2.totalStaked = _WTON(totalStaked, WTON_UNIT);

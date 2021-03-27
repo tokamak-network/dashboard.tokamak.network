@@ -16,7 +16,7 @@ export default async ({ payload, requestManager }, res, next) => {
       const receipt = await ethCalls.getBlockByNumber(blockNumber, returnTxs);
       memcache[blockNumber] = {
         timestamp: new Date().getTime(),
-        receipt: JSON.stringify(receipt)
+        receipt: JSON.stringify(receipt),
       };
       res(null, toPayload(payload.id, receipt));
     } catch (e) {

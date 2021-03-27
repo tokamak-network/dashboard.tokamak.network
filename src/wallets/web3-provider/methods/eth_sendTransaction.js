@@ -29,7 +29,7 @@ export default async (
   if (payload.method !== 'eth_sendTransaction') return next();
   const tx = Object.assign({}, payload.params[0]);
   const gasPrice = await store.state.web3.eth.getGasPrice();
-  // tx.gasPrice = unit.toWei(gasPrice, 'gwei').toString();
+  tx.gasPrice = unit.toWei(gasPrice, 'gwei').toString();
   tx.gasPrice = gasPrice;
   const localTx = Object.assign({}, tx);
   delete localTx.gas;
@@ -82,12 +82,12 @@ export default async (
           }
           // res(null, toPayload(payload.id, hash));
         }).on('error', err => {
-          console.log(err);
+          alert(err);
         });
         // setEvents(_promiObj, _tx, store.dispatch);
       }
     })
     .catch(e => {
-      console.log(e);
+      alert(e);
     });
 };

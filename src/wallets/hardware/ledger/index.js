@@ -64,7 +64,7 @@ class ledgerWallet {
     }
     const txSigner = async tx => {
       tx = new Transaction(tx, {
-        common: commonGenerator(4),
+        common: commonGenerator('4'),
       });
       const networkId = tx.getChainId();
       tx.raw[6] = networkId;
@@ -76,7 +76,6 @@ class ledgerWallet {
         accountPath,
         tx.serialize().toString('hex')
       );
-      console.log(result);
 
       // EIP155 support. check/recalc signature v value.
       let v = result.v;
@@ -91,18 +90,15 @@ class ledgerWallet {
       tx.r = getBufferFromHex(result.r);
       tx.s = getBufferFromHex(result.s);
       const signedChainId = calculateChainIdFromV(tx.v);
-      console.log(typeof(signedChainId));
-      console.log(typeof(networkId));
-      // if (signedChainId !== networkId)
-      //   throw new Error(
-      //     Vue.$i18n.t('errorsGlobal.invalid-network-id-sig', {
-      //       got: signedChainId,
-      //       expected: networkId,
-      //     }),
-      //     'InvalidNetworkId'
-      //   );
-      const signedTx = getSignTransactionObject(tx);
-      console.log(signedTx);
+
+      if (Number(signedChainId) !== Number(networkId))
+        throw new Error(
+          Vue.$i18n.t('errorsGlobal.invalid-network-id-sig', {
+            got: signedChainId,
+            expected: networkId,
+          }),
+          'InvalidNetworkId'
+        );
       return getSignTransactionObject(tx);
     };
     const msgSigner = async msg => {

@@ -15,7 +15,7 @@ export default async ({ payload, requestManager }, res, next) => {
       const receipt = await ethCalls.getTransactionReceipt(txHash);
       memcache[txHash] = {
         timestamp: new Date().getTime(),
-        receipt: JSON.stringify(receipt)
+        receipt: JSON.stringify(receipt),
       };
       res(null, toPayload(payload.id, receipt));
     } catch (e) {

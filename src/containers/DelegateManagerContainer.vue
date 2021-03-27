@@ -242,9 +242,7 @@ export default {
           amount,
           data,
         ).estimateGas( { from: this.user } );
-        console.log(gasLimit);
-        console.log(amount);
-        console.log(await this.web3.eth.getGasPrice());
+
         await ton.methods.approveAndCall(
           this.WTON._address,
           amount,
@@ -277,14 +275,16 @@ export default {
         return alert('Please check your WTON amount.');
       }
       if(confirm('Current withdrawal delay is 2 weeks. Are you sure you want to delegate?')){
+        const managers = await getManagers();
+        const wton = await createWeb3Contract(WTONABI, managers.WTON, this.web3Instance);
         const data = this.getData();
         const amount = _WTON(this.amountToDelegate).toFixed('ray');
-        const gasLimit = await this.WTON.methods.approve(
+        const gasLimit = await wton.methods.approve(
           this.DepositManager._address,
           amount,
         ).estimateGas({ from: this.user });
 
-        this.WTON.methods.approve(
+        wton.methods.approve(
           this.DepositManager._address,
           amount,
         ).send({
@@ -311,19 +311,21 @@ export default {
       }
     },
     async wtonDelegate () {
+      const managers = await getManagers();
+      const depositManager = await createWeb3Contract(DepositManagerABI, managers.DepositManager, this.web3Instance);
       const amount = await this.WTON.methods.allowance(this.user, this.DepositManager._address).call();
       const bigAmount = new BN(amount);
       const wtonAmount = _WTON(bigAmount.toString(), 'ray');
       const delegateAmount = _WTON(wtonAmount).toFixed('ray');
 
-      const gasLimit = await this.DepositManager.methods.deposit(
+      const gasLimit = await depositManager.methods.deposit(
         this.operator.layer2,
         delegateAmount,
       ).estimateGas({
         from: this.user,
       });
 
-      this.DepositManager.methods.deposit(
+      depositManager.methods.deposit(
         this.operator.layer2,
         delegateAmount,
       ).send({
@@ -349,15 +351,17 @@ export default {
       if (this.operator.withdrawalRequests.length === 0) {
         return alert('Redelegatable amount is 0.');
       }
+      const managers = await getManagers();
+      const depositManager = await createWeb3Contract(DepositManagerABI, managers.DepositManager, this.web3Instance);
       const amount = this.redelegatableAmount.toFixed('ray');
-      const gasLimit = await this.DepositManager.methods.redepositMulti(
+      const gasLimit = await depositManager.methods.redepositMulti(
         this.operator.layer2,
         this.redelegatableRequests,
       ).estimateGas({
         from: this.user,
       });
 
-      await this.DepositManager.methods.redepositMulti(
+      await depositManager.methods.redepositMulti(
         this.operator.layer2,
         this.redelegatableRequests,
       ).send({
@@ -385,16 +389,18 @@ export default {
       if (_WTON(this.amountToUndelegate).gt(this.operator.userStaked)){
         return alert('Please check your TON amount.');
       }
+      const managers = await getManagers();
+      const depositManager = await createWeb3Contract(DepositManagerABI, managers.DepositManager, this.web3Instance);
 
       const amount = _WTON(this.amountToUndelegate).toFixed('ray');
-      const gasLimit = await this.DepositManager.methods.requestWithdrawal(
+      const gasLimit = await depositManager.methods.requestWithdrawal(
         this.operator.layer2,
         amount,
       ).estimateGas({
         from: this.user,
       });
 
-      await this.DepositManager.methods.requestWithdrawal(
+      await depositManager.methods.requestWithdrawal(
         this.operator.layer2,
         amount,
       ).send({
@@ -425,10 +431,12 @@ export default {
       if (count === 0) {
         return alert('Withdrawable amount is 0.');
       }
+      const managers = await getManagers();
+      const depositManager = await createWeb3Contract(DepositManagerABI, managers.DepositManager, this.web3Instance);
 
       const amount = _WTON(userWithdrawable).toFixed('ray');
 
-      const gasLimit = await this.DepositManager.methods.processRequests(
+      const gasLimit = await depositManager.methods.processRequests(
         this.operator.layer2,
         count,
         true,
@@ -436,7 +444,7 @@ export default {
         from: this.user,
       });
 
-      await this.DepositManager.methods.processRequests(
+      await depositManager.methods.processRequests(
         this.operator.layer2,
         count,
         true,
@@ -466,10 +474,12 @@ export default {
       if (count === 0) {
         return alert('Withdrawable amount is 0.');
       }
+      const managers = await getManagers();
+      const depositManager = await createWeb3Contract(DepositManagerABI, managers.DepositManager, this.web3Instance);
 
       const amount = _WTON(userWithdrawable).toFixed('ray');
 
-      const gasLimit = await this.DepositManager.methods.processRequests(
+      const gasLimit = await depositManager.methods.processRequests(
         this.operator.layer2,
         count,
         false,
@@ -477,7 +487,7 @@ export default {
         from: this.user,
       });
 
-      await this.DepositManager.methods.processRequests(
+      await depositManager.methods.processRequests(
         this.operator.layer2,
         count,
         false,

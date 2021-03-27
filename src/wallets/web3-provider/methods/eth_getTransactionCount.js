@@ -13,7 +13,7 @@ export default async ({ payload, requestManager }, res, next) => {
   if (store.get(utils.sha3(addr)) === undefined) {
     cached = {
       nonce: '0x00',
-      timestamp: 0
+      timestamp: 0,
     };
     store.set(utils.sha3(addr), cached);
   } else {
@@ -28,12 +28,12 @@ export default async ({ payload, requestManager }, res, next) => {
     if (timeDiff > 15) {
       cached = {
         nonce: Misc.sanitizeHex(liveNonceBN.toString(16)),
-        timestamp: +new Date()
+        timestamp: +new Date(),
       };
     } else if (liveNonceBN.isGreaterThan(cachedNonceBN)) {
       cached = {
         nonce: Misc.sanitizeHex(liveNonceBN.toString(16)),
-        timestamp: +new Date()
+        timestamp: +new Date(),
       };
     }
     store.set(utils.sha3(addr), cached);

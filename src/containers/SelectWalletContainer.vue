@@ -18,9 +18,7 @@
         :title="'Ledger'"
         :connect="show"
       />
-      <modal v-if="showModalAccounts"
-             :width="'30%'"
-      >
+      <modal v-if="showModalAccounts" :width="'280px'">
         <template #body>
           <modal-accounts
             :hardwareWallet="hardwareWallet"
@@ -29,12 +27,10 @@
           />
         </template>
       </modal>
-      <modal v-if="showModalClaim"
-             :width="'30%'"
-      >
+      <modal v-if="showModalLedger" :width="'280px'">
         <template #body>
           <ledger-modal
-            @on-closed="showModalClaim=false"
+            @on-closed="showModalLedger=false"
             @hardwareWalletOpen="hardwareWalletOpen"
           />
         </template>
@@ -86,7 +82,7 @@ export default {
   data () {
     return {
       currentAccount : null,
-      showModalClaim: false,
+      showModalLedger: false,
       showModalAccounts: false,
       hardwareWallet: {},
       hardwareAddresses: [],
@@ -138,7 +134,6 @@ export default {
       const path = 'm/44\'/60\'';
       try {
         this.hardwareWallet = wallet;
-        // console.log(this.hardwareWallet);
         this.hardwareWallet.init(path).then(() => {
           this.getPaths();
           this.currentIndex = 0;
@@ -162,7 +157,7 @@ export default {
         }
         this.currentIndex += 5;
       } catch (e) {
-        console.log(e);  // eslint-disable-line
+        alert(e);  // eslint-disable-line
       }
     },
     getPaths () {
@@ -173,7 +168,7 @@ export default {
       this.showModalAccounts = true;
     },
     show () {
-      this.showModalClaim = true;
+      this.showModalLedger = true;
     },
     async walletConnect () {
       const provider = new WalletConnectProvider({
