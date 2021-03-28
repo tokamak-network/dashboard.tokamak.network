@@ -1,7 +1,7 @@
 <template>
   <div class="current-detail">
     <h3>{{ title }}</h3>
-    <span v-if="ton" class="current-detail-content">{{ value }}<span class="current-detail-span">TON</span></span>
+    <span v-if="ton" class="current-detail-content">{{ value }}<span class="current-detail-span"> TON</span></span>
     <span v-else class="current-detail-content">{{ value }}</span>
   </div>
 </template>

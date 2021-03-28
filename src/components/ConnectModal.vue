@@ -41,8 +41,8 @@
               <div class="modal-container">
                 <div class="modal-header">
                   <div class="modal-header-container">
-                  <h3>Account</h3>
-                   <img class="close-icon" src="@/assets/images/popup_close_s_icon.png" @click="close()">
+                    <h3>Account</h3>
+                    <img class="close-icon" src="@/assets/images/popup_close_s_icon.png" @click="close()">
                   </div>
                   <span>My account & connect change</span>
                 </div>
@@ -202,11 +202,7 @@ export default {
       window.open(`https://etherscan.io/address/${this.user}`);
     },
     copyToClipboard () {
-      this.$copyText(this.user).then(function (e) {
-        console.log(e);
-      }, function (e) {
-        console.log(e);
-      });
+      this.$copyText(this.user);
     },
     openWalletOptions () {
       this.showConnectModal = true;

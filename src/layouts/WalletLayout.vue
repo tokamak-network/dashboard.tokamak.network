@@ -13,7 +13,7 @@
         <span class="wallet-current-detail-content">{{ currencyAmount(power).replace('POWER', '') }} <span class="wallet-current-detail-span">POWER </span><span class="wallet-current-detail-span" style="color: #2a72e5">({{ currentRound.winningProbability }})</span></span>
       </div>
     </div>
-    <wallet-graph :chartType="chartType" :toggleChartType="toggleChartType" :chartData="dailyWalletRewards" :options="options" />
+    <wallet-graph :options="options" :dailyWalletRewardsList="dailyWalletRewardsList" />
     <div class="table-container">
       <div style="margin-bottom: 20px;">History</div>
       <WalletHistoryTable />
@@ -41,6 +41,7 @@ export default {
       reward: 0,
       walletTotalStaked: {},
       dailyWalletRewards: {},
+      dailyWalletRewardsList: [],
       chartType: 'week',
       weekLabels: ['Week 01', 'Week 02', 'Week 03', 'Week 04', 'Week 05'],
       monthLabels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'],
@@ -55,6 +56,7 @@ export default {
       'user',
       'networkId',
       'currentRound',
+      'signIn',
     ]),
     ...mapGetters([
       'userTotalStaked',
@@ -67,35 +69,42 @@ export default {
   },
   created () {
     this.getAccumulatedReward();
-    this.getDailyWalletRewardsFn(this.weekLabels);
+    // this.getDailyWalletRewardsFn(this.weekLabels);
   },
   methods:{
     async getAccumulatedReward () {
-      const reward = await getAccumulatedReward(this.networkId, this.user.toLowerCase());
-      const rewarded =  (reward[0].rewards).toLocaleString('fullwide', { useGrouping:false });
-      this.reward = _WTON.ray(rewarded.toString());
-    },
-    async getDailyWalletRewardsFn (chartType) {
-      const dailyWalletRewards = await getDailyWalletRewards(this.networkId, this.user.toLowerCase());
-      this.dailyWalletRewards = {
-        labels: chartType,
-        datasets: [{
-          backgroundColor: 'transparent',
-          borderColor: '#2a72e5',
-          data: dailyWalletRewards.map((item) => (item.rewards).toFixed()),
-        }],
-      };
-    },
-    toggleChartType (chartType) {
-      this.chartType = chartType;
-      if (chartType === 'week') {
-        this.getDailyWalletRewardsFn(this.weekLabels);
-      } else if (chartType === 'month') {
-        this.getDailyWalletRewardsFn(this.monthLabels);
-      } else if (chartType === 'year') {
-        this.getDailyWalletRewardsFn(this.yearLabels);
+      if(this.signIn) {
+        const reward = await getAccumulatedReward(this.networkId, this.user.toLowerCase());
+        const rewarded =  (reward[0].rewards).toLocaleString('fullwide', { useGrouping:false });
+        this.reward = _WTON.ray(rewarded.toString());
       }
     },
+    displayAmount (amount) {
+      const displayAmounts = parseFloat(amount) / Math.pow(10, 27);
+      return Math.round(displayAmounts * 10) / 10;
+    },
+    // async getDailyWalletRewardsFn (chartType) {
+    //   const dailyWalletRewards = await getDailyWalletRewards(this.networkId, this.user.toLowerCase());
+    //   this.dailyWalletRewardsList = dailyWalletRewards;
+    //   this.dailyWalletRewards = {
+    //     labels: chartType,
+    //     datasets: [{
+    //       backgroundColor: 'transparent',
+    //       borderColor: '#2a72e5',
+    //       data: dailyWalletRewards.map((item) => (this.displayAmount(item.rewards))),
+    //     }],
+    //   };
+    // },
+    // toggleChartType (chartType) {
+    //   this.chartType = chartType;
+    //   if (chartType === 'week') {
+    //     this.getDailyWalletRewardsFn(this.weekLabels);
+    //   } else if (chartType === 'month') {
+    //     this.getDailyWalletRewardsFn(this.monthLabels);
+    //   } else if (chartType === 'year') {
+    //     this.getDailyWalletRewardsFn(this.yearLabels);
+    //   }
+    // },
   },
 };
 </script>
