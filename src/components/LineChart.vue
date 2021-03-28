@@ -4,33 +4,7 @@ const { reactiveProp } = mixins;
 export default {
   extends: Line,
   mixins: [reactiveProp],
-  props: ['chartData'],
-  data () {
-    return {
-      options: {
-        scales: {
-          yAxes: [{
-            ticks: {
-              beginAtZero: false,
-            },
-            gridLines: {
-              display: true,
-            },
-          }],
-          xAxes: [ {
-            gridLines: {
-              display: false,
-            },
-          }],
-        },
-        legend: {
-          display: false,
-        },
-        responsive: true,
-        maintainAspectRatio: true,
-      },
-    };
-  },
+  props: ['chartData', 'options'],
   mounted () {
     this.renderChart(this.chartData, this.options);
   },

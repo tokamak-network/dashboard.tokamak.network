@@ -77,13 +77,12 @@ export default {
     },
     async getDailyWalletRewardsFn (chartType) {
       const dailyWalletRewards = await getDailyWalletRewards(this.networkId, this.user.toLowerCase());
-      console.log(dailyWalletRewards);
       this.dailyWalletRewards = {
         labels: chartType,
         datasets: [{
           backgroundColor: 'transparent',
           borderColor: '#2a72e5',
-          data: dailyWalletRewards.map((item) => (item.balanceOf).toFixed()),
+          data: dailyWalletRewards.map((item) => (item.rewards).toFixed()),
         }],
       };
     },

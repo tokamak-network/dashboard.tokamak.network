@@ -74,7 +74,6 @@
 import { mapState, mapGetters } from 'vuex';
 import GraphContainer from '@/containers/GraphContainer.vue';
 import moment from 'moment';
-import axios from 'axios';
 
 export default {
   components: {

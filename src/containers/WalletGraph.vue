@@ -18,7 +18,7 @@
     </div>
     <div class="body">
       <div class="chart">
-        <line-chart v-if="chartData" :height="300" :width="1200" :chartData="chartData" />
+        <line-chart v-if="chartData" :height="300" :width="1200" :chartData="chartData" :option="getOptions()" />
       </div>
       <div class="analysis">
         <h4>Analysis of Reward</h4>
@@ -53,6 +53,51 @@ export default {
       periodStart: '',
       periodEnd: new Date(),
     };
+  },
+  methods: {
+    getOptions () {
+      return {
+        tooltips: {
+          mode: 'nearest',
+          backgroundColor: '#2a72e5',
+        },
+        scales: {
+          ticks: { min: 0 },
+          layout: {
+            padding: {
+              left: 50,
+              right: 0,
+              top: 0,
+              bottom: 0,
+            },
+          },
+          yAxes: [
+            {
+              type: 'linear',
+              display: false,
+              position: 'left',
+              id: 'y',
+            },
+            {
+              type: 'linear',
+              display: false,
+              position: 'right',
+              id: 'y1',
+            },
+          ],
+          xAxes: [
+            {
+              display: false,
+            },
+          ],
+        },
+        legends: {
+          display: false,
+        },
+        responsive: true,
+        maintainAspectRatio: false,
+      };
+    },
   },
 };
 </script>
