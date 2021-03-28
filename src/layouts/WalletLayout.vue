@@ -23,11 +23,10 @@
 <script>
 import { mapState, mapGetters } from 'vuex';
 import ValueView from '@/components/ValueView.vue';
-import { getAccumulatedReward, getDailyWalletRewards } from '@/api';
+import { getAccumulatedReward } from '@/api';
 import { createCurrency } from '@makerdao/currency';
 import WalletHistoryTable from '@/components/table/WalletHistoryTable.vue';
 import WalletGraph from '@/containers/WalletGraph.vue';
-const _TON = createCurrency('TON');
 const _WTON = createCurrency('WTON');
 
 export default {
@@ -69,7 +68,7 @@ export default {
   },
   created () {
     this.getAccumulatedReward();
-    // this.getDailyWalletRewardsFn(this.weekLabels);
+    this.getDailyWalletRewardsFn(this.weekLabels);
   },
   methods:{
     async getAccumulatedReward () {
@@ -83,28 +82,6 @@ export default {
       const displayAmounts = parseFloat(amount) / Math.pow(10, 27);
       return Math.round(displayAmounts * 10) / 10;
     },
-    // async getDailyWalletRewardsFn (chartType) {
-    //   const dailyWalletRewards = await getDailyWalletRewards(this.networkId, this.user.toLowerCase());
-    //   this.dailyWalletRewardsList = dailyWalletRewards;
-    //   this.dailyWalletRewards = {
-    //     labels: chartType,
-    //     datasets: [{
-    //       backgroundColor: 'transparent',
-    //       borderColor: '#2a72e5',
-    //       data: dailyWalletRewards.map((item) => (this.displayAmount(item.rewards))),
-    //     }],
-    //   };
-    // },
-    // toggleChartType (chartType) {
-    //   this.chartType = chartType;
-    //   if (chartType === 'week') {
-    //     this.getDailyWalletRewardsFn(this.weekLabels);
-    //   } else if (chartType === 'month') {
-    //     this.getDailyWalletRewardsFn(this.monthLabels);
-    //   } else if (chartType === 'year') {
-    //     this.getDailyWalletRewardsFn(this.yearLabels);
-    //   }
-    // },
   },
 };
 </script>
@@ -124,7 +101,7 @@ export default {
 .wallet-title-container h1 {
   font-family: "NanumSquare", sans-serif;
   font-size: 38px;
-font-weight: 600;
+  font-weight: 600;
   font-stretch: normal;
   font-style: normal;
   letter-spacing: normal;

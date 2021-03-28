@@ -27,8 +27,8 @@
           placeholder="Start Date"
           input-class="search-input"
           name="start-date"
-           format="yyyy.MM.dd"
-           type="date"
+          format="yyyy.MM.dd"
+          type="date"
         />
         <span style="color:#3e495c">~</span>
         <div>
@@ -43,7 +43,7 @@
         <button class="search-button" @click="search()">Search</button>
       </div>
     </div>
-    <div class="divider"></div>
+    <div class="divider" />
     <div class="body">
       <div class="chart">
         <wallet-line-chart
@@ -218,7 +218,6 @@ export default {
 .container {
   box-shadow: 0 1px 1px 0 rgba(96, 97, 112, 0.16);
   background-color: #ffffff;
-  /* padding: 20px; */
   border-radius: 10px;
   margin: 4px 0 23px 30px;
   width: 1114px;
