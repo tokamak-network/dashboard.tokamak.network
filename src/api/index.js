@@ -62,6 +62,18 @@ export async function getDailyWalletRewards (chainId, account, fromDate, toDate)
   else return res.data.datas;
 }
 
+export async function getDailyWalletStaked (chainId, account, fromDate, toDate) {
+  const res = await candidate.get('/stakedl2accounts/sum', {
+    params: {
+      chainId,
+      account: account.toLowerCase(),
+      fromDate: fromDate,
+      toDate: toDate,
+    },
+  });
+  if (res.data === '') return [];
+  else return res.data.datas;
+}
 export async function getDelegators (chainId, layer2) {
   const res = await candidate.get('/layer2users', {
     params: {

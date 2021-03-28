@@ -56,6 +56,7 @@ export default {
       'user',
       'networkId',
       'currentRound',
+      'signIn',
     ]),
     ...mapGetters([
       'userTotalStaked',
@@ -68,13 +69,15 @@ export default {
   },
   created () {
     this.getAccumulatedReward();
-    this.getDailyWalletRewardsFn(this.weekLabels);
+    // this.getDailyWalletRewardsFn(this.weekLabels);
   },
   methods:{
     async getAccumulatedReward () {
-      const reward = await getAccumulatedReward(this.networkId, this.user.toLowerCase());
-      const rewarded =  (reward[0].rewards).toLocaleString('fullwide', { useGrouping:false });
-      this.reward = _WTON.ray(rewarded.toString());
+      if(this.signIn) {
+        const reward = await getAccumulatedReward(this.networkId, this.user.toLowerCase());
+        const rewarded =  (reward[0].rewards).toLocaleString('fullwide', { useGrouping:false });
+        this.reward = _WTON.ray(rewarded.toString());
+      }
     },
     displayAmount (amount) {
       const displayAmounts = parseFloat(amount) / Math.pow(10, 27);
