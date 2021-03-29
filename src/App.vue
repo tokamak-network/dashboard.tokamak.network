@@ -123,6 +123,9 @@ html, body {
   position: relative;
   margin: 0;
   min-height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 #app {
@@ -130,6 +133,7 @@ html, body {
   flex-direction: column;
   min-height: 100vh;
   justify-content: center;
+  width: 1300px;
 }
 
 .body-container {
