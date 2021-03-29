@@ -25,7 +25,6 @@ const config = {
 const query = window.location.search;
 const params = new URLSearchParams(query);
 const network = params.get('network');
-
 export function getConfig () {
   switch (network) {
   case 'rinkeby':
@@ -43,7 +42,5 @@ export function getLink (type) {
     return 'https://docs.tokamak.network/';
   } else if (type === 'register') {
     return 'https://docs.tokamak.network/';
-  } else {
-    throw new Error(`Unknown type ${type}`);
   }
 }

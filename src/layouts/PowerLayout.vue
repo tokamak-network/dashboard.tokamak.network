@@ -6,7 +6,7 @@
     </div>
     <div class="power-current">
       <ValueView :title="'Round'" :value="currentRound.index" :ton="false" />
-      <ValueView :title="'Round Reward'" :value="currencyAmount(currentRound.reward.add(uncommittedCurrentRoundReward)).toString().replace('TON', '')" :ton="true" />
+      <ValueView :title="'Round Reward'" :value="currentRound !== 'undefined'? currencyAmount(currentRound.reward.add(uncommittedCurrentRoundReward)).toString().replace('TON', ''): ''" :ton="true" />
       <div class="power-current-detail">
         <h3>24 Hour (Compared to yesterday)</h3>
         <span class="power-current-detail-content">{{ powerTONReward.difference }} <span class="current-detail-span">TON</span> <span class="power-current-detail-percentage" :class="{'power-current-detail-percentage-positive':powerTONReward.isNegative === false, 'power-current-detail-percentage-negative':powerTONReward.isNegative === true}">{{ powerTONReward.percentage }}</span>
@@ -75,10 +75,12 @@ export default {
       const ton = Number((this.powerReward[0].rewards - this.powerReward[1].rewards)/Math.pow(10, 27));
       const index = ton.toString().indexOf('.');
       const rewardInTON = index > -1 ? ton.toLocaleString('en-US', { minimumFractionDigits: 2 }).slice(0, index + 4): ton;
-      const percentage = (this.powerReward[0].rewards - this.powerReward[1].rewards)/this.powerReward[1].rewards;
+      const percentage =  ((this.powerReward[0].rewards - this.powerReward[1].rewards)/this.powerReward[1].rewards).toFixed(2).toString() + '%';
       const isNegative = ton < 0? true : ton === 0 ? '': false;
       reward.difference = rewardInTON;
-      reward.percentage = percentage.toFixed(2).toString() + '%';
+      reward.percentage = this.powerReward[1].rewards === '0'? '': percentage;
+      console.log(this.powerReward[0].rewards, '0');
+      console.log(this.powerReward[1].rewards, '1');
       reward.isNegative = isNegative;
       return reward;
     },
@@ -90,6 +92,7 @@ export default {
   },
   created () {
     setInterval(()=> this.calcDuration(), 1000);
+    console.log(this.currentRound);
   },
   methods: {
     formattedTimestamp (timestamp) {
