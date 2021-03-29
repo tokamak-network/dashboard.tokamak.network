@@ -133,7 +133,6 @@ export default {
       totalSupply: 40000000,
       currentPrice: 0,
       usd: 0,
-      totalStaked: '0',
       durationUnit: 'Year',
       roi:0,
       rewardTON:0,
@@ -146,6 +145,7 @@ export default {
   computed: {
     ...mapState([
       'tonBalance',
+      'totalStaked',
     ]) },
   watch: {
     inputTon: function (newValue) {
@@ -156,12 +156,13 @@ export default {
         result = newValue.replace(/[^0-9a-zA-Z.]/g, '')
           .replace(/\B(?=(\d{3})+(?!\d))/g, ',');
       }
+      console.log(this.totalStaked);
       Vue.nextTick(() => this.inputTon = result);
     },
   },
   async created () {
     this.getTotalSupply();
-    this.getCurrentStakedAmount();
+    // this.getCurrentStakedAmount();
     this.getKRWPrice();
     this.getUSDInfo();
   },
@@ -268,13 +269,13 @@ export default {
       // this.$emit('openResultModal', this.roi, this.rewardTON, this.rewardUSD, this.rewardKRW, this.myStaked);
       return this.changeView('result');
     },
-    getCurrentStakedAmount () {
-      axios
-        .get('https://price-api.tokamak.network/staking/current')
-        .then((response) => {
-          this.totalStaked = response.data.toString();
-        });
-    },
+    // getCurrentStakedAmount () {
+    //   axios
+    //     .get('https://price-api.tokamak.network/staking/current')
+    //     .then((response) => {
+    //       this.totalStaked = response.data.toString();
+    //     });
+    // },
     getTotalSupply () {
       axios
         .get('https://price-api.tokamak.network/totalsupply')
