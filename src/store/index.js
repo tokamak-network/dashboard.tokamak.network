@@ -247,6 +247,7 @@ export default new Vuex.Store({
       await context.dispatch('setManagers', managers);
       await context.dispatch('setOperatorsWithRegistry', operators);
       await context.dispatch('setCandidates', candidates);
+      await context.dispatch('getTotalStaked'),
       await Promise.all([
         context.dispatch('setTransactionsAndPendingTransactions', transactions),
         context.dispatch('setAccountsDepositedWithPower'),
@@ -255,7 +256,8 @@ export default new Vuex.Store({
       await new Promise(resolve => setTimeout(resolve, 1000)); // https://github.com/Onther-Tech/dashboard.tokamak.network/issues/81
       context.commit('IS_LOADING', false);
       context.commit('IS_LOADED', true);
-      router.replace({ path: 'home', query: { network: router.app.$route.query.network } }).catch(err => {});
+      router.replace({ path: 'home', query: { network: router.app.$route.query.network } }).catch(err => { });
+
     },
 
     async signIn (context, web3) {
@@ -886,6 +888,7 @@ export default new Vuex.Store({
       context.commit('SET_TON_BALANCE', _TON.wei(tonBalance.toString()));
       context.commit('SET_WTON_BALANCE', _WTON.ray(wtonBalance.toString()));
       context.commit('SET_POWER', _POWER.ray(power.toString()));
+
     },
     async setHistory (context) {
       const user = context.state.user;
