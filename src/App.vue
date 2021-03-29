@@ -66,16 +66,16 @@ export default {
         const web3 = await this.metamask();
         await this.$store.dispatch('load', web3);
         window.ethereum.on('chainIdChanged', (chainId) => {
-          this.$store.dispatch('logout');
+          this.$store.dispatch('load', web3);
           this.$router.replace({
-            path: '/',
+            path: '/home',
             query: { network: this.$route.query.network },
           }).catch(err => {});
         });
         window.ethereum.on('accountsChanged', (account) => {
           this.$store.dispatch('logout');
           this.$router.replace({
-            path: '/',
+            path: '/home',
             query: { network: this.$route.query.network },
           }).catch(err => {});
 
