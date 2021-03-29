@@ -68,7 +68,6 @@ export default {
   },
   created () {
     this.getAccumulatedReward();
-    this.getDailyWalletRewardsFn(this.weekLabels);
   },
   methods:{
     async getAccumulatedReward () {
