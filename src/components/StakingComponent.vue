@@ -102,7 +102,6 @@ export default {
       this.$emit('selectFunc', method);
     },
     closePopup () {
-      console.log('gogogo');
       this.showSim = false;
     },
     closeModal () {

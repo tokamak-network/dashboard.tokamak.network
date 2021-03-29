@@ -118,7 +118,6 @@ export default {
   },
   watch: {
     web3 () {
-      console.log('Loading web3');
     },
   },
   beforeMount () {
