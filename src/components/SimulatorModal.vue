@@ -156,7 +156,6 @@ export default {
         result = newValue.replace(/[^0-9a-zA-Z.]/g, '')
           .replace(/\B(?=(\d{3})+(?!\d))/g, ',');
       }
-      console.log(this.totalStaked);
       Vue.nextTick(() => this.inputTon = result);
     },
   },
