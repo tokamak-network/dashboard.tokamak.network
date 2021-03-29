@@ -80,6 +80,7 @@ import { mapState } from 'vuex';
 const _WTON = createCurrency('WTON');
 import { createCurrency } from '@makerdao/currency';
 import { getDailyWalletStaked, getDailyWalletRewards } from '@/api';
+import { orderBy } from 'lodash';
 
 export default {
   components: {
@@ -117,21 +118,6 @@ export default {
     currencyAmount () {
       return (amount) => this.$options.filters.currencyAmount(amount);
     },
-    style () {
-      return {
-        'width': '105px',
-        'height': '32px',
-        'font-family': 'Roboto',
-        'font-size': '13px',
-        'font-weight': 'normal',
-        'font-stretch': 'normal',
-        'font-style': 'normal',
-        'line-height': 1.23,
-        'letter-spacing': 'normal',
-        'text-align': 'center',
-        'color': '#3e495c',
-      };
-    },
   },
   created () {
     this.periodStart.setDate(this.periodStart.getDate() - 7);
@@ -142,6 +128,9 @@ export default {
   methods: {
     customFormatter (date) {
       return moment(date).format('YYYYMMDD');
+    },
+    formatDate (date) {
+      return date.toString().substring(0, 4) + '/' + date.toString().substring(4, 6) + '/' + date.toString().substring(6, 8);
     },
     totalReward () {
       const initialAmount = 0;
@@ -162,23 +151,26 @@ export default {
       const displayAmounts = parseFloat(amount) / Math.pow(10, 27);
       return Math.round(displayAmounts * 10) / 10;
     },
-    async getDailyWalletRewardsFn (chartType) {
+    async getDailyWalletRewardsFn () {
+      console.log(this.periodStart);
       const dailyWalletRewards = await getDailyWalletRewards(
         this.networkId,
         this.user.toLowerCase(),
         this.customFormatter(this.periodStart),
         this.customFormatter(this.periodEnd)
       );
+      console.log(dailyWalletRewards);
       if (dailyWalletRewards.length !== 0) {
-        this.dailyWalletRewardsList = dailyWalletRewards;
+        this.dailyWalletRewardsList = orderBy(dailyWalletRewards, (staked) => staked._id.dateUTC, ['asc']);
         this.totalReward();
         this.dailyWalletRewards = {
-          labels: chartType,
+          labels: this.dailyWalletRewardsList.map((item) =>
+            this.formatDate(item._id.dateUTC)),
           datasets: [
             {
               backgroundColor: 'transparent',
               borderColor: '#2a72e5',
-              data: dailyWalletRewards.map((item) =>
+              data: this.dailyWalletRewardsList.map((item) =>
                 this.displayAmount(item.rewards)
               ),
             },
@@ -199,11 +191,11 @@ export default {
     toggleChartType (chartType) {
       this.chartType = chartType;
       if (chartType === 'week') {
-        this.getDailyWalletRewardsFn(this.weekLabels);
+        this.periodStart.setDate(this.periodEnd.getDate() - 7);
+        this.getDailyWalletRewardsFn();
       } else if (chartType === 'month') {
-        this.getDailyWalletRewardsFn(this.monthLabels);
-      } else if (chartType === 'year') {
-        this.getDailyWalletRewardsFn(this.yearLabels);
+        this.periodStart.setDate(this.periodEnd.getDate() - 30);
+        this.getDailyWalletRewardsFn();
       }
     },
     search () {
