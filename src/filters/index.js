@@ -17,7 +17,6 @@ export function hexSlicer (address, chars = 4) {
 }
 
 export function prettifyTransactionHash (address) {
-  console.log('address ', address);
   return `${address.slice(0, 6)}...${address.slice(-4)}`;
 }
 

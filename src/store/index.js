@@ -220,7 +220,6 @@ export default new Vuex.Store({
   },
   actions: {
     getActualAmount (amount) {
-      console.log(amount);
       const spliedTonAmount = amount.split('.');
       const beforeDecimalNumber = spliedTonAmount[0];
       const afterDecimalNumber = spliedTonAmount[1].slice(0, 2);

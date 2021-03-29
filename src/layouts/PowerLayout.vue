@@ -79,8 +79,6 @@ export default {
       const isNegative = ton < 0? true : ton === 0 ? '': false;
       reward.difference = rewardInTON;
       reward.percentage = this.powerReward[1].rewards === '0'? '': percentage;
-      console.log(this.powerReward[0].rewards, '0');
-      console.log(this.powerReward[1].rewards, '1');
       reward.isNegative = isNegative;
       return reward;
     },
@@ -92,7 +90,6 @@ export default {
   },
   created () {
     setInterval(()=> this.calcDuration(), 1000);
-    console.log(this.currentRound);
   },
   methods: {
     formattedTimestamp (timestamp) {

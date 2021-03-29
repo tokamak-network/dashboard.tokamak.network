@@ -18,7 +18,7 @@
           >
             Month
           </div>
-           <div
+          <div
             :class="{ active: chartType === 'year' }"
             class="button"
             @click="toggleChartType('year')"
@@ -159,14 +159,12 @@ export default {
       return Math.round(displayAmounts * 10) / 10;
     },
     async getDailyWalletRewardsFn () {
-      console.log(this.periodStart);
       const dailyWalletRewards = await getDailyWalletRewards(
         this.networkId,
         this.user.toLowerCase(),
         this.customFormatter(this.periodStart),
         this.customFormatter(this.periodEnd)
       );
-      console.log(dailyWalletRewards);
       if (dailyWalletRewards.length !== 0) {
         this.dailyWalletRewardsList = orderBy(dailyWalletRewards, (staked) => staked._id.dateUTC, ['asc']);
         this.totalReward();
