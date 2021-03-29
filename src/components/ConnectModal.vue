@@ -93,6 +93,7 @@ export default {
   },
   data () {
     return {
+      web: null,
       showConnectModal: false,
       connectType: 'connect',
       wallets: [{
@@ -122,6 +123,12 @@ export default {
           this.showConnectModal = false;
         }
       }
+    });
+    window.ethereum.on('networkChanged', (chainId) => {
+      window.location.reload();
+    });
+    window.ethereum.on('accountsChanged', (account) => {
+      this.$store.dispatch('signIn', new Web3(window.ethereum));
     });
   },
   methods: {
@@ -183,11 +190,6 @@ export default {
       }
     },
     async logout () {
-      const provider = new WalletConnectProvider({
-        infuraId: '34448178b25e4fbda6d80f4da62afba2',
-        bridge: 'https://bridge.walletconnect.org',
-        qrcode: true,
-      });
       this.showConnectModal = false;
       // this.$store.dispatch('SIGN_OUT');
       // await provider.disconnect();
@@ -212,7 +214,6 @@ export default {
       this.connectType = 'wallet';
     },
     setConnectType (connectType) {
-      // this.logout();
       this.connectType = connectType;
     },
     close () {
@@ -233,7 +234,7 @@ export default {
   color: #86929d;
   background-color: transparent;
   font-size: 14px;
-font-family: "Titillium Web", sans-serif;
+  font-family: "Titillium Web", sans-serif;
   cursor: pointer;
   margin-right: 40px;
   /* width: 102px; */

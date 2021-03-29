@@ -258,7 +258,17 @@ export default new Vuex.Store({
       router.replace({ path: 'home', query: { network: router.app.$route.query.network } }).catch(err => { });
 
     },
-
+    // async watchChainIDChange () {
+    //   window.ethereum.on('chainIdChanged', (chainId) => {
+    //     window.location.reload();
+    //   });
+    // },
+    // async watchAccountChange () {
+    //   window.ethereum.on('accountsChanged', (account) => {
+    //     console.log(account);
+    //   // context.commit('SET_NETWORK_ID', networkId);
+    //   });
+    // },
     async signIn (context, web3) {
       context.commit('SIGN_IN', true);
       const user = (await web3.eth.getAccounts())[0];
