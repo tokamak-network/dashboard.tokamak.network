@@ -18,13 +18,6 @@
           >
             Month
           </div>
-          <div
-            :class="{ active: chartType === 'year' }"
-            class="button"
-            @click="toggleChartType('year')"
-          >
-            Year
-          </div>
           <!-- <div :class="{active : chartType === 'year'}" class="button" @click="toggleChartType('year')">Year</div> -->
         </div>
       </div>
@@ -87,7 +80,7 @@ import { mapState } from 'vuex';
 const _WTON = createCurrency('WTON');
 import { createCurrency } from '@makerdao/currency';
 import { getDailyWalletStaked, getDailyWalletRewards } from '@/api';
-
+import { orderBy } from 'lodash';
 export default {
   components: {
     Datepicker,
@@ -124,21 +117,6 @@ export default {
     currencyAmount () {
       return (amount) => this.$options.filters.currencyAmount(amount);
     },
-    style () {
-      return {
-        'width': '105px',
-        'height': '32px',
-        'font-family': 'Roboto',
-        'font-size': '13px',
-        'font-weight': 'normal',
-        'font-stretch': 'normal',
-        'font-style': 'normal',
-        'line-height': 1.23,
-        'letter-spacing': 'normal',
-        'text-align': 'center',
-        'color': '#3e495c',
-      };
-    },
   },
   created () {
     this.periodStart.setDate(this.periodStart.getDate() - 7);
@@ -150,6 +128,9 @@ export default {
     customFormatter (date) {
       return moment(date).format('YYYYMMDD');
     },
+    formatDate (date) {
+      return date.toString().substring(0, 4) + '/' + date.toString().substring(4, 6) + '/' + date.toString().substring(6, 8);
+    },
     totalReward () {
       const initialAmount = 0;
       const reducer = (amount, day) => amount + day.rewards;
@@ -157,7 +138,6 @@ export default {
         this.dailyWalletRewardsList.reduce(reducer, initialAmount).toString()
       );
     },
-
     totalStaked () {
       const initialAmount = 0;
       const reducer = (amount, day) => amount + day.balanceOf;
@@ -177,15 +157,16 @@ export default {
         this.customFormatter(this.periodEnd)
       );
       if (dailyWalletRewards.length !== 0) {
-        this.dailyWalletRewardsList = dailyWalletRewards;
+        this.dailyWalletRewardsList = orderBy(dailyWalletRewards, (staked) => staked._id.dateUTC, ['asc']);
         this.totalReward();
         this.dailyWalletRewards = {
-          labels: chartType,
+          labels: this.dailyWalletRewardsList.map((item) =>
+            this.formatDate(item._id.dateUTC)),
           datasets: [
             {
               backgroundColor: 'transparent',
               borderColor: '#2a72e5',
-              data: dailyWalletRewards.map((item) =>
+              data: this.dailyWalletRewardsList.map((item) =>
                 this.displayAmount(item.rewards)
               ),
             },
@@ -206,14 +187,10 @@ export default {
     toggleChartType (chartType) {
       this.chartType = chartType;
       if (chartType === 'week') {
-        this.getDailyWalletRewardsFn(this.weekLabels);
+        this.periodStart.setDate(this.periodEnd.getDate() - 7);
+        this.getDailyWalletRewardsFn();
       } else if (chartType === 'month') {
-        this.getDailyWalletRewardsFn(this.monthLabels);
-      } else if (chartType === 'year') {
-        this.getDailyWalletRewardsFn(this.yearLabels);
-      }
-      else if (chartType === 'year') {
-        this.periodStart.setDate(this.periodEnd.getDate() - 365);
+        this.periodStart.setDate(this.periodEnd.getDate() - 30);
         this.getDailyWalletRewardsFn();
       }
     },
@@ -321,7 +298,6 @@ export default {
   display: grid;
   grid-template-columns: 2fr 1fr;
       padding: 20px;
-
 }
 .analysis {
   padding-left: 47px;
@@ -365,11 +341,9 @@ export default {
 .active {
   border: solid 1px #2a72e5 !important;
 }
-
 button:focus {
   outline: none;
 }
-
 .divider {
   width: 100%;
   height: 1px;
