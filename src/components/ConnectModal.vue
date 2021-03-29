@@ -93,6 +93,7 @@ export default {
   },
   data () {
     return {
+      web: null,
       showConnectModal: false,
       connectType: 'connect',
       wallets: [{
@@ -115,6 +116,11 @@ export default {
       return window.ethereum.isMetaMask ? 'Metamask' : 'WalletConnect';
     },
   },
+  watch: {
+    web3 () {
+      console.log('Loading web3');
+    },
+  },
   beforeMount () {
     window.addEventListener('mousedown', (event) => {
       if (!event.target.closest('.wallet-connect')) {
@@ -122,6 +128,12 @@ export default {
           this.showConnectModal = false;
         }
       }
+    });
+    window.ethereum.on('chainIdChanged', (chainId) => {
+      window.location.reload();
+    });
+    window.ethereum.on('accountsChanged', (account) => {
+      this.$store.dispatch('signIn', new Web3(window.ethereum));
     });
   },
   methods: {
@@ -144,7 +156,6 @@ export default {
       } else {
         throw new Error('No web3 provider detected');
       }
-      console.log(getConfig().network);
       if (provider.networkVersion !== getConfig().network) {
         throw new Error(`Please connect to the '${this.$options.filters.nameOfNetwork(getConfig().network)}' network`);
       }
@@ -175,7 +186,6 @@ export default {
       } else if (accounts[0] !== this.currentAccount) {
         const web3 = new Web3(provider);
         const networkVersion = await provider.request({ method: 'net_version' });
-        console.log(getConfig().network);
         if (networkVersion.toString() !== getConfig().network) {
           throw new Error(`Please connect to the '${this.$options.filters.nameOfNetwork(getConfig().network)}' network`);
         }
@@ -185,11 +195,6 @@ export default {
       }
     },
     async logout () {
-      const provider = new WalletConnectProvider({
-        infuraId: '34448178b25e4fbda6d80f4da62afba2',
-        bridge: 'https://bridge.walletconnect.org',
-        qrcode: true,
-      });
       this.showConnectModal = false;
       // this.$store.dispatch('SIGN_OUT');
       // await provider.disconnect();
@@ -214,7 +219,6 @@ export default {
       this.connectType = 'wallet';
     },
     setConnectType (connectType) {
-      // this.logout();
       this.connectType = connectType;
     },
     close () {
@@ -235,7 +239,7 @@ export default {
   color: #86929d;
   background-color: transparent;
   font-size: 14px;
-font-family: "Titillium Web", sans-serif;
+  font-family: "Titillium Web", sans-serif;
   cursor: pointer;
   margin-right: 40px;
   /* width: 102px; */

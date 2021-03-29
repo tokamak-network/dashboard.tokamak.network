@@ -58,9 +58,6 @@
 
 <script>
 import { mapState } from 'vuex';
-import Web3 from 'web3';
-import { getConfig } from '../../config.js';
-import { setProvider } from '@/helpers/Contract';
 import ConnectModal from '@/components/ConnectModal.vue';
 
 export default {

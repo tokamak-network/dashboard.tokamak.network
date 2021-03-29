@@ -18,7 +18,7 @@
           >
             Month
           </div>
-           <div
+          <div
             :class="{ active: chartType === 'year' }"
             class="button"
             @click="toggleChartType('year')"

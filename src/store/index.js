@@ -220,7 +220,6 @@ export default new Vuex.Store({
   },
   actions: {
     getActualAmount (amount) {
-      console.log(amount);
       const spliedTonAmount = amount.split('.');
       const beforeDecimalNumber = spliedTonAmount[0];
       const afterDecimalNumber = spliedTonAmount[1].slice(0, 2);
@@ -257,7 +256,17 @@ export default new Vuex.Store({
       context.commit('IS_LOADED', true);
       router.replace({ path: 'home', query: { network: router.app.$route.query.network } }).catch(err => {});
     },
-
+    // async watchChainIDChange () {
+    //   window.ethereum.on('chainIdChanged', (chainId) => {
+    //     window.location.reload();
+    //   });
+    // },
+    // async watchAccountChange () {
+    //   window.ethereum.on('accountsChanged', (account) => {
+    //     console.log(account);
+    //   // context.commit('SET_NETWORK_ID', networkId);
+    //   });
+    // },
     async signIn (context, web3) {
       context.commit('SIGN_IN', true);
       const user = (await web3.eth.getAccounts())[0];
