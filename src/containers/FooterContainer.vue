@@ -245,7 +245,8 @@ export default {
   font-weight: 300;
   letter-spacing: normal;
   text-align: left;
-  color: #6d848e;
+  color: #3d495d;
+  text-decoration:none
 }
 
 .footer-channel-container {
