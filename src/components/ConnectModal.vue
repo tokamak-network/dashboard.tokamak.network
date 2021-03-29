@@ -116,10 +116,6 @@ export default {
       return window.ethereum.isMetaMask ? 'Metamask' : 'WalletConnect';
     },
   },
-  watch: {
-    web3 () {
-    },
-  },
   beforeMount () {
     window.addEventListener('mousedown', (event) => {
       if (!event.target.closest('.wallet-connect')) {
@@ -128,7 +124,7 @@ export default {
         }
       }
     });
-    window.ethereum.on('chainIdChanged', (chainId) => {
+    window.ethereum.on('networkChanged', (chainId) => {
       window.location.reload();
     });
     window.ethereum.on('accountsChanged', (account) => {
