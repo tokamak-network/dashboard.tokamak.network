@@ -200,7 +200,7 @@ export default {
         this.periodStart.setDate(this.periodEnd.getDate() - 30);
         this.getDailyWalletRewardsFn();
       }
-       else if (chartType === 'year') {
+      else if (chartType === 'year') {
         this.periodStart.setDate(this.periodEnd.getDate() - 365);
         this.getDailyWalletRewardsFn();
       }
