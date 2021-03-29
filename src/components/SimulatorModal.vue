@@ -21,7 +21,9 @@
                 class="model-ton-balance-input model-ton-balance-input-stake"
                 @keypress="onlyForTon"
               >
-              <span class="model-ton-balance-input-stake-unit">TON</span>
+              <span class="model-ton-balance-input-stake-unit">
+                TON
+              </span>
               <button class="model-ton-stake-btn" @click="getMaxBalance('max')">MAX</button>
             </div>
           </div>
@@ -524,7 +526,9 @@ textarea:focus, input:focus, button:focus{
 }
 .model-ton-balance-input-stake-unit {
   position: absolute;
+  height: 31px;
   margin-left: 93px;
-  margin-top: 7px;
+  color: #3e495c;
+  font-size: 13px;
 }
 </style>
