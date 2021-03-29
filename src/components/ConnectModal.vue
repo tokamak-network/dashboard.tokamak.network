@@ -257,7 +257,7 @@ font-family: "Titillium Web", sans-serif;
 
 .modal-wrapper {
   position: fixed;
-  top: 70px;
+  top: 90px;
   right: 90px;
 }
 
