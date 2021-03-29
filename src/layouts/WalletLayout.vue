@@ -5,7 +5,7 @@
       <h2>Check the status of your assets in the wallet</h2>
     </div>
     <div class="wallet-current">
-      <ValueView :title="'Cuurent Staked'" :value="currencyAmount(userTotalStaked).toString().replace('TON', '')" :ton="true" />
+      <ValueView :title="'Total Staked'" :value="currencyAmount(userTotalStaked).toString().replace('TON', '')" :ton="true" />
       <ValueView :title="'Pending Withdrawal'" :value="currencyAmount(userTotalWithdrawable).toString().replace('TON', '')" :ton="true" />
       <ValueView :title="'Total Accumulated Reward'" :value="currencyAmount(reward).toString().replace('TON', '')" :ton="true" />
       <div class="wallet-current-detail">
@@ -68,7 +68,7 @@ export default {
   },
   created () {
     this.getAccumulatedReward();
-    // this.getDailyWalletRewardsFn(this.weekLabels);
+    this.getDailyWalletRewardsFn(this.weekLabels);
   },
   methods:{
     async getAccumulatedReward () {
