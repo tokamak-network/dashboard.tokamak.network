@@ -345,4 +345,19 @@ button:focus {
   margin-bottom: 20px;
   background-color: #f4f6f8;
 }
+
+.vdp-datepicker__calendar .day {
+  border-radius: 50%;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.vdp-datepicker__calendar .cell.selected {
+  color: #ffffff;
+  background: #2a72e5 !important;
+}
+
+.vdp-datepicker__calendar .cell:not(.blank):not(.disabled).day:hover, .vdp-datepicker__calendar .cell:not(.blank):not(.disabled).month:hover, .vdp-datepicker__calendar .cell:not(.blank):not(.disabled).year:hover {
+  border: 1px solid #2a72e5 !important;
+}
  </style>
