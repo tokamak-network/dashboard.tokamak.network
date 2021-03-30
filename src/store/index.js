@@ -247,14 +247,14 @@ export default new Vuex.Store({
 
       await Promise.all([
         context.dispatch('setManagers', managers),
-        // context.dispatch('setOperatorsWithRegistry', operators),
-        // context.dispatch('setCandidates', candidates),
+        context.dispatch('setOperatorsWithRegistry', operators),
+        context.dispatch('setCandidates', candidates),
         context.dispatch('getTotalStaked'),
-        // context.dispatch('setTransactionsAndPendingTransactions', transactions),
+        context.dispatch('setTransactionsAndPendingTransactions', transactions),
         context.dispatch('setAccountsDepositedWithPower'),
         context.dispatch('set', web3),
       ]);
-      // await new Promise(resolve => setTimeout(resolve, 1000)); // https://github.com/Onther-Tech/dashboard.tokamak.network/issues/81
+      await new Promise(resolve => setTimeout(resolve, 1000)); // https://github.com/Onther-Tech/dashboard.tokamak.network/issues/81
       context.commit('IS_LOADING', false);
       context.commit('IS_LOADED', true);
       router.replace({ path: 'home', query: { network: router.app.$route.query.network } }).catch(err => { });
@@ -283,14 +283,14 @@ export default new Vuex.Store({
       context.commit('SET_BLOCK_TIMESTAMP', block.timestamp);
 
       await Promise.all([
-        // context.dispatch('setOperators', blockNumber),
-        // context.dispatch('setBalance'),
+        context.dispatch('setOperators', blockNumber),
+        context.dispatch('setBalance'),
         context.dispatch('setCurrentRound'),
         context.dispatch('setRounds'),
         context.dispatch('setHistory'),
         context.dispatch('setUncommittedCurrentRoundReward', blockNumber),
         context.dispatch('checkPendingTransactions'),
-        // context.dispatch('getTotalStaked'),
+        context.dispatch('getTotalStaked'),
         context.dispatch('getDailyStakedTokenStats'),
         context.dispatch('getPowerReward'),
         context.dispatch('getWithdraw'),

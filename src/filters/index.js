@@ -12,8 +12,12 @@ const _POWER = createCurrency('POWER');
 import { getConfig } from '../../config.js';
 import numeral from 'numeral';
 
-export function hexSlicer (address, chars = 4) {
-  return Web3.utils.isAddress(address) && `${address.substring(0, chars + 2)}...${address.substring(42 - chars)}`;
+export function hexSlicer (address = '') {
+  if (address.length < 11) {
+    return address;
+  }
+
+  return `${address.slice(0, 6)}...${address.slice(-4)}`;
 }
 
 export function prettifyTransactionHash (address) {

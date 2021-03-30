@@ -88,6 +88,7 @@ const _WTON = createCurrency('WTON');
 import { createCurrency } from '@makerdao/currency';
 import { getDailyWalletStaked, getDailyWalletRewards } from '@/api';
 import { orderBy } from 'lodash';
+import BigNumber from 'bignumber.js';
 export default {
   components: {
     Datepicker,
@@ -102,21 +103,6 @@ export default {
       dailyWalletStakedList: [],
       dailyWalletRewards: {},
       chartType: 'week',
-      weekLabels: ['Week 01', 'Week 02', 'Week 03', 'Week 04', 'Week 05'],
-      monthLabels: [
-        'Jan',
-        'Feb',
-        'Mar',
-        'Apr',
-        'May',
-        'Jun',
-        'Jul',
-        'Aug',
-        'Sept',
-        'Oct',
-        'Nov',
-        'Dec',
-      ],
     };
   },
   computed: {
@@ -139,15 +125,13 @@ export default {
       return date.toString().substring(0, 4) + '/' + date.toString().substring(4, 6) + '/' + date.toString().substring(6, 8);
     },
     totalReward () {
-      const initialAmount = 0;
-      const reducer = (amount, day) => amount + day.rewards;
-      return _WTON.ray(
-        this.dailyWalletRewardsList.reduce(reducer, initialAmount).toString()
-      );
+      const initialAmount = new BigNumber('0');
+      const reducer = (amount, day) => amount.plus(new BigNumber(day.rewards.toString()));
+      return _WTON.ray(this.dailyWalletRewardsList.reduce(reducer, initialAmount).toString());
     },
     totalStaked () {
-      const initialAmount = 0;
-      const reducer = (amount, day) => amount + day.balanceOf;
+      const initialAmount = new BigNumber('0');
+      const reducer = (amount, day) => amount.plus(new BigNumber(day.balanceOf.toString()));
       return _WTON.ray(
         this.dailyWalletStakedList.reduce(reducer, initialAmount).toString()
       );
