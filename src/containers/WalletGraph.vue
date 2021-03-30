@@ -346,10 +346,21 @@ button:focus {
   background-color: #f4f6f8;
 }
 
-.vdp-datepicker__calendar .day {
-  border-radius: 50%;
+.vdp-datepicker__calendar .day, .vdp-datepicker__calendar .month, .vdp-datepicker__calendar .year {
   font-size: 14px;
   font-weight: 500;
+}
+
+.vdp-datepicker__calendar .day {
+  border-radius: 50%;
+}
+
+.vdp-datepicker__calendar .month {
+  border-radius: 3px;
+}
+
+.vdp-datepicker__calendar .year {
+  border-radius: 3px;
 }
 
 .vdp-datepicker__calendar .cell.selected {
