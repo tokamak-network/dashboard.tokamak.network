@@ -238,21 +238,23 @@ export default new Vuex.Store({
       context.commit('SET_USER', user);
       context.commit('SET_NETWORK_ID', networkId);
 
+
       const managers = await getManagers();
       const operators = await getOperators();
       const transactions = await getTransactions(user);
       const candidates = await getCandidates();
       context.dispatch('setCommitteeProxy');
-      await context.dispatch('setManagers', managers);
-      await context.dispatch('setOperatorsWithRegistry', operators);
-      await context.dispatch('setCandidates', candidates);
-      await context.dispatch('getTotalStaked'),
+
       await Promise.all([
-        context.dispatch('setTransactionsAndPendingTransactions', transactions),
+        context.dispatch('setManagers', managers),
+        // context.dispatch('setOperatorsWithRegistry', operators),
+        // context.dispatch('setCandidates', candidates),
+        context.dispatch('getTotalStaked'),
+        // context.dispatch('setTransactionsAndPendingTransactions', transactions),
         context.dispatch('setAccountsDepositedWithPower'),
         context.dispatch('set', web3),
       ]);
-      await new Promise(resolve => setTimeout(resolve, 1000)); // https://github.com/Onther-Tech/dashboard.tokamak.network/issues/81
+      // await new Promise(resolve => setTimeout(resolve, 1000)); // https://github.com/Onther-Tech/dashboard.tokamak.network/issues/81
       context.commit('IS_LOADING', false);
       context.commit('IS_LOADED', true);
       router.replace({ path: 'home', query: { network: router.app.$route.query.network } }).catch(err => { });
@@ -281,14 +283,14 @@ export default new Vuex.Store({
       context.commit('SET_BLOCK_TIMESTAMP', block.timestamp);
 
       await Promise.all([
-        context.dispatch('setOperators', blockNumber),
-        context.dispatch('setBalance'),
+        // context.dispatch('setOperators', blockNumber),
+        // context.dispatch('setBalance'),
         context.dispatch('setCurrentRound'),
         context.dispatch('setRounds'),
         context.dispatch('setHistory'),
         context.dispatch('setUncommittedCurrentRoundReward', blockNumber),
         context.dispatch('checkPendingTransactions'),
-        context.dispatch('getTotalStaked'),
+        // context.dispatch('getTotalStaked'),
         context.dispatch('getDailyStakedTokenStats'),
         context.dispatch('getPowerReward'),
         context.dispatch('getWithdraw'),
