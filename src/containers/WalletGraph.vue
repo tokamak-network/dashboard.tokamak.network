@@ -25,7 +25,6 @@
           >
             Year
           </div>
-          <!-- <div :class="{active : chartType === 'year'}" class="button" @click="toggleChartType('year')">Year</div> -->
         </div>
       </div>
       <div class="date-container">
@@ -94,7 +93,6 @@ export default {
     Datepicker,
     'wallet-line-chart': WalletLineChart,
   },
-  // props: ['chartType', 'chartData', 'toggleChartType'],
   data () {
     return {
       periodEnd: new Date(),
@@ -115,7 +113,7 @@ export default {
     this.periodStart.setDate(this.periodStart.getDate() - 7);
     this.getDailyWalletRewardsFn();
     this.getDailyWalletStakedFn();
-    this.toggleChartType('week');
+    // this.toggleChartType('week');
   },
   methods: {
     customFormatter (date) {
@@ -176,7 +174,6 @@ export default {
       this.totalStaked();
     },
     toggleChartType (chartType) {
-      this.chartType = chartType;
       if (chartType === 'week') {
         this.periodStart.setDate(this.periodEnd.getDate() - 7);
         this.getDailyWalletRewardsFn();
@@ -188,6 +185,7 @@ export default {
         this.periodStart.setDate(this.periodEnd.getDate() - 365);
         this.getDailyWalletRewardsFn();
       }
+      this.chartType = chartType;
     },
     search () {
       this.getDailyWalletRewardsFn();
