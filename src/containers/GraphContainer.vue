@@ -84,15 +84,16 @@ export default {
           // backgroundColor: '#2a72e5',
           enabled: true,
           custom: (tooltipModel) => {
-            tooltipModel.mode = 'y';
+            tooltipModel.mode = 'center';
             tooltipModel.width = 160;
-            // tooltipModel.height = 42;
             tooltipModel.backgroundColor = '#2a72e5';
             tooltipModel.legendColorBackground = 'none';
-            tooltipModel.footerFontSize = 16;
+            tooltipModel.bodyFontSize = 16;
+            tooltipModel.footerFontSize = 12;
             tooltipModel.displayColors = false;
             tooltipModel.xAlign = 'center';
             console.log(tooltipModel);
+
           },
         },
         scales: {
