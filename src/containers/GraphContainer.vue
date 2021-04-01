@@ -58,6 +58,7 @@ export default {
             borderWidth: 2,
             pointRadius: 0,
             lineTension: 0,
+            pointHitRadius: 20,
             backgroundColor: 'transparent',
             data: this.orderedStaked.map((item) =>
               this.displayAmount(item.totalSupply)
@@ -83,17 +84,31 @@ export default {
           // mode: 'nearest',
           // backgroundColor: '#2a72e5',
           enabled: true,
+          position : 'custom',
           custom: (tooltipModel) => {
-            tooltipModel.mode = 'center';
+            tooltipModel.mode = 'pointer';
+            // tooltipModel.position = 'average';
             tooltipModel.width = 160;
             tooltipModel.backgroundColor = '#2a72e5';
             tooltipModel.legendColorBackground = 'none';
             tooltipModel.bodyFontSize = 16;
             tooltipModel.footerFontSize = 12;
             tooltipModel.displayColors = false;
-            tooltipModel.xAlign = 'center';
+            // tooltipModel.xAlign = 'center';
+            // tooltipModel.carePadding = 5;
+            tooltipModel.caretSize = 5;
+            tooltipModel.yAlign = 'bottom';
             console.log(tooltipModel);
-
+          },
+          callbacks: {
+            label: function (tooltipItem, data) {
+              console.log(tooltipItem);
+              // const label = Math.floor(tooltipItem.yLabel*100)/100+' '+data.datasets[tooltipItem.datasetIndex].label;
+              // return label;
+            },
+            tooltipModel: (tooltipModel) => {
+              console.log(tooltipModel);
+            },
           },
         },
         scales: {
