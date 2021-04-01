@@ -26,6 +26,29 @@ export async function getDailyStakedTotal (chainId) {
   else return res.data.datas;
 }
 
+export async function getRankList () {
+  const res = await candidate.get('/poweraccounts', {
+    params:{
+      chainId:1,
+      pagesize:300,
+      sort:'powerBalance',
+    },
+  });
+  if (res.data === '') return [];
+  else return res.data.datas;
+}
+
+export async function getWinnerList () {
+  const res = await candidate.get('/events', {
+    params:{
+      chainId:1,
+      eventName:'RoundEnd',
+    },
+  });
+  if (res.data === '') return [];
+  else return res.data.datas;
+}
+
 export async function getCandidateCreateEvent () {
   const res = await candidate.get('/events', {
     params: {
@@ -102,6 +125,16 @@ export async function getAccumulatedReward (chainId, user) {
     params: {
       chainId: chainId,
       account: user,
+    },
+  });
+  if (res.data === '') return [];
+  else return res.data.datas;
+}
+export async function getPowerTONInfo () {
+  const res = await candidate.get('events', {
+    params: {
+      chainId: 1,
+      eventName: 'RoundStart',
     },
   });
   if (res.data === '') return [];

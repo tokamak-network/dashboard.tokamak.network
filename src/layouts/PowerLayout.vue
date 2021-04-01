@@ -5,8 +5,8 @@
       <h2>Be a winner of our Power TON game by staking TON.</h2>
     </div>
     <div class="power-current">
-      <ValueView :title="'Round'" :value="currentRound.index" :ton="false" />
-      <ValueView :title="'Round Reward'" :value="currentRound !== 'undefined'? currencyAmount(currentRound.reward.add(uncommittedCurrentRoundReward)).toString().replace('TON', ''): ''" :ton="true" />
+      <ValueView :title="'Round'" :value="currentPowerRound.data.round" :ton="false" />
+      <ValueView :title="'Round Reward'" :value="reward" :ton="true" />
       <div class="power-current-detail">
         <h3>24 Hour (Compared to yesterday)</h3>
         <span class="power-current-detail-content">{{ powerTONReward.difference }} <span class="current-detail-span">TON</span> <span class="power-current-detail-percentage" :class="{'power-current-detail-percentage-positive':powerTONReward.isNegative === false, 'power-current-detail-percentage-negative':powerTONReward.isNegative === true}">{{ powerTONReward.percentage }}</span>
@@ -20,14 +20,29 @@
       </div>
       <div class="power-current-detail">
         <h3>Round Start</h3>
-        <span class="power-current-detail-content">{{ formattedTimestamp(currentRound.startTime) }} <span class="power-current-detail-gmt">(GMT+9)</span></span>
+        <span class="power-current-detail-content">{{ formattedTimestamp(currentPowerRound.data.startTime) }} <span class="power-current-detail-gmt">(GMT+9)</span></span>
       </div>
     </div>
     <div class="power-current-display">
       <h2>Round End</h2>
-      <h1>{{ durationTime.days() + "D "+ durationTime.hours()+ ":"+ durationTime.minutes()+ ":"+ durationTime.seconds() }}</h1>
+      <h1>
+        {{
+          durationTime.days() +
+            "D " +
+            (durationTime.hours().toString().length === 1
+              ? "0" + durationTime.hours()
+              : durationTime.hours()) +
+            ":" +
+            (durationTime.minutes().toString().length === 1
+              ? "0" + durationTime.minutes()
+              : durationTime.minutes()) + ":" +
+            (durationTime.seconds().toString().length === 1
+              ? "0" + durationTime.seconds()
+              : durationTime.seconds())
+        }}
+      </h1>
       <h3>
-        {{ formattedTimestamp(currentRound.endTime) }} (GMT+9)
+        {{ formattedTimestamp(currentPowerRound.data.endTime) }} (GMT+9)
       </h3>
     </div>
     <PowerTonTable />
@@ -40,6 +55,7 @@ import PowerTonTable from '@/components/PowerTonTable.vue';
 import ValueView from '@/components/ValueView.vue';
 import { createCurrency } from '@makerdao/currency';
 const _TON = createCurrency('TON');
+const _WTON = createCurrency('TON');
 
 export default {
   components: {
@@ -57,18 +73,29 @@ export default {
   },
   computed: {
     ...mapState([
-      'user',
-      'power',
-      'currentRound',
-      'rounds',
-      'uncommittedCurrentRoundReward',
+      'loaded',
+      'totalStaked',
+      'dailyTotalStaked',
+      'currentPowerRound',
       'powerReward',
+      // 'user',
+      // 'power',
+      // 'currentRound',
+      // 'rounds',
+      // 'uncommittedCurrentRoundReward',
+      // 'powerReward',
     ]),
     ...mapGetters([
-      'rankedAccountsWithPower',
+      // 'rankedAccountsWithPower',
     ]),
     currencyAmount () {
       return (amount) => this.$options.filters.currencyAmount(amount);
+    },
+
+    reward () {
+      return this.currencyAmount(
+        _WTON(this.powerReward[0].rewards.toString(), 'ray')
+      );
     },
     powerTONReward () {
       const reward = {};
@@ -98,7 +125,7 @@ export default {
     },
     calcDuration () {
       const now = moment().unix();
-      const endTime = this.currentRound.endTime;
+      const endTime = this.currentPowerRound.data.endTime;
       const leftTime = endTime - now;
       const duration = moment.duration(leftTime*1000, 'milliseconds');
       this.durationTime = duration;

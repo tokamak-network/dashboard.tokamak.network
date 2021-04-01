@@ -29,7 +29,7 @@ export default {
   },
   async created () {
     this.poll();
-    this.subscribe();
+    // this.subscribe();
   },
   deactivated () {
     clearInterval(this.polling);
@@ -39,7 +39,7 @@ export default {
     poll () {
       this.polling = setInterval(() => {
         if (!this.$store.state.loading) {
-          this.$store.dispatch('set', this.web3);
+          // this.$store.dispatch('set', this.web3);
         }
       }, 13000); // 13s
     },

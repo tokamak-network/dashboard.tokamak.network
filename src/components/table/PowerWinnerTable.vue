@@ -11,22 +11,22 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(round, index) in sorted" :key="round.index">
+        <tr v-for="(round, index) in sorted" :key="round.data.round">
           <td class="text-center">{{ index }}</td>
           <td class="text-center">
-            {{ round.index }}
+            {{ round.data.round }}
           </td>
           <td class="text-center">
             <a
               class="link"
               target="_blank"
               rel="noopener noreferrer"
-              :href="toExplorer('address', round.winner)"
+              :href="toExplorer('address', round.data.winner)"
             >
-              {{ round.winner | hexSlicer }}
+              {{ round.data.winner | hexSlicer }}
             </a>
           </td>
-          <td class="text-center">{{ round.reward | currencyAmount }}</td>
+          <td class="text-center">{{ round.winnerReward | currencyAmount }}</td>
         </tr>
       </tbody>
     </table>
@@ -57,7 +57,7 @@ export default {
   },
   computed: {
     ...mapState([
-      'rounds',
+      'winnerList',
     ]),
     toExplorer () {
       return (type, param) => this.$options.filters.toExplorer(type, param);
@@ -66,7 +66,7 @@ export default {
       return timestamp => this.$options.filters.formattedTimestamp(timestamp);
     },
     orderedRounds () {
-      return orderBy(this.rounds, (round) => round.index, 'desc');
+      return orderBy(this.winnerList, (round) => round.index, 'desc');
     },
     sorted () {
       const first = this.page * 5;

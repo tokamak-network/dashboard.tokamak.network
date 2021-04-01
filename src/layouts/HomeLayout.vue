@@ -17,14 +17,20 @@
             <div class="home-stats__description">Staked in the</div>
             <div class="home-stats__tokamak">Tokamak Network</div>
           </div>
-          <div class="home-stats__chart" style="position: relative; height:45vh; width:98.99vw; margin-bottom: 3rem;">
+          <div
+            class="home-stats__chart"
+            style="position: relative; height:45vh; width:98.99vw; margin-bottom: 3rem;"
+          >
             <div class="legend-container">
               <div class="legend" />
               <div :style="'margin-right:20px;'">Total Stake</div>
               <div class="legend" style="background-color:#C7D1D8" />
               <div>Actual APY</div>
             </div>
-            <GraphContainer v-if="dailyTotalStaked" :dailyStakedTotal="dailyTotalStaked" />
+            <GraphContainer
+              v-if="dailyTotalStaked"
+              :dailyStakedTotal="dailyTotalStaked"
+            />
           </div>
           <div class="home-footer">
             <div class="footer-items">
@@ -33,11 +39,11 @@
                   Round
                   <span class="items-card__title-span">start</span>
                 </div>
-                <span class="items-card__text">{{ formatTimeString(currentRound.startTime) }}
+                <span class="items-card__text">{{ formatTimeString(currentPowerRound.data.startTime) }}
                 </span>
-                <span class="items-card__subtext">{{ formatTimeSeconds(currentRound.startTime) }}
+                <span class="items-card__subtext">{{ formatTimeSeconds(currentPowerRound.data.startTime) }}
                 </span>
-                <span class="items-card__subtext">(GMT {{ timezone(currentRound.startTime) }})
+                <span class="items-card__subtext">(GMT {{ timezone(currentPowerRound.data.startTime) }})
                 </span>
               </div>
               <div class="footer-items__card">
@@ -45,11 +51,7 @@
                   PowerTON
                   <span class="items-card__title-span">Reward</span>
                 </div>
-                <span class="items-card__text">{{
-                  currencyAmount(
-                    currentRound.reward.add(uncommittedCurrentRoundReward)
-                  )
-                }}</span>
+                <span class="items-card__text">{{ reward }}</span>
               </div>
               <div class="footer-items__card">
                 <div class="items-card__title">
@@ -57,9 +59,22 @@
                   <span class="items-card__title-span">End</span>
                 </div>
                 <div class="items-card__text">
-                  {{ durationTime.days() + "D "+ durationTime.hours()+ ":"+ durationTime.minutes()+ ":"+ durationTime.seconds() }}
+                  {{
+                    durationTime.days() +
+                      "D " +
+                      (durationTime.hours().toString().length === 1
+                        ? "0" + durationTime.hours()
+                        : durationTime.hours()) +
+                      ":" +
+                      (durationTime.minutes().toString().length === 1
+                        ? "0" + durationTime.minutes()
+                        : durationTime.minutes()) + ":" +
+                      (durationTime.seconds().toString().length === 1
+                        ? "0" + durationTime.seconds()
+                        : durationTime.seconds())
+                  }}
                   <span class="items-card__subtext">{{ date }}</span>
-                  <span class="items-card__subtext">(GMT {{ timezone(currentRound.endTime) }})
+                  <span class="items-card__subtext">(GMT {{ timezone(this.currentPowerRound.data.endTime) }})
                   </span>
                 </div>
               </div>
@@ -74,7 +89,8 @@
 import { mapState, mapGetters } from 'vuex';
 import GraphContainer from '@/containers/GraphContainer.vue';
 import moment from 'moment';
-
+import { createCurrency } from '@makerdao/currency';
+const _WTON = createCurrency('TON');
 export default {
   components: {
     GraphContainer,
@@ -90,13 +106,13 @@ export default {
   },
   computed: {
     ...mapState([
-      'currentRound',
-      'uncommittedCurrentRoundReward',
       'loaded',
       'totalStaked',
       'dailyTotalStaked',
+      'currentPowerRound',
+      'powerReward',
     ]),
-    ...mapGetters(['userTotalStaked', 'userTotalSeigs']),
+    // ...mapGetters(['userTotalStaked', 'userTotalSeigs']),
     currencyAmount () {
       return (amount) => this.$options.filters.currencyAmount(amount);
     },
@@ -109,19 +125,26 @@ export default {
     timezone () {
       return (timestamp) => this.$options.filters.timezone(timestamp);
     },
+    reward () {
+      return this.currencyAmount(
+        _WTON(this.powerReward[0].rewards.toString(), 'ray')
+      );
+    },
     date () {
-      return moment.unix(this.currentRound.endTime).format('MM.DD HH:mm ');
+      return moment
+        .unix(this.currentPowerRound.data.endTime)
+        .format('MM.DD HH:mm ');
     },
   },
   created () {
-    setInterval(()=> this.calcDuration(), 1000);
+    setInterval(() => this.calcDuration(), 1000);
   },
   methods: {
     calcDuration () {
       const now = moment().unix();
-      const endTime = this.currentRound.endTime;
+      const endTime = this.currentPowerRound.data.endTime;
       const leftTime = endTime - now;
-      const duration = moment.duration(leftTime*1000, 'milliseconds');
+      const duration = moment.duration(leftTime * 1000, 'milliseconds');
       this.durationTime = duration;
     },
   },
@@ -145,7 +168,7 @@ export default {
 .home-stats {
   display: flex;
   flex-direction: column;
-  background-image: url('../assets/images/map.png');
+  background-image: url("../assets/images/map.png");
 }
 
 .home-stats__title {
@@ -251,7 +274,7 @@ export default {
 
 .footer-items__card {
   text-align: center;
-  width:250px;
+  width: 255px;
 }
 
 .items-card__title {

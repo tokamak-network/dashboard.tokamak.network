@@ -5,12 +5,31 @@ Vue.use(Vuex);
 import router from '@/router';
 import web3EthABI from 'web3-eth-abi';
 
-import { getManagers, getOperators, getHistory, getTransactions, addTransaction, getDailyStakedTotal, getTotalSupply, getCandidates, getCandidateCreateEvent, getDelegators, getCommitHistory, getRoundReward } from '@/api';
+import {
+  getManagers,
+  getOperators,
+  getHistory,
+  getTransactions,
+  addTransaction,
+  getDailyStakedTotal,
+  getTotalSupply,
+  getCandidates,
+  getCandidateCreateEvent,
+  getDelegators,
+  getCommitHistory,
+  getRoundReward,
+  getPowerTONInfo,
+  getRankList,
+  getWinnerList,
+} from '@/api';
 import { cloneDeep, isEqual, range, uniq, orderBy } from 'lodash';
 import numeral from 'numeral';
 import { createWeb3Contract } from '@/helpers/Contract';
 import { BN, toBN } from 'web3-utils';
-import { setPendingTransactions, getPendingTransactions } from '@/helpers/localStorage';
+import {
+  setPendingTransactions,
+  getPendingTransactions,
+} from '@/helpers/localStorage';
 import { createCurrency } from '@makerdao/currency';
 import { calculateExpectedSeig } from 'tokamak-staking-lib';
 
@@ -35,7 +54,7 @@ import CommitteeABI from '@/contracts/abi/DAOCommittee.json';
 
 const initialState = {
   loading: false,
-  loaded:false,
+  loaded: false,
   signIn: false,
 
   // transactionss (based on receipt: getTransactionReceipt)
@@ -72,7 +91,7 @@ const initialState = {
   // round
   currentRound: {},
   rounds: [],
-
+  currentPowerRound: {},
   // user transaction history
   history: [],
   dailyTotalStaked: [],
@@ -85,6 +104,8 @@ const initialState = {
   selectedOperator: '',
   powerReward: [],
   totalWithdraw: _TON('0'),
+  rankList: [],
+  winnerList: [],
 };
 
 const getInitialState = () => initialState;
@@ -94,7 +115,7 @@ export default new Vuex.Store({
   mutations: {
     SET_INITIAL_STATE: (state) => {
       const initialState = getInitialState();
-      Object.keys(initialState).forEach(key => {
+      Object.keys(initialState).forEach((key) => {
         state[key] = initialState[key];
       });
     },
@@ -152,7 +173,12 @@ export default new Vuex.Store({
       state.transactions = transactions;
     },
     ADD_TRANSACTION: (state, newTransaction) => {
-      if (!state.transactions.find(transaction => transaction.transactionHash === newTransaction.transactionHash)) {
+      if (
+        !state.transactions.find(
+          (transaction) =>
+            transaction.transactionHash === newTransaction.transactionHash
+        )
+      ) {
         state.transactions.push(newTransaction);
       }
     },
@@ -160,18 +186,31 @@ export default new Vuex.Store({
       state.pendingTransactions = pendingTransactions;
     },
     ADD_PENDING_TRANSACTION: (state, newPendingTransaction) => {
-      if (!state.pendingTransactions.find(pendingTransaction => pendingTransaction.transactionHash === newPendingTransaction.transactionHash)) {
+      if (
+        !state.pendingTransactions.find(
+          (pendingTransaction) =>
+            pendingTransaction.transactionHash ===
+            newPendingTransaction.transactionHash
+        )
+      ) {
         state.pendingTransactions.push(newPendingTransaction);
       }
       setPendingTransactions(state.pendingTransactions);
     },
     DELETE_PENDING_TRANSACTION: (state, minedTransaction) => {
-      state.pendingTransactions.splice(state.pendingTransactions.map(pendingTransaction => pendingTransaction.transactionHash).indexOf(minedTransaction.transactionHash), 1);
+      state.pendingTransactions.splice(
+        state.pendingTransactions
+          .map((pendingTransaction) => pendingTransaction.transactionHash)
+          .indexOf(minedTransaction.transactionHash),
+        1
+      );
       setPendingTransactions(state.pendingTransactions);
     },
     UPDATE_OPERATOR: (state, newOperator) => {
       const index = state.operators.indexOf(prevOperator);
-      const prevOperator = state.operators.find(operator => operator.layer2 === newOperator.layer2);
+      const prevOperator = state.operators.find(
+        (operator) => operator.layer2 === newOperator.layer2
+      );
       for (const [key, value] of Object.entries(newOperator)) {
         prevOperator[key] = value;
       }
@@ -190,7 +229,9 @@ export default new Vuex.Store({
       state.accountsDepositedWithPower = accounts;
     },
     ADD_ACCOUNT_DEPOSITED_WITH_POWER: (state, accountWithPower) => {
-      const findAccount = (account) => account.address.toLowerCase() === accountWithPower.address.toLowerCase();
+      const findAccount = (account) =>
+        account.address.toLowerCase() ===
+        accountWithPower.address.toLowerCase();
       const index = state.accountsDepositedWithPower.findIndex(findAccount);
 
       if (index > -1) {
@@ -202,20 +243,29 @@ export default new Vuex.Store({
     SET_UNCOMMITTED_CURRENT_ROUND_REWARD: (state, reward) => {
       state.uncommittedCurrentRoundReward = reward;
     },
-    SET_TOTALSTAKED: (state, totalStaked) =>{
+    SET_TOTALSTAKED: (state, totalStaked) => {
       state.totalStaked = totalStaked;
     },
     SET_DAILY_STAKED_TOTAL: (state, dailyTotalStaked) => {
       state.dailyTotalStaked = dailyTotalStaked;
     },
-    SET_SELECTED_OPERATOR:(state, selected) =>{
+    SET_SELECTED_OPERATOR: (state, selected) => {
       state.selectedOperator = selected;
     },
-    SET_POWER_REWARD:(state, powerReward) =>{
+    SET_POWER_REWARD: (state, powerReward) => {
       state.powerReward = powerReward;
     },
-    SET_TOTAL_WITHDRAW:(state, withdraw) => {
+    SET_TOTAL_WITHDRAW: (state, withdraw) => {
       state.totalWithdraw = withdraw;
+    },
+    SET_CURRENT_POWER_ROUND: (state, round) => {
+      state.currentPowerRound = round;
+    },
+    SET_RANK_LIST: (state, rankList) => {
+      state.rankList = rankList;
+    },
+    SET_WINNER_LIST: (state, winnerList) => {
+      state.winnerList = winnerList;
     },
   },
   actions: {
@@ -229,36 +279,44 @@ export default new Vuex.Store({
       context.commit('SIGN_IN', false);
       context.commit('SET_USER', '');
     },
-    async load (context, web3) {
+    async load (context) {
       context.commit('IS_LOADING', true);
-      context.commit('SET_WEB3', web3);
+      // context.commit('SET_WEB3', web3);
 
-      const user = (await web3.eth.getAccounts())[0];
-      const networkId = await web3.eth.net.getId();
-      context.commit('SET_USER', user);
-      context.commit('SET_NETWORK_ID', networkId);
-
+      // const user = (await web3.eth.getAccounts())[0];
+      // const networkId = await web3.eth.net.getId();
+      // context.commit('SET_USER', user);
+      // context.commit('SET_NETWORK_ID', networkId);
 
       const managers = await getManagers();
       const operators = await getOperators();
-      const transactions = await getTransactions(user);
+      // const transactions = await getTransactions(user);
       const candidates = await getCandidates();
-      context.dispatch('setCommitteeProxy');
+      // context.dispatch('setCommitteeProxy');
 
       await Promise.all([
-        context.dispatch('setManagers', managers),
+        // context.dispatch('setManagers', managers),
         // context.dispatch('setOperatorsWithRegistry', operators),
         // context.dispatch('setCandidates', candidates),
         context.dispatch('getTotalStaked'),
+        context.dispatch('getPowerRoundInfo'),
+        context.dispatch('getDailyStakedTokenStats'),
+        context.dispatch('getPowerReward'),
+        context.dispatch('getRanks'),
+        context.dispatch('getWinners'),
         // context.dispatch('setTransactionsAndPendingTransactions', transactions),
-        context.dispatch('setAccountsDepositedWithPower'),
-        context.dispatch('set', web3),
+        // context.dispatch('setAccountsDepositedWithPower'),
+        // context.dispatch('set', web3),
       ]);
       // await new Promise(resolve => setTimeout(resolve, 1000)); // https://github.com/Onther-Tech/dashboard.tokamak.network/issues/81
       context.commit('IS_LOADING', false);
       context.commit('IS_LOADED', true);
-      router.replace({ path: 'home', query: { network: router.app.$route.query.network } }).catch(err => { });
-
+      router
+        .replace({
+          path: 'home',
+          query: { network: router.app.$route.query.network },
+        })
+        .catch((err) => {});
     },
     // async watchChainIDChange () {
     //   window.ethereum.on('chainIdChanged', (chainId) => {
@@ -294,9 +352,14 @@ export default new Vuex.Store({
         context.dispatch('getDailyStakedTokenStats'),
         context.dispatch('getPowerReward'),
         context.dispatch('getWithdraw'),
-      ]).catch(err => {
+      ]).catch((err) => {
         // after logout, error can be happened
       });
+    },
+    async getPowerRoundInfo (context) {
+      const rounds = await getPowerTONInfo();
+      const currentRound = rounds[0];
+      context.commit('SET_CURRENT_POWER_ROUND', currentRound);
     },
     setCommitteeProxy (context) {
       const committeeProxy = '0xDD9f0cCc044B0781289Ee318e5971b0139602C26';
@@ -322,7 +385,7 @@ export default new Vuex.Store({
     },
     async setTransactionsAndPendingTransactions (context, transactions) {
       const web3 = context.state.web3;
-      transactions.forEach(async transaction => {
+      transactions.forEach(async (transaction) => {
         const block = await web3.eth.getBlock(transaction.blockNumber);
         const timestamp = block.timestamp;
         transaction.timestamp = timestamp;
@@ -371,14 +434,25 @@ export default new Vuex.Store({
         if (unpausedBlock < lastSeigBlock) {
           return span;
         }
-
         return span - (unpausedBlock - pausedBlock);
       }
 
       function getUnstakedRate () {
-        return _WTON(_TON(tonBalanceOfDepositManager, TON_UNIT).toBigNumber().toFixed(), WTON_UNIT)
+        return _WTON(
+          _TON(tonBalanceOfDepositManager, TON_UNIT)
+            .toBigNumber()
+            .toFixed(),
+          WTON_UNIT
+        )
           .add(_WTON(wtonBalanceOfDepositManager, WTON_UNIT))
-          .div(_WTON(_TON(tonTotalSupply, TON_UNIT).toBigNumber().toFixed()), WTON_UNIT);
+          .div(
+            _WTON(
+              _TON(tonTotalSupply, TON_UNIT)
+                .toBigNumber()
+                .toFixed()
+            ),
+            WTON_UNIT
+          );
       }
 
       const numBlocks = calcNumSeigBlocks();
@@ -388,11 +462,14 @@ export default new Vuex.Store({
         .times(_WTON(seigPerBlock, WTON_UNIT))
         .times(0.8)
         .times(0.5);
-      context.commit('SET_UNCOMMITTED_CURRENT_ROUND_REWARD', uncommittedCurrentRoundReward);
+      context.commit(
+        'SET_UNCOMMITTED_CURRENT_ROUND_REWARD',
+        uncommittedCurrentRoundReward
+      );
     },
 
     async getDailyStakedTokenStats (context) {
-      const dailyStakedTotal = await getDailyStakedTotal(context.state.networkId);
+      const dailyStakedTotal = await getDailyStakedTotal(1);
       const totalSup = await getTotalSupply();
       dailyStakedTotal.forEach((item) => {
         const totalStaked = parseFloat(item.totalSupply) / Math.pow(10, 27);
@@ -401,14 +478,22 @@ export default new Vuex.Store({
         const unit = 365;
         const maxCompensate = Number('26027.39726');
         const total = Number(totalStaked) + my;
-        stakedRatio = total/totalSup;
+        stakedRatio = total / totalSup;
         const compensatePerDay = stakedRatio * 26027.39726;
-        const dailyNotMintedSeig = maxCompensate - maxCompensate*(total/totalSup);
+        const dailyNotMintedSeig =
+          maxCompensate - maxCompensate * (total / totalSup);
         const proportionalSeig = dailyNotMintedSeig * (40 / 100);
-        const expectedSeig = (my/total) * (Number(compensatePerDay) + proportionalSeig) * unit;
+        const expectedSeig =
+          (my / total) * (Number(compensatePerDay) + proportionalSeig) * unit;
         my = my + expectedSeig;
         // item.roi = (my/Number(1000)*100 - 100)/100;
-        item.roi = ((my/Number(1000)*100 - 100)/100).toLocaleString(undefined, { maximumFractionDigits: 2, minimumFractionDigits: 2 }) ;
+        item.roi = (
+          ((my / Number(1000)) * 100 - 100) /
+          100
+        ).toLocaleString(undefined, {
+          maximumFractionDigits: 2,
+          minimumFractionDigits: 2,
+        });
       });
       context.commit('SET_DAILY_STAKED_TOTAL', dailyStakedTotal);
     },
@@ -420,12 +505,31 @@ export default new Vuex.Store({
           context.commit('SET_TOTALSTAKED', response.data);
         });
     },
+    async getRanks (context) {
+      const rankList = await getRankList();
+      let rank = 1;
+      rankList.forEach((account) => {
+        account.rank = rank;
+        account.power = _POWER.ray(account.powerBalance.toString());
+        rank++;
+      });
+      context.commit('SET_RANK_LIST', rankList);
+    },
+    async getWinners (context) {
+      const winnerList = await getWinnerList();
+      winnerList.forEach((account) => {
+        account.winnerReward = _TON.ray(account.data.reward.toString());
+      });
+      context.commit('SET_WINNER_LIST', winnerList);
+    },
     async checkPendingTransactions (context) {
       const web3 = context.state.web3;
       const pendingTransactions = context.state.pendingTransactions;
 
-      pendingTransactions.forEach(async transaction => {
-        const receipt = await web3.eth.getTransactionReceipt(transaction.transactionHash);
+      pendingTransactions.forEach(async (transaction) => {
+        const receipt = await web3.eth.getTransactionReceipt(
+          transaction.transactionHash
+        );
         if (receipt) {
           transaction.receipt = receipt;
           const minedTransaction = await addTransaction(transaction);
@@ -471,7 +575,9 @@ export default new Vuex.Store({
       const SeigManager = context.state.SeigManager;
       const l2Registry = context.state.Layer2Registry;
       const Tot = createWeb3Contract(
-        AutoRefactorCoinageABI, await SeigManager.methods.tot().call());
+        AutoRefactorCoinageABI,
+        await SeigManager.methods.tot().call()
+      );
 
       const [
         tonTotalSupply,
@@ -486,15 +592,17 @@ export default new Vuex.Store({
       const operators = context.state.operators.slice(0, 2);
       const candidates = await getCandidates();
       const events = await getCandidateCreateEvent();
-      const candidateContractCreated = events.filter(event => event.eventName === 'CandidateContractCreated');
+      const candidateContractCreated = events.filter(
+        (event) => event.eventName === 'CandidateContractCreated'
+      );
 
-      for (let i=0; i < operators.length; i++) {
-        if (!await l2Registry.methods.layer2s(operators[i].layer2).call()) {
+      for (let i = 0; i < operators.length; i++) {
+        if (!(await l2Registry.methods.layer2s(operators[i].layer2).call())) {
           operators.splice(i, 1);
         }
       }
       const operatorsFromLayer2 = await Promise.all(
-        operators.map(async operatorFromLayer2 => {
+        operators.map(async (operatorFromLayer2) => {
           ///////////////////////////////////////////////////////////////////
           // NOTE: operatorFromLayer2 has already have following property.
           //
@@ -514,11 +622,10 @@ export default new Vuex.Store({
           const layer2 = operatorFromLayer2.layer2;
           const Layer2 = createWeb3Contract(Layer2ABI, layer2);
           const Coinage = createWeb3Contract(
-            AutoRefactorCoinageABI, await SeigManager.methods.coinages(layer2).call());
-          const [
-            operator,
-            currentForkNumber,
-          ] = await Promise.all([
+            AutoRefactorCoinageABI,
+            await SeigManager.methods.coinages(layer2).call()
+          );
+          const [operator, currentForkNumber] = await Promise.all([
             Layer2.methods.operator().call(),
             Layer2.methods.currentFork().call(),
           ]);
@@ -529,7 +636,10 @@ export default new Vuex.Store({
             const blockNumbers = [];
             const transactions = await getTransactions(operator);
             for (const transaction of transactions) {
-              if (transaction.type === 'Commit' && transaction.target === layer2) {
+              if (
+                transaction.type === 'Commit' &&
+                transaction.target === layer2
+              ) {
                 commitTransactions.push(transaction);
                 blockNumbers.push(transaction.blockNumber);
               }
@@ -538,32 +648,51 @@ export default new Vuex.Store({
               return ['0', '1'];
             } else {
               // const blockNumber = Math.max.apply(null, blockNumbers);
-              const blockNumber = await SeigManager.methods.lastCommitBlock(layer2).call();
+              const blockNumber = await SeigManager.methods
+                .lastCommitBlock(layer2)
+                .call();
               const block = await web3.eth.getBlock(blockNumber);
               return [String(block.timestamp), String(blockNumbers.length + 1)];
             }
           };
 
-          const getLastFinalizedAt = async (lastFinalizedEpochNumber, lastFinalizedBlockNumber) => {
-            const epoch = await Layer2.methods.getEpoch(currentForkNumber, lastFinalizedEpochNumber).call();
-            const timestamp
-                            = epoch.isRequest ?
-                              (await Layer2.methods.getBlock(currentForkNumber, lastFinalizedBlockNumber).call()).finalizedAt :
-                              epoch.NRE.finalizedAt;
+          const getLastFinalizedAt = async (
+            lastFinalizedEpochNumber,
+            lastFinalizedBlockNumber
+          ) => {
+            const epoch = await Layer2.methods
+              .getEpoch(currentForkNumber, lastFinalizedEpochNumber)
+              .call();
+            const timestamp = epoch.isRequest
+              ? (
+                await Layer2.methods
+                  .getBlock(currentForkNumber, lastFinalizedBlockNumber)
+                  .call()
+              ).finalizedAt
+              : epoch.NRE.finalizedAt;
             return timestamp;
           };
 
           const getDeposit = async (account) => {
             let accStaked, accUnstaked;
             if (typeof account === 'undefined') {
-              accStaked = await DepositManager.methods.accStakedLayer2(layer2).call();
-              accUnstaked = await DepositManager.methods.accUnstakedLayer2(layer2).call();
+              accStaked = await DepositManager.methods
+                .accStakedLayer2(layer2)
+                .call();
+              accUnstaked = await DepositManager.methods
+                .accUnstakedLayer2(layer2)
+                .call();
             } else {
-              accStaked = await DepositManager.methods.accStaked(layer2, account).call(null, blockNumber);
-              accUnstaked = await DepositManager.methods.accUnstaked(layer2, account).call(null, blockNumber);
+              accStaked = await DepositManager.methods
+                .accStaked(layer2, account)
+                .call(null, blockNumber);
+              accUnstaked = await DepositManager.methods
+                .accUnstaked(layer2, account)
+                .call(null, blockNumber);
             }
             const deposit = new BN(accStaked).sub(new BN(accUnstaked));
-            if (deposit.cmp(new BN('0')) === -1) { // https://github.com/Onther-Tech/plasma-evm-contracts/issues/39
+            if (deposit.cmp(new BN('0')) === -1) {
+              // https://github.com/Onther-Tech/plasma-evm-contracts/issues/39
               return '0';
             } else {
               return deposit.toString();
@@ -571,48 +700,64 @@ export default new Vuex.Store({
           };
 
           const getPendingRequests = async () => {
-            const numPendingRequests = await DepositManager.methods.numPendingRequests(layer2, user).call();
+            const numPendingRequests = await DepositManager.methods
+              .numPendingRequests(layer2, user)
+              .call();
             if (numPendingRequests === 0) {
               return [];
             }
 
-            let requestIndex
-              = await DepositManager.methods.withdrawalRequestIndex(layer2, user).call();
+            let requestIndex = await DepositManager.methods
+              .withdrawalRequestIndex(layer2, user)
+              .call();
 
             const pendingRequests = [];
             for (const _ of range(numPendingRequests)) {
-              pendingRequests.push(DepositManager.methods.withdrawalRequest(layer2, user, requestIndex).call());
+              pendingRequests.push(
+                DepositManager.methods
+                  .withdrawalRequest(layer2, user, requestIndex)
+                  .call()
+              );
               requestIndex++;
             }
             return Promise.all(pendingRequests);
           };
           const isCandidateOperator = () => {
             const candidates = context.state.candidates;
-            const isCandidate = candidates.find(candidate => candidate.layer2 === layer2.toLowerCase());
-            if(isCandidate.kind === ''){
+            const isCandidate = candidates.find(
+              (candidate) => candidate.layer2 === layer2.toLowerCase()
+            );
+            if (isCandidate.kind === '') {
               return false;
-            }
-            else {
+            } else {
               return true;
             }
           };
           const filterNotWithdrawableRequests = (requests) => {
-            return requests.filter(request => parseInt(request.withdrawableBlockNumber) > blockNumber);
+            return requests.filter(
+              (request) =>
+                parseInt(request.withdrawableBlockNumber) > blockNumber
+            );
           };
 
           const filterWithdrawableRequests = (requests) => {
-            return requests.filter(request => parseInt(request.withdrawableBlockNumber) <= blockNumber);
+            return requests.filter(
+              (request) =>
+                parseInt(request.withdrawableBlockNumber) <= blockNumber
+            );
           };
 
           const getUserNotWithdrawable = (notWithdrawableRequests) => {
             const initialAmount = _WTON.ray('0');
-            const reducer = (amount, request) => amount.add(_WTON.ray(request.amount));
+            const reducer = (amount, request) =>
+              amount.add(_WTON.ray(request.amount));
             return notWithdrawableRequests.reduce(reducer, initialAmount);
           };
 
           const getUserWithdrawable = (withdrawableRequests) => {
             const initialAmount = _WTON.ray('0');
-            const reducer = (amount, request) => amount.add(_WTON.ray(request.amount));
+            const reducer = (amount, request) =>
+              amount.add(_WTON.ray(request.amount));
             return withdrawableRequests.reduce(reducer, initialAmount);
           };
 
@@ -654,9 +799,14 @@ export default new Vuex.Store({
             prevTotTotalSupply = _WTON(prevTotTotalSupply, WTON_UNIT);
             prevTotBalance = _WTON(prevTotBalance, WTON_UNIT);
             prevCoinageTotalSupply = _WTON(prevCoinageTotalSupply, WTON_UNIT);
-            prevCoinageOperatorBalance = _WTON(prevCoinageOperatorBalance, WTON_UNIT);
+            prevCoinageOperatorBalance = _WTON(
+              prevCoinageOperatorBalance,
+              WTON_UNIT
+            );
             prevCoinageUserBalance = _WTON(prevCoinageUserBalance, WTON_UNIT);
-            const prevCoinageUsersBalance = prevCoinageTotalSupply.minus(prevCoinageOperatorBalance);
+            const prevCoinageUsersBalance = prevCoinageTotalSupply.minus(
+              prevCoinageOperatorBalance
+            );
 
             function calcNumSeigBlocks () {
               if (paused) return 0;
@@ -685,15 +835,21 @@ export default new Vuex.Store({
             if (prevTotTotalSupply.isEqual(_WTON('0'))) {
               layer2Seigs = _WTON('0', WTON_UNIT);
             } else {
-              layer2Seigs = stakedSeigs.times(prevTotBalance).div(prevTotTotalSupply);
+              layer2Seigs = stakedSeigs
+                .times(prevTotBalance)
+                .div(prevTotTotalSupply);
             }
 
             if (prevCoinageTotalSupply.isEqual(_WTON('0'))) {
               operatorSeigs = _WTON('0', WTON_UNIT);
               usersSeigs = _WTON('0', WTON_UNIT);
             } else {
-              operatorSeigs = layer2Seigs.times(prevCoinageOperatorBalance).div(prevCoinageTotalSupply);
-              usersSeigs = layer2Seigs.times(prevCoinageUsersBalance).div(prevCoinageTotalSupply);
+              operatorSeigs = layer2Seigs
+                .times(prevCoinageOperatorBalance)
+                .div(prevCoinageTotalSupply);
+              usersSeigs = layer2Seigs
+                .times(prevCoinageUsersBalance)
+                .div(prevCoinageTotalSupply);
             }
 
             function _calcSeigsDistribution () {
@@ -710,26 +866,38 @@ export default new Vuex.Store({
               if (!isCommissionRateNegative) {
                 const commissionFromUsers = usersSeigs.times(commissionRate);
 
-                operatorSeigsWithCommissionRate = operatorSeigsWithCommissionRate.plus(commissionFromUsers);
-                usersSeigsWithCommissionRate = usersSeigsWithCommissionRate.minus(commissionFromUsers);
+                operatorSeigsWithCommissionRate = operatorSeigsWithCommissionRate.plus(
+                  commissionFromUsers
+                );
+                usersSeigsWithCommissionRate = usersSeigsWithCommissionRate.minus(
+                  commissionFromUsers
+                );
                 return {
                   operatorSeigsWithCommissionRate,
                   usersSeigsWithCommissionRate,
                 };
               }
 
-              if (prevCoinageTotalSupply.toFixed(WTON_UNIT) === '0' ||
-                prevCoinageOperatorBalance.toFixed(WTON_UNIT) === '0') {
+              if (
+                prevCoinageTotalSupply.toFixed(WTON_UNIT) === '0' ||
+                prevCoinageOperatorBalance.toFixed(WTON_UNIT) === '0'
+              ) {
                 return {
                   operatorSeigsWithCommissionRate,
                   usersSeigsWithCommissionRate,
                 };
               }
 
-              const commissionFromOperator = operatorSeigs.times(commissionRate);
+              const commissionFromOperator = operatorSeigs.times(
+                commissionRate
+              );
 
-              operatorSeigsWithCommissionRate = operatorSeigsWithCommissionRate.minus(commissionFromOperator);
-              usersSeigsWithCommissionRate = usersSeigsWithCommissionRate.plus(commissionFromOperator);
+              operatorSeigsWithCommissionRate = operatorSeigsWithCommissionRate.minus(
+                commissionFromOperator
+              );
+              usersSeigsWithCommissionRate = usersSeigsWithCommissionRate.plus(
+                commissionFromOperator
+              );
 
               return {
                 operatorSeigsWithCommissionRate,
@@ -746,7 +914,9 @@ export default new Vuex.Store({
             if (prevCoinageUsersBalance.isEqual(_WTON('0', WTON_UNIT))) {
               userSeigsWithCommissionRate = _WTON('0', WTON_UNIT);
             } else {
-              userSeigsWithCommissionRate = usersSeigsWithCommissionRate.times(prevCoinageUserBalance).div(prevCoinageUsersBalance);
+              userSeigsWithCommissionRate = usersSeigsWithCommissionRate
+                .times(prevCoinageUserBalance)
+                .div(prevCoinageUsersBalance);
             }
 
             return {
@@ -800,14 +970,24 @@ export default new Vuex.Store({
 
           const lastFinalized = await getRecentCommit(operator, layer2);
 
-          const isCandidate = candidates.find(candidate => candidate.layer2 === layer2.toLowerCase());
+          const isCandidate = candidates.find(
+            (candidate) => candidate.layer2 === layer2.toLowerCase()
+          );
           if (isCandidate.kind === 'candidate') {
             const web3 = context.state.web3;
-            const candi = candidateContractCreated.filter(candidate => candidate.data.candidateContract.toLowerCase() === layer2);
+            const candi = candidateContractCreated.filter(
+              (candidate) =>
+                candidate.data.candidateContract.toLowerCase() === layer2
+            );
             const block = await web3.eth.getBlock(candi[0].txInfo.blockNumber);
             operatorFromLayer2.deployedAt = block.timestamp;
-            operatorFromLayer2.lastFinalizedAt = lastFinalized[0] === '0' ? block.timestamp : lastFinalized[0];
-          } else if (isCandidate.kind !== 'candidate' || isCandidate.kind === '' || isCandidate.kind === 'layer2') {
+            operatorFromLayer2.lastFinalizedAt =
+              lastFinalized[0] === '0' ? block.timestamp : lastFinalized[0];
+          } else if (
+            isCandidate.kind !== 'candidate' ||
+            isCandidate.kind === '' ||
+            isCandidate.kind === 'layer2'
+          ) {
             const [
               // currentFork,
               firstEpoch,
@@ -820,10 +1000,17 @@ export default new Vuex.Store({
             // const lastFinalizedEpochNumber = currentFork.lastFinalizedEpoch;
             // const lastFinalizedBlockNumber = currentFork.lastFinalizedBlock;
             operatorFromLayer2.deployedAt = deployedAt;
-            operatorFromLayer2.lastFinalizedAt = lastFinalized[0] === '0' ? deployedAt : lastFinalized[0];
+            operatorFromLayer2.lastFinalizedAt =
+              lastFinalized[0] === '0' ? deployedAt : lastFinalized[0];
           }
-          const delegators = await getDelegators(context.state.networkId, layer2 );
-          const commitHistory = await getCommitHistory (context.state.networkId, layer2);
+          const delegators = await getDelegators(
+            context.state.networkId,
+            layer2
+          );
+          const commitHistory = await getCommitHistory(
+            context.state.networkId,
+            layer2
+          );
           operatorFromLayer2.delegators = delegators;
           // const result = calculateExpectedSeig(
           //   fromBlockNumber, // the latest commited block number. You can get this using seigManager.lastCommitBlock(layer2)
@@ -833,7 +1020,10 @@ export default new Vuex.Store({
           //   totalSupplyOfTON, // the current totalSupply of TON in RAY unit. You can get this using ton.totalSupply() - ton.balanceOf(WTON) + tot.totalSupply()
           //   pseigRate // pseig rate in RAY unit. the current value is 0.4. You can get this using seigManager.relativeSeigRate()
           // )
-          const tos = toBN(tonTotalSupply).mul(toBN('1000000000')).add(toBN(totTotalSupply)).sub(toBN(tonBalanceOfWTON));
+          const tos = toBN(tonTotalSupply)
+            .mul(toBN('1000000000'))
+            .add(toBN(totTotalSupply))
+            .sub(toBN(tonBalanceOfWTON));
 
           const seigniorage = calculateExpectedSeig(
             new BN(await SeigManager.methods.lastCommitBlock(layer2).call()),
@@ -843,9 +1033,15 @@ export default new Vuex.Store({
             new BN(tos),
             new BN(await SeigManager.methods.relativeSeigRate().call())
           );
-          const notWithdrawableRequests = filterNotWithdrawableRequests(pendingRequests);
-          const withdrawableRequests = filterWithdrawableRequests(pendingRequests);
-          const userNotWithdrawable = getUserNotWithdrawable(notWithdrawableRequests);
+          const notWithdrawableRequests = filterNotWithdrawableRequests(
+            pendingRequests
+          );
+          const withdrawableRequests = filterWithdrawableRequests(
+            pendingRequests
+          );
+          const userNotWithdrawable = getUserNotWithdrawable(
+            notWithdrawableRequests
+          );
           const userWithdrawable = getUserWithdrawable(withdrawableRequests);
 
           operatorFromLayer2.address = operator;
@@ -860,17 +1056,28 @@ export default new Vuex.Store({
           operatorFromLayer2.isCommissionRateNegative = isCommissionRateNegative;
           operatorFromLayer2.commissionRate = _WTON(commissionRate, WTON_UNIT);
           operatorFromLayer2.delayedCommissionRateNegative = delayedCommissionRateNegative;
-          operatorFromLayer2.delayedCommissionRate = _WTON(delayedCommissionRate, WTON_UNIT);
+          operatorFromLayer2.delayedCommissionRate = _WTON(
+            delayedCommissionRate,
+            WTON_UNIT
+          );
           operatorFromLayer2.delayedCommissionBlock = delayedCommissionBlock;
-          operatorFromLayer2.powerTONSeigRate = _WTON(powerTONSeigRate, WTON_UNIT);
+          operatorFromLayer2.powerTONSeigRate = _WTON(
+            powerTONSeigRate,
+            WTON_UNIT
+          );
           operatorFromLayer2.daoSeigRate = _WTON(daoSeigRate, WTON_UNIT);
-          operatorFromLayer2.relativeSeigRate = _WTON(relativeSeigRate, WTON_UNIT);
+          operatorFromLayer2.relativeSeigRate = _WTON(
+            relativeSeigRate,
+            WTON_UNIT
+          );
           operatorFromLayer2.withdrawalRequests = pendingRequests;
           operatorFromLayer2.notWithdrawableRequests = notWithdrawableRequests;
           operatorFromLayer2.withdrawableRequests = withdrawableRequests;
           operatorFromLayer2.userNotWithdrawable = userNotWithdrawable;
           operatorFromLayer2.userWithdrawable = userWithdrawable;
-          operatorFromLayer2.userRedelegatable = userWithdrawable.add(userNotWithdrawable);
+          operatorFromLayer2.userRedelegatable = userWithdrawable.add(
+            userNotWithdrawable
+          );
           operatorFromLayer2.userReward = userNotWithdrawable;
           operatorFromLayer2.withdrawalDelay = withdrawalDelay;
           operatorFromLayer2.globalWithdrawalDelay = globalWithdrawalDelay;
@@ -899,13 +1106,15 @@ export default new Vuex.Store({
       context.commit('SET_TON_BALANCE', _TON.wei(tonBalance.toString()));
       context.commit('SET_WTON_BALANCE', _WTON.ray(wtonBalance.toString()));
       context.commit('SET_POWER', _POWER.ray(power.toString()));
-
     },
     async setHistory (context) {
       const user = context.state.user;
       const userHistory = await getHistory(user);
 
-      context.commit('SET_USER_HISTORY', userHistory.map(h => h.history));
+      context.commit(
+        'SET_USER_HISTORY',
+        userHistory.map((h) => h.history)
+      );
     },
     async setCurrentRound (context) {
       const user = context.state.user;
@@ -913,12 +1122,7 @@ export default new Vuex.Store({
       const PowerTON = context.state.PowerTON;
 
       const currentRoundIndex = await PowerTON.methods.currentRound().call();
-      const [
-        currentRound,
-        balance,
-        totalDeposits,
-        power,
-      ] = await Promise.all([
+      const [currentRound, balance, totalDeposits, power] = await Promise.all([
         PowerTON.methods.rounds(currentRoundIndex).call(),
         WTON.methods.balanceOf(PowerTON._address).call(),
         PowerTON.methods.totalDeposits().call(),
@@ -933,7 +1137,9 @@ export default new Vuex.Store({
       // `.div` needs to check zero value
       if (!totalPower.eq(_POWER.ray('0'))) {
         const winningProbability = userPower.div(totalPower);
-        currentRound.winningProbability = `${numeral(winningProbability.toNumber()).format('0.00%')}`;
+        currentRound.winningProbability = `${numeral(
+          winningProbability.toNumber()
+        ).format('0.00%')}`;
       } else {
         currentRound.winningProbability = '0.00%';
       }
@@ -942,13 +1148,17 @@ export default new Vuex.Store({
     async getWithdraw (context) {
       const DepositManager = context.state.DepositManager;
       const user = context.state.user;
-      const withdraw = await DepositManager.methods.accUnstakedAccount(user).call();
+      const withdraw = await DepositManager.methods
+        .accUnstakedAccount(user)
+        .call();
       context.commit('SET_TOTAL_WITHDRAW', _WTON.ray(withdraw.toString()));
     },
 
     async setRounds (context) {
       const PowerTON = context.state.PowerTON;
-      const roundEndEvent = web3EthABI.encodeEventSignature('RoundEnd(uint256,address,uint256)');
+      const roundEndEvent = web3EthABI.encodeEventSignature(
+        'RoundEnd(uint256,address,uint256)'
+      );
       const deployedAt = PowerTON.transactionConfirmationBlocks;
 
       const events = await PowerTON.getPastEvents('RoundEnd', {
@@ -956,7 +1166,7 @@ export default new Vuex.Store({
         toBlock: 'latest',
         topics: [roundEndEvent],
       });
-      const rounds = events.map(event => {
+      const rounds = events.map((event) => {
         const returnValues = event.returnValues;
         return {
           index: parseInt(returnValues.round),
@@ -969,7 +1179,9 @@ export default new Vuex.Store({
     async setAccountsDepositedWithPower (context) {
       const PowerTON = context.state.PowerTON;
       const DepositManager = context.state.DepositManager;
-      const depositedEvent = web3EthABI.encodeEventSignature('Deposited(address,address,uint256)');
+      const depositedEvent = web3EthABI.encodeEventSignature(
+        'Deposited(address,address,uint256)'
+      );
       const deployedAt = DepositManager.transactionConfirmationBlocks;
 
       const events = await DepositManager.getPastEvents('Deposited', {
@@ -978,19 +1190,24 @@ export default new Vuex.Store({
         topics: [depositedEvent],
       });
 
-      const depositors = uniq(events.map(event => event.returnValues.depositor));
-      const accounts = depositors.map(async depositor => {
+      const depositors = uniq(
+        events.map((event) => event.returnValues.depositor)
+      );
+      const accounts = depositors.map(async (depositor) => {
         const power = await PowerTON.methods.powerOf(depositor).call();
         return {
           address: depositor.toLowerCase(),
           power: _POWER.ray(power.toString()),
         };
       });
-      context.commit('SET_ACCOUNTS_DEPOSITED_WITH_POWER', await Promise.all(accounts));
+      context.commit(
+        'SET_ACCOUNTS_DEPOSITED_WITH_POWER',
+        await Promise.all(accounts)
+      );
     },
     async getPowerReward (context) {
       const networks = context.state.networkId;
-      const rewards = await getRoundReward(networks);
+      const rewards = await getRoundReward(1);
       context.commit('SET_POWER_REWARD', rewards.slice(0, 2));
     },
     async addAccountDepositedWithPower (context, depositor) {
@@ -1009,17 +1226,25 @@ export default new Vuex.Store({
     initialState: (state) => {
       return isEqual(state, initialState);
     },
-    operatorsStaked: state => {
+    operatorsStaked: (state) => {
       if (state.operators && state.operators.length > 0) {
-        return state.operators.filter(operator => parseInt(operator.userStaked) > 0);
-      }
-      else return [];
+        return state.operators.filter(
+          (operator) => parseInt(operator.userStaked) > 0
+        );
+      } else return [];
     },
     operatorByLayer2: (state) => (layer2) => {
-      return cloneDeep(state.operators.find(operator => operator.layer2.toLowerCase() === layer2.toLowerCase()));
+      return cloneDeep(
+        state.operators.find(
+          (operator) => operator.layer2.toLowerCase() === layer2.toLowerCase()
+        )
+      );
     },
     transactionsByOperator: (state) => (operator) => {
-      return state.transactions.filter(transaction => transaction.target.toLowerCase()=== operator.toLowerCase());
+      return state.transactions.filter(
+        (transaction) =>
+          transaction.target.toLowerCase() === operator.toLowerCase()
+      );
     },
     userTotalDeposit: (state) => {
       const initialAmount = _WTON.ray('0');
@@ -1041,13 +1266,15 @@ export default new Vuex.Store({
     },
     userTotalNotWithdrawable: (state) => {
       const initialAmount = _WTON.ray('0');
-      const reducer = (amount, operator) => amount.add(operator.userNotWithdrawable);
+      const reducer = (amount, operator) =>
+        amount.add(operator.userNotWithdrawable);
 
       return state.operators.reduce(reducer, initialAmount);
     },
     userTotalWithdrawable: (state) => {
       const initialAmount = _WTON.ray('0');
-      const reducer = (amount, operator) => amount.add(operator.userWithdrawable);
+      const reducer = (amount, operator) =>
+        amount.add(operator.userWithdrawable);
 
       return state.operators.reduce(reducer, initialAmount);
     },
@@ -1057,25 +1284,27 @@ export default new Vuex.Store({
         .add(getters.userTotalNotWithdrawable);
       // .sub(getters.userTotalDeposit);
     },
-    rankedAccountsWithPower: (state) => {
-      const accounts = state.accountsDepositedWithPower;
-      const orderedAccounts = orderBy(accounts, (account) => account.power.toNumber(), ['desc']);
+    // rankedAccountsWithPower: (state) => {
+    //   const accounts = state.accountsDepositedWithPower;
+    //   const orderedAccounts = orderBy(accounts, (account) => account.power.toNumber(), ['desc']);
 
-      let rank = 1;
-      orderedAccounts.forEach(account => {
-        account.rank = rank;
-        rank++;
-      });
-      return orderedAccounts;
-    },
+    //   let rank = 1;
+    //   orderedAccounts.forEach(account => {
+    //     account.rank = rank;
+    //     rank++;
+    //   });
+    //   return orderedAccounts;
+    // },
     recentTransactions: (state) => {
-      const orderedTransactions = orderBy(state.transactions, (transaction) => transaction.blockNumber, ['desc']);
+      const orderedTransactions = orderBy(
+        state.transactions,
+        (transaction) => transaction.blockNumber,
+        ['desc']
+      );
       return orderedTransactions.slice(0, 5);
     },
     coinageContract: (_) => (coinage) => {
-      return createWeb3Contract(
-        AutoRefactorCoinageABI, coinage
-      );
+      return createWeb3Contract(AutoRefactorCoinageABI, coinage);
     },
   },
 });

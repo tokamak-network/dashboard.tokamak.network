@@ -41,7 +41,8 @@ export default {
     ]),
   },
   async created () {
-    await this.useMetamask();
+    // await this.useMetamask();
+    await this.$store.dispatch('load');
     if (this.initialState && this.$route.path !== '/') {
       this.$router.replace({
         path: '/',

@@ -11,7 +11,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(account, index) in sorted" :key="account.address">
+        <tr v-for="(account, index) in sorted" :key="account.account">
           <td class="text-center">{{ index }}</td>
           <td class="text-center">
             {{ account.rank }}
@@ -21,9 +21,9 @@
               class="link"
               target="_blank"
               rel="noopener noreferrer"
-              :href="toExplorer('address', account.address)"
+              :href="toExplorer('address', account.account)"
             >
-              {{ account.address | hexSlicer }}
+              {{ account.account | hexSlicer }}
             </a>
           </td>
           <td class="text-center">{{ account.power | currencyAmount }}</td>
@@ -40,7 +40,7 @@
 <script>
 import { orderBy } from 'lodash';
 
-import { mapGetters } from 'vuex';
+import { mapGetters, mapState } from 'vuex';
 import TablePaginate from '@/components/TablePaginate.vue';
 
 export default {
@@ -58,14 +58,12 @@ export default {
     };
   },
   computed: {
-    ...mapGetters([
-      'rankedAccountsWithPower',
-    ]),
+    ...mapState(['rankList']),
     toExplorer () {
       return (type, param) => this.$options.filters.toExplorer(type, param);
     },
     accounts () {
-      return orderBy(this.rankedAccountsWithPower, (account) => account.rank, 'asc');
+      return orderBy(this.rankList, (account) => account.rank, 'asc');
     },
     sorted () {
       const first = this.page * 5;
