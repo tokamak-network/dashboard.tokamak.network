@@ -5,6 +5,7 @@
       :chartData="1"
       :datacollection="getData()"
       :option="getOptions()"
+      :style="{'min-width': '1300px', 'width': '100%'}"
     />
   </div>
 </template>
@@ -43,7 +44,7 @@ export default {
       return Math.round(displayAmounts * 10) / 10;
     },
     formatDate (date) {
-      return moment.utc(date).format('MM/DD/YYYY HH:mm');
+      return moment.utc(date).format('YYYY.MM.DD');
     },
 
     getData () {
@@ -53,7 +54,6 @@ export default {
         ),
         datasets: [
           {
-            label: 'Total Stake',
             borderColor: '#2a72e5',
             borderWidth: 2,
             pointRadius: 0,
@@ -80,8 +80,20 @@ export default {
     getOptions () {
       return {
         tooltips: {
-          mode: 'nearest',
-          backgroundColor: '#2a72e5',
+          // mode: 'nearest',
+          // backgroundColor: '#2a72e5',
+          enabled: true,
+          custom: (tooltipModel) => {
+            tooltipModel.mode = 'y';
+            tooltipModel.width = 160;
+            // tooltipModel.height = 42;
+            tooltipModel.backgroundColor = '#2a72e5';
+            tooltipModel.legendColorBackground = 'none';
+            tooltipModel.footerFontSize = 16;
+            tooltipModel.displayColors = false;
+            tooltipModel.xAlign = 'center';
+            console.log(tooltipModel);
+          },
         },
         scales: {
           ticks: { min: 0 },
@@ -129,3 +141,11 @@ export default {
   },
 };
 </script>
+<style scoped>
+.chart {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+</style>

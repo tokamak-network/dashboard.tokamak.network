@@ -3,9 +3,10 @@
     <div v-if="loaded" class="home-layout">
       <div class="home-content">
         <div class="home-stats">
-          <div>
+          <div class="home-stats-container">
             <div class="home-stats__title">There is currently</div>
-            <div class="home-stats__amount">
+            <RollingNumber :totalSupply="totalStaked" />
+            <!-- <div class="home-stats__amount">
               {{
                 totalStaked.toLocaleString(undefined, {
                   maximumFractionDigits: 2,
@@ -13,11 +14,11 @@
                 })
               }}
               TON
-            </div>
+            </div> -->
             <div class="home-stats__description">Staked in the</div>
             <div class="home-stats__tokamak">Tokamak Network</div>
           </div>
-          <div class="home-stats__chart" style="position: relative; height:45vh; width:98.99vw; margin-bottom: 3rem;">
+          <div class="home-stats__chart" style="position: relative; height:45vh; margin-bottom: 3rem;">
             <div class="legend-container">
               <div class="legend" />
               <div :style="'margin-right:20px;'">Total Stake</div>
@@ -72,12 +73,14 @@
 </template>
 <script>
 import { mapState, mapGetters } from 'vuex';
-import GraphContainer from '@/containers/GraphContainer.vue';
 import moment from 'moment';
+import GraphContainer from '@/containers/GraphContainer.vue';
+import RollingNumber from '@/components/RollingNumber.vue';
 
 export default {
   components: {
     GraphContainer,
+    RollingNumber,
   },
   data () {
     return {
@@ -145,7 +148,11 @@ export default {
 .home-stats {
   display: flex;
   flex-direction: column;
+  min-width: 1300px;
+  width: 100%;
   background-image: url('../assets/images/map.png');
+  background-repeat: no-repeat;
+  background-size: contain;
 }
 
 .home-stats__title {
@@ -159,18 +166,6 @@ export default {
   text-align: center;
   color: #3d495d;
   line-height: 0.47;
-}
-
-.home-stats__amount {
-  margin-bottom: 30px;
-  font-family: "Titillium Web", sans-serif;
-  font-size: 50px;
-  font-weight: 600;
-  font-stretch: normal;
-  font-style: normal;
-  letter-spacing: 1.25px;
-  text-align: center;
-  color: #2a72e5;
 }
 
 .home-stats__description {
@@ -296,5 +291,10 @@ export default {
   letter-spacing: normal;
   text-align: right;
   color: #3d495d;
+}
+.home-stats-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 </style>
