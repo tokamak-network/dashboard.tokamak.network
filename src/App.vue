@@ -3,7 +3,9 @@
     <new-header-container />
     <div class="body-container">
       <loading-spinner v-if="loading" />
-      <main-layout v-else />
+      <div v-else>
+        <main-layout />
+      </div>
     </div>
     <footer-container />
   </div>
@@ -12,8 +14,6 @@
 <script>
 import { mapState, mapGetters } from 'vuex';
 import LoadingSpinner from '@/components/LoadingSpinner.vue';
-
-// import TxProcessor from '@/components/TxProcessor.vue';
 import NewHeaderContainer from '@/containers/NewHeaderContainer.vue';
 import FooterContainer from '@/containers/FooterContainer.vue';
 import MainLayout from '@/layouts/MainLayout.vue';

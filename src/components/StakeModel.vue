@@ -242,9 +242,15 @@ export default {
               timestamp: moment().unix(),
             };
             this.$store.dispatch('addPendingTransaction', transcation);
+            this.$store.commit('SET_PENDING_TX', hash);
           })
           .on('receipt', (receipt) => {
             this.index = 0;
+          })
+          .on('confirmation', async (confirmationNumber) => {
+            if (confirmationNumber === 0) {
+              this.$store.commit('SET_PENDING_TX', '');
+            }
           });
         this.availableAmountToDelegate = '';
       }

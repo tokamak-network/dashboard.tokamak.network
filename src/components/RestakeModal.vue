@@ -157,11 +157,17 @@ export default {
             target: this.operator.layer2,
             timestamp: moment().unix(),
           };
+          this.$store.commit('SET_PENDING_TX', hash);
           this.$store.dispatch('addPendingTransaction', transcation);
         })
         .on('receipt', (receipt) => {
           this.$store.dispatch('set', this.web3);
           this.index = 0; // after contract state is updated, display max redelegatable amount.
+        })
+        .on('confirmation', async (confirmationNumber) => {
+          if (confirmationNumber === 0) {
+            this.$store.commit('SET_PENDING_TX', '');
+          }
         });
     },
     closeModal (method) {

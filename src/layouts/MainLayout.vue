@@ -2,6 +2,14 @@
   <div class="main-layout">
     <div class="main-container">
       <div class="main-body-container">
+        <notifications group="confirmed"
+                       position="bottom right"
+                       :speed="500"
+        />
+        <notifications group="reverted"
+                       position="bottom right"
+                       :speed="500"
+        />
         <router-view />
       </div>
     </div>
@@ -38,8 +46,8 @@ export default {
   methods: {
     poll () {
       this.polling = setInterval(() => {
-        if (!this.$store.state.loading) {
-          // this.$store.dispatch('set', this.web3);
+        if (this.$store.state.signIn) {
+          this.$store.dispatch('set', this.web3);
         }
       }, 13000); // 13s
     },

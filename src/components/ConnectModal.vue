@@ -1,15 +1,19 @@
 <template>
   <div>
     <div v-if="!signIn && !loadingAccount" class="wallet-connect" @click="openWalletOptions()">Connect Wallet</div>
-    <div v-else-if="signIn" class="wallet-connect" @click="openWallet()">
+    <div v-else-if="signIn && !pendingTx" class="wallet-connect" @click="openWallet()">
       <blockies :address="user" />
       {{ user | hexSlicer }}
     </div>
-    <div v-else-if="loadingAccount" class="wallet-connect" >
+    <div v-else-if="loadingAccount" class="wallet-connect">
       <div class="loading-spinner-container">
         <div class="loading-spinner" />
       </div>
     </div>
+      <div v-else-if="pendingTx" class="tx-processor">
+        <div class="loader" />
+        <div class="label">Tx PENDING</div>
+      </div>
     <transition v-if="showConnectModal" name="modal">
       <div class="modal-mask w100">
         <div class="">
@@ -118,6 +122,7 @@ export default {
       'signIn',
       'user',
       'loadingAccount',
+      'pendingTx',
     ]),
     walletType () {
       return window.ethereum.isMetaMask ? 'Metamask' : 'WalletConnect';
@@ -245,14 +250,56 @@ export default {
   font-family: "Titillium Web", sans-serif;
   cursor: pointer;
   margin-right: 40px;
-  width: 120px;
+  width: 185px;
   justify-content: center;
 }
 
 .modal {
   z-index: 10000;
 }
+.tx-processor {
+  border-radius: 19px;
+  display: flex;
+  align-items: center;
+  padding: 0px 16px;
+  height: 33px;
+  color: #86929d;
+  background-color: transparent;
+  font-size: 14px;
+  font-family: "Titillium Web", sans-serif;
+  cursor: pointer;
+  width: 185px;
+  justify-content: center;
+  /* width: 150px; */
+  /* height: 33px; */
+  border: solid 1px #2a72e5;
+  margin-right: 40px;
 
+}
+.loader {
+  width: 14px;
+  height: 14px;
+
+  border: 2px solid #d9e6fb;
+  border-top: 2px solid #2a72e5;
+  border-radius: 50%;
+
+  animation: spin 2s linear infinite;
+
+  margin-right: 16px;
+  margin-left: -12px;
+}
+.label {
+  font-family: Roboto;
+  font-size: 14px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.36;
+  letter-spacing: normal;
+  text-align: left;
+  color: #2a72e5;
+}
 .modal-mask {
   position: fixed;
   z-index: 1000;

@@ -76,7 +76,7 @@ const initialState = {
   Layer2Registry: {},
   SeigManager: {},
   PowerTON: {},
-
+  pendingTx: '',
   CommitteeProxy: {},
 
   // balance
@@ -145,6 +145,10 @@ export default new Vuex.Store({
     },
     SET_BLOCK_NUMBER: (state, number) => {
       state.blockNumber = number;
+    },
+
+    SET_PENDING_TX (state, pendingTx) {
+      state.pendingTx = pendingTx;
     },
     SET_BLOCK_TIMESTAMP: (state, timestamp) => {
       state.blockTimestamp = timestamp;
@@ -566,7 +570,6 @@ export default new Vuex.Store({
     async checkPendingTransactions (context) {
       const web3 = context.state.web3;
       const pendingTransactions = context.state.pendingTransactions;
-
       pendingTransactions.forEach(async (transaction) => {
         const receipt = await web3.eth.getTransactionReceipt(
           transaction.transactionHash
@@ -577,7 +580,7 @@ export default new Vuex.Store({
           const transax = minedTransaction;
           transax.timestamp = transaction.timestamp;
           context.commit('ADD_TRANSACTION', transax);
-          context.commit('DELETE_PENDING_TRANSACTION', minedTransaction);
+          context.commit('DELETE_PENDING_TRANSACTION', transax);
 
           if (receipt.status) {
             Vue.notify({
