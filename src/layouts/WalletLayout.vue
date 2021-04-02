@@ -1,5 +1,5 @@
 <template>
-  <div class="wallet-layout">
+  <div v-if="signIn" class="wallet-layout">
     <div class="wallet-title-container">
       <h1>Wallet</h1>
       <h2>Check the status of your assets in the wallet</h2>
@@ -7,7 +7,7 @@
     <div class="wallet-current">
       <ValueView :title="'Total Staked'" :value="currencyAmount(userTotalStaked).toString().replace('TON', '')" :ton="true" />
       <ValueView :title="'Pending Withdrawal'" :value="currencyAmount(userTotalWithdrawable).toString().replace('TON', '')" :ton="true" />
-      <ValueView :title="'Total Accumulated Reward'" :value="currencyAmount(reward).toString().replace('TON', '')" :ton="true" />
+      <ValueView :title="'Total Accumulated Reward'" :value="currencyAmount(accumulatedReward).toString().replace('TON', '')" :ton="true" />
       <div class="wallet-current-detail">
         <h3>Power</h3>
         <span class="wallet-current-detail-content">{{ currencyAmount(power).replace('POWER', '') }} <span class="wallet-current-detail-span">POWER </span><span class="wallet-current-detail-span" style="color: #2a72e5">({{ currentRound.winningProbability }})</span></span>
@@ -17,6 +17,11 @@
     <div class="table-container">
       <div style="margin-bottom: 20px;">History</div>
       <WalletHistoryTable />
+    </div>
+  </div>
+  <div v-else class="wallet-layout">
+    <div class="wallet-title-container">
+      <h1>Connect your wallet to see your information</h1>
     </div>
   </div>
 </template>
@@ -64,6 +69,15 @@ export default {
     ]),
     currencyAmount () {
       return amount => this.$options.filters.currencyAmount(amount);
+    },
+    accumulatedReward () {
+      if (this.signIn) {
+        this.getAccumulatedReward();
+        return this.reward;
+      }
+      else {
+        return 0;
+      }
     },
   },
   created () {

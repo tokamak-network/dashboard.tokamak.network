@@ -26,6 +26,15 @@ export async function getDailyStakedTotal (chainId) {
   else return res.data.datas;
 }
 
+export async function getOperatorsInfo () {
+  const res = await candidate.get('/layer2s/operators', {
+    params: {
+      chainId: 4,
+    },
+  });
+  if (res.data === '') return [];
+  else return res.data.datas;
+}
 export async function getRankList () {
   const res = await candidate.get('/poweraccounts', {
     params:{

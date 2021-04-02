@@ -21,6 +21,7 @@ import {
   getPowerTONInfo,
   getRankList,
   getWinnerList,
+  getOperatorsInfo,
 } from '@/api';
 import { cloneDeep, isEqual, range, uniq, orderBy } from 'lodash';
 import numeral from 'numeral';
@@ -54,6 +55,7 @@ import CommitteeABI from '@/contracts/abi/DAOCommittee.json';
 
 const initialState = {
   loading: false,
+  loadingAccount: false,
   loaded: false,
   signIn: false,
 
@@ -106,6 +108,7 @@ const initialState = {
   totalWithdraw: _TON('0'),
   rankList: [],
   winnerList: [],
+  operatorsBeforeConnect: [],
 };
 
 const getInitialState = () => initialState;
@@ -121,6 +124,9 @@ export default new Vuex.Store({
     },
     IS_LOADING: (state, isLoading) => {
       state.loading = isLoading;
+    },
+    IS_LOADING_ACCOUNT: (state, isLoading) => {
+      state.loadingAccount = isLoading;
     },
     IS_LOADED: (state, loaded) => {
       state.loaded = loaded;
@@ -267,6 +273,9 @@ export default new Vuex.Store({
     SET_WINNER_LIST: (state, winnerList) => {
       state.winnerList = winnerList;
     },
+    SET_OPERATORS_BEFORE_CONNECT: (state, operatorsBeforeConnect) => {
+      state.operatorsBeforeConnect = operatorsBeforeConnect;
+    },
   },
   actions: {
     getActualAmount (amount) {
@@ -281,32 +290,15 @@ export default new Vuex.Store({
     },
     async load (context) {
       context.commit('IS_LOADING', true);
-      // context.commit('SET_WEB3', web3);
-
-      // const user = (await web3.eth.getAccounts())[0];
-      // const networkId = await web3.eth.net.getId();
-      // context.commit('SET_USER', user);
-      // context.commit('SET_NETWORK_ID', networkId);
-
-      const managers = await getManagers();
       const operators = await getOperators();
-      // const transactions = await getTransactions(user);
-      const candidates = await getCandidates();
-      // context.dispatch('setCommitteeProxy');
-
       await Promise.all([
-        // context.dispatch('setManagers', managers),
-        // context.dispatch('setOperatorsWithRegistry', operators),
-        // context.dispatch('setCandidates', candidates),
         context.dispatch('getTotalStaked'),
         context.dispatch('getPowerRoundInfo'),
         context.dispatch('getDailyStakedTokenStats'),
         context.dispatch('getPowerReward'),
         context.dispatch('getRanks'),
         context.dispatch('getWinners'),
-        // context.dispatch('setTransactionsAndPendingTransactions', transactions),
-        // context.dispatch('setAccountsDepositedWithPower'),
-        // context.dispatch('set', web3),
+        context.dispatch('setOperatorsBeforeConnect', operators.slice(0, 2)),
       ]);
       // await new Promise(resolve => setTimeout(resolve, 1000)); // https://github.com/Onther-Tech/dashboard.tokamak.network/issues/81
       context.commit('IS_LOADING', false);
@@ -330,9 +322,33 @@ export default new Vuex.Store({
     //   });
     // },
     async signIn (context, web3) {
-      context.commit('SIGN_IN', true);
+      context.commit('IS_LOADING_ACCOUNT', true);
+      context.commit('SET_WEB3', web3);
       const user = (await web3.eth.getAccounts())[0];
+      const networkId = await web3.eth.net.getId();
+      context.commit('SET_NETWORK_ID', networkId);
       context.commit('SET_USER', user);
+
+      const managers = await getManagers();
+      const operators = await getOperators();
+      const candidates = await getCandidates();
+      const transactions = await getTransactions(user);
+      context.dispatch('setCommitteeProxy');
+      await context.dispatch('setManagers', managers);
+      await context.dispatch('setOperatorsWithRegistry', operators.slice(0, 2));
+
+      await Promise.all([
+        context.dispatch('setCandidates', candidates),
+        context.dispatch('setTransactionsAndPendingTransactions', transactions),
+        context.dispatch('setAccountsDepositedWithPower'),
+        context.dispatch('set', web3),
+      ]);
+
+      await new Promise(resolve => setTimeout(resolve, 1000)); // https://github.com/Onther-Tech/dashboard.tokamak.network/issues/81
+      context.commit('SIGN_IN', true);
+      context.commit('IS_LOADING_ACCOUNT', false);
+      // context.commit('IS_LOADING', false);
+      // router.replace({ path: 'dashboard', query: { network: router.app.$route.query.network } }).catch(err => {});
     },
     async set (context, web3) {
       const blockNumber = await web3.eth.getBlockNumber();
@@ -341,12 +357,12 @@ export default new Vuex.Store({
       context.commit('SET_BLOCK_TIMESTAMP', block.timestamp);
 
       await Promise.all([
-        // context.dispatch('setOperators', blockNumber),
-        // context.dispatch('setBalance'),
-        context.dispatch('setCurrentRound'),
-        context.dispatch('setRounds'),
+        context.dispatch('setOperators', blockNumber),
+        context.dispatch('setBalance'),
+        // context.dispatch('setCurrentRound'),
+        // context.dispatch('setRounds'),
         context.dispatch('setHistory'),
-        context.dispatch('setUncommittedCurrentRoundReward', blockNumber),
+        // context.dispatch('setUncommittedCurrentRoundReward', blockNumber),
         context.dispatch('checkPendingTransactions'),
         // context.dispatch('getTotalStaked'),
         context.dispatch('getDailyStakedTokenStats'),
@@ -360,6 +376,31 @@ export default new Vuex.Store({
       const rounds = await getPowerTONInfo();
       const currentRound = rounds[0];
       context.commit('SET_CURRENT_POWER_ROUND', currentRound);
+    },
+    async setOperatorsBeforeConnect (context, operators) {
+      const opInfo = await getOperatorsInfo();
+      const candidates = await getCandidates();
+      operators.forEach((operator) => {
+        const isCandidate = candidates.find(
+          (candidate) => candidate.layer2 === operator.layer2.toLowerCase()
+        );
+        if (isCandidate.kind === '') {
+          operator.isCandidate = false;
+        } else {
+          operator.isCandidate = true;
+        }
+      });
+      operators.forEach((operator) => {
+        const oper = opInfo.find(
+          (op) => op.layer2 === operator.layer2.toLowerCase()
+        );
+        operator.totalStaked = _TON.ray(oper.updateCoinageTotalString);
+
+        operator.commissionRate =  _WTON(oper.commissionRate?oper.commissionRate: 0, WTON_UNIT);
+        operator.isCommissionRateNegative = oper.isCommissionRateNegative?oper.isCommissionRateNegative :false;
+      });
+      context.commit('SET_OPERATORS_BEFORE_CONNECT', operators );
+
     },
     setCommitteeProxy (context) {
       const committeeProxy = '0xDD9f0cCc044B0781289Ee318e5971b0139602C26';
@@ -1234,11 +1275,20 @@ export default new Vuex.Store({
       } else return [];
     },
     operatorByLayer2: (state) => (layer2) => {
-      return cloneDeep(
-        state.operators.find(
-          (operator) => operator.layer2.toLowerCase() === layer2.toLowerCase()
-        )
-      );
+      if(state.signIn) {
+        return cloneDeep(
+          state.operators.slice(0, 2).find(
+            (operator) => operator.layer2.toLowerCase() === layer2.toLowerCase()
+          )
+        );
+      }
+      else {
+        return cloneDeep(
+          state.operatorsBeforeConnect.find(
+            (operator) => operator.layer2.toLowerCase() === layer2.toLowerCase()
+          )
+        );
+      }
     },
     transactionsByOperator: (state) => (operator) => {
       return state.transactions.filter(

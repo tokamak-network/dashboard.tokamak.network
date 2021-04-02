@@ -51,6 +51,7 @@ export default {
       filteredOperators:[],
       from: 'name',
       order: 'asc',
+      ops: [],
     };
   },
   computed: {
@@ -58,21 +59,30 @@ export default {
       'operators',
       'selectedOperator',
       'signIn',
+      'operatorsBeforeConnect',
     ]),
     orderedOperators () {
       switch (this.from) {
       case 'name':
-        return orderBy(this.operators, (operator) => operator.name, [this.order]);
+        return orderBy(this.ops, (operator) => operator.name, [this.order]);
       case 'userStaked':
-        return orderBy(this.operators, (operator) => operator.userStaked.toNumber(), [this.order]);
+        return orderBy(this.ops, (operator) => operator.userStaked.toNumber(), [this.order]);
       case 'totalStaked':
-        return orderBy(this.operators, (operator) => operator.totalStaked.toNumber(), [this.order]);
+        return orderBy(this.ops, (operator) => operator.totalStaked.toNumber(), [this.order]);
       case 'commit':
-        return orderBy(this.operators, (operator) => operator.lastFinalizedAt, [this.order]);
+        return orderBy(this.ops, (operator) => operator.lastFinalizedAt, [this.order]);
       default:
-        return this.operators;
+        return this.ops;
       }
     },
+  },
+  created () {
+    if (this.signIn){
+      this.ops = this.operators;
+    }
+    else {
+      this.ops = this.operatorsBeforeConnect;
+    }
   },
   methods: {
     setOperator (operator) {

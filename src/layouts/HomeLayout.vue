@@ -74,7 +74,7 @@
                         : durationTime.seconds())
                   }}
                   <span class="items-card__subtext">{{ date }}</span>
-                  <span class="items-card__subtext">(GMT {{ timezone(this.currentPowerRound.data.endTime) }})
+                  <span class="items-card__subtext">(GMT {{ timezone(currentPowerRound.data.endTime) }})
                   </span>
                 </div>
               </div>
@@ -274,7 +274,7 @@ export default {
 
 .footer-items__card {
   text-align: center;
-  width: 255px;
+  width: 260px;
 }
 
 .items-card__title {

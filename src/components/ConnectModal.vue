@@ -1,9 +1,14 @@
 <template>
   <div>
-    <div v-if="!signIn" class="wallet-connect" @click="openWalletOptions()">Connect Wallet</div>
-    <div v-else class="wallet-connect" @click="openWallet()">
+    <div v-if="!signIn && !loadingAccount" class="wallet-connect" @click="openWalletOptions()">Connect Wallet</div>
+    <div v-else-if="signIn" class="wallet-connect" @click="openWallet()">
       <blockies :address="user" />
       {{ user | hexSlicer }}
+    </div>
+    <div v-else-if="loadingAccount" class="wallet-connect" >
+      <div class="loading-spinner-container">
+        <div class="loading-spinner" />
+      </div>
     </div>
     <transition v-if="showConnectModal" name="modal">
       <div class="modal-mask w100">
@@ -87,6 +92,7 @@ import { getConfig } from '../../config.js';
 import Blockies from '@/components/Blockies.vue';
 import MetamaskIcon from '../assets/images/metamask_icon.png';
 import WalletConnectIcon from '../assets/images/walletconnect_icon.png';
+
 export default {
   components: {
     Blockies,
@@ -111,6 +117,7 @@ export default {
     ...mapState([
       'signIn',
       'user',
+      'loadingAccount',
     ]),
     walletType () {
       return window.ethereum.isMetaMask ? 'Metamask' : 'WalletConnect';
@@ -173,7 +180,8 @@ export default {
       } catch (e) {
         throw new Error(e.message);
       }
-      return new Web3(provider);
+      const web3 =  new Web3(provider);
+      await this.$store.dispatch('signIn', web3);
     },
     async handleAccountsChanged (accounts, provider){
       if (accounts.length === 0) {
@@ -237,7 +245,7 @@ export default {
   font-family: "Titillium Web", sans-serif;
   cursor: pointer;
   margin-right: 40px;
-  /* width: 102px; */
+  width: 120px;
   justify-content: center;
 }
 
@@ -294,7 +302,27 @@ export default {
   text-align: left;
   color: #86929d;
 }
+.loading-spinner-container {
+  min-height: 100%;
+  width: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
+.loading-spinner {
+  border: 2px solid #f3f3f3; /* Light grey */
+  border-top: 2px solid #3498db; /* Blue */
+  border-radius: 50%;
+  width: 14px;
+  height: 14px;
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
 .modal-footer {
   padding: 15px 25px;
 }
