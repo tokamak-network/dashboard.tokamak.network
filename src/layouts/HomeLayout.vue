@@ -18,7 +18,7 @@
             <div class="home-stats__description">Staked in the</div>
             <div class="home-stats__tokamak">Tokamak Network</div>
           </div>
-          <div class="home-stats__chart" style="position: relative; height:45vh; margin-bottom: 3rem;">
+          <div class="home-stats__chart" style="position: relative; height:25vh;">
             <div class="legend-container">
               <div class="legend" />
               <div :style="'margin-right:20px;'">Total Stake</div>
