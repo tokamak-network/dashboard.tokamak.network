@@ -63,17 +63,25 @@ export default {
 <style scoped>
 .main-layout {
    display: flex;
+   width: 100%;
   padding-bottom: 2rem;
   flex-direction: column;
   background-color: #fafbfc;
   align-items: center;
+  justify-content: center;
 }
 .main-container {
   display: flex;
   flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
 }
 .main-body-container {
+  display: flex;
+  width: 100%;
   background-color: #fafbfc;
-    align-items: center;
+  align-items: center;
+  justify-content: center;
 }
 </style>

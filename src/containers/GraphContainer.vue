@@ -5,7 +5,7 @@
       :chartData="1"
       :datacollection="getData()"
       :option="getOptions()"
-      :style="{'min-width': '1300px', 'width': '100%'}"
+      :style="{'min-width': '1300px', 'width': '90%'}"
     />
   </div>
 </template>
@@ -17,6 +17,7 @@ import { createCurrency } from '@makerdao/currency';
 const _TON = createCurrency('TON');
 import { orderBy } from 'lodash';
 import axios from 'axios';
+import { plugins } from 'chart.js';
 
 export default {
   components: {
@@ -79,37 +80,39 @@ export default {
       };
     },
     getOptions () {
+      let testX = 0;
+      let testY = 0;
       return {
         tooltips: {
           // mode: 'nearest',
           // backgroundColor: '#2a72e5',
           enabled: true,
-          position : 'custom',
           custom: (tooltipModel) => {
-            tooltipModel.mode = 'pointer';
-            // tooltipModel.position = 'average';
-            tooltipModel.width = 160;
+            tooltipModel.width = 163;
+            tooltipModel.height = 52;
             tooltipModel.backgroundColor = '#2a72e5';
             tooltipModel.legendColorBackground = 'none';
             tooltipModel.bodyFontSize = 16;
             tooltipModel.footerFontSize = 12;
             tooltipModel.displayColors = false;
-            // tooltipModel.xAlign = 'center';
-            // tooltipModel.carePadding = 5;
             tooltipModel.caretSize = 5;
             tooltipModel.yAlign = 'bottom';
+            tooltipModel.xAlign = 'center';
+            tooltipModel.x = testX;
+            tooltipModel.y = testY;
+            // tooltipModel.caretX = testX + 81.5;
+            // tooltipModel.caretY = 100;
+            tooltipModel._titleFontStyle = 'normal';
             console.log(tooltipModel);
           },
           callbacks: {
-            label: function (tooltipItem, data) {
-              console.log(tooltipItem);
-              // const label = Math.floor(tooltipItem.yLabel*100)/100+' '+data.datasets[tooltipItem.datasetIndex].label;
-              // return label;
-            },
-            tooltipModel: (tooltipModel) => {
-              console.log(tooltipModel);
+            label: function (tooltipItem) {
+              testX = tooltipItem.x - 81.5;
+              testY = tooltipItem.y - 62;
+              return  tooltipItem.yLabel + ' TON';
             },
           },
+
         },
         scales: {
           ticks: { min: 0 },

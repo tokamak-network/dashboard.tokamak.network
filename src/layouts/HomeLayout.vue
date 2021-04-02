@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="home-wrapper">
     <div v-if="loaded" class="home-layout">
       <div class="home-content">
         <div class="home-stats">
@@ -131,6 +131,9 @@ export default {
 };
 </script>
 <style scoped>
+.home-wrapper {
+  width: 100%;
+}
 .home-layout {
   display: flex;
   justify-content: center;
