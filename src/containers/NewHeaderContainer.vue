@@ -43,7 +43,7 @@
         <button
           class="header-link"
           :class="{ 'menu-button-selected': $route.path === '/wallet'}"
-          @click="clickMenu('wallet')"
+          @click="signIn?clickMenu('wallet'): showPopUp()"
         >
           Wallet
         </button>
@@ -52,20 +52,29 @@
         <connect-modal />
       </div>
     </div>
+    <transition v-if="showModel" name="model">
+      <div class="model-mask">
+        <div class="model-container">
+          <WalletPopUp @closePopup="closePopup" />
+        </div>
+      </div>
+    </transition>
   </div>
 </template>
 
 <script>
 import { mapState } from 'vuex';
 import ConnectModal from '@/components/ConnectModal.vue';
-
+import WalletPopUp from '@/components/WalletPopUp.vue';
 export default {
   components: {
     ConnectModal,
+    WalletPopUp,
   },
   data () {
     return {
       loading: false,
+      showModel: false,
     };
   },
   computed: {
@@ -90,61 +99,9 @@ export default {
     showPopUp () {
       this.showModel = !this.showModel;
     },
-    // async login (){
-    //   if (this.loading) return;
-    //   this.loading = true;
-    //   await this.useMetamask();
-    //   this.loading = false;
-    // },
-    // async useMetamask () {
-    //   try {
-    //     const web3 = await this.metamask();
-    //     await this.$store.dispatch('signIn', web3);
-
-    //     window.ethereum.on('chainIdChanged', (chainId) => {
-    //       this.$store.dispatch('logout');
-    //       this.$router.replace({
-    //         path: '/',
-    //         query: { network: this.$route.query.network },
-    //       }).catch(err => {});
-    //     });
-    //     window.ethereum.on('accountsChanged', (account) => {
-    //       this.$store.dispatch('logout');
-    //       this.$router.replace({
-    //         path: '/',
-    //         query: { network: this.$route.query.network },
-    //       }).catch(err => {});
-
-    //     });
-    //   } catch (e) {
-    //     alert(e.message);
-    //   }
-    // },
-    // async metamask () {
-    //   let provider;
-    //   if (typeof window.ethereum !== 'undefined') {
-    //     try {
-    //       await window.ethereum.enable();
-    //       provider = window.ethereum;
-    //     } catch (e) {
-    //       if (e.stack.includes('Error: User denied account authorization')) {
-    //         throw new Error('User denied account authorization');
-    //       } else {
-    //         throw new Error(e.message);
-    //       }
-    //     }
-    //   } else if (window.web3) {
-    //     provider = window.web3.currentProvider;
-    //   } else {
-    //     throw new Error('No web3 provider detected');
-    //   }
-
-    //   if (provider.networkVersion !== getConfig().network) {
-    //     throw new Error(`Please connect to the '${this.$options.filters.nameOfNetwork(getConfig().network)}' network`);
-    //   }
-
-    //   return new Web3(provider);
-    // },
+    closePopup () {
+      this.showModel = !this.showModel;
+    },
     toMainPage () {
       if (this.signIn && this.$route.path !== '/home') {
         this.$router.push({
@@ -244,5 +201,22 @@ button:hover {
 
 .menu-button-selected {
   color: #2a72e5;
+}
+.model-mask {
+  position: fixed;
+  z-index: 9999;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  transition: opacity 0.3s ease;
+
+}
+.model-container {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  height: 100%;
 }
 </style>
