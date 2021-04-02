@@ -139,6 +139,7 @@ export default {
             timestamp: moment().unix(),
 
           };
+          this.$emit('closePopup', 'withdraw');
           this.$store.dispatch('addPendingTransaction', transcation);
           this.$store.commit('SET_PENDING_TX', hash);
         })

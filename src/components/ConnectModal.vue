@@ -10,10 +10,10 @@
         <div class="loading-spinner" />
       </div>
     </div>
-      <div v-else-if="pendingTx" class="tx-processor">
-        <div class="loader" />
-        <div class="label">Tx PENDING</div>
-      </div>
+    <div v-else-if="pendingTx" class="tx-processor">
+      <div class="loader" />
+      <div class="label">Tx PENDING</div>
+    </div>
     <transition v-if="showConnectModal" name="modal">
       <div class="modal-mask w100">
         <div class="">

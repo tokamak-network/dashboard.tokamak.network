@@ -241,6 +241,7 @@ export default {
               target: this.operator.layer2,
               timestamp: moment().unix(),
             };
+            this.$emit('closePopup', 'stake');
             this.$store.dispatch('addPendingTransaction', transcation);
             this.$store.commit('SET_PENDING_TX', hash);
           })
