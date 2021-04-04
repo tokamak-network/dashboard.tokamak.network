@@ -9,8 +9,8 @@
         >
       </div>
       <div class="model-content">
-          <div class="model-content-subTitle">Connect your wallet to access your information</div>
-     <button
+        <div class="model-content-subTitle">Connect your wallet to access your information</div>
+        <button
           class="model-btn"
           @click="closeModal"
         >

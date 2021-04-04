@@ -126,10 +126,12 @@ export default {
     },
   },
   created () {
+    // console.log(this.periodStart);
     this.periodStart.setDate(this.periodStart.getDate() - 7);
     this.getDailyWalletRewardsFn();
     this.getDailyWalletStakedFn();
     this.toggleChartType('week');
+    console.log(this.periodStart.setDate(this.periodStart.getDate() - 7));
   },
   methods: {
     customFormatter (date) {
@@ -164,6 +166,7 @@ export default {
         this.customFormatter(this.periodEnd)
       );
       if (dailyWalletRewards.length !== 0) {
+        console.log(dailyWalletRewards);
         this.dailyWalletRewardsList = orderBy(dailyWalletRewards, (staked) => staked._id.dateUTC, ['asc']);
         this.totalReward();
         this.dailyWalletRewards = {

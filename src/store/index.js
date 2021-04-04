@@ -363,8 +363,8 @@ export default new Vuex.Store({
       await Promise.all([
         context.dispatch('setOperators', blockNumber),
         context.dispatch('setBalance'),
-        // context.dispatch('setCurrentRound'),
-        // context.dispatch('setRounds'),
+        context.dispatch('setCurrentRound'),
+        context.dispatch('setRounds'),
         context.dispatch('setHistory'),
         // context.dispatch('setUncommittedCurrentRoundReward', blockNumber),
         context.dispatch('checkPendingTransactions'),

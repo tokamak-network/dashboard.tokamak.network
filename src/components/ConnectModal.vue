@@ -164,6 +164,7 @@ export default {
         throw new Error('No web3 provider detected');
       }
       if (provider.networkVersion !== getConfig().network) {
+        alert(`Please connect to the '${this.$options.filters.nameOfNetwork(getConfig().network)}' network`);
         throw new Error(`Please connect to the '${this.$options.filters.nameOfNetwork(getConfig().network)}' network`);
       }
 
@@ -195,6 +196,7 @@ export default {
         const web3 = new Web3(provider);
         const networkVersion = await provider.request({ method: 'net_version' });
         if (networkVersion.toString() !== getConfig().network) {
+          alert(`Please connect to the '${this.$options.filters.nameOfNetwork(getConfig().network)}' network`);
           throw new Error(`Please connect to the '${this.$options.filters.nameOfNetwork(getConfig().network)}' network`);
         }
         this.showConnectModal = false;

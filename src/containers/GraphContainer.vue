@@ -103,7 +103,6 @@ export default {
             // tooltipModel.caretX = testX + 81.5;
             // tooltipModel.caretY = 100;
             tooltipModel._titleFontStyle = 'normal';
-            console.log(tooltipModel);
           },
           callbacks: {
             label: function (tooltipItem) {
