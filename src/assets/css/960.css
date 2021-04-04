@@ -14,7 +14,8 @@
 */
 
 body {
-  min-width: 960px;
+  min-width: 1300px;
+  width: 100%;
 }
 
 /* `Container

@@ -134,7 +134,8 @@ html, body {
   flex-direction: column;
   min-height: 100vh;
   justify-content: center;
-  width: 1300px;
+  min-width: 1300px;
+  width: 100%;
 }
 
 .body-container {

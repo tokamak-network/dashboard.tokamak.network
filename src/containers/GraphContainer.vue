@@ -5,6 +5,7 @@
       :chartData="1"
       :datacollection="getData()"
       :option="getOptions()"
+      :style="{'min-width': '1300px', 'width': '90%'}"
     />
   </div>
 </template>
@@ -16,6 +17,7 @@ import { createCurrency } from '@makerdao/currency';
 const _TON = createCurrency('TON');
 import { orderBy } from 'lodash';
 import axios from 'axios';
+import { plugins } from 'chart.js';
 
 export default {
   components: {
@@ -43,7 +45,7 @@ export default {
       return Math.round(displayAmounts * 10) / 10;
     },
     formatDate (date) {
-      return moment.utc(date).format('MM/DD/YYYY HH:mm');
+      return moment.utc(date).format('YYYY.MM.DD');
     },
 
     getData () {
@@ -53,11 +55,11 @@ export default {
         ),
         datasets: [
           {
-            label: 'Total Stake',
             borderColor: '#2a72e5',
             borderWidth: 2,
             pointRadius: 0,
             lineTension: 0,
+            pointHitRadius: 20,
             backgroundColor: 'transparent',
             data: this.orderedStaked.map((item) =>
               this.displayAmount(item.totalSupply)
@@ -78,10 +80,39 @@ export default {
       };
     },
     getOptions () {
+      let testX = 0;
+      let testY = 0;
       return {
         tooltips: {
-          mode: 'nearest',
-          backgroundColor: '#2a72e5',
+          // mode: 'nearest',
+          // backgroundColor: '#2a72e5',
+          enabled: true,
+          custom: (tooltipModel) => {
+            tooltipModel.width = 163;
+            tooltipModel.height = 52;
+            tooltipModel.backgroundColor = '#2a72e5';
+            tooltipModel.legendColorBackground = 'none';
+            tooltipModel.bodyFontSize = 16;
+            tooltipModel.footerFontSize = 12;
+            tooltipModel.displayColors = false;
+            tooltipModel.caretSize = 5;
+            tooltipModel.yAlign = 'bottom';
+            tooltipModel.xAlign = 'center';
+            tooltipModel.x = testX;
+            tooltipModel.y = testY;
+            // tooltipModel.caretX = testX + 81.5;
+            // tooltipModel.caretY = 100;
+            tooltipModel._titleFontStyle = 'normal';
+            console.log(tooltipModel);
+          },
+          callbacks: {
+            label: function (tooltipItem) {
+              testX = tooltipItem.x - 81.5;
+              testY = tooltipItem.y - 62;
+              return  tooltipItem.yLabel + ' TON';
+            },
+          },
+
         },
         scales: {
           ticks: { min: 0 },
@@ -129,3 +160,11 @@ export default {
   },
 };
 </script>
+<style scoped>
+.chart {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+</style>

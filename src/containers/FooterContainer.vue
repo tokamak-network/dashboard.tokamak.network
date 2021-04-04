@@ -22,6 +22,24 @@
         </div>
       </div>
       <div class="social-links">
+        <dropup
+          :items="[
+            'Tokamak Netowork',
+            'Original Staking',
+            'Simple Staking',
+            'Staking Simulator',
+            'Price Dashboard',
+            'Vesting Dashboard',
+            'TON-WTON Swapper',
+            'Developer Guide'
+          ]"
+          :hint="'Family site'"
+          :button-type="'b'"
+          :selector-type="'a'"
+          class="dropdown"
+          style="margin-left: 20px; width: 130px;"
+          @on-selected="familyLink"
+        />
         <a
           href="https://medium.com/onther-tech/"
           target="_blank"
@@ -126,24 +144,6 @@
             height="28px;"
           >
         </a>
-        <dropup
-          :items="[
-            'Tokamak Netowork',
-            'Original Staking',
-            'Simple Staking',
-            'Staking Simulator',
-            'Price Dashboard',
-            'Vesting Dashboard',
-            'TON-WTON Swapper',
-            'Developer Guide'
-          ]"
-          :hint="'Family site'"
-          :button-type="'b'"
-          :selector-type="'a'"
-          class="dropdown"
-          style="margin-left: 20px; width: 130px;"
-          @on-selected="familyLink"
-        />
       </div>
     </div>
   </div>
@@ -178,7 +178,7 @@ export default {
   height: 76px;
   align-items: center;
   justify-content: center;
-  background-color: #f6f8f9;
+  background-color: #fafbfc;
   font-family: "Titillium Web", sans-serif;
   border-top: 1px solid #f4f6f8;
   padding: 0 40px;
@@ -200,7 +200,7 @@ export default {
 
 .social-links {
   display: flex;
-  flex-direction: row;
+  flex-direction: row-reverse;
   justify-content: space-between;
   width: 30%;
 }
