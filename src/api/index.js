@@ -121,6 +121,18 @@ export async function getOperators () {
   else return res.data;
 }
 
+export async function getMyOperators (chainId, layer2) {
+  const res = await candidate.get('/events', {
+    params: {
+      chainId: chainId,
+      eventName: 'Deposited,WithdrawalRequested,WithdrawalProcessed',
+      layer2: layer2,
+    },
+  });
+  if (res.data === '') return [];
+  else return res.data.datas;
+}
+
 export async function updateOperator (layer2, formData) {
   const res = await instance.patch(
     '/operators',

@@ -5,7 +5,7 @@ Vue.use(Vuex);
 import router from '@/router';
 import web3EthABI from 'web3-eth-abi';
 
-import { getManagers, getOperators, getHistory, getTransactions, addTransaction, getDailyStakedTotal, getTotalSupply, getCandidates, getCandidateCreateEvent, getDelegators, getCommitHistory, getRoundReward } from '@/api';
+import { getManagers, getOperators, getMyOperators, getHistory, getTransactions, addTransaction, getDailyStakedTotal, getTotalSupply, getCandidates, getCandidateCreateEvent, getDelegators, getCommitHistory, getRoundReward } from '@/api';
 import { cloneDeep, isEqual, range, uniq, orderBy } from 'lodash';
 import numeral from 'numeral';
 import { createWeb3Contract } from '@/helpers/Contract';
@@ -275,6 +275,14 @@ export default new Vuex.Store({
       context.commit('SIGN_IN', true);
       const user = (await web3.eth.getAccounts())[0];
       context.commit('SET_USER', user);
+    },
+    async getAllOperators (context) {
+      const operators = await getOperators();
+      context.dispatch('setOperatorsWithRegistry', operators);
+    },
+    async getAllMyOperators (context) {
+      const operators = await getMyOperators(context.state.networkId, '0xc4bf071b54914221cc047f480293231e7df9f85b');
+      context.dispatch('setOperatorsWithRegistry', operators);
     },
     async set (context, web3) {
       const blockNumber = await web3.eth.getBlockNumber();

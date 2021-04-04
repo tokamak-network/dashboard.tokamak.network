@@ -57,8 +57,10 @@
       </div>
       <div class="row">
         <div class="column" style="margin-right:30px">
-          <div class="title">Staking</div>
-
+          <div class="header">
+            <div class="title">Staking</div>
+            <toggle-button v-model="toggled" color="#2a72e5" @change="handleOperatorToggleDataSource" />
+          </div>
           <history-table :layer2="layer2" />
         </div>
         <div class="column">
@@ -141,6 +143,7 @@ export default {
       showWithdraw: false,
       stakeAmount: '0',
       selectedOp: '',
+      toggled: false,
     };
   },
   computed: {
@@ -188,6 +191,9 @@ export default {
   //   console.log(this.operator.commitHistory);
   // },
   methods: {
+    handleOperatorToggleDataSource () {
+      this.$emit('change', this.toggled);
+    },
     openStaking () {
       if (this.signIn){
         if (this.isPressed) {
@@ -197,7 +203,6 @@ export default {
           this.$store.dispatch('setSelectedOperator', this.operator.layer2);
         }
       }
-
     },
     viewDetailedOperator (operator) {
       const layer2 = operator.layer2;
@@ -370,4 +375,11 @@ export default {
   color: #3d495d;
   margin-bottom: 5px;
 }
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  padding: 0;
+}
+
 </style>

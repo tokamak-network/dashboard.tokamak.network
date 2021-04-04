@@ -18,13 +18,13 @@
           >
             Month
           </div>
-          <div
+          <!-- <div
             :class="{ active: chartType === 'year' }"
             class="button"
             @click="toggleChartType('year')"
           >
             Year
-          </div>
+          </div> -->
         </div>
       </div>
       <div class="date-container">
@@ -176,15 +176,13 @@ export default {
     toggleChartType (chartType) {
       if (chartType === 'week') {
         this.periodStart.setDate(this.periodEnd.getDate() - 7);
-        this.getDailyWalletRewardsFn();
       } else if (chartType === 'month') {
         this.periodStart.setDate(this.periodEnd.getDate() - 30);
-        this.getDailyWalletRewardsFn();
       }
       else if (chartType === 'year') {
         this.periodStart.setDate(this.periodEnd.getDate() - 365);
-        this.getDailyWalletRewardsFn();
       }
+      this.getDailyWalletRewardsFn();
       this.chartType = chartType;
     },
     search () {

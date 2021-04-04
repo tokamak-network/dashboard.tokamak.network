@@ -24,7 +24,7 @@
 
         <div class="balance-container">
           <div v-for="(operator, index) in orderedOperators" :key="index">
-            <OperatorComponent :layer2="operator.layer2" />
+            <OperatorComponent :layer2="operator.layer2" @change="handleOperatorToggleDataSource" />
           </div>
         </div>
       </div>
@@ -86,6 +86,13 @@ export default {
       } else {
         this.from = from;
         this.order = 'desc';
+      }
+    },
+    handleOperatorToggleDataSource (state) {
+      if (state) {
+        this.$store.dispatch('getAllOperators');
+      } else {
+        this.$store.dispatch('getAllMyOperators');
       }
     },
     changedOrder () {
