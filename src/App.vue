@@ -3,7 +3,7 @@
     <new-header-container />
     <div class="body-container">
       <loading-spinner v-if="loading" />
-      <div v-else>
+      <div v-else :style="{width: '100%'}">
         <main-layout />
       </div>
     </div>

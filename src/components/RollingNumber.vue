@@ -26,8 +26,8 @@ export default {
   data () {
     return {
       splitedTotalStaked: this.totalSupply.toLocaleString(undefined, {
-        maximumFractionDigits: 2,
-        minimumFractionDigits: 2,
+        maximumFractionDigits: 0,
+        minimumFractionDigits: 0,
       }),
       ready: false,
     };
@@ -46,7 +46,7 @@ export default {
     display: flex;
     flex-direction: row;
     justify-content: flex-end;
-    width: 510px;
+    width: 400px;
 }
 #counter {
     height: 50px;
