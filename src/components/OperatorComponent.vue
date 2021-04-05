@@ -20,10 +20,12 @@
           {{ operator.isCommissionRateNegative ? "-" : ""
           }}{{ rateOf(operator.commissionRate) }}
         </div>
-        <!-- <div v-if="Number(operator.userStaked.toBigNumber()) && signIn" class="user-staked">
+        <div v-if="signIn">
+        <div v-if="Number(operator.userStaked.toBigNumber())" class="user-staked">
           <div class="operator-amount">Your Staked</div>
           <div class="operator-amount" style="width:139px"> {{ currencyAmount(operator.userStaked) }}</div>
-        </div> -->
+        </div>
+      </div>
       </div>
       <img v-if="signIn" class="arrow"
            :class="{ 'arrow-up': !isPressed, 'arrow-down': isPressed }"
@@ -356,11 +358,21 @@ export default {
   transition: opacity 0.3s ease;
 
 }
+.model-leave-active {
+  opacity: 0;
+}
 .model-container {
   display: flex;
   justify-content: center;
   align-content: center;
   height: 100%;
+  transition: all 0.3s ease;
+
+}
+.model-enter .model-container,
+.model-leave-active .model-container {
+  -webkit-transform: scale(1.1);
+  transform: scale(1.1);
 }
 .title {
   font-family: Roboto;

@@ -213,10 +213,20 @@ button:hover {
   transition: opacity 0.3s ease;
 
 }
+.model-leave-active {
+  opacity: 0;
+}
 .model-container {
   display: flex;
   justify-content: center;
   align-content: center;
   height: 100%;
+    transition: all 0.3s ease;
+
+}
+.model-enter .model-container,
+.model-leave-active .model-container {
+  -webkit-transform: scale(1.1);
+  transform: scale(1.1);
 }
 </style>

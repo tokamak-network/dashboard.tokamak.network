@@ -13,7 +13,7 @@
       </button>
       <div>
         <div>
-          <button class="button-stake" :class="{'model-btn-notavailable' : parseInt(operator.userStaked) === 0 && operator.withdrawalRequests.length !== 0}" :disabled="parseInt(operator.userStaked) === 0 && operator.withdrawalRequests.length !== 0" @click="selectFunction('unstake')">Unstake</button>
+          <button class="button-stake" :class="{'model-btn-notavailable' : parseInt(operator.userStaked) === 0 && operator.withdrawalRequests.length === 0}" :disabled="parseInt(operator.userStaked) === 0 && operator.withdrawalRequests.length === 0" @click="selectFunction('unstake')">Unstake</button>
         </div>
       </div>
 
