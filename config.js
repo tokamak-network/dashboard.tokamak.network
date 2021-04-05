@@ -1,7 +1,7 @@
 const config = {
   'mainnet': {
     'baseURL': 'https://dashboard-api.tokamak.network',
-    'candidate': 'https://api-dev.tokamak.network/v1',
+    'candidate': 'https://daoapi.tokamak.network/v1',
     'prefixTransactionHash': 'https://etherscan.io/tx/',
     'prefixAddress': 'https://etherscan.io/address/',
     'network': '1',

@@ -399,7 +399,6 @@ export default new Vuex.Store({
           (op) => op.layer2 === operator.layer2.toLowerCase()
         );
         operator.totalStaked = _TON.ray(oper.updateCoinageTotalString);
-
         operator.commissionRate =  _WTON(oper.commissionRate?oper.commissionRate: 0, WTON_UNIT);
         operator.isCommissionRateNegative = oper.isCommissionRateNegative?oper.isCommissionRateNegative :false;
       });

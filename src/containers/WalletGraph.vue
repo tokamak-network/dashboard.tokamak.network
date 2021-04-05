@@ -126,12 +126,10 @@ export default {
     },
   },
   created () {
-    // console.log(this.periodStart);
     this.periodStart.setDate(this.periodStart.getDate() - 7);
     this.getDailyWalletRewardsFn();
     this.getDailyWalletStakedFn();
     this.toggleChartType('week');
-    console.log(this.periodStart.setDate(this.periodStart.getDate() - 7));
   },
   methods: {
     customFormatter (date) {
