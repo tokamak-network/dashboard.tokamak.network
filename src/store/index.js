@@ -5,7 +5,25 @@ Vue.use(Vuex);
 import router from '@/router';
 import web3EthABI from 'web3-eth-abi';
 
-import { getManagers, getOperators, getOperatorUserHistory, getHistory, getTransactions, addTransaction, getDailyStakedTotal, getTotalSupply, getCandidates, getCandidateCreateEvent, getDelegators, getCommitHistory, getRoundReward } from '@/api';
+import {
+  getManagers,
+  getOperators,
+  getOperatorUserHistory,
+  getHistory,
+  getTransactions,
+  addTransaction,
+  getDailyStakedTotal,
+  getTotalSupply,
+  getCandidates,
+  getCandidateCreateEvent,
+  getDelegators,
+  getCommitHistory,
+  getRoundReward,
+  getPowerTONInfo,
+  getRankList,
+  getWinnerList,
+  getOperatorsInfo,
+} from '@/api';
 import { cloneDeep, isEqual, range, uniq, orderBy } from 'lodash';
 import numeral from 'numeral';
 import { createWeb3Contract } from '@/helpers/Contract';
@@ -287,7 +305,7 @@ export default new Vuex.Store({
         context.dispatch('getWinners'),
         context.dispatch('setOperatorsBeforeConnect', operators.slice(0, 2)),
       ]);
-      await new Promise(resolve => setTimeout(resolve, 1000)); // https://github.com/Onther-Tech/dashboard.tokamak.network/issues/81
+      await new Promise((resolve) => setTimeout(resolve, 1000)); // https://github.com/Onther-Tech/dashboard.tokamak.network/issues/81
       context.commit('IS_LOADING', false);
       context.commit('IS_LOADED', true);
       router
@@ -331,7 +349,7 @@ export default new Vuex.Store({
         context.dispatch('set', web3),
       ]);
 
-      await new Promise(resolve => setTimeout(resolve, 1000)); // https://github.com/Onther-Tech/dashboard.tokamak.network/issues/81
+      await new Promise((resolve) => setTimeout(resolve, 1000)); // https://github.com/Onther-Tech/dashboard.tokamak.network/issues/81
       context.commit('SIGN_IN', true);
       context.commit('IS_LOADING_ACCOUNT', false);
       // context.commit('IS_LOADING', false);
@@ -372,6 +390,9 @@ export default new Vuex.Store({
       const opInfo = await getOperatorsInfo();
       const candidates = await getCandidates();
       operators.forEach((operator) => {
+
+      });
+      operators.forEach(async (operator) => {
         const isCandidate = candidates.find(
           (candidate) => candidate.layer2 === operator.layer2.toLowerCase()
         );
@@ -380,17 +401,26 @@ export default new Vuex.Store({
         } else {
           operator.isCandidate = true;
         }
-      });
-      operators.forEach((operator) => {
         const oper = opInfo.find(
           (op) => op.layer2 === operator.layer2.toLowerCase()
         );
         operator.totalStaked = _TON.ray(oper.updateCoinageTotalString);
-        operator.commissionRate =  _WTON(oper.commissionRate?oper.commissionRate: 0, WTON_UNIT);
-        operator.isCommissionRateNegative = oper.isCommissionRateNegative?oper.isCommissionRateNegative :false;
-      });
-      context.commit('SET_OPERATORS_BEFORE_CONNECT', operators );
+        operator.commissionRate = _WTON(
+          oper.commissionRate ? oper.commissionRate : 0,
+          WTON_UNIT
+        );
+        operator.isCommissionRateNegative = oper.isCommissionRateNegative
+          ? oper.isCommissionRateNegative
+          : false;
 
+        const operatorsHistory = await getOperatorUserHistory(
+          4,
+          operator.layer2.toLowerCase()
+        );
+        operator.operatorsHistory = operatorsHistory;
+      });
+
+      context.commit('SET_OPERATORS_BEFORE_CONNECT', operators);
     },
     setCommitteeProxy (context) {
       const committeeProxy = '0xDD9f0cCc044B0781289Ee318e5971b0139602C26';
@@ -518,13 +548,13 @@ export default new Vuex.Store({
           (my / total) * (Number(compensatePerDay) + proportionalSeig) * unit;
         my = my + expectedSeig;
         // item.roi = (my/Number(1000)*100 - 100)/100;
-        item.roi = (
-          ((my / Number(1000)) * 100 - 100) /
-          100
-        ).toLocaleString(undefined, {
-          maximumFractionDigits: 2,
-          minimumFractionDigits: 2,
-        });
+        item.roi = (((my / Number(1000)) * 100 - 100) / 100).toLocaleString(
+          undefined,
+          {
+            maximumFractionDigits: 2,
+            minimumFractionDigits: 2,
+          }
+        );
       });
       context.commit('SET_DAILY_STAKED_TOTAL', dailyStakedTotal);
     },
@@ -1022,9 +1052,7 @@ export default new Vuex.Store({
             isCandidate.kind === '' ||
             isCandidate.kind === 'layer2'
           ) {
-            const [
-              firstEpoch,
-            ] = await Promise.all([
+            const [firstEpoch] = await Promise.all([
               Layer2.methods.getEpoch(0, 0).call(),
             ]);
 
@@ -1033,11 +1061,23 @@ export default new Vuex.Store({
             operatorFromLayer2.lastFinalizedAt =
               lastFinalized[0] === '0' ? deployedAt : lastFinalized[0];
           }
-          const delegators = await getDelegators(context.state.networkId, layer2 );
-          const commitHistory = await getCommitHistory (context.state.networkId, layer2);
-          const operatorsHistory = await getOperatorUserHistory(context.state.networkId, layer2);
+          const delegators = await getDelegators(
+            context.state.networkId,
+            layer2
+          );
+          const commitHistory = await getCommitHistory(
+            context.state.networkId,
+            layer2
+          );
+          const operatorsHistory = await getOperatorUserHistory(
+            context.state.networkId,
+            layer2
+          );
           operatorFromLayer2.delegators = delegators;
-          const tos = toBN(tonTotalSupply).mul(toBN('1000000000')).add(toBN(totTotalSupply)).sub(toBN(tonBalanceOfWTON));
+          const tos = toBN(tonTotalSupply)
+            .mul(toBN('1000000000'))
+            .add(toBN(totTotalSupply))
+            .sub(toBN(tonBalanceOfWTON));
 
           const seigniorage = calculateExpectedSeig(
             new BN(await SeigManager.methods.lastCommitBlock(layer2).call()),
@@ -1248,14 +1288,16 @@ export default new Vuex.Store({
       } else return [];
     },
     operatorByLayer2: (state) => (layer2) => {
-      if(state.signIn) {
+      if (state.signIn) {
         return cloneDeep(
-          state.operators.slice(0, 2).find(
-            (operator) => operator.layer2.toLowerCase() === layer2.toLowerCase()
-          )
+          state.operators
+            .slice(0, 2)
+            .find(
+              (operator) =>
+                operator.layer2.toLowerCase() === layer2.toLowerCase()
+            )
         );
-      }
-      else {
+      } else {
         return cloneDeep(
           state.operatorsBeforeConnect.find(
             (operator) => operator.layer2.toLowerCase() === layer2.toLowerCase()
