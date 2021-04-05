@@ -121,11 +121,11 @@ export async function getOperators () {
   else return res.data;
 }
 
-export async function getMyOperators (chainId, layer2) {
+export async function getOperatorUserHistory (chainId, layer2) {
   const res = await candidate.get('/events', {
     params: {
       chainId: chainId,
-      eventName: 'Deposited,WithdrawalRequested,WithdrawalProcessed',
+      eventNames: 'Deposited,WithdrawalRequested,WithdrawalProcessed',
       layer2: layer2,
     },
   });

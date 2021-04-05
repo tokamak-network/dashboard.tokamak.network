@@ -5,7 +5,7 @@ Vue.use(Vuex);
 import router from '@/router';
 import web3EthABI from 'web3-eth-abi';
 
-import { getManagers, getOperators, getMyOperators, getHistory, getTransactions, addTransaction, getDailyStakedTotal, getTotalSupply, getCandidates, getCandidateCreateEvent, getDelegators, getCommitHistory, getRoundReward } from '@/api';
+import { getManagers, getOperators, getOperatorUserHistory, getHistory, getTransactions, addTransaction, getDailyStakedTotal, getTotalSupply, getCandidates, getCandidateCreateEvent, getDelegators, getCommitHistory, getRoundReward } from '@/api';
 import { cloneDeep, isEqual, range, uniq, orderBy } from 'lodash';
 import numeral from 'numeral';
 import { createWeb3Contract } from '@/helpers/Contract';
@@ -278,10 +278,6 @@ export default new Vuex.Store({
     },
     async getAllOperators (context) {
       const operators = await getOperators();
-      context.dispatch('setOperatorsWithRegistry', operators);
-    },
-    async getAllMyOperators (context) {
-      const operators = await getMyOperators(context.state.networkId, '0xc4bf071b54914221cc047f480293231e7df9f85b');
       context.dispatch('setOperatorsWithRegistry', operators);
     },
     async set (context, web3) {
@@ -577,7 +573,6 @@ export default new Vuex.Store({
               return deposit.toString();
             }
           };
-
           const getPendingRequests = async () => {
             const numPendingRequests = await DepositManager.methods.numPendingRequests(layer2, user).call();
             if (numPendingRequests === 0) {
@@ -624,6 +619,11 @@ export default new Vuex.Store({
             return withdrawableRequests.reduce(reducer, initialAmount);
           };
 
+          // const userHistoryForOperator = async () => {
+          //   const networkID = context.state.networkId;
+          //   const operatorsHistory = await getOperatorUserHistory(networkID, layer2);
+          //   return operatorsHistory;
+          // };
           const getExpectedSeigs = async () => {
             const [
               isCommissionRateNegative,
@@ -817,30 +817,19 @@ export default new Vuex.Store({
             operatorFromLayer2.lastFinalizedAt = lastFinalized[0] === '0' ? block.timestamp : lastFinalized[0];
           } else if (isCandidate.kind !== 'candidate' || isCandidate.kind === '' || isCandidate.kind === 'layer2') {
             const [
-              // currentFork,
               firstEpoch,
             ] = await Promise.all([
-              // Layer2.methods.forks(currentForkNumber).call(),
               Layer2.methods.getEpoch(0, 0).call(),
             ]);
 
             const deployedAt = firstEpoch.timestamp;
-            // const lastFinalizedEpochNumber = currentFork.lastFinalizedEpoch;
-            // const lastFinalizedBlockNumber = currentFork.lastFinalizedBlock;
             operatorFromLayer2.deployedAt = deployedAt;
             operatorFromLayer2.lastFinalizedAt = lastFinalized[0] === '0' ? deployedAt : lastFinalized[0];
           }
           const delegators = await getDelegators(context.state.networkId, layer2 );
           const commitHistory = await getCommitHistory (context.state.networkId, layer2);
+          const operatorsHistory = await getOperatorUserHistory(context.state.networkId, layer2);
           operatorFromLayer2.delegators = delegators;
-          // const result = calculateExpectedSeig(
-          //   fromBlockNumber, // the latest commited block number. You can get this using seigManager.lastCommitBlock(layer2)
-          //   toBlockNumber, // the target block number which you want to calculate seigniorage
-          //   userStakedAmount, // the staked WTON amount of user. You can get this using coinage.balanceOf(user)
-          //   totalStakedAmount, // the staked WTON amount in SeigManager. You can get this using tot.totalSupply()
-          //   totalSupplyOfTON, // the current totalSupply of TON in RAY unit. You can get this using ton.totalSupply() - ton.balanceOf(WTON) + tot.totalSupply()
-          //   pseigRate // pseig rate in RAY unit. the current value is 0.4. You can get this using seigManager.relativeSeigRate()
-          // )
           const tos = toBN(tonTotalSupply).mul(toBN('1000000000')).add(toBN(totTotalSupply)).sub(toBN(tonBalanceOfWTON));
 
           const seigniorage = calculateExpectedSeig(
@@ -855,7 +844,6 @@ export default new Vuex.Store({
           const withdrawableRequests = filterWithdrawableRequests(pendingRequests);
           const userNotWithdrawable = getUserNotWithdrawable(notWithdrawableRequests);
           const userWithdrawable = getUserWithdrawable(withdrawableRequests);
-
           operatorFromLayer2.address = operator;
           operatorFromLayer2.finalizeCount = lastFinalized[1];
           operatorFromLayer2.totalDeposit = _WTON(totalDeposit, WTON_UNIT);
@@ -885,6 +873,7 @@ export default new Vuex.Store({
           operatorFromLayer2.minimumAmount = minimumAmount;
           operatorFromLayer2.isCandidate = isCandidateOperator();
           operatorFromLayer2.commitHistory = commitHistory;
+          operatorFromLayer2.operatorsHistory = operatorsHistory;
           return operatorFromLayer2;
         })
       );
