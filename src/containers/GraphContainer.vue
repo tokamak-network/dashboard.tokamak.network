@@ -136,7 +136,6 @@ export default {
               innerHtml += '</thead><tbody>';
 
               bodyLines.forEach(function (body, i) {
-                console.log();
                 const colors = tooltipModel.labelColors[i];
                 const style = 'font-size: 16px';
                 // style += '; border-color:' + colors.borderColor;
