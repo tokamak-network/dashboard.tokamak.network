@@ -109,6 +109,9 @@ export default {
   watch: {
     inputTon: function (newValue) {
       let result;
+      if(newValue.length > 0 && this.inputTon.substring(0, 1) === '0') {
+        return this.inputTon = this.inputTon.substring(1, 2);
+      }
       if (newValue === '.') {
         result = newValue;
       } else {
