@@ -28,6 +28,10 @@ export default {
       required: true,
       type: Array,
     },
+    totalSupply: {
+      required: true,
+      type: Number,
+    },
   },
   data () {
     return {
@@ -36,6 +40,9 @@ export default {
   },
   computed: {
     orderedStaked () {
+      // console.log(this.totalSupply);
+      // const test = orderBy(this.dailyStaked, (staked) => staked.blockTime, ['asc'])[this.dailyStaked.length-1].totalSupply = this.totalSupply;
+      // console.log(test);
       return orderBy(this.dailyStaked, (staked) => staked.blockTime, ['asc']);
     },
   },
@@ -61,9 +68,7 @@ export default {
             lineTension: 0,
             pointHitRadius: 10,
             backgroundColor: 'transparent',
-            data: this.orderedStaked.map((item) =>
-              this.displayAmount(item.totalSupply)
-            ),
+            data: this.getLatestData(),
             yAxisID: 'y',
           },
           {
@@ -79,6 +84,23 @@ export default {
           },
         ],
       };
+    },
+    getLatestData () {
+      //Change last value to sync with rolling number
+      //rolling number is more latest value
+      const result = [];
+      this.orderedStaked.map((item, index) =>{
+        if(index === this.orderedStaked.length-1) {
+          const test = this.totalSupply.toLocaleString(undefined, {
+            maximumFractionDigits: 2,
+            minimumFractionDigits: 2,
+          });
+          return result.push(Number(test.replace(/,/g, '')));
+        }
+        result.push(this.displayAmount(item.totalSupply));
+      }
+      );
+      return result;
     },
     getOptions () {
       let testX = 0;
