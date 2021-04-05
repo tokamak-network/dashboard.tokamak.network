@@ -35,7 +35,7 @@ export default {
   mounted () {
     setTimeout(()=>{
       this.ready = true;}
-    , 100);
+    , 2000);
   },
 };
 
