@@ -25,7 +25,7 @@
               <div class="legend" style="background-color:#C7D1D8" />
               <div>Actual APY</div>
             </div>
-           <GraphContainer
+            <GraphContainer
               v-if="dailyTotalStaked"
               :dailyStakedTotal="dailyTotalStaked"
               :totalSupply="totalStaked"

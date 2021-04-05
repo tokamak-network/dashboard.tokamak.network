@@ -164,7 +164,6 @@ export default {
         this.customFormatter(this.periodEnd)
       );
       if (dailyWalletRewards.length !== 0) {
-        console.log(dailyWalletRewards);
         this.dailyWalletRewardsList = orderBy(dailyWalletRewards, (staked) => staked._id.dateUTC, ['asc']);
         this.totalReward();
         this.dailyWalletRewards = {
