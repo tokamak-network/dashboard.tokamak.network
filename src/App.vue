@@ -124,9 +124,6 @@ html, body {
   position: relative;
   margin: 0;
   min-height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
 #app {

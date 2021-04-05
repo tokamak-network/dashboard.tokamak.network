@@ -3,30 +3,54 @@
     <table class="history-table">
       <thead>
         <tr>
-          <th class="text-center" style="width:111px">TX Hash</th>
+          <th class="text-center" style="width:135px">Account Address</th>
+          <th class="text-center" style="width:100px">TX Hash</th>
+          <th class="text-center" style="width:140px">Type</th>
+          <th class="text-center" style="width:117px">Amount</th>
           <th class="text-center" style="width:237px">Date</th>
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(commit) in sorted" :key="commit.transactionHash">
-          <td class="text-center" style="width:111px; text-align: left; padding-left:2px">
+        <tr v-for="transaction in sorted" :key="transaction.transactionHash">
+          <td
+            class="text-center"
+            style="width:119px; text-align: left; padding-left:2px"
+          >
             <a
               class="link"
               target="_blank"
               rel="noopener noreferrer"
-              :href="toExplorer('transactionHash', commit.transactionHash)"
+              :href="toExplorer('address', transaction.from)"
             >
-              {{ commit.transactionHash | hexSlicer }}
+              {{ transaction.from | hexSlicer }}
             </a>
           </td>
-          <td class="text-center" style="width:237px; text-align: left; padding-left: 33px">{{ commit.blockTimestamp | formattedTimestamp }}</td>
+          <td
+            class="text-center"
+            style="width:100px; text-align: left; padding-left: 14px; padding-right:14px"
+          >
+            <a
+              class="link"
+              target="_blank"
+              rel="noopener noreferrer"
+              :href="toExplorer('transactionHash', transaction.transactionHash)"
+            >
+              {{ transaction.transactionHash | hexSlicer }}
+            </a>
+          </td>
+          <td class="text-center" style="width:140px">
+            {{ type(transaction.eventName) }}
+          </td>
+          <td class="text-center" style="width:117px">
+            {{ currencyAmountFromNumberString(transaction.value) }}
+          </td>
+          <td class="text-center" style="width:237px">
+            {{ transaction.blockTimestamp | formattedTimestamp }}
+          </td>
         </tr>
       </tbody>
     </table>
-    <table-paginate
-      :datas="commitHistory"
-      @on-selected="updateTableByPage"
-    />
+    <table-paginate :datas="operatorHistroy" @on-selected="updateTableByPage" />
   </div>
 </template>
 
@@ -45,7 +69,7 @@ export default {
     'table-paginate': TablePaginate,
   },
   props: {
-    commitHistory: {
+    operatorHistroy: {
       required: true,
       type: Array,
     },
@@ -58,30 +82,27 @@ export default {
     };
   },
   computed: {
-    ...mapState([
-      'web3',
-    ]),
+    ...mapState(['web3']),
     toExplorer () {
       return (type, param) => this.$options.filters.toExplorer(type, param);
     },
     formattedTimestamp () {
-      return timestamp => this.$options.filters.formattedTimestamp(timestamp);
+      return (timestamp) => this.$options.filters.formattedTimestamp(timestamp);
     },
     currencyAmountFromNumberString () {
-      return (type, amount) => {
-        if (type === 'Delegated') {
-          return this.$options.filters.currencyAmountFromNumberString('TON', amount);
-        } else {
-          return this.$options.filters.currencyAmountFromNumberString('WTON', amount);
-        }
+      return (amount) => {
+        return this.$options.filters.currencyAmountFromNumberString(
+          'WTON',
+          amount
+        );
       };
     },
     sorted () {
       const first = this.page * 5;
-      return this.commitHistory.slice(first, first + 5);
+      return this.operatorHistroy.slice(first, first + 5);
     },
     currencyAmount () {
-      return amount => this.$options.filters.currencyAmount(amount);
+      return (amount) => this.$options.filters.currencyAmount(amount);
     },
   },
   methods: {
@@ -91,6 +112,17 @@ export default {
       } else {
         this.from = from;
         this.order = 'desc';
+      }
+    },
+    type (type) {
+      if (type === 'WithdrawalRequested') {
+        return 'Undelegated';
+      }
+      else if (type === 'Deposited') {
+        return 'Delegated';
+      }
+      else {
+        return 'Withdrawn';
       }
     },
     changedOrder () {
@@ -113,7 +145,8 @@ export default {
   /* margin-left: -5px; */
 }
 
-.history-table td, .history-table th {
+.history-table td,
+.history-table th {
   border-bottom: 1px dashed #e6eaee;
 }
 
@@ -174,7 +207,7 @@ td {
 
 .link {
   padding-left: 3px;
- font-family: Roboto;
+  font-family: Roboto;
   font-size: 13px;
   font-weight: normal;
   font-stretch: normal;

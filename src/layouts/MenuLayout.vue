@@ -98,6 +98,13 @@ export default {
         this.order = 'desc';
       }
     },
+    // handleOperatorToggleDataSource (state) {
+    //   if (state) {
+    //     this.$store.dispatch('getAllOperators');
+    //   } else {
+    //     this.$store.dispatch('getAllMyOperators');
+    //   }
+    // },
     changedOrder () {
       return this.order === 'desc' ? 'asc' : 'desc';
     },
