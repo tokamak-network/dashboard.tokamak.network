@@ -68,18 +68,6 @@ export async function getCandidateCreateEvent () {
   else return res.data.datas;
 }
 
-// export async function getWalletTotalStaked (chainId, account, fromDate, toDate) {
-//   const res = await candidate.get('/stakedl2accounts/sum', {
-//     params: {
-//       chainId: chainId,
-//       account: account,
-//       fromDate: fromDate,
-//       toDate: toDate,
-//     },
-//   });
-//   if (res.data === '') return [];
-//   else return res.data.datas;
-// }
 
 export async function getDailyWalletRewards (chainId, account, fromDate, toDate) {
   const res = await candidate.get('/stakedl2accounts/rewards', {
@@ -173,6 +161,18 @@ export async function getOperators () {
   const res = await instance.get('/operators');
   if (res.data === '') return [];
   else return res.data;
+}
+
+export async function getOperatorUserHistory (chainId, layer2) {
+  const res = await candidate.get('/events', {
+    params: {
+      chainId: chainId,
+      eventNames: 'Deposited,WithdrawalRequested,WithdrawalProcessed',
+      layer2: layer2,
+    },
+  });
+  if (res.data === '') return [];
+  else return res.data.datas;
 }
 
 export async function updateOperator (layer2, formData) {

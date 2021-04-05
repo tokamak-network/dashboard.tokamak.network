@@ -58,10 +58,16 @@
         </div>
       </div>
       <div class="row">
-        <div class="column" style="margin-right:30px">
-          <div class="title">Staking</div>
-
-          <history-table :layer2="layer2" />
+        <div class="column" style="margin-right:30px; width: 870px">
+          <div class="table-header">
+            <div class="title">Staking</div>
+            <div class="tx-toggle">
+              {{ toggled? 'My Transactions': 'All transactions' }}
+              <toggle-button v-model="toggled" :color="{checked: '#36af47', unchecked: '#2a72e5'}" :height="16" :width="36" />
+            </div>
+          </div>
+          <user-history-table v-if="toggled" :layer2="layer2" />
+          <operator-user-histroy-table v-else :operatorHistroy="operator.operatorsHistory" />
         </div>
         <div class="column">
           <div class="title">Commit</div>
@@ -107,7 +113,8 @@ import { getConfig } from '../../config.js';
 import moment from 'moment';
 import OperatorTextView from '../components/OperatorTextView';
 import StakingComponent from '../components/StakingComponent';
-import HistroyTable from '../components/table/HistoryTable';
+import UserHistroyTable from '../components/table/UserHistoryTable';
+import OperatorUserHistroyTable from '../components/table/OperatorUserHistoryTable';
 import StakeModel from '../components/StakeModel';
 import RestakeModal from '../components/RestakeModal';
 import UnstakeModal from '../components/UnstakeModal';
@@ -120,7 +127,8 @@ export default {
     avatar: Avatar,
     'operator-text-view': OperatorTextView,
     'staking-component': StakingComponent,
-    'history-table' : HistroyTable,
+    'user-history-table' : UserHistroyTable,
+    'operator-user-histroy-table' :OperatorUserHistroyTable,
     'commit-table' :CommitTable,
     'stake-modal': StakeModel,
     'restake-modal': RestakeModal,
@@ -143,6 +151,8 @@ export default {
       showWithdraw: false,
       stakeAmount: '0',
       selectedOp: '',
+      toggled: true,
+
     };
   },
   computed: {
@@ -373,5 +383,23 @@ export default {
   text-align: left;
   color: #3d495d;
   margin-bottom: 5px;
+}
+
+.table-header {
+  display: flex;
+  justify-content: space-between;
+  padding: 0;
+}
+.tx-toggle {
+  font-family: Roboto;
+  font-size: 11px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.82;
+  letter-spacing: 0.28px;
+  text-align: right;
+  color: #828d99;
+  margin-right: 7px;
 }
 </style>

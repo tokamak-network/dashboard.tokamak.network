@@ -5,24 +5,7 @@ Vue.use(Vuex);
 import router from '@/router';
 import web3EthABI from 'web3-eth-abi';
 
-import {
-  getManagers,
-  getOperators,
-  getHistory,
-  getTransactions,
-  addTransaction,
-  getDailyStakedTotal,
-  getTotalSupply,
-  getCandidates,
-  getCandidateCreateEvent,
-  getDelegators,
-  getCommitHistory,
-  getRoundReward,
-  getPowerTONInfo,
-  getRankList,
-  getWinnerList,
-  getOperatorsInfo,
-} from '@/api';
+import { getManagers, getOperators, getOperatorUserHistory, getHistory, getTransactions, addTransaction, getDailyStakedTotal, getTotalSupply, getCandidates, getCandidateCreateEvent, getDelegators, getCommitHistory, getRoundReward } from '@/api';
 import { cloneDeep, isEqual, range, uniq, orderBy } from 'lodash';
 import numeral from 'numeral';
 import { createWeb3Contract } from '@/helpers/Contract';
@@ -304,7 +287,7 @@ export default new Vuex.Store({
         context.dispatch('getWinners'),
         context.dispatch('setOperatorsBeforeConnect', operators.slice(0, 2)),
       ]);
-      // await new Promise(resolve => setTimeout(resolve, 1000)); // https://github.com/Onther-Tech/dashboard.tokamak.network/issues/81
+      await new Promise(resolve => setTimeout(resolve, 1000)); // https://github.com/Onther-Tech/dashboard.tokamak.network/issues/81
       context.commit('IS_LOADING', false);
       context.commit('IS_LOADED', true);
       router
@@ -354,6 +337,10 @@ export default new Vuex.Store({
       // context.commit('IS_LOADING', false);
       // router.replace({ path: 'dashboard', query: { network: router.app.$route.query.network } }).catch(err => {});
     },
+    async getAllOperators (context) {
+      const operators = await getOperators();
+      context.dispatch('setOperatorsWithRegistry', operators);
+    },
     async set (context, web3) {
       const blockNumber = await web3.eth.getBlockNumber();
       const block = await web3.eth.getBlock(blockNumber);
@@ -368,7 +355,7 @@ export default new Vuex.Store({
         context.dispatch('setHistory'),
         // context.dispatch('setUncommittedCurrentRoundReward', blockNumber),
         context.dispatch('checkPendingTransactions'),
-        // context.dispatch('getTotalStaked'),
+        context.dispatch('getTotalStaked'),
         context.dispatch('getDailyStakedTokenStats'),
         context.dispatch('getPowerReward'),
         context.dispatch('getWithdraw'),
@@ -741,7 +728,6 @@ export default new Vuex.Store({
               return deposit.toString();
             }
           };
-
           const getPendingRequests = async () => {
             const numPendingRequests = await DepositManager.methods
               .numPendingRequests(layer2, user)
@@ -804,6 +790,11 @@ export default new Vuex.Store({
             return withdrawableRequests.reduce(reducer, initialAmount);
           };
 
+          // const userHistoryForOperator = async () => {
+          //   const networkID = context.state.networkId;
+          //   const operatorsHistory = await getOperatorUserHistory(networkID, layer2);
+          //   return operatorsHistory;
+          // };
           const getExpectedSeigs = async () => {
             const [
               isCommissionRateNegative,
@@ -1032,41 +1023,21 @@ export default new Vuex.Store({
             isCandidate.kind === 'layer2'
           ) {
             const [
-              // currentFork,
               firstEpoch,
             ] = await Promise.all([
-              // Layer2.methods.forks(currentForkNumber).call(),
               Layer2.methods.getEpoch(0, 0).call(),
             ]);
 
             const deployedAt = firstEpoch.timestamp;
-            // const lastFinalizedEpochNumber = currentFork.lastFinalizedEpoch;
-            // const lastFinalizedBlockNumber = currentFork.lastFinalizedBlock;
             operatorFromLayer2.deployedAt = deployedAt;
             operatorFromLayer2.lastFinalizedAt =
               lastFinalized[0] === '0' ? deployedAt : lastFinalized[0];
           }
-          const delegators = await getDelegators(
-            context.state.networkId,
-            layer2
-          );
-          const commitHistory = await getCommitHistory(
-            context.state.networkId,
-            layer2
-          );
+          const delegators = await getDelegators(context.state.networkId, layer2 );
+          const commitHistory = await getCommitHistory (context.state.networkId, layer2);
+          const operatorsHistory = await getOperatorUserHistory(context.state.networkId, layer2);
           operatorFromLayer2.delegators = delegators;
-          // const result = calculateExpectedSeig(
-          //   fromBlockNumber, // the latest commited block number. You can get this using seigManager.lastCommitBlock(layer2)
-          //   toBlockNumber, // the target block number which you want to calculate seigniorage
-          //   userStakedAmount, // the staked WTON amount of user. You can get this using coinage.balanceOf(user)
-          //   totalStakedAmount, // the staked WTON amount in SeigManager. You can get this using tot.totalSupply()
-          //   totalSupplyOfTON, // the current totalSupply of TON in RAY unit. You can get this using ton.totalSupply() - ton.balanceOf(WTON) + tot.totalSupply()
-          //   pseigRate // pseig rate in RAY unit. the current value is 0.4. You can get this using seigManager.relativeSeigRate()
-          // )
-          const tos = toBN(tonTotalSupply)
-            .mul(toBN('1000000000'))
-            .add(toBN(totTotalSupply))
-            .sub(toBN(tonBalanceOfWTON));
+          const tos = toBN(tonTotalSupply).mul(toBN('1000000000')).add(toBN(totTotalSupply)).sub(toBN(tonBalanceOfWTON));
 
           const seigniorage = calculateExpectedSeig(
             new BN(await SeigManager.methods.lastCommitBlock(layer2).call()),
@@ -1086,7 +1057,6 @@ export default new Vuex.Store({
             notWithdrawableRequests
           );
           const userWithdrawable = getUserWithdrawable(withdrawableRequests);
-
           operatorFromLayer2.address = operator;
           operatorFromLayer2.finalizeCount = lastFinalized[1];
           operatorFromLayer2.totalDeposit = _WTON(totalDeposit, WTON_UNIT);
@@ -1127,6 +1097,7 @@ export default new Vuex.Store({
           operatorFromLayer2.minimumAmount = minimumAmount;
           operatorFromLayer2.isCandidate = isCandidateOperator();
           operatorFromLayer2.commitHistory = commitHistory;
+          operatorFromLayer2.operatorsHistory = operatorsHistory;
           return operatorFromLayer2;
         })
       );

@@ -3,8 +3,8 @@
     <table class="history-table">
       <thead>
         <tr>
-          <th class="text-center" style="width:111px">Transaction Hash</th>
-          <th class="text-center" style="width:97px">Type</th>
+          <th class="text-center" style="width:111px; text-align: left;">TX Hash</th>
+          <th class="text-center" style="width:197px">Type</th>
           <th class="text-center" style="width:117px">Amount</th>
           <th class="text-center" style="width:237px">Date</th>
         </tr>

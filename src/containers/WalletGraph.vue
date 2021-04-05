@@ -18,14 +18,13 @@
           >
             Month
           </div>
-          <div
+          <!-- <div
             :class="{ active: chartType === 'year' }"
             class="button"
             @click="toggleChartType('year')"
           >
             Year
-          </div>
-          <!-- <div :class="{active : chartType === 'year'}" class="button" @click="toggleChartType('year')">Year</div> -->
+          </div> -->
         </div>
       </div>
       <div class="date-container">
@@ -88,12 +87,12 @@ const _WTON = createCurrency('WTON');
 import { createCurrency } from '@makerdao/currency';
 import { getDailyWalletStaked, getDailyWalletRewards } from '@/api';
 import { orderBy } from 'lodash';
+import BigNumber from 'bignumber.js';
 export default {
   components: {
     Datepicker,
     'wallet-line-chart': WalletLineChart,
   },
-  // props: ['chartType', 'chartData', 'toggleChartType'],
   data () {
     return {
       periodEnd: new Date(),
@@ -102,21 +101,6 @@ export default {
       dailyWalletStakedList: [],
       dailyWalletRewards: {},
       chartType: 'week',
-      weekLabels: ['Week 01', 'Week 02', 'Week 03', 'Week 04', 'Week 05'],
-      monthLabels: [
-        'Jan',
-        'Feb',
-        'Mar',
-        'Apr',
-        'May',
-        'Jun',
-        'Jul',
-        'Aug',
-        'Sept',
-        'Oct',
-        'Nov',
-        'Dec',
-      ],
     };
   },
   computed: {
@@ -129,7 +113,7 @@ export default {
     this.periodStart.setDate(this.periodStart.getDate() - 7);
     this.getDailyWalletRewardsFn();
     this.getDailyWalletStakedFn();
-    this.toggleChartType('week');
+    // this.toggleChartType('week');
   },
   methods: {
     customFormatter (date) {
@@ -139,15 +123,13 @@ export default {
       return date.toString().substring(0, 4) + '/' + date.toString().substring(4, 6) + '/' + date.toString().substring(6, 8);
     },
     totalReward () {
-      const initialAmount = 0;
-      const reducer = (amount, day) => amount + day.rewards;
-      return _WTON.ray(
-        this.dailyWalletRewardsList.reduce(reducer, initialAmount).toString()
-      );
+      const initialAmount = new BigNumber('0');
+      const reducer = (amount, day) => amount.plus(new BigNumber(day.rewards.toString()));
+      return _WTON.ray(this.dailyWalletRewardsList.reduce(reducer, initialAmount).toString());
     },
     totalStaked () {
-      const initialAmount = 0;
-      const reducer = (amount, day) => amount + day.balanceOf;
+      const initialAmount = new BigNumber('0');
+      const reducer = (amount, day) => amount.plus(new BigNumber(day.balanceOf.toString()));
       return _WTON.ray(
         this.dailyWalletStakedList.reduce(reducer, initialAmount).toString()
       );
@@ -192,18 +174,16 @@ export default {
       this.totalStaked();
     },
     toggleChartType (chartType) {
-      this.chartType = chartType;
       if (chartType === 'week') {
         this.periodStart.setDate(this.periodEnd.getDate() - 7);
-        this.getDailyWalletRewardsFn();
       } else if (chartType === 'month') {
         this.periodStart.setDate(this.periodEnd.getDate() - 30);
-        this.getDailyWalletRewardsFn();
       }
       else if (chartType === 'year') {
         this.periodStart.setDate(this.periodEnd.getDate() - 365);
-        this.getDailyWalletRewardsFn();
       }
+      this.getDailyWalletRewardsFn();
+      this.chartType = chartType;
     },
     search () {
       this.getDailyWalletRewardsFn();
@@ -360,5 +340,31 @@ button:focus {
   height: 1px;
   margin-bottom: 20px;
   background-color: #f4f6f8;
+}
+
+.vdp-datepicker__calendar .day, .vdp-datepicker__calendar .month, .vdp-datepicker__calendar .year {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.vdp-datepicker__calendar .day {
+  border-radius: 50%;
+}
+
+.vdp-datepicker__calendar .month {
+  border-radius: 3px;
+}
+
+.vdp-datepicker__calendar .year {
+  border-radius: 3px;
+}
+
+.vdp-datepicker__calendar .cell.selected {
+  color: #ffffff;
+  background: #2a72e5 !important;
+}
+
+.vdp-datepicker__calendar .cell:not(.blank):not(.disabled).day:hover, .vdp-datepicker__calendar .cell:not(.blank):not(.disabled).month:hover, .vdp-datepicker__calendar .cell:not(.blank):not(.disabled).year:hover {
+  border: 1px solid #2a72e5 !important;
 }
  </style>
