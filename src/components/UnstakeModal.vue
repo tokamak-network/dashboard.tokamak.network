@@ -110,6 +110,9 @@ export default {
     inputTon: function (newValue) {
       let result;
       if(newValue.length > 0 && this.inputTon.substring(0, 1) === '0') {
+        if(newValue.split('.').length > 1) {
+          return this.inputTon = newValue;
+        }
         return this.inputTon = this.inputTon.substring(1, 2);
       }
       if (newValue === '.') {
