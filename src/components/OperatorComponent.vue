@@ -21,11 +21,11 @@
           }}{{ rateOf(operator.commissionRate) }}
         </div>
         <div v-if="signIn">
-        <div v-if="Number(operator.userStaked.toBigNumber())" class="user-staked">
-          <div class="operator-amount">Your Staked</div>
-          <div class="operator-amount" style="width:139px"> {{ currencyAmount(operator.userStaked) }}</div>
+          <div v-if="Number(operator.userStaked.toBigNumber())" class="user-staked">
+            <div class="operator-amount">Your Staked</div>
+            <div class="operator-amount" style="width:139px"> {{ currencyAmount(operator.userStaked) }}</div>
+          </div>
         </div>
-      </div>
       </div>
       <img v-if="signIn" class="arrow"
            :class="{ 'arrow-up': !isPressed, 'arrow-down': isPressed }"
@@ -184,15 +184,9 @@ export default {
       }
     },
   },
-  created () {
-    // console.log(this.operator);
-  },
   mounted () {
     this.selectedOp = this.selectedOperator;
   },
-  // created () {
-  //   console.log(this.operator.commitHistory);
-  // },
   methods: {
     openStaking () {
       if (this.signIn){
@@ -203,7 +197,6 @@ export default {
           this.$store.dispatch('setSelectedOperator', this.operator.layer2);
         }
       }
-
     },
     viewDetailedOperator (operator) {
       const layer2 = operator.layer2;
@@ -253,17 +246,12 @@ export default {
 <style scoped>
 .operator-container {
   width: 1100px;
-  /* padding: 10px; */
   display: flex;
   flex-direction: column;
-  /* align-items: center; */
   background-color: #ffffff;
-  /* border: solid 1px;
-  border-color: #ccd1d3; */
   border-radius: 12px;
   box-shadow: 0 1px 1px 0 rgba(96, 97, 112, 0.16);
   margin-bottom: 12px;
-  /* height: 74px; */
 }
 .operator-header {
   display: flex;
