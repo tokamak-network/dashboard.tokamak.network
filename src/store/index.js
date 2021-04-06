@@ -989,7 +989,6 @@ export default new Vuex.Store({
               layer2Seigs: layer2Seigs,
             };
           };
-
           const [
             totalDeposit,
             selfDeposit,
@@ -998,6 +997,7 @@ export default new Vuex.Store({
             selfStaked,
             userStaked,
             pendingRequests,
+            pendingUnstakedLayer2,
             seigs, // operatorSeigs, userSeigs, layer2Seigs
             isCommissionRateNegative,
             commissionRate,
@@ -1018,6 +1018,7 @@ export default new Vuex.Store({
             Coinage.methods.balanceOf(operator).call(),
             Coinage.methods.balanceOf(user).call(null, blockNumber),
             getPendingRequests(),
+            DepositManager.methods.pendingUnstakedLayer2(layer2).call(),
             getExpectedSeigs(),
             SeigManager.methods.isCommissionRateNegative(layer2).call(),
             SeigManager.methods.commissionRates(layer2).call(),
@@ -1031,9 +1032,8 @@ export default new Vuex.Store({
             DepositManager.methods.globalWithdrawalDelay().call(),
             SeigManager.methods.minimumAmount().call(),
           ]);
-
+          console.log(pendingUnstakedLayer2, layer2);
           const lastFinalized = await getRecentCommit(operator, layer2);
-
           const isCandidate = candidates.find(
             (candidate) => candidate.layer2 === layer2.toLowerCase()
           );
@@ -1138,6 +1138,7 @@ export default new Vuex.Store({
           operatorFromLayer2.isCandidate = isCandidateOperator();
           operatorFromLayer2.commitHistory = commitHistory;
           operatorFromLayer2.operatorsHistory = operatorsHistory;
+          operatorFromLayer2.pendingUnstakedLayer2 =  _WTON(pendingUnstakedLayer2, WTON_UNIT);
           return operatorFromLayer2;
         })
       );

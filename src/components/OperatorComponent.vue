@@ -28,11 +28,11 @@
           </div>
         </div>
       </div>
-      <img v-if="signIn" class="arrow"
+        <img v-if="signIn" class="arrow"
            :class="{ 'arrow-up': !isPressed, 'arrow-down': isPressed }"
            src="@/assets/images/arrow_open_icon.png"
       >
-      </div>
+    </div>
        <!-- <operator-user-histroy-table :operatorHistroy="operator.operatorsHistory" /> -->
     </div>
     <div
@@ -43,7 +43,7 @@
       <div class="row">
         <div class="column" style="margin-top:30px">
           <operator-text-view :title="'Total Delegates'" :value="operator.delegators.length.toString()" :date="false" :tonValue="false" />
-          <operator-text-view :title="'Pending Withdrawal'" :value="currencyAmount(operator.userWithdrawable).replace('TON','')" :date="false" :tonValue="true" style="margin-top:40px" />
+          <operator-text-view :title="'Pending Withdrawal'" :value="currencyAmount(operator.pendingUnstakedLayer2).replace('TON','')" :date="false" :tonValue="true" style="margin-top:40px" />
         </div>
         <div class="column">
           <staking-component :layer2="operator.layer2" @selectFunc="selectFunc" @openStakeModal="openStakeModal" />
