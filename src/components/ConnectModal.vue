@@ -244,15 +244,15 @@ export default {
   border-radius: 19px;
   display: flex;
   align-items: center;
-  padding: 0px 16px;
+  /* padding: 0px 16px; */
   height: 33px;
   color: #86929d;
   background-color: transparent;
   font-size: 14px;
   font-family: "Titillium Web", sans-serif;
   cursor: pointer;
-  margin-right: 40px;
-  width: 185px;
+  /* margin-right: 40px; */
+  width: 151px;
   justify-content: center;
 }
 
@@ -263,19 +263,19 @@ export default {
   border-radius: 19px;
   display: flex;
   align-items: center;
-  padding: 0px 16px;
+  /* padding: 0px 16px; */
   height: 33px;
   color: #86929d;
   background-color: transparent;
   font-size: 14px;
   font-family: "Titillium Web", sans-serif;
   cursor: pointer;
-  width: 185px;
+  width: 151px;
   justify-content: center;
   /* width: 150px; */
   /* height: 33px; */
   border: solid 1px #2a72e5;
-  margin-right: 40px;
+  /* margin-right: 40px; */
 
 }
 .loader {
@@ -310,13 +310,15 @@ export default {
   height: 100%;
   display: table;
   transition: opacity 0.3s ease;
-  border-radius: 4px;
+  border-radius: 19px;
   box-shadow: 0 2px 4px 0 rgba(96, 97, 112, 0.14);}
 
 .modal-wrapper {
   position: fixed;
-  top: 90px;
-  right: 90px;
+  top: 70px;
+  right: 40px;
+  border-radius: 19px;
+  box-shadow: 0 2px 4px 0 rgba(96, 97, 112, 0.14);
 }
 
 .modal-container {

@@ -1,6 +1,6 @@
 <template>
   <div class="header-container">
-    <div class="header">
+    <div class="menu-header">
       <div class="header-logo-container">
         <img
           alt="Tokamak Network Logo"
@@ -26,13 +26,6 @@
         >
           Staking
         </button>
-        <!-- <button
-          class="header-link"
-          :class="{ 'menu-button-selected': $route.path === '/staking'}"
-          @click="clickMenu('staking')"
-        >
-          Staking
-        </button> -->
         <button
           class="header-link"
           :class="{ 'menu-button-selected': $route.path === '/powerton'}"
@@ -47,8 +40,16 @@
         >
           Wallet
         </button>
+        <!-- <button
+          class="header-link"
+          :class="{ 'menu-button-selected': $route.path === '/wallet'}"
+          style="margin-right: 77px;"
+          @click="signIn?clickMenu('wallet'): showPopUp()"
+        >
+          Support
+        </button> -->
       </div>
-      <div>
+      <div class="connect-modal">
         <connect-modal />
       </div>
     </div>
@@ -130,12 +131,12 @@ export default {
   position:inherit;
 }
 
-.header {
+.menu-header {
     align-items: center;
     display: flex;
      width: 100%;
   height: 100%;
-    justify-content: space-between;
+    /* justify-content: space-between; */
 }
 
 .header-logo-container {
@@ -145,7 +146,7 @@ export default {
 .header-logo {
   margin-top: -5px;
   margin-left: 40px;
-
+  margin-right: 7.8vw;
 }
 
 .header-logo:hover {
@@ -164,8 +165,8 @@ export default {
 
 .header-link {
   border: none;
-    padding-left: 24px;
-    padding-right: 24px;
+    /* padding-left: 24px; */
+    /* padding-right: 24px; */
     background: #fafbfc;
   font-family: "TitilliumWeb",sans-serif;
   font-size: 18px;
@@ -176,6 +177,7 @@ export default {
   letter-spacing: normal;
   text-align: center;
   color: #3e495c;
+  margin-right: 48px;
 }
 
 button:focus {
@@ -196,7 +198,6 @@ button:hover {
   font-size: 14px;
   font-family: "Noto Sans",sans-serif;
   width: 150px;
-  margin-right: 39px;
 }
 
 .menu-button-selected {
@@ -228,5 +229,12 @@ button:hover {
 .model-leave-active .model-container {
   -webkit-transform: scale(1.1);
   transform: scale(1.1);
+}
+
+.connect-modal {
+  display: flex;
+  position: absolute;
+  right: 2.4vw;
+  /* justify-content: flex-end; */
 }
 </style>
