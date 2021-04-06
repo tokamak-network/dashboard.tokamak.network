@@ -292,6 +292,7 @@ export default new Vuex.Store({
     logout (context) {
       context.commit('SIGN_IN', false);
       context.commit('SET_USER', '');
+      context.dispatch('setSelectedOperator', '');
     },
     async load (context) {
       context.commit('IS_LOADING', true);
@@ -1032,7 +1033,6 @@ export default new Vuex.Store({
             DepositManager.methods.globalWithdrawalDelay().call(),
             SeigManager.methods.minimumAmount().call(),
           ]);
-          console.log(pendingUnstakedLayer2, layer2);
           const lastFinalized = await getRecentCommit(operator, layer2);
           const isCandidate = candidates.find(
             (candidate) => candidate.layer2 === layer2.toLowerCase()

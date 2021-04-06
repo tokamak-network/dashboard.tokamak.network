@@ -1,7 +1,6 @@
 <template>
   <div class="operator-container">
     <div class="operator-header" @click="openStaking()">
-      <div class="operator-header">
       <div class="header-column">
         <div>
           <dot v-if="operator.isCandidate" :title="'DAO'" style="margin-bottom:4px; margin-left:16px" />
@@ -28,12 +27,10 @@
           </div>
         </div>
       </div>
-        <img v-if="signIn" class="arrow"
+      <img v-if="signIn" class="arrow"
            :class="{ 'arrow-up': !isPressed, 'arrow-down': isPressed }"
            src="@/assets/images/arrow_open_icon.png"
       >
-    </div>
-       <!-- <operator-user-histroy-table :operatorHistroy="operator.operatorsHistory" /> -->
     </div>
     <div
       v-if="isPressed && signIn"
@@ -66,7 +63,7 @@
             <div class="title">Staking</div>
             <div class="tx-toggle">
               {{ toggled? 'My Transactions': 'All transactions' }}
-              <toggle-button v-model="toggled" :disabled=true :color="{checked: '#36af47', unchecked: '#2a72e5', disabled: '#e9edf1'}" :height="16" :width="36" />
+              <toggle-button v-model="toggled" :disabled="false" :color="{checked: '#36af47', unchecked: '#2a72e5', disabled: '#e9edf1'}" :height="16" :width="36" />
             </div>
           </div>
           <user-history-table v-if="toggled" :layer2="layer2" />
