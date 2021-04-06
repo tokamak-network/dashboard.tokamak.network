@@ -165,8 +165,7 @@ export default {
         afterDecimalNumber = spliedTonAmount[1].slice(0, 2);
       }
       if(args === 'max') {
-        return this.inputTon = '0.99';
-        // return this.inputTon = `${beforeDecimalNumber.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}.${afterDecimalNumber}`;
+        return this.inputTon = `${beforeDecimalNumber.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}.${afterDecimalNumber}`;
       }
       return `${beforeDecimalNumber.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}.${afterDecimalNumber}`;
     },
