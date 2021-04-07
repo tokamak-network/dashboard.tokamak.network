@@ -1,16 +1,17 @@
 <template>
   <div class="header-container">
-    <div class="header">
+    <div class="menu-header">
       <div class="header-logo-container">
         <img
+          alt="Tokamak Network Logo"
           class="header-logo"
-          src="@/assets/images/tokamak-staking-simple.png"
-          width="258"
-          height="38"
+          src="@/assets/images/tnss_bi.png"
+          width="365px"
+          heigh="39px"
           @click="toMainPage"
         >
       </div>
-      <div class="link-container">
+      <div class="link-container" style="margin-left: -10vw">
         <button
           class="header-link"
           :class="{ 'menu-button-selected': $route.path === '/home'}"
@@ -20,58 +21,62 @@
         </button>
         <button
           class="header-link"
-          :class="{ 'menu-button-selected': $route.path === '/menu'}"
-          @click="clickMenu('menu')"
-        >
-          Operators
-        </button>
-        <button
-          class="header-link"
           :class="{ 'menu-button-selected': $route.path === '/staking'}"
           @click="clickMenu('staking')"
         >
           Staking
         </button>
+        <!-- <button
+          class="header-link"
+          :class="{ 'menu-button-selected': $route.path === '/staking'}"
+          @click="clickMenu('staking')"
+        >
+          Staking
+        </button> -->
         <button
           class="header-link"
           :class="{ 'menu-button-selected': $route.path === '/powerton'}"
           @click="clickMenu('powerton')"
         >
-          Power TON
+          PowerTON
         </button>
         <button
           class="header-link"
-          :class="{ 'menu-button-selected': $route.path === '/about'}"
-          @click="clickMenu('about')"
+          :class="{ 'menu-button-selected': $route.path === '/wallet'}"
+          @click="signIn?clickMenu('wallet'): showPopUp()"
         >
-          About Us
+          Wallet
         </button>
+        <!-- <button
+          class="header-link"
+          :class="{ 'menu-button-selected': $route.path === '/wallet'}"
+          @click="signIn?clickMenu('wallet'): showPopUp()"
+        >
+          Support
+        </button> -->
       </div>
-      <div>
-        <button v-if="!signIn" class="login" @click="login">Unlock Wallet</button>
-        <button v-else class="login" @click="showPopUp">My Wallet</button>
+      <div style="margin-right:40px">
+        <connect-modal />
       </div>
-
-      <transition v-if="showModel" name="model">
-        <div class="model-mask">
-          <div class="model-container">
-            <WalletContainer @showPopUp="showPopUp" />
-          </div>
-        </div>
-      </transition>
     </div>
+    <transition v-if="showModel" name="model">
+      <div class="model-mask">
+        <div class="model-container">
+          <WalletPopUp @closePopup="closePopup" />
+        </div>
+      </div>
+    </transition>
   </div>
 </template>
 
 <script>
 import { mapState } from 'vuex';
-import Web3 from 'web3';
-import { getConfig } from '../../config.js';
-import { setProvider } from '@/helpers/Contract';
-import WalletContainer from '@/containers/WalletContainer.vue';
+import ConnectModal from '@/components/ConnectModal.vue';
+import WalletPopUp from '@/components/WalletPopUp.vue';
 export default {
   components: {
-    WalletContainer,
+    ConnectModal,
+    WalletPopUp,
   },
   data () {
     return {
@@ -82,7 +87,11 @@ export default {
   computed: {
     ...mapState([
       'signIn',
+      'user',
     ]),
+    hexSlicer () {
+      return address => this.$options.filters.hexSlicer(address);
+    },
   },
   methods: {
     clickMenu (path) {
@@ -97,60 +106,8 @@ export default {
     showPopUp () {
       this.showModel = !this.showModel;
     },
-    async login (){
-      if (this.loading) return;
-      this.loading = true;
-      await this.useMetamask();
-      this.loading = false;
-    },
-    async useMetamask () {
-      try {
-        const web3 = await this.metamask();
-        await this.$store.dispatch('signIn', web3);
-
-        window.ethereum.on('chainIdChanged', (chainId) => {
-          this.$store.dispatch('logout');
-          this.$router.replace({
-            path: '/',
-            query: { network: this.$route.query.network },
-          }).catch(err => {});
-        });
-        window.ethereum.on('accountsChanged', (account) => {
-          this.$store.dispatch('logout');
-          this.$router.replace({
-            path: '/',
-            query: { network: this.$route.query.network },
-          }).catch(err => {});
-
-        });
-      } catch (e) {
-        alert(e.message);
-      }
-    },
-    async metamask () {
-      let provider;
-      if (typeof window.ethereum !== 'undefined') {
-        try {
-          await window.ethereum.enable();
-          provider = window.ethereum;
-        } catch (e) {
-          if (e.stack.includes('Error: User denied account authorization')) {
-            throw new Error('User denied account authorization');
-          } else {
-            throw new Error(e.message);
-          }
-        }
-      } else if (window.web3) {
-        provider = window.web3.currentProvider;
-      } else {
-        throw new Error('No web3 provider detected');
-      }
-
-      if (provider.networkVersion !== getConfig().network) {
-        throw new Error(`Please connect to the '${this.$options.filters.nameOfNetwork(getConfig().network)}' network`);
-      }
-
-      return new Web3(provider);
+    closePopup () {
+      this.showModel = !this.showModel;
     },
     toMainPage () {
       if (this.signIn && this.$route.path !== '/home') {
@@ -173,53 +130,51 @@ export default {
 .header-container {
   width: 100%;
   align-self: center;
-  height: 75px;
-  background: #f6f8f9;
+  height: 84px;
+  background: #fafbfc;
   display: flex;
   justify-content: center;
   position:inherit;
 }
-
-.header {
+.menu-header {
     align-items: center;
     display: flex;
      width: 100%;
   height: 100%;
-    justify-content: space-around;
+    justify-content: space-between;
 }
-
 .header-logo-container {
   display: block;
 }
-
 .header-logo {
   margin-top: -5px;
+  margin-left: 40px;
 }
-
 .header-logo:hover {
   cursor: pointer;
 }
-
 .link-container {
  -webkit-box-align: center;
   align-items: center;
   display: flex;
 }
-
 .header-link:hover {
-  color: #555555;;
+  color: #2a72e5;;
 }
-
 .header-link {
   border: none;
-  font-weight: 550;
-    padding-left: 16px;
-    padding-right: 16px;
-    text-decoration: none;
-    background: #f6f8f9;
-    color: #2a72e5;
-    font-size: 16px;
-    font-family: "Noto Sans",sans-serif;
+    padding-left: 24px;
+    padding-right: 24px;
+    background: #fafbfc;
+  font-family: "TitilliumWeb",sans-serif;
+  font-size: 18px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  /* line-height: 1.5; */
+  letter-spacing: normal;
+  text-align: center;
+  color: #3e495c;
 }
 button:focus {
   outline: none;
@@ -228,20 +183,19 @@ button:hover {
   color: #555555;
 }
 .login {
-  border: 1px #519ae8;
-  background: #e2e8eb;
+  border: 1px solid #d7d9df;
   border-radius: 12px;
-  box-shadow: 6px 6px 12px #d1d1d1;
   padding: 0px 16px;
   height: 36px;
-  color: #2a72e5;
+  color: #86929d;
+  background-color: transparent;
   font-size: 14px;
-  font-weight: 700;
   font-family: "Noto Sans",sans-serif;
   width: 150px;
+  margin-right: 39px;
 }
 .menu-button-selected {
-  color: #1e4072;
+  color: #2a72e5;
 }
 .model-mask {
   position: fixed;
@@ -252,12 +206,20 @@ button:hover {
   height: 100%;
   background-color: rgba(0, 0, 0, 0.6);
   transition: opacity 0.3s ease;
-
+}
+.model-leave-active {
+  opacity: 0;
 }
 .model-container {
   display: flex;
   justify-content: center;
-    align-content: center;
-    margin-top: 50px;
+  align-content: center;
+  height: 100%;
+    transition: all 0.3s ease;
+}
+.model-enter .model-container,
+.model-leave-active .model-container {
+  -webkit-transform: scale(1.1);
+  transform: scale(1.1);
 }
 </style>

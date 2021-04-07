@@ -1,51 +1,72 @@
 <template>
   <div class="wallet-container">
     <div class="title">My Account</div>
-    <img class="logo" style="margin-right: 15px; margin-left: 0px;" src="@/assets/images/TokamakLogo.png">
-    <div class="ton-title">TON Balance</div>
-    <div class="ton-value">{{ tonBalance | currencyAmount }}</div>
-    <div class="ton-title">Power Balance</div>
-    <div class="power-value">{{ power | currencyAmount }}</div>
-    <div class="wallet-button">
-      <a class="text" target="_blank"
-         rel="noopener noreferrer"
-         :href="'https://etherscan.io/address/' + user"
-      >View on Etherscan</a>
+    <div class="ton-title">#10</div>
+    <div class="ton-value">{{ user }}</div>
+    <div class="ton-title">#11</div>
+    <div
+      v-clipboard:copy="user"
+      v-clipboard:success="onCopy"
+      v-clipboard:error="onError"
+    >
+      Copy
     </div>
-    <div class="wallet-button" @click="logout">
-      <button class="text">Sign Out</button>
+    <div class="ton-title">#12</div>
+    <a class="text" target="_blank"
+       rel="noopener noreferrer"
+       :href="'https://etherscan.io/address/' + user"
+    >View on Etherscan</a>
+    <div class="ton-title">#9</div>
+    <div class="ton-title">#13</div>
+    <div class="" @click="logout">
+      Logout
     </div>
-    <div class="wallet-button" @click="cancel(false)">
-      <button class="text">Cancel</button>
+    <div @click="cancel(false)">
+      Close
     </div>
   </div>
 </template>
 
 <script>
-import { mapState, mapGetters } from 'vuex';
+import WalletConnectProvider from '@walletconnect/web3-provider';
+import { mapState } from 'vuex';
+
 export default {
   computed: {
     ...mapState([
       'tonBalance',
       'user',
       'power',
+      'signIn',
     ]),
     currencyAmount () {
       return amount => this.$options.filters.currencyAmount(amount);
     },
   },
   methods: {
-    logout (visibility) {
+    async logout (visibility) {
+      const provider = new WalletConnectProvider({
+        infuraId: '34448178b25e4fbda6d80f4da62afba2',
+        bridge: 'https://bridge.walletconnect.org',
+        qrcode: true,
+      });
+      this.$store.dispatch('SIGN_OUT');
+      await provider.disconnect();
       this.cancel(visibility);
       this.$store.dispatch('logout');
       this.$router.replace({
         path: '/',
         query: { network: this.$route.query.network },
-      }).catch(err => {
-      });
+      }).catch(err => {});
     },
     cancel (visibility) {
       this.$emit('showPopUp', visibility);
+    },
+    onCopy: function (e) {
+      alert('You just copied: ' + e.text);
+    },
+    onError: function (e) {
+      alert('Failed to copy texts');
     },
   },
 };

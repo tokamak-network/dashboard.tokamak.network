@@ -1,4 +1,5 @@
 import moment from 'moment';
+import Web3 from 'web3';
 const locale = window.navigator.userLanguage || window.navigator.language;
 moment.locale(locale);
 
@@ -11,20 +12,32 @@ const _POWER = createCurrency('POWER');
 import { getConfig } from '../../config.js';
 import numeral from 'numeral';
 
-export function hexSlicer (address = '') {
+export function hexSlicer (address, chars = 4) {
   if (address.length < 11) {
     return address;
   }
 
+  return `${address.slice(0, 6)}...${address.slice(-4)}`;}
+
+export function prettifyTransactionHash (address) {
   return `${address.slice(0, 6)}...${address.slice(-4)}`;
 }
 
 // Note: Despite Unix timestamps being UTC-based, this function creates a moment object in local mode.
 // (https://momentjs.com/docs/#/parsing/unix-timestamp/)
 export function formattedTimestamp (timestamp) {
-  return moment.unix(timestamp).format('LLL');
+  return moment.unix(timestamp).format('MMM DD, YYYY HH:mm:ss');
 }
 
+export function formatTimeString (timestamp) {
+  return moment.unix(timestamp).format('YYYY.MM.DD');
+}
+export function formatTimeSeconds (timestamp) {
+  return moment.unix(timestamp).format('hh:mm:ss');
+}
+export function timezone (timestamp) {
+  return moment.unix(timestamp).format('ZZ');
+}
 export function fromNow (timestamp, suffix) {
   return moment.unix(timestamp).fromNow(suffix);
 }
@@ -76,6 +89,26 @@ export function currencyAmount (amount) {
   }
 }
 
+export function currencyAmountWithoutUnit (amount) {
+  if (amount instanceof Currency) {
+    if (amount.symbol === 'POWER') {
+      const ton = Number(amount.toBigNumber()).toLocaleString('en-US');
+      const index = ton.indexOf('.');
+      return index > -1 ? `${ton.slice(0, index + 3)} POWER` : ton + ' POWER';
+    } else if (amount.symbol === 'TON') {
+      const ton = Number(amount.toBigNumber()).toLocaleString('en-US');
+      const index = ton.indexOf('.');
+      return index > -1 ? `${ton.slice(0, index + 3)}` : ton + '';
+    } else if (amount.symbol === 'WTON'){
+      const wtonAmount = Number(amount.toBigNumber()).toLocaleString('en-US');
+      const index = wtonAmount.indexOf('.');
+      return index > -1 ? `${wtonAmount.slice(0, index + 3)}` : wtonAmount + '';
+    }
+  } else {
+    return amount;
+  }
+}
+
 // deprecated (will be deleted)
 export function currencyAmountFromNumberString (symbol, amount) {
   if (symbol === 'TON') {
@@ -121,4 +154,14 @@ export function rateOf (commission) {
 export function addressExtractor (url) {
   const lastIndex = url.lastIndexOf('/');
   return url.substring(lastIndex + 1);
+}
+
+export function withComma (n) {
+  try {
+    n = parseFloat(n);
+  } catch (err) {
+    if (err) console.log('bug', 'parse float'); // eslint-disable-line
+  }
+
+  return n.toLocaleString('en-US', { minimumFractionDigits: 2 });
 }
