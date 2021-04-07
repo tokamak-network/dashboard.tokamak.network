@@ -115,9 +115,9 @@ export default {
           path: '/home',
           query: { network: this.$route.query.network },
         }).catch(err => {});
-      } else if(!this.signIn && this.$route.path !== '/') {
+      } else if(!this.signIn && this.$route.path !== '/home') {
         this.$router.push({
-          path: '/',
+          path: '/home',
           query: { network: this.$route.query.network },
         }).catch(err => {});
       }
@@ -135,6 +135,7 @@ export default {
   display: flex;
   justify-content: center;
   position:inherit;
+  border-top: 4px solid #2a72e5;
 }
 .menu-header {
     align-items: center;
