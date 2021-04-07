@@ -86,9 +86,6 @@ export default {
       myStaked: 0,
     };
   },
-  created () {
-    // console.log(this.currencyAmount(this.operator.userStaked));
-  },
   computed: {
     ...mapState(['tonBalance', 'signIn']),
     ...mapGetters(['operatorByLayer2']),

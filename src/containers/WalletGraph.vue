@@ -110,26 +110,43 @@ export default {
     },
   },
   created () {
-    this.periodStart.setDate(this.periodStart.getDate() - 7);
-    this.getDailyWalletRewardsFn();
+    const end = moment(this.periodEnd).unix();
+    const start = Number(end) - 518400;
+    this.getDailyWalletRewardsFn(
+      this.customFormatter(start),
+      this.customFormatter(this.periodEnd)
+    );
     this.getDailyWalletStakedFn();
-    // this.toggleChartType('week');
+    this.toggleChartType('week');
   },
   methods: {
+    customFormatterforFunction (date) {
+      return moment(date * 1000).format('YYYYMMDD');
+    },
     customFormatter (date) {
       return moment(date).format('YYYYMMDD');
     },
     formatDate (date) {
-      return date.toString().substring(0, 4) + '/' + date.toString().substring(4, 6) + '/' + date.toString().substring(6, 8);
+      return (
+        date.toString().substring(0, 4) +
+        '/' +
+        date.toString().substring(4, 6) +
+        '/' +
+        date.toString().substring(6, 8)
+      );
     },
     totalReward () {
       const initialAmount = new BigNumber('0');
-      const reducer = (amount, day) => amount.plus(new BigNumber(day.rewards.toString()));
-      return _WTON.ray(this.dailyWalletRewardsList.reduce(reducer, initialAmount).toString());
+      const reducer = (amount, day) =>
+        amount.plus(new BigNumber(day.rewards.toString()));
+      return _WTON.ray(
+        this.dailyWalletRewardsList.reduce(reducer, initialAmount).toString()
+      );
     },
     totalStaked () {
       const initialAmount = new BigNumber('0');
-      const reducer = (amount, day) => amount.plus(new BigNumber(day.balanceOf.toString()));
+      const reducer = (amount, day) =>
+        amount.plus(new BigNumber(day.balanceOf.toString()));
       return _WTON.ray(
         this.dailyWalletStakedList.reduce(reducer, initialAmount).toString()
       );
@@ -138,19 +155,24 @@ export default {
       const displayAmounts = parseFloat(amount) / Math.pow(10, 27);
       return Math.round(displayAmounts * 10) / 10;
     },
-    async getDailyWalletRewardsFn () {
+    async getDailyWalletRewardsFn (start, end) {
       const dailyWalletRewards = await getDailyWalletRewards(
         this.networkId,
         this.user.toLowerCase(),
-        this.customFormatter(this.periodStart),
-        this.customFormatter(this.periodEnd)
+        start,
+        end
       );
       if (dailyWalletRewards.length !== 0) {
-        this.dailyWalletRewardsList = orderBy(dailyWalletRewards, (staked) => staked._id.dateUTC, ['asc']);
+        this.dailyWalletRewardsList = orderBy(
+          dailyWalletRewards,
+          (staked) => staked._id.dateUTC,
+          ['asc']
+        );
         this.totalReward();
         this.dailyWalletRewards = {
           labels: this.dailyWalletRewardsList.map((item) =>
-            this.formatDate(item._id.dateUTC)),
+            this.formatDate(item._id.dateUTC)
+          ),
           datasets: [
             {
               backgroundColor: 'transparent',
@@ -175,18 +197,29 @@ export default {
     },
     toggleChartType (chartType) {
       if (chartType === 'week') {
-        this.periodStart.setDate(this.periodEnd.getDate() - 7);
+        const end = moment(this.periodEnd).unix();
+        const start = Number(end) - 518400;
+        this.getDailyWalletRewardsFn(
+          this.customFormatterforFunction(start),
+          this.customFormatterforFunction(this.periodEnd)
+        );
       } else if (chartType === 'month') {
-        this.periodStart.setDate(this.periodEnd.getDate() - 30);
+        const end = moment(this.periodEnd).unix();
+        const start = Number(end) - 2592000;
+        this.getDailyWalletRewardsFn(
+          this.customFormatterforFunction(start),
+          this.customFormatterforFunction(this.periodEnd)
+        );
+      } else if (chartType === 'year') {
+        this.periodStart.setDate(this.periodEnd.getFullYear() - 1);
       }
-      else if (chartType === 'year') {
-        this.periodStart.setDate(this.periodEnd.getDate() - 365);
-      }
-      this.getDailyWalletRewardsFn();
       this.chartType = chartType;
     },
     search () {
-      this.getDailyWalletRewardsFn();
+      this.getDailyWalletRewardsFn(
+        this.customFormatter(this.periodStart),
+        this.customFormatter(this.periodEnd)
+      );
       this.getDailyWalletStakedFn();
     },
   },
@@ -202,7 +235,7 @@ export default {
   width: 1114px;
 }
 .header {
-    padding: 20px;
+  padding: 20px;
   display: flex;
   align-items: center;
   margin-bottom: 21px;
@@ -282,13 +315,13 @@ export default {
   text-align: center;
   border: solid 1px #dfe4ee;
   border-radius: 4px;
-  color:#3e495c;
+  color: #3e495c;
   outline: none;
 }
 .body {
   display: grid;
   grid-template-columns: 2fr 1fr;
-      padding: 20px;
+  padding: 20px;
 }
 .analysis {
   padding-left: 47px;
@@ -342,7 +375,9 @@ button:focus {
   background-color: #f4f6f8;
 }
 
-.vdp-datepicker__calendar .day, .vdp-datepicker__calendar .month, .vdp-datepicker__calendar .year {
+.vdp-datepicker__calendar .day,
+.vdp-datepicker__calendar .month,
+.vdp-datepicker__calendar .year {
   font-size: 14px;
   font-weight: 500;
 }
@@ -364,7 +399,9 @@ button:focus {
   background: #2a72e5 !important;
 }
 
-.vdp-datepicker__calendar .cell:not(.blank):not(.disabled).day:hover, .vdp-datepicker__calendar .cell:not(.blank):not(.disabled).month:hover, .vdp-datepicker__calendar .cell:not(.blank):not(.disabled).year:hover {
+.vdp-datepicker__calendar .cell:not(.blank):not(.disabled).day:hover,
+.vdp-datepicker__calendar .cell:not(.blank):not(.disabled).month:hover,
+.vdp-datepicker__calendar .cell:not(.blank):not(.disabled).year:hover {
   border: 1px solid #2a72e5 !important;
 }
- </style>
+</style>
