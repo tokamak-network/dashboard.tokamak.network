@@ -110,26 +110,29 @@ export default {
           // backgroundColor: '#2a72e5',
           enabled: true,
           custom: (tooltipModel) => {
-            const typeAPY = tooltipModel.dataPoints[0].value < 200;
-            tooltipModel.width = typeAPY ? valueLength * 24 : valueLength * 16;
-            tooltipModel.height = 46;
-            tooltipModel.cornerRadius = 3;
-            tooltipModel.backgroundColor = typeAPY ? '#84919e' : '#2a72e5';
-            tooltipModel.legendColorBackground = 'none';
-            tooltipModel.bodyFontSize = 16;
-            tooltipModel.footerFontSize = 12;
-            tooltipModel.displayColors = false;
-            tooltipModel.caretSize = 5;
-            tooltipModel.yAlign = 'bottom';
-            tooltipModel.xAlign = 'center';
-            tooltipModel.x = testX;
-            tooltipModel.y = testY;
-            tooltipModel.xPadding = 10;
-            tooltipModel.yPadding = 7;
-            tooltipModel._titleFontStyle = 'normal';
-            tooltipModel._bodyFontFamily = '"TitilliumWeb",sans-serif';
-            tooltipModel._footerFontFamily = 'Roboto';
-            tooltipModel._footerFontStyle = 'normal';
+            if(tooltipModel.dataPoints !== undefined) {
+              const typeAPY = tooltipModel.dataPoints[0].value < 200;
+              tooltipModel.width = typeAPY ? valueLength * 24 : valueLength * 16;
+              tooltipModel.height = 46;
+              tooltipModel.cornerRadius = 3;
+              tooltipModel.backgroundColor = typeAPY ? '#84919e' : '#2a72e5';
+              tooltipModel.legendColorBackground = 'none';
+              tooltipModel.bodyFontSize = 16;
+              tooltipModel.footerFontSize = 12;
+              tooltipModel.displayColors = false;
+              tooltipModel.caretSize = 5;
+              tooltipModel.yAlign = 'bottom';
+              tooltipModel.xAlign = 'center';
+              tooltipModel.x = testX;
+              tooltipModel.y = testY;
+              tooltipModel.xPadding = 10;
+              tooltipModel.yPadding = 7;
+              tooltipModel._titleFontStyle = 'normal';
+              tooltipModel._bodyFontFamily = '"TitilliumWeb",sans-serif';
+              tooltipModel._footerFontFamily = 'Roboto';
+              tooltipModel._footerFontStyle = 'normal';
+            }
+
             // tooltipModel._footerFontFamily = 'TitilliumWeb';
           },
           callbacks: {
