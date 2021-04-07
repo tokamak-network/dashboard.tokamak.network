@@ -1,7 +1,7 @@
 <template>
   <div class="staking-component-container">
     <div class="sim-container">
-      <div class="sim" @click="showSim = true">Simulator</div>
+      <div :disabled="!signIn" :style="{color: signIn? '#2a72e5': '#86929d', cursor: signIn? 'pointer': 'default'}" class="sim" @click="signIn?showSim = true: showSim = false">Simulator</div>
     </div>
     <div class="ton-balance">
       <div class="amount-text" :class="{'balance-not-signin' : !signIn}">{{ signIn? currencyAmount(tonBalance) : 0 }}</div>
@@ -150,6 +150,7 @@ export default {
 .sim:hover {
   cursor: pointer;
 }
+
 .sim-container {
   display: flex;
   flex-direction: row;
@@ -198,6 +199,9 @@ button:focus {
 }
 button:hover {
   cursor: pointer;
+}
+button:disabled {
+  cursor: default;
 }
 .model-mask-second {
   position: fixed;

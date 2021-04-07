@@ -53,9 +53,6 @@ import AutoRefactorCoinageABI from '@/contracts/abi/AutoRefactorCoinage.json';
 import axios from 'axios';
 
 import CommitteeABI from '@/contracts/abi/DAOCommittee.json';
-
-import CommitteeABI from '@/contracts/abi/DAOCommittee.json';
-
 const initialState = {
   loading: false,
   loadingAccount: false,
@@ -81,9 +78,6 @@ const initialState = {
   PowerTON: {},
   pendingTx: '',
   CommitteeProxy: {},
-
-  CommitteeProxy: {},
-
   // balance
   ethBalance: _ETH('0'),
   tonBalance: _TON('0'),
@@ -308,7 +302,7 @@ export default new Vuex.Store({
         context.dispatch('getPowerReward'),
         context.dispatch('getRanks'),
         context.dispatch('getWinners'),
-        context.dispatch('setOperatorsBeforeConnect', operators.slice(0, 2)),
+        context.dispatch('setOperatorsBeforeConnect', operators),
       ]);
       await new Promise((resolve) => setTimeout(resolve, 1000)); // https://github.com/Onther-Tech/dashboard.tokamak.network/issues/81
       context.commit('IS_LOADING', false);
@@ -345,7 +339,7 @@ export default new Vuex.Store({
       const transactions = await getTransactions(user);
       context.dispatch('setCommitteeProxy');
       await context.dispatch('setManagers', managers);
-      await context.dispatch('setOperatorsWithRegistry', operators.slice(0, 2));
+      await context.dispatch('setOperatorsWithRegistry', operators);
 
       await Promise.all([
         context.dispatch('setCandidates', candidates),
@@ -394,9 +388,6 @@ export default new Vuex.Store({
     async setOperatorsBeforeConnect (context, operators) {
       const opInfo = await getOperatorsInfo();
       const candidates = await getCandidates();
-      operators.forEach((operator) => {
-
-      });
       operators.forEach(async (operator) => {
         const isCandidate = candidates.find(
           (candidate) => candidate.layer2 === operator.layer2.toLowerCase()
@@ -411,25 +402,22 @@ export default new Vuex.Store({
         );
         operator.totalStaked = _TON.ray(oper.updateCoinageTotalString);
         operator.commissionRate = _WTON(
-          oper.commissionRate ? oper.commissionRate : 0,
-          WTON_UNIT
-        );
+          oper.commissionRate ? oper.commissionRate : 0, WTON_UNIT);
         operator.isCommissionRateNegative = oper.isCommissionRateNegative
           ? oper.isCommissionRateNegative
           : false;
-
         const operatorsHistory = await getOperatorUserHistory(
-          4,
+          1,
           operator.layer2.toLowerCase()
         );
         operator.operatorsHistory = operatorsHistory;
         const operatorDelegators = await getDelegators(
-          4,
+          1,
           operator.layer2.toLowerCase()
         );
         operator.delegators = operatorDelegators;
         const operatorCommitHistory = await getCommitHistory(
-          4,
+          1,
           operator.layer2.toLowerCase()
         );
         operator.commitHistory = operatorCommitHistory;
@@ -666,7 +654,7 @@ export default new Vuex.Store({
         TON.methods.balanceOf(WTON._address).call(),
       ]);
 
-      const operators = context.state.operators.slice(0, 2);
+      const operators = context.state.operators;
       const candidates = await getCandidates();
       const events = await getCandidateCreateEvent();
       const candidateContractCreated = events.filter(
@@ -1307,7 +1295,7 @@ export default new Vuex.Store({
     operatorByLayer2: (state) => (layer2) => {
       if (state.signIn) {
         return cloneDeep(
-          state.operators.slice(0, 2)
+          state.operators
             .find(
               (operator) =>
                 operator.layer2.toLowerCase() === layer2.toLowerCase()

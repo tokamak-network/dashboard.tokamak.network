@@ -29,7 +29,7 @@ export async function getDailyStakedTotal (chainId) {
 export async function getOperatorsInfo () {
   const res = await candidate.get('/layer2s/operators', {
     params: {
-      chainId: 4,
+      chainId: 1,
     },
   });
   if (res.data === '') return [];
