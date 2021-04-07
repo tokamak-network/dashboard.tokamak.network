@@ -87,8 +87,10 @@ export default {
     async getAccumulatedReward () {
       if(this.signIn) {
         const reward = await getAccumulatedReward(this.networkId, this.user.toLowerCase());
-        const rewarded =  (reward[0].rewards).toLocaleString('fullwide', { useGrouping:false });
-        this.reward = _WTON.ray(rewarded.toString());
+        if (reward.length !==0) {
+          const rewarded =  (reward[0].rewards).toLocaleString('fullwide', { useGrouping:false });
+          this.reward = _WTON.ray(rewarded.toString());
+        }
       }
     },
     displayAmount (amount) {

@@ -419,6 +419,18 @@ export default new Vuex.Store({
           operator.layer2.toLowerCase()
         );
         operator.operatorsHistory = operatorsHistory;
+        const operatorDelegators = await getDelegators(
+          4,
+          operator.layer2.toLowerCase()
+        );
+        operator.delegators = operatorDelegators;
+        const operatorCommitHistory = await getCommitHistory(
+          4,
+          operator.layer2.toLowerCase()
+        );
+        operator.commitHistory = operatorCommitHistory;
+        operator.lastFinalizedAt = operatorCommitHistory.length !== 0? operatorCommitHistory[0].blockTimestamp : '0';
+        operator.finalizeCount = operatorCommitHistory.length !== 0? (operatorCommitHistory.length).toString() : '0';
       });
 
       context.commit('SET_OPERATORS_BEFORE_CONNECT', operators);
@@ -1098,7 +1110,7 @@ export default new Vuex.Store({
           );
           const userWithdrawable = getUserWithdrawable(withdrawableRequests);
           operatorFromLayer2.address = operator;
-          operatorFromLayer2.finalizeCount = lastFinalized[1];
+          operatorFromLayer2.finalizeCount = commitHistory.length !== 0? (commitHistory.length).toString() : '0';
           operatorFromLayer2.totalDeposit = _WTON(totalDeposit, WTON_UNIT);
           operatorFromLayer2.totalStaked = _WTON(totalStaked, WTON_UNIT);
           operatorFromLayer2.selfDeposit = _WTON(selfDeposit, WTON_UNIT);
@@ -1291,8 +1303,7 @@ export default new Vuex.Store({
     operatorByLayer2: (state) => (layer2) => {
       if (state.signIn) {
         return cloneDeep(
-          state.operators
-            .slice(0, 2)
+          state.operators.slice(0, 2)
             .find(
               (operator) =>
                 operator.layer2.toLowerCase() === layer2.toLowerCase()

@@ -4,24 +4,24 @@
       <div class="sim" @click="showSim = true">Simulator</div>
     </div>
     <div class="ton-balance">
-      <div class="amount-text">{{ currencyAmount(tonBalance) }}</div>
+      <div class="amount-text" :class="{'balance-not-signin' : !signIn}">{{ signIn? currencyAmount(tonBalance) : 0 }}</div>
       <div class="text">Available in wallet</div>
     </div>
     <div class="button-container">
-      <button class="button-stake" @click="selectFunction('stake')">
+      <button class="button-stake" :class="{'model-btn-notavailable' : !signIn}" :disabled="!signIn" @click="selectFunction('stake')">
         Stake
       </button>
       <div>
         <div>
-          <button class="button-stake" :class="{'model-btn-notavailable' : parseFloat(operator.userStaked) === 0}" :disabled="parseFloat(operator.userStaked)=== 0" @click="selectFunction('unstake')">Unstake</button>
+          <button class="button-stake" :class="{'model-btn-notavailable' : !signIn || parseFloat(operator.userStaked) === 0}" :disabled="!signIn || parseFloat(operator.userStaked)=== 0" @click="selectFunction('unstake')">Unstake</button>
         </div>
       </div>
 
       <div>
-        <button class="button-stake" :class="{'model-btn-notavailable' :parseInt(operator.userNotWithdrawable) === 0}" :disabled="parseInt(operator.userNotWithdrawable) === 0" @click="selectFunction('restake')">Re-stake</button>
+        <button class="button-stake" :class="{'model-btn-notavailable' :!signIn || parseInt(operator.userNotWithdrawable) === 0}" :disabled="!signIn || parseInt(operator.userNotWithdrawable) === 0" @click="selectFunction('restake')">Re-stake</button>
       </div>
 
-      <button class="button-stake" :class="{'model-btn-notavailable' : operator.userWithdrawable.isEqual(balance)}" :disabled="operator.userWithdrawable.isEqual(balance)" @click="selectFunction('withdraw')">Withdraw</button>
+      <button class="button-stake" :class="{'model-btn-notavailable' : !signIn || operator.userWithdrawable.isEqual(balance)}" :disabled="!signIn || operator.userWithdrawable.isEqual(balance)" @click="selectFunction('withdraw')">Withdraw</button>
     </div>
     <transition v-if="showSim" name="model">
       <div class="model-mask">
@@ -74,9 +74,6 @@ export default {
       type: String,
     },
   },
-  created () {
-    // console.log(this.currencyAmount(this.operator.userStaked));
-  },
   data () {
     return {
       balance: _WTON.ray('0'),
@@ -89,8 +86,11 @@ export default {
       myStaked: 0,
     };
   },
+  created () {
+    // console.log(this.currencyAmount(this.operator.userStaked));
+  },
   computed: {
-    ...mapState(['tonBalance']),
+    ...mapState(['tonBalance', 'signIn']),
     ...mapGetters(['operatorByLayer2']),
     operator () {
       return this.operatorByLayer2(this.layer2);
@@ -175,6 +175,9 @@ export default {
   text-align: center;
   color: #2a72e5;
 }
+.balance-not-signin {
+  color: #828d99;
+}
 .button-container {
   margin-top: 30px;
  display: flex;
@@ -254,6 +257,6 @@ button:hover {
 .model-btn-notavailable {
   background-color: #e9edf1;
   border: solid 1px #e9edf1;
-  cursor: default;
+  cursor:not-allowed;
 }
 </style>

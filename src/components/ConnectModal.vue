@@ -140,7 +140,8 @@ export default {
       window.location.reload();
     });
     window.ethereum.on('accountsChanged', (account) => {
-      this.$store.dispatch('signIn', new Web3(window.ethereum));
+      window.location.reload();
+      // this.$store.dispatch('signIn', new Web3(window.ethereum));
     });
   },
   methods: {

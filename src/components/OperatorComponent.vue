@@ -27,20 +27,20 @@
           </div>
         </div>
       </div>
-      <img v-if="signIn" class="arrow"
+      <img class="arrow"
            :class="{ 'arrow-up': !isPressed, 'arrow-down': isPressed }"
            src="@/assets/images/arrow_open_icon.png"
       >
     </div>
     <div
-      v-if="isPressed && signIn"
+      v-if="isPressed"
       class="operator-details"
     >
       <div class="divider" />
       <div class="row">
         <div class="column" style="margin-top:30px">
           <operator-text-view :title="'Total Delegates'" :value="operator.delegators.length.toString()" :date="false" :tonValue="false" />
-          <operator-text-view :title="'Pending Withdrawal'" :value="currencyAmount(operator.pendingUnstakedLayer2).replace('TON','')" :date="false" :tonValue="true" style="margin-top:40px" />
+          <operator-text-view v-if="signIn" :title="'Pending Withdrawal'" :value="currencyAmount(operator.pendingUnstakedLayer2).replace('TON','')" :date="false" :tonValue="true" style="margin-top:40px" />
         </div>
         <div class="column">
           <staking-component :layer2="operator.layer2" @selectFunc="selectFunc" @openStakeModal="openStakeModal" />
@@ -62,11 +62,11 @@
           <div class="table-header">
             <div class="title">Staking</div>
             <div class="tx-toggle">
-              {{ toggled? 'My Transactions': 'All transactions' }}
-              <toggle-button v-model="toggled" :disabled="false" :color="{checked: '#36af47', unchecked: '#2a72e5', disabled: '#e9edf1'}" :height="16" :width="36" />
+              {{ !toggled? 'My Transactions': 'All transactions' }}
+              <toggle-button v-model="toggled" :disabled="!signIn" :color="{checked: '#36af47', unchecked: '#2a72e5', disabled: '#e9edf1'}" :height="16" :width="36" />
             </div>
           </div>
-          <user-history-table v-if="toggled" :layer2="layer2" />
+          <user-history-table v-if="!toggled" :layer2="layer2" />
           <operator-user-histroy-table v-else :operatorHistroy="operator.operatorsHistory" />
         </div>
         <div class="column">
@@ -180,10 +180,15 @@ export default {
       return (commissionRate) => this.$options.filters.rateOf(commissionRate);
     },
     date () {
-      const zone = moment().utcOffset(this.operator.lastFinalizedAt);
-      return moment
-        .unix(this.operator.lastFinalizedAt)
-        .format('YYYY.MM.DD HH:mm:ss (Z)');
+      if(this.operator.finalizeCount !== '0') {
+        const zone = moment().utcOffset(this.operator.lastFinalizedAt);
+        return moment
+          .unix(this.operator.lastFinalizedAt)
+          .format('YYYY.MM.DD HH:mm:ss (Z)');
+      }
+      else {
+        return 'The operator does not have any commits';
+      }
     },
     isPressed () {
       if (this.selectedOperator === this.operator.layer2) {
@@ -199,14 +204,14 @@ export default {
   },
   methods: {
     openStaking () {
-      if (this.signIn){
-        if (this.isPressed) {
-          this.$store.dispatch('setSelectedOperator', '');
-        }
-        else {
-          this.$store.dispatch('setSelectedOperator', this.operator.layer2);
-        }
+
+      if (this.isPressed) {
+        this.$store.dispatch('setSelectedOperator', '');
       }
+      else {
+        this.$store.dispatch('setSelectedOperator', this.operator.layer2);
+      }
+
     },
     viewDetailedOperator (operator) {
       const layer2 = operator.layer2;

@@ -105,15 +105,17 @@ export async function getDelegators (chainId, layer2) {
   else return res.data.datas;
 }
 export async function getCommitHistory (chainId, layer2) {
+  console.log(layer2);
   const res = await candidate.get('/events', {
     params: {
       chainId: chainId,
       eventName: 'Comitted',
       layer2: layer2,
       page: 1,
-      pagesize: 100,
+      pagesize: 300,
     },
   });
+  console.log(res.data.datas);
   if (res.data === '') return [];
   else return res.data.datas;
 }
