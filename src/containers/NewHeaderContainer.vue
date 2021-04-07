@@ -11,7 +11,7 @@
           @click="toMainPage"
         >
       </div>
-      <div class="link-container">
+      <div class="link-container" style="margin-left: -10vw">
         <button
           class="header-link"
           :class="{ 'menu-button-selected': $route.path === '/home'}"
@@ -26,6 +26,13 @@
         >
           Staking
         </button>
+        <!-- <button
+          class="header-link"
+          :class="{ 'menu-button-selected': $route.path === '/staking'}"
+          @click="clickMenu('staking')"
+        >
+          Staking
+        </button> -->
         <button
           class="header-link"
           :class="{ 'menu-button-selected': $route.path === '/powerton'}"
@@ -43,13 +50,12 @@
         <!-- <button
           class="header-link"
           :class="{ 'menu-button-selected': $route.path === '/wallet'}"
-          style="margin-right: 77px;"
           @click="signIn?clickMenu('wallet'): showPopUp()"
         >
           Support
         </button> -->
       </div>
-      <div class="connect-modal">
+      <div style="margin-right:40px">
         <connect-modal />
       </div>
     </div>
@@ -130,43 +136,35 @@ export default {
   justify-content: center;
   position:inherit;
 }
-
 .menu-header {
     align-items: center;
     display: flex;
      width: 100%;
   height: 100%;
-    /* justify-content: space-between; */
+    justify-content: space-between;
 }
-
 .header-logo-container {
   display: block;
 }
-
 .header-logo {
   margin-top: -5px;
   margin-left: 40px;
-  margin-right: 7.8vw;
 }
-
 .header-logo:hover {
   cursor: pointer;
 }
-
 .link-container {
  -webkit-box-align: center;
   align-items: center;
   display: flex;
 }
-
 .header-link:hover {
   color: #2a72e5;;
 }
-
 .header-link {
   border: none;
-    /* padding-left: 24px; */
-    /* padding-right: 24px; */
+    padding-left: 24px;
+    padding-right: 24px;
     background: #fafbfc;
   font-family: "TitilliumWeb",sans-serif;
   font-size: 18px;
@@ -177,17 +175,13 @@ export default {
   letter-spacing: normal;
   text-align: center;
   color: #3e495c;
-  margin-right: 48px;
 }
-
 button:focus {
   outline: none;
 }
-
 button:hover {
   color: #555555;
 }
-
 .login {
   border: 1px solid #d7d9df;
   border-radius: 12px;
@@ -198,8 +192,8 @@ button:hover {
   font-size: 14px;
   font-family: "Noto Sans",sans-serif;
   width: 150px;
+  margin-right: 39px;
 }
-
 .menu-button-selected {
   color: #2a72e5;
 }
@@ -212,7 +206,6 @@ button:hover {
   height: 100%;
   background-color: rgba(0, 0, 0, 0.6);
   transition: opacity 0.3s ease;
-
 }
 .model-leave-active {
   opacity: 0;
@@ -223,18 +216,10 @@ button:hover {
   align-content: center;
   height: 100%;
     transition: all 0.3s ease;
-
 }
 .model-enter .model-container,
 .model-leave-active .model-container {
   -webkit-transform: scale(1.1);
   transform: scale(1.1);
-}
-
-.connect-modal {
-  display: flex;
-  position: absolute;
-  right: 2.4vw;
-  /* justify-content: flex-end; */
 }
 </style>
