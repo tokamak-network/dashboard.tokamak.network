@@ -8,7 +8,7 @@
       <div class="text">Available in wallet</div>
     </div>
     <div class="button-container">
-      <button class="button-stake" :class="{'model-btn-notavailable' : !signIn}" :disabled="!signIn" @click="selectFunction('stake')">
+      <button class="button-stake" :class="{'model-btn-notavailable' : !signIn || operator.layer2==='0x41fb4bAD6fbA9e9b6E45F3f96bA3ad7Ec2fF5b3C'}" :disabled="!signIn || operator.layer2==='0x41fb4bAD6fbA9e9b6E45F3f96bA3ad7Ec2fF5b3C'" @click="selectFunction('stake')">
         Stake
       </button>
       <div>
@@ -18,10 +18,10 @@
       </div>
 
       <div>
-        <button class="button-stake" :class="{'model-btn-notavailable' :!signIn || parseInt(operator.userNotWithdrawable) === 0}" :disabled="!signIn || parseInt(operator.userNotWithdrawable) === 0" @click="selectFunction('restake')">Re-stake</button>
+        <button class="button-stake" :class="{'model-btn-notavailable' :!signIn || parseInt(operator.userNotWithdrawable) === 0}" :disabled="!signIn || parseInt(operator.userNotWithdrawable) === 0 || operator.layer2==='0x41fb4bAD6fbA9e9b6E45F3f96bA3ad7Ec2fF5b3C'" @click="selectFunction('restake')">Re-stake</button>
       </div>
 
-      <button class="button-stake" :class="{'model-btn-notavailable' : !signIn || operator.userWithdrawable.isEqual(balance)}" :disabled="!signIn || operator.userWithdrawable.isEqual(balance)" @click="selectFunction('withdraw')">Withdraw</button>
+      <button class="button-stake" :class="{'model-btn-notavailable' : !signIn || operator.userWithdrawable.isEqual(balance)} || operator.layer2==='0x41fb4bAD6fbA9e9b6E45F3f96bA3ad7Ec2fF5b3C'" :disabled="!signIn || operator.userWithdrawable.isEqual(balance)" @click="selectFunction('withdraw')">Withdraw</button>
     </div>
     <transition v-if="showSim" name="model">
       <div class="model-mask">

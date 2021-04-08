@@ -36,7 +36,7 @@
               <div class="footer-items__card">
                 <div class="items-card__title">
                   Round
-                  <span class="items-card__title-span">start</span>
+                  <span class="items-card__title-span">started</span>
                 </div>
                 <span class="items-card__text">{{ formatTimeString(currentPowerRound.data.startTime) }}
                 </span>
@@ -48,7 +48,7 @@
               <div class="footer-items__card">
                 <div class="items-card__title">
                   PowerTON
-                  <span class="items-card__title-span">Reward</span>
+                  <span class="items-card__title-span">Prize</span>
                 </div>
                 <span class="items-card__text">{{ reward }}</span>
               </div>
