@@ -141,7 +141,7 @@ export default {
               valueLength = String(tooltipItem.yLabel).length;
               testX = typeAPY ? tooltipItem.x - valueLength * 11 : tooltipItem.x - valueLength * 8;
               testY = tooltipItem.y - 55;
-              return  typeAPY ? 'APY ' + tooltipItem.yLabel + '%' : String(tooltipItem.yLabel).replace(/[^0-9a-zA-Z.]/g, '')
+              return  typeAPY ? 'APY ' + tooltipItem.yLabel*100 + '%' : String(tooltipItem.yLabel).replace(/[^0-9a-zA-Z.]/g, '')
                 .replace(/\B(?=(\d{3})+(?!\d))/g, ',') + ' TON';
             },
           },

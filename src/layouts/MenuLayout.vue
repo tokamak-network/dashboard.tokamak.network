@@ -49,8 +49,8 @@ export default {
       selected: false,
       selectedOp:'',
       filteredOperators:[],
-      from: 'name',
-      order: 'asc',
+      from: 'totalStaked',
+      order: 'desc',
       ops: [],
     };
   },
@@ -95,7 +95,7 @@ export default {
         this.order = this.changedOrder();
       } else {
         this.from = from;
-        this.order = 'desc';
+        this.order = 'asc';
       }
     },
     // handleOperatorToggleDataSource (state) {
