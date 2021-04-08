@@ -80,8 +80,8 @@
           <div class="model-line" />
           <div class="model-btn-container">
             <button class="model-btn"
-                    :class="{'model-btn-notavailable' : !signIn || inputTon === '0' || inputTon === ''}"
-                    :disabled="!signIn"
+                    :class="{'model-btn-notavailable' : !signIn || inputTon === '0' || inputTon === '' || disable}"
+                    :disabled="!signIn || disable"
                     style="marginRight: 5px"
                     @click="openStake()"
             >
@@ -125,6 +125,10 @@ import axios from 'axios';
 export default {
   props: {
     func: { type: Function },
+    disable: {
+      required: true,
+      type: Boolean,
+    },
   },
   data () {
     return {

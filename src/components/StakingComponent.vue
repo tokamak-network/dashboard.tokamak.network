@@ -4,29 +4,80 @@
       <div class="sim" @click="showSim = true">Calculator</div>
     </div>
     <div class="ton-balance">
-      <div class="amount-text" :class="{'balance-not-signin' : !signIn}">{{ signIn? currencyAmount(tonBalance) : 0 }}</div>
+      <div class="amount-text" :class="{ 'balance-not-signin': !signIn }">
+        {{ signIn ? currencyAmount(tonBalance) : 0 }}
+      </div>
       <div class="text">Available in wallet</div>
     </div>
     <div class="button-container">
-      <button class="button-stake" :class="{'model-btn-notavailable' : !signIn || operator.layer2==='0x41fb4bAD6fbA9e9b6E45F3f96bA3ad7Ec2fF5b3C'}" :disabled="!signIn || operator.layer2==='0x41fb4bAD6fbA9e9b6E45F3f96bA3ad7Ec2fF5b3C'" @click="selectFunction('stake')">
+      <button
+        class="button-stake"
+        :class="{
+          'model-btn-notavailable':
+            !signIn ||
+            operator.layer2 === '0x41fb4bAD6fbA9e9b6E45F3f96bA3ad7Ec2fF5b3C',
+        }"
+        :disabled="
+          !signIn ||
+            operator.layer2 === '0x41fb4bAD6fbA9e9b6E45F3f96bA3ad7Ec2fF5b3C'
+        "
+        @click="selectFunction('stake')"
+      >
         Stake
       </button>
       <div>
         <div>
-          <button class="button-stake" :class="{'model-btn-notavailable' : !signIn || parseFloat(operator.userStaked) === 0}" :disabled="!signIn || parseFloat(operator.userStaked)=== 0" @click="selectFunction('unstake')">Unstake</button>
+          <button
+            class="button-stake"
+            :class="{
+              'model-btn-notavailable':
+                !signIn || parseFloat(operator.userStaked) === 0,
+            }"
+            :disabled="!signIn || parseFloat(operator.userStaked) === 0"
+            @click="selectFunction('unstake')"
+          >
+            Unstake
+          </button>
         </div>
       </div>
 
       <div>
-        <button class="button-stake" :class="{'model-btn-notavailable' :!signIn || parseInt(operator.userNotWithdrawable) === 0}" :disabled="!signIn || parseInt(operator.userNotWithdrawable) === 0 || operator.layer2==='0x41fb4bAD6fbA9e9b6E45F3f96bA3ad7Ec2fF5b3C'" @click="selectFunction('restake')">Re-stake</button>
+        <button
+          class="button-stake"
+          :class="{
+            'model-btn-notavailable':
+              !signIn ||
+              parseInt(operator.userNotWithdrawable) === 0 ||
+              operator.layer2 === '0x41fb4bAD6fbA9e9b6E45F3f96bA3ad7Ec2fF5b3C',
+          }"
+          :disabled="
+            !signIn ||
+              parseInt(operator.userNotWithdrawable) === 0 ||
+              operator.layer2 === '0x41fb4bAD6fbA9e9b6E45F3f96bA3ad7Ec2fF5b3C'
+          "
+          @click="selectFunction('restake')"
+        >
+          Re-stake
+        </button>
       </div>
 
-      <button class="button-stake" :class="{'model-btn-notavailable' : !signIn || operator.userWithdrawable.isEqual(balance)} || operator.layer2==='0x41fb4bAD6fbA9e9b6E45F3f96bA3ad7Ec2fF5b3C'" :disabled="!signIn || operator.userWithdrawable.isEqual(balance)" @click="selectFunction('withdraw')">Withdraw</button>
+      <button
+        class="button-stake"
+        :class="{
+          'model-btn-notavailable':
+            !signIn || operator.userWithdrawable.isEqual(balance),
+        }"
+        :disabled="!signIn || operator.userWithdrawable.isEqual(balance)"
+        @click="selectFunction('withdraw')"
+      >
+        Withdraw
+      </button>
     </div>
     <transition v-if="showSim" name="model">
       <div class="model-mask">
         <div class="model-container">
           <simulator-modal
+            :disable="operator.layer2 === '0x41fb4bAD6fbA9e9b6E45F3f96bA3ad7Ec2fF5b3C'"
             @closePopup="closePopup"
             @openResultModal="openResultModal"
             @openStake="openStake"
@@ -179,11 +230,11 @@ export default {
 }
 .button-container {
   margin-top: 30px;
- display: flex;
-    flex-direction: row;
-    justify-content: space-evenly;
-    /* width: 660px; */
-    flex-flow: row wrap;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  /* width: 660px; */
+  flex-flow: row wrap;
 }
 .model-mask {
   position: fixed;
@@ -259,6 +310,6 @@ button:disabled {
 .model-btn-notavailable {
   background-color: #e9edf1;
   border: solid 1px #e9edf1;
-  cursor:not-allowed;
+  cursor: not-allowed;
 }
 </style>
