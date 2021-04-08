@@ -42,6 +42,7 @@
           <div class="model-line" />
           <button class="model-btn"
                   :class="{'model-btn-notavailable' : inputTon === '0' || inputTon === ''}"
+                  :disabled="inputTon === '0' || inputTon === ''"
                   @click="calculate()"
           >
             Calculate
@@ -79,7 +80,8 @@
           <div class="model-line" />
           <div class="model-btn-container">
             <button class="model-btn"
-                    :class="{'model-btn-notavailable' : inputTon === '0' || inputTon === ''}"
+                    :class="{'model-btn-notavailable' : !signIn || inputTon === '0' || inputTon === ''}"
+                    :disabled="!signIn"
                     style="marginRight: 5px"
                     @click="openStake()"
             >
@@ -146,6 +148,7 @@ export default {
     ...mapState([
       'tonBalance',
       'totalStaked',
+      'signIn',
     ]) },
   watch: {
     inputTon: function (newValue) {
@@ -529,5 +532,9 @@ textarea:focus, input:focus, button:focus{
   position: absolute;
   margin-left: 93px;
   margin-top: 7px;
+}
+
+button:disabled{
+  cursor: default;
 }
 </style>

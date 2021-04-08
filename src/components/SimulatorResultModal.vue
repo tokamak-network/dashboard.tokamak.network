@@ -5,7 +5,7 @@
     <div>{{ rewardUSD }}</div>
     <div>{{ rewardKRW }}</div>
     <div>{{ roi }}</div>
-    <button @click="stake">Stake</button>
+    <button :disabled="!signIn" @click="stake">Stake</button>
   </div>
 </template>
 <script>
@@ -30,6 +30,10 @@ export default {
     myStaked: {
       required: true,
       type: String,
+    },
+    signIn: {
+      required: true,
+      type: Boolean,
     },
   },
   methods:{

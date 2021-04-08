@@ -112,7 +112,7 @@ export default {
           custom: (tooltipModel) => {
             if(tooltipModel.dataPoints !== undefined) {
               const typeAPY = tooltipModel.dataPoints[0].value < 200;
-              tooltipModel.width = typeAPY ? valueLength * 24 : valueLength * 16;
+              tooltipModel.width = typeAPY ? valueLength * 22 : valueLength * 16;
               tooltipModel.height = 46;
               tooltipModel.cornerRadius = 3;
               tooltipModel.backgroundColor = typeAPY ? '#84919e' : '#2a72e5';

@@ -1,7 +1,7 @@
 <template>
   <div class="staking-component-container">
     <div class="sim-container">
-      <div :disabled="!signIn" :style="{color: signIn? '#2a72e5': '#86929d', cursor: signIn? 'pointer': 'default'}" class="sim" @click="signIn?showSim = true: showSim = false">Simulator</div>
+      <div class="sim" @click="showSim = true">Calculator</div>
     </div>
     <div class="ton-balance">
       <div class="amount-text" :class="{'balance-not-signin' : !signIn}">{{ signIn? currencyAmount(tonBalance) : 0 }}</div>
@@ -43,6 +43,7 @@
             :rewardUSD="rewardUSD"
             :rewardKRW="rewardKRW"
             :myStaked="myStaked"
+            :signIn="signIn"
             @closeModal="closeModal"
             @openStake="openStake"
           />
