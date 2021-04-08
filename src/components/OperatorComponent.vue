@@ -40,7 +40,7 @@
       <div class="row">
         <div class="column" style="margin-top:30px">
           <operator-text-view :title="'Total Delegates'" :value="operator.delegators.length.toString()" :date="false" :tonValue="false" />
-          <operator-text-view :title="'Pending Withdrawal'" :value="showAmount" :date="false" :tonValue="true" style="margin-top:40px" />
+          <operator-text-view :title="'Pending Withdrawal'" :value="showAmount" :date="false" :tonValue="signIn?true:false" style="margin-top:40px" />
         </div>
         <div class="column">
           <staking-component :layer2="operator.layer2" @selectFunc="selectFunc" @openStakeModal="openStakeModal" />
@@ -199,7 +199,7 @@ export default {
       }
     },
     showAmount () {
-      return this.signIn? this.currencyAmount(this.operator.pendingUnstakedLayer2).toString().replace('TON', ''): this.currencyAmount('0').toString().replace('TON', '') ;
+      return this.signIn? this.currencyAmount(this.operator.pendingUnstakedLayer2).toString().replace('TON', ''): '-' ;
 
     },
   },
