@@ -4,7 +4,7 @@ Vue.use(VueRouter);
 
 import HomeLayout from '@/layouts/HomeLayout.vue';
 import MenuLayout from '@/layouts/MenuLayout.vue';
-import AboutUsLayout from '@/layouts/AboutUsLayout.vue';
+import SupportLayout from '@/layouts/SupportLayout.vue';
 import PowerLayout from '@/layouts/PowerLayout.vue';
 import WalletLayout from '@/layouts/WalletLayout.vue';
 const routes = [
@@ -21,8 +21,8 @@ const routes = [
     component: MenuLayout,
   },
   {
-    path: '/about',
-    component: AboutUsLayout,
+    path: '/support',
+    component: SupportLayout,
   },
   {
     path: '/powerton',

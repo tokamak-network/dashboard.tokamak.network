@@ -47,13 +47,13 @@
         >
           Wallet
         </button>
-        <!-- <button
+        <button
           class="header-link"
           :class="{ 'menu-button-selected': $route.path === '/wallet'}"
-          @click="signIn?clickMenu('wallet'): showPopUp()"
+          @click="clickMenu('support')"
         >
           Support
-        </button> -->
+        </button>
       </div>
       <div style="margin-right:40px">
         <connect-modal />
