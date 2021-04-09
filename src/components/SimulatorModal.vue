@@ -70,11 +70,14 @@
             <div class="model-result-ton">
               <span class="model-result-ton-amount">{{ getRewardTon(rewardTON) }}</span>
               <span class="model-result-ton-unit">TON  </span>
-              <span class="modal-result-duration-unit">/ {{durationUnit}}</span>
+              <span class="model-result-ton-unit" style="margin-left:3px; margin-right:3px; color: #86929d"> / </span>
+              <div class="modal-result-duration-unit"> {{ durationUnit }}</div>
             </div>
             <div class="model-result-detail">
               <span class="model-result-detail-info">{{ rewardUSD }}</span>
+                <!-- <span class="model-result-detail-info">|</span> -->
               <span class="model-result-detail-info">{{ roi }}</span>
+                <!-- <span class="model-result-detail-info">|</span> -->
               <span class="model-result-detail-info">{{ rewardKRW }}</span>
             </div>
           </div>
@@ -520,10 +523,10 @@ textarea:focus, input:focus, button:focus{
   padding-top: 10px;
 }
 .modal-result-duration-unit {
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 500;
-  color: #3d495d;
-  padding-top: 14px;
+  color:#86929d;
+  padding-top: 12px;
 }
 .model-result-detail {
   display: flex;
