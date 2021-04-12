@@ -44,32 +44,13 @@
         <login-container />
       </div>
       <div ref="stake">
-        <div>Stake</div>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam
-        fermentum fermentum nisl sed volutpat. Praesent a interdum eros. Nam at
-        lectus lectus. Suspendisse vitae justo diam. Etiam vitae bibendum felis.
-        Sed nec elit nibh. Vestibulum hendrerit lorem sed tellus ullamcorper, at
-        consequat dui rhoncus. Fusce id posuere dui. Nullam eu tincidunt eros.
-        Etiam eleifend dapibus sapien, nec accumsan mauris sagittis sed. Quisque
-        ut egestas mauris. Cras fringilla risus quis dolor tempus volutpat. Ut
+        <SupportStake />
       </div>
       <div ref="unstake">
-        <div class="title">Unstake</div>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam
-        fermentum fermentum nisl sed volutpat. Praesent a interdum eros. Nam at
-        lectus lectus. Suspendisse vitae justo diam. Etiam vitae bibendum felis.
-        Sed nec elit nibh. Vestibulum hendrerit lorem sed tellus ullamcorper, at
-        consequat dui rhoncus. Fusce id posuere dui. Nullam eu tincidunt eros.
+        <SupportUnstake />
       </div>
       <div ref="restake">
-        <div class="title">Restake</div>
-
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam
-        fermentum fermentum nisl sed volutpat. Praesent a interdum eros. Nam at
-        lectus lectus. Suspendisse vitae justo diam. Etiam vitae bibendum felis.
-        Sed nec elit nibh. Vestibulum hendrerit lorem sed tellus ullamcorper, at
-        consequat dui rhoncus. Fusce id posuere dui. Nullam eu tincidunt eros.
-        Etiam eleifend dapibus sapien, nec accumsan mauris sagittis sed. Quisque
+        <SupportRestake />
       </div>
       <div ref="withdraw">
         <div class="title">Withdraw</div>
@@ -112,11 +93,17 @@ import { mapState, mapGetters } from 'vuex';
 import IntroductionContainer from '@/containers/IntroductionContainer.vue';
 import InstallMetamaskContainer from '@/containers/InstallMetamaskContainer';
 import LoginContainer from '@/containers/LoginContainer';
+import SupportStake from '../components/support/SupportStake.vue';
+import SupportUnstake from '../components/support/SupportUnstake.vue';
+import SupportRestake from '../components/support/SupportRestake.vue';
 export default {
   components: {
     'introduction-container': IntroductionContainer,
     'install-metamask-container': InstallMetamaskContainer,
     'login-container': LoginContainer,
+    SupportStake,
+    SupportUnstake,
+    SupportRestake,
   },
   methods: {
     scrollMeTo (refName) {
