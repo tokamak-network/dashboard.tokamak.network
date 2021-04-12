@@ -49,7 +49,7 @@
         </button>
         <button
           class="header-link"
-          :class="{ 'menu-button-selected': $route.path === '/wallet'}"
+          :class="{ 'menu-button-selected': $route.path === '/support'}"
           @click="clickMenu('support')"
         >
           Support

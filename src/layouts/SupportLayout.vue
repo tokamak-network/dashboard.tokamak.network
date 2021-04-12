@@ -35,56 +35,13 @@
     </div>
     <div class="instructions-container">
       <div ref="introduction">
-        <div class="title">Introduction to staking</div>
-        <h3 class="subtitle">What is staking?</h3>
-        <p class="description">
-          The word staking comes from the word stake. Stake means to support, or
-          to secure something, such as a tent. In the blockchain space, staking
-          means to deposit tokens to support the network by verifying
-          transactions and sustaining its stability.
-        </p>
-        <p class="description">
-          The background for the creation of staking in blockchain is related to
-          how blocks are verified. Originally Proof of Work was to secure and
-          verify the network, but it was inefficient as it wastes a large amount
-          of electricity. Proof of Stake came about as an alternative to Proof
-          of Work.
-        </p>
-        <p class="description">
-          As a part of DeFi, staking has become a popular financial instrument,
-          but in reality it was created for the security of blockchain networks
-          and to incentivize those participating in the operation of the
-          network. Participants stake tokens as deposits, and the network
-          provides them with interest as a reward for offering this service.
-          Staking with Tokamak Network is imilar but different.
-        </p>
-        <p class="description">
-          Typical Staking based blockchains have one chain with various
-          operators and thus the trust of operators wasn’t a significant factor.
-          But for Tokamak Networks Layer 2 chains, anyone can open and run a
-          plasma and roll-up chain. Because of this, the chain economy must be
-          structured that anyone can trust the operator and the data of the L2
-          chain. The Tokamak Network staking system allows for the creation of
-          this credibility.
-        </p>
-        <img class="screenshot" src="@/assets/images/screenshot_home.png">
-        <h3 class="subtitle">Main Composition of Tokamak Network Simple Staking</h3>
-        <p class="description" />
+        <introduction-container />
       </div>
       <div ref="install">
-        <div class="title">Install Metamask</div>
-
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam
-        fermentum fermentum nisl sed volutpat. Praesent a interdum eros. Nam at
-
-        eu.
+        <install-metamask-container />
       </div>
       <div ref="login">
-        <div class="title">Login</div>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam
-        fermentum fermentum nisl sed volutpat. Praesent a interdum eros. Nam at
-        lectus lectus. Suspendisse vitae justo diam. Etiam vitae bibendum felis.
-        eu.
+        <login-container />
       </div>
       <div ref="stake">
         <div>Stake</div>
@@ -152,11 +109,15 @@
 </template>
 <script>
 import { mapState, mapGetters } from 'vuex';
-// import { createCurrency } from '@makerdao/currency';
-// const _TON = createCurrency('TON');
-
+import IntroductionContainer from '@/containers/IntroductionContainer.vue';
+import InstallMetamaskContainer from '@/containers/InstallMetamaskContainer';
+import LoginContainer from '@/containers/LoginContainer';
 export default {
-  components: {},
+  components: {
+    'introduction-container': IntroductionContainer,
+    'install-metamask-container': InstallMetamaskContainer,
+    'login-container': LoginContainer,
+  },
   methods: {
     scrollMeTo (refName) {
       const element = this.$refs[refName];
@@ -223,7 +184,7 @@ export default {
   text-align: center;
   font-family: Roboto;
   font-size: 13px;
-  font-weight: 500;
+  font-weight: bold;
   font-stretch: normal;
   font-style: normal;
   line-height: 1.54;
@@ -251,35 +212,5 @@ export default {
 }
 .instructions-container {
   width: 1114px;
-}
-.title {
-  font-family: Roboto;
-  font-size: 20px;
-  font-weight: 500;
-  font-stretch: normal;
-  font-style: normal;
-  line-height: 1;
-  letter-spacing: 0.2px;
-  text-align: left;
-  color: #2a72e5;
-  margin-bottom: 20px;
-}
-.subtitle {
-  font-family: Roboto;
-  font-size: 17px;
-  font-weight: 700;
-  color: #3d495d;
-}
-.description {
-  font-size: 17px;
-  text-align: left;
-  font: Roboto;
-  color: #3d495d;
-}
-.screenshot {
-  width: 100%;
-  height: 100%;
-  margin-top: 70px;
-  margin-bottom: 40px;
 }
 </style>
