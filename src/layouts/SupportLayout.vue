@@ -78,12 +78,7 @@
       </div>
       <div ref="wallet">
         <div class="title">Wallet</div>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam
-        fermentum fermentum nisl sed volutpat. Praesent a interdum eros. Nam at
-        lectus lectus. Suspendisse vitae justo diam. Etiam vitae bibendum felis.
-        Sed nec elit nibh. Vestibulum hendrerit lorem sed tellus ullamcorper, at
-        consequat dui rhoncus. Fusce id posuere dui. Nullam eu tincidunt eros.
-        Etiam eleifend dapibus sapien, nec accumsan mauris sagittis sed. Quisque
+        <support-wallet />
       </div>
     </div>
   </div>
@@ -96,6 +91,7 @@ import LoginContainer from '@/containers/LoginContainer';
 import SupportStake from '../components/support/SupportStake.vue';
 import SupportUnstake from '../components/support/SupportUnstake.vue';
 import SupportRestake from '../components/support/SupportRestake.vue';
+import SupportWallet from '@/components/support/SupportWallet.vue';
 export default {
   components: {
     'introduction-container': IntroductionContainer,
@@ -104,6 +100,7 @@ export default {
     SupportStake,
     SupportUnstake,
     SupportRestake,
+    SupportWallet,
   },
   methods: {
     scrollMeTo (refName) {
