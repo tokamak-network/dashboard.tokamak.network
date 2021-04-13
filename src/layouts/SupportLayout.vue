@@ -1,6 +1,6 @@
 <template>
   <div class="support-layout">
-    <div class="support-title-container" ref="top">
+    <div ref="top" class="support-title-container">
       <h1>Support</h1>
       <h2>We will guide you on how to stake TON in Tokamak Network</h2>
     </div>
@@ -35,13 +35,13 @@
     </div>
     <div class="instructions-container">
       <div ref="introduction">
-        <IntroductionContainer />
+        <SupportIntroduction />
       </div>
       <div ref="install">
-        <InstallMetamaskContainer />
+        <SupportInstallMetamask />
       </div>
       <div ref="login">
-        <LoginContainer />
+        <SupportLogin />
       </div>
       <div ref="stake">
         <SupportStake />
@@ -88,18 +88,18 @@
 </template>
 <script>
 import { mapState, mapGetters } from 'vuex';
-import IntroductionContainer from '@/containers/IntroductionContainer.vue';
-import InstallMetamaskContainer from '@/containers/InstallMetamaskContainer';
-import LoginContainer from '@/containers/LoginContainer';
+import SupportIntroduction from '../components/support/SupportIntroduction.vue';
+import SupportInstallMetamask from '../components/support/SupportInstallMetamask.vue';
+import SupportLogin from '../components/support/SupportLogin';
 import SupportStake from '../components/support/SupportStake.vue';
 import SupportUnstake from '../components/support/SupportUnstake.vue';
 import SupportRestake from '../components/support/SupportRestake.vue';
 import SupportWallet from '@/components/support/SupportWallet.vue';
 export default {
   components: {
-    IntroductionContainer,
-    InstallMetamaskContainer,
-    LoginContainer,
+    SupportIntroduction,
+    SupportInstallMetamask,
+    SupportLogin,
     SupportStake,
     SupportUnstake,
     SupportRestake,
@@ -202,7 +202,7 @@ export default {
 }
 .top-button {
   position: fixed;
-  bottom: 30px;
+  bottom: 90px;
   right: 200px;
 }
 </style>
