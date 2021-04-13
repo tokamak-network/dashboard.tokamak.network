@@ -10,7 +10,7 @@
           >
         </div>
         <div class="model-content">
-          <h1 class="model-content-title">Staking Simulator</h1>
+          <h1 class="model-content-title">Staking Calculator</h1>
           <h2 class="model-content-subTitle">Calculating how much you can earn</h2>
           <div class="model-line" />
           <div class="model-ton-balance">
@@ -60,7 +60,7 @@
           >
         </div>
         <div class="model-content">
-          <h1 class="model-content-title">Staking Simulator</h1>
+          <h1 class="model-content-title">Staking Calculator</h1>
           <h2 class="model-content-subTitle">
             Estimated reward of TON you can earn
           </h2>
