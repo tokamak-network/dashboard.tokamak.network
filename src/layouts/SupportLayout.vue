@@ -1,6 +1,6 @@
 <template>
   <div class="support-layout">
-    <div class="support-title-container">
+    <div class="support-title-container" ref="top">
       <h1>Support</h1>
       <h2>We will guide you on how to stake TON in Tokamak Network</h2>
     </div>
@@ -35,13 +35,13 @@
     </div>
     <div class="instructions-container">
       <div ref="introduction">
-        <introduction-container />
+        <IntroductionContainer />
       </div>
       <div ref="install">
-        <install-metamask-container />
+        <InstallMetamaskContainer />
       </div>
       <div ref="login">
-        <login-container />
+        <LoginContainer />
       </div>
       <div ref="stake">
         <SupportStake />
@@ -86,6 +86,9 @@
         Etiam eleifend dapibus sapien, nec accumsan mauris sagittis sed. Quisque
       </div>
     </div>
+    <div>
+      <button class="top-button" @click="scrollMeTo('top')">Top</button>
+    </div>
   </div>
 </template>
 <script>
@@ -98,9 +101,9 @@ import SupportUnstake from '../components/support/SupportUnstake.vue';
 import SupportRestake from '../components/support/SupportRestake.vue';
 export default {
   components: {
-    'introduction-container': IntroductionContainer,
-    'install-metamask-container': InstallMetamaskContainer,
-    'login-container': LoginContainer,
+    IntroductionContainer,
+    InstallMetamaskContainer,
+    LoginContainer,
     SupportStake,
     SupportUnstake,
     SupportRestake,
@@ -199,5 +202,10 @@ export default {
 }
 .instructions-container {
   width: 1114px;
+}
+.top-button {
+  position: fixed;
+  bottom: 30px;
+  right: 200px;
 }
 </style>

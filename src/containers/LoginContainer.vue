@@ -24,7 +24,7 @@
         Scan the QR code that appears on the screen with a mobile application that allows you to connect to DAPPs by scanning a QR code such as the Metamask mobile app or Trust Wallet app.
       </li>
     </ol>
-     <div class="image-container">
+    <div class="image-container">
       <img class="screenshot" src="@/assets/images/wallet_connect_screenshot_1.png">
     </div>
   </div>
