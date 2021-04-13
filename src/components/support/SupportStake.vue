@@ -1,64 +1,73 @@
 <template>
   <div>
     <div class="title">Stake</div>
-    <h3 class="subtitle">01. Select Operator</h3>
-    <p class="description">
-      1) Select the operator you want to delegate from the Operator list
-    </p>
-    <p class="description">
-      2) if you click 1(unfold) button, you can see the information of operators( Total Delegates, Pending Withdrawal, Recent Commit, Commit Count, Staking history, Commit history)
-    </p>
-    <h3 class="subtitle">02. Stake TON to Operator</h3>
-    <p class="description">
-      1) Press the Stake button. Popup will appear
-    </p>
-    <p class="description">
-      2) writing down the quantity of TON to delegate.
-    </p>
-    <p class="description">
-      3) Click ‘Stake’ button
-    </p>
-    <p class="description">
-      4) if you want to close popup, click ‘X’ button
-    </p>
-    <p class="description">
-      * Once  staked, there will be a delay for the duration set by the operator upon withdrawal request.
-      (Default is 93046 blocks, approximately 2 weeks)
-    </p>
-    <p class="description">
-      5) Click ‘Confirm’ button
-    </p>
-    <p class="description">
-      * Once  staked, there will be a delay for the duration set by the operator upon withdrawal request. (Default is 93046 blocks, approximately 2 weeks)
-    </p>
-    <h3 class="subtitle">03. Staking Simulator</h3>
-    <p class="description">
-      1) Press the Simulator button. Popup will appear
-    </p>
-    <p class="description">
-      2) writing down the quantity of TON to you want to stake.
-    </p>
-    <p class="description">
-      3) Select duration you want to stkae
-    </p>
-    <p class="description">
-      4) Click ‘Calculate’ button
-    </p>
-    <p class="description">
-      5) if you want to close popup, click ‘X’ button
-    </p>
-    <p class="description">
-      6) Estimated amount of TONs you earn
-    </p>
-    <p class="description">
-      7) Value of estimated amount of TONs and APY
-    </p>
-    <p class="description">
-      9) if you want to recalculate, click ‘Recalculate’ button
-    </p>
-    <p class="description">
-      10) if you want to close popup, click ‘X’ button
-    </p>
+
+    <h4 class="mini-subtitle">What is Stake? </h4>
+    <ul>
+      <li class="description" style="margin-left:-10px; margin-bottom:10px">It means to divide the profits of staking by delegating TON to the operator that is already in operation.</li>
+    </ul>
+
+    <div class="image-container">
+      <img class="screenshot" src="@/assets/images/support/stake_1.png">
+    </div>
+
+    <h4 class="mini-subtitle">Select Operator</h4>
+    <ol>
+      <li class="description" style="margin-left:-10px; margin-bottom:10px">Select the operator you want to delegate from the Operator list</li>
+      <li class="description" style="margin-left:-10px; margin-bottom:10px">
+        if you click 1(unfold) button, you can see the information of operators( Total Delegates, Pending Withdrawal, Recent Commit, Commit Count, Staking history, Commit history)
+      </li>
+    </ol>
+
+    <div class="image-container">
+      <img :style="{width: '550px', height: '450px'}" src="@/assets/images/support/stake_2.png">
+      <img :style="{width: '550px', height: '450px'}" src="@/assets/images/support/stake_3.png">
+    </div>
+
+    <h4 class="mini-subtitle">02. Stake TON to Operator</h4>
+    <ol>
+      <li class="description" style="margin-left:-10px; margin-bottom:10px"> Press the Stake button. Popup will appear</li>
+      <li class="description" style="margin-left:-10px; margin-bottom:10px"> writing down the quantity of TON to delegate. </li>
+      <li class="description" style="margin-left:-10px; margin-bottom:10px"> Click ‘Stake’ button</li>
+      <li class="description" style="margin-left:-10px; margin-bottom:10px"> if you want to close popup, click ‘X’ button</li>
+    </ol>
+    <ul>
+      <li class="description" style="margin-left:-10px; margin-bottom:10px">
+        Once  staked, there will be a delay for the duration set by the operator upon withdrawal request.
+        (Default is 93046 blocks, approximately 2 weeks)
+      </li>
+    </ul>
+
+    <div class="image-container">
+      <img src="@/assets/images/support/stake_4.png">
+    </div>
+
+    <div class="image-container">
+      <img :style="{width: '550px', height: '450px'}" src="@/assets/images/support/stake_5.png">
+      <img :style="{width: '550px', height: '450px'}" src="@/assets/images/support/stake_6.png">
+    </div>
+
+    <h4 class="mini-subtitle">03. Staking Calculator</h4>
+    <ol>
+      <li class="description" style="margin-left:-10px; margin-bottom:10px"> Press the Simulator button. Popup will appear</li>
+      <li class="description" style="margin-left:-10px; margin-bottom:10px"> writing down the quantity of TON to you want to stake. </li>
+      <li class="description" style="margin-left:-10px; margin-bottom:10px"> Select duration you want to stkae</li>
+      <li class="description" style="margin-left:-10px; margin-bottom:10px"> Click ‘Calculate’ button</li>
+      <li class="description" style="margin-left:-10px; margin-bottom:10px"> if you want to close popup, click ‘X’ button</li>
+
+
+      <div class="image-container">
+        <img src="@/assets/images/support/stake_07.png">
+      </div>
+
+      <li class="description" style="margin-left:-10px; margin-bottom:10px">
+        Estimated amount of TONs you earn
+      </li>
+      <li class="description" style="margin-left:-10px; margin-bottom:10px"> Value of estimated amount of TONs and APY </li>
+      <li class="description" style="margin-left:-10px; margin-bottom:10px"> Click ‘Stake’ button .if you click staking popup will appear</li>
+      <li class="description" style="margin-left:-10px; margin-bottom:10px"> if you want to recalculate, click ‘Recalculate’ button</li>
+      <li class="description" style="margin-left:-10px; margin-bottom:10px"> if you want to close popup, click ‘X’ button</li>
+    </ol>
   </div>
 </template>
 
@@ -68,10 +77,10 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .title {
   font-family: Roboto;
-  font-size: 20px;
+  font-size: 22px;
   font-weight: 500;
   font-stretch: normal;
   font-style: normal;
@@ -80,10 +89,11 @@ export default {
   text-align: left;
   color: #2a72e5;
   margin-bottom: 20px;
+  margin-top: 40px;
 }
 .subtitle {
   font-family: Roboto;
-  font-size: 17px;
+  font-size: 18px;
   font-weight: 700;
   color: #3d495d;
 }
@@ -92,5 +102,27 @@ export default {
   text-align: left;
   font: Roboto;
   color: #3d495d;
+}
+.mini-subtitle {
+  font: Roboto;
+  font-size: 18px;
+  color: #2a72e5;
+  font-weight: normal;
+}
+.link {
+  font-family: Roboto;
+  font-size: 17px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.41;
+  letter-spacing: 0.34px;
+  text-align: left;
+  color: #2a72e5;
+}
+.image-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
 }
 </style>

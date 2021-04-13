@@ -1,13 +1,24 @@
 <template>
   <div>
-    <div class="title">Restake</div>
-    <h3 class="subtitle">What is staking?</h3>
-    <p class="description">
-      The word staking comes from the word stake. Stake means to support, or
-      to secure something, such as a tent. In the blockchain space, staking
-      means to deposit tokens to support the network by verifying
-      transactions and sustaining its stability.
-    </p>
+    <div class="title">Re-stake</div>
+
+    <div class="image-container">
+      <img class="screenshot" src="@/assets/images/support/restake_01.png">
+      <img class="screenshot" src="@/assets/images/support/restake_02.png">
+    </div>
+
+    <ol>
+      <li class="description" style="margin-left:-10px; margin-bottom:10px">Press the ‘Re-stake’ button. Popup will appear</li>
+      <li class="description" style="margin-left:-10px; margin-bottom:10px">
+        Writing down the quantity of TON to Re-stake
+      </li>
+      <li class="description" style="margin-left:-10px; margin-bottom:10px">
+        Click ‘Re-stake’ button
+      </li>
+      <li class="description" style="margin-left:-10px; margin-bottom:10px">
+        Check the connected metamask
+      </li>
+    </ol>
   </div>
 </template>
 
@@ -17,10 +28,10 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .title {
   font-family: Roboto;
-  font-size: 20px;
+  font-size: 22px;
   font-weight: 500;
   font-stretch: normal;
   font-style: normal;
@@ -29,10 +40,11 @@ export default {
   text-align: left;
   color: #2a72e5;
   margin-bottom: 20px;
+  margin-top: 40px;
 }
 .subtitle {
   font-family: Roboto;
-  font-size: 17px;
+  font-size: 18px;
   font-weight: 700;
   color: #3d495d;
 }
@@ -41,5 +53,27 @@ export default {
   text-align: left;
   font: Roboto;
   color: #3d495d;
+}
+.mini-subtitle {
+  font: Roboto;
+  font-size: 18px;
+  color: #2a72e5;
+  font-weight: normal;
+}
+.link {
+  font-family: Roboto;
+  font-size: 17px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.41;
+  letter-spacing: 0.34px;
+  text-align: left;
+  color: #2a72e5;
+}
+.image-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
 }
 </style>
