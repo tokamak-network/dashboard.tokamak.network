@@ -82,7 +82,7 @@
       </div>
     </div>
     <div>
-      <button class="top-button" @click="scrollMeTo('top')">Top</button>
+      <img class="top-button" src="@/assets/images/top_arrow_icon.png" @click="scrollMeTo('top')">
     </div>
   </div>
 </template>
@@ -203,6 +203,9 @@ export default {
 .top-button {
   position: fixed;
   bottom: 90px;
-  right: 200px;
+  right: 50px;
+}
+.top-button:hover {
+  cursor: pointer;
 }
 </style>
