@@ -17,24 +17,28 @@
           href="https://addons.mozilla.org/en-US/firefox/addon/ether-metamask/"
           target="blank"
         >Firefox</a>
-        browser if you would like to ocnnect to our service with metamask. If your TON is already in a Metamask wallet, please login to
-        that wallet or import an account that already has TON.
+        browser if you would like to connect to our service with Metamask. If your TON is already in a Metamask wallet, please login to
+        that wallet, or import an account that already has TON.
+          <div class="image-container">
+          <img class="screenshot" style="width:60%" src="@/assets/images/metamask_chrome.png">
+           <img class="screenshot" style="width:30%" src="@/assets/images/metamask_firefox.png">
+          </div>
       </li>
       <li class="description" style="margin-left:-10px; margin-bottom:10px">
         To add TON on your wallet, make sure you're connected to the <span style="font-weight:bold">Ethereum Mainnet</span> network. Then first click the
-        <span style="font-weight:bold">Add Token</span> button and then click
-        the <span style="font-weight:bold">Custom Token</span> tab. Insert the following information in the respective fields as shown in the image below.
+        <span style="font-weight:bold">Add Token (01)</span> button and then click
+        the <span style="font-weight:bold">Custom Token (02)</span> tab. Insert the following information in the respective fields as shown in the image below.
         <ul>
           <li class="description" style="margin-top:10px">Token Contract Address: <span style="font-weight:bold">0x2be5e8c109e2197D077D13A82dAead6a9b3433C5</span></li>
           <li>Token Symbol: <span style="font-weight:bold">TON</span></li>
           <li>Decimals of Precision: <span style="font-weight:bold">18</span></li>
         </ul>
-        Then click the <span style="font-weight:bold">Next</span> button and <span style="font-weight:bold">Add Token</span> button in the next screen to add TON to your account.
+        Then click the <span style="font-weight:bold">Next (03) </span> button and <span style="font-weight:bold">Add Tokens (04)</span> button in the next screen to add TON to your account.
       </li>
       <div class="image-container">
-        <img class="screenshot" src="@/assets/images/metamask_screenshot_3.png">
-        <img class="screenshot" src="@/assets/images/metamask_screenshot_1.png">
-        <img class="screenshot" src="@/assets/images/metamask_screenshot_2.png">
+        <img class="screenshot" src="@/assets/images/metamask_screenshot_3.jpg">
+        <img class="screenshot" src="@/assets/images/metamask_screenshot_1.jpg">
+        <img class="screenshot" src="@/assets/images/metamask_screenshot_2.jpg">
       </div>
     </ol>
   </div>
@@ -72,6 +76,7 @@ export default {};
   width: 25%;
   height: 30%;
   margin: 30px;
+  box-shadow: 0 1px 4px 0 rgba(96, 97, 112, 0.16);
 }
 .mini-subtitle {
   font: Roboto;
@@ -93,6 +98,7 @@ export default {};
 .image-container {
     display: flex;
     flex-direction: row;
+     align-items: center;
     justify-content: center;
 }
 </style>

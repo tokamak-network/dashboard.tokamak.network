@@ -20,7 +20,7 @@
       <li class="description" style="margin-left:-10px; margin-bottom:10px"><strong>History:</strong> History of all your transactions. THe information includes Transaction Hash, Operator Contract, Type, Amount, Block Number and Status.</li>
     </ol>
     <div class="image-container">
-      <img class="screenshot" src="@/assets/images/wallet_screenshot.png">
+      <img class="screenshot" src="@/assets/images/wallet_screenshot.jpg">
     </div>
   </div>
 </template>
