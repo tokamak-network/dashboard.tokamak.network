@@ -1,6 +1,10 @@
 <template>
   <div>
     <div class="title">Un-stake</div>
+     <div class="image-container image" :style="{marginTop: '90px', marginBottom: '40px', backgroundColor: '#ffffff'}">
+      <img class="screenshot" :style="{width: '50%'}" src="@/assets/images/support/unstake_01.png">
+      <img class="screenshot rightImage" :style="{width: '50%'}" src="@/assets/images/support/unstake_02.png">
+    </div>
     <ol>
       <li class="description" style="margin-left:-10px; margin-bottom:10px">Press the Unstake button. Popup will appear</li>
       <li class="description" style="margin-left:-10px; margin-bottom:10px">
@@ -19,10 +23,6 @@
         : If you unstake a staked TON, it is the quantity of TON in Not Withdraw for the period set by the operator. (Default is 93046 blocks, approximately 2 weeks)
       </li>
     </ul>
-      <div class="image-container image" :style="{marginTop: '90px', marginBottom: '40px', backgroundColor: '#ffffff'}">
-      <img class="screenshot" :style="{width: '50%'}" src="@/assets/images/support/unstake_01.png">
-      <img class="screenshot rightImage" :style="{width: '50%'}" src="@/assets/images/support/unstake_02.png">
-    </div>
   </div>
 </template>
 

@@ -1,15 +1,15 @@
 <template>
   <div>
     <div class="title">Withdraw</div>
+     <div class="image-container">
+      <img class="screenshot" src="@/assets/images/withdraw_1.jpg">
+      <img class="screenshot" src="@/assets/images/withdraw_2.jpg">
+    </div>
     <ol>
       <li class="description" style="margin-left:-10px; margin-bottom:10px">Press the <strong>Withdraw </strong> button, popup will appear.</li>
       <li class="description" style="margin-left:-10px; margin-bottom:10px">Click <strong>Withdraw</strong> button of the popup to withdraw all your TON at once.</li>
       <li class="description" style="margin-left:-10px; margin-bottom:10px">Clock the <strong>Confirm</strong> button of the Metamask popup to confirm the transaction. </li>
     </ol>
-    <div class="image-container">
-      <img class="screenshot" src="@/assets/images/withdraw_1.jpg">
-      <img class="screenshot" src="@/assets/images/withdraw_2.jpg">
-    </div>
   </div>
 </template>
 

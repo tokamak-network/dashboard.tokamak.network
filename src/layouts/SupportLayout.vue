@@ -52,11 +52,11 @@
       <div ref="restake">
         <SupportRestake />
       </div>
+       <div ref="withdraw">
+        <SupportWithdraw />
+      </div>
       <div ref="powerton">
         <SupportPowerTON />
-      </div>
-      <div ref="withdraw">
-        <SupportWithdraw />
       </div>
       <div ref="wallet">
         <support-wallet />
