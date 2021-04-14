@@ -19,9 +19,9 @@
       </li>
     </ol>
 
-    <div class="image-container" :style="{marginTop: '90px', marginBottom: '40px'}">
-      <img class="image" :style="{width: '550px', height: '450px'}" src="@/assets/images/support/stake_2.png">
-      <img class="image" :style="{width: '550px', height: '450px'}" src="@/assets/images/support/stake_3.png">
+    <div class="image-container image" :style="{marginTop: '90px', marginBottom: '40px'}">
+      <img :style="{width: '50%'}" src="@/assets/images/support/stake_2.png">
+      <img class="rightImage" :style="{width: '50%'}" src="@/assets/images/support/stake_3.png">
     </div>
 
     <h4 class="mini-subtitle">02. Stake TON to Operator</h4>
@@ -52,9 +52,9 @@
       </li>
     </ul>
 
-    <div class="image-container" :style="{marginTop: '90px', marginBottom: '40px'}">
-      <img class="image" :style="{width: '550px', height: '450px'}" src="@/assets/images/support/stake_5.png">
-      <img class="image" :style="{width: '550px', height: '450px'}" src="@/assets/images/support/stake_6.png">
+    <div class="image-container image" :style="{marginTop: '90px', marginBottom: '40px'}">
+      <img class="image" :style="{width: '50%'}" src="@/assets/images/support/stake_5.png">
+      <img class="rightImage" :style="{width: '50%'}" src="@/assets/images/support/stake_6.png">
     </div>
 
     <h4 class="mini-subtitle">03. Staking Calculator</h4>
@@ -138,5 +138,9 @@ export default {
 .image {
   border-radius: 10px;
   box-shadow: 0 1px 4px 0 rgba(96, 97, 112, 0.16);
+}
+.rightImage {
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
 }
 </style>
