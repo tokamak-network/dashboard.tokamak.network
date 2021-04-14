@@ -52,6 +52,9 @@
       <div ref="restake">
         <SupportRestake />
       </div>
+      <div ref="powerton">
+        <SupportPowerTON />
+      </div>
       <div ref="withdraw">
         <div class="title">Withdraw</div>
 
@@ -60,21 +63,6 @@
         lectus lectus. Suspendisse vitae justo diam. Etiam vitae bibendum felis.
         Sed nec elit nibh. Vestibulum hendrerit lorem sed tellus ullamcorper, at
         consequat dui rhoncus. Fusce id posuere dui. Nullam eu tincidunt eros.
-      </div>
-      <div ref="powerton">
-        <div class="title">PowerTON</div>
-
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam
-        fermentum fermentum nisl sed volutpat. Praesent a interdum eros. Nam at
-        lectus lectus. Suspendisse vitae justo diam. Etiam vitae bibendum felis.
-        Sed nec elit nibh. Vestibulum hendrerit lorem sed tellus ullamcorper, at
-        consequat dui rhoncus. Fusce id posuere dui. Nullam eu tincidunt eros.
-        Etiam eleifend dapibus sapien, nec accumsan mauris sagittis sed. Quisque
-        ut egestas mauris. Cras fringilla risus quis dolor tempus volutpat. Ut
-        ac maximus metus. Aliquam erat volutpat. Pellentesque iaculis erat eu
-        leo aliquam maximus. Duis sed arcu varius, cursus nibh id, tincidunt
-        urna. Mauris erat metus, ornare sit amet sagittis in, rutrum in augue.
-        Vivamus pretium vitae nibh eget rhoncus. Ut eget felis urna. Integer
       </div>
       <div ref="wallet">
         <div class="title">Wallet</div>
@@ -95,6 +83,7 @@ import SupportStake from '../components/support/SupportStake.vue';
 import SupportUnstake from '../components/support/SupportUnstake.vue';
 import SupportRestake from '../components/support/SupportRestake.vue';
 import SupportWallet from '@/components/support/SupportWallet.vue';
+import SupportPowerTON from '@/components/support/SupportPowerTon.vue';
 export default {
   components: {
     SupportIntroduction,
@@ -104,6 +93,7 @@ export default {
     SupportUnstake,
     SupportRestake,
     SupportWallet,
+    SupportPowerTON,
   },
   methods: {
     scrollMeTo (refName) {
