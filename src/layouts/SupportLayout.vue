@@ -57,12 +57,7 @@
       </div>
       <div ref="withdraw">
         <div class="title">Withdraw</div>
-
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam
-        fermentum fermentum nisl sed volutpat. Praesent a interdum eros. Nam at
-        lectus lectus. Suspendisse vitae justo diam. Etiam vitae bibendum felis.
-        Sed nec elit nibh. Vestibulum hendrerit lorem sed tellus ullamcorper, at
-        consequat dui rhoncus. Fusce id posuere dui. Nullam eu tincidunt eros.
+        <SupportWithdraw />
       </div>
       <div ref="wallet">
         <support-wallet />
@@ -83,6 +78,7 @@ import SupportUnstake from '../components/support/SupportUnstake.vue';
 import SupportRestake from '../components/support/SupportRestake.vue';
 import SupportWallet from '@/components/support/SupportWallet.vue';
 import SupportPowerTON from '@/components/support/SupportPowerTon.vue';
+import SupportWithdraw from '../components/support/SupportWithdraw.vue';
 export default {
   components: {
     SupportIntroduction,
@@ -93,6 +89,7 @@ export default {
     SupportRestake,
     SupportWallet,
     SupportPowerTON,
+    SupportWithdraw,
   },
   methods: {
     scrollMeTo (refName) {
