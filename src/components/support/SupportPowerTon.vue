@@ -1,17 +1,17 @@
 <template>
   <div>
-     <div class="title">PowerTON</div>
+    <div class="title">PowerTON</div>
     <ol>
-        <li class="description" style="margin-left:-10px; margin-bottom:10px"><strong>Round:</strong> Current round number.</li>
-         <li class="description" style="margin-left:-10px; margin-bottom:10px"><strong>Round Reward:</strong> Total Round Reward(it is accumulated from round start).</li>
-          <li class="description" style="margin-left:-10px; margin-bottom:10px"> <strong>24 Hour:</strong> Changes in round reward compared to yesterday.</li>
-           <li class="description" style="margin-left:-10px; margin-bottom:10px"> <strong>Round Start:</strong> Round start time.</li>
-            <li class="description" style="margin-left:-10px; margin-bottom:10px"><strong>Round End:</strong> Round end time.</li>
-             <li class="description" style="margin-left:-10px; margin-bottom:10px"><strong>Rank:</strong> User Power Ranking.</li>
-              <li class="description" style="margin-left:-10px; margin-bottom:10px"><strong>Winner:</strong> Winner and reward of the previous round.</li>
+      <li class="description" style="margin-left:-10px; margin-bottom:10px"><strong>Round:</strong> Current round number.</li>
+      <li class="description" style="margin-left:-10px; margin-bottom:10px"><strong>Round Reward:</strong> Total Round Reward(it is accumulated from round start).</li>
+      <li class="description" style="margin-left:-10px; margin-bottom:10px"> <strong>24 Hour:</strong> Changes in round reward compared to yesterday.</li>
+      <li class="description" style="margin-left:-10px; margin-bottom:10px"> <strong>Round Start:</strong> Round start time.</li>
+      <li class="description" style="margin-left:-10px; margin-bottom:10px"><strong>Round End:</strong> Round end time.</li>
+      <li class="description" style="margin-left:-10px; margin-bottom:10px"><strong>Rank:</strong> User Power Ranking.</li>
+      <li class="description" style="margin-left:-10px; margin-bottom:10px"><strong>Winner:</strong> Winner and reward of the previous round.</li>
     </ol>
     <div class="image-container">
-        <img class="power-screenshot" src="@/assets/images/powerton_screenshot.jpg">
+      <img class="power-screenshot" src="@/assets/images/powerton_screenshot.jpg">
     </div>
   </div>
 </template>

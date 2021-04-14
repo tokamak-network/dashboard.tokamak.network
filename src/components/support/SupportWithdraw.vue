@@ -8,7 +8,7 @@
     </ol>
     <div class="image-container">
       <img class="screenshot" src="@/assets/images/withdraw_1.jpg">
-      <img class="screenshot" src="@/assets/images/withdraw_2.jpg"/>
+      <img class="screenshot" src="@/assets/images/withdraw_2.jpg">
     </div>
   </div>
 </template>

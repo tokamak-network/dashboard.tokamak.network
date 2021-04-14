@@ -73,10 +73,12 @@
       <li class="description" style="margin-left:-10px; margin-bottom:10px">
         Estimated amount of TONs you earn
       </li>
-      <li class="description" style="margin-left:-10px; margin-bottom:10px"> Value of estimated amount of TONs and APY </li>
-      <li class="description" style="margin-left:-10px; margin-bottom:10px"> Click ‘Stake’ button .if you click staking popup will appear</li>
-      <li class="description" style="margin-left:-10px; margin-bottom:10px"> if you want to recalculate, click <strong>Recalculate</strong> button</li>
-      <li class="description" style="margin-left:-10px; margin-bottom:10px"> if you want to close popup, click <strong>X</strong> button</li>
+      <li class="description" style="margin-left:-10px; margin-bottom:10px"> Value of estimated amount of TONs and APY. </li>
+      <li class="description" style="margin-left:-10px; margin-bottom:10px">
+        If you click the <strong>Stake</strong> button, the staking popup will appear.
+      </li>
+     <li class="description" style="margin-left:-10px; margin-bottom:10px"> if you want to recalculate, click the <strong>Recalculate</strong> button.</li>
+      <li class="description" style="margin-left:-10px; margin-bottom:10px"> if you want to close popup, click <strong>X</strong> button.</li>
     </ol>
   </div>
 </template>

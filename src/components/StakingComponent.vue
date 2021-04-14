@@ -18,10 +18,10 @@
       </div>
 
       <div>
-        <button class="button-stake" >Re-stake</button>
+        <button class="button-stake">Re-stake</button>
       </div>
 
-      <button class="button-stake" >Withdraw</button>
+      <button class="button-stake">Withdraw</button>
     </div>
     <transition v-if="showSim" name="model">
       <div class="model-mask">
