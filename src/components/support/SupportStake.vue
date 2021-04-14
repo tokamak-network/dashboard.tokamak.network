@@ -20,7 +20,7 @@
     </ol>
 
     <div class="image-container image" :style="{marginTop: '90px', marginBottom: '40px'}">
-      <img :style="{width: '50%'}" src="@/assets/images/support/stake_2.png">
+      <img class="leftImage" :style="{width: '50%'}" src="@/assets/images/support/stake_2.png">
       <img class="rightImage" :style="{width: '50%'}" src="@/assets/images/support/stake_3.png">
     </div>
 
@@ -52,8 +52,8 @@
       </li>
     </ul>
 
-    <div class="image-container image" :style="{marginTop: '90px', marginBottom: '40px'}">
-      <img class="image" :style="{width: '50%'}" src="@/assets/images/support/stake_5.png">
+    <div class="image-container" :style="{marginTop: '90px', marginBottom: '40px'}">
+      <img class="leftImage" :style="{width: '50%'}" src="@/assets/images/support/stake_5.png">
       <img class="rightImage" :style="{width: '50%'}" src="@/assets/images/support/stake_6.png">
     </div>
 
@@ -138,6 +138,10 @@ export default {
 .image {
   border-radius: 10px;
   box-shadow: 0 1px 4px 0 rgba(96, 97, 112, 0.16);
+}
+.leftImage {
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
 }
 .rightImage {
   border-top-right-radius: 10px;
