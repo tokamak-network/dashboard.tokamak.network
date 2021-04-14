@@ -56,7 +56,6 @@
         <SupportPowerTON />
       </div>
       <div ref="withdraw">
-        <div class="title">Withdraw</div>
         <SupportWithdraw />
       </div>
       <div ref="wallet">

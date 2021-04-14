@@ -1,6 +1,6 @@
 <template>
   <div>
-     <div class="title">Wallet</div>
+    <div class="title">Wallet</div>
     <p class="description">
       After connecting your wallet, you can access the following infromation about your assets in the Wallet page.
     </p>

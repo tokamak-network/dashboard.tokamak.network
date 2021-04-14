@@ -18,10 +18,10 @@
       </div>
 
       <div>
-        <button class="button-stake" :class="{'model-btn-notavailable' :!signIn || parseInt(operator.userNotWithdrawable) === 0}" :disabled="!signIn || parseInt(operator.userNotWithdrawable) === 0" @click="selectFunction('restake')">Re-stake</button>
+        <button class="button-stake" >Re-stake</button>
       </div>
 
-      <button class="button-stake" :class="{'model-btn-notavailable' : !signIn || operator.userWithdrawable.isEqual(balance)}" :disabled="!signIn || operator.userWithdrawable.isEqual(balance)" @click="selectFunction('withdraw')">Withdraw</button>
+      <button class="button-stake" >Withdraw</button>
     </div>
     <transition v-if="showSim" name="model">
       <div class="model-mask">

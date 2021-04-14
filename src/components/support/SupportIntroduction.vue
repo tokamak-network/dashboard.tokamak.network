@@ -33,62 +33,66 @@
     <img class="screenshot" src="@/assets/images/screenshot_home.jpg">
     <h3 class="subtitle">Main Composition of Tokamak Network Simple Staking</h3>
     <ol>
-      <li class="mini-subtitle" style="margin-left:-20px; margin-bottom:10px">Home
-    <ul>
-      <li class="description" style="margin-left:-10px; margin-bottom:10px">
-        Click the <span style="font-weight:bold">Connect Wallet (05) </span> button
-        to connect your metamask wallet or your Wallet Connect wallet to our
-        staking service.
+      <li class="mini-subtitle" style="margin-left:-20px; margin-bottom:10px">
+        Home
+        <ul>
+          <li class="description" style="margin-left:-10px; margin-bottom:10px">
+            Click the <span style="font-weight:bold">Connect Wallet (05) </span> button
+            to connect your metamask wallet or your Wallet Connect wallet to our
+            staking service.
+          </li>
+          <li class="description" style="margin-left:-10px; margin-bottom:10px">
+            The <span style="color:#2a72e5">Blue (06)</span> graph shows the daily staked
+            amount in the Tokamak Network by our stakers and the
+            <span style="color:#c7d1d8">Gray (07)</span> graph shows the daily Actual
+            APY. Hover over the graphs to see the daily amounts of total staking and
+            Actual APY.
+          </li>
+          <li class="description" style="margin-left:-10px; margin-bottom:10px">
+            You can check PowerTON round infromation such as Round started date,
+            round prize, and round end date under the graphs.
+          </li>
+        </ul>
       </li>
-      <li class="description" style="margin-left:-10px; margin-bottom:10px">
-        The <span style="color:#2a72e5">Blue (06)</span> graph shows the daily staked
-        amount in the Tokamak Network by our stakers and the
-        <span style="color:#c7d1d8">Gray (07)</span> graph shows the daily Actual
-        APY. Hover over the graphs to see the daily amounts of total staking and
-        Actual APY.
+      <li class="mini-subtitle" style="margin-left:-20px; margin-bottom:10px">
+        Staking
+        <ul>
+          <li class="description" style="margin-left:-10px; margin-bottom:10px">
+            You can see information about our operators on the staking page. Click
+            on the blue arrow to the right of each operator to see detailed
+            information about the operator and staking buttons when you have
+            connected your wallet. When you haven't connected your wallet, you can
+            only see the details of the operator.
+          </li>
+          <li class="description" style="margin-left:-10px; margin-bottom:10px">
+            When your wallet is connected, you can click the staking buttons to
+            stake your TON. For more information please check the Stake, Un-stake,
+            Re-stake, or Withdraw sections.
+          </li>
+        </ul>
       </li>
-      <li class="description" style="margin-left:-10px; margin-bottom:10px">
-        You can check PowerTON round infromation such as Round started date,
-        round prize, and round end date under the graphs.
+      <li class="mini-subtitle" style="margin-left:-20px; margin-bottom:10px">
+        PowerTON
+        <ul>
+          <li class="description" style="margin-left:-10px; margin-bottom:10px">
+            Power is issued on the basis of contribution to the network, the same as
+            the distribution of commit reward, thereby distributing additional
+            reward. Power is not available for purchase or transaction and can only
+            be obtained through contributing to the Tokamak Network, and the more
+            delegates it has, the more Power it grows.
+          </li>
+          <li class="description" style="margin-left:-10px; margin-bottom:10px"> You can see the PowerTON round information and past round winners and ranks in this page. For more infromation please go to the PowerTON section </li>
+        </ul>
       </li>
-    </ul>
+      <li class="mini-subtitle" style="margin-left:-20px; margin-bottom:10px">
+        Wallet
+        <ul>
+          <li class="description" style="margin-left:-10px; margin-bottom:10px">
+            Wallet gives you personal information about your assets.
+          </li>
+          <li class="description" style="margin-left:-10px; margin-bottom:10px">Using the graph, you can check your daily rewards within a desired time period. For more information please check the Wallet section. </li>
+        </ul>
       </li>
-  <li class="mini-subtitle" style="margin-left:-20px; margin-bottom:10px">Staking
-    <ul>
-      <li class="description" style="margin-left:-10px; margin-bottom:10px">
-        You can see information about our operators on the staking page. Click
-        on the blue arrow to the right of each operator to see detailed
-        information about the operator and staking buttons when you have
-        connected your wallet. When you haven't connected your wallet, you can
-        only see the details of the operator.
-      </li>
-      <li class="description" style="margin-left:-10px; margin-bottom:10px">
-        When your wallet is connected, you can click the staking buttons to
-        stake your TON. For more information please check the Stake, Un-stake,
-        Re-stake, or Withdraw sections.
-      </li>
-    </ul>
-  </li>
-   <li class="mini-subtitle" style="margin-left:-20px; margin-bottom:10px">PowerTON
-    <ul>
-      <li class="description" style="margin-left:-10px; margin-bottom:10px">
-        Power is issued on the basis of contribution to the network, the same as
-        the distribution of commit reward, thereby distributing additional
-        reward. Power is not available for purchase or transaction and can only
-        be obtained through contributing to the Tokamak Network, and the more
-        delegates it has, the more Power it grows.
-      </li>
-      <li class="description" style="margin-left:-10px; margin-bottom:10px"> You can see the PowerTON round information and past round winners and ranks in this page. For more infromation please go to the PowerTON section </li>
-    </ul>
-   </li>
-   <li class="mini-subtitle" style="margin-left:-20px; margin-bottom:10px">Wallet
-    <ul>
-      <li class="description" style="margin-left:-10px; margin-bottom:10px">
-        Wallet gives you personal information about your assets.
-      </li>
-      <li class="description" style="margin-left:-10px; margin-bottom:10px">Using the graph, you can check your daily rewards within a desired time period. For more information please check the Wallet section. </li>
-    </ul>
-   </li>
     </ol>
   </div>
 </template>

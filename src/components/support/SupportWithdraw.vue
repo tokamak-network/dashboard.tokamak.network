@@ -1,17 +1,15 @@
 <template>
   <div>
+    <div class="title">Withdraw</div>
+    <ol>
+      <li class="description" style="margin-left:-10px; margin-bottom:10px">Press the <strong>Withdraw </strong> button, popup will appear.</li>
+      <li class="description" style="margin-left:-10px; margin-bottom:10px">Click <strong>Withdraw</strong> button of the popup to withdraw all your TON at once.</li>
+      <li class="description" style="margin-left:-10px; margin-bottom:10px">Clock the <strong>Confirm</strong> button of the Metamask popup to confirm the transaction. </li>
+    </ol>
     <div class="image-container">
-        <!-- <img class="screenshot""> -->
+      <img class="screenshot" src="@/assets/images/withdraw_1.jpg">
+      <img class="screenshot" src="@/assets/images/withdraw_2.jpg"/>
     </div>
-    <p class="description">
-      1) Press the Withdraw  button, popup will appear.
-    </p>
-    <p class="description">
-      2) Click ‘Withdraw ’ button.
-    </p>
-    <p class="description">
-      3) Check the connected metamask.
-    </p>
   </div>
 </template>
 
@@ -22,6 +20,19 @@ export default {
 </script>
 
 <style>
+.title {
+  font-family: Roboto;
+  font-size: 22px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1;
+  letter-spacing: 0.2px;
+  text-align: left;
+  color: #2a72e5;
+  margin-bottom: 20px;
+  margin-top: 40px;
+}
 .description {
   font-size: 17px;
   text-align: left;
@@ -35,7 +46,8 @@ export default {
 }
 
 .screenshot {
-    width: 100%;
-    height: 100%;
+  width: 50%;
+  /* height: 30%; */
+  margin: 30px;
 }
 </style>

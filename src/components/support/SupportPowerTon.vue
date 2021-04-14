@@ -11,7 +11,7 @@
               <li class="description" style="margin-left:-10px; margin-bottom:10px"><strong>Winner:</strong> Winner and reward of the previous round.</li>
     </ol>
     <div class="image-container">
-        <!-- <img class="screenshot" src="@/assets/images/powerton_screenshot.jpg"> -->
+        <img class="power-screenshot" src="@/assets/images/powerton_screenshot.jpg">
     </div>
   </div>
 </template>
@@ -47,7 +47,7 @@ export default {
     justify-content: center;
 }
 
-.screenshot {
+.power-screenshot {
     width: 100%;
     height: 100%;
     margin-top: 70px;

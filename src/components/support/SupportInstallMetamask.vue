@@ -19,10 +19,10 @@
         >Firefox</a>
         browser if you would like to connect to our service with Metamask. If your TON is already in a Metamask wallet, please login to
         that wallet, or import an account that already has TON.
-          <div class="image-container">
+        <div class="image-container">
           <img class="screenshot" style="width:60%" src="@/assets/images/metamask_chrome.png">
-           <img class="screenshot" style="width:30%" src="@/assets/images/metamask_firefox.png">
-          </div>
+          <img class="screenshot" style="width:30%" src="@/assets/images/metamask_firefox.png">
+        </div>
       </li>
       <li class="description" style="margin-left:-10px; margin-bottom:10px">
         To add TON on your wallet, make sure you're connected to the <span style="font-weight:bold">Ethereum Mainnet</span> network. Then first click the
