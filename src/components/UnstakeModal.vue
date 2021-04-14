@@ -127,6 +127,7 @@ export default {
   },
   methods: {
     getMaxBalance (args) {
+      console.log(args.toBigNumber().toString());
       let afterDecimalNumber;
       const tonAmount = this.operator.userStaked.toBigNumber().toString();
       const spliedTonAmount = tonAmount.split('.');

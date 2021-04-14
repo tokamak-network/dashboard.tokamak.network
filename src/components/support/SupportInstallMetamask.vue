@@ -36,9 +36,9 @@
         Then click the <span style="font-weight:bold">Next (03) </span> button and <span style="font-weight:bold">Add Tokens (04)</span> button in the next screen to add TON to your account.
       </li>
       <div class="image-container">
-        <img class="screenshot" src="@/assets/images/metamask_screenshot_3.jpg">
-        <img class="screenshot" src="@/assets/images/metamask_screenshot_1.jpg">
-        <img class="screenshot" src="@/assets/images/metamask_screenshot_2.jpg">
+        <img class="screenshot" src="@/assets/images/support/metamask_01.png">
+        <img class="screenshot" src="@/assets/images/support/metamask_02.png">
+        <img class="screenshot" src="@/assets/images/support/metamask_03.png">
       </div>
     </ol>
   </div>

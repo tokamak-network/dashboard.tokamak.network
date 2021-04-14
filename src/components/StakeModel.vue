@@ -239,7 +239,7 @@ export default {
           data,
         ).send({ from: this.user })
           .on('transactionHash', async (hash) => {
-            const transcation = {
+            const transaction = {
               from: this.user,
               type: 'Delegated',
               amount: amount,
@@ -247,8 +247,10 @@ export default {
               target: this.operator.layer2,
               timestamp: moment().unix(),
             };
+            console.log(this.operator);
+            console.log(transaction);
             this.$emit('closePopup', 'stake');
-            this.$store.dispatch('addPendingTransaction', transcation);
+            this.$store.dispatch('addPendingTransaction', transaction);
             this.$store.commit('SET_PENDING_TX', hash);
           })
           .on('receipt', (receipt) => {

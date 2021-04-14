@@ -10,12 +10,12 @@
     <ol>
       <li class="description" style="margin-left:-10px; margin-bottom:10px">Make sure you are connected to the Ethereum Mainnet network. Then click <span style="font-weight:bold">Connect Wallet (01)</span> button and click the <span style="font-weight:bold">Metamask (02)</span> icon on the pop-up. </li>
       <li class="description" style="margin-left:-10px; margin-bottom:10px">
-        Click on the Metmask icon of your brower extensions list and select the account you want to connect to our serivce as below <span style="font-weight:bold">(04)</span>.
+        Click on the Metmask icon of your brower extensions list and select the account you want to connect to our serivce as below <span style="font-weight:bold">(03)</span>.
       </li>
     </ol>
     <div class="image-container">
-      <img class="screenshot" src="@/assets/images/connect_wallet.jpg">
-      <img class="screenshot" src="@/assets/images/metamask_screenshot_4.jpg">
+      <img class="screenshot" src="@/assets/images/support/connect_01.png">
+      <img class="screenshot" src="@/assets/images/support/connect_02.png">
     </div>
     <h4 class="mini-subtitle">Connect with WalletConnect</h4>
     <ol>

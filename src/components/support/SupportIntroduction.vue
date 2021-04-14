@@ -30,7 +30,7 @@
       anyone can trust the operator and the data of the L2 chain. The Tokamak
       Network staking system allows for the creation of this credibility.
     </p>
-    <img class="screenshot" src="@/assets/images/screenshot_home.jpg">
+    <img class="screenshot" src="@/assets/images/support/home_01.png">
     <h3 class="subtitle">Main Composition of Tokamak Network Simple Staking</h3>
     <ol>
       <li class="mini-subtitle" style="margin-left:-20px; margin-bottom:10px">
