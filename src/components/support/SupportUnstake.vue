@@ -1,11 +1,10 @@
 <template>
   <div>
-    <div class="title">Un-stake</div>
-
-    <div class="image-container">
-      <img class="screenshot" src="@/assets/images/support/unstake_01.png">
-      <img class="screenshot" src="@/assets/images/support/unstake_02.png">
+    <div class="image-container image" :style="{marginTop: '90px', marginBottom: '40px', backgroundColor: '#ffffff'}">
+      <img class="screenshot" :style="{width: '50%'}" src="@/assets/images/support/unstake_01.png">
+      <img class="screenshot image" :style="{width: '50%'}" src="@/assets/images/support/unstake_02.png">
     </div>
+    <div class="title">Un-stake</div>
 
     <ol>
       <li class="description" style="margin-left:-10px; margin-bottom:10px">Press the Unstake button. Popup will appear</li>
@@ -81,5 +80,9 @@ export default {
   display: flex;
   flex-direction: row;
   justify-content: center;
+}
+.image {
+  border-radius: 10px;
+  box-shadow: 0 1px 4px 0 rgba(96, 97, 112, 0.16);
 }
 </style>

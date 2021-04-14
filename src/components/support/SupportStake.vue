@@ -7,7 +7,7 @@
       <li class="description" style="margin-left:-10px; margin-bottom:10px">It means to divide the profits of staking by delegating TON to the operator that is already in operation.</li>
     </ul>
 
-    <div class="image-container">
+    <div class="image-container image" :style="{marginTop: '90px', marginBottom: '40px'}">
       <img class="screenshot" src="@/assets/images/support/stake_1.png">
     </div>
 
@@ -19,9 +19,9 @@
       </li>
     </ol>
 
-    <div class="image-container">
-      <img :style="{width: '550px', height: '450px'}" src="@/assets/images/support/stake_2.png">
-      <img :style="{width: '550px', height: '450px'}" src="@/assets/images/support/stake_3.png">
+    <div class="image-container" :style="{marginTop: '90px', marginBottom: '40px'}">
+      <img class="image" :style="{width: '550px', height: '450px'}" src="@/assets/images/support/stake_2.png">
+      <img class="image" :style="{width: '550px', height: '450px'}" src="@/assets/images/support/stake_3.png">
     </div>
 
     <h4 class="mini-subtitle">02. Stake TON to Operator</h4>
@@ -30,6 +30,20 @@
       <li class="description" style="margin-left:-10px; margin-bottom:10px"> writing down the quantity of TON to delegate. </li>
       <li class="description" style="margin-left:-10px; margin-bottom:10px"> Click ‘Stake’ button</li>
       <li class="description" style="margin-left:-10px; margin-bottom:10px"> if you want to close popup, click ‘X’ button</li>
+
+      <ul>
+        <li class="description" style="margin-left:-10px; margin-bottom:10px">
+          Once  staked, there will be a delay for the duration set by the operator upon withdrawal request.
+          (Default is 93046 blocks, approximately 2 weeks)
+        </li>
+      </ul>
+
+
+      <div class="image-container" :style="{marginTop: '40px', marginBottom: '40px'}">
+        <img class="image" src="@/assets/images/support/stake_4.png">
+      </div>
+
+      <li class="description" style="margin-left:-10px; margin-bottom:10px">Click ‘Confirm’ button</li>
     </ol>
     <ul>
       <li class="description" style="margin-left:-10px; margin-bottom:10px">
@@ -38,13 +52,9 @@
       </li>
     </ul>
 
-    <div class="image-container">
-      <img src="@/assets/images/support/stake_4.png">
-    </div>
-
-    <div class="image-container">
-      <img :style="{width: '550px', height: '450px'}" src="@/assets/images/support/stake_5.png">
-      <img :style="{width: '550px', height: '450px'}" src="@/assets/images/support/stake_6.png">
+    <div class="image-container" :style="{marginTop: '90px', marginBottom: '40px'}">
+      <img class="image" :style="{width: '550px', height: '450px'}" src="@/assets/images/support/stake_5.png">
+      <img class="image" :style="{width: '550px', height: '450px'}" src="@/assets/images/support/stake_6.png">
     </div>
 
     <h4 class="mini-subtitle">03. Staking Calculator</h4>
@@ -56,8 +66,8 @@
       <li class="description" style="margin-left:-10px; margin-bottom:10px"> if you want to close popup, click ‘X’ button</li>
 
 
-      <div class="image-container">
-        <img src="@/assets/images/support/stake_07.png">
+      <div class="image-container" :style="{marginTop: '40px', marginBottom: '40px'}">
+        <img class="image" src="@/assets/images/support/stake_07.png">
       </div>
 
       <li class="description" style="margin-left:-10px; margin-bottom:10px">
@@ -124,5 +134,9 @@ export default {
   display: flex;
   flex-direction: row;
   justify-content: center;
+}
+.image {
+  border-radius: 10px;
+  box-shadow: 0 1px 4px 0 rgba(96, 97, 112, 0.16);
 }
 </style>
