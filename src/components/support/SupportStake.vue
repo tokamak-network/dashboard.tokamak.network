@@ -7,7 +7,7 @@
       <li class="description" style="margin-left:-10px; margin-bottom:10px">It means to divide the profits of staking by delegating TON to the operator that is already in operation.</li>
     </ul>
 
-    <div class="image-container image" :style="{marginTop: '90px', marginBottom: '40px'}">
+    <div class="image-container">
       <img class="screenshot" src="@/assets/images/support/stake_1.png">
     </div>
 
@@ -28,8 +28,8 @@
     <ol>
       <li class="description" style="margin-left:-10px; margin-bottom:10px"> Press the Stake button. Popup will appear</li>
       <li class="description" style="margin-left:-10px; margin-bottom:10px"> writing down the quantity of TON to delegate. </li>
-      <li class="description" style="margin-left:-10px; margin-bottom:10px"> Click ‘Stake’ button</li>
-      <li class="description" style="margin-left:-10px; margin-bottom:10px"> if you want to close popup, click ‘X’ button</li>
+      <li class="description" style="margin-left:-10px; margin-bottom:10px"> Click <strong>Stake</strong> button</li>
+      <li class="description" style="margin-left:-10px; margin-bottom:10px"> if you want to close popup, click <strong>X</strong> button</li>
 
       <ul>
         <li class="description" style="margin-left:-10px; margin-bottom:10px">
@@ -40,10 +40,10 @@
 
 
       <div class="image-container" :style="{marginTop: '40px', marginBottom: '40px'}">
-        <img class="image" src="@/assets/images/support/stake_4.png">
+        <img class="withdraw isnt uploade" src="@/assets/images/support/stake_4.png">
       </div>
 
-      <li class="description" style="margin-left:-10px; margin-bottom:10px">Click ‘Confirm’ button</li>
+      <li class="description" style="margin-left:-10px; margin-bottom:10px">Click <strong>Confirm</strong> button</li>
     </ol>
     <ul>
       <li class="description" style="margin-left:-10px; margin-bottom:10px">
@@ -62,8 +62,8 @@
       <li class="description" style="margin-left:-10px; margin-bottom:10px"> Press the Simulator button. Popup will appear</li>
       <li class="description" style="margin-left:-10px; margin-bottom:10px"> writing down the quantity of TON to you want to stake. </li>
       <li class="description" style="margin-left:-10px; margin-bottom:10px"> Select duration you want to stkae</li>
-      <li class="description" style="margin-left:-10px; margin-bottom:10px"> Click ‘Calculate’ button</li>
-      <li class="description" style="margin-left:-10px; margin-bottom:10px"> if you want to close popup, click ‘X’ button</li>
+      <li class="description" style="margin-left:-10px; margin-bottom:10px"> Click <strong>Calculate</strong> button</li>
+      <li class="description" style="margin-left:-10px; margin-bottom:10px"> if you want to close popup, click <strong>X</strong> button</li>
 
 
       <div class="image-container" :style="{marginTop: '40px', marginBottom: '40px'}">
@@ -75,8 +75,8 @@
       </li>
       <li class="description" style="margin-left:-10px; margin-bottom:10px"> Value of estimated amount of TONs and APY </li>
       <li class="description" style="margin-left:-10px; margin-bottom:10px"> Click ‘Stake’ button .if you click staking popup will appear</li>
-      <li class="description" style="margin-left:-10px; margin-bottom:10px"> if you want to recalculate, click ‘Recalculate’ button</li>
-      <li class="description" style="margin-left:-10px; margin-bottom:10px"> if you want to close popup, click ‘X’ button</li>
+      <li class="description" style="margin-left:-10px; margin-bottom:10px"> if you want to recalculate, click <strong>Recalculate</strong> button</li>
+      <li class="description" style="margin-left:-10px; margin-bottom:10px"> if you want to close popup, click <strong>X</strong> button</li>
     </ol>
   </div>
 </template>
@@ -146,5 +146,12 @@ export default {
 .rightImage {
   border-top-right-radius: 10px;
   border-bottom-right-radius: 10px;
+}
+.screenshot {
+  width: 100%;
+  height: 100%;
+  margin-top: 70px;
+  margin-bottom: 40px;
+ box-shadow: 0 1px 4px 0 rgba(96, 97, 112, 0.16);
 }
 </style>
