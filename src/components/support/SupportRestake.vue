@@ -2,7 +2,7 @@
   <div>
     <div class="image-container image" :style="{marginTop: '90px', marginBottom: '40px', backgroundColor: '#ffffff'}">
       <img class="screenshot" :style="{width: '50%'}" src="@/assets/images/support/restake_01.png">
-      <img class="screenshot image" :style="{width: '50%'}" src="@/assets/images/support/restake_02.png">
+      <img class="screenshot rightImage" :style="{width: '50%'}" src="@/assets/images/support/restake_02.png">
     </div>
     <div class="title">Re-stake</div>
     <ol>
@@ -77,5 +77,9 @@ export default {
 .image {
   border-radius: 10px;
   box-shadow: 0 1px 4px 0 rgba(96, 97, 112, 0.16);
+}
+.rightImage {
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
 }
 </style>
