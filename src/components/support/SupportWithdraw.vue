@@ -1,6 +1,8 @@
 <template>
   <div>
-    <div class="image-container" />
+    <div class="image-container">
+        <!-- <img class="screenshot""> -->
+    </div>
     <p class="description">
       1) Press the Withdraw  button, popup will appear.
     </p>
