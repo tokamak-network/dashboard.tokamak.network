@@ -6,7 +6,7 @@
       simple staking service to obtain access to some functionalities such as
       staking and account information. By clicking the <span style="font-weight:bold">Connect Wallet (01)</span> button on the top right of the screen you can choose how to connect to your wallet.
     </p>
-    <h4 class="mini-subtitle">connect with Metamask</h4>
+    <h4 class="mini-subtitle">Connect with Metamask</h4>
     <ol>
       <li class="description" style="margin-left:-10px; margin-bottom:10px">Make sure you are connected to the Ethereum Mainnet network. Then click <span style="font-weight:bold">Connect Wallet (01)</span> button and click the <span style="font-weight:bold">Metamask (02)</span> icon on the pop-up. </li>
       <li class="description" style="margin-left:-10px; margin-bottom:10px">

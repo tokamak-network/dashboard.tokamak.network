@@ -1,5 +1,6 @@
 <template>
   <div>
+     <div class="title">Wallet</div>
     <p class="description">
       After connecting your wallet, you can access the following infromation about your assets in the Wallet page.
     </p>
@@ -32,6 +33,18 @@ export default {
 </script>
 
 <style>
+.title {
+  font-family: Roboto;
+  font-size: 22px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1;
+  letter-spacing: 0.2px;
+  text-align: left;
+  color: #2a72e5;
+  margin-bottom: 20px;
+}
 .description {
   font-size: 17px;
   text-align: left;
@@ -47,5 +60,9 @@ export default {
 .screenshot {
     width: 100%;
     height: 100%;
+    margin-top: 70px;
+  margin-bottom: 40px;
+     box-shadow: 0 1px 4px 0 rgba(96, 97, 112, 0.16);
+
 }
 </style>

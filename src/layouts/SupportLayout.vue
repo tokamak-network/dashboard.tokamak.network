@@ -77,7 +77,6 @@
         Vivamus pretium vitae nibh eget rhoncus. Ut eget felis urna. Integer
       </div>
       <div ref="wallet">
-        <div class="title">Wallet</div>
         <support-wallet />
       </div>
     </div>
@@ -192,10 +191,12 @@ export default {
   justify-content: center;
   align-items: center;
   margin-bottom: 40px;
+   box-shadow: 0 1px 4px 0 rgba(96, 97, 112, 0.16);
+
 }
 .logo {
   width: 730px;
-  height: 76px;
+  height: 90px;
 }
 .instructions-container {
   width: 1114px;
