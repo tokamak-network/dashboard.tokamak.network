@@ -8,7 +8,6 @@
       <button class="support-button" @click="scrollMeTo('introduction')">
         Introduction to Staking
       </button>
-      <!-- <button @click="scrollMeTo('install')" class="support-button">Metamask</button> -->
       <button class="support-button" @click="scrollMeTo('install')">
         Install Metamask
       </button>
@@ -182,7 +181,7 @@ export default {
 }
 .logo {
   width: 730px;
-  height: 90px;
+  height: 100px;
 }
 .instructions-container {
   width: 1114px;
