@@ -1,10 +1,10 @@
 <template>
   <div>
-    <div class="title">Re-stake</div>
-     <div class="image-container image" :style="{marginTop: '90px', marginBottom: '40px', backgroundColor: '#ffffff'}">
+      <div class="image-container image" :style="{marginTop: '90px', marginBottom: '40px', backgroundColor: '#ffffff'}">
       <img class="screenshot" :style="{width: '50%'}" src="@/assets/images/support/restake_01.png">
       <img class="screenshot rightImage" :style="{width: '50%'}" src="@/assets/images/support/restake_02.png">
     </div>
+    <div class="title">Re-stake</div>
     <ol>
       <li class="description" style="margin-left:-10px; margin-bottom:10px">Press the ‘Re-stake’ button. Popup will appear</li>
       <li class="description" style="margin-left:-10px; margin-bottom:10px">

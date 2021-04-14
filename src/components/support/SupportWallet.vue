@@ -1,5 +1,8 @@
 <template>
   <div>
+     <div class="image-container">
+      <img class="wallet-screenshot" src="@/assets/images/wallet_screenshot.jpg">
+    </div>
     <div class="title">Wallet</div>
     <p class="description">
       After connecting your wallet, you can access the following infromation about your assets in the Wallet page.
@@ -20,9 +23,6 @@
       </li>
       <li class="description" style="margin-left:-10px; margin-bottom:10px"><strong>History:</strong> History of all your transactions. THe information includes Transaction Hash, Operator Contract, Type, Amount, Block Number and Status.</li>
     </ol>
-    <div class="image-container">
-      <img class="screenshot" src="@/assets/images/wallet_screenshot.jpg">
-    </div>
   </div>
 </template>
 
@@ -57,7 +57,7 @@ export default {
     justify-content: center;
 }
 
-.screenshot {
+.wallet-screenshot {
     width: 100%;
     height: 100%;
     margin-top: 70px;
