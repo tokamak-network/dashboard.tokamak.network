@@ -21,7 +21,7 @@
               {{ transaction.transactionHash | hexSlicer }}
             </a>
           </td>
-          <td class="text-center" style="width:97px">{{ transaction.type }}</td>
+          <td class="text-center" style="width:97px">{{ type(transaction.type) }}</td>
           <td class="text-center" style="width:117px">{{ currencyAmountFromNumberString(transaction.type, transaction.amount) }}</td>
           <td class="text-center" style="width:237px">{{ transaction.timestamp | formattedTimestamp }}</td>
         </tr>
@@ -130,6 +130,20 @@ export default {
       } else {
         this.from = from;
         this.order = 'desc';
+      }
+    },
+    type (type) {
+      if (type === 'Delegated') {
+        return 'Staked';
+      }
+      else if (type === 'Undelegated') {
+        return 'Unstaked';
+      }
+      else if (type === 'Redelegated') {
+        return 'Re-staked';
+      }
+      else {
+        return 'Withdrawn';
       }
     },
     changedOrder () {

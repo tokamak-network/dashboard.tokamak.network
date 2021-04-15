@@ -32,7 +32,7 @@
       </ul>
 
       <li class="description" style="margin-left:-10px; margin-bottom:10px">
-       Click the confirm button of the Metamask popup that will open from the Metamask extension of your browswer.
+        Click the confirm button of the Metamask popup that will open from the Metamask extension of your browswer.
 
         <ul>
           <li class="description" style="margin-left:-10px; margin-bottom:10px">
