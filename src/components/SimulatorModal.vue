@@ -267,7 +267,6 @@ export default {
       my = my + this.expectedSeig;
       this.returnRate = (my/Number(this.inputTon.replace(/,/g, ''))*100 - 100);
       const rewardPrice = this.expectedSeig;
-      console.log((rewardPrice * USD).toLocaleString(undefined, { maximumFractionDigits:2 }));
       this.roi = this.returnRate.toLocaleString(undefined, { maximumFractionDigits:2 })+' %';
       this.rewardTON = this.expectedSeig.toLocaleString(undefined, { maximumFractionDigits:4 })+' TON ';
       this.rewardUSD = ' $ ' + (rewardPrice * USD).toLocaleString(undefined, { maximumFractionDigits:2 });
