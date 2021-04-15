@@ -19,9 +19,10 @@
       </li>
     </ol>
 
-    <div class="image-container image" :style="{marginTop: '90px', marginBottom: '40px'}">
-      <img class="leftImage" :style="{width: '50%'}" src="@/assets/images/support/stake_2.png">
-      <img class="rightImage" :style="{width: '50%'}" src="@/assets/images/support/stake_3.png">
+    <div class="image-container" :style="{marginTop: '90px', marginBottom: '40px'}">
+      <img class="image" :style="{height: '345px'}" src="@/assets/images/support/stake_2.png">
+      <img class="image" :style="{height: '345px'}" src="@/assets/images/support/stake_3.png">
+      <img class="image" src="@/assets/images/support/stake_4.png">
     </div>
 
     <h4 class="mini-subtitle">02. Stake TON to Operator</h4>
@@ -38,11 +39,6 @@
         </li>
       </ul>
 
-
-      <div class="image-container" :style="{marginTop: '40px', marginBottom: '40px'}">
-        <img class="withdraw isnt uploade" src="@/assets/images/support/stake_4.png">
-      </div>
-
       <li class="description" style="margin-left:-10px; margin-bottom:10px">Click <strong>Confirm</strong> button</li>
     </ol>
     <ul>
@@ -53,8 +49,9 @@
     </ul>
 
     <div class="image-container" :style="{marginTop: '90px', marginBottom: '40px'}">
-      <img class="leftImage" :style="{width: '50%'}" src="@/assets/images/support/stake_5.png">
-      <img class="rightImage" :style="{width: '50%'}" src="@/assets/images/support/stake_6.png">
+      <img class="image" src="@/assets/images/support/stake_5.png">
+      <img class="image" src="@/assets/images/support/stake_6.png">
+      <img class="image" src="@/assets/images/support/stake_7.png">
     </div>
 
     <h4 class="mini-subtitle">03. Staking Calculator</h4>
@@ -66,9 +63,7 @@
       <li class="description" style="margin-left:-10px; margin-bottom:10px"> if you want to close popup, click <strong>X</strong> button</li>
 
 
-      <div class="image-container" :style="{marginTop: '40px', marginBottom: '40px'}">
-        <img class="image" src="@/assets/images/support/stake_07.png">
-      </div>
+      <div class="image-container" :style="{marginTop: '40px', marginBottom: '40px'}" />
 
       <li class="description" style="margin-left:-10px; margin-bottom:10px">
         Estimated amount of TONs you earn
@@ -77,7 +72,7 @@
       <li class="description" style="margin-left:-10px; margin-bottom:10px">
         If you click the <strong>Stake</strong> button, the staking popup will appear.
       </li>
-     <li class="description" style="margin-left:-10px; margin-bottom:10px"> if you want to recalculate, click the <strong>Recalculate</strong> button.</li>
+      <li class="description" style="margin-left:-10px; margin-bottom:10px"> if you want to recalculate, click the <strong>Recalculate</strong> button.</li>
       <li class="description" style="margin-left:-10px; margin-bottom:10px"> if you want to close popup, click <strong>X</strong> button.</li>
     </ol>
   </div>
@@ -135,7 +130,7 @@ export default {
 .image-container {
   display: flex;
   flex-direction: row;
-  justify-content: center;
+  justify-content: space-around;
 }
 .image {
   border-radius: 10px;

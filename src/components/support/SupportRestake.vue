@@ -1,8 +1,8 @@
 <template>
   <div>
-      <div class="image-container image" :style="{marginTop: '90px', marginBottom: '40px', backgroundColor: '#ffffff'}">
-      <img class="screenshot" :style="{width: '50%'}" src="@/assets/images/support/restake_01.png">
-      <img class="screenshot rightImage" :style="{width: '50%'}" src="@/assets/images/support/restake_02.png">
+    <div class="image-container" :style="{marginTop: '90px', marginBottom: '40px'}">
+      <img class="image" :style="{marginRight: '50px'}" src="@/assets/images/support/restake_01.png">
+      <img class="image" src="@/assets/images/support/restake_02.png">
     </div>
     <div class="title">Re-stake</div>
     <ol>

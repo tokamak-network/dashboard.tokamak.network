@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="image-container">
-      <img class="power-screenshot" src="@/assets/images/powerton_screenshot.jpg">
+      <img class="power-screenshot" src="@/assets/images/support/powerton.png">
     </div>
     <div class="title">PowerTON</div>
     <ol>
@@ -48,10 +48,8 @@ export default {
 }
 
 .power-screenshot {
-    width: 100%;
-    height: 100%;
-    margin-top: 70px;
+  margin-top: 70px;
   margin-bottom: 40px;
- box-shadow: 0 1px 4px 0 rgba(96, 97, 112, 0.16);
+  box-shadow: 0 1px 4px 0 rgba(96, 97, 112, 0.16);
 }
 </style>

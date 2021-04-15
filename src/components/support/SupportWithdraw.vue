@@ -1,8 +1,8 @@
 <template>
   <div>
-      <div class="image-container">
-      <img class="screenshot" src="@/assets/images/withdraw_1.jpg">
-      <img class="screenshot" src="@/assets/images/withdraw_2.jpg">
+    <div class="image-container">
+      <img class="image" :style="{marginRight: '50px'}" src="@/assets/images/support/withdraw_01.png">
+      <img class="image" src="@/assets/images/support/withdraw_02.png">
     </div>
     <div class="title">Withdraw</div>
     <ol>
@@ -43,11 +43,18 @@ export default {
     display: flex;
     flex-direction: row;
     justify-content: center;
+    margin-top: 90px;
+    margin-bottom: 40px;
 }
 
 .screenshot {
   width: 50%;
   /* height: 30%; */
   margin: 30px;
+}
+
+.image {
+  border-radius: 10px;
+  box-shadow: 0 1px 4px 0 rgba(96, 97, 112, 0.16);
 }
 </style>
