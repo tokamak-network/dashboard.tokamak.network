@@ -22,7 +22,7 @@
                 @keypress="onlyForTon"
               >
               <span class="model-ton-balance-input-stake-unit">TON</span>
-              <button class="model-ton-stake-btn" @click="getMaxBalance('max')">MAX</button>
+              <button v-if="signIn" class="model-ton-stake-btn" @click="getMaxBalance('max')">MAX</button>
             </div>
           </div>
           <div class="model-ton-balance">
@@ -245,7 +245,7 @@ export default {
         return 'error';
       }
       this.getTotalSupply();
-      let my = Number(this.inputTon.replace(',', ''));
+      let my = Number(this.inputTon.replace(/,/g, ''));
       let unit = 0;
       let stakedRatio = 0;
       const maxCompensate = Number(this.maxCompensateTokenPerDay);
@@ -265,8 +265,9 @@ export default {
       const proportionalSeig = dailyNotMintedSeig * (this.pSeigDeduction / 100);
       this.expectedSeig = (my/total) * (Number(this.compensatePerDay) + proportionalSeig) * unit;
       my = my + this.expectedSeig;
-      this.returnRate = (my/Number(this.inputTon.replace(',', ''))*100 - 100);
+      this.returnRate = (my/Number(this.inputTon.replace(/,/g, ''))*100 - 100);
       const rewardPrice = this.expectedSeig;
+      console.log((rewardPrice * USD).toLocaleString(undefined, { maximumFractionDigits:2 }));
       this.roi = this.returnRate.toLocaleString(undefined, { maximumFractionDigits:2 })+' %';
       this.rewardTON = this.expectedSeig.toLocaleString(undefined, { maximumFractionDigits:4 })+' TON ';
       this.rewardUSD = ' $ ' + (rewardPrice * USD).toLocaleString(undefined, { maximumFractionDigits:2 });
@@ -518,7 +519,7 @@ textarea:focus, input:focus, button:focus{
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width: 220px;
+  width: 260px;
   padding-left: 10px;
 }
 .model-result-detail-info {

@@ -2,11 +2,6 @@
   <div>
     <div class="title">Stake</div>
 
-    <h4 class="mini-subtitle">What is Staking? </h4>
-    <ul>
-      <li class="description" style="margin-left:-10px; margin-bottom:10px">It means dividing the profits of staking by delegating TON to an operator that is already in operation.</li>
-    </ul>
-
     <div class="image-container">
       <img class="screenshot" src="@/assets/images/support/stake_1.png">
     </div>

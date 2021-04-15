@@ -37,14 +37,14 @@
         Home
         <ul>
           <li class="description" style="margin-left:-10px; margin-bottom:10px">
-            Click the <span style="font-weight:bold">Connect Wallet (05) </span> button
+            Click the <span style="font-weight:bold">Connect Wallet </span> button
             to connect your metamask wallet or your Wallet Connect wallet to our
             staking service.
           </li>
           <li class="description" style="margin-left:-10px; margin-bottom:10px">
-            The <span style="color:#2a72e5">Blue (06)</span> graph shows the daily staked
+            The <span style="color:#2a72e5">Blue</span> graph shows the daily staked
             amount in the Tokamak Network by our stakers and the
-            <span style="color:#c7d1d8">Gray (07)</span> graph shows the daily Actual
+            <span style="color:#c7d1d8">Gray</span> graph shows the daily Actual
             APY. Hover over the graphs to see the daily amounts of total staking and
             Actual APY.
           </li>
