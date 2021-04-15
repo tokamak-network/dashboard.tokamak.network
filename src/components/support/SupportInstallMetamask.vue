@@ -25,16 +25,21 @@
         </div>
       </li>
       <li class="description" style="margin-left:-10px; margin-bottom:10px">
-        To add TON on your wallet, make sure you're connected to the <span style="font-weight:bold">Ethereum Mainnet</span> network. Then first click the
-        <span style="font-weight:bold">Add Token (01)</span> button and then click
-        the <span style="font-weight:bold">Custom Token (02)</span> tab. Insert the following information in the respective fields as shown in the image below.
-        <ul>
-          <li class="description" style="margin-top:10px">Token Contract Address: <span style="font-weight:bold">0x2be5e8c109e2197D077D13A82dAead6a9b3433C5</span></li>
-          <li>Token Symbol: <span style="font-weight:bold">TON</span></li>
-          <li>Decimals of Precision: <span style="font-weight:bold">18</span></li>
-        </ul>
-        Then click the <span style="font-weight:bold">Next (03) </span> button and <span style="font-weight:bold">Add Tokens (04)</span> button in the next screen to add TON to your account.
+        To add TON on your wallet, make sure you're connected to the <span style="font-weight:bold">Ethereum Mainnet</span> network. Then click the
+        <span style="font-weight:bold">Add Token</span> button.
       </li>
+      <li class="description" style="margin-left:-10px; margin-bottom:10px">
+        Click the <span style="font-weight:bold">Custom Token</span> tab.
+      </li>
+      <li class="description" style="margin-left:-10px; margin-bottom:10px">
+        Insert contract address as shown in the image below. The Token Symbol and Decimals of Precision will be filled automatically.
+        <ul>
+          <li class="description" style="margin-left:-10px; margin-top:10px">Token Contract Address: <span style="font-weight:bold">0x2be5e8c109e2197D077D13A82dAead6a9b3433C5</span></li>
+        </ul>
+      </li>
+      <li class="description" style="margin-left:-10px; margin-bottom:10px">Click the <span style="font-weight:bold">Next </span> button </li>
+
+      <li class="description" style="margin-left:-10px; margin-bottom:10px"> <span style="font-weight:bold">Add Tokens</span> button in the next screen to add TON to your account.</li>
       <div class="image-container">
         <img class="screenshot" src="@/assets/images/support/metamask_01.png">
         <img class="screenshot" src="@/assets/images/support/metamask_02.png">

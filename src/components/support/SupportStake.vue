@@ -2,9 +2,9 @@
   <div>
     <div class="title">Stake</div>
 
-    <h4 class="mini-subtitle">What is Stake? </h4>
+    <h4 class="mini-subtitle">What is Staking? </h4>
     <ul>
-      <li class="description" style="margin-left:-10px; margin-bottom:10px">It means to divide the profits of staking by delegating TON to the operator that is already in operation.</li>
+      <li class="description" style="margin-left:-10px; margin-bottom:10px">It means dividing the profits of staking by delegating TON to an operator that is already in operation.</li>
     </ul>
 
     <div class="image-container">
@@ -13,10 +13,7 @@
 
     <h4 class="mini-subtitle">Select Operator</h4>
     <ol>
-      <li class="description" style="margin-left:-10px; margin-bottom:10px">Select the operator you want to delegate from the Operator list</li>
-      <li class="description" style="margin-left:-10px; margin-bottom:10px">
-        if you click 1(unfold) button, you can see the information of operators( Total Delegates, Pending Withdrawal, Recent Commit, Commit Count, Staking history, Commit history)
-      </li>
+      <li class="description" style="margin-left:-10px; margin-bottom:10px">Select the operator you want to delegate from the Operator list by clicking the unfold button. You can see information of operators such as Total Delegates, Pending Withdrawal, Recent Commit, Commit Count, Staking history, and Commit history.</li>
     </ol>
 
     <div class="image-container" :style="{marginTop: '90px', marginBottom: '40px'}">
@@ -27,10 +24,10 @@
 
     <h4 class="mini-subtitle">02. Stake TON to Operator</h4>
     <ol>
-      <li class="description" style="margin-left:-10px; margin-bottom:10px"> Press the Stake button. Popup will appear</li>
-      <li class="description" style="margin-left:-10px; margin-bottom:10px"> writing down the quantity of TON to delegate. </li>
-      <li class="description" style="margin-left:-10px; margin-bottom:10px"> Click <strong>Stake</strong> button</li>
-      <li class="description" style="margin-left:-10px; margin-bottom:10px"> if you want to close popup, click <strong>X</strong> button</li>
+      <li class="description" style="margin-left:-10px; margin-bottom:10px"> Press the Stake button and a popup will appear.</li>
+      <li class="description" style="margin-left:-10px; margin-bottom:10px"> Insert the amount of TON to stake. </li>
+      <li class="description" style="margin-left:-10px; margin-bottom:10px"> Click the <strong>Stake</strong> button.</li>
+      <li class="description" style="margin-left:-10px; margin-bottom:10px"> If you want to close the popup, click the <strong>X</strong> button.</li>
 
       <ul>
         <li class="description" style="margin-left:-10px; margin-bottom:10px">
@@ -39,14 +36,17 @@
         </li>
       </ul>
 
-      <li class="description" style="margin-left:-10px; margin-bottom:10px">Click <strong>Confirm</strong> button</li>
-    </ol>
-    <ul>
       <li class="description" style="margin-left:-10px; margin-bottom:10px">
-        Once  staked, there will be a delay for the duration set by the operator upon withdrawal request.
-        (Default is 93046 blocks, approximately 2 weeks)
+       Click the confirm button of the Metamask popup that will open from the Metamask extension of your browswer.
+
+        <ul>
+          <li class="description" style="margin-left:-10px; margin-bottom:10px">
+            Once  staked, there will be a delay for the duration set by the operator upon withdrawal request.
+            (Default is 93046 blocks, approximately 2 weeks)
+          </li>
+        </ul>
       </li>
-    </ul>
+    </ol>
 
     <div class="image-container" :style="{marginTop: '90px', marginBottom: '40px'}">
       <img class="image" src="@/assets/images/support/stake_5.png">
@@ -56,24 +56,20 @@
 
     <h4 class="mini-subtitle">03. Staking Calculator</h4>
     <ol>
-      <li class="description" style="margin-left:-10px; margin-bottom:10px"> Press the Simulator button. Popup will appear</li>
-      <li class="description" style="margin-left:-10px; margin-bottom:10px"> writing down the quantity of TON to you want to stake. </li>
-      <li class="description" style="margin-left:-10px; margin-bottom:10px"> Select duration you want to stkae</li>
-      <li class="description" style="margin-left:-10px; margin-bottom:10px"> Click <strong>Calculate</strong> button</li>
-      <li class="description" style="margin-left:-10px; margin-bottom:10px"> if you want to close popup, click <strong>X</strong> button</li>
-
-
-      <div class="image-container" :style="{marginTop: '40px', marginBottom: '40px'}" />
-
+      <li class="description" style="margin-left:-10px; margin-bottom:10px"> Press the Simulator button and a popup will appear.</li>
+      <li class="description" style="margin-left:-10px; margin-bottom:10px"> Insert the amount of TON to stake. </li>
+      <li class="description" style="margin-left:-10px; margin-bottom:10px"> Select duration you want to stkae.</li>
+      <li class="description" style="margin-left:-10px; margin-bottom:10px"> Click the <strong>Calculate</strong> button.</li>
+      <li class="description" style="margin-left:-10px; margin-bottom:10px"> If you want to close popup, click the <strong>X</strong> button.</li>
       <li class="description" style="margin-left:-10px; margin-bottom:10px">
-        Estimated amount of TONs you earn
+        Estimated amount of TONs you will earn during the selected period will appear here.
       </li>
-      <li class="description" style="margin-left:-10px; margin-bottom:10px"> Value of estimated amount of TONs and APY. </li>
+      <li class="description" style="margin-left:-10px; margin-bottom:10px"> The USD value, the APY, and the KRW value of the amount of TON you will earn will appear here.   </li>
       <li class="description" style="margin-left:-10px; margin-bottom:10px">
         If you click the <strong>Stake</strong> button, the staking popup will appear.
       </li>
-      <li class="description" style="margin-left:-10px; margin-bottom:10px"> if you want to recalculate, click the <strong>Recalculate</strong> button.</li>
-      <li class="description" style="margin-left:-10px; margin-bottom:10px"> if you want to close popup, click <strong>X</strong> button.</li>
+      <li class="description" style="margin-left:-10px; margin-bottom:10px"> If you want to recalculate, click the <strong>Recalculate</strong> button.</li>
+      <li class="description" style="margin-left:-10px; margin-bottom:10px"> If you want to close popup, click <strong>X</strong> button.</li>
     </ol>
   </div>
 </template>

@@ -7,23 +7,22 @@
     <div class="title">Un-stake</div>
 
     <ol>
-      <li class="description" style="margin-left:-10px; margin-bottom:10px">Press the Unstake button. Popup will appear</li>
+      <li class="description" style="margin-left:-10px; margin-bottom:10px">Press the <strong>Unstake</strong> button and a popup will appear.</li>
       <li class="description" style="margin-left:-10px; margin-bottom:10px">
-        Writing down the quantity of TON to unstake.
+        Insert the amount of TON to unstake.
       </li>
       <li class="description" style="margin-left:-10px; margin-bottom:10px">
-        Click ‘Unstake’ button
+        Click the <strong>Unstake</strong> button
       </li>
       <li class="description" style="margin-left:-10px; margin-bottom:10px">
-        Check the connected metamask
+        Click the confirm button of the Metamask popup that will open from the Metamask extension of your browswer.
+        <ul>
+          <li class="description" style="margin-left:-10px; margin-bottom:10px">
+            Not Withdrawable: If you unstake staked TON, it is the quantity of TON that is in the withdrawal delay period set by the operator. (Default is 93046 blocks, approximately 2 weeks)
+          </li>
+        </ul>
       </li>
     </ol>
-    <ul>
-      <li class="description" style="margin-left:-10px; margin-bottom:10px">
-        Not Withdrawable
-        : If you unstake a staked TON, it is the quantity of TON in Not Withdraw for the period set by the operator. (Default is 93046 blocks, approximately 2 weeks)
-      </li>
-    </ul>
   </div>
 </template>
 

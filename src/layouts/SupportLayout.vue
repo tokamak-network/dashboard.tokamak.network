@@ -51,7 +51,7 @@
       <div ref="restake">
         <SupportRestake />
       </div>
-       <div ref="withdraw">
+      <div ref="withdraw">
         <SupportWithdraw />
       </div>
       <div ref="powerton">

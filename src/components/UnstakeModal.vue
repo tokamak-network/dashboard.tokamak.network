@@ -11,7 +11,7 @@
       <div class="model-content">
         <h1 class="model-content-title">Unstake</h1>
         <h2 class="model-content-subTitle">
-          Are you really want unstake your TON now?
+          Do you really want unstake your TON now?
         </h2>
         <div class="model-line" />
         <div class="model-ton-stake">
@@ -127,7 +127,6 @@ export default {
   },
   methods: {
     getMaxBalance (args) {
-      console.log(args.toBigNumber().toString());
       let afterDecimalNumber;
       const tonAmount = this.operator.userStaked.toBigNumber().toString();
       const spliedTonAmount = tonAmount.split('.');
@@ -163,6 +162,7 @@ export default {
       }
     },
     undelegate () {
+
       const tonAmount = parseFloat(this.inputTon.replace(/,/g, ''));
       if (tonAmount === '' || parseFloat(tonAmount) === 0) {
         return alert('Please check input amount.');

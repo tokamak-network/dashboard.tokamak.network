@@ -6,15 +6,12 @@
     </div>
     <div class="title">Re-stake</div>
     <ol>
-      <li class="description" style="margin-left:-10px; margin-bottom:10px">Press the ‘Re-stake’ button. Popup will appear</li>
+      <li class="description" style="margin-left:-10px; margin-bottom:10px">Press the <strong>Re-stake</strong> button and a popup will appear.</li>
       <li class="description" style="margin-left:-10px; margin-bottom:10px">
-        Writing down the quantity of TON to Re-stake
+        Click the <strong>Re-stake</strong> button to re-stake all your re-stakable TON at once.
       </li>
       <li class="description" style="margin-left:-10px; margin-bottom:10px">
-        Click ‘Re-stake’ button
-      </li>
-      <li class="description" style="margin-left:-10px; margin-bottom:10px">
-        Check the connected metamask
+        Click the <strong>Confirm</strong> button of the Metamask popup that will open from the Metamask extension of your browswer.
       </li>
     </ol>
   </div>

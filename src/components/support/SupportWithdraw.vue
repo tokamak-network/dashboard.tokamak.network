@@ -6,9 +6,9 @@
     </div>
     <div class="title">Withdraw</div>
     <ol>
-      <li class="description" style="margin-left:-10px; margin-bottom:10px">Press the <strong>Withdraw </strong> button, popup will appear.</li>
+      <li class="description" style="margin-left:-10px; margin-bottom:10px">Press the <strong>Withdraw </strong> button, and a popup will appear.</li>
       <li class="description" style="margin-left:-10px; margin-bottom:10px">Click <strong>Withdraw</strong> button of the popup to withdraw all your TON at once.</li>
-      <li class="description" style="margin-left:-10px; margin-bottom:10px">Clock the <strong>Confirm</strong> button of the Metamask popup to confirm the transaction. </li>
+      <li class="description" style="margin-left:-10px; margin-bottom:10px">Click the <strong>Confirm</strong> button of the Metamask popup to confirm the transaction. </li>
     </ol>
   </div>
 </template>
