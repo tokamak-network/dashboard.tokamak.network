@@ -32,9 +32,9 @@
         </div>
         <div class="model-line model-line-bottom" />
         <button class="model-btn"
-                :class="{'model-btn-notavailable' : inputTon === '0' || inputTon === '0.' || inputTon === '0.0' || inputTon === '0.00' || inputTon === '' }"
-                :disabled="inputTon === '0' || inputTon === '0.' || inputTon === '0.0' || inputTon === '0.00' || inputTon === ''"
-                @click="delegate"
+                :class="getInableStyle('class')"
+                :disabled="getInableStyle('disabled')"
+                @click="delegate()"
         >
           Stake
         </button>
@@ -55,6 +55,7 @@ import { range } from 'lodash';
 import { addHistory, addTransaction } from '@/api';
 import { createCurrency } from '@makerdao/currency';
 import moment from 'moment';
+import Decimal from 'decimal.js';
 const _TON = createCurrency('TON');
 const _WTON = createCurrency('WTON');
 export default {
@@ -153,20 +154,28 @@ export default {
     this.inputTon = this.amount;
   },
   methods:{
+    getInableStyle (args) {
+      const tonAmount = this.inputTon.replace(/,/g, '');
+      switch(args) {
+      case 'class':
+        if(this.inputTon === '0' || this.inputTon === '0.' || this.inputTon === '0.0' || this.inputTon === '0.00' || this.inputTon === '' || tonAmount > this.getMaxBalance()) {
+          return 'model-btn-notavailable';
+        }
+        break;
+      case 'disabled':
+        if(this.inputTon === '0' || this.inputTon === '0.' || this.inputTon === '0.0' || this.inputTon === '0.00' || this.inputTon === '' || tonAmount > this.getMaxBalance()) {
+          return true;
+        }
+        break;
+      }
+    },
     getMaxBalance (args) {
-      let afterDecimalNumber;
-      const tonAmount = this.tonBalance.toBigNumber().toString();
-      const spliedTonAmount = tonAmount.split('.');
-      const beforeDecimalNumber = spliedTonAmount[0];
-      if(spliedTonAmount[1] === undefined) {
-        afterDecimalNumber = '00';
-      } else {
-        afterDecimalNumber = spliedTonAmount[1].slice(0, 2);
-      }
+      const tonAmount =  this.tonBalance.toBigNumber().toString();
+      const num = new Decimal(tonAmount);
       if(args === 'max') {
-        return this.inputTon = `${beforeDecimalNumber.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}.${afterDecimalNumber}`;
+        return this.inputTon = num.toFixed(2, Decimal.ROUND_DOWN);
       }
-      return `${beforeDecimalNumber.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}.${afterDecimalNumber}`;
+      return num.toFixed(2, Decimal.ROUND_DOWN);
     },
     onlyForTon ($event) {
       // console.log($event.keyCode); //keyCodes value
@@ -219,20 +228,19 @@ export default {
       return data;
     },
     async delegate () {
-      const stringInputTon = this.inputTon.replace(/,/g, '');
-      let value = parseFloat(stringInputTon);
-      if(stringInputTon === this.getMaxBalance(this.tonBalance)) {
-        value = parseFloat(this.tonBalance.toBigNumber().toString());
+      let tonAmount = parseFloat(this.inputTon.replace(/,/g, ''));
+      if(this.inputTon === this.getMaxBalance()) {
+        tonAmount = this.operator.userStaked.toBigNumber().toString();
       }
-      if (value === 0) {
+      if (tonAmount === 0) {
         return alert('Please check input amount.');
       }
-      if (_TON(value).gt(this.tonBalance)) {
+      if (this.inputTon > this.getMaxBalance()) {
         return alert('Please check your TON amount.');
       }
       if(confirm('Current withdrawal delay is 2 weeks. Are you sure you want to delegate?')){
         const data = this.getData();
-        const amount = _TON(value).toFixed('wei');
+        const amount = _TON(tonAmount).toFixed('wei');
         this.TON.methods.approveAndCall(
           this.WTON._address,
           amount,
