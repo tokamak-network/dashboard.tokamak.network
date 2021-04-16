@@ -31,13 +31,20 @@
           </div>
         </div>
         <div class="model-line model-line-bottom" />
-        <button class="model-btn"
-                :class="getInableStyle('class')"
-                :disabled="getInableStyle('disabled')"
-                @click="delegate()"
-        >
-          Stake
-        </button>
+        <div class="model-bottom-wrap">
+          <div class="model-bottom-container">
+            <span v-if="warn" class="model-warn">Operator must have 1,000 TON </span>
+            <span v-if="warn" class="model-warn">as an minumum amount</span>
+          </div>
+          <button class="model-btn"
+                  :class="getInableStyle('class')"
+                  :disabled="getInableStyle('disabled')"
+                  @click="delegate()"
+          >
+            Stake
+          </button>
+        </div>
+
 
         <!-- <div>{{ availableAmountToDelegate | currencyAmount }}</div> -->
         <!-- <input v-model="availableAmountToDelegate" @keypress="isNumber">
@@ -56,8 +63,10 @@ import { addHistory, addTransaction } from '@/api';
 import { createCurrency } from '@makerdao/currency';
 import moment from 'moment';
 import Decimal from 'decimal.js';
+const { ethers } = require('ethers');
 const _TON = createCurrency('TON');
 const _WTON = createCurrency('WTON');
+const utils = ethers.utils;
 export default {
   props: {
     layer2: {
@@ -72,6 +81,7 @@ export default {
     return {
       availableAmountToDelegate: 0,
       inputTon: '0',
+      warn: false,
     };
   },
   computed: {
@@ -156,16 +166,14 @@ export default {
   methods:{
     getInableStyle (args) {
       const tonAmount = this.inputTon.replace(/,/g, '');
-      console.log(tonAmount);
-      console.log(this.getMaxBalance());
       switch(args) {
       case 'class':
-        if(this.inputTon === '0' || this.inputTon === '0.' || this.inputTon === '0.0' || this.inputTon === '0.00' || this.inputTon === '' || Number(tonAmount) > Number(this.getMaxBalance())) {
+        if(this.inputTon === '0' || this.inputTon === '0.' || this.inputTon === '0.0' || this.inputTon === '0.00' || this.inputTon === '' || Number(tonAmount) > Number(this.getMaxBalance()) || this.warn === true) {
           return 'model-btn-notavailable';
         }
         break;
       case 'disabled':
-        if(this.inputTon === '0' || this.inputTon === '0.' || this.inputTon === '0.0' || this.inputTon === '0.00' || this.inputTon === '' || tonAmount > this.getMaxBalance()) {
+        if(this.inputTon === '0' || this.inputTon === '0.' || this.inputTon === '0.0' || this.inputTon === '0.00' || this.inputTon === '' || tonAmount > this.getMaxBalance() || this.warn === true) {
           return true;
         }
         break;
@@ -229,7 +237,23 @@ export default {
       );
       return data;
     },
+    round (str, maxDecimalDigits) {
+      const num = new Decimal(str);
+      return num.toFixed(maxDecimalDigits, Decimal.ROUND_CEIL);
+    },
     async delegate () {
+      if(this.user === this.operator.address) {
+        const operatorDeposit = this.operator.selfDeposit;
+        const numOperatorDeposit = operatorDeposit.toBigNumber().toString();
+        const finalNumOperatorDeposit = this.round(numOperatorDeposit, 2);
+        const minimumAmount = this.operator.minimumAmount;
+        const numMinimumAmount = utils.formatUnits(minimumAmount, 27);
+        const finalNumMinimumAmount = this.round(numMinimumAmount, 2);
+
+        if(finalNumOperatorDeposit - this.inputTon < finalNumMinimumAmount) {
+          return this.warn = true;
+        }
+      }
       let tonAmount = parseFloat(this.inputTon.replace(/,/g, ''));
       if(this.inputTon === this.getMaxBalance()) {
         tonAmount = this.operator.userStaked.toBigNumber().toString();
@@ -308,7 +332,7 @@ textarea:focus, input:focus{
 }
 .model-content {
   width: 350px;
-  height: 300px;
+  height: 350px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -419,6 +443,27 @@ button:focus {
   cursor: default;
 }
 .model-line-bottom {
-  margin-bottom: 17px;
+}
+.model-bottom-wrap {
+  width: 100%;
+  height: 130px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+.model-bottom-container {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  margin-bottom: 15px;
+  color: #2a72e5;
+  font-size: 12px;
+  font-weight: bold;
+  font-family: Roboto;
+}
+.model-warn {
+  padding-left: 20px;
+  padding-right: 20px;
 }
 </style>
