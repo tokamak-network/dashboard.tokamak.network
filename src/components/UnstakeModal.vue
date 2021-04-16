@@ -130,7 +130,7 @@ export default {
       const tonAmount = this.inputTon.replace(/,/g, '');
       switch(args) {
       case 'class':
-        if(this.inputTon === '0' || this.inputTon === '0.' || this.inputTon === '0.0' || this.inputTon === '0.00' || this.inputTon === '' || tonAmount > this.getMaxBalance()) {
+        if(this.inputTon === '0' || this.inputTon === '0.' || this.inputTon === '0.0' || this.inputTon === '0.00' || this.inputTon === '' || Number(tonAmount) > Number(this.getMaxBalance())) {
           return 'model-btn-notavailable';
         }
         break;
