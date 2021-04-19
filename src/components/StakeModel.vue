@@ -250,7 +250,7 @@ export default {
         const numMinimumAmount = utils.formatUnits(minimumAmount, 27);
         const finalNumMinimumAmount = this.round(numMinimumAmount, 2);
 
-        if(finalNumOperatorDeposit - this.inputTon < finalNumMinimumAmount) {
+        if(finalNumOperatorDeposit - this.inputTon.replace(/,/g, '') < finalNumMinimumAmount) {
           return this.warn = true;
         }
       }
