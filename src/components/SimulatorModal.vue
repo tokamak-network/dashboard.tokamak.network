@@ -19,9 +19,10 @@
               <input
                 v-model="inputTon"
                 class="model-ton-balance-input model-ton-balance-input-stake"
+                :style="{width: !signIn? '147px' : '87px', paddingRight: '36px'}"
                 @keypress="onlyForTon"
               >
-              <span class="model-ton-balance-input-stake-unit">TON</span>
+              <span class="model-ton-balance-input-stake-unit"  :style="{marginLeft: !signIn? '153px' : '93px'}">TON</span>
               <button v-if="signIn" class="model-ton-stake-btn" @click="getMaxBalance('max')">MAX</button>
             </div>
           </div>
@@ -73,7 +74,9 @@
             </div>
             <div class="model-result-detail">
               <span class="model-result-detail-info">{{ rewardUSD }}</span>
+              <!-- <span class="model-result-detail-info">|</span> -->
               <span class="model-result-detail-info">{{ roi }}</span>
+              <!-- <span class="model-result-detail-info">|</span> -->
               <span class="model-result-detail-info">{{ rewardKRW }}</span>
             </div>
           </div>
@@ -398,7 +401,8 @@ textarea:focus, input:focus, button:focus{
   background-color: #ffffff;
   font-size: 12px;
   color: #86929d;
-  cursor: pointer
+  cursor: pointer;
+  margin-left: 5px;
 }
 .model-ton-balance {
   display: flex;
@@ -452,13 +456,12 @@ textarea:focus, input:focus, button:focus{
   border-radius: 4px;
   height: 30px;
   padding: 0;
-  width: 181px;
+  /* width: 181px; */
 }
 .model-ton-balance-input-stake {
   width: 87px;
-  margin-right: 5px;
   text-align: right;
-  padding-right: 36px;
+  /* padding-right: 36px; */
 }
 .model-ton-selectbox {
   width: 185px;
@@ -530,7 +533,6 @@ textarea:focus, input:focus, button:focus{
 }
 .model-ton-balance-input-stake-unit {
   position: absolute;
-  margin-left: 93px;
   margin-top: 7px;
 }
 
