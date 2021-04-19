@@ -74,9 +74,7 @@
             </div>
             <div class="model-result-detail">
               <span class="model-result-detail-info">{{ rewardUSD }}</span>
-              <!-- <span class="model-result-detail-info">|</span> -->
               <span class="model-result-detail-info">{{ roi }}</span>
-              <!-- <span class="model-result-detail-info">|</span> -->
               <span class="model-result-detail-info">{{ rewardKRW }}</span>
             </div>
           </div>
