@@ -116,10 +116,10 @@ export default {
     },
     type (type) {
       if (type === 'WithdrawalRequested') {
-        return 'Undelegated';
+        return 'Unstaked';
       }
       else if (type === 'Deposited') {
-        return 'Delegated';
+        return 'Staked';
       }
       else {
         return 'Withdrawn';

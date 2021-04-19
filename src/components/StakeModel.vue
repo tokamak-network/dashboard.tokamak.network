@@ -9,7 +9,7 @@
         >
       </div>
       <div class="model-content">
-        <h1 class="model-content-title">Staking</h1>
+        <h1 class="model-content-title">Stake</h1>
         <h2 class="model-content-subTitle">You can earn TON and Power</h2>
         <div class="model-line" />
         <div class="model-ton-stake">
@@ -31,13 +31,20 @@
           </div>
         </div>
         <div class="model-line model-line-bottom" />
-        <button class="model-btn"
-                :class="{'model-btn-notavailable' : inputTon === '0' || inputTon === '0.' || inputTon === '0.0' || inputTon === '0.00' || inputTon === '' }"
-                :disabled="inputTon === '0' || inputTon === '0.' || inputTon === '0.0' || inputTon === '0.00' || inputTon === ''"
-                @click="delegate"
-        >
-          Stake
-        </button>
+        <div class="model-bottom-wrap">
+          <div class="model-bottom-container">
+            <span v-if="warn" class="model-warn">Operator must have 1,000 TON </span>
+            <span v-if="warn" class="model-warn">as an minumum amount</span>
+          </div>
+          <button class="model-btn"
+                  :class="getInableStyle('class')"
+                  :disabled="getInableStyle('disabled')"
+                  @click="delegate()"
+          >
+            Stake
+          </button>
+        </div>
+
 
         <!-- <div>{{ availableAmountToDelegate | currencyAmount }}</div> -->
         <!-- <input v-model="availableAmountToDelegate" @keypress="isNumber">
@@ -55,8 +62,11 @@ import { range } from 'lodash';
 import { addHistory, addTransaction } from '@/api';
 import { createCurrency } from '@makerdao/currency';
 import moment from 'moment';
+import Decimal from 'decimal.js';
+const { ethers } = require('ethers');
 const _TON = createCurrency('TON');
 const _WTON = createCurrency('WTON');
+const utils = ethers.utils;
 export default {
   props: {
     layer2: {
@@ -71,6 +81,7 @@ export default {
     return {
       availableAmountToDelegate: 0,
       inputTon: '0',
+      warn: false,
     };
   },
   computed: {
@@ -153,20 +164,28 @@ export default {
     this.inputTon = this.amount;
   },
   methods:{
+    getInableStyle (args) {
+      const tonAmount = this.inputTon.replace(/,/g, '');
+      switch(args) {
+      case 'class':
+        if(this.inputTon === '0' || this.inputTon === '0.' || this.inputTon === '0.0' || this.inputTon === '0.00' || this.inputTon === '' || Number(tonAmount) > Number(this.getMaxBalance()) || this.warn === true) {
+          return 'model-btn-notavailable';
+        }
+        break;
+      case 'disabled':
+        if(this.inputTon === '0' || this.inputTon === '0.' || this.inputTon === '0.0' || this.inputTon === '0.00' || this.inputTon === '' || tonAmount > this.getMaxBalance() || this.warn === true) {
+          return true;
+        }
+        break;
+      }
+    },
     getMaxBalance (args) {
-      let afterDecimalNumber;
-      const tonAmount = this.tonBalance.toBigNumber().toString();
-      const spliedTonAmount = tonAmount.split('.');
-      const beforeDecimalNumber = spliedTonAmount[0];
-      if(spliedTonAmount[1] === undefined) {
-        afterDecimalNumber = '00';
-      } else {
-        afterDecimalNumber = spliedTonAmount[1].slice(0, 2);
-      }
+      const tonAmount =  this.tonBalance.toBigNumber().toString();
+      const num = new Decimal(tonAmount);
       if(args === 'max') {
-        return this.inputTon = `${beforeDecimalNumber.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}.${afterDecimalNumber}`;
+        return this.inputTon = num.toFixed(2, Decimal.ROUND_DOWN);
       }
-      return `${beforeDecimalNumber.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}.${afterDecimalNumber}`;
+      return num.toFixed(2, Decimal.ROUND_DOWN);
     },
     onlyForTon ($event) {
       // console.log($event.keyCode); //keyCodes value
@@ -218,28 +237,43 @@ export default {
       );
       return data;
     },
+    round (str, maxDecimalDigits) {
+      const num = new Decimal(str);
+      return num.toFixed(maxDecimalDigits, Decimal.ROUND_CEIL);
+    },
     async delegate () {
-      const stringInputTon = this.inputTon.replace(/,/g, '');
-      let value = parseFloat(stringInputTon);
-      if(stringInputTon === this.getMaxBalance(this.tonBalance)) {
-        value = parseFloat(this.tonBalance.toBigNumber().toString());
+      if(this.user === this.operator.address) {
+        const operatorDeposit = this.operator.selfDeposit;
+        const numOperatorDeposit = operatorDeposit.toBigNumber().toString();
+        const finalNumOperatorDeposit = this.round(numOperatorDeposit, 2);
+        const minimumAmount = this.operator.minimumAmount;
+        const numMinimumAmount = utils.formatUnits(minimumAmount, 27);
+        const finalNumMinimumAmount = this.round(numMinimumAmount, 2);
+
+        if(finalNumOperatorDeposit - this.inputTon.replace(/,/g, '') < finalNumMinimumAmount) {
+          return this.warn = true;
+        }
       }
-      if (value === 0) {
+      let tonAmount = parseFloat(this.inputTon.replace(/,/g, ''));
+      if(this.inputTon === this.getMaxBalance()) {
+        tonAmount = this.operator.userStaked.toBigNumber().toString();
+      }
+      if (tonAmount === 0) {
         return alert('Please check input amount.');
       }
-      if (_TON(value).gt(this.tonBalance)) {
+      if (this.inputTon > this.getMaxBalance()) {
         return alert('Please check your TON amount.');
       }
       if(confirm('Current withdrawal delay is 2 weeks. Are you sure you want to delegate?')){
         const data = this.getData();
-        const amount = _TON(value).toFixed('wei');
+        const amount = _TON(tonAmount).toFixed('wei');
         this.TON.methods.approveAndCall(
           this.WTON._address,
           amount,
           data,
         ).send({ from: this.user })
           .on('transactionHash', async (hash) => {
-            const transcation = {
+            const transaction = {
               from: this.user,
               type: 'Delegated',
               amount: amount,
@@ -248,7 +282,7 @@ export default {
               timestamp: moment().unix(),
             };
             this.$emit('closePopup', 'stake');
-            this.$store.dispatch('addPendingTransaction', transcation);
+            this.$store.dispatch('addPendingTransaction', transaction);
             this.$store.commit('SET_PENDING_TX', hash);
           })
           .on('receipt', (receipt) => {
@@ -298,7 +332,7 @@ textarea:focus, input:focus{
 }
 .model-content {
   width: 350px;
-  height: 300px;
+  height: 350px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -409,6 +443,27 @@ button:focus {
   cursor: default;
 }
 .model-line-bottom {
-  margin-bottom: 17px;
+}
+.model-bottom-wrap {
+  width: 100%;
+  height: 130px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+.model-bottom-container {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  margin-bottom: 15px;
+  color: #2a72e5;
+  font-size: 12px;
+  font-weight: bold;
+  font-family: Roboto;
+}
+.model-warn {
+  padding-left: 20px;
+  padding-right: 20px;
 }
 </style>

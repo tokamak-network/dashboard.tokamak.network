@@ -11,7 +11,7 @@
       <div class="model-content">
         <h1 class="model-content-title">Unstake</h1>
         <h2 class="model-content-subTitle">
-          Are you really want unstake your TON now?
+          Do you really want unstake your TON now?
         </h2>
         <div class="model-line" />
         <div class="model-ton-stake">
@@ -33,19 +33,24 @@
           <h3 class="model-ton-balance-title">Available Balance</h3>
           <div class="model-ton-balance-amount">
             <span class="model-ton-balance-amount-number">
-              {{ getMaxBalance(operator.userStaked) }}
+              {{ getMaxBalance() }}
             </span>
           </div>
         </div>
         <div class="model-line model-line-bottom" />
-        <button
-          class="model-btn"
-          :class="{'model-btn-notavailable' : inputTon === '0' || inputTon === '0.' || inputTon === '0.0' || inputTon === '0.00' || inputTon === '' }"
-          :disabled="inputTon === '0' || inputTon === '0.' || inputTon === '0.0' || inputTon === '0.00' || inputTon === ''"
-          @click="undelegate"
-        >
-          Unstake
-        </button>
+        <div class="model-bottom-wrap">
+          <div class="model-bottom-container">
+            <span v-if="warn" class="model-warn">Operator must have 1,000 TON </span>
+            <span v-if="warn" class="model-warn">as an minumum amount</span>
+          </div>
+          <button class="model-btn"
+                  :class="getInableStyle('class')"
+                  :disabled="getInableStyle('disabled')"
+                  @click="undelegate()"
+          >
+            Unstake
+          </button>
+        </div>
 
         <!-- <div>{{ availableAmountToDelegate | currencyAmount }}</div> -->
         <!-- <input v-model="availableAmountToDelegate" @keypress="isNumber">
@@ -72,7 +77,11 @@ import Vue from 'vue';
 import { mapState, mapGetters } from 'vuex';
 import { createCurrency } from '@makerdao/currency';
 import moment from 'moment';
+import Decimal from 'decimal.js';
+const { ethers } = require('ethers');
 const _WTON = createCurrency('WTON');
+const utils = ethers.utils;
+
 export default {
   props: {
     layer2: {
@@ -84,6 +93,7 @@ export default {
     return {
       availableAmountToUndelegate: 0,
       inputTon: '0',
+      warn: false,
     };
   },
   computed: {
@@ -126,20 +136,32 @@ export default {
     },
   },
   methods: {
+    round (str, maxDecimalDigits) {
+      const num = new Decimal(str);
+      return num.toFixed(maxDecimalDigits, Decimal.ROUND_CEIL);
+    },
+    getInableStyle (args) {
+      const tonAmount = this.inputTon.replace(/,/g, '');
+      switch(args) {
+      case 'class':
+        if(this.inputTon === '0' || this.inputTon === '0.' || this.inputTon === '0.0' || this.inputTon === '0.00' || this.inputTon === '' || Number(tonAmount) > Number(this.getMaxBalance()) || this.warn === true) {
+          return 'model-btn-notavailable';
+        }
+        break;
+      case 'disabled':
+        if(this.inputTon === '0' || this.inputTon === '0.' || this.inputTon === '0.0' || this.inputTon === '0.00' || this.inputTon === '' || tonAmount > this.getMaxBalance() || this.warn === true) {
+          return true;
+        }
+        break;
+      }
+    },
     getMaxBalance (args) {
-      let afterDecimalNumber;
-      const tonAmount = this.operator.userStaked.toBigNumber().toString();
-      const spliedTonAmount = tonAmount.split('.');
-      const beforeDecimalNumber = spliedTonAmount[0];
-      if(spliedTonAmount[1] === undefined) {
-        afterDecimalNumber = '00';
-      } else {
-        afterDecimalNumber = spliedTonAmount[1].slice(0, 2);
-      }
+      const tonAmount =  this.operator.userStaked.toBigNumber().toString();
+      const num = new Decimal(tonAmount);
       if(args === 'max') {
-        return this.inputTon = `${beforeDecimalNumber.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}.${afterDecimalNumber}`;
+        return this.inputTon = num.toFixed(2, Decimal.ROUND_CEIL);
       }
-      return `${beforeDecimalNumber.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}.${afterDecimalNumber}`;
+      return num.toFixed(2, Decimal.ROUND_CEIL);
     },
     onlyForTon ($event) {
       // console.log($event.keyCode); //keyCodes value
@@ -162,11 +184,27 @@ export default {
       }
     },
     undelegate () {
-      const tonAmount = parseFloat(this.inputTon.replace(/,/g, ''));
+      if(this.user === this.operator.address) {
+        const operatorDeposit = this.operator.selfDeposit;
+        const numOperatorDeposit = operatorDeposit.toBigNumber().toString();
+        const finalNumOperatorDeposit = this.round(numOperatorDeposit, 2);
+        const minimumAmount = this.operator.minimumAmount;
+        const numMinimumAmount = utils.formatUnits(minimumAmount, 27);
+        const finalNumMinimumAmount = this.round(numMinimumAmount, 2);
+
+
+        if(finalNumOperatorDeposit - this.inputTon.replace(/,/g, '') < finalNumMinimumAmount) {
+          return this.warn = true;
+        }
+      }
+      let tonAmount = parseFloat(this.inputTon.replace(/,/g, ''));
+      if(this.inputTon === this.getMaxBalance()) {
+        tonAmount = this.operator.userStaked.toBigNumber().toString();
+      }
       if (tonAmount === '' || parseFloat(tonAmount) === 0) {
         return alert('Please check input amount.');
       }
-      if (_WTON(tonAmount).gt(this.operator.userStaked)) {
+      if (this.inputTon > this.getMaxBalance()) {
         return alert('Please check your TON amount.');
       }
       const amount = _WTON(tonAmount).toFixed('ray');
@@ -357,6 +395,9 @@ button:focus {
   margin-top: 25px;
   margin-bottom: 25px;
 }
+button:focus {
+  outline: none;
+}
 .model-btn {
   width: 150px;
   height: 38px;
@@ -371,6 +412,27 @@ button:focus {
   cursor: default;
 }
 .model-line-bottom {
-  margin-bottom: 17px;
+}
+.model-bottom-wrap {
+  width: 100%;
+  height: 130px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+.model-bottom-container {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  margin-bottom: 15px;
+  color: #2a72e5;
+  font-size: 12px;
+  font-weight: bold;
+  font-family: Roboto;
+}
+.model-warn {
+  padding-left: 20px;
+  padding-right: 20px;
 }
 </style>

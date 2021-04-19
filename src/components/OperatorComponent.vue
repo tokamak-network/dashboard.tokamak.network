@@ -60,7 +60,7 @@
       <div class="row">
         <div class="column" style="margin-right:30px; width: 870px">
           <div class="table-header">
-            <div class="title">Staking</div>
+            <div class="title">Staking History</div>
             <div class="tx-toggle">
               {{ !toggled? 'My Transactions': 'All transactions' }}
               <toggle-button v-model="toggled" :disabled="!signIn" :color="{checked: '#36af47', unchecked: '#2a72e5', disabled: '#e9edf1'}" :height="16" :width="36" />
@@ -70,7 +70,7 @@
           <operator-user-histroy-table v-else :operatorHistroy="operator.operatorsHistory" />
         </div>
         <div class="column">
-          <div class="title">Commit</div>
+          <div class="title">Commit History</div>
 
           <commit-table :commitHistory="operator.commitHistory" />
         </div>

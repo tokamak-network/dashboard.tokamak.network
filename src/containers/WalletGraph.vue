@@ -70,7 +70,7 @@
           <div class="text">{{ currencyAmount(totalStaked()) }}</div>
         </div>
         <div class="section">
-          <div class="title">Total withdraw</div>
+          <div class="title">Total Withdrawal</div>
           <div class="text">{{ currencyAmount(totalWithdraw) }}</div>
         </div>
       </div>
