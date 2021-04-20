@@ -79,6 +79,7 @@ import { createCurrency } from '@makerdao/currency';
 import moment from 'moment';
 import Decimal from 'decimal.js';
 const { ethers } = require('ethers');
+const BigNumber = ethers.BigNumber;
 const _WTON = createCurrency('WTON');
 const utils = ethers.utils;
 
@@ -185,15 +186,18 @@ export default {
     },
     undelegate () {
       if(this.user === this.operator.address) {
-        const operatorDeposit = this.operator.selfDeposit;
-        const numOperatorDeposit = operatorDeposit.toBigNumber().toString();
-        const finalNumOperatorDeposit = this.round(numOperatorDeposit, 2);
+        const operatorStaked = _WTON(this.operator.userStaked).toFixed('ray');
         const minimumAmount = this.operator.minimumAmount;
-        const numMinimumAmount = utils.formatUnits(minimumAmount, 27);
-        const finalNumMinimumAmount = this.round(numMinimumAmount, 2);
+        const unstakedAmount = this.inputTon.replace(/,/g, '');
 
+        const operatorStakedBN = BigNumber.from(operatorStaked);
+        const minimumAmountBN = BigNumber.from(minimumAmount);
+        const unstakedAmountBN = utils.parseUnits(unstakedAmount, 27);
 
-        if(finalNumOperatorDeposit - this.inputTon.replace(/,/g, '') < finalNumMinimumAmount) {
+        console.log((operatorStakedBN.sub(unstakedAmountBN)).toString());
+        console.log(minimumAmount.toString());
+
+        if ((operatorStakedBN.sub(unstakedAmountBN)).lt(minimumAmountBN)) {
           return this.warn = true;
         }
       }
