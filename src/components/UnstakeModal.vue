@@ -194,9 +194,6 @@ export default {
         const minimumAmountBN = BigNumber.from(minimumAmount);
         const unstakedAmountBN = utils.parseUnits(unstakedAmount, 27);
 
-        console.log((operatorStakedBN.sub(unstakedAmountBN)).toString());
-        console.log(minimumAmount.toString());
-
         if ((operatorStakedBN.sub(unstakedAmountBN)).lt(minimumAmountBN)) {
           return this.warn = true;
         }

@@ -6,7 +6,7 @@
     </div>
     <div class="power-current">
       <ValueView :title="'Round'" :value="currentPowerRound.data.round" :ton="false" />
-      <ValueView :title="'Round Reward'" :value="reward" :ton="true" />
+      <ValueView :title="'Round Reward'" :value="reward.toString().replace('TON','')" :ton="true" />
       <div class="power-current-detail">
         <h3>24 Hour (Compared to yesterday)</h3>
         <span class="power-current-detail-content">{{ powerTONReward.difference }} <span class="current-detail-span">TON</span> <span class="power-current-detail-percentage" :class="{'power-current-detail-percentage-positive':powerTONReward.isNegative === false, 'power-current-detail-percentage-negative':powerTONReward.isNegative === true}">{{ powerTONReward.percentage }}</span>
