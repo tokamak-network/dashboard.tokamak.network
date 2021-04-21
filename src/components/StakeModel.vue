@@ -22,7 +22,7 @@
             :style="{width: (inputTon.length * 22) + 'px'}"
             @keypress="onlyForTon"
           >
-          <button class="model-ton-stake-btn" @click="getMaxBalance('max')">MAX</button>
+          <button disabled="true" class="model-ton-stake-btn" @click="getMaxBalance('max')">MAX</button>
         </div>
         <div class="model-ton-balance">
           <h3 class="model-ton-balance-title">Ton Balance</h3>
