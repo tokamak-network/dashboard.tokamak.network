@@ -254,10 +254,7 @@ export default {
           return this.warn = true;
         }
       }
-      let tonAmount = parseFloat(this.inputTon.replace(/,/g, ''));
-      if(this.inputTon === this.getMaxBalance()) {
-        tonAmount = this.operator.userStaked.toBigNumber().toString();
-      }
+      const tonAmount = parseFloat(this.inputTon.replace(/,/g, ''));
       if (tonAmount === 0) {
         return alert('Please check input amount.');
       }
