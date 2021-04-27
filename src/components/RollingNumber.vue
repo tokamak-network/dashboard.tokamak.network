@@ -45,8 +45,8 @@ export default {
 .counter-wrapper {
     display: flex;
     flex-direction: row;
-    justify-content: flex-end;
-    width: 400px;
+    justify-content: center;
+    width: 500px;
 }
 #counter {
     height: 50px;
