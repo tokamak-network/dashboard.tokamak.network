@@ -26,7 +26,7 @@ import { mapState } from 'vuex';
 export default {
   data () {
     return {
-      from: 'name',
+      from: 'totalStaked',
       order: 'desc',
     };
   },

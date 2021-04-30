@@ -33,7 +33,7 @@ import { mapGetters } from 'vuex';
 export default {
   data () {
     return {
-      from: 'name',
+      from: 'userStaked',
       order: 'desc',
     };
   },
