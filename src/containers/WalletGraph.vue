@@ -260,12 +260,15 @@ export default {
   margin-left: 50px;
 }
 .button {
-  height: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 30px;
   margin: 4px;
-  padding: 4px 35px 5px;
+  /* padding: 4px 35px 5px 32px; */
   border-radius: 4px;
   background-color: #ffffff;
-  width: 30px;
+  width: 100px;
   border: solid 1px #dfe4ee;
   cursor: pointer;
 }
