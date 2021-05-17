@@ -6,7 +6,7 @@
           ONTHER PTE.LTD.
         </div>
         <div class="footer-address">
-          10 Anson Road #23-140 International Plaza Signapore
+          10 Anson Road #23-140 International Plaza Singapore
         </div>
         <div>
           <img
