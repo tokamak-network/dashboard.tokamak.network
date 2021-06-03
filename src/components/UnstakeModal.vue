@@ -27,7 +27,9 @@
             :style="{ width: inputTon.length * 22 + 'px' }"
             @keypress="onlyForTon"
           >
-          <button class="model-ton-stake-btn" @click="getMaxBalance('max')">MAX</button>
+          <button class="model-ton-stake-btn" @click="getMaxBalance('max')">
+            MAX
+          </button>
         </div>
         <div class="model-ton-balance">
           <h3 class="model-ton-balance-title">Available Balance</h3>
@@ -40,13 +42,15 @@
         <div class="model-line model-line-bottom" />
         <div class="model-bottom-wrap">
           <div class="model-bottom-container">
-            <span v-if="warn" class="model-warn">Operator must have 1,000 TON </span>
+            <span v-if="warn" class="model-warn">Operator must have 1,000 TON
+            </span>
             <span v-if="warn" class="model-warn">as an minumum amount</span>
           </div>
-          <button class="model-btn"
-                  :class="getInableStyle('class')"
-                  :disabled="getInableStyle('disabled')"
-                  @click="undelegate()"
+          <button
+            class="model-btn"
+            :class="getInableStyle('class')"
+            :disabled="getInableStyle('disabled')"
+            @click="undelegate()"
           >
             Unstake
           </button>
@@ -120,11 +124,11 @@ export default {
   watch: {
     inputTon: function (newValue) {
       let result;
-      if(newValue.length > 0 && this.inputTon.substring(0, 1) === '0') {
-        if(newValue.split('.').length > 1) {
-          return this.inputTon = newValue;
+      if (newValue.length > 0 && this.inputTon.substring(0, 1) === '0') {
+        if (newValue.split('.').length > 1) {
+          return (this.inputTon = newValue);
         }
-        return this.inputTon = this.inputTon.substring(1, 2);
+        return (this.inputTon = this.inputTon.substring(1, 2));
       }
       if (newValue === '.') {
         result = newValue;
@@ -143,24 +147,40 @@ export default {
     },
     getInableStyle (args) {
       const tonAmount = this.inputTon.replace(/,/g, '');
-      switch(args) {
+      switch (args) {
       case 'class':
-        if(this.inputTon === '0' || this.inputTon === '0.' || this.inputTon === '0.0' || this.inputTon === '0.00' || this.inputTon === '' || Number(tonAmount) > Number(this.getMaxBalance()) || this.warn === true) {
+        if (
+          this.inputTon === '0' ||
+            this.inputTon === '0.' ||
+            this.inputTon === '0.0' ||
+            this.inputTon === '0.00' ||
+            this.inputTon === '' ||
+            Number(tonAmount) > Number(this.getMaxBalance()) ||
+            this.warn === true
+        ) {
           return 'model-btn-notavailable';
         }
         break;
       case 'disabled':
-        if(this.inputTon === '0' || this.inputTon === '0.' || this.inputTon === '0.0' || this.inputTon === '0.00' || this.inputTon === '' || tonAmount > this.getMaxBalance() || this.warn === true) {
+        if (
+          this.inputTon === '0' ||
+            this.inputTon === '0.' ||
+            this.inputTon === '0.0' ||
+            this.inputTon === '0.00' ||
+            this.inputTon === '' ||
+            tonAmount > this.getMaxBalance() ||
+            this.warn === true
+        ) {
           return true;
         }
         break;
       }
     },
     getMaxBalance (args) {
-      const tonAmount =  this.operator.userStaked.toBigNumber().toString();
+      const tonAmount = this.operator.userStaked.toBigNumber().toString();
       const num = new Decimal(tonAmount);
-      if(args === 'max') {
-        return this.inputTon = num.toFixed(2, Decimal.ROUND_FLOOR);
+      if (args === 'max') {
+        return (this.inputTon = num.toFixed(2, Decimal.ROUND_FLOOR));
       }
       return num.toFixed(2, Decimal.ROUND_FLOOR);
     },
@@ -185,7 +205,7 @@ export default {
       }
     },
     undelegate () {
-      if(this.user === this.operator.address) {
+      if (this.user === this.operator.address) {
         const operatorStaked = _WTON(this.operator.userStaked).toFixed('ray');
         const minimumAmount = this.operator.minimumAmount;
         const unstakedAmount = this.inputTon.replace(/,/g, '');
@@ -194,20 +214,20 @@ export default {
         const minimumAmountBN = BigNumber.from(minimumAmount);
         const unstakedAmountBN = utils.parseUnits(unstakedAmount, 27);
 
-        if ((operatorStakedBN.sub(unstakedAmountBN)).lt(minimumAmountBN)) {
-          return this.warn = true;
+        if (operatorStakedBN.sub(unstakedAmountBN).lt(minimumAmountBN)) {
+          return (this.warn = true);
         }
       }
       let tonAmount = parseFloat(this.inputTon.replace(/,/g, ''));
-      if(this.inputTon === this.getMaxBalance()) {
+      const inputTonWithoutComma = this.inputTon.replace(/,/g, '');
+
+      if (inputTonWithoutComma === this.getMaxBalance()) {
         tonAmount = this.operator.userStaked.toBigNumber().toString();
       }
       if (tonAmount === '' || parseFloat(tonAmount) === 0) {
         return alert('Please check input amount.');
       }
-      if (this.inputTon > this.getMaxBalance()) {
-        return alert('Please check your TON amount.');
-      }
+
       const amount = _WTON(tonAmount).toFixed('ray');
       this.DepositManager.methods
         .requestWithdrawal(this.operator.layer2, amount)
