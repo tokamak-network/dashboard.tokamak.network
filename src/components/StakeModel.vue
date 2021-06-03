@@ -239,7 +239,7 @@ export default {
     },
     round (str, maxDecimalDigits) {
       const num = new Decimal(str);
-      return num.toFixed(maxDecimalDigits, Decimal.ROUND_CEIL);
+      return num.toFixed(maxDecimalDigits, Decimal.ROUND_FLOOR);
     },
     async delegate () {
       if(this.user === this.operator.address) {
