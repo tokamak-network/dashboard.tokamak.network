@@ -139,7 +139,7 @@ export default {
   methods: {
     round (str, maxDecimalDigits) {
       const num = new Decimal(str);
-      return num.toFixed(maxDecimalDigits, Decimal.ROUND_CEIL);
+      return num.toFixed(maxDecimalDigits, Decimal.ROUND_FLOOR);
     },
     getInableStyle (args) {
       const tonAmount = this.inputTon.replace(/,/g, '');
@@ -160,9 +160,9 @@ export default {
       const tonAmount =  this.operator.userStaked.toBigNumber().toString();
       const num = new Decimal(tonAmount);
       if(args === 'max') {
-        return this.inputTon = num.toFixed(2, Decimal.ROUND_CEIL);
+        return this.inputTon = num.toFixed(2, Decimal.ROUND_FLOOR);
       }
-      return num.toFixed(2, Decimal.ROUND_CEIL);
+      return num.toFixed(2, Decimal.ROUND_FLOOR);
     },
     onlyForTon ($event) {
       // console.log($event.keyCode); //keyCodes value
