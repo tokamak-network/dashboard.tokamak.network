@@ -4,7 +4,7 @@
       <div class="header-column">
         <div>
           <dot v-if="operator.isCandidate" :title="'DAO'" style="margin-bottom:4px; margin-left:16px" />
-          <dot :title="'Operator'" style="margin-left:16px" />
+          <dot v-if="operator.name !== 'Level 19'" :title="'Operator'" style="margin-left:16px" />
         </div>
         <avatar
           class="avatar"
