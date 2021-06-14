@@ -82,7 +82,6 @@ export async function getDailyWalletRewards (chainId, account, fromDate, toDate)
   else return res.data.datas;
 }
 export async function getDepositTotal (chainId, account) {
-  console.log(chainId);
   const res = await candidate.get('/events',
     {
       params: {
@@ -96,7 +95,6 @@ export async function getDepositTotal (chainId, account) {
 }
 
 export async function getWithdrawTotal (chainId, account) {
-  console.log(chainId);
   const res = await candidate.get('/events',
     {
       params: {
