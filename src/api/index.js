@@ -81,6 +81,33 @@ export async function getDailyWalletRewards (chainId, account, fromDate, toDate)
   if (res.data === '') return [];
   else return res.data.datas;
 }
+export async function getDepositTotal (chainId, account) {
+  console.log(chainId);
+  const res = await candidate.get('/events',
+    {
+      params: {
+        chainId,
+        from: account.toLowerCase(),
+        eventName: 'Deposited',
+      },
+    });
+  if (res.data === '') return [];
+  else return res.data.datas;
+}
+
+export async function getWithdrawTotal (chainId, account) {
+  console.log(chainId);
+  const res = await candidate.get('/events',
+    {
+      params: {
+        chainId,
+        from: account.toLowerCase(),
+        eventName: 'WithdrawalRequested',
+      },
+    });
+  if (res.data === '') return [];
+  else return res.data.datas;
+}
 
 export async function getDailyWalletStaked (chainId, account, fromDate, toDate) {
   const res = await candidate.get('/stakedl2accounts/sum', {

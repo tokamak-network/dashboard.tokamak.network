@@ -22,7 +22,7 @@
                 :style="{width: !signIn? '147px' : '87px', paddingRight: '36px'}"
                 @keypress="onlyForTon"
               >
-              <span class="model-ton-balance-input-stake-unit"  :style="{marginLeft: !signIn? '153px' : '93px'}">TON</span>
+              <span class="model-ton-balance-input-stake-unit" :style="{marginLeft: !signIn? '153px' : '93px'}">TON</span>
               <button v-if="signIn" class="model-ton-stake-btn" @click="getMaxBalance('max')">MAX</button>
             </div>
           </div>
