@@ -117,9 +117,10 @@ export default {
       this.customFormatter(start),
       this.customFormatter(this.periodEnd)
     );
+    this.toggleChartType('week');
     this.getDailyWalletStakedFn();
     this.getTotalWithdrawalFn();
-    this.toggleChartType('week');
+
   },
   methods: {
     customFormatterforFunction (date) {
