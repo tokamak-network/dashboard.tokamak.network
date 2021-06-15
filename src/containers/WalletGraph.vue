@@ -71,7 +71,7 @@
         </div>
         <div class="section">
           <div class="title">Total Withdrawal</div>
-          <div class="text">{{ currencyAmount(totalWithdraw) }}</div>
+          <div class="text">{{ currencyAmount(totalWithdrawal()) }}</div>
         </div>
       </div>
     </div>
@@ -85,7 +85,7 @@ import moment from 'moment';
 import { mapState } from 'vuex';
 const _WTON = createCurrency('WTON');
 import { createCurrency } from '@makerdao/currency';
-import { getDailyWalletStaked, getDailyWalletRewards } from '@/api';
+import { getDepositTotal, getDailyWalletRewards, getWithdrawTotal } from '@/api';
 import { orderBy } from 'lodash';
 import BigNumber from 'bignumber.js';
 export default {
@@ -99,12 +99,13 @@ export default {
       periodStart: new Date(),
       dailyWalletRewardsList: [],
       dailyWalletStakedList: [],
+      totalWithdrawalList: [],
       dailyWalletRewards: {},
       chartType: 'week',
     };
   },
   computed: {
-    ...mapState(['totalWithdraw', 'user']),
+    ...mapState(['totalWithdraw', 'user', 'networkId']),
     currencyAmount () {
       return (amount) => this.$options.filters.currencyAmount(amount);
     },
@@ -116,8 +117,10 @@ export default {
       this.customFormatter(start),
       this.customFormatter(this.periodEnd)
     );
-    this.getDailyWalletStakedFn();
     this.toggleChartType('week');
+    this.getDailyWalletStakedFn();
+    this.getTotalWithdrawalFn();
+
   },
   methods: {
     customFormatterforFunction (date) {
@@ -146,10 +149,19 @@ export default {
     totalStaked () {
       const initialAmount = new BigNumber('0');
       const reducer = (amount, day) =>
-        amount.plus(new BigNumber(day.balanceOf.toString()));
+        amount.plus(new BigNumber(day.value.toString()));
       return _WTON.ray(
         this.dailyWalletStakedList.reduce(reducer, initialAmount).toString()
       );
+    },
+    totalWithdrawal () {
+      const initialAmount = new BigNumber('0');
+      const reducer = (amount, day) =>
+        amount.plus(new BigNumber(day.value.toString()));
+      return _WTON.ray(
+        this.totalWithdrawalList.reduce(reducer, initialAmount).toString()
+      );
+
     },
     displayAmount (amount) {
       const displayAmounts = parseFloat(amount) / Math.pow(10, 27);
@@ -186,15 +198,24 @@ export default {
       }
     },
     async getDailyWalletStakedFn () {
-      const dailyWalletStaked = await getDailyWalletStaked(
+      const dailyWalletStaked = await getDepositTotal(
         this.networkId,
         this.user.toLowerCase(),
-        this.customFormatter(this.periodStart),
-        this.customFormatter(this.periodEnd)
       );
       this.dailyWalletStakedList = dailyWalletStaked;
       this.totalStaked();
     },
+    async getTotalWithdrawalFn () {
+      const totalWithdrawal = await getWithdrawTotal(
+        this.networkId,
+        this.user.toLowerCase(),
+      );
+      this.totalWithdrawalList = totalWithdrawal;
+      this.totalWithdrawal();
+    },
+
+
+
     toggleChartType (chartType) {
       if (chartType === 'week') {
         const end = moment(this.periodEnd).unix();
