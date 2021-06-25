@@ -2,7 +2,9 @@
   <div class="menu-layout">
     <div class="menu-content">
       <div class="menu-page-header">Select your operator</div>
-      <div class="page-text">Select an operator to stake, unstake, or withdraw your tokens.</div>
+      <div class="page-text">
+        Select an operator to stake, unstake, or withdraw your tokens.
+      </div>
       <div class="operator-container">
         <div class="sort-container">
           <div class="candidate-container">
@@ -12,12 +14,17 @@
             <div class="candidate-text">Operator</div>
           </div>
           <div class="sort">
-            <DropDown :items="signIn?['Total Staked', 'Name', 'Recent Commit', 'User Staked'] : ['Name', 'Total Staked', 'Recent Commit']"
-                      :hint="'Total Staked'"
-                      :button-type="'a'"
-                      :selector-type="'a'"
-                      class="dropdown"
-                      @on-selected="select"
+            <DropDown
+              :items="
+                signIn
+                  ? ['Total Staked', 'Name', 'Recent Commit', 'User Staked']
+                  : ['Name', 'Total Staked', 'Recent Commit']
+              "
+              :hint="'Total Staked'"
+              :button-type="'a'"
+              :selector-type="'a'"
+              class="dropdown"
+              @on-selected="select"
             />
           </div>
         </div>
@@ -47,8 +54,8 @@ export default {
   data () {
     return {
       selected: false,
-      selectedOp:'',
-      filteredOperators:[],
+      selectedOp: '',
+      filteredOperators: [],
       from: 'totalStaked',
       order: 'desc',
       ops: [],
@@ -66,21 +73,30 @@ export default {
       case 'name':
         return orderBy(this.ops, (operator) => operator.name, [this.order]);
       case 'userStaked':
-        return orderBy(this.ops, (operator) => operator.userStaked.toNumber(), [this.order]);
+        return orderBy(
+          this.ops,
+          (operator) => operator.userStaked.toNumber(),
+          [this.order]
+        );
       case 'totalStaked':
-        return orderBy(this.ops, (operator) => operator.totalStaked.toNumber(), [this.order]);
+        return orderBy(
+          this.ops,
+          (operator) => operator.totalStaked.toNumber(),
+          [this.order]
+        );
       case 'commit':
-        return orderBy(this.ops, (operator) => operator.lastFinalizedAt, [this.order]);
+        return orderBy(this.ops, (operator) => operator.lastFinalizedAt, [
+          this.order,
+        ]);
       default:
         return this.ops;
       }
     },
   },
   created () {
-    if (this.signIn){
+    if (this.signIn) {
       this.ops = this.operators;
-    }
-    else {
+    } else {
       this.ops = this.operatorsBeforeConnect;
     }
   },
@@ -114,11 +130,9 @@ export default {
         this.orderBy('totalStaked');
       } else if (item === 'Name') {
         this.orderBy('name');
-      }
-      else if (item === 'Recent Commit'){
+      } else if (item === 'Recent Commit') {
         this.orderBy('commit');
-      }
-      else {
+      } else {
         this.orderBy('userStaked');
       }
     },
@@ -149,10 +163,10 @@ export default {
   text-align: center;
   color: #3d495d;
 }
-.page-text{
+.page-text {
   font-family: "Titillium Web", sans-serif;
   font-size: 16px;
-  font-weight:normal;
+  font-weight: normal;
   font-stretch: normal;
   font-style: normal;
   margin-bottom: 60px;
@@ -165,9 +179,8 @@ export default {
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
-  position:inherit;
+  position: inherit;
   align-self: center;
-
 }
 .sort-container {
   display: flex;
@@ -187,7 +200,7 @@ export default {
   height: 8px;
   width: 8px;
   border-radius: 4px;
-  margin-right:7px;
+  margin-right: 7px;
 }
 .candidate-text {
   font-family: Roboto;
@@ -206,6 +219,6 @@ export default {
   justify-content: flex-end;
 }
 .dropdown {
-  align-items:flex-end;
+  align-items: flex-end;
 }
 </style>

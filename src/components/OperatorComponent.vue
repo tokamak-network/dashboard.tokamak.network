@@ -4,7 +4,7 @@
       <div class="header-column">
         <div>
           <dot v-if="operator.isCandidate" :title="'DAO'" style="margin-bottom:4px; margin-left:16px" />
-          <dot v-if="operator.name !== 'Level 19'" :title="'Operator'" style="margin-left:16px" />
+          <dot v-if="operator.isOperator" :title="'Operator'" style="margin-left:16px" />
         </div>
         <avatar
           class="avatar"
@@ -180,6 +180,7 @@ export default {
       return (commissionRate) => this.$options.filters.rateOf(commissionRate);
     },
     date () {
+      console.log(this.operator);
       if(this.operator.finalizeCount !== '0') {
         const zone = moment().utcOffset(this.operator.lastFinalizedAt);
         return moment
@@ -314,7 +315,7 @@ export default {
 
 .user-staked {
   display: flex;
-  flex-direction: row;
+  flex-directio: row;
 }
 .divider {
   width: 100%;

@@ -295,6 +295,19 @@ export default new Vuex.Store({
     async load (context) {
       context.commit('IS_LOADING', true);
       const operators = await getOperators();
+      const operatorsInfo = await getOperatorsInfo();
+      operators.map(operator => {
+        operatorsInfo.map(info => {
+          if (operator.layer2.toLowerCase() === info.layer2.toLowerCase()) {
+            if (info.candidateContract !== info.layer2) {
+              operator.isOperator = true;
+            }
+          }
+        });
+      });
+
+      console.log(operators);
+
       await Promise.all([
         context.dispatch('getTotalStaked'),
         context.dispatch('getPowerRoundInfo'),
