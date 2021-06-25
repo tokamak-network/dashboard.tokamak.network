@@ -306,8 +306,6 @@ export default new Vuex.Store({
         });
       });
 
-      console.log(operators);
-
       await Promise.all([
         context.dispatch('getTotalStaked'),
         context.dispatch('getPowerRoundInfo'),

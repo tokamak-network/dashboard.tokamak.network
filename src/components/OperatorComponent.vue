@@ -180,7 +180,6 @@ export default {
       return (commissionRate) => this.$options.filters.rateOf(commissionRate);
     },
     date () {
-      console.log(this.operator);
       if(this.operator.finalizeCount !== '0') {
         const zone = moment().utcOffset(this.operator.lastFinalizedAt);
         return moment
