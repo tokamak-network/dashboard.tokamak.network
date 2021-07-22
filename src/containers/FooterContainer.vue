@@ -1,15 +1,27 @@
 <template>
-  <div class="footer-container">
-    <div>
-      <div class="footer-name">
-        ONTHER PTE.LTD.
+  <div class="footer">
+    <div class="footer-container">
+      <div class="flex-row">
+        <div class="footer-name">
+          ONTHER PTE.LTD.
+        </div>
+        <div class="footer-address">
+          111 SOMERSET ROAD #06-070 111 SOMERSET SINGAPORE 238164
+        </div>
+        <div>
+          <img
+            alt="Onther Mail"
+            class="filter-grey mail-icon"
+            src="@/assets/images/Mail.png"
+            style="margin-right: 5px;"
+          >
+          <a
+            class="footer-mail"
+            href="mailto:hello@tokamak.network"
+          >hello@tokamak.network</a>
+        </div>
       </div>
-      <div class="footer-address">
-        111 SOMERSET ROAD #06-070 111 SOMERSET SINGAPORE 238164
-      </div>
-    </div>
-    <div>
-      <div class="footer-mail-container">
+      <div class="social-links">
         <dropup
           :items="[
             'Tokamak Netowork',
@@ -29,6 +41,7 @@
           @on-selected="familyLink"
         />
         <a
+          <<<<<<< HEAD
           class="footer-mail"
           href="mailto:info@onther.io"
         >hello@tokamak.network</a>
@@ -41,11 +54,14 @@
       </div>
       <div class="footer-channel-container">
         <a
+          =="====="
+        >>>>>>> 417b26b20c8db8cf0b6237ab22d9e3f96fd148a1
           href="https://medium.com/onther-tech/"
           target="_blank"
           rel="noopener noreferrer"
-        >
+          >
           <img
+            alt="Onther Medium"
             class="footer-channel-image filter-grey"
             src="@/assets/images/community/medium.png"
             width="28x;"
@@ -58,6 +74,7 @@
           rel="noopener noreferrer"
         >
           <img
+            alt="Onther LinkedIN"
             class="footer-channel-image filter-grey"
             src="@/assets/images/community/linkedin.png"
             width="28x;"
@@ -70,6 +87,7 @@
           rel="noopener noreferrer"
         >
           <img
+            alt="Onther Twitter"
             class="footer-channel-image filter-grey"
             src="@/assets/images/community/twitter.png"
             width="28x;"
@@ -82,6 +100,7 @@
           rel="noopener noreferrer"
         >
           <img
+            alt="Onther Youtube"
             class="footer-channel-image filter-grey"
             src="@/assets/images/community/youtube.png"
             width="28x;"
@@ -94,6 +113,7 @@
           rel="noopener noreferrer"
         >
           <img
+            alt="Onther Facebook"
             class="footer-channel-image filter-grey"
             src="@/assets/images/community/facebook.png"
             width="28x;"
@@ -106,6 +126,7 @@
           rel="noopener noreferrer"
         >
           <img
+            alt="Onther GitHub"
             class="footer-channel-image filter-grey"
             src="@/assets/images/community/github.png"
             width="28x;"
@@ -118,6 +139,7 @@
           rel="noopener noreferrer"
         >
           <img
+            alt="Onther Discord"
             class="footer-channel-image filter-grey"
             src="@/assets/images/community/discord.png"
             width="28x;"
@@ -130,6 +152,7 @@
           rel="noopener noreferrer"
         >
           <img
+            alt="Onther Telegram"
             class="footer-channel-image filter-grey"
             src="@/assets/images/community/telegram.png"
             width="28x;"
@@ -154,7 +177,6 @@ export default {
       else if (item === 'DAO governance') window.open('https://tokamak.network', '_blank'); // eslint-disable-line
       else if (item === 'Original Staking') window.open('https://staking.tokamak.network', '_blank'); // eslint-disable-line
       else if (item === 'Simple Staking') window.open('https://simple.staking.tokamak.network', '_blank'); // eslint-disable-line
-      else if (item === 'Original Staking') window.open('https://staking.tokamak.network', '_blank'); // eslint-disable-line
       else if (item === 'Staking Simulator') window.open('https://staking-simulator.tokamak.network', '_blank'); // eslint-disable-line
       else if (item === 'Price Dashboard') window.open('https://price.tokamak.network', '_blank'); // eslint-disable-line
       else if (item === 'Vesting Dashboard') window.open('https://vesting.tokamak.network', '_blank'); // eslint-disable-line
@@ -166,54 +188,80 @@ export default {
 </script>
 
 <style scoped>
+.footer {
+  display: flex;
+  height: 76px;
+  align-items: center;
+  justify-content: center;
+  background-color: #fafbfc;
+  font-family: "Titillium Web", sans-serif;
+  border-top: 1px solid #f4f6f8;
+  padding: 0 40px;
+}
+
 .footer-container {
   width: 100%;
   display: flex;
   align-items: center;
-  justify-content: center;
-  padding-bottom: 1rem;
-  background-color: #f6f8f9;
-  text-align: center;
+  justify-content: space-between;
+}
+
+.flex-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.social-links {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: space-between;
+  width: 30%;
 }
 
 .footer-name {
-  opacity: 1;
-  font-family: Roboto;
-  font-size: 19px;
   font-weight: bold;
   font-stretch: normal;
+  font-size: 14px;
   font-style: normal;
   letter-spacing: normal;
   text-align: left;
-  color: #b2b7b9;
+  color: #3e495c;
+  margin-right: 20px;
 }
 
 .footer-address {
-  margin-right: 70px;
-  font-family: Roboto;
+  font-family:  "Titillium Web", sans-serif;
   font-size: 13px;
+  font-weight: lighter;
   font-stretch: normal;
   font-style: normal;
+  line-height: 1.54;
   letter-spacing: normal;
   text-align: left;
-  color: #6d848e;
+  color: #86929d;
+  margin-right: 15.8px;
 }
 
 .footer-mail-container {
-  /* padding-right: 6px; */
   display: flex;
-  flex-direction: row-reverse;
+  flex-direction: row;
   align-items: center;
 }
 
+.mail-icon {
+  width: 10.5px !important;
+  height: 7.9px !important;
+}
+
 .footer-mail {
-  padding-left: 4.5px;
   font-size: 13px;
-  font-stretch: normal;
-  font-style: normal;
+  font-weight: 300;
   letter-spacing: normal;
   text-align: left;
-  color: #6d848e;
+  color: #3d495d;
+  text-decoration:none
 }
 
 .footer-channel-container {
@@ -223,6 +271,8 @@ export default {
 }
 
 .filter-grey {
+  width: 20px;
+  height: 20px;
   -webkit-filter: invert(30%) grayscale(100%) brightness(85%) contrast(4);
   filter: invert(30%) grayscale(100%) brightness(85%) contrast(4);
 }

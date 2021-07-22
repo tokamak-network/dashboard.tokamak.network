@@ -1,35 +1,38 @@
 <template>
-  <div>
-    <table class="winner-table">
+  <div class="table-container">
+    <h1>Winner</h1>
+    <table class="winner-table table-common">
       <thead>
         <tr>
-          <th class="text-center">Round</th>
-          <th class="text-center">Winner</th>
-          <th class="text-center">Reward</th>
-          <th class="text-center">Round End Date</th>
+          <th class="table-th-text table-th-text-small">#</th>
+          <th class="table-th-text table-th-text-small">Round</th>
+          <th class="table-th-text table-th-text-medium">Winner</th>
+          <th class="table-th-text table-th-text-large">Reward</th>
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(round) in filteredRounds" :key="round.index">
-          <td class="text-center">{{ round.index }}</td>
+        <tr v-for="(round, index) in sorted" :key="round.data.round">
+          <td class="text-center">{{ index }}</td>
+          <td class="text-center">
+            {{ round.data.round }}
+          </td>
           <td class="text-center">
             <a
               class="link"
               target="_blank"
               rel="noopener noreferrer"
-              :href="toExplorer('address', round.winner)"
+              :href="toExplorer('address', round.data.winner)"
             >
-              {{ round.winner | hexSlicer }}
+              {{ round.data.winner | hexSlicer }}
             </a>
           </td>
-          <td class="text-center">{{ round.reward | currencyAmount }}</td>
-          <td class="text-center">{{ round.timestamp | formattedTimestamp }}</td>
+          <td class="text-center">{{ round.winnerReward | currencyAmount }}</td>
         </tr>
       </tbody>
     </table>
     <table-paginate
-      :pages="pages"
-      @update-page="updateTableByPage"
+      :datas="orderedRounds"
+      @on-selected="updateTableByPage"
     />
   </div>
 </template>
@@ -46,16 +49,15 @@ export default {
   },
   data () {
     return {
-      base: 10,
+      base: 5,
       pages: 0,
-
-      orderedRounds: [],
-      filteredRounds: [],
+      page: 0,
+      from: 'index',
     };
   },
   computed: {
     ...mapState([
-      'rounds',
+      'winnerList',
     ]),
     toExplorer () {
       return (type, param) => this.$options.filters.toExplorer(type, param);
@@ -63,26 +65,33 @@ export default {
     formattedTimestamp () {
       return timestamp => this.$options.filters.formattedTimestamp(timestamp);
     },
+    orderedRounds () {
+      return orderBy(this.winnerList, (round) => round.index, 'desc');
+    },
+    sorted () {
+      const first = this.page * 5;
+      return this.orderedRounds.slice(first, first + 5);
+    },
   },
-  mounted () {
-    const addressLinks = this.$el.getElementsByClassName('link');
+  // mounted () {
+  //   const addressLinks = this.$el.getElementsByClassName('link');
 
-    Object.values(addressLinks).map(link => {
-      const address = this.$options.filters.addressExtractor(link.href);
-      link.addEventListener('copy', e => {
-        e.clipboardData.setData('text/plain', address);
-        e.preventDefault();
-      });
-    });
+  //   Object.values(addressLinks).map(link => {
+  //     const address = this.$options.filters.addressExtractor(link.href);
+  //     link.addEventListener('copy', e => {
+  //       e.clipboardData.setData('text/plain', address);
+  //       e.preventDefault();
+  //     });
+  //   });
 
-    this.pages = parseInt(this.rounds.length / this.base) + 1;
-    if (this.pages > 1 && this.rounds.length % this.base === 0) {
-      this.pages = this.pages - 1;
-    }
+  //   this.pages = parseInt(this.rounds.length / this.base) + 1;
+  //   if (this.pages > 1 && this.rounds.length % this.base === 0) {
+  //     this.pages = this.pages - 1;
+  //   }
 
-    this.orderedRounds = orderBy(this.rounds, (round) => round.index, 'desc');
-    this.filteredRounds = this.orderedRounds.slice(0, this.base);
-  },
+  //   this.orderedRounds = orderBy(this.rounds, (round) => round.index, 'desc');
+  //   this.filteredRounds = this.orderedRounds.slice(0, this.base);
+  // },
   methods: {
     orderBy (from) {
       if (this.from === from) {
@@ -96,86 +105,63 @@ export default {
       return this.order === 'desc' ? 'asc' : 'desc';
     },
     updateTableByPage (page) {
-      this.filteredRounds = this.orderedRounds.slice((page - 1) * this.base, page * this.base);
+      this.page = page;
     },
   },
 };
 </script>
 
 <style scoped>
-.winner-table {
-  table-layout: auto;
-   width: 500px;
-  background-color:#e2e8eb;
-  border: solid 1px;
-  border-color: #ccd1d3;
-  border-radius: 12px;
-  box-shadow: inset 1px 1px 0px #e2e8eb;
-  padding: 5px 10px;
+.power-table {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
 }
-
-.winner-table td, .winner-table th {
-  border-bottom: solid 0.5px #dce2e5;
-  /* border: 1px solid #555561; */
-  /* padding: 8px; */
+.table-common {
+  width: 542px;
 }
-
-tbody tr:hover {
-  background-color: #e2e8eb;
+.table-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 330px;
 }
-
-.pointer {
-  cursor: pointer;
+.table-container h1{
+  font-size: 18px;
+  color: #3d495d;
+  font-weight: bold;
 }
-
-tbody .clickable {
-  font-weight: bolder;
-  text-decoration: underline;
+.table-th-text {
+  font-size: 13px;
+  color: #808992;
+  font-weight: 500;
+  height: 40px;
 }
-
-.winner-table th {
-  text-align: left;
+.table-th-text-small {
+  width: 70px;
 }
-
-.winner-table td {
-  text-align: left;
+.table-th-text-medium {
+  width: 190px;
 }
-
-.winner-table .text-center {
-  text-align: center;
+.table-th-text-large {
+  width: 212px;
 }
-
-.winner-table .text-right {
-  text-align: right;
-}
-
 th {
-  padding: 6px;
-   background-color:#e2e8eb;
-  color: #444444;
-    font-size: 14px;
-  font-family: "Noto Sans",sans-serif;
-  font-weight: normal;
-  font-stretch: normal;
-  font-style: normal;
-  letter-spacing: normal;
-  text-align: center;
-
+  height: 40px;
+  border-bottom: dashed 1px #edf0ee;
 }
-
 td {
-  padding: 12px;
-  font-family: "Noto Sans",sans-serif;
-  font-size: 12px;
-  font-weight: 300;
-  font-stretch: normal;
-  font-style: normal;
-  letter-spacing: normal;
   text-align: center;
-  color: #555555;
+  height: 38px;
+  font-size: 14px;
+  color: #304156;
+  border-bottom: dashed 1px #edf0ee;
 }
-
-.link {
-  color: #555555;
+a {
+  font-size: 14px;
+  color: #2a72e5;
+  text-decoration:none
 }
 </style>

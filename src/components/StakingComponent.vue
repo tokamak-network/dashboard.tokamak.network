@@ -1,54 +1,106 @@
 <template>
   <div class="staking-component-container">
+    <div class="sim-container">
+      <div class="sim" @click="showSim = true">Calculator</div>
+    </div>
+    <div class="ton-balance">
+      <div class="amount-text" :class="{ 'balance-not-signin': !signIn }">
+        {{ signIn ? currencyAmount(tonBalance) : 0 }}
+      </div>
+      <div class="text">Available in wallet</div>
+    </div>
     <div class="button-container">
-      <button class="tab-button" @click="changeTab('Stake')"><div class="button-name" :class="{ 'menu-button-selected': tab === 'Stake'}">Stake</div></button>
-      <button class="tab-button" @click="changeTab('Unstake')"><div class="button-name" :class="{ 'menu-button-selected': tab === 'Unstake'}">Unstake</div></button>
-      <button class="tab-button" @click="changeTab('Withdraw')"><div class="button-name" :class="{ 'menu-button-selected': tab === 'Withdraw'}">Withdraw</div></button>
-    </div>
-    <div v-if="tab === 'Stake'" class="value-container">
-      <div class="total-balance">TON Balance: {{ currencyAmount(tonBalance) }}</div>
-      <div class="main-row">
-        <input v-model="amountToDelegate" class="value-input" autocomplete="off" minlength="1" maxlength="79" placeholder="0.00" @keypress="isNumber">
-        <button class="button-max" @click="setAvailableAmountToDelegate()">MAX</button>
-        <img class="logo" src="@/assets/images/TokamakLogo.png">
-        <div class="TON">TON</div>
+      <button
+        class="button-stake"
+        :class="{
+          'model-btn-notavailable':
+            !signIn ||
+            operator.layer2 === '0x41fb4bAD6fbA9e9b6E45F3f96bA3ad7Ec2fF5b3C',
+        }"
+        :disabled="
+          !signIn ||
+            operator.layer2 === '0x41fb4bAD6fbA9e9b6E45F3f96bA3ad7Ec2fF5b3C'
+        "
+        @click="selectFunction('stake')"
+      >
+        Stake
+      </button>
+      <div>
+        <div>
+          <button
+            class="button-stake"
+            :class="{
+              'model-btn-notavailable':
+                !signIn || parseFloat(operator.userStaked) === 0,
+            }"
+            :disabled="!signIn || parseFloat(operator.userStaked) === 0"
+            @click="selectFunction('unstake')"
+          >
+            Unstake
+          </button>
+        </div>
       </div>
-    </div>
-    <div v-if="tab === 'Unstake'" class="value-container">
-      <div class="total-balance">Available Balance: {{ currencyAmount(operator.userStaked) }}</div>
-      <div class="main-row">
-        <input v-model="amountToUndelegate" class="value-input" autocomplete="off" minlength="1" maxlength="79" placeholder="0.00" @keypress="isNumber">
-        <button class="button-max" @click="setAvailableAmountToUndelegate()">MAX</button>
-        <img class="logo" src="@/assets/images/TokamakLogo.png">
-        <div class="TON">TON</div>
+
+      <div>
+        <button
+          class="button-stake"
+          :class="{
+            'model-btn-notavailable':
+              !signIn ||
+              parseInt(operator.userNotWithdrawable) === 0 ||
+              operator.layer2 === '0x41fb4bAD6fbA9e9b6E45F3f96bA3ad7Ec2fF5b3C',
+          }"
+          :disabled="
+            !signIn ||
+              parseInt(operator.userNotWithdrawable) === 0 ||
+              operator.layer2 === '0x41fb4bAD6fbA9e9b6E45F3f96bA3ad7Ec2fF5b3C'
+          "
+          @click="selectFunction('restake')"
+        >
+          Re-stake
+        </button>
       </div>
+
+      <button
+        class="button-stake"
+        :class="{
+          'model-btn-notavailable':
+            !signIn || operator.userWithdrawable.isEqual(balance),
+        }"
+        :disabled="!signIn || operator.userWithdrawable.isEqual(balance)"
+        @click="selectFunction('withdraw')"
+      >
+        Withdraw
+      </button>
     </div>
-    <div v-if="tab === 'Withdraw'" class="value-container">
-      <div class="main-row" style="justify-content: space-between;">
-        <div class="amount-title">Withdrawable Amount:</div>
-        <div class="TON" style="width: 75px;">{{ currencyAmount(operator.userWithdrawable).toString().replace('TON', '') }}</div>
-        <img class="logo" style="margin-right:0px; margin-left: 0px;" src="@/assets/images/TokamakLogo.png">
-        <div class="TON">TON</div>
+    <transition v-if="showSim" name="model">
+      <div class="model-mask">
+        <div class="model-container">
+          <simulator-modal
+            :disable="operator.layer2 === '0x41fb4bAD6fbA9e9b6E45F3f96bA3ad7Ec2fF5b3C'"
+            @closePopup="closePopup"
+            @openResultModal="openResultModal"
+            @openStake="openStake"
+          />
+        </div>
       </div>
-    </div>
-    <div class="select-operator-container">
-      <div class="select-option">
-        <select v-model="selectedOperator" class="unit-select" @change="onChange($event)">
-          <option v-for="(op, i) in operators" :key="i" :value="op.name">{{ op.name }}</option>
-        </select>
-        Select Operator
+    </transition>
+    <transition v-if="showResultModal" name="model">
+      <div class="model-mask-second">
+        <div class="model-container">
+          <simulator-result-modal
+            :roi="roi"
+            :rewardTON="rewardTON"
+            :rewardUSD="rewardUSD"
+            :rewardKRW="rewardKRW"
+            :myStaked="myStaked"
+            :signIn="signIn"
+            @closeModal="closeModal"
+            @openStake="openStake"
+          />
+        </div>
       </div>
-    </div>
-    <button class="stake-button" @click="tab === 'Stake' ? delegate() : tab === 'Unstake'? undelegate() : processRequests()">{{ tab }}</button>
-    <div v-if="tab === 'Stake'" class="value-container" style="margin-top:2px; margin-bottom:10px">
-      <div class="main-row" style="justify-content: space-between;">
-        <div class="amount-title">Re-stake Amount:</div>
-        <div class="TON" style="width: 100px;">{{ currencyAmount(operator.userNotWithdrawable).toString().replace('TON', '') }}</div>
-        <img class="logo" style="margin-right: 0px; margin-left: 0px;" src="@/assets/images/TokamakLogo.png">
-        <div class="TON">TON</div>
-      </div>
-    </div>
-    <button v-if="tab === 'Stake'" class="stake-button" style="margin-top:0px" @click="redelegate">Re-stake</button>
+    </transition>
   </div>
 </template>
 
@@ -58,262 +110,66 @@ import { range } from 'lodash';
 import { addHistory, addTransaction } from '@/api';
 const _TON = createCurrency('TON');
 const _WTON = createCurrency('WTON');
-
 import { mapState, mapGetters } from 'vuex';
 import { createCurrency } from '@makerdao/currency';
+import SimulatorModal from '../components/SimulatorModal';
+import SimulatorResultModal from '../components/SimulatorResultModal';
 
 export default {
+  components: {
+    'simulator-modal': SimulatorModal,
+    'simulator-result-modal': SimulatorResultModal,
+  },
+  props: {
+    layer2: {
+      required: true,
+      type: String,
+    },
+  },
   data () {
     return {
-      tab: 'Stake',
-      layer2: '',
-      selectedOperator: '',
-      amount: '',
-      amountToDelegate: '',
-      amountToUndelegate: '',
-      index: 0,
+      balance: _WTON.ray('0'),
+      showSim: false,
+      showResultModal: false,
+      roi: 0,
+      rewardTON: 0,
+      rewardUSD: 0,
+      rewardKRW: 0,
+      myStaked: 0,
     };
   },
   computed: {
-    ...mapState([
-      'operators',
-      'tonBalance',
-      'web3',
-      'blockNumber',
-      'user',
-      'TON',
-      'WTON',
-      'DepositManager',
-      'SeigManager',
-    ]),
-    ...mapGetters([
-      'operatorByLayer2',
-    ]),
+    ...mapState(['tonBalance', 'signIn']),
+    ...mapGetters(['operatorByLayer2']),
     operator () {
       return this.operatorByLayer2(this.layer2);
     },
     currencyAmount () {
-      return amount => this.$options.filters.currencyAmount(amount);
-    },
-    notWithdrawableMessage () {
-      return withdrawableBlockNumber => `You have to wait for ${withdrawableBlockNumber - this.blockNumber} blocks to withdraw all the tokens.`;
-    },
-
-    withdrawableRequests () {
-      return this.operator.withdrawalRequests.length;
-    },
-    redelegatableRequests () {
-      return this.operator.withdrawalRequests.length - this.index;
-    },
-    redelegatableAmount () {
-      let amount = new BN(0);
-      for (const i of range(this.redelegatableRequests)) {
-        amount = amount.add(new BN(this.operator.withdrawalRequests[i].amount));
-      }
-      return _WTON(amount.toString(), 'ray');
-    },
-    disableButton () {
-      return false;
-    },
-    minimumAmount () {
-      return this.SeigManager.methods.minimumAmount().call();
-    },
-    operatorMinimumAmount (){
-      const operatorDeposit = this.operator.selfDeposit;
-      const minimumAmount = this.operator.minimumAmount;
-      const lessThan = operatorDeposit < minimumAmount;
-      if (this.user !== this.operator.address ) {
-        return lessThan;
-      }
-      else {
-        return false;
-      }
+      return (amount) =>
+        this.$options.filters.currencyAmount(amount).slice(0, -4);
     },
   },
-  created () {
-    this.selectedOperator = this.operators[0].name;
-    this.layer2 = this.operators[0].layer2;
-  },
-  methods:{
-    changeTab (tab) {
-      this.tab = tab;
+  methods: {
+    selectFunction (method) {
+      this.$emit('selectFunc', method);
     },
-    onChange (event) {
-      const operator =  this.operators.find(operator => operator.name === event.target.value);
-      const root = operator.layer2;
-      this.layer2 = root;
+    closePopup () {
+      this.showSim = false;
     },
-    withdrawableBlockNumber (requests) {
-      const numbers = requests.map(request => request.withdrawableBlockNumber);
-      return Math.max(...numbers);
+    closeModal () {
+      this.showResultModal = false;
     },
-    setAvailableAmountToDelegate () {
-      const tonAmount = this.tonBalance.toBigNumber().toString();
-      const index = tonAmount.indexOf('.');
-      if (index === -1) {
-        this.amountToDelegate = tonAmount + '.00';
-      } else {
-        this.amountToDelegate = tonAmount;
-      }
+    openResultModal (roi, rewardTON, rewardUSD, rewardKRW, myStaked) {
+      this.roi = roi;
+      this.rewardTON = rewardTON;
+      this.rewardUSD = rewardUSD;
+      this.rewardKRW = rewardKRW;
+      this.myStaked = myStaked;
+      this.showResultModal = true;
     },
-    setAvailableAmountToUndelegate () {
-      const tonAmount = this.operator.userStaked.toBigNumber().toString();
-      const index = tonAmount.indexOf('.');
-      if (index === -1) {
-        this.amountToUndelegate = tonAmount + '.00';
-      } else {
-        this.amountToUndelegate = tonAmount;
-      }
-    },
-    increaseIndex () {
-      this.index++;
-      if (this.operator.withdrawalRequests.length === 0 ||
-          this.index === this.operator.withdrawalRequests.length) {
-        this.index = 0;
-      }
-    },
-    async delegate () {
-      if (this.amountToDelegate === '' || parseFloat(this.amountToDelegate) === 0) {
-        return alert('Please check input amount.');
-      }
-      if (_TON(this.amountToDelegate).gt(this.tonBalance)) {
-        return alert('Please check your TON amount.');
-      }
-      if(confirm('Current withdrawal delay is 2 weeks. Are you sure you want to delegate?')){
-        const data = this.getData();
-        const amount = _TON(this.amountToDelegate).toFixed('wei');
-        this.TON.methods.approveAndCall(
-          this.WTON._address,
-          amount,
-          data,
-        ).send({ from: this.user })
-          .on('transactionHash', async (hash) => {
-            const transcation = {
-              from: this.user,
-              type: 'Delegated',
-              amount: amount,
-              transactionHash: hash,
-              target: this.operator.layer2,
-            };
-            this.$store.dispatch('addPendingTransaction', transcation);
-          })
-          .on('receipt', (receipt) => {
-            this.index = 0;
-          });
-
-        this.amountToDelegate = '';
-      }
-    },
-    redelegate () {
-      if (this.operator.withdrawalRequests.length === 0) {
-        return alert('Redelegatable amount is 0.');
-      }
-
-      const amount = this.redelegatableAmount.toFixed('ray');
-
-      this.DepositManager.methods.redepositMulti(
-        this.operator.layer2,
-        this.redelegatableRequests,
-      ).send({ from: this.user })
-        .on('transactionHash', async (hash) => {
-          const transcation = {
-            from: this.user,
-            type: 'Redelegated',
-            amount,
-            transactionHash: hash,
-            target: this.operator.layer2,
-          };
-          this.$store.dispatch('addPendingTransaction', transcation);
-        })
-        .on('receipt', (receipt) => {
-          this.$store.dispatch('set', this.web3);
-          this.index = 0; // after contract state is updated, display max redelegatable amount.
-        });
-    },
-    undelegate () {
-      if (this.amountToUndelegate === '' || parseFloat(this.amountToUndelegate) === 0) {
-        return alert('Please check input amount.');
-      }
-      if (_WTON(this.amountToUndelegate).gt(this.operator.userStaked)){
-        return alert('Please check your TON amount.');
-      }
-
-      const amount = _WTON(this.amountToUndelegate).toFixed('ray');
-      this.DepositManager.methods.requestWithdrawal(
-        this.operator.layer2,
-        amount,
-      ).send({ from: this.user })
-        .on('transactionHash', async (hash) => {
-          const transcation = {
-            from: this.user,
-            type: 'Undelegated',
-            amount: amount,
-            transactionHash: hash,
-            target: this.operator.layer2,
-          };
-          this.$store.dispatch('addPendingTransaction', transcation);
-        })
-        .on('receipt', (receipt) => {
-          this.index = 0;
-        });
-
-      this.amountToUndelegate = '';
-    },
-    processRequests () {
-      const userWithdrawable = this.operator.userWithdrawable;
-      if (userWithdrawable.isEqual(_WTON.ray('0'))) {
-        return alert('Withdrawable amount is 0.');
-      }
-      const count = this.operator.withdrawableRequests.length;
-      if (count === 0) {
-        return alert('Withdrawable amount is 0.');
-      }
-
-      const amount = _WTON(userWithdrawable).toFixed('ray');
-      this.DepositManager.methods.processRequests(
-        this.operator.layer2,
-        count,
-        true,
-      ).send({ from: this.user })
-        .on('transactionHash', async (hash) => {
-          const transcation = {
-            from: this.user,
-            type: 'Withdrawn',
-            amount: amount,
-            transactionHash: hash,
-            target: this.operator.layer2,
-          };
-          this.$store.dispatch('addPendingTransaction', transcation);
-        })
-        .on('receipt', async receipt => {
-          this.index = 0;
-        });
-    },
-    isNumber (evt) {
-      evt = (evt) ? evt : window.event;
-      const charCode = (evt.which) ? evt.which : evt.keyCode;
-      if ((charCode > 31 && (charCode < 48 || charCode > 57)) && charCode !== 46) {
-        evt.preventDefault();
-      } else {
-        return true;
-      }
-    },
-    marshalString (str) {
-      if (str.slice(0, 2) === '0x') return str;
-      return '0x'.concat(str);
-    },
-    unmarshalString (str) {
-      if (str.slice(0, 2) === '0x') return str.slice(2);
-      return str;
-    },
-    getData () {
-      const data = this.marshalString(
-        [this.DepositManager._address, this.operator.layer2]
-          .map(this.unmarshalString)
-          .map(str => padLeft(str, 64))
-          .join('')
-      );
-      return data;
+    openStake (amount) {
+      this.showSim = false;
+      this.$emit('openStakeModal', amount);
     },
   },
 };
@@ -322,195 +178,138 @@ export default {
 <style scoped>
 .staking-component-container {
   width: 350px;
+  height: 100%;
   display: flex;
   flex-direction: column;
-  background-color:#e2e8eb;
+  background-color: #ffffff;
   border: solid 1px;
-  border-color: #ccd1d3;
-  border-radius: 12px;
-  box-shadow: inset 1px 1px 0px #e2e8eb;
-  padding: 5px 10px;
-  justify-content: center;
+  border-color: #f4f6f8;
+  border-radius: 10px;
+  box-shadow: 0px 1px 2px 0px rgba(96, 97, 112, 0.2);
+  padding: 15px 20px;
+}
+.sim {
+  font-family: Roboto;
+  font-size: 11px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.82;
+  letter-spacing: 0.28px;
+  text-align: right;
+  color: #2a72e5;
+}
+.sim:hover {
+  cursor: pointer;
+}
+
+.sim-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  margin-bottom: 5px;
+}
+.ton-balance {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+.amount-text {
+  font-family: Roboto;
+  font-size: 42px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1;
+  letter-spacing: normal;
+  text-align: center;
+  color: #2a72e5;
+}
+.balance-not-signin {
+  color: #828d99;
 }
 .button-container {
+  margin-top: 30px;
   display: flex;
   flex-direction: row;
-  padding-top: 5px;
+  justify-content: space-evenly;
+  /* width: 660px; */
+  flex-flow: row wrap;
 }
-.tab-button {
-  height: 25px;
+.model-mask {
+  position: fixed;
+  z-index: 9999;
+  top: 0;
+  left: 0;
   width: 100%;
-  border: none;
-  background-color:#e2e8eb;
-  color: #999797;
-    font-size: 16px;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  transition: opacity 0.3s ease;
 }
-.tab-button:focus {
+button:focus {
   outline: none;
 }
-.tab-button:hover {
-  color: #adadad;
+button:hover {
   cursor: pointer;
 }
-.menu-button-selected {
-  color: #444444;
+button:disabled {
+  cursor: default;
 }
-.button-name {
+.model-mask-second {
+  position: fixed;
+  z-index: 9999;
+  top: 0;
+  left: 20%;
   width: 100%;
+  height: 100%;
+  /* background-color: rgba(0, 0, 0, 0.6); */
+  transition: opacity 0.3s ease;
 }
-.button-name:hover{
-  cursor: pointer;
-}
-.value-container {
+
+.text {
+  font-family: Roboto;
+  font-size: 15px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.33;
+  letter-spacing: 0.38px;
+  text-align: center;
+  color: #808992;
   margin-top: 15px;
+}
+.model-container {
   display: flex;
- padding: 5px 12px;
-  align-items: center;
-  border: solid 1px;
-  border-color: #ccd1d3;
-  border-radius: 12px;
-  flex-direction: column;
-}
-.total-balance {
-  display: flex;
-  align-self: flex-end;
-  font-size: 12px;
-}
-.main-row {
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-  align-items: center;
-
-}
-.value-input {
-  height: 25px;
-  border: none;
-  background-color:#ffffff;
-  font-size: 18px;
-  white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    width: 180px;
-    margin-right: 20px;
-    align-items: center;
-     color: #555555;
-     padding-left: 9px;
-    border-radius: 8px;
-}
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
-/* Firefox */
-input[type=number] {
-  -moz-appearance: textfield;
-}
-input:focus {
-  outline: none;
-}
-input:hover {
-  outline: none;
-}
-.logo {
-    height: 25px;
-    width: 36px;
-    margin-left: 20px;
-    margin-right: 8px;
+  justify-content: center;
+  align-content: center;
+  height: 100%;
 }
 
-.button-max {
-  background:  #ccd1d3;
-  opacity: 0.5;
-  padding: 5px 10px;
-  margin: 5px;
-  border: solid 1px;
-  border-color: #ccd1d3;
-  border-radius: 12px;
-}
-.button-max:hover {
-  outline: none;
-  cursor: pointer;
-  color: #3a3a3a;
-}
-.TON {
-  font-size: 16px;
-  font-weight: 500;
-  color: #555555;
-  justify-self: flex-end;
-  text-align: right;
-}
-.arrow {
-  transform: rotate(270deg);
-  display: flex;
-  height: 15px;
-  width: 15px;
-  margin-top: 15px;
-  margin-left: 50%;
-}
-
-.select-option {
-  font-size: 16px;
-  display: flex;
-  text-align: right;
-  color: #555555;
-  align-items: center;
-}
-.unit-select {
+.button-stake {
+  height: 38px;
   width: 150px;
-  margin-left: 10px;
-  margin-right: 35px;
-  border: none;
-  background: #e2e8eb;
-  font-size: 16px;
-  font-weight: 700;
-  color: #555555;
-}
-select {
-  width: 100%;
   border-radius: 4px;
-  border: 1px #f1f1f1;
-  height: 30px;
-  font-weight: solid;
-}
-select:focus {
-  outline: none;
-}
-.stake-button {
-   margin-top: 15px;
-width: 100%;
-    height: 35px;
-    border-radius: 12px;
-    border: none;
-    background:  #2a72e5;
-    color: #e2e2e2;
-    font-size: 18px;
-    font-weight: 700;
-    margin-bottom: 10px;
-}
-.select-operator-container {
-  margin-top: 15px;
-  display: flex;
- padding: 2px 12px;
-  align-items: center;
-  border: solid 1px;
-  border-color: #ccd1d3;
-  border-radius: 12px;
-}
-.amount-title {
+  border: solid 1px #257eee;
+  font-family: Roboto;
   font-size: 14px;
-  margin-right: 10px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.36;
+  letter-spacing: normal;
+  text-align: center;
+  color: #ffffff;
+  box-shadow: none;
+  margin-bottom: 12px;
+  /* margin: 30px 51px 0 0; */
+  /* padding: 10px 57px 9px; */
+  /* border-radius: 4px; */
+  background-color: #257eee;
+  /* height: 100%; */
 }
-.amount-value {
-  font-size: 16px;
-}
-.stake-button:hover {
-  outline: none;
-  cursor: pointer;
-  color: #555555;
-}
-.stake-button:focus {
-  outline: none;
+.model-btn-notavailable {
+  background-color: #e9edf1;
+  border: solid 1px #e9edf1;
+  cursor: not-allowed;
 }
 </style>

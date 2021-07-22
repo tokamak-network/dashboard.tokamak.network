@@ -2,6 +2,14 @@
   <div class="main-layout">
     <div class="main-container">
       <div class="main-body-container">
+        <notifications group="confirmed"
+                       position="bottom right"
+                       :speed="500"
+        />
+        <notifications group="reverted"
+                       position="bottom right"
+                       :speed="500"
+        />
         <router-view />
       </div>
     </div>
@@ -24,13 +32,14 @@ export default {
     ...mapState([
       'web3',
       'DepositManager',
+      'loaded',
     ]),
   },
   async created () {
     this.poll();
-    this.subscribe();
+    // this.subscribe();
   },
-  beforeDestroy () {
+  deactivated () {
     clearInterval(this.polling);
     this.depositedEventSubscription.unsubscribe();
   },
@@ -43,15 +52,17 @@ export default {
       }, 13000); // 13s
     },
     subscribe () {
-      this.depositedEventSubscription = this.DepositManager.events.Deposited({
-        fromBlock: 'latest',
-      }, (error, event) => {
-        if (error) {
+      if (this.loaded){
+        this.depositedEventSubscription = this.DepositManager.events.Deposited({
+          fromBlock: 'latest',
+        }, (error, event) => {
+          if (error) {
           //
-        }
-        const result = event.returnValues;
-        this.$store.dispatch('addAccountDepositedWithPower', result.depositor);
-      });
+          }
+          const result = event.returnValues;
+          this.$store.dispatch('addAccountDepositedWithPower', result.depositor);
+        });
+      }
     },
   },
 };
@@ -59,22 +70,26 @@ export default {
 
 <style scoped>
 .main-layout {
-  display: flex;
-  min-width: 1174px;
-  max-width: 1174px;
-  padding-top: 16px;
+   display: flex;
+   width: 100%;
   padding-bottom: 2rem;
   flex-direction: column;
+  background-color: #fafbfc;
+  align-items: center;
+  justify-content: center;
 }
 .main-container {
   display: flex;
   flex-direction: row;
-  min-width: 1174px;
-  max-width: 1174px;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
 }
 .main-body-container {
-  /* padding-left: 16px; */
+  display: flex;
   width: 100%;
-  position: relative;
+  background-color: #fafbfc;
+  align-items: center;
+  justify-content: center;
 }
 </style>
