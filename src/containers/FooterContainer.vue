@@ -40,16 +40,6 @@
           style="margin-left: 20px; width: 130px;"
           @on-selected="familyLink"
         />
-        <a
-          class="footer-mail"
-          href="mailto:info@onther.io"
-        >hello@tokamak.network</a>
-        <img
-          class="filter-grey"
-          src="@/assets/images/Mail.png"
-          width="14;"
-          height="10;"
-        >
       </div>
       <div class="footer-channel-container">
         <a
