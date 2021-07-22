@@ -41,7 +41,6 @@
           @on-selected="familyLink"
         />
         <a
-          <<<<<<< HEAD
           class="footer-mail"
           href="mailto:info@onther.io"
         >hello@tokamak.network</a>
@@ -54,12 +53,10 @@
       </div>
       <div class="footer-channel-container">
         <a
-          =="====="
-        >>>>>>> 417b26b20c8db8cf0b6237ab22d9e3f96fd148a1
           href="https://medium.com/onther-tech/"
           target="_blank"
           rel="noopener noreferrer"
-          >
+        >
           <img
             alt="Onther Medium"
             class="footer-channel-image filter-grey"
