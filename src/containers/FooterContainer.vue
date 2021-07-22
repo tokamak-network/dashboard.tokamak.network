@@ -6,7 +6,7 @@
           ONTHER PTE.LTD.
         </div>
         <div class="footer-address">
-          111 SOMERSET ROAD #06-070 111 SOMERSET SINGAPORE 238164
+          111 SOMERSET ROAD #06-07O 111 SOMERSET SINGAPORE 238164
         </div>
         <div>
           <img
