@@ -5,7 +5,7 @@
         ONTHER PTE.LTD.
       </div>
       <div class="footer-address">
-        10 ANSON ROAD #23-140 INTERNATIONAL PLAZA SINGAPORE
+        111 SOMERSET ROAD #06-070 111 SOMERSET SINGAPORE 238164
       </div>
     </div>
     <div>
@@ -31,7 +31,7 @@
         <a
           class="footer-mail"
           href="mailto:info@onther.io"
-        >info@onther.io</a>
+        >hello@tokamak.network</a>
         <img
           class="filter-grey"
           src="@/assets/images/Mail.png"
