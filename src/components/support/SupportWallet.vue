@@ -5,7 +5,7 @@
     </div>
     <div class="title">Wallet</div>
     <p class="description">
-      After connecting your wallet, you can access the following infromation about your assets in the Wallet page.
+      After connecting your wallet, you can access the following information about your assets in the Wallet page.
     </p>
     <ol>
       <li class="description" style="margin-left:-10px; margin-bottom:10px"><strong>Total Staked:</strong> Sum of your total staked.</li>

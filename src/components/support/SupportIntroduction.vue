@@ -49,7 +49,7 @@
             Actual APY.
           </li>
           <li class="description" style="margin-left:-10px; margin-bottom:10px">
-            You can check PowerTON round infromation such as Round started date,
+            You can check PowerTON round information such as Round started date,
             round prize, and round end date under the graphs.
           </li>
         </ul>
@@ -81,7 +81,7 @@
             be obtained through contributing to the Tokamak Network, and the more
             delegates it has, the more Power it grows.
           </li>
-          <li class="description" style="margin-left:-10px; margin-bottom:10px"> You can see the PowerTON round information and past round winners and ranks in this page. For more infromation please go to the PowerTON section </li>
+          <li class="description" style="margin-left:-10px; margin-bottom:10px"> You can see the PowerTON round information and past round winners and ranks in this page. For more information please go to the PowerTON section </li>
         </ul>
       </li>
       <li class="mini-subtitle" style="margin-left:-20px; margin-bottom:10px">
