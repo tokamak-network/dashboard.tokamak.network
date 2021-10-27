@@ -22,9 +22,6 @@
       <button class="support-button" @click="scrollMeTo('withdraw')">
         Withdraw
       </button>
-      <button class="support-button" @click="scrollMeTo('powerton')">
-        PowerTON
-      </button>
       <button class="support-button" @click="scrollMeTo('wallet')">
         Wallet
       </button>
@@ -54,9 +51,6 @@
       <div ref="withdraw">
         <SupportWithdraw />
       </div>
-      <div ref="powerton">
-        <SupportPowerTON />
-      </div>
       <div ref="wallet">
         <support-wallet />
       </div>
@@ -75,7 +69,6 @@ import SupportStake from '../components/support/SupportStake.vue';
 import SupportUnstake from '../components/support/SupportUnstake.vue';
 import SupportRestake from '../components/support/SupportRestake.vue';
 import SupportWallet from '@/components/support/SupportWallet.vue';
-import SupportPowerTON from '@/components/support/SupportPowerTon.vue';
 import SupportWithdraw from '../components/support/SupportWithdraw.vue';
 export default {
   components: {
@@ -86,7 +79,6 @@ export default {
     SupportUnstake,
     SupportRestake,
     SupportWallet,
-    SupportPowerTON,
     SupportWithdraw,
   },
   methods: {

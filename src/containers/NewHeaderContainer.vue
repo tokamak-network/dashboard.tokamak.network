@@ -35,13 +35,6 @@
         </button> -->
         <button
           class="header-link"
-          :class="{ 'menu-button-selected': $route.path === '/powerton'}"
-          @click="clickMenu('powerton')"
-        >
-          PowerTON
-        </button>
-        <button
-          class="header-link"
           :class="{ 'menu-button-selected': $route.path === '/wallet'}"
           @click="signIn?clickMenu('wallet'): showPopUp()"
         >
