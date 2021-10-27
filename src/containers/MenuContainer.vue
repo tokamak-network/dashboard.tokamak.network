@@ -57,15 +57,6 @@
     </div>
     <div
       class="sub-menu-title-container"
-      :class="{ 'menu-selected': $route.path === '/powerton'}"
-      @click="clickMenu('powerton')"
-    >
-      <div class="sub-menu-title">
-        Power TON
-      </div>
-    </div>
-    <div
-      class="sub-menu-title-container"
       :class="{ 'menu-selected': $route.path === '/history'}"
       @click="clickMenu('history')"
     >
