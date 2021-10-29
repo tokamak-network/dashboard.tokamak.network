@@ -11,16 +11,13 @@
     </div>
     <div class="button-container">
       <button
-        class="button-stake"
+        class="button-stake model-btn-notavailable"
         :class="{
           'model-btn-notavailable':
             !signIn ||
             operator.layer2 === '0x41fb4bAD6fbA9e9b6E45F3f96bA3ad7Ec2fF5b3C',
         }"
-        :disabled="
-          !signIn ||
-            operator.layer2 === '0x41fb4bAD6fbA9e9b6E45F3f96bA3ad7Ec2fF5b3C'
-        "
+        :disabled="true"
         @click="selectFunction('stake')"
       >
         Stake
@@ -28,12 +25,12 @@
       <div>
         <div>
           <button
-            class="button-stake"
+            class="button-stake model-btn-notavailable"
             :class="{
               'model-btn-notavailable':
                 !signIn || parseFloat(operator.userStaked) === 0,
             }"
-            :disabled="!signIn || parseFloat(operator.userStaked) === 0"
+            :disabled="true"
             @click="selectFunction('unstake')"
           >
             Unstake
@@ -43,18 +40,14 @@
 
       <div>
         <button
-          class="button-stake"
+          class="button-stake model-btn-notavailable"
           :class="{
             'model-btn-notavailable':
               !signIn ||
               parseInt(operator.userNotWithdrawable) === 0 ||
               operator.layer2 === '0x41fb4bAD6fbA9e9b6E45F3f96bA3ad7Ec2fF5b3C',
           }"
-          :disabled="
-            !signIn ||
-              parseInt(operator.userNotWithdrawable) === 0 ||
-              operator.layer2 === '0x41fb4bAD6fbA9e9b6E45F3f96bA3ad7Ec2fF5b3C'
-          "
+         :disabled="true"
           @click="selectFunction('restake')"
         >
           Re-stake
