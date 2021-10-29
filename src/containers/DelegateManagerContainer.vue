@@ -18,7 +18,7 @@
           <base-button-disable :label="'Delegate'" :func="selectedToken === 'WTON'? wtonApprove : delegate" />
         </div>
         <div v-else class="button-container" style="margin-top: 24px;">
-          <base-button-disable :label="'Delegate'" :func="selectedToken === 'WTON'? wtonApprove : delegate" />
+          <base-button :label="'Delegate'" :func="selectedToken === 'WTON'? wtonApprove : delegate" />
         </div>
         <div class="divider" />
         <div class="row">
@@ -34,7 +34,7 @@
           <base-button-disable :label="'Re-Delegate'" :func="redelegate" />
         </div>
         <div v-else class="button-container" style="margin-top: 24px;">
-          <base-button-disable :label="'Re-Delegate'" :func="redelegate" />
+          <base-button :label="'Re-Delegate'" :func="redelegate" />
         </div>
       </div>
     </form>
@@ -45,7 +45,7 @@
           <span class="available-amount-label">Available Amount</span>
           <button type="button" class="available-amount" @click="setAvailableAmountToUndelegate()">{{ operator.userStaked | currencyAmount }}</button>
         </div>
-        <div class="button-container" style="margin-top: 24px;"><base-button-disable :label="'Undelegate'" :func="undelegate" /></div>
+        <div class="button-container" style="margin-top: 24px;"><base-button :label="'Undelegate'" :func="undelegate" /></div>
         <div class="divider" />
         <text-viewer :title="'Not Withdrawable'"
                      :content="selectedToken==='TON' ? currencyAmount(operator.userNotWithdrawable) : `${currencyAmount(operator.userNotWithdrawable).slice(0,-4)} WTON`"
