@@ -26,6 +26,20 @@ export async function getCandidateCreateEvent () {
   else return res.data.datas;
 }
 
+export async function getCommitHistory (chainId, layer2) {
+  const res = await candidate.get('/events', {
+    params: {
+      chainId: chainId,
+      eventName: 'Comitted',
+      layer2: layer2,
+      page: 1,
+      pagesize: 300,
+    },
+  });
+  if (res.data === '') return [];
+  else return res.data.datas;
+}
+
 export async function getCandidates () {
   const res = await candidate.get('/layer2s/operators');
   if (res.data === '') return [];

@@ -5,7 +5,7 @@ Vue.use(Vuex);
 import router from '@/router';
 import web3EthABI from 'web3-eth-abi';
 
-import { getManagers, getOperators, getHistory, getTransactions, addTransaction, getCandidates, getCandidateCreateEvent } from '@/api';
+import { getManagers, getCommitHistory, getOperators, getHistory, getTransactions, addTransaction, getCandidates, getCandidateCreateEvent } from '@/api';
 import { cloneDeep, isEqual, range, uniq, orderBy } from 'lodash';
 import numeral from 'numeral';
 import { createWeb3Contract } from '@/helpers/Contract';
@@ -423,24 +423,15 @@ export default new Vuex.Store({
           ]);
 
           const getRecentCommit = async (operator, layer2) => {
-            const web3 = context.state.web3;
-            const commitTransactions = [];
-            const blockNumbers = [];
-            const transactions = await getTransactions(operator);
-            for (const transaction of transactions) {
-              if (transaction.type === 'Commit' && transaction.target === layer2) {
-                commitTransactions.push(transaction);
-                blockNumbers.push(transaction.blockNumber);
-              }
-            }
-            if (blockNumbers.length === 0) {
-              return ['0', '1'];
-            } else {
-              // const blockNumber = Math.max.apply(null, blockNumbers);
-              const blockNumber = await SeigManager.methods.lastCommitBlock(layer2).call();
-              const block = await web3.eth.getBlock(blockNumber);
-              return [String(block.timestamp), String(blockNumbers.length + 1)];
-            }
+            const commitHistory = await getCommitHistory(
+              context.state.networkId,
+              layer2
+            );
+
+            const lastFinalizedAt = commitHistory.length !== 0 ? commitHistory[0].blockTimestamp : '0';
+            const finalizeCount = commitHistory.length !== 0 ? (commitHistory.length).toString() : '0';
+
+            return [String(lastFinalizedAt), finalizeCount];
           };
 
           const getLastFinalizedAt = async (lastFinalizedEpochNumber, lastFinalizedBlockNumber) => {
@@ -716,15 +707,11 @@ export default new Vuex.Store({
             operatorFromLayer2.lastFinalizedAt = lastFinalized[0] === '0' ? deployedAt : lastFinalized[0];
           }
 
+          const commitHistory = await getCommitHistory(
+            context.state.networkId,
+            layer2
+          );
 
-          // const result = calculateExpectedSeig(
-          //   fromBlockNumber, // the latest commited block number. You can get this using seigManager.lastCommitBlock(layer2)
-          //   toBlockNumber, // the target block number which you want to calculate seigniorage
-          //   userStakedAmount, // the staked WTON amount of user. You can get this using coinage.balanceOf(user)
-          //   totalStakedAmount, // the staked WTON amount in SeigManager. You can get this using tot.totalSupply()
-          //   totalSupplyOfTON, // the current totalSupply of TON in RAY unit. You can get this using ton.totalSupply() - ton.balanceOf(WTON) + tot.totalSupply()
-          //   pseigRate // pseig rate in RAY unit. the current value is 0.4. You can get this using seigManager.relativeSeigRate()
-          // )
           const tos = toBN(tonTotalSupply).mul(toBN('1000000000')).add(toBN(totTotalSupply)).sub(toBN(tonBalanceOfWTON));
 
           const seigniorage = calculateExpectedSeig(
@@ -742,7 +729,7 @@ export default new Vuex.Store({
 
           // set vue state.
           operatorFromLayer2.address = operator;
-          operatorFromLayer2.finalizeCount = lastFinalized[1];
+          operatorFromLayer2.finalizeCount = commitHistory.length !== 0? (commitHistory.length).toString() : '0';
           // operatorFromLayer2.deployedAt = deployedAt;
           operatorFromLayer2.totalDeposit = _WTON(totalDeposit, WTON_UNIT);
           operatorFromLayer2.totalStaked = _WTON(totalStaked, WTON_UNIT);
