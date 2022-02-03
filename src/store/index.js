@@ -1052,6 +1052,12 @@ export default new Vuex.Store({
           const isCandidate = candidates.find(
             (candidate) => candidate.layer2 === layer2.toLowerCase()
           );
+
+          const commitHistory = await getCommitHistory(
+            context.state.networkId,
+            layer2
+          );
+
           if (isCandidate.kind === 'candidate') {
             const web3 = context.state.web3;
             const candi = candidateContractCreated.filter(
@@ -1061,7 +1067,7 @@ export default new Vuex.Store({
             const block = await web3.eth.getBlock(candi[0].txInfo.blockNumber);
             operatorFromLayer2.deployedAt = block.timestamp;
             operatorFromLayer2.lastFinalizedAt =
-              lastFinalized[0] === '0' ? block.timestamp : lastFinalized[0];
+              commitHistory.length === '0' ? block.timestamp : commitHistory[0].blockTimestamp;
           } else if (
             isCandidate.kind !== 'candidate' ||
             isCandidate.kind === '' ||
@@ -1076,14 +1082,12 @@ export default new Vuex.Store({
             operatorFromLayer2.lastFinalizedAt =
               lastFinalized[0] === '0' ? deployedAt : lastFinalized[0];
           }
+
           const delegators = await getDelegators(
             context.state.networkId,
             layer2
           );
-          const commitHistory = await getCommitHistory(
-            context.state.networkId,
-            layer2
-          );
+
           const operatorsHistory = await getOperatorUserHistory(
             context.state.networkId,
             layer2
