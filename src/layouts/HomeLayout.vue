@@ -31,54 +31,6 @@
               :totalSupply="totalStaked"
             />
           </div>
-          <div class="home-footer">
-            <div class="footer-items">
-              <div class="footer-items__card">
-                <div class="items-card__title">
-                  Round
-                  <span class="items-card__title-span">started</span>
-                </div>
-                <span class="items-card__text">{{ formatTimeString(currentPowerRound.data.startTime) }}
-                </span>
-                <span class="items-card__subtext">{{ formatTimeSeconds(currentPowerRound.data.startTime) }}
-                </span>
-                <span class="items-card__subtext">(GMT {{ timezone(currentPowerRound.data.startTime) }})
-                </span>
-              </div>
-              <div class="footer-items__card">
-                <div class="items-card__title">
-                  PowerTON
-                  <span class="items-card__title-span">Prize</span>
-                </div>
-                <span class="items-card__text">{{ reward }}</span>
-              </div>
-              <div class="footer-items__card">
-                <div class="items-card__title">
-                  Round
-                  <span class="items-card__title-span">End</span>
-                </div>
-                <div class="items-card__text">
-                  {{
-                    durationTime.days() +
-                      "D " +
-                      (durationTime.hours().toString().length === 1
-                        ? "0" + durationTime.hours()
-                        : durationTime.hours()) +
-                      ":" +
-                      (durationTime.minutes().toString().length === 1
-                        ? "0" + durationTime.minutes()
-                        : durationTime.minutes()) + ":" +
-                      (durationTime.seconds().toString().length === 1
-                        ? "0" + durationTime.seconds()
-                        : durationTime.seconds())
-                  }}
-                  <span class="items-card__subtext">{{ date }}</span>
-                  <span class="items-card__subtext">(GMT {{ timezone(currentPowerRound.data.endTime) }})
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
     </div>
