@@ -5,11 +5,38 @@
       <h2>Check the status of your assets in the wallet</h2>
     </div>
     <div class="wallet-current">
-      <ValueView :title="'Total Staked'" :value="currencyAmount(userTotalStaked).toString().replace('TON', '')" :ton="true" />
-      <ValueView :title="'Pending Withdrawal'" :value="currencyAmount(userTotalWithdrawable).toString().replace('TON', '')" :ton="true" />
-      <ValueView :title="'Total Accumulated Reward'" :value="currencyAmount(reward).toString().replace('TON', '')" :ton="true" />
+      <!-- <ValueView
+        :title="'Total Staked'"
+        :value="
+          currencyAmount(userTotalStaked)
+            .toString()
+            .replace('TON', '')
+        "
+        :ton="true"
+      /> -->
+      <!-- <ValueView
+        :title="'Pending Withdrawal'"
+        :value="
+          currencyAmount(userTotalWithdrawable)
+            .toString()
+            .replace('TON', '')
+        "
+        :ton="true"
+      /> -->
+      <ValueView
+        :title="'Total Accumulated Reward'"
+        :value="
+          currencyAmount(reward)
+            .toString()
+            .replace('TON', '')
+        "
+        :ton="true"
+      />
     </div>
-    <wallet-graph :options="options" :dailyWalletRewardsList="dailyWalletRewardsList" />
+    <wallet-graph
+      :options="options"
+      :dailyWalletRewardsList="dailyWalletRewardsList"
+    />
     <div class="table-container">
       <div style="margin-bottom: 20px;">History</div>
       <WalletHistoryTable />
@@ -28,6 +55,7 @@ import { getAccumulatedReward } from '@/api';
 import { createCurrency } from '@makerdao/currency';
 import WalletHistoryTable from '@/components/table/WalletHistoryTable.vue';
 import WalletGraph from '@/containers/WalletGraph.vue';
+
 const _WTON = createCurrency('WTON');
 
 export default {
@@ -44,7 +72,20 @@ export default {
       dailyWalletRewardsList: [],
       chartType: 'week',
       weekLabels: ['Week 01', 'Week 02', 'Week 03', 'Week 04', 'Week 05'],
-      monthLabels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'],
+      monthLabels: [
+        'Jan',
+        'Feb',
+        'Mar',
+        'Apr',
+        'May',
+        'Jun',
+        'Jul',
+        'Aug',
+        'Sept',
+        'Oct',
+        'Nov',
+        'Dec',
+      ],
       yearLabels: [],
       options: {},
     };
@@ -64,18 +105,23 @@ export default {
       'userTotalWithdrawable',
     ]),
     currencyAmount () {
-      return amount => this.$options.filters.currencyAmount(amount);
+      return (amount) => this.$options.filters.currencyAmount(amount);
     },
   },
   created () {
     this.getAccumulatedReward();
   },
-  methods:{
+  methods: {
     async getAccumulatedReward () {
-      if(this.signIn) {
-        const reward = await getAccumulatedReward(this.networkId, this.user.toLowerCase());
-        if (reward.length !==0) {
-          const rewarded =  (reward[0].rewards).toLocaleString('fullwide', { useGrouping:false });
+      if (this.signIn) {
+        const reward = await getAccumulatedReward(
+          this.networkId,
+          this.user.toLowerCase()
+        );
+        if (reward.length !== 0) {
+          const rewarded = reward[0].rewards.toLocaleString('fullwide', {
+            useGrouping: false,
+          });
           this.reward = _WTON.ray(rewarded.toString());
         }
       }
@@ -89,10 +135,10 @@ export default {
 </script>
 <style scoped>
 .wallet-layout {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    padding-top: 70px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-top: 70px;
 }
 .wallet-title-container {
   display: flex;

@@ -296,8 +296,8 @@ export default new Vuex.Store({
       context.commit('IS_LOADING', true);
       const operators = await getOperators();
       const operatorsInfo = await getOperatorsInfo();
-      operators.map(operator => {
-        operatorsInfo.map(info => {
+      operators.map((operator) => {
+        operatorsInfo.map((info) => {
           if (operator.layer2.toLowerCase() === info.layer2.toLowerCase()) {
             if (info.candidateContract !== info.layer2) {
               operator.isOperator = true;
@@ -413,7 +413,9 @@ export default new Vuex.Store({
         );
         operator.totalStaked = _TON.ray(oper.updateCoinageTotalString);
         operator.commissionRate = _WTON(
-          oper.commissionRate ? oper.commissionRate : 0, WTON_UNIT);
+          oper.commissionRate ? oper.commissionRate : 0,
+          WTON_UNIT
+        );
         operator.isCommissionRateNegative = oper.isCommissionRateNegative
           ? oper.isCommissionRateNegative
           : false;
@@ -432,8 +434,14 @@ export default new Vuex.Store({
           operator.layer2.toLowerCase()
         );
         operator.commitHistory = operatorCommitHistory;
-        operator.lastFinalizedAt = operatorCommitHistory.length !== 0? operatorCommitHistory[0].blockTimestamp : '0';
-        operator.finalizeCount = operatorCommitHistory.length !== 0? (operatorCommitHistory.length).toString() : '0';
+        operator.lastFinalizedAt =
+          operatorCommitHistory.length !== 0
+            ? operatorCommitHistory[0].blockTimestamp
+            : '0';
+        operator.finalizeCount =
+          operatorCommitHistory.length !== 0
+            ? operatorCommitHistory.length.toString()
+            : '0';
       });
 
       context.commit('SET_OPERATORS_BEFORE_CONNECT', operators);
@@ -1067,7 +1075,9 @@ export default new Vuex.Store({
             const block = await web3.eth.getBlock(candi[0].txInfo.blockNumber);
             operatorFromLayer2.deployedAt = block.timestamp;
             operatorFromLayer2.lastFinalizedAt =
-              commitHistory.length === '0' ? block.timestamp : commitHistory[0].blockTimestamp;
+              commitHistory.length === '0'
+                ? block.timestamp
+                : commitHistory[0].blockTimestamp;
           } else if (
             isCandidate.kind !== 'candidate' ||
             isCandidate.kind === '' ||
@@ -1117,7 +1127,8 @@ export default new Vuex.Store({
           );
           const userWithdrawable = getUserWithdrawable(withdrawableRequests);
           operatorFromLayer2.address = operator;
-          operatorFromLayer2.finalizeCount = commitHistory.length !== 0? (commitHistory.length).toString() : '0';
+          operatorFromLayer2.finalizeCount =
+            commitHistory.length !== 0 ? commitHistory.length.toString() : '0';
           operatorFromLayer2.totalDeposit = _WTON(totalDeposit, WTON_UNIT);
           operatorFromLayer2.totalStaked = _WTON(totalStaked, WTON_UNIT);
           operatorFromLayer2.selfDeposit = _WTON(selfDeposit, WTON_UNIT);
@@ -1157,7 +1168,10 @@ export default new Vuex.Store({
           operatorFromLayer2.isCandidate = isCandidateOperator();
           operatorFromLayer2.commitHistory = commitHistory;
           operatorFromLayer2.operatorsHistory = operatorsHistory;
-          operatorFromLayer2.pendingUnstakedLayer2 =  _WTON(pendingUnstakedLayer2, WTON_UNIT);
+          operatorFromLayer2.pendingUnstakedLayer2 = _WTON(
+            pendingUnstakedLayer2,
+            WTON_UNIT
+          );
           return operatorFromLayer2;
         })
       );
@@ -1310,11 +1324,9 @@ export default new Vuex.Store({
     operatorByLayer2: (state) => (layer2) => {
       if (state.signIn) {
         return cloneDeep(
-          state.operators
-            .find(
-              (operator) =>
-                operator.layer2.toLowerCase() === layer2.toLowerCase()
-            )
+          state.operators.find(
+            (operator) => operator.layer2.toLowerCase() === layer2.toLowerCase()
+          )
         );
       } else {
         return cloneDeep(
@@ -1339,7 +1351,6 @@ export default new Vuex.Store({
     userTotalStaked: (state) => {
       const initialAmount = _WTON.ray('0');
       const reducer = (amount, operator) => amount.add(operator.userStaked);
-
       return state.operators.reduce(reducer, initialAmount);
     },
     userTotalSeigs: (state) => {
