@@ -75,13 +75,13 @@ export default {
       case 'userStaked':
         return orderBy(
           this.ops,
-          (operator) => operator.userStaked.toNumber(),
+          (operator) => operator.userStaked,
           [this.order]
         );
       case 'totalStaked':
         return orderBy(
           this.ops,
-          (operator) => operator.totalStaked.toNumber(),
+          (operator) => operator.totalStaked,
           [this.order]
         );
       case 'commit':
