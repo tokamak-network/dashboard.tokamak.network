@@ -168,7 +168,7 @@ export default {
             this.inputTon === '0.0' ||
             this.inputTon === '0.00' ||
             this.inputTon === '' ||
-            tonAmount > this.getMaxBalance() ||
+            Number(tonAmount) > Number(this.getMaxBalance()) ||
             this.warn === true
         ) {
           return true;
