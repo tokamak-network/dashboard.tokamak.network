@@ -1013,6 +1013,7 @@ export default new Vuex.Store({
               layer2Seigs: layer2Seigs,
             };
           };
+
           const [
             totalDeposit,
             selfDeposit,
@@ -1075,9 +1076,7 @@ export default new Vuex.Store({
             const block = await web3.eth.getBlock(candi[0].txInfo.blockNumber);
             operatorFromLayer2.deployedAt = block.timestamp;
             operatorFromLayer2.lastFinalizedAt =
-              commitHistory.length === '0'
-                ? block.timestamp
-                : commitHistory[0].blockTimestamp;
+              commitHistory.length === 0 ? block.timestamp : commitHistory[0].blockTimestamp;
           } else if (
             isCandidate.kind !== 'candidate' ||
             isCandidate.kind === '' ||
