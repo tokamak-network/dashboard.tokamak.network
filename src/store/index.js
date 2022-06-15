@@ -305,14 +305,12 @@ export default new Vuex.Store({
           }
         });
       });
-
       await Promise.all([
         context.dispatch('getTotalStaked'),
         context.dispatch('getPowerRoundInfo'),
         context.dispatch('getDailyStakedTokenStats'),
         context.dispatch('getPowerReward'),
         context.dispatch('getRanks'),
-        context.dispatch('getWinners'),
         context.dispatch('setOperatorsBeforeConnect', operators),
       ]);
       await new Promise((resolve) => setTimeout(resolve, 1000)); // https://github.com/Onther-Tech/dashboard.tokamak.network/issues/81
@@ -351,7 +349,6 @@ export default new Vuex.Store({
       context.dispatch('setCommitteeProxy');
       await context.dispatch('setManagers', managers);
       await context.dispatch('setOperatorsWithRegistry', operators);
-
       await Promise.all([
         context.dispatch('setCandidates', candidates),
         context.dispatch('setTransactionsAndPendingTransactions', transactions),
@@ -365,10 +362,10 @@ export default new Vuex.Store({
       // context.commit('IS_LOADING', false);
       // router.replace({ path: 'dashboard', query: { network: router.app.$route.query.network } }).catch(err => {});
     },
-    async getAllOperators (context) {
-      const operators = await getOperators();
-      context.dispatch('setOperatorsWithRegistry', operators);
-    },
+    // async getAllOperators (context) {
+    //   const operators = await getOperators();
+    //   context.dispatch('setOperatorsWithRegistry', operators);
+    // },
     async set (context, web3) {
       const blockNumber = await web3.eth.getBlockNumber();
       const block = await web3.eth.getBlock(blockNumber);
@@ -808,7 +805,7 @@ export default new Vuex.Store({
           const isCandidateOperator = () => {
             const candidates = context.state.candidates;
             const isCandidate = candidates.find(
-              (candidate) => candidate.layer2 === layer2.toLowerCase()
+              (candidate) => candidate.layer2.toLowerCase() === layer2.toLowerCase()
             );
             if (isCandidate.kind === '') {
               return false;
@@ -816,6 +813,17 @@ export default new Vuex.Store({
               return true;
             }
           };
+          const isOper = async () => {
+            const operatorsInfo = await getOperatorsInfo();
+            const opInfo = operatorsInfo.find((info) => layer2.toLowerCase() === info.layer2.toLowerCase());
+            if (opInfo.candidateContract !== opInfo.layer2) {
+              return true;
+            }
+            else { return false;}
+
+          };
+
+          isOper();
           const filterNotWithdrawableRequests = (requests) => {
             return requests.filter(
               (request) =>
@@ -1165,6 +1173,7 @@ export default new Vuex.Store({
           operatorFromLayer2.globalWithdrawalDelay = globalWithdrawalDelay;
           operatorFromLayer2.minimumAmount = minimumAmount;
           operatorFromLayer2.isCandidate = isCandidateOperator();
+          operatorFromLayer2.isOperator = await isOper();
           operatorFromLayer2.commitHistory = commitHistory;
           operatorFromLayer2.operatorsHistory = operatorsHistory;
           operatorFromLayer2.pendingUnstakedLayer2 = _WTON(

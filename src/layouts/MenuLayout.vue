@@ -44,6 +44,7 @@ import OperatorComponent from '@/components/OperatorComponent.vue';
 import Dot from '@/components/Dot.vue';
 import DropDown from '@/components/DropDown.vue';
 import { orderBy } from 'lodash';
+const { ethers } = require('ethers');
 
 export default {
   components: {
@@ -68,20 +69,23 @@ export default {
       'signIn',
       'operatorsBeforeConnect',
     ]),
+    currencyAmount () {
+      return (amount) => this.$options.filters.currencyAmount(amount);
+    },
     orderedOperators () {
       switch (this.from) {
       case 'name':
-        return orderBy(this.ops, (operator) => operator.name, [this.order]);
+        return orderBy(this.ops, (operator) => operator.name.toLowerCase(), [this.order]);
       case 'userStaked':
         return orderBy(
           this.ops,
-          (operator) => operator.userStaked,
+          (operator) => operator.userStaked._amount.toNumber(),
           [this.order]
         );
       case 'totalStaked':
         return orderBy(
           this.ops,
-          (operator) => operator.totalStaked,
+          (operator) => operator.totalStaked._amount.toNumber(),
           [this.order]
         );
       case 'commit':
