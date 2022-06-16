@@ -234,18 +234,22 @@ export default {
     toggleChartType (chartType) {
       if (chartType === 'week') {
         const end = moment(this.periodEnd).unix();
-        const start = Number(end) - 518400;
+        const start = new Date(new Date().setDate(new Date().getDate()-7));
         this.getDailyWalletRewardsFn(
-          this.customFormatterforFunction(start),
-          this.customFormatterforFunction(this.periodEnd)
+          this.customFormatter(start),
+          this.customFormatter(this.periodEnd)
         );
+        this.getDailyWalletStakedFn(moment(start).unix(), moment(this.periodEnd).unix());
+        this.getTotalWithdrawalFn(moment(start).unix(), moment(this.periodEnd).unix());
       } else if (chartType === 'month') {
         const end = moment(this.periodEnd).unix();
-        const start = Number(end) - 2592000;
+        const start = new Date(new Date().setDate(new Date().getDate()-30));
         this.getDailyWalletRewardsFn(
-          this.customFormatterforFunction(start),
-          this.customFormatterforFunction(this.periodEnd)
+          this.customFormatter(start),
+          this.customFormatter(this.periodEnd)
         );
+        this.getDailyWalletStakedFn(moment(start).unix(), moment(this.periodEnd).unix());
+        this.getTotalWithdrawalFn(moment(start).unix(), moment(this.periodEnd).unix());
       } else if (chartType === 'year') {
         this.periodStart.setDate(this.periodEnd.getFullYear() - 1);
       }
