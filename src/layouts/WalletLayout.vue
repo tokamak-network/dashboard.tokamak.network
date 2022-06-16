@@ -5,7 +5,7 @@
       <h2>Check the status of your assets in the wallet</h2>
     </div>
     <div class="wallet-current">
-      <!-- <ValueView
+      <ValueView
         :title="'Total Staked'"
         :value="
           currencyAmount(userTotalStaked)
@@ -13,8 +13,8 @@
             .replace('TON', '')
         "
         :ton="true"
-      /> -->
-      <!-- <ValueView
+      />
+      <ValueView
         :title="'Pending Withdrawal'"
         :value="
           currencyAmount(userTotalWithdrawable)
@@ -22,7 +22,7 @@
             .replace('TON', '')
         "
         :ton="true"
-      /> -->
+      />
       <ValueView
         :title="'Total Accumulated Reward'"
         :value="

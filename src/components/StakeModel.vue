@@ -38,8 +38,8 @@
           </div>
           <button class="model-btn"
                   :class="getInableStyle('class')"
-                  :disabled="getInableStyle('disabled')"
                   @click="delegate()"
+                  :disabled="getInableStyle('disabled')"
           >
             Stake
           </button>
@@ -173,7 +173,7 @@ export default {
         }
         break;
       case 'disabled':
-        if(this.inputTon === '0' || this.inputTon === '0.' || this.inputTon === '0.0' || this.inputTon === '0.00' || this.inputTon === '' || tonAmount > this.getMaxBalance() || this.warn === true) {
+        if(this.inputTon === '0' || this.inputTon === '0.' || this.inputTon === '0.0' || this.inputTon === '0.00' || this.inputTon === '' ||Number(tonAmount) > Number(this.getMaxBalance())|| this.warn === true) {
           return true;
         }
         break;
@@ -249,7 +249,6 @@ export default {
         const minimumAmount = this.operator.minimumAmount;
         const numMinimumAmount = utils.formatUnits(minimumAmount, 27);
         const finalNumMinimumAmount = this.round(numMinimumAmount, 2);
-
         if(finalNumOperatorDeposit - this.inputTon.replace(/,/g, '') < finalNumMinimumAmount) {
           return this.warn = true;
         }
@@ -258,7 +257,7 @@ export default {
       if (tonAmount === 0) {
         return alert('Please check input amount.');
       }
-      if (this.inputTon > this.getMaxBalance()) {
+      if (Number(this.inputTon) > Number(this.getMaxBalance())) {
         return alert('Please check your TON amount.');
       }
       if(confirm('Current withdrawal delay is 2 weeks. Are you sure you want to delegate?')){

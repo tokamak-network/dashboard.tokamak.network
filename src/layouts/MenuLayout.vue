@@ -85,7 +85,7 @@ export default {
       case 'totalStaked':
         return orderBy(
           this.ops,
-          (operator) => operator.totalStaked._amount.toNumber(),
+          (operator) => operator.totalStaked !== undefined ? operator.totalStaked._amount.toNumber() : 0,
           [this.order]
         );
       case 'commit':

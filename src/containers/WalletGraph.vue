@@ -88,6 +88,8 @@ import { createCurrency } from '@makerdao/currency';
 import { getDepositTotal, getDailyWalletRewards, getWithdrawTotal } from '@/api';
 import { orderBy } from 'lodash';
 import BigNumber from 'bignumber.js';
+const { ethers } = require('ethers');
+
 export default {
   components: {
     Datepicker,
@@ -96,7 +98,7 @@ export default {
   data () {
     return {
       periodEnd: new Date(),
-      periodStart: new Date(),
+      periodStart: new Date(new Date().setDate(new Date().getDate()-7)),
       dailyWalletRewardsList: [],
       dailyWalletStakedList: [],
       totalWithdrawalList: [],
@@ -105,7 +107,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(['totalWithdraw', 'user', 'networkId']),
+    ...mapState(['totalWithdraw', 'user', 'networkId', 'web3']),
     currencyAmount () {
       return (amount) => this.$options.filters.currencyAmount(amount);
     },
@@ -114,12 +116,12 @@ export default {
     const end = moment(this.periodEnd).unix();
     const start = Number(end) - 518400;
     this.getDailyWalletRewardsFn(
-      this.customFormatter(start),
+      this.customFormatter(this.periodStart),
       this.customFormatter(this.periodEnd)
     );
     this.toggleChartType('week');
-    this.getDailyWalletStakedFn();
-    this.getTotalWithdrawalFn();
+    this.getDailyWalletStakedFn(moment(this.periodStart).unix(), moment(this.periodEnd).unix());
+    this.getTotalWithdrawalFn(moment(this.periodStart).unix(), moment(this.periodEnd).unix());
 
   },
   methods: {
@@ -197,20 +199,33 @@ export default {
         };
       }
     },
-    async getDailyWalletStakedFn () {
+    async getDailyWalletStakedFn (start, end) {
       const dailyWalletStaked = await getDepositTotal(
         this.networkId,
         this.user.toLowerCase(),
       );
-      this.dailyWalletStakedList = dailyWalletStaked;
+      const formatted = await Promise.all(dailyWalletStaked.map(async (item) => {
+        const blk = await this.web3.eth.getBlock(item.blockNumber);
+        item.blkTimestamp = blk.timestamp;
+        return item;
+      }));
+      const filtered = formatted.filter((item) => start<=item.blkTimestamp &&  item.blkTimestamp<=end);
+      this.dailyWalletStakedList = filtered;
       this.totalStaked();
     },
-    async getTotalWithdrawalFn () {
+    async getTotalWithdrawalFn (start, end) {
       const totalWithdrawal = await getWithdrawTotal(
         this.networkId,
         this.user.toLowerCase(),
       );
-      this.totalWithdrawalList = totalWithdrawal;
+      const formatted = await Promise.all(totalWithdrawal.map(async (item) => {
+        const blk = await this.web3.eth.getBlock(item.blockNumber);
+        item.blkTimestamp = blk.timestamp;
+        return item;
+      }));
+      const filtered = formatted.filter((item) => start<=item.blkTimestamp &&  item.blkTimestamp<=end);
+
+      this.totalWithdrawalList = filtered;
       this.totalWithdrawal();
     },
 
@@ -241,7 +256,9 @@ export default {
         this.customFormatter(this.periodStart),
         this.customFormatter(this.periodEnd)
       );
-      this.getDailyWalletStakedFn();
+      this.getDailyWalletStakedFn(moment(this.periodStart).unix(), moment(this.periodEnd).unix());
+      this.getTotalWithdrawalFn(moment(this.periodStart).unix(), moment(this.periodEnd).unix());
+
     },
   },
 };
