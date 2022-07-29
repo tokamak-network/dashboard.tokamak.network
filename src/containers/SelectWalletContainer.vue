@@ -145,15 +145,7 @@ export default {
           if (prov) {
             const { ethereum } = window;
             try {
-              await ethereum.request({ method: 'eth_requestAccounts' })
-                .then(this.handleAccountsChanged(provider.selectedAddress, provider))
-                .catch((err) => {
-                  if (err.code === 4001) {
-                    alert('Please connect to MetaMask.');
-                  } else {
-                    alert(err);
-                  }
-                });
+              await ethereum.request({ method: 'eth_requestAccounts' });
             } catch(e) {
               throw new Error(e.message);
             }
