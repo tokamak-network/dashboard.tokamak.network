@@ -32,6 +32,7 @@ import { mapState } from 'vuex';
 import Wallet from '@/components/Wallet.vue';
 import walletConnect from '@/components/WalletConnect.vue';
 // import ledgerConnect from '@/components/LedgerConnect.vue';
+import detectEthereumProvider from '@metamask/detect-provider';
 
 import WalletConnectProvider from '@walletconnect/web3-provider';
 
@@ -55,6 +56,7 @@ export default {
     async useMetamask () {
       try {
         const web3 = await this.metamask();
+        await this.$store.dispatch('signIn', web3);
         window.ethereum.on('chainChanged', (chainId) => {
           this.$store.dispatch('logout');
           this.$router.replace({
@@ -136,17 +138,27 @@ export default {
       let provider;
       if (typeof window.ethereum !== 'undefined') {
         try {
-          provider = window.ethereum;
+          const prov = await detectEthereumProvider();
+          // provider = window.ethereum;
+          provider = prov;
 
-          provider.request({ method: 'eth_requestAccounts' })
-            .then(this.handleAccountsChanged(provider.selectedAddress, provider))
-            .catch((err) => {
-              if (err.code === 4001) {
-                alert('Please connect to MetaMask.');
-              } else {
-                alert(err);
-              }
-            });
+          if (prov) {
+            const { ethereum } = window;
+            try {
+              await ethereum.request({ method: 'eth_requestAccounts' })
+                .then(this.handleAccountsChanged(provider.selectedAddress, provider))
+                .catch((err) => {
+                  if (err.code === 4001) {
+                    alert('Please connect to MetaMask.');
+                  } else {
+                    alert(err);
+                  }
+                });
+            } catch(e) {
+              throw new Error(e.message);
+            }
+          }
+
         } catch (e) {
           if (e.stack.includes('Error: User denied account authorization')) {
             throw new Error('User denied account authorization');
