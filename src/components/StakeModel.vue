@@ -38,8 +38,8 @@
           </div>
           <button class="model-btn"
                   :class="getInableStyle('class')"
-                  @click="delegate()"
                   :disabled="getInableStyle('disabled')"
+                  @click="delegate()"
           >
             Stake
           </button>

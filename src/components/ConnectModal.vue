@@ -96,6 +96,7 @@ import { getConfig } from '../../config.js';
 import Blockies from '@/components/Blockies.vue';
 import MetamaskIcon from '../assets/images/metamask_icon.png';
 import WalletConnectIcon from '../assets/images/walletconnect_icon.png';
+import detectEthereumProvider from '@metamask/detect-provider';
 
 export default {
   components: {
@@ -136,22 +137,42 @@ export default {
         }
       }
     });
-    window.ethereum.on('networkChanged', (chainId) => {
-      window.location.reload();
-    });
-    window.ethereum.on('accountsChanged', (account) => {
-      window.location.reload();
-      // this.$store.dispatch('signIn', new Web3(window.ethereum));
-    });
+    // window.ethereum.on('networkChanged', (chainId) => {
+    //   window.location.reload();
+    // });
+    // window.ethereum.on('accountsChanged', (account) => {
+    //   window.location.reload();
+    //   // this.$store.dispatch('signIn', new Web3(window.ethereum));
+    // });
   },
   methods: {
     async handleMetamask () {
       let provider;
       if (typeof window.ethereum !== 'undefined') {
+        // try {
+        //   await window.ethereum.enable();
+        //   provider = window.ethereum;
+        // } catch (e) {
+        //   if (e.stack.includes('Error: User denied account authorization')) {
+        //     throw new Error('User denied account authorization');
+        //   } else {
+        //     throw new Error(e.message);
+        //   }
+        // }
+
         try {
-          await window.ethereum.enable();
-          provider = window.ethereum;
-        } catch (e) {
+          const prov = await detectEthereumProvider();
+          provider = prov;
+          if (prov) {
+            const { ethereum } = window;
+            try {
+              await ethereum.request({ method: 'eth_requestAccounts' });
+            } catch(e) {
+              throw new Error(e.message);
+            }
+          }
+        }
+        catch(e) {
           if (e.stack.includes('Error: User denied account authorization')) {
             throw new Error('User denied account authorization');
           } else {
@@ -172,6 +193,25 @@ export default {
       this.showConnectModal = false;
       const web3 = new Web3(provider);
       await this.$store.dispatch('signIn', web3);
+
+      window.ethereum.on('chainChanged', (chainId) => {
+        this.$store.dispatch('logout');
+        this.$router
+          .replace({
+            path: '/home',
+            query: { network: this.$route.query.network },
+          }).catch(err => {});
+      });
+      window.ethereum.on('accountsChanged', (account) => {
+        if (this.user.toLowerCase() !== account[0].toLowerCase()) {
+          this.$store.dispatch('logout');
+          this.$router.replace({
+            path: '/home',
+            query: { network: this.$route.query.network },
+          }).catch(err => {
+          });
+        }
+      });
 
     },
     async handleWalletConnect () {
