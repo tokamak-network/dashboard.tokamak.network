@@ -1,5 +1,6 @@
 <template>
   <div id="app" class="app">
+    <tokamak-gnb/>
     <new-header-container />
     <div class="body-container">
       <loading-spinner v-if="loading" />
@@ -16,6 +17,7 @@ import { mapState, mapGetters } from 'vuex';
 import LoadingSpinner from '@/components/LoadingSpinner.vue';
 import NewHeaderContainer from '@/containers/NewHeaderContainer.vue';
 import FooterContainer from '@/containers/FooterContainer.vue';
+import TokamakGNB from '@/containers/TokamakGNB.vue';
 import MainLayout from '@/layouts/MainLayout.vue';
 import Web3 from 'web3';
 import { getConfig } from '../config';
@@ -25,6 +27,7 @@ export default {
     'footer-container': FooterContainer,
     'main-layout': MainLayout,
     'loading-spinner': LoadingSpinner,
+    'tokamak-gnb': TokamakGNB,
   },
   data () {
     return {

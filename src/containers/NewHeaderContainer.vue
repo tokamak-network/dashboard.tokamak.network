@@ -128,7 +128,7 @@ export default {
   display: flex;
   justify-content: center;
   position:inherit;
-  border-top: 4px solid #2a72e5;
+  /* border-top: 4px solid #2a72e5; */
 }
 .menu-header {
     align-items: center;
