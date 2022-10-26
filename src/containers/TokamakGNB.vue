@@ -22,21 +22,21 @@
       <div>TONStarter</div>
     </a>
     <a
-      href="https://simple.staking.tokamak.network/"
+      href="https://rinkeby.simple.staking.tokamak.network/"
       :style="{ width: '90px' }"
-      class="link"
+      class="active-link"
     >
       <div>Staking</div>
     </a>
     <a
-      href="https://dao.tokamak.network/#/"
+      href="https://rinkeby.dao.tokamak.network/#/"
       :style="{ width: '68px' }"
       class="link"
     >
       <div>DAO</div>
     </a>
     <a
-      href="https://swap.tokamak.network/"
+      href="https://tonswapper.vercel.app/"
       :style="{ width: '76px' }"
       class="link"
     >
@@ -67,12 +67,25 @@ export default {};
   text-decoration: none;
   justify-content: center;
   font-family: 'Titillium Web', sans-serif;
-  font-weight: bolder;
 }
 
 .link:hover {
     cursor: pointer;
-    background: #ffffff;
-    color: #353c48;
+  }
+
+.active-link {
+  background: #ffffff;
+  color: #353c48;
+  display: flex;
+  align-items: center;
+  font-size: 15px;
+  height: 45px;
+  text-decoration: none;
+  justify-content: center;
+  font-family: 'Titillium Web', sans-serif;
+}
+
+.active-link:hover {
+    cursor: pointer;
   }
 </style>

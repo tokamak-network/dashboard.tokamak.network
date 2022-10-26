@@ -5,8 +5,8 @@
         <img
           alt="Tokamak Network Logo"
           class="header-logo"
-          src="@/assets/images/tnss_bi.png"
-          width="365px"
+          src="@/assets/images/tn_ss_bi.png"
+          width="362px"
           heigh="39px"
           @click="toMainPage"
         >
@@ -66,6 +66,8 @@
 import { mapState } from 'vuex';
 import ConnectModal from '@/components/ConnectModal.vue';
 import WalletPopUp from '@/components/WalletPopUp.vue';
+import '@fontsource/open-sans';
+
 export default {
   components: {
     ConnectModal,
@@ -160,9 +162,9 @@ export default {
     padding-left: 24px;
     padding-right: 24px;
     background: #fafbfc;
-  font-family: "TitilliumWeb",sans-serif;
-  font-size: 18px;
-  font-weight: bold;
+  font-family: "Open Sans";
+  font-size: 16px;
+  font-weight: 600;
   font-stretch: normal;
   font-style: normal;
   /* line-height: 1.5; */

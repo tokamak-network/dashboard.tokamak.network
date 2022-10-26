@@ -12,6 +12,7 @@
     "server": "node server/index.js"
   },
   "dependencies": {
+    "@fontsource/open-sans": "^4.5.13",
     "@fontsource/titillium-web": "^4.5.9",
     "@ledgerhq/hw-app-eth": "^5.6.0",
     "@ledgerhq/hw-transport-u2f": "^5.6.0",
