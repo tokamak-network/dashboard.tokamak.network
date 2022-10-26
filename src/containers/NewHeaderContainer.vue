@@ -66,7 +66,6 @@
 import { mapState } from 'vuex';
 import ConnectModal from '@/components/ConnectModal.vue';
 import WalletPopUp from '@/components/WalletPopUp.vue';
-import '@fontsource/open-sans';
 
 export default {
   components: {
@@ -162,7 +161,7 @@ export default {
     padding-left: 24px;
     padding-right: 24px;
     background: #fafbfc;
-  font-family: "Open Sans";
+  font-family: 'Open Sans', sans-serif;
   font-size: 16px;
   font-weight: 600;
   font-stretch: normal;

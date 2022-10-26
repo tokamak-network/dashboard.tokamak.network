@@ -46,7 +46,6 @@
 </template>
 
 <script>
-import '@fontsource/titillium-web';
 export default {};
 </script>
 <style>
