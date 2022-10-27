@@ -4,7 +4,7 @@
       <div>Vision</div>
     </a>
     <a
-      href="https://tokamak.network/#/"
+      href="https://renewal-homepage.vercel.app/#/"
       :style="{ width: '158px' }"
       class="link"
     >
