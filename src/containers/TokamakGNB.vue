@@ -1,10 +1,6 @@
 <template>
   <div class="gnb">
-    <a
-      href=""
-      :style="{ width: '100px' }"
-      class="link"
-    >
+    <a href="" :style="{ width: '100px' }" class="link">
       <div>Vision</div>
     </a>
     <a
@@ -63,28 +59,30 @@ export default {};
   align-items: center;
   font-size: 15px;
   height: 45px;
+  line-height: 1.53;
   text-decoration: none;
   justify-content: center;
-  font-family: 'Titillium Web', sans-serif;
+  font-family: "Titillium Web", sans-serif;
 }
 
 .link:hover {
-    cursor: pointer;
-  }
+  cursor: pointer;
+}
 
 .active-link {
   background: #ffffff;
   color: #353c48;
   display: flex;
+  line-height: 1.53;
   align-items: center;
   font-size: 15px;
   height: 45px;
   text-decoration: none;
   justify-content: center;
-  font-family: 'Titillium Web', sans-serif;
+  font-family: "Titillium Web", sans-serif;
 }
 
 .active-link:hover {
-    cursor: pointer;
-  }
+  cursor: pointer;
+}
 </style>
