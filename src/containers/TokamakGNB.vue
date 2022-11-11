@@ -11,25 +11,18 @@
       <div>Tokamak Network</div>
     </a>
     <a
-      href="https://rinkeby.tonstarter.tokamak.network/"
-      :style="{ width: '114px' }"
-      class="link"
-    >
-      <div>TONStarter</div>
-    </a>
-    <a
       href="https://rinkeby.simple.staking.tokamak.network/"
-      :style="{ width: '90px' }"
+      :style="{ width: '137px' }"
       class="active-link"
     >
-      <div>Staking</div>
+      <div>Simple Staking</div>
     </a>
     <a
       href="https://rinkeby.dao.tokamak.network/#/"
-      :style="{ width: '68px' }"
+      :style="{ width: '190px' }"
       class="link"
     >
-      <div>DAO</div>
+      <div>Tokamak Network DAO</div>
     </a>
     <a
       href="https://tonswapper.vercel.app/"
@@ -37,6 +30,13 @@
       class="link"
     >
       <div>Swap</div>
+    </a>
+    <a
+      href="https://rinkeby.tonstarter.tokamak.network/"
+      :style="{ width: '114px' }"
+      class="link"
+    >
+      <div>TONStarter</div>
     </a>
   </div>
 </template>
