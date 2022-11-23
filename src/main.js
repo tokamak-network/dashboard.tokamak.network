@@ -6,7 +6,6 @@ import VueClipboard from 'vue-clipboard2';
 import vClickOutside from 'v-click-outside';
 import ToggleButton from 'vue-js-toggle-button';
 
-
 Vue.use(VueGtag, {
   config: {
     id: 'G-E0YQDXW30R',
@@ -27,18 +26,20 @@ import store from './store';
 import '@/assets/css/960.css';
 // import '@/assets/css/reset.css';
 import '@/assets/css/text.css';
+import '@/assets/css/isMobile.css';
+
 import * as filters from '@/filters';
 
 // https://vuedose.tips/tips/measure-runtime-performance-in-vue-js-apps
 const isDev = process.env.NODE_ENV !== 'production';
 Vue.config.performance = isDev;
 
-Object.keys(filters).forEach(key => {
+Object.keys(filters).forEach((key) => {
   Vue.filter(key, filters[key]);
 });
 
 new Vue({
   router,
   store,
-  render: h => h(App),
+  render: (h) => h(App),
 }).$mount('#app');
