@@ -1,5 +1,5 @@
 <template>
-  <div class="gnb_mobile_header">
+  <div class="gnb_mobile_header mobilee">
     <img
       src="@/assets/images/pagenate-prev-arrow-icon-inactive_1.svg"
       alt=""
@@ -196,7 +196,14 @@ export default {
 };
 </script>
 
+
 <style scoped>
+@media only screen and (min-width: 631px) {
+    .mobilee {
+        display: none !important;
+    }
+}
+
 ::-webkit-scrollbar {
   width: 1px;
   height: 1px;
