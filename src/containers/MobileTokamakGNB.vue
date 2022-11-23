@@ -117,8 +117,6 @@ export default {
     },
 
     catchTouchStart (e) {
-      console.log('catchTouchStart');
-      console.log(e);
       const touchObj = e.changedTouches[0];
       this.touchStartX = touchObj.pageX;
     },
