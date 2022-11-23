@@ -13,20 +13,20 @@
         class="gnb_mobile_menu"
         :style="[
           menu.title === 'Tokamak Network DAO'
-            ? { minWidth: '186px' }
+            ? { minWidth: '146px', maxWidth: '146px' }
             : menu.title === 'Tokamak Network'
-              ? { minWidth: '160px' }
+              ? { minWidth: '120px', maxWidth: '120px' }
               : menu.title === 'Simple Staking'
-                ? { minWidth: '140px' }
+                ? { minWidth: '100px', maxWidth: '100px' }
                 : {},
           menu.isFoucsed ? { fontWeight: 600 } : {},
           menu.isFoucsed ? { opacity: 1 } : { opacity: 0.25 },
           index === menus.length - 1 ? { marginRight: '31%' } : {},
-          index === 0 ? { marginLeft: `${(deviceWidth- 80 - 78) / 2}px` } : {},
+          index === 0 ? { marginLeft: `${(deviceWidth - 80 - 78) / 2}px` } : {},
         ]"
         :href="menu.url"
-        @touchstart="catchTouchStart(menu)"
-        @touchend="handleNavigation(menu)"
+        @touchstart="(e) => catchTouchStart(e)"
+        @touchend="(e) => handleNavigation(e)"
       >
         {{ menu.title }}
       </a>
@@ -43,7 +43,6 @@
 </template>
 
 <script>
-
 export default {
   data () {
     return {
@@ -118,6 +117,8 @@ export default {
     },
 
     catchTouchStart (e) {
+      console.log('catchTouchStart');
+      console.log(e);
       const touchObj = e.changedTouches[0];
       this.touchStartX = touchObj.pageX;
     },
@@ -198,40 +199,39 @@ export default {
 </script>
 
 <style scoped>
-  ::-webkit-scrollbar {
-    width: 1px;
-    height: 1px;
-  }
-  ::-webkit-scrollbar-button {
-    width: 1px;
-    height: 1px;
-  }
+::-webkit-scrollbar {
+  width: 1px;
+  height: 1px;
+}
+::-webkit-scrollbar-button {
+  width: 1px;
+  height: 1px;
+}
 
-  .gnb_mobile_header {
-    max-width: 100%;
-    background-color: #2775ff;
-    display: flex;
-    touch-action: none;
-    font-family: 'Titillium Web', sans-serif;
-  }
+.gnb_mobile_header {
+  max-width: 100%;
+  background-color: #2775ff;
+  display: flex;
+  touch-action: none;
+  font-family: "Titillium Web", sans-serif;
+}
 
-  .gnb_mobile_menu_wrap {
-    display: flex;
-    overflow: scroll;
-    touch-action: none;
-  }
+.gnb_mobile_menu_wrap {
+  display: flex;
+  overflow: scroll;
+  touch-action: none;
+}
 
-  .gnb_mobile_menu {
-    padding-left: 20px;
-    padding-right: 20px;
-    text-align: center;
-    height: 40px;
-    line-height: 40px;
-    font-size: 15px;
-    text-decoration: none;
-    color: #ffffff;
-    counter-increment: gallery-cell;
-    touch-action: none;
-  }
-
-  </style>
+.gnb_mobile_menu {
+  padding-left: 20px;
+  padding-right: 20px;
+  text-align: center;
+  height: 40px;
+  line-height: 40px;
+  font-size: 15px;
+  text-decoration: none;
+  color: #ffffff;
+  counter-increment: gallery-cell;
+  touch-action: none;
+}
+</style>
