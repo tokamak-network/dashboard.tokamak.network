@@ -14,7 +14,8 @@ export default {};
 .mobile-container {
   display: flex;
   flex-direction: column;
-  width: 100vh;
+  max-width: 1024px;
+  width: 100%;
   min-height: 100vh;
   background-color: #2a72e5;
   align-items: center;

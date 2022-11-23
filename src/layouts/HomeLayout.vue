@@ -18,7 +18,10 @@
             <div class="home-stats__description">Staked in the</div>
             <div class="home-stats__tokamak">Tokamak Network</div>
           </div>
-          <div class="home-stats__chart" style="position: relative; height:25vh;">
+          <div
+            class="home-stats__chart"
+            style="position: relative; height:25vh;"
+          >
             <div class="legend-container">
               <div class="legend" />
               <div :style="'margin-right:20px;'">Total Stake</div>
@@ -125,9 +128,8 @@ export default {
 .home-stats {
   display: flex;
   flex-direction: column;
-  min-width: 1300px;
   width: 100%;
-  background-image: url('../assets/images/map.png');
+  background-image: url("../assets/images/map.png");
   background-repeat: no-repeat;
   background-size: contain;
   background-position: center;

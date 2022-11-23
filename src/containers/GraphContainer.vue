@@ -5,7 +5,10 @@
       :chartData="1"
       :datacollection="getData()"
       :option="getOptions()"
-      :style="{'min-width': '1300px', 'width': '100%', 'height': '250px'}"
+      :style="{
+        width: '100%',
+        height: '250px',
+      }"
     />
   </div>
 </template>
@@ -87,8 +90,8 @@ export default {
       //Change last value to sync with rolling number
       //rolling number is more latest value
       const result = [];
-      this.orderedStaked.map((item, index) =>{
-        if(index === this.orderedStaked.length-1) {
+      this.orderedStaked.map((item, index) => {
+        if (index === this.orderedStaked.length - 1) {
           const test = this.totalSupply.toLocaleString(undefined, {
             maximumFractionDigits: 2,
             minimumFractionDigits: 2,
@@ -96,8 +99,7 @@ export default {
           return result.push(Number(test.replace(/,/g, '')));
         }
         result.push(this.displayAmount(item.totalSupply));
-      }
-      );
+      });
       return result;
     },
     getOptions () {
@@ -110,9 +112,11 @@ export default {
           // backgroundColor: '#2a72e5',
           enabled: true,
           custom: (tooltipModel) => {
-            if(tooltipModel.dataPoints !== undefined) {
+            if (tooltipModel.dataPoints !== undefined) {
               const typeAPY = tooltipModel.dataPoints[0].value < 200;
-              tooltipModel.width = typeAPY ? valueLength * 22 : valueLength * 16;
+              tooltipModel.width = typeAPY
+                ? valueLength * 22
+                : valueLength * 16;
               tooltipModel.height = 46;
               tooltipModel.cornerRadius = 3;
               tooltipModel.backgroundColor = typeAPY ? '#84919e' : '#2a72e5';
@@ -139,10 +143,15 @@ export default {
             label: function (tooltipItem) {
               const typeAPY = tooltipItem.yLabel < 200;
               valueLength = String(tooltipItem.yLabel).length;
-              testX = typeAPY ? tooltipItem.x - valueLength * 11 : tooltipItem.x - valueLength * 8;
+              testX = typeAPY
+                ? tooltipItem.x - valueLength * 11
+                : tooltipItem.x - valueLength * 8;
               testY = tooltipItem.y - 55;
-              return  typeAPY ? 'APY ' + tooltipItem.yLabel*100 + '%' : String(tooltipItem.yLabel).replace(/[^0-9a-zA-Z.]/g, '')
-                .replace(/\B(?=(\d{3})+(?!\d))/g, ',') + ' TON';
+              return typeAPY
+                ? 'APY ' + tooltipItem.yLabel * 100 + '%'
+                : String(tooltipItem.yLabel)
+                  .replace(/[^0-9a-zA-Z.]/g, '')
+                  .replace(/\B(?=(\d{3})+(?!\d))/g, ',') + ' TON';
             },
           },
         },
