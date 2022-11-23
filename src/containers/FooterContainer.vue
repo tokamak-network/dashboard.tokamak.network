@@ -183,14 +183,15 @@ export default {
   background-color: #fafbfc;
   font-family: "Titillium Web", sans-serif;
   border-top: 1px solid #f4f6f8;
-  padding: 0 40px;
+  width: 100%;
 }
 
 .footer-container {
-  width: 100%;
+ margin: 0px 40px;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-direction: row;
 }
 
 .flex-row {

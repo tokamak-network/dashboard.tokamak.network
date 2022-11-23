@@ -1,5 +1,6 @@
 <template>
   <div id="app" class="app ">
+    <tokamak-gnb/>
     <new-header-container class="show-on-desktop" />
     <div class="body-container show-on-desktop">
       <loading-spinner v-if="loading" />
@@ -19,6 +20,7 @@ import NewHeaderContainer from '@/containers/NewHeaderContainer.vue';
 import FooterContainer from '@/containers/FooterContainer.vue';
 import MainLayout from '@/layouts/MainLayout.vue';
 import MobileLayout from '@/layouts/MobileLayout.vue';
+import TokamakGNB from '@/containers/TokamakGNB.vue';
 
 import Web3 from 'web3';
 import { getConfig } from '../config';
@@ -29,6 +31,7 @@ export default {
     'main-layout': MainLayout,
     'loading-spinner': LoadingSpinner,
     'mobile-layout': MobileLayout,
+    'tokamak-gnb': TokamakGNB,
   },
   data () {
     return {
