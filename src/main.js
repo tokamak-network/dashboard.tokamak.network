@@ -34,12 +34,12 @@ import * as filters from '@/filters';
 const isDev = process.env.NODE_ENV !== 'production';
 Vue.config.performance = isDev;
 
-Object.keys(filters).forEach((key) => {
+Object.keys(filters).forEach(key => {
   Vue.filter(key, filters[key]);
 });
 
 new Vue({
   router,
   store,
-  render: (h) => h(App),
+  render: h => h(App),
 }).$mount('#app');
