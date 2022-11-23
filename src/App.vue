@@ -1,6 +1,6 @@
 <template>
   <div id="app" class="app ">
-    <tokamak-gnb />
+    <tokamak-gnb class="show-on-tablet" />
     <new-header-container class="show-on-desktop" />
     <div class="body-container show-on-desktop">
       <loading-spinner v-if="loading" />
