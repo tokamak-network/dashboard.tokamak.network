@@ -1,13 +1,14 @@
 <template>
-  <div id="app" class="app">
-    <new-header-container />
-    <div class="body-container">
+  <div id="app" class="app ">
+    <new-header-container class="show-on-desktop" />
+    <div class="body-container show-on-desktop">
       <loading-spinner v-if="loading" />
-      <div v-else :style="{width: '100%'}">
+      <div v-else :style="{ width: '100%' }">
         <main-layout />
       </div>
     </div>
-    <footer-container />
+    <footer-container class="show-on-desktop" />
+    <mobile-layout class="show-on-mobile" />
   </div>
 </template>
 
@@ -17,6 +18,8 @@ import LoadingSpinner from '@/components/LoadingSpinner.vue';
 import NewHeaderContainer from '@/containers/NewHeaderContainer.vue';
 import FooterContainer from '@/containers/FooterContainer.vue';
 import MainLayout from '@/layouts/MainLayout.vue';
+import MobileLayout from '@/layouts/MobileLayout.vue';
+
 import Web3 from 'web3';
 import { getConfig } from '../config';
 export default {
@@ -25,6 +28,7 @@ export default {
     'footer-container': FooterContainer,
     'main-layout': MainLayout,
     'loading-spinner': LoadingSpinner,
+    'mobile-layout': MobileLayout,
   },
   data () {
     return {
@@ -32,54 +36,56 @@ export default {
     };
   },
   computed: {
-    ...mapState([
-      'loading',
-      'signIn',
-    ]),
-    ...mapGetters([
-      'initialState',
-    ]),
+    ...mapState(['loading', 'signIn']),
+    ...mapGetters(['initialState']),
   },
   async created () {
     // await this.useMetamask();
     await this.$store.dispatch('load');
     if (this.initialState && this.$route.path !== '/') {
-      this.$router.replace({
-        path: '/',
-        query: { network: this.$route.query.network },
-      }).catch(err => {});
+      this.$router
+        .replace({
+          path: '/',
+          query: { network: this.$route.query.network },
+        })
+        .catch((err) => {});
     }
     this.$store.watch(
       (_, getters) => getters.initialState,
       (logout) => {
         if (logout && this.$route.path !== '/') {
-          this.$router.replace({
-            path: '/',
-            query: { network: this.$route.query.network },
-          }).catch(err => {});
+          this.$router
+            .replace({
+              path: '/',
+              query: { network: this.$route.query.network },
+            })
+            .catch((err) => {});
         }
-      },
+      }
     );
   },
-  methods:{
+  methods: {
     async useMetamask () {
       try {
         const web3 = await this.metamask();
         await this.$store.dispatch('load', web3);
         window.ethereum.on('chainIdChanged', (chainId) => {
           this.$store.dispatch('load', web3);
-          this.$router.replace({
-            path: '/home',
-            query: { network: this.$route.query.network },
-          }).catch(err => {});
+          this.$router
+            .replace({
+              path: '/home',
+              query: { network: this.$route.query.network },
+            })
+            .catch((err) => {});
         });
         window.ethereum.on('accountsChanged', (account) => {
           this.$store.dispatch('logout');
-          this.$router.replace({
-            path: '/home',
-            query: { network: this.$route.query.network },
-          }).catch(err => {});
-
+          this.$router
+            .replace({
+              path: '/home',
+              query: { network: this.$route.query.network },
+            })
+            .catch((err) => {});
         });
       } catch (e) {
         alert(e.message);
@@ -105,7 +111,11 @@ export default {
       }
 
       if (provider.networkVersion !== getConfig().network) {
-        throw new Error(`Please connect to the '${this.$options.filters.nameOfNetwork(getConfig().network)}' network`);
+        throw new Error(
+          `Please connect to the '${this.$options.filters.nameOfNetwork(
+            getConfig().network
+          )}' network`
+        );
       }
 
       return new Web3(provider);
@@ -119,8 +129,9 @@ export default {
   margin: 0;
 }
 
-html, body {
- background-color: #fafbfc;
+html,
+body {
+  background-color: #fafbfc;
   position: relative;
   margin: 0;
   min-height: 100%;
@@ -136,7 +147,7 @@ html, body {
 }
 
 .body-container {
- min-width: 100%;
+  min-width: 100%;
   max-width: 100%;
   display: flex;
   flex: 1;
