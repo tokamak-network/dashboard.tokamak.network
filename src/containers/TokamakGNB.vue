@@ -1,38 +1,42 @@
 <template>
   <div class="gnb">
-    <a href="https://vision-page.vercel.app/" :style="{ width: '100px' }" class="link">
+    <a
+      href="https://vision.tokamak.network/"
+      :style="{ width: '100px' }"
+      class="link"
+    >
       <div>Vision</div>
     </a>
     <a
-      href="https://renewal-homepage.vercel.app/#/"
+      href="https://tokamak.network/#/"
       :style="{ width: '158px' }"
       class="link"
     >
       <div>Tokamak Network</div>
     </a>
     <a
-      href="https://rinkeby.simple.staking.tokamak.network/"
+      href="https://simple.staking.tokamak.network/"
       :style="{ width: '137px' }"
       class="active-link"
     >
       <div>Simple Staking</div>
     </a>
     <a
-      href="https://rinkeby.dao.tokamak.network/#/"
+      href="https://dao.tokamak.network/#/"
       :style="{ width: '190px' }"
       class="link"
     >
       <div>Tokamak Network DAO</div>
     </a>
     <a
-      href="https://tonswapper.vercel.app/"
+      href="https://swap.tokamak.network/"
       :style="{ width: '76px' }"
       class="link"
     >
       <div>Swap</div>
     </a>
     <a
-      href="https://rinkeby.tonstarter.tokamak.network/"
+      href="https://tonstarter.tokamak.network/"
       :style="{ width: '114px' }"
       class="link"
     >

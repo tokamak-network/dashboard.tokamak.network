@@ -49,32 +49,32 @@ export default {
       menus: [
         {
           title: 'Vision',
-          url: 'https://vision-page.vercel.app/',
+          url: 'https://vision.tokamak.network/',
           isFoucsed: false,
         },
         {
           title: 'Tokamak Network',
-          url: 'https://renewal-homepage.vercel.app/#/',
+          url: 'https://tokamak.network/#/',
           isFoucsed: false,
         },
         {
           title: 'Simple Staking',
-          url: 'https://rinkeby.simple.staking.tokamak.network/',
+          url: 'https://simple.staking.tokamak.network/',
           isFoucsed: true,
         },
         {
           title: 'Tokamak Network DAO',
-          url: 'https://rinkeby.dao.tokamak.network/#/',
+          url: 'https://dao.tokamak.network/#/',
           isFoucsed: false,
         },
         {
           title: 'Swap',
-          url: 'http://goerli.swap.tokamak.network/',
+          url: 'https://swap.tokamak.network/',
           isFoucsed: false,
         },
         {
           title: 'TONStarter',
-          url: 'https://rinkeby.tonstarter.tokamak.network/',
+          url: 'https://tonstarter.tokamak.network/',
           isFoucsed: false,
         },
       ],
@@ -196,12 +196,11 @@ export default {
 };
 </script>
 
-
 <style scoped>
 @media only screen and (min-width: 631px) {
-    .mobilee {
-        display: none !important;
-    }
+  .mobilee {
+    display: none !important;
+  }
 }
 
 ::-webkit-scrollbar {
