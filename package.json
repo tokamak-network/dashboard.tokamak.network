@@ -42,7 +42,7 @@
     "numeral": "^2.0.6",
     "tokamak-staking-lib": "0.0.4",
     "v-click-outside": "^3.1.2",
-    "vue": "^2.6.10",
+    "vue": "^1.2.4",
     "vue-avatar-component": "^1.2.6",
     "vue-chartjs": "^3.5.1",
     "vue-clipboard": "^0.0.1",
