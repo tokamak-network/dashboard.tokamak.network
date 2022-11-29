@@ -6,7 +6,7 @@
       <span class="notice-text">Mobile will be available soon</span>
     </div>
     <div class="footer-container">
-      <img src="@/assets/mobile/TN_logo.svg" class="footer">
+      <img src="@/assets/mobile/TN_logo.svg" class="footer-mobile">
     </div>
   </div>
 </template>
@@ -17,7 +17,6 @@ import MobileTokamakGNB from '../containers/MobileTokamakGNB.vue';
 export default {
   components: {
     'Mobile-Tokamak-GNB': MobileTokamakGNB,
-
   },
 };
 </script>
@@ -36,7 +35,7 @@ export default {
   color: #fff;
   margin-top: 25px;
 }
-.footer {
+.footer-mobile {
   position: absolute;
   bottom: 20px;
 }
@@ -45,7 +44,7 @@ export default {
   display: flex;
   flex-direction: column;
   height: 100%;
- align-items: center;
+  align-items: center;
 }
 
 .footer-container {
