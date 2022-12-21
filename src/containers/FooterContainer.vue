@@ -2,10 +2,10 @@
   <div class="footer-container">
     <div>
       <div class="footer-name">
-        ONTHER PTE.LTD.
+        TOKAMAK NETWORK PTE.LTD.
       </div>
       <div class="footer-address">
-        10 ANSON ROAD #23-140 INTERNATIONAL PLAZA SINGAPORE
+        111 Somerset Road, #06-07O, 111 Somerest, Singapore
       </div>
     </div>
     <div>
