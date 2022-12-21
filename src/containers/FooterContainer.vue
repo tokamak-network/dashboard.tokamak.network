@@ -3,14 +3,14 @@
     <div class="footer-container">
       <div class="flex-row">
         <div class="footer-name">
-          ONTHER PTE.LTD.
+          Tokamak Network PTE.LTD.
         </div>
-        <div class="footer-address">
+        <!-- <div class="footer-address">
           111 SOMERSET ROAD #06-07O 111 SOMERSET SINGAPORE 238164
-        </div>
+        </div> -->
         <div>
           <img
-            alt="Onther Mail"
+            alt="Tokamak Network Mail"
             class="filter-grey mail-icon"
             src="@/assets/images/Mail.png"
             style="margin-right: 5px;"
@@ -43,12 +43,12 @@
       </div>
       <div class="footer-channel-container">
         <a
-          href="https://medium.com/onther-tech/"
+          href="https://medium.com/Tokamak Network-tech/"
           target="_blank"
           rel="noopener noreferrer"
         >
           <img
-            alt="Onther Medium"
+            alt="Tokamak Network Medium"
             class="footer-channel-image filter-grey"
             src="@/assets/images/community/medium.png"
             width="28x;"
@@ -56,12 +56,12 @@
           >
         </a>
         <a
-          href="https://www.linkedin.com/company/onther-tech/"
+          href="https://www.linkedin.com/company/Tokamak Network-tech/"
           target="_blank"
           rel="noopener noreferrer"
         >
           <img
-            alt="Onther LinkedIN"
+            alt="Tokamak Network LinkedIN"
             class="footer-channel-image filter-grey"
             src="@/assets/images/community/linkedin.png"
             width="28x;"
@@ -74,7 +74,7 @@
           rel="noopener noreferrer"
         >
           <img
-            alt="Onther Twitter"
+            alt="Tokamak Network Twitter"
             class="footer-channel-image filter-grey"
             src="@/assets/images/community/twitter.png"
             width="28x;"
@@ -87,7 +87,7 @@
           rel="noopener noreferrer"
         >
           <img
-            alt="Onther Youtube"
+            alt="Tokamak Network Youtube"
             class="footer-channel-image filter-grey"
             src="@/assets/images/community/youtube.png"
             width="28x;"
@@ -95,12 +95,12 @@
           >
         </a>
         <a
-          href="https://www.facebook.com/OntherInc/"
+          href="https://www.facebook.com/Tokamak NetworkInc/"
           target="_blank"
           rel="noopener noreferrer"
         >
           <img
-            alt="Onther Facebook"
+            alt="Tokamak Network Facebook"
             class="footer-channel-image filter-grey"
             src="@/assets/images/community/facebook.png"
             width="28x;"
@@ -108,12 +108,12 @@
           >
         </a>
         <a
-          href="https://github.com/Onther-Tech/"
+          href="https://github.com/Tokamak Network-Tech/"
           target="_blank"
           rel="noopener noreferrer"
         >
           <img
-            alt="Onther GitHub"
+            alt="Tokamak Network GitHub"
             class="footer-channel-image filter-grey"
             src="@/assets/images/community/github.png"
             width="28x;"
@@ -126,7 +126,7 @@
           rel="noopener noreferrer"
         >
           <img
-            alt="Onther Discord"
+            alt="Tokamak Network Discord"
             class="footer-channel-image filter-grey"
             src="@/assets/images/community/discord.png"
             width="28x;"
@@ -139,7 +139,7 @@
           rel="noopener noreferrer"
         >
           <img
-            alt="Onther Telegram"
+            alt="Tokamak Network Telegram"
             class="footer-channel-image filter-grey"
             src="@/assets/images/community/telegram.png"
             width="28x;"
