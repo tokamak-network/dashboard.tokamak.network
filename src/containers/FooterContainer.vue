@@ -3,11 +3,11 @@
     <div class="footer-container">
       <div class="flex-row">
         <div class="footer-name">
-          TOKAMAK NETWORK PTE.LTD.
+          Tokamak Network PTE.LTD.
         </div>
-        <!-- <div class="footer-address">
+        <div class="footer-address">
           111 SOMERSET ROAD #06-07O 111 SOMERSET SINGAPORE 238164
-        </div> -->
+        </div>
         <div>
           <img
             alt="Tokamak Network Mail"
@@ -15,10 +15,7 @@
             src="@/assets/images/Mail.png"
             style="margin-right: 5px;"
           >
-          <a
-            class="footer-mail"
-            href="mailto:hello@tokamak.network"
-          >hello@tokamak.network</a>
+          <a class="footer-mail" href="mailto:hello@tokamak.network">hello@tokamak.network</a>
         </div>
       </div>
       <div class="social-links">
@@ -31,7 +28,7 @@
             'Price Dashboard',
             'Vesting Dashboard',
             'TON-WTON Swapper',
-            'Developer Guide'
+            'Developer Guide',
           ]"
           :hint="'Family site'"
           :button-type="'b'"
@@ -156,19 +153,36 @@ import DropupLink from '@/components/DropupLink.vue';
 
 export default {
   components: {
-    'dropup': DropupLink,
+    dropup: DropupLink,
   },
   methods: {
     familyLink (item) {
-      if (item === 'Tokamak Netowork') window.open('https://tokamak.network', '_blank'); // eslint-disable-line
-      else if (item === 'DAO governance') window.open('https://tokamak.network', '_blank'); // eslint-disable-line
-      else if (item === 'Original Staking') window.open('https://staking.tokamak.network', '_blank'); // eslint-disable-line
-      else if (item === 'Simple Staking') window.open('https://simple.staking.tokamak.network', '_blank'); // eslint-disable-line
-      else if (item === 'Staking Simulator') window.open('https://staking-simulator.tokamak.network', '_blank'); // eslint-disable-line
-      else if (item === 'Price Dashboard') window.open('https://price.tokamak.network', '_blank'); // eslint-disable-line
-      else if (item === 'Vesting Dashboard') window.open('https://vesting.tokamak.network', '_blank'); // eslint-disable-line
-      else if (item === 'Swapper') window.open('https://swap.tokamak.network', '_blank'); // eslint-disable-line
-      else if (item === 'Developer Guide') window.open('https://docs.tokamak.network', '_blank'); // eslint-disable-line
+      if (item === 'Tokamak Netowork')
+        window.open('https://tokamak.network', '_blank');
+      // eslint-disable-line
+      else if (item === 'DAO governance')
+        window.open('https://tokamak.network', '_blank');
+      // eslint-disable-line
+      else if (item === 'Original Staking')
+        window.open('https://staking.tokamak.network', '_blank');
+      // eslint-disable-line
+      else if (item === 'Simple Staking')
+        window.open('https://simple.staking.tokamak.network', '_blank');
+      // eslint-disable-line
+      else if (item === 'Staking Simulator')
+        window.open('https://staking-simulator.tokamak.network', '_blank');
+      // eslint-disable-line
+      else if (item === 'Price Dashboard')
+        window.open('https://price.tokamak.network', '_blank');
+      // eslint-disable-line
+      else if (item === 'Vesting Dashboard')
+        window.open('https://vesting.tokamak.network', '_blank');
+      // eslint-disable-line
+      else if (item === 'Swapper')
+        window.open('https://swap.tokamak.network', '_blank');
+      // eslint-disable-line
+      else if (item === 'Developer Guide')
+        window.open("https://docs.tokamak.network", "_blank"); // eslint-disable-line
     },
   },
 };
@@ -187,7 +201,7 @@ export default {
 }
 
 .footer-container {
- margin: 0px 40px;
+  margin: 0px 40px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -220,7 +234,7 @@ export default {
 }
 
 .footer-address {
-  font-family:  "Titillium Web", sans-serif;
+  font-family: "Titillium Web", sans-serif;
   font-size: 13px;
   font-weight: lighter;
   font-stretch: normal;
@@ -249,7 +263,7 @@ export default {
   letter-spacing: normal;
   text-align: left;
   color: #3d495d;
-  text-decoration:none
+  text-decoration: none;
 }
 
 .footer-channel-container {
