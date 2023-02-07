@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve",
+    "serve": "vue-cli-service serve --openssl-legacy-provider",
     "serve:production": "npm run build && npx serve -p 8000 dist",
     "build": "vue-cli-service build",
     "test": "jest",
