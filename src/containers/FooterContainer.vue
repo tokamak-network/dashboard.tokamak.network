@@ -101,7 +101,7 @@
           >
         </a>
         <a
-          href="https://github.com/tokamak-network"
+          href="https://github.com/tokamak-network/dashboard.tokamak.network"
           target="_blank"
           rel="noopener noreferrer"
         >
