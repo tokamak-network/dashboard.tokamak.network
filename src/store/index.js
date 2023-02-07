@@ -355,7 +355,6 @@ export default new Vuex.Store({
         context.dispatch('setAccountsDepositedWithPower'),
         context.dispatch('set', web3),
       ]);
-
       await new Promise((resolve) => setTimeout(resolve, 1000)); // https://github.com/Onther-Tech/dashboard.tokamak.network/issues/81
       context.commit('SIGN_IN', true);
       context.commit('IS_LOADING_ACCOUNT', false);
@@ -857,6 +856,7 @@ export default new Vuex.Store({
           //   const operatorsHistory = await getOperatorUserHistory(networkID, layer2);
           //   return operatorsHistory;
           // };
+
           const getExpectedSeigs = async () => {
             const [
               isCommissionRateNegative,
@@ -1069,13 +1069,11 @@ export default new Vuex.Store({
           const isCandidate = candidates.find(
             (candidate) => candidate.layer2 === layer2.toLowerCase()
           );
-
           const commitHistory = await getCommitHistory(
             context.state.networkId,
             layer2
           );
-
-          if (isCandidate.kind === 'candidate') {
+          if (isCandidate.kind === 'candidate' || isCandidate.layer2==='0x2000fc16911fc044130c29c1aa49d3e0b101716a') {
             const web3 = context.state.web3;
             const candi = candidateContractCreated.filter(
               (candidate) =>
@@ -1093,13 +1091,11 @@ export default new Vuex.Store({
             const [firstEpoch] = await Promise.all([
               Layer2.methods.getEpoch(0, 0).call(),
             ]);
-
             const deployedAt = firstEpoch.timestamp;
             operatorFromLayer2.deployedAt = deployedAt;
             operatorFromLayer2.lastFinalizedAt =
               lastFinalized[0] === '0' ? deployedAt : lastFinalized[0];
           }
-
           const delegators = await getDelegators(
             context.state.networkId,
             layer2
