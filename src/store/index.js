@@ -682,7 +682,7 @@ export default new Vuex.Store({
           const lastFinalized = await getRecentCommit(operator, layer2);
 
           const isCandidate = candidates.find(candidate => candidate.layer2 === layer2.toLowerCase());
-          if (isCandidate.kind === 'candidate') {
+          if (isCandidate.kind === 'candidate'|| isCandidate.layer2==='0x2000fc16911fc044130c29c1aa49d3e0b101716a') {
             const web3 = context.state.web3;
             const candi = candidateContractCreated.filter(candidate => candidate.data.candidateContract.toLowerCase() === layer2);
             const block = await web3.eth.getBlock(candi[0].txInfo.blockNumber);
