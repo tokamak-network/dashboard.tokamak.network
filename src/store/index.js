@@ -341,7 +341,6 @@ export default new Vuex.Store({
       const networkId = await web3.eth.net.getId();
       context.commit('SET_NETWORK_ID', networkId);
       context.commit('SET_USER', user);
-
       const managers = await getManagers();
       const operators = await getOperators();
       const candidates = await getCandidates();
