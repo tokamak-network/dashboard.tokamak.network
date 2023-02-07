@@ -365,7 +365,6 @@ export default new Vuex.Store({
 
       const TON = context.state.TON;
       const WTON = context.state.WTON;
-      // const web3 = context.state.web3;
       const DepositManager = context.state.DepositManager;
       const SeigManager = context.state.SeigManager;
       const l2Registry = context.state.Layer2Registry;
