@@ -1,13 +1,6 @@
 <template>
   <div class="gnb">
     <a
-      href="https://vision.tokamak.network/"
-      :style="{ width: '100px' }"
-      class="link"
-    >
-      <div>Vision</div>
-    </a>
-    <a
       href="https://tokamak.network/#/"
       :style="{ width: '158px' }"
       class="link"
@@ -15,32 +8,39 @@
       <div>Tokamak Network</div>
     </a>
     <a
-      href="https://simple.staking.tokamak.network/"
+      href="https://titan.tokamak.network/"
       :style="{ width: '137px' }"
+      class="link"
+    >
+      <div>L2 Mainnet</div>
+    </a>
+    <a
+      href="https://bridge.tokamak.network/#/"
+      style="width: 168px; margin-left: -22px"
+      class="link"
+    >
+      <div>Bridge & Swap</div>
+    </a>
+    <a
+      href="https://simple.staking.tokamak.network/"
+      :style="{ width: '76px' }"
       class="active-link"
     >
-      <div>Simple Staking</div>
+      <div>Staking</div>
     </a>
     <a
       href="https://dao.tokamak.network/#/"
-      :style="{ width: '190px' }"
+      :style="{ width: '100px' }"
       class="link"
     >
-      <div>Tokamak Network DAO</div>
-    </a>
-    <a
-      href="https://swap.tokamak.network/"
-      :style="{ width: '76px' }"
-      class="link"
-    >
-      <div>Swap</div>
+      <div>DAO</div>
     </a>
     <a
       href="https://tonstarter.tokamak.network/"
-      :style="{ width: '114px' }"
+      :style="{ width: '100px' }"
       class="link"
     >
-      <div>TONStarter</div>
+      <div>Launchpad</div>
     </a>
   </div>
 </template>

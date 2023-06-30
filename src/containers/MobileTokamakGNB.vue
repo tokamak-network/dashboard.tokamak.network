@@ -12,13 +12,17 @@
         :key="index"
         class="gnb_mobile_menu"
         :style="[
-          menu.title === 'Tokamak Network DAO'
-            ? { minWidth: '146px', maxWidth: '146px' }
+           menu.title === 'DAO'
+            ? { minWidth: '35px' }
             : menu.title === 'Tokamak Network'
-              ? { minWidth: '120px', maxWidth: '120px' }
-              : menu.title === 'Simple Staking'
-                ? { minWidth: '100px', maxWidth: '100px' }
-                : {},
+            ? { minWidth: '130px' }
+            : menu.title === 'Staking'
+            ? { minWidth: '55px' }
+            : menu.title === 'L2 Mainnet'
+            ? { minWidth: '90px' }
+            : menu.title === 'Bridge & Swap'
+            ? { minWidth: '112px' }
+            : {},
           menu.isFoucsed ? { fontWeight: 600 } : {},
           menu.isFoucsed ? { opacity: 1 } : { opacity: 0.25 },
           index === menus.length - 1 ? { marginRight: '31%' } : {},
@@ -48,32 +52,32 @@ export default {
     return {
       menus: [
         {
-          title: 'Vision',
-          url: 'https://vision.tokamak.network/',
-          isFoucsed: false,
-        },
-        {
           title: 'Tokamak Network',
           url: 'https://tokamak.network/#/',
           isFoucsed: false,
         },
         {
-          title: 'Simple Staking',
+          title: 'L2 Mainnet',
+          url: 'http://titan.tokamak.network/',
+          isFoucsed: false,
+        },
+        {
+          title: 'Bridge & Swap',
+          url: 'https://bridge.tokamak.network/#/',
+          isFoucsed: false,
+        },
+        {
+          title: 'Staking',
           url: 'https://simple.staking.tokamak.network/',
           isFoucsed: true,
         },
         {
-          title: 'Tokamak Network DAO',
+          title: 'DAO',
           url: 'https://dao.tokamak.network/#/',
           isFoucsed: false,
         },
         {
-          title: 'Swap',
-          url: 'https://swap.tokamak.network/',
-          isFoucsed: false,
-        },
-        {
-          title: 'TONStarter',
+          title: 'Launchpad',
           url: 'https://tonstarter.tokamak.network/',
           isFoucsed: false,
         },
