@@ -542,6 +542,7 @@ export default new Vuex.Store({
     async addAccountDepositedWithPower (context, depositor) {
       const PowerTON = context.state.PowerTON;
       const power = await PowerTON.methods.powerOf(depositor).call();
+
       context.commit('ADD_ACCOUNT_DEPOSITED_WITH_POWER', {
         address: depositor.toLowerCase(),
         power: _POWER.ray(power.toString()),
