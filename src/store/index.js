@@ -549,6 +549,7 @@ export default new Vuex.Store({
       });
     },
   },
+
   getters: {
     initialState: (state) => {
       return isEqual(state, initialState);
