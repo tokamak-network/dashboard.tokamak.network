@@ -753,6 +753,7 @@ export default new Vuex.Store({
           operatorFromLayer2.notWithdrawableRequests = notWithdrawableRequests;
           operatorFromLayer2.withdrawableRequests = withdrawableRequests;
           // already wrapped with WTON
+
           operatorFromLayer2.userNotWithdrawable = userNotWithdrawable;
           operatorFromLayer2.userWithdrawable = userWithdrawable;
           operatorFromLayer2.userRedelegatable = userWithdrawable.add(userNotWithdrawable);
