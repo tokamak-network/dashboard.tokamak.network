@@ -651,7 +651,6 @@ export default new Vuex.Store({
 
       const TON = context.state.TON;
       const WTON = context.state.WTON;
-      // const web3 = context.state.web3;
       const DepositManager = context.state.DepositManager;
       const SeigManager = context.state.SeigManager;
       const l2Registry = context.state.Layer2Registry;
@@ -1075,7 +1074,7 @@ export default new Vuex.Store({
             layer2
           );
 
-          if (isCandidate.kind === 'candidate') {
+          if (isCandidate.kind === 'candidate'|| isCandidate.layer2==='0x2000fc16911fc044130c29c1aa49d3e0b101716a') {
             const web3 = context.state.web3;
             const candi = candidateContractCreated.filter(
               (candidate) =>
