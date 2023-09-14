@@ -1183,6 +1183,7 @@ export default new Vuex.Store({
           return operatorFromLayer2;
         })
       );
+      console.log(operatorsFromLayer2);
       context.commit('SET_OPERATORS', operatorsFromLayer2);
     },
     async setBalance (context) {
