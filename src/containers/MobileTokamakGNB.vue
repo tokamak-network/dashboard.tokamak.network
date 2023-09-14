@@ -12,17 +12,17 @@
         :key="index"
         class="gnb_mobile_menu"
         :style="[
-           menu.title === 'DAO'
+          menu.title === 'DAO'
             ? { minWidth: '35px' }
             : menu.title === 'Tokamak Network'
-            ? { minWidth: '130px' }
-            : menu.title === 'Staking'
-            ? { minWidth: '55px' }
-            : menu.title === 'L2 Mainnet'
-            ? { minWidth: '90px' }
-            : menu.title === 'Bridge & Swap'
-            ? { minWidth: '112px' }
-            : {},
+              ? { minWidth: '130px' }
+              : menu.title === 'Staking'
+                ? { minWidth: '55px' }
+                : menu.title === 'L2 Mainnet'
+                  ? { minWidth: '90px' }
+                  : menu.title === 'Bridge & Swap'
+                    ? { minWidth: '112px' }
+                    : {},
           menu.isFoucsed ? { fontWeight: 600 } : {},
           menu.isFoucsed ? { opacity: 1 } : { opacity: 0.25 },
           index === menus.length - 1 ? { marginRight: '31%' } : {},

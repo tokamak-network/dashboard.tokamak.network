@@ -14,6 +14,7 @@
 </template>
 
 <script>
+//Test deploy
 import { mapState, mapGetters } from 'vuex';
 import LoadingSpinner from '@/components/LoadingSpinner.vue';
 import NewHeaderContainer from '@/containers/NewHeaderContainer.vue';
